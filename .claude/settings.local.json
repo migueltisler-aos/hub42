@@ -1,0 +1,28 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(npx create-next-app@latest . --typescript --tailwind --eslint --app --src-dir=false --import-alias=\"@/*\" --yes)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(powershell -Command \"Remove-Item -Recurse -Force 'd:\\\\hub42\\\\.next' -ErrorAction SilentlyContinue\")",
+      "Bash(powershell -Command \"Remove-Item -Recurse -Force 'd:\\\\hub42\\\\.next' -ErrorAction SilentlyContinue; Start-Sleep -Seconds 2; cd 'd:\\\\hub42'; npm run build\")",
+      "Bash(powershell -Command \"Get-Process -Name 'node' -ErrorAction SilentlyContinue | Stop-Process -Force\")",
+      "Bash(powershell -Command \"Remove-Item -Recurse -Force 'd:\\\\hub42\\\\.next'\")",
+      "Bash(powershell -Command \"Get-Process node -ErrorAction SilentlyContinue | Stop-Process -Force; Start-Sleep 2; Test-Path 'd:\\\\hub42\\\\.next\\\\types'\")",
+      "Bash(powershell -Command \"icacls 'd:\\\\hub42\\\\.next\\\\types' /grant Everyone:F /T 2>&1\")",
+      "Bash(powershell -Command \"Remove-Item -Recurse -Force 'd:\\\\hub42\\\\.next\\\\types'\")",
+      "Bash(powershell -Command \"icacls 'd:\\\\hub42\\\\.next\\\\types' /grant 'Jeder:F' /T 2>&1; Remove-Item -Recurse -Force 'd:\\\\hub42\\\\.next' -ErrorAction SilentlyContinue\")",
+      "Bash(powershell -Command \"takeown /f 'd:\\\\hub42\\\\.next\\\\types' /r /d j 2>&1; icacls 'd:\\\\hub42\\\\.next\\\\types' /grant '%USERNAME%:F' /T 2>&1; Remove-Item -Recurse -Force 'd:\\\\hub42\\\\.next'\")",
+      "Bash(npx tsc:*)",
+      "Bash(gh repo:*)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(powershell -Command \"Expand-Archive -Path 'C:\\\\Users\\\\migue\\\\Downloads\\\\3pl-master.zip' -DestinationPath 'C:\\\\Users\\\\migue\\\\Downloads\\\\3pl-master' -Force\")",
+      "Read(//c/Users/migue/Downloads/**)",
+      "Bash(powershell -Command ':*)",
+      "Bash(pwsh -Command ':*)",
+      "Bash(node -e ':*)",
+      "Bash(cmd.exe /c \"node --version\")"
+    ]
+  }
+}

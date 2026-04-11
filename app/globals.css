@@ -1,0 +1,107 @@
+@import "tailwindcss";
+
+@theme inline {
+  /* ── Primärfarben (Flaschengrün) ─────────────────── */
+  --color-green-dark:   #2A4A3C;   /* Hero / CTA – tief, nicht schwarz  L≈23% */
+  --color-green-mid:    #4D7A68;   /* content Sektionen – mittleres Salbeigrün L≈40% */
+  --color-green-light:  #6BA888;   /* Akzent / Tags                      L≈53% */
+  --color-green-muted:  #1A3228;   /* tiefster Fond (Footer etc.)         L≈15% */
+
+  /* ── Helle Flächen (neu) ─────────────────────────── */
+  --color-sage:         #EBF2EE;   /* helle Sektion-Hintergründe */
+  --color-sage-warm:    #F4F8F6;   /* Karten-Oberfläche auf sage */
+
+  /* ── Akzent (Bronze / Gold) ─────────────────────── */
+  --color-bronze:       #C8964A;   /* Haupt-Bronze – warm gold, L≈55%, Kontrast ~5:1 auf grün-dark */
+  --color-bronze-light: #DEB870;   /* Hover / helle Variante */
+  --color-bronze-dark:  #9A7030;   /* gedrückt / Schatten */
+  --color-bronze-warm:  #E8C88A;   /* sehr hell, Highlights */
+
+  /* ── Neutrale ─────────────────────────────────────── */
+  --color-cream:        #F9F5EE;   /* Text auf dunklen Hintergründen */
+  --color-cream-warm:   #EDE5D8;
+  --color-stone:        #B0A494;   /* Muted-Text auf dunkel */
+  --color-stone-dark:   #7A6E62;   /* Muted-Text auf grün-mid */
+
+  /* ── Fonts ───────────────────────────────────────── */
+  --font-display: var(--font-bebas);
+  --font-body:    var(--font-dm-sans);
+  --font-mono:    var(--font-dm-mono);
+}
+
+:root {
+  --background: #2A4A3C;
+  --foreground: #F9F5EE;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-dm-sans), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ── Custom scrollbar ───────────────────────────────── */
+::-webkit-scrollbar        { width: 4px; }
+::-webkit-scrollbar-track  { background: #2A4A3C; }
+::-webkit-scrollbar-thumb  { background: #C8964A; border-radius: 2px; }
+
+/* ── Markthallen Grid Pattern ───────────────────────── */
+.markthalle-pattern {
+  background-image:
+    linear-gradient(rgba(200,150,74,0.10) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(200,150,74,0.10) 1px, transparent 1px);
+  background-size: 40px 40px;
+}
+
+/* ── Bronze Gradient Text ───────────────────────────── */
+.text-gradient-bronze {
+  background: linear-gradient(135deg, #C8964A 0%, #E8C88A 50%, #9A7030 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Marquee (BrandsCarousel) ───────────────────────── */
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+.animate-marquee {
+  animation: marquee 35s linear infinite;
+}
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* ── Range input ────────────────────────────────────── */
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  height: 1px;
+  background: transparent;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  background: #C8964A;
+  border: 2px solid #2A4A3C;
+  border-radius: 50%;
+  cursor: pointer;
+}
+input[type="range"]::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  background: #C8964A;
+  border: 2px solid #2A4A3C;
+  border-radius: 50%;
+  cursor: pointer;
+}
