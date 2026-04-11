@@ -2,10 +2,9 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   typescript: {
-    // tsc --noEmit läuft separat; .next/types wird von VS Code gehalten
+    // tsc --noEmit läuft separat; ignoreBuildErrors für Vercel-Kompatibilität
     ignoreBuildErrors: true,
   },
-  distDir: ".next-build",
 };
 
 export default nextConfig;
