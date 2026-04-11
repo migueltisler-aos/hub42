@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { submitContact } from "@/app/actions/contact";
 
 type FormState = "idle" | "sending" | "success" | "error";
 
@@ -32,8 +33,9 @@ export default function ContactForm() {
     }
     setErrors({});
     setState("sending");
-    await new Promise((r) => setTimeout(r, 1200));
-    setState("success");
+
+    const result = await submitContact(form);
+    setState(result.ok ? "success" : "error");
   }
 
   function handleChange(
@@ -53,8 +55,30 @@ export default function ContactForm() {
           Nachricht gesendet!
         </p>
         <p className="text-cream text-sm">
-          Wir melden uns innerhalb von 1–2 Werktagen bei dir.
+          Wir melden uns innerhalb von 24 Stunden bei dir.
         </p>
+      </div>
+    );
+  }
+
+  if (state === "error") {
+    return (
+      <div className="bg-green-mid border border-red-400/40 rounded-sm p-10 text-center">
+        <p className="text-red-400 text-4xl mb-4" style={{ fontFamily: "var(--font-bebas)" }}>
+          Fehler beim Senden
+        </p>
+        <p className="text-stone text-sm mb-4">
+          Bitte schreib uns direkt an{" "}
+          <a href="mailto:info@tryhub42.de" className="text-bronze hover:underline">
+            info@tryhub42.de
+          </a>
+        </p>
+        <button
+          onClick={() => setState("idle")}
+          className="text-bronze text-sm hover:underline"
+        >
+          Nochmal versuchen
+        </button>
       </div>
     );
   }
@@ -67,7 +91,6 @@ export default function ContactForm() {
   return (
     <form onSubmit={handleSubmit} noValidate className="space-y-5" id="slot-anfragen">
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-        {/* Name */}
         <div>
           <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-2">
             Name *
@@ -84,7 +107,6 @@ export default function ContactForm() {
           {errors.name && <p className="text-red-400 text-xs mt-1">{errors.name}</p>}
         </div>
 
-        {/* Email */}
         <div>
           <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-2">
             E-Mail *
@@ -102,7 +124,6 @@ export default function ContactForm() {
         </div>
       </div>
 
-      {/* Brand */}
       <div>
         <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-2">
           Brand / Unternehmen
@@ -117,7 +138,6 @@ export default function ContactForm() {
         />
       </div>
 
-      {/* Typ */}
       <div>
         <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-2">
           Ich bin
@@ -135,7 +155,6 @@ export default function ContactForm() {
         </select>
       </div>
 
-      {/* Message */}
       <div>
         <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-2">
           Nachricht *
