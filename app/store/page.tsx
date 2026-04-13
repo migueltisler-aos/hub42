@@ -5,7 +5,7 @@ import FunnelVisual from "@/components/FunnelVisual";
 export const metadata: Metadata = {
   title: "Der Store – Alexa Berlin",
   description:
-    "Hub42 im Alexa Berlin, Alexanderplatz. Warehouse Boutique mit Regaletagen-System, Tasting Bar, Packtisch und Hub42 Escape Station.",
+    "Hub42 im Alexa Berlin, Alexanderplatz. Warehouse Boutique mit Regaletagen-System, Tasting Bar, Packtisch und Launch Events.",
 };
 
 const FEATURES = [
@@ -23,21 +23,6 @@ const FEATURES = [
     icon: "🍷",
     titel: "Tasting Bar",
     beschreibung: "Probieren bevor du kaufst. Kein anderer Store bietet das so konsequent.",
-  },
-  {
-    icon: "🔍",
-    titel: "Hub42 Escape Station",
-    beschreibung: "Der Rätsel-Eingang. Karte holen. Spielen. Gewinnen.",
-  },
-  {
-    icon: "📦",
-    titel: "Blind Box Counter",
-    beschreibung: "Vier Boxen. Vier Kategorien. Alles versiegelt.",
-  },
-  {
-    icon: "⚡",
-    titel: "Preis-Auktion Tafel",
-    beschreibung: "Die schwarze Tafel. Wochenrekord live angezeigt.",
   },
   {
     icon: "🎤",
@@ -224,7 +209,7 @@ export default function StorePage() {
             Dein Produkt hierher?
           </h2>
           <p className="text-stone text-sm mb-8">
-            41.000 Berliner täglich. Slot ab 59 €/Monat. 0% Handelsmarge.
+            41.000 Berliner täglich. Slot ab 55 €/Monat. 0% Handelsmarge.
           </p>
           <Link
             href="/hersteller"

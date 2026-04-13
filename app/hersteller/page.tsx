@@ -7,44 +7,52 @@ import ContactForm from "@/components/ContactForm";
 import { SLOTS, ANALYTICS_PAKETE } from "@/lib/slots";
 
 export const metadata: Metadata = {
-  title: "Für Hersteller – Dein Produkt verdient einen fairen Platz",
+  title: "Für Hersteller – Miete deinen Platz im Retail",
   description:
-    "0% Handelsmarge, täglich Kundendaten, Slots ab 55 €/Monat. Hub42 ist der direkteste Weg vom Produkt zum Berliner Kunden.",
+    "Stationärer Handel wie er sein sollte. 0% Handelsmarge, Slots ab 55 €/Monat, 3 Monate Mindestlaufzeit. Bewirb dein Produkt, verlinke deinen Shop, gewinne Fans jenseits von TikTok.",
 };
 
 const SCHRITTE = [
   {
     nr: "01",
-    titel: "Slot anfragen",
-    beschreibung: "30 Minuten Gespräch. Kein Papierkram vorher.",
+    titel: "Bewerbung",
+    beschreibung: "Kurze Anfrage. Wir schauen ob es passt. 24h Rückmeldung.",
   },
   {
     nr: "02",
-    titel: "Vertrag unterschreiben",
-    beschreibung: "3 Monate Mindestlaufzeit. Danach monatlich kündbar.",
+    titel: "Gespräch",
+    beschreibung: "30 Minuten. Slot wählen. Alle Fragen klären.",
   },
   {
     nr: "03",
-    titel: "Ware liefern",
-    beschreibung: "Wir räumen ein. Du bleibst Eigentümer bis zum Verkauf.",
+    titel: "Onboarding",
+    beschreibung: "Ware rein. QR-Code, Traverse-Karte, Creator Playbook. Du drehst ein kurzes Video über deine Marke – wir zeigen es unserem Team damit sie dein Produkt bestmöglich präsentieren.",
   },
   {
     nr: "04",
-    titel: "Verkaufen",
-    beschreibung: "Du behältst den Erlös minus Slot-Gebühr und 0,40 € Checkout-Fee.",
+    titel: "Live gehen",
+    beschreibung: "Erster Post. WhatsApp-Ankündigung. Und auf Wunsch: dein eigener Promo-Tag im Store – einmal pro Quartal, freitags oder samstags.",
   },
   {
     nr: "05",
-    titel: "Daten bekommen",
-    beschreibung: "Täglich. Was deine Kunden wirklich wollen.",
+    titel: "Daten & Erlös",
+    beschreibung: "Du behältst den Erlös minus Slot-Gebühr und 0,40 € Checkout-Fee. Monatliche Abrechnung. Tageszeit-Tracking. Zahlen die zählen.",
   },
+];
+
+const WEN_WIR_SUCHEN = [
+  { label: "Eigene Marke", detail: "Kein Konzern. Eine echte Story dahinter." },
+  { label: "Fairer Preis", detail: "Kein Dumping. Produkt das seinen Preis wert ist." },
+  { label: "Direkter Kontakt", detail: "Du willst Feedback. Nicht nur Umsatz." },
+  { label: "Kein LEH-Konflikt", detail: "Keine Preisbindung die uns beide blockiert." },
 ];
 
 const WAS_DU_BEKOMMST = [
   "Dein Regalplatz im Alexa Berlin",
-  "Traverse-Karte mit deiner Story",
-  "QR-Code mit Tracking",
-  "Monatlicher Verkaufsbericht",
+  "Traverse-Karte mit deiner Story + QR-Code",
+  "Tageszeit-Tracking & monatlicher Verkaufsbericht",
+  "3 Monate Mindestlaufzeit – danach monatlich kündbar",
+  "1 Karton reicht zum Start – kein Abnahmezwang",
   "Zugang zum Hub42 Creator Playbook",
   "Freitags-Tasting auf Wunsch",
 ];
@@ -68,7 +76,7 @@ const FAQ = [
   {
     frage: "Was passiert wenn ich nicht genug verkaufe?",
     antwort:
-      "Du kannst jederzeit nach Ablauf der Mindestlaufzeit aussteigen. Unverkaufte Ware wird zurückgesandt. Kein Warenrisiko auf unserer Seite.",
+      "3 Monate Mindestlaufzeit, danach monatlich kündbar. Unverkaufte Ware wird zurückgesandt – du bleibst bis zum Kassenbon Eigentümer. Kein Abnahmezwang, kein Mindestbestellwert.",
   },
   {
     frage: "Kann ich meinen Preis selbst festlegen?",
@@ -92,19 +100,31 @@ export default function HerstellerPage() {
             Für Hersteller
           </p>
           <h1
-            className="text-cream text-[clamp(2.5rem,8vw,7rem)] leading-none tracking-widest mb-6"
+            className="text-cream text-[clamp(2.5rem,8vw,7rem)] leading-none tracking-widest mb-4"
             style={{ fontFamily: "var(--font-bebas)" }}
           >
-            Dein Produkt verdient
+            Miete deinen Platz
             <br />
-            <span className="text-bronze">einen fairen Platz.</span>
+            <span className="text-bronze">im Retail.</span>
           </h1>
-          <p className="text-stone text-base max-w-lg mb-3">
-            Kein Einkäufer der dich klein macht.<br />
-            Kein Listungsgeld das dich ausblutet.<br />
-            Nur du – und deine Kunden.
+          <p className="text-stone text-base max-w-xl mb-6 leading-relaxed">
+            Erlebe stationären Handel wie er sein sollte.
+            Bewerbe deine Produkte. Verlinke deinen Shop.
+            Gewinne Fans jenseits von TikTok.
           </p>
-          <div className="flex flex-wrap gap-4 mt-8">
+          <p className="text-bronze text-sm font-mono mb-8">
+            Wir suchen Marken die besser sind.
+          </p>
+
+          {/* Facts strip */}
+          <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-xs font-mono text-stone border-l-2 border-bronze pl-4">
+            <span>0% Handelsmarge</span>
+            <span>Ab 55 €/Monat</span>
+            <span>3 Monate · dann monatlich kündbar</span>
+            <span>41.000 Berliner täglich</span>
+          </div>
+
+          <div className="flex flex-wrap gap-4">
             <a
               href="#slot-anfragen"
               className="px-8 py-4 bg-bronze text-green-dark font-semibold rounded-sm hover:bg-bronze-light transition-colors text-sm"
@@ -136,6 +156,44 @@ export default function HerstellerPage() {
             </h2>
           </div>
           <ComparisonTable />
+        </div>
+      </section>
+
+      {/* Wen wir suchen */}
+      <section className="bg-green-dark py-20 border-t border-stone-dark">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="mb-10">
+            <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
+              Selektion
+            </p>
+            <h2
+              className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-3"
+              style={{ fontFamily: "var(--font-bebas)" }}
+            >
+              Nicht jedes Produkt.
+              <br />
+              <span className="text-bronze">Das hier schon.</span>
+            </h2>
+            <p className="text-stone text-sm max-w-lg">
+              Hub42 ist kein Lager für alles. Wir suchen Marken die etwas zu sagen haben.
+            </p>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {WEN_WIR_SUCHEN.map((k) => (
+              <div
+                key={k.label}
+                className="bg-green-mid border border-stone-dark rounded-sm p-6 hover:border-bronze/30 transition-colors"
+              >
+                <p
+                  className="text-bronze text-xl tracking-widest mb-2"
+                  style={{ fontFamily: "var(--font-bebas)" }}
+                >
+                  {k.label}
+                </p>
+                <p className="text-stone text-sm leading-relaxed">{k.detail}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 
