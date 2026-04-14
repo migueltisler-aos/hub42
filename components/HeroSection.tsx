@@ -101,10 +101,10 @@ export default function HeroSection() {
             Brands entdecken →
           </Link>
           <Link
-            href="/hersteller#slot-anfragen"
+            href="/hersteller"
             className="inline-flex items-center justify-center px-8 py-4 border border-bronze/40 text-bronze font-semibold text-sm tracking-wide hover:bg-bronze/10 transition-colors rounded-sm"
           >
-            Slot anfragen →
+            Ich bin Hersteller →
           </Link>
         </motion.div>
 
