@@ -72,11 +72,12 @@ export default function HerstellerRechner() {
     const reweMargeEur = uvp * (marge / 100);
     const reweUnit     = uvp - reweMargeEur - listung;
     const reweMonthly  = reweUnit * sales;
+    const checkoutFee  = 0.40;
     const slotPerUnit  = slot.cost / sales;
-    const hubUnit      = uvp - slotPerUnit;
+    const hubUnit      = uvp - slotPerUnit - checkoutFee;
     const hubMonthly   = hubUnit * sales;
     const diff         = hubMonthly - reweMonthly;
-    return { reweMargeEur, reweUnit, reweMonthly, slotPerUnit, hubUnit, hubMonthly, diff, slotCost: slot.cost };
+    return { reweMargeEur, reweUnit, reweMonthly, slotPerUnit, hubUnit, hubMonthly, diff, slotCost: slot.cost, checkoutFee };
   }, [uvp, marge, listung, sales, activeSlot]);
 
   const winner: "hub" | "rewe" | "equal" =
@@ -192,8 +193,9 @@ export default function HerstellerRechner() {
               { label: "Endkundenpreis",      value: `${fmt(uvp)} €` },
               { label: "Handelsmarge",         value: "– 0,00 €" },
               { label: "Slot-Kosten/Stk.",     value: `– ${fmt(calc.slotPerUnit)} €` },
+              { label: "Checkout-Fee/Artikel", value: `– ${fmt(calc.checkoutFee)} €` },
               { label: "Erlös / Einheit",      value: `${fmt(calc.hubUnit)} €`, highlight: true },
-              { label: "Kundendaten",          value: "Täglich vollständig" },
+              { label: "Kundendaten",          value: "Monatlich inkl." },
               { label: "Preishoheit",          value: "Vollständig" },
             ].map((row) => (
               <div key={row.label} className="flex justify-between items-center py-2 border-b border-cream/5 text-sm font-mono">

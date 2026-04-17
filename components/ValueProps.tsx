@@ -17,10 +17,10 @@ const VALUES = [
     ),
   },
   {
-    number: "365",
-    label: "Tage Realtime-Daten",
+    number: "0%",
+    label: "Informationsasymmetrie",
     description:
-      "Kaufverhalten täglich vollständig an dich. Wer kauft wann was? Daten die kein Supermarkt je herausgibt.",
+      "Monatliche Verkaufszahlen inklusive – tagesgenau mit Pro Analytics. Daten die kein Supermarkt je herausgibt.",
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" className="text-bronze">
         <rect x="4" y="4" width="24" height="24" rx="2" stroke="currentColor" strokeWidth="1.5" />

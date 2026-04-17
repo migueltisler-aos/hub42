@@ -36,7 +36,7 @@ const SCHRITTE = [
   {
     nr: "05",
     titel: "Daten & Erlös",
-    beschreibung: "Du behältst den Erlös minus Slot-Gebühr und 0,40 € Checkout-Fee. Monatliche Abrechnung. Tageszeit-Tracking. Zahlen die zählen.",
+    beschreibung: "Du behältst den Erlös minus Slot-Gebühr und 0,40 € pro verkauftem Artikel. Monatliche Abrechnung. Zahlen die zählen.",
   },
 ];
 
@@ -66,7 +66,7 @@ const FAQ = [
   {
     frage: "Was ist die Checkout-Gebühr?",
     antwort:
-      "0,40 € pro Transaktion. Keine Handelsmarge. Keine versteckten Kosten. Du weißt immer exakt was du bekommst.",
+      "0,40 € pro verkauftem Artikel – nicht pro Transaktion. Kauft ein Kunde 3 Produkte, fallen 3 × 0,40 € an. Keine Handelsmarge. Keine versteckten Kosten.",
   },
   {
     frage: "Wie funktioniert die Abrechnung?",
@@ -323,10 +323,10 @@ export default function HerstellerPage() {
                 <p className="text-bronze text-5xl mb-2" style={{ fontFamily: "var(--font-bebas)" }}>
                   0,40 €
                 </p>
-                <p className="text-stone text-sm mb-4">pro Transaktion</p>
+                <p className="text-stone text-sm mb-4">pro verkauftem Artikel</p>
                 <p className="text-cream text-sm leading-relaxed">
-                  Keine Handelsmarge. Keine versteckten Kosten.<br />
-                  Du weißt immer exakt was du bekommst.
+                  Nicht pro Transaktion – pro Artikel.<br />
+                  Keine Handelsmarge. Keine versteckten Kosten.
                 </p>
               </div>
             </div>
