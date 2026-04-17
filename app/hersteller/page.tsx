@@ -4,6 +4,7 @@ import ComparisonTable from "@/components/ComparisonTable";
 import HerstellerRechner from "@/components/HerstellerRechner";
 import SlotCard from "@/components/SlotCard";
 import ContactForm from "@/components/ContactForm";
+import SlotFeatureTable from "@/components/SlotFeatureTable";
 import { SLOTS, ANALYTICS_PAKETE } from "@/lib/slots";
 
 export const metadata: Metadata = {
@@ -87,6 +88,21 @@ const FAQ = [
     frage: "Was ist die Mindestlaufzeit?",
     antwort:
       "3 Monate. Danach monatlich kündbar. Wir glauben, dass du bleiben willst – weil die Zahlen stimmen.",
+  },
+  {
+    frage: "Wie liefere ich meine Ware an?",
+    antwort:
+      "Frei Haus an unsere Adresse – 1 Karton reicht zum Start. Hub42 räumt ein. Wenn Nachschub nötig ist, melden wir uns per WhatsApp. Du kannst auch persönlich vorbeikommen.",
+  },
+  {
+    frage: "Was passiert bei Beschädigung, Diebstahl oder abgelaufenem MHD?",
+    antwort:
+      "Deine Ware bleibt bis zum Kassenbon dein Eigentum. Das Hub42-Team prüft regelmäßig Bestände und MHD. Beschädigte oder abgelaufene Ware wird dokumentiert und nach Absprache zurückgesandt oder entsorgt – auf keinen Fall still verkauft.",
+  },
+  {
+    frage: "Wann und wie werde ich ausgezahlt?",
+    antwort:
+      "Monatlich bis zum 10. des Folgemonats per Überweisung. Du bekommst eine vollständige Aufstellung aller Verkäufe, der abgezogenen Gebühren und deines Nettoerlöses – als Beleg für deine Buchhaltung.",
   },
 ];
 
@@ -277,6 +293,13 @@ export default function HerstellerPage() {
             {[...SLOTS].reverse().map((slot, i) => (
               <SlotCard key={slot.name} slot={slot} index={i} />
             ))}
+          </div>
+
+          <div className="mt-12">
+            <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-4">
+              Was ist in welchem Slot?
+            </p>
+            <SlotFeatureTable />
           </div>
         </div>
       </section>

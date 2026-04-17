@@ -251,6 +251,10 @@ export default function HerstellerRechner() {
           </p>
         </div>
       </div>
+
+      <p className="text-stone text-xs font-mono mt-4 text-center">
+        Beispielwerte. Tatsächliche Verkaufszahlen hängen von Produkt, Preis und Saison ab.
+      </p>
     </div>
   );
 }
