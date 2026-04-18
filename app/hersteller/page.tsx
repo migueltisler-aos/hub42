@@ -330,7 +330,7 @@ export default function HerstellerPage() {
               </ul>
             </div>
 
-            {/* Checkout-Gebühr */}
+            {/* Checkout-Gebühr + Transparenz */}
             <div>
               <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
                 Transparenz
@@ -339,17 +339,29 @@ export default function HerstellerPage() {
                 className="text-cream text-[clamp(2rem,4vw,3rem)] leading-none tracking-widest mb-8"
                 style={{ fontFamily: "var(--font-bebas)" }}
               >
-                Checkout-
-                <span className="text-bronze">Gebühr</span>
+                So verdient
+                <span className="text-bronze"> Hub42</span>
               </h2>
+
+              {/* Slot-Miete */}
+              <div className="border-l-2 border-stone-dark pl-6 mb-6">
+                <p className="text-cream text-sm font-semibold mb-1">Slot-Miete → Fixkosten</p>
+                <p className="text-stone text-sm leading-relaxed">
+                  Die Miete deckt den Laden: Alexa-Miete, unser Team, Infrastruktur.
+                  Kein Cent davon ist Gewinn – es hält den Store am Laufen.
+                </p>
+              </div>
+
+              {/* Checkout-Fee */}
               <div className="border-l-2 border-bronze pl-6">
-                <p className="text-bronze text-5xl mb-2" style={{ fontFamily: "var(--font-bebas)" }}>
+                <p className="text-bronze text-4xl mb-1" style={{ fontFamily: "var(--font-bebas)" }}>
                   0,40 €
                 </p>
-                <p className="text-stone text-sm mb-4">pro verkauftem Artikel</p>
-                <p className="text-cream text-sm leading-relaxed">
-                  Nicht pro Transaktion – pro Artikel.<br />
-                  Keine Handelsmarge. Keine versteckten Kosten.
+                <p className="text-stone text-sm mb-2">pro verkauftem Artikel → unsere Marge</p>
+                <p className="text-stone text-sm leading-relaxed">
+                  Die Checkout-Fee ist unsere Gewinnmarge – und deckt EC-Kartengebühren.
+                  Wir verdienen erst wenn du verkaufst.
+                  Kein Umsatz bei dir = kein Umsatz bei uns.
                 </p>
               </div>
             </div>
