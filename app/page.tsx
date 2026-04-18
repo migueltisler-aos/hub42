@@ -21,6 +21,26 @@ export default function Home() {
     <>
       <HeroSection />
 
+      {/* Pre-Launch Banner */}
+      <section className="bg-bronze/10 border-y border-bronze/20 py-4">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
+            <div className="flex items-center gap-3">
+              <span className="w-2 h-2 rounded-full bg-bronze animate-pulse shrink-0" />
+              <p className="text-bronze text-xs font-mono tracking-widest uppercase">
+                Eröffnung Oktober 2026 · Alexa Berlin · Alexanderplatz
+              </p>
+            </div>
+            <Link
+              href="/hersteller"
+              className="text-bronze text-xs font-mono tracking-widest hover:text-bronze-light transition-colors whitespace-nowrap"
+            >
+              Jetzt First-Mover-Slot sichern →
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* Das Konzept */}
       <section className="bg-green-mid py-20 border-t border-stone-dark/50">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -112,6 +112,12 @@ export default function HerstellerPage() {
       {/* Hero */}
       <section className="bg-green-dark pt-32 pb-20 border-b border-stone-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="inline-flex items-center gap-3 mb-6">
+            <span className="w-2 h-2 rounded-full bg-bronze animate-pulse" />
+            <span className="text-bronze text-xs font-mono tracking-[0.2em] uppercase">
+              Eröffnung Oktober 2026 · Jetzt First-Mover-Slot sichern
+            </span>
+          </div>
           <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-4">
             Für Hersteller
           </p>
