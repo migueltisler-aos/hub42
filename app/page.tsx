@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import HeroSection from "@/components/HeroSection";
+import FounderStory from "@/components/FounderStory";
 import ValueProps from "@/components/ValueProps";
 import BrandsCarousel from "@/components/BrandsCarousel";
 import ErlebnisCard from "@/components/ErlebnisCard";
@@ -64,6 +65,7 @@ export default function Home() {
         </div>
       </section>
 
+      <FounderStory />
       <ValueProps />
       <BrandsCarousel />
 
