@@ -70,10 +70,13 @@ export interface FitCriterion {
   id: string;
   label: string;
   hint: string;
+  /** Hard gate: one failure → always "Eher nicht" regardless of positive score */
+  disqualifier?: boolean;
   check: (b: FitCheckData) => boolean;
 }
 
-export const FIT_CRITERIA: FitCriterion[] = [
+// Positive signals: brand benefits from Hub42 as a discovery platform
+const POSITIVE_CRITERIA: FitCriterion[] = [
   {
     id: "eigener_shop",
     label: "Eigener Online-Shop",
@@ -88,12 +91,12 @@ export const FIT_CRITERIA: FitCriterion[] = [
   },
   {
     id: "preisrange",
-    label: "Preisrange ≤ 80 €",
-    hint: "Produkte unter 80 € — passt zur Alexa-Laufkundschaft",
+    label: "Preisrange 10–60 €",
+    hint: "Produkte zwischen 10 und 60 € — Alexa-Laufkundschaft",
     check: (b) => {
       if (!b.preisrange?.trim()) return false;
       const nums = (b.preisrange.match(/\d+/g) ?? []).map(Number);
-      return nums.length > 0 && Math.max(...nums) <= 80;
+      return nums.length > 0 && Math.max(...nums) <= 60;
     },
   },
   {
@@ -108,7 +111,7 @@ export const FIT_CRITERIA: FitCriterion[] = [
   {
     id: "founder",
     label: "Founder-Story erkennbar",
-    hint: "Notizen erwähnen Gründer/in — wichtig für Hub42-Curation",
+    hint: "Persönliche Gründergeschichte — zentral für Hub42-Curation",
     check: (b) => {
       const n = (b.notizen ?? "").toLowerCase();
       return /founder|gründer|gründerin|owner|inhaberin|inhaber|founder-geführt|founder-led/.test(n);
@@ -116,28 +119,61 @@ export const FIT_CRITERIA: FitCriterion[] = [
   },
   {
     id: "kategorie",
-    label: "Passende Kategorie",
+    label: "Passendes Segment",
     hint: "Food · Drinks · Beauty / Kosmetik · Lifestyle · Home",
     check: (b) => {
       const k = (b.kategorie ?? "").toLowerCase();
       return /food|drinks|beauty|kosmetik|lifestyle|home/.test(k);
     },
   },
+];
+
+// Disqualifiers: brand already has mass distribution → doesn't need Hub42
+const DISQUALIFIER_CRITERIA: FitCriterion[] = [
   {
-    id: "kein_ketten",
-    label: "Nicht in Drogerien / Supermärkten",
-    hint: "Kein Listing bei Rewe, DM, Rossmann, Müller, Edeka etc.",
+    id: "kein_stationaer",
+    label: "Kein Listing bei Rewe / DM / Rossmann / Douglas",
+    hint: "Massenvertrieb stationär — Marke braucht keine Entdeckungsplattform mehr",
+    disqualifier: true,
     check: (b) => {
       const n = (b.notizen ?? "").toLowerCase();
-      return !/\brewe\b|\bedeka\b|\bdm\b|\brossmann\b|\bmüller\b|\baldi\b|\blidl\b|\bkaufland\b/.test(n);
+      return !/\brewe\b|\bedeka\b|\bdm\b|\brossmann\b|\bmüller\b|\baldi\b|\blidl\b|\bkaufland\b|\bdouglas\b/.test(n);
+    },
+  },
+  {
+    id: "kein_online_massenvertrieb",
+    label: "Kein Massenvertrieb online (Zalando, Amazon, Otto …)",
+    hint: "Schon überall gelistet — kein Bedarf an einem kuratierten Channel",
+    disqualifier: true,
+    check: (b) => {
+      const n = (b.notizen ?? "").toLowerCase();
+      return !/zalando|amazon|\botto\b|about.?you/.test(n);
+    },
+  },
+  {
+    id: "emerging",
+    label: "Emerging Brand — noch nicht überall bekannt",
+    hint: "Millionen-Follower-Brands oder Celebrity-Labels brauchen Hub42 nicht zur Entdeckung",
+    disqualifier: true,
+    check: (b) => {
+      const n = (b.notizen ?? "").toLowerCase();
+      return !/million\s*follower|mio\.\s*follower|\d+\s*mio\.?\s*(instagram|follower)|eigene (filialen|stores|shop.in.shop)|bundesweit bekannt/.test(n);
     },
   },
 ];
 
+export const FIT_CRITERIA: FitCriterion[] = [
+  ...POSITIVE_CRITERIA,
+  ...DISQUALIFIER_CRITERIA,
+];
+
 export function assessFit(brand: FitCheckData): "Top" | "Gut" | "Eher nicht" {
-  const passed = FIT_CRITERIA.filter((c) => c.check(brand)).length;
-  if (passed >= 6) return "Top";
-  if (passed >= 4) return "Gut";
+  // Hard gate: any disqualifier failing → automatic Eher nicht
+  if (DISQUALIFIER_CRITERIA.some((c) => !c.check(brand))) return "Eher nicht";
+
+  const passed = POSITIVE_CRITERIA.filter((c) => c.check(brand)).length;
+  if (passed >= 5) return "Top";
+  if (passed >= 3) return "Gut";
   return "Eher nicht";
 }
 
