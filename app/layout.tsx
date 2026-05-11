@@ -1,8 +1,6 @@
 ﻿import type { Metadata } from "next";
 import { Bebas_Neue, DM_Sans, DM_Mono } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 
 const bebasNeue = Bebas_Neue({
   weight: "400",
@@ -79,9 +77,7 @@ export default function RootLayout({
       className={`${bebasNeue.variable} ${dmSans.variable} ${dmMono.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-green-dark text-cream">
-        <Navbar />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        {children}
       </body>
     </html>
   );

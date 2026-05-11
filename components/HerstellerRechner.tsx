@@ -2,14 +2,13 @@
 
 import { useState, useMemo } from "react";
 
-const SLOTS = [
-  { id: "basis",    label: "Basis",     cost: 55  },
-  { id: "standard", label: "Standard",  cost: 89  },
-  { id: "premium",  label: "Premium",   cost: 149 },
-  { id: "hero",     label: "Hero Wall", cost: 490 },
+const POSITIONEN = [
+  { id: "basis",    label: "Basis",     ratePerCm: 7.20  },
+  { id: "standard", label: "Standard",  ratePerCm: 9.00  },
+  { id: "premium",  label: "Premium",   ratePerCm: 10.80 },
 ] as const;
 
-type SlotId = (typeof SLOTS)[number]["id"];
+type PositionId = (typeof POSITIONEN)[number]["id"];
 
 function fmt(n: number): string {
   return n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -61,24 +60,26 @@ function Slider({ label, value, min, max, step, display, onChange }: SliderProps
 }
 
 export default function HerstellerRechner() {
-  const [uvp,     setUvp]     = useState(39);
-  const [marge,   setMarge]   = useState(38);
-  const [listung, setListung] = useState(2);
-  const [sales,   setSales]   = useState(50);
-  const [activeSlot, setActiveSlot] = useState<SlotId>("standard");
+  const [uvp,      setUvp]      = useState(39);
+  const [marge,    setMarge]    = useState(38);
+  const [listung,  setListung]  = useState(2);
+  const [sales,    setSales]    = useState(50);
+  const [cm,       setCm]       = useState(20);
+  const [activePos, setActivePos] = useState<PositionId>("standard");
 
   const calc = useMemo(() => {
-    const slot     = SLOTS.find((s) => s.id === activeSlot)!;
+    const pos          = POSITIONEN.find((p) => p.id === activePos)!;
     const reweMargeEur = uvp * (marge / 100);
     const reweUnit     = uvp - reweMargeEur - listung;
     const reweMonthly  = reweUnit * sales;
     const checkoutFee  = 0.40;
-    const slotPerUnit  = slot.cost / sales;
-    const hubUnit      = uvp - slotPerUnit - checkoutFee;
+    const regalkosten  = cm * pos.ratePerCm;
+    const regalkostenPerUnit = regalkosten / sales;
+    const hubUnit      = uvp - regalkostenPerUnit - checkoutFee;
     const hubMonthly   = hubUnit * sales;
     const diff         = hubMonthly - reweMonthly;
-    return { reweMargeEur, reweUnit, reweMonthly, slotPerUnit, hubUnit, hubMonthly, diff, slotCost: slot.cost, checkoutFee };
-  }, [uvp, marge, listung, sales, activeSlot]);
+    return { reweMargeEur, reweUnit, reweMonthly, regalkostenPerUnit, hubUnit, hubMonthly, diff, regalkosten, checkoutFee };
+  }, [uvp, marge, listung, sales, cm, activePos]);
 
   const winner: "hub" | "rewe" | "equal" =
     calc.diff > 0.01 ? "hub" : calc.diff < -0.01 ? "rewe" : "equal";
@@ -95,24 +96,26 @@ export default function HerstellerRechner() {
           display={`${fmt(listung)} €`} onChange={setListung} />
         <Slider label="Verkäufe / Monat bei Hub42" value={sales} min={5} max={200} step={1}
           display={`${sales} Stk.`} onChange={setSales} />
+        <Slider label="Regalfront (cm)" value={cm} min={1} max={270} step={1}
+          display={`${cm} cm`} onChange={setCm} />
 
-        {/* Slot selector */}
+        {/* Position selector */}
         <div>
-          <p className="text-cream/60 text-xs font-mono uppercase tracking-widest mb-3">Slot-Typ</p>
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
-            {SLOTS.map((slot) => (
+          <p className="text-cream/60 text-xs font-mono uppercase tracking-widest mb-3">Regalposition</p>
+          <div className="grid grid-cols-3 gap-2">
+            {POSITIONEN.map((pos) => (
               <button
-                key={slot.id}
-                onClick={() => setActiveSlot(slot.id)}
-                aria-pressed={activeSlot === slot.id}
+                key={pos.id}
+                onClick={() => setActivePos(pos.id)}
+                aria-pressed={activePos === pos.id}
                 className={`py-3 px-3 text-xs font-mono tracking-wide border transition-colors text-center ${
-                  activeSlot === slot.id
+                  activePos === pos.id
                     ? "bg-bronze text-green-dark border-bronze font-semibold"
                     : "bg-transparent text-cream/50 border-cream/20 hover:border-bronze/50 hover:text-cream/80"
                 }`}
               >
-                <span className="block text-[11px] font-semibold">{slot.label}</span>
-                <span className="block mt-0.5 opacity-70">{slot.cost} €/Mo</span>
+                <span className="block text-[11px] font-semibold">{pos.label}</span>
+                <span className="block mt-0.5 opacity-70">{pos.ratePerCm.toFixed(2).replace(".", ",")} €/cm</span>
               </button>
             ))}
           </div>
@@ -192,7 +195,7 @@ export default function HerstellerRechner() {
             {[
               { label: "Endkundenpreis",      value: `${fmt(uvp)} €` },
               { label: "Handelsmarge",         value: "– 0,00 €" },
-              { label: "Slot-Kosten/Stk.",     value: `– ${fmt(calc.slotPerUnit)} €` },
+              { label: "Regalfront-Kosten/Stk.", value: `– ${fmt(calc.regalkostenPerUnit)} €` },
               { label: "Checkout-Fee/Artikel", value: `– ${fmt(calc.checkoutFee)} €` },
               { label: "Erlös / Einheit",      value: `${fmt(calc.hubUnit)} €`, highlight: true },
               { label: "Kundendaten",          value: "Monatlich inkl." },

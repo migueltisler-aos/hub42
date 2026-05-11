@@ -49,18 +49,31 @@ export default function SlotCard({ slot, index = 0 }: SlotCardProps) {
       </h3>
 
       {/* Price */}
-      <div className="mb-1">
-        <span className="text-bronze text-4xl font-bold font-mono">
-          {slot.kostenMonat} €
-        </span>
-        <span className="text-stone text-sm ml-1">/Monat</span>
-      </div>
-      <p className="text-stone text-xs font-mono mb-1">
-        = {slot.kostenTag.toFixed(2).replace(".", ",")} €/Tag
-      </p>
-      <p className="text-stone text-xs font-mono mb-6">
-        {slot.anzahlSlots} Slots verfügbar
-      </p>
+      {slot.ratePerCm != null ? (
+        <div className="mb-6">
+          <div className="mb-1">
+            <span className="text-bronze text-4xl font-bold font-mono">
+              {slot.ratePerCm.toFixed(2).replace(".", ",")} €
+            </span>
+            <span className="text-stone text-sm ml-1">/cm · Monat</span>
+          </div>
+          <p className="text-stone text-xs font-mono">
+            Fläche frei wählbar
+          </p>
+        </div>
+      ) : (
+        <div className="mb-6">
+          <div className="mb-1">
+            <span className="text-bronze text-4xl font-bold font-mono">
+              {slot.kostenMonat} €
+            </span>
+            <span className="text-stone text-sm ml-1">/Monat</span>
+          </div>
+          <p className="text-stone text-xs font-mono">
+            Fixpreis · Position inklusive
+          </p>
+        </div>
+      )}
 
       {/* Divider */}
       <div className="w-full h-px bg-stone-dark mb-6" />
@@ -84,7 +97,7 @@ export default function SlotCard({ slot, index = 0 }: SlotCardProps) {
             : "border border-bronze/40 text-bronze hover:border-bronze"
         }`}
       >
-        Slot anfragen →
+        Regalfläche anfragen →
       </Link>
     </motion.div>
   );

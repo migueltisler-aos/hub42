@@ -4,9 +4,10 @@ export interface SlotTier {
   id: string;
   name: string;
   position: string;
-  kostenMonat: number;
-  kostenTag: number;
-  anzahlSlots: number;
+  /** Fixed monthly price – set for Schaufenster and Hero Wall */
+  kostenMonat?: number;
+  /** Per-cm monthly rate – set for Basis, Standard, Premium */
+  ratePerCm?: number;
   color: SlotColor;
   empfohlen?: boolean;
   highlights: string[];
@@ -19,8 +20,6 @@ export const SLOTS: SlotTier[] = [
     name: "Hero Wall",
     position: "Ladenfront – maximale Sichtbarkeit",
     kostenMonat: 490,
-    kostenTag: 16.33,
-    anzahlSlots: 8,
     color: "gold",
     empfohlen: false,
     highlights: [
@@ -37,8 +36,6 @@ export const SLOTS: SlotTier[] = [
     name: "Schaufenster",
     position: "Außensichtbarkeit – Laufkundschaft",
     kostenMonat: 149,
-    kostenTag: 4.97,
-    anzahlSlots: 4,
     color: "window",
     empfohlen: false,
     highlights: [
@@ -53,9 +50,7 @@ export const SLOTS: SlotTier[] = [
     id: "premium",
     name: "Premium",
     position: "Augenhöhe – prime conversion",
-    kostenMonat: 149,
-    kostenTag: 4.97,
-    anzahlSlots: 50,
+    ratePerCm: 10.80,
     color: "silver",
     empfohlen: true,
     highlights: [
@@ -70,9 +65,7 @@ export const SLOTS: SlotTier[] = [
     id: "standard",
     name: "Standard",
     position: "Mitte – solide Performance",
-    kostenMonat: 89,
-    kostenTag: 2.97,
-    anzahlSlots: 70,
+    ratePerCm: 9.00,
     color: "standard",
     empfohlen: false,
     highlights: [
@@ -86,9 +79,7 @@ export const SLOTS: SlotTier[] = [
     id: "basis",
     name: "Basis",
     position: "Einstiegsebene",
-    kostenMonat: 55,
-    kostenTag: 1.83,
-    anzahlSlots: 80,
+    ratePerCm: 7.20,
     color: "base",
     empfohlen: false,
     highlights: [
