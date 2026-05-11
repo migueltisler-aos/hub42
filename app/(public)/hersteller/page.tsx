@@ -287,12 +287,54 @@ export default function HerstellerPage() {
               Preise
             </p>
             <h2
-              className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest"
+              className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-4"
               style={{ fontFamily: "var(--font-bebas)" }}
             >
               5 Positionen.
               <span className="text-bronze"> Ein Ziel.</span>
             </h2>
+            <p className="text-stone text-sm max-w-lg mb-10">
+              Du mietest Regalfläche nach cm Breite — so viel oder so wenig wie dein Produkt braucht.
+              Jeder gemietete cm bringt dir automatisch die gleiche Breite als Werbefläche dazu.
+            </p>
+
+            {/* Cm-Konzept Visualisierung */}
+            <div className="border border-stone-dark bg-green-mid/30 p-6 max-w-xl">
+              <p className="text-bronze text-xs font-mono tracking-[0.2em] uppercase mb-4">So sieht dein Platz aus</p>
+
+              {/* Shelf diagram */}
+              <div className="relative">
+                {/* Width indicator */}
+                <div className="flex items-center gap-2 mb-1">
+                  <div className="flex-1 h-px bg-stone-dark" />
+                  <span className="text-stone text-xs font-mono whitespace-nowrap">z. B. 30 cm</span>
+                  <div className="flex-1 h-px bg-stone-dark" />
+                </div>
+
+                {/* Ad surface */}
+                <div className="border border-bronze/50 bg-bronze/10 px-4 py-3 text-center mb-0">
+                  <p className="text-bronze text-xs font-mono font-semibold">WERBEFLÄCHE</p>
+                  <p className="text-stone/60 text-[10px] font-mono mt-0.5">Traverse-Karte · 15 cm hoch · deine Story + QR-Code</p>
+                </div>
+
+                {/* Shelf surface */}
+                <div className="border border-stone-dark border-t-0 bg-green-mid px-4 py-4 text-center">
+                  <p className="text-cream text-xs font-mono">REGALFRONT</p>
+                  <p className="text-stone/60 text-[10px] font-mono mt-0.5">deine Produkte · 3 Ebenen · 60 cm tief</p>
+                </div>
+
+                {/* Height label */}
+                <div className="absolute -right-16 top-6 flex flex-col items-center gap-0.5 hidden sm:flex">
+                  <div className="w-px flex-1 bg-stone-dark" style={{ minHeight: 24 }} />
+                  <span className="text-stone/50 text-[10px] font-mono rotate-90 whitespace-nowrap">15 cm</span>
+                  <div className="w-px flex-1 bg-stone-dark" style={{ minHeight: 24 }} />
+                </div>
+              </div>
+
+              <p className="text-stone/50 text-xs font-mono mt-4">
+                Miete 30 cm → Preis Standard: 30 × 9,00 € = <span className="text-stone">270 €/Monat</span>
+              </p>
+            </div>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
