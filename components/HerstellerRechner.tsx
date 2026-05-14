@@ -3,9 +3,11 @@
 import { useState, useMemo } from "react";
 
 const POSITIONEN = [
-  { id: "basis",    label: "Basis",     ratePerCm: 7.20  },
-  { id: "standard", label: "Standard",  ratePerCm: 9.00  },
-  { id: "premium",  label: "Premium",   ratePerCm: 10.80 },
+  { id: "basis",        label: "Basis",        ratePerCm: 7.20,  fixedMonat: null  },
+  { id: "standard",     label: "Standard",     ratePerCm: 9.00,  fixedMonat: null  },
+  { id: "premium",      label: "Premium",      ratePerCm: 10.80, fixedMonat: null  },
+  { id: "schaufenster", label: "Schaufenster", ratePerCm: null,  fixedMonat: 149   },
+  { id: "hero-wall",    label: "Hero Wall",    ratePerCm: null,  fixedMonat: 490   },
 ] as const;
 
 type PositionId = (typeof POSITIONEN)[number]["id"];
@@ -73,7 +75,7 @@ export default function HerstellerRechner() {
     const reweUnit     = uvp - reweMargeEur - listung;
     const reweMonthly  = reweUnit * sales;
     const checkoutFee  = 0.40;
-    const regalkosten  = cm * pos.ratePerCm;
+    const regalkosten  = pos.fixedMonat != null ? pos.fixedMonat : cm * (pos.ratePerCm ?? 0);
     const regalkostenPerUnit = regalkosten / sales;
     const hubUnit      = uvp - regalkostenPerUnit - checkoutFee;
     const hubMonthly   = hubUnit * sales;
@@ -96,13 +98,11 @@ export default function HerstellerRechner() {
           display={`${fmt(listung)} €`} onChange={setListung} />
         <Slider label="Verkäufe / Monat bei Hub42" value={sales} min={5} max={200} step={1}
           display={`${sales} Stk.`} onChange={setSales} />
-        <Slider label="Regalfront (cm)" value={cm} min={1} max={270} step={1}
-          display={`${cm} cm`} onChange={setCm} />
 
         {/* Position selector */}
         <div>
           <p className="text-cream/60 text-xs font-mono uppercase tracking-widest mb-3">Regalposition</p>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
             {POSITIONEN.map((pos) => (
               <button
                 key={pos.id}
@@ -115,11 +115,21 @@ export default function HerstellerRechner() {
                 }`}
               >
                 <span className="block text-[11px] font-semibold">{pos.label}</span>
-                <span className="block mt-0.5 opacity-70">{pos.ratePerCm.toFixed(2).replace(".", ",")} €/cm</span>
+                <span className="block mt-0.5 opacity-70">
+                  {pos.ratePerCm != null
+                    ? `${pos.ratePerCm.toFixed(2).replace(".", ",")} €/cm`
+                    : `${pos.fixedMonat} €/Mo fix`}
+                </span>
               </button>
             ))}
           </div>
         </div>
+
+        {/* cm slider only for per-cm positions */}
+        {POSITIONEN.find((p) => p.id === activePos)?.ratePerCm != null && (
+          <Slider label="Regalfront (cm)" value={cm} min={5} max={270} step={1}
+            display={`${cm} cm`} onChange={setCm} />
+        )}
       </div>
 
       {/* Metric cards */}
@@ -195,7 +205,7 @@ export default function HerstellerRechner() {
             {[
               { label: "Endkundenpreis",      value: `${fmt(uvp)} €` },
               { label: "Handelsmarge",         value: "– 0,00 €" },
-              { label: "Regalfront-Kosten/Stk.", value: `– ${fmt(calc.regalkostenPerUnit)} €` },
+              { label: "Slot-Kosten/Stk.", value: `– ${fmt(calc.regalkostenPerUnit)} €` },
               { label: "Checkout-Fee/Artikel", value: `– ${fmt(calc.checkoutFee)} €` },
               { label: "Erlös / Einheit",      value: `${fmt(calc.hubUnit)} €`, highlight: true },
               { label: "Kundendaten",          value: "Monatlich inkl." },

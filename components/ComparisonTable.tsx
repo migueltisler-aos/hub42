@@ -15,8 +15,11 @@ export default function ComparisonTable() {
       <table className="w-full text-sm border-collapse">
         <thead>
           <tr>
-            <th className="text-left p-4 text-stone font-mono text-xs tracking-widest uppercase border-b border-stone-dark">
+            <th className="text-left p-4 text-stone font-mono text-xs tracking-widest uppercase border-b border-stone-dark min-w-[140px]">
               Kriterium
+            </th>
+            <th className="text-left p-4 text-stone font-mono text-xs tracking-widest uppercase border-b border-stone-dark">
+              Messe
             </th>
             <th className="text-left p-4 text-stone font-mono text-xs tracking-widest uppercase border-b border-stone-dark">
               Rewe / LEH
@@ -36,6 +39,15 @@ export default function ComparisonTable() {
                 <p className="text-cream font-medium">{row.label}</p>
                 {row.note && (
                   <p className="text-stone text-xs font-mono mt-0.5">{row.note}</p>
+                )}
+              </td>
+              <td className="p-4">
+                {typeof row.messe === "boolean" ? (
+                  <span className="text-stone/60 font-mono text-base">
+                    {row.messe ? "✓" : "✕"}
+                  </span>
+                ) : (
+                  <span className="text-stone">{row.messe}</span>
                 )}
               </td>
               <td className="p-4">

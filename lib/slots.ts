@@ -93,6 +93,7 @@ export const SLOTS: SlotTier[] = [
 
 export interface ComparisonRow {
   label: string;
+  messe: string | boolean;
   rewe: string | boolean;
   hub42: string | boolean;
   hub42Highlight?: boolean;
@@ -102,19 +103,22 @@ export interface ComparisonRow {
 export const COMPARISON_ROWS: ComparisonRow[] = [
   {
     label: "Handelsmarge",
+    messe: "0%",
     rewe: "30–50%",
     hub42: "0%",
     hub42Highlight: true,
     note: "Du behältst deinen Verkaufspreis vollständig",
   },
   {
-    label: "Listungsgebühr",
+    label: "Einstiegskosten",
+    messe: "3.000–8.000 € / Event",
     rewe: "2.000–50.000 €",
-    hub42: "Ab 55 €/Monat",
+    hub42: "Ab 72 €/Mo",
     hub42Highlight: true,
   },
   {
     label: "Preishoheit",
+    messe: true,
     rewe: false,
     hub42: true,
     hub42Highlight: true,
@@ -122,13 +126,15 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   },
   {
     label: "Kundendaten",
+    messe: "Nur vor Ort",
     rewe: false,
     hub42: true,
     hub42Highlight: true,
-    note: "Tägliches Kaufverhalten vollständig an dich",
+    note: "Monatlicher Verkaufsbericht inklusive",
   },
   {
     label: "Warenrisiko",
+    messe: "Mitnahme",
     rewe: "Rücknahmekosten",
     hub42: "Konsignation",
     hub42Highlight: true,
@@ -136,28 +142,39 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
   },
   {
     label: "Try It / Tasting",
+    messe: true,
     rewe: false,
     hub42: true,
     hub42Highlight: true,
   },
   {
     label: "Mindestmenge",
+    messe: "Flexibel",
     rewe: "Vollpaletten",
     hub42: "Flexibel",
     hub42Highlight: true,
   },
   {
     label: "Entscheidungszeit",
+    messe: "6–12 Mo Anmeldung",
     rewe: "6–18 Monate",
     hub42: "1–2 Wochen",
     hub42Highlight: true,
   },
   {
-    label: "Werbung am Regal",
+    label: "Werbung am Stand / Regal",
+    messe: true,
     rewe: false,
     hub42: true,
     hub42Highlight: true,
-    note: "QR-Code, Postkarte zum Selbstgestalten, Traverse-Karte mit deiner Story",
+    note: "QR-Code + Traverse-Karte mit deiner Story",
+  },
+  {
+    label: "Sichtbarkeitsdauer",
+    messe: "3 Tage / Event",
+    rewe: "Ganzjährig",
+    hub42: "Ganzjährig",
+    hub42Highlight: true,
   },
 ];
 

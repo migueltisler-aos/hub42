@@ -10,7 +10,7 @@ import { SLOTS, ANALYTICS_PAKETE } from "@/lib/slots";
 export const metadata: Metadata = {
   title: "Für Hersteller – Miete deinen Platz im Retail",
   description:
-    "Stationärer Handel wie er sein sollte. 0% Handelsmarge, Regalfront ab 20 cm / 55 €/Monat, 3 Monate Mindestlaufzeit. Bewirb dein Produkt, verlinke deinen Shop, gewinne Fans jenseits von TikTok.",
+    "Stationärer Handel wie er sein sollte. 0% Handelsmarge, Regalfront ab 10 cm / 72 €/Monat, 3 Monate Mindestlaufzeit. Bewirb dein Produkt, verlinke deinen Shop, gewinne Fans jenseits von TikTok.",
 };
 
 const SCHRITTE = [
