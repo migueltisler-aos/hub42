@@ -100,7 +100,7 @@ export default function BrandForm({ brand, currentUser, saveAction, deactivateAc
   }
 
   const checks = FIT_CRITERIA.map((c) => ({ ...c, passed: c.check(fitData) }));
-  const passedCount = checks.filter((c) => c.passed).length;
+  const score = checks.filter((c) => !c.gate && c.passed).reduce((sum, c) => sum + (c.weight ?? 1), 0);
   const fitScore = assessFit(fitData);
 
   return (
@@ -130,35 +130,75 @@ export default function BrandForm({ brand, currentUser, saveAction, deactivateAc
       <Field label="Notizen" name="notizen" value={brand?.notizen} textarea onValueChange={set("notizen")} />
 
       {/* Fit-Check Panel */}
-      <div className="border border-stone-dark bg-green-mid/10 p-4">
-        <div className="flex items-center justify-between mb-3">
+      <div className="border border-stone-dark bg-green-mid/10 p-4 space-y-4">
+        <div className="flex items-center justify-between">
           <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase">
             Hub42-Fit
           </p>
           <div className={`px-3 py-1 border text-xs font-mono font-semibold ${FIT_COLORS[fitScore] ?? ""}`}>
-            {fitScore} · {passedCount}/{FIT_CRITERIA.length}
+            {fitScore} · {score}/8 Pkt
           </div>
         </div>
-        <div className="space-y-2">
-          {checks.map((c) => (
-            <div key={c.id} className="flex items-start gap-2">
-              <span className={`mt-0.5 text-xs font-mono leading-none ${c.passed ? "text-emerald-400" : "text-stone/40"}`}>
-                {c.passed ? "✓" : "✗"}
-              </span>
-              <div>
-                <span className={`text-xs font-mono ${c.passed ? "text-cream" : "text-stone/60"}`}>
-                  {c.label}
+
+        {/* Gates */}
+        <div>
+          <p className="text-stone/40 text-[10px] font-mono uppercase tracking-widest mb-1.5">Ausschlusskriterien</p>
+          <div className="space-y-1.5">
+            {checks.filter((c) => c.gate).map((c) => (
+              <div key={c.id} className="flex items-start gap-2">
+                <span className={`mt-0.5 text-xs font-mono leading-none ${c.passed ? "text-emerald-400" : "text-red-400"}`}>
+                  {c.passed ? "✓" : "✗"}
                 </span>
-                {!c.passed && (
-                  <span className="text-stone/40 text-xs font-mono ml-2">— {c.hint}</span>
-                )}
+                <div>
+                  <span className={`text-xs font-mono ${c.passed ? "text-cream/70" : "text-red-300"}`}>
+                    {c.label}
+                  </span>
+                  {!c.passed && (
+                    <span className="text-red-400/60 text-xs font-mono ml-2">— {c.hint}</span>
+                  )}
+                </div>
               </div>
-            </div>
-          ))}
+            ))}
+          </div>
         </div>
-        {/* Hidden field so the assessed fit gets saved */}
+
+        {/* Scored criteria */}
+        <div>
+          <p className="text-stone/40 text-[10px] font-mono uppercase tracking-widest mb-1.5">Positive Signale</p>
+          <div className="space-y-1.5">
+            {checks.filter((c) => !c.gate).map((c) => (
+              <div key={c.id} className="flex items-start gap-2">
+                <span className={`mt-0.5 text-xs font-mono leading-none ${c.passed ? "text-emerald-400" : "text-stone/40"}`}>
+                  {c.passed ? "✓" : "✗"}
+                </span>
+                <div className="flex-1 flex items-center justify-between gap-2">
+                  <div>
+                    <span className={`text-xs font-mono ${c.passed ? "text-cream" : "text-stone/60"}`}>
+                      {c.label}
+                    </span>
+                    {!c.passed && (
+                      <span className="text-stone/40 text-xs font-mono ml-2">— {c.hint}</span>
+                    )}
+                  </div>
+                  <span className={`text-[10px] font-mono shrink-0 ${c.passed ? "text-emerald-400/70" : "text-stone/30"}`}>
+                    +{c.weight ?? 1}
+                  </span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <input type="hidden" name="hub42_fit" value={fitScore} />
       </div>
+
+      {/* Manuelles Potenzial */}
+      <Field
+        label="Hub42 Potenzial (manuell)"
+        name="hub42_potenzial"
+        value={brand?.hub42_potenzial}
+        options={["Hoch", "Mittel", "Niedrig"]}
+      />
 
       <div className="flex gap-3 pt-2">
         <button

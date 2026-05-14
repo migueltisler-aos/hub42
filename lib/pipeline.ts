@@ -34,6 +34,7 @@ export interface Brand {
   datum_naechste_aktion: string | null;
   feedback: string | null;
   hub42_fit: string | null;
+  hub42_potenzial: string | null;
   notizen: string | null;
   created_at: string;
   created_by: string | null;
@@ -71,29 +72,64 @@ export interface FitCriterion {
   id: string;
   label: string;
   hint: string;
-  /** Hard gate: one failure → always "Eher nicht" regardless of positive score */
-  disqualifier?: boolean;
+  /** Hard gate: one failure → always "Eher nicht" */
+  gate?: boolean;
+  /** Points contributed when passed (scored criteria only) */
+  weight?: number;
   check: (b: FitCheckData) => boolean;
 }
 
-// Positive signals: brand benefits from Hub42 as a discovery platform
-const POSITIVE_CRITERIA: FitCriterion[] = [
+// Hard gates based on hub42_v17.docx admission criteria
+const GATE_CRITERIA: FitCriterion[] = [
   {
-    id: "eigener_shop",
-    label: "Eigener Online-Shop",
-    hint: "Website gesetzt",
-    check: (b) => !!b.website?.trim(),
+    id: "kein_konzern",
+    label: "Kein Konzern / Corporate Brand",
+    hint: "Großkonzern braucht Hub42 nicht — und passt nicht zur Curation",
+    gate: true,
+    check: (b) => {
+      const n = (b.notizen ?? "").toLowerCase();
+      return !/\bkonzern\b|\b(ag|se)\b|unilever|p&g|nestl[eé]|henkel|beiersdorf/.test(n);
+    },
   },
   {
-    id: "instagram",
-    label: "Instagram-Präsenz",
-    hint: "Instagram-Account gesetzt",
-    check: (b) => !!b.instagram?.trim(),
+    id: "kein_leh_konflikt",
+    label: "Keine LEH-Preisbindungskonflikte (Rewe, DM, Rossmann …)",
+    hint: "Stationärer Massenvertrieb → Marke hat keinen Bedarf an Entdeckungsplattform",
+    gate: true,
+    check: (b) => {
+      const n = (b.notizen ?? "").toLowerCase();
+      return !/\brewe\b|\bedeka\b|\bdm\b|\brossmann\b|\bmüller\b|\baldi\b|\blidl\b|\bkaufland\b|\bdouglas\b/.test(n);
+    },
   },
   {
-    id: "preisrange",
-    label: "Preisrange 10–60 €",
-    hint: "Produkte zwischen 10 und 60 € — Alexa-Laufkundschaft",
+    id: "kein_online_mass",
+    label: "Kein Massenvertrieb online (Zalando, Amazon, Otto …)",
+    hint: "Schon überall gelistet — kein Bedarf an kuratierten Channel",
+    gate: true,
+    check: (b) => {
+      const n = (b.notizen ?? "").toLowerCase();
+      return !/zalando|amazon|\botto\b|about.?you/.test(n);
+    },
+  },
+];
+
+// Weighted positive criteria — max 8 points total
+const SCORED_CRITERIA: FitCriterion[] = [
+  {
+    id: "erklaerbare_story",
+    label: "Erkennbare Founder-Story",
+    hint: "Persönliche Gründergeschichte in Notizen eintragen",
+    weight: 3,
+    check: (b) => {
+      const n = (b.notizen ?? "").toLowerCase();
+      return /founder|gründer|gründerin|owner|inhaberin|inhaber|founder-geführt|founder-led/.test(n);
+    },
+  },
+  {
+    id: "fairer_preis",
+    label: "Fairer Preis (10–60 €)",
+    hint: "Preisrange setzen — Zahlen bis max. 60",
+    weight: 2,
     check: (b) => {
       if (!b.preisrange?.trim()) return false;
       const nums = (b.preisrange.match(/\d+/g) ?? []).map(Number);
@@ -101,80 +137,38 @@ const POSITIVE_CRITERIA: FitCriterion[] = [
     },
   },
   {
-    id: "dach",
-    label: "DACH-Standort",
-    hint: "Marke sitzt in Deutschland, Österreich oder Schweiz",
+    id: "eigener_kanal",
+    label: "Eigene Discovery-Kanäle (Shop + Instagram)",
+    hint: "Beide Felder müssen gesetzt sein",
+    weight: 2,
+    check: (b) => !!b.website?.trim() && !!b.instagram?.trim(),
+  },
+  {
+    id: "entdeckbar",
+    label: "DACH-Emerging Brand",
+    hint: "Standort (DACH) setzen; keine Millionen-Follower in Notizen",
+    weight: 1,
     check: (b) => {
       const s = (b.standort ?? "").toLowerCase();
-      return /deutschland|berlin|hamburg|münchen|köln|frankfurt|düsseldorf|austria|österreich|schweiz|germany/.test(s);
-    },
-  },
-  {
-    id: "founder",
-    label: "Founder-Story erkennbar",
-    hint: "Persönliche Gründergeschichte — zentral für Hub42-Curation",
-    check: (b) => {
       const n = (b.notizen ?? "").toLowerCase();
-      return /founder|gründer|gründerin|owner|inhaberin|inhaber|founder-geführt|founder-led/.test(n);
-    },
-  },
-  {
-    id: "kategorie",
-    label: "Passendes Segment",
-    hint: "Food · Drinks · Beauty / Kosmetik · Lifestyle · Home",
-    check: (b) => {
-      const k = (b.kategorie ?? "").toLowerCase();
-      return /food|drinks|beauty|kosmetik|lifestyle|home/.test(k);
-    },
-  },
-];
-
-// Disqualifiers: brand already has mass distribution → doesn't need Hub42
-const DISQUALIFIER_CRITERIA: FitCriterion[] = [
-  {
-    id: "kein_stationaer",
-    label: "Kein Listing bei Rewe / DM / Rossmann / Douglas",
-    hint: "Massenvertrieb stationär — Marke braucht keine Entdeckungsplattform mehr",
-    disqualifier: true,
-    check: (b) => {
-      const n = (b.notizen ?? "").toLowerCase();
-      return !/\brewe\b|\bedeka\b|\bdm\b|\brossmann\b|\bmüller\b|\baldi\b|\blidl\b|\bkaufland\b|\bdouglas\b/.test(n);
-    },
-  },
-  {
-    id: "kein_online_massenvertrieb",
-    label: "Kein Massenvertrieb online (Zalando, Amazon, Otto …)",
-    hint: "Schon überall gelistet — kein Bedarf an einem kuratierten Channel",
-    disqualifier: true,
-    check: (b) => {
-      const n = (b.notizen ?? "").toLowerCase();
-      return !/zalando|amazon|\botto\b|about.?you/.test(n);
-    },
-  },
-  {
-    id: "emerging",
-    label: "Emerging Brand — noch nicht überall bekannt",
-    hint: "Millionen-Follower-Brands oder Celebrity-Labels brauchen Hub42 nicht zur Entdeckung",
-    disqualifier: true,
-    check: (b) => {
-      const n = (b.notizen ?? "").toLowerCase();
-      return !/million\s*follower|mio\.\s*follower|\d+\s*mio\.?\s*(instagram|follower)|eigene (filialen|stores|shop.in.shop)|bundesweit bekannt/.test(n);
+      const isDach = /deutschland|berlin|hamburg|münchen|köln|frankfurt|düsseldorf|austria|österreich|schweiz|germany/.test(s);
+      const isMassFollower = /million\s*follower|mio\.\s*follower|\d+\s*mio\.?\s*(instagram|follower)|bundesweit bekannt/.test(n);
+      return isDach && !isMassFollower;
     },
   },
 ];
 
 export const FIT_CRITERIA: FitCriterion[] = [
-  ...POSITIVE_CRITERIA,
-  ...DISQUALIFIER_CRITERIA,
+  ...GATE_CRITERIA,
+  ...SCORED_CRITERIA,
 ];
 
 export function assessFit(brand: FitCheckData): "Top" | "Gut" | "Eher nicht" {
-  // Hard gate: any disqualifier failing → automatic Eher nicht
-  if (DISQUALIFIER_CRITERIA.some((c) => !c.check(brand))) return "Eher nicht";
-
-  const passed = POSITIVE_CRITERIA.filter((c) => c.check(brand)).length;
-  if (passed >= 5) return "Top";
-  if (passed >= 3) return "Gut";
+  if (GATE_CRITERIA.some((c) => !c.check(brand))) return "Eher nicht";
+  const score = SCORED_CRITERIA.filter((c) => c.check(brand))
+    .reduce((sum, c) => sum + (c.weight ?? 1), 0);
+  if (score >= 6) return "Top";
+  if (score >= 3) return "Gut";
   return "Eher nicht";
 }
 

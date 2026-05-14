@@ -12,6 +12,12 @@ const FIT_BADGE: Record<string, string> = {
   "Eher nicht": "text-stone/50 border-stone-dark",
 };
 
+const POTENZIAL_BADGE: Record<string, string> = {
+  Hoch: "text-yellow-300 border-yellow-500/40",
+  Mittel: "text-stone border-stone-dark",
+  Niedrig: "text-stone/40 border-stone-dark",
+};
+
 const STATUSES: BrandStatus[] = [
   "Neu", "Kontaktiert", "Antwort", "Gespräch", "Angebot", "Onboarded", "Abgelehnt", "Später", "Inaktiv"
 ];
@@ -204,11 +210,16 @@ export default function PipelineClient({ initialBrands, currentUser, updateStatu
                 className={`border-b border-stone-dark/50 hover:bg-green-mid/30 transition-colors ${ROW_COLOR[brand.status]}`}
               >
                 <td className="px-4 py-3">
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 flex-wrap">
                     <p className="text-cream font-medium">{brand.name}</p>
                     {brand.hub42_fit && (
                       <span className={`text-[10px] font-mono border px-1.5 py-0.5 leading-none ${FIT_BADGE[brand.hub42_fit] ?? "text-stone border-stone-dark"}`}>
                         {brand.hub42_fit}
+                      </span>
+                    )}
+                    {brand.hub42_potenzial && (
+                      <span className={`text-[10px] font-mono border px-1.5 py-0.5 leading-none ${POTENZIAL_BADGE[brand.hub42_potenzial] ?? "text-stone border-stone-dark"}`}>
+                        ★ {brand.hub42_potenzial}
                       </span>
                     )}
                   </div>

@@ -22,6 +22,7 @@ async function saveBrand(id: string, formData: FormData) {
     status: ((formData.get("status") as string) || "Neu") as import("@/lib/pipeline").BrandStatus,
     kanal: (formData.get("kanal") as string) || null,
     hub42_fit: (formData.get("hub42_fit") as string) || null,
+    hub42_potenzial: (formData.get("hub42_potenzial") as string) || null,
     datum_erstkontakt: (formData.get("datum_erstkontakt") as string) || null,
     datum_letzte_aktion: new Date().toISOString().split("T")[0],
     naechste_aktion: (formData.get("naechste_aktion") as string) || null,
