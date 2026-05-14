@@ -9,6 +9,9 @@ function sanitizeAndParseJson(raw: string): AiBrand[] {
   // Strip markdown code fences (```json ... ``` or ``` ... ```)
   let s = raw.trim().replace(/^```[a-z]*\n?/i, "").replace(/\n?```$/i, "").trim();
 
+  // Strip Perplexity inline citations appended after closing quotes: "value " [label](url)
+  s = s.replace(/"(\s*\[[^\]]*\]\([^)]*\))+/g, '"');
+
   // If it doesn't start with '[', wrap it (AI sometimes returns bare objects/list)
   if (!s.startsWith("[")) s = `[${s}]`;
 
