@@ -8,7 +8,8 @@ export type BrandStatus =
   | "Angebot"
   | "Onboarded"
   | "Abgelehnt"
-  | "Später";
+  | "Später"
+  | "Inaktiv";
 
 export interface Brand {
   id: string;

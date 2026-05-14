@@ -33,6 +33,17 @@ async function saveBrand(id: string, formData: FormData) {
   redirect("/pipeline");
 }
 
+async function deactivateBrand(id: string, formData: FormData) {
+  "use server";
+  const kommentar = (formData.get("kommentar") as string).trim();
+  await upsertBrand(id, {
+    status: "Inaktiv",
+    feedback: kommentar || null,
+    datum_letzte_aktion: new Date().toISOString().split("T")[0],
+  });
+  redirect("/pipeline");
+}
+
 export default async function BrandDetailPage({
   params,
 }: {
@@ -42,10 +53,12 @@ export default async function BrandDetailPage({
   const cookieStore = await cookies();
   const currentUser = cookieStore.get("pipeline_user")?.value ?? "Unbekannt";
 
-  const brand = await getBrand(id);
-  if (!brand) notFound();
+  const brandOrNull = await getBrand(id);
+  if (!brandOrNull) notFound();
+  const brand = brandOrNull!;
 
   const saveWithId = saveBrand.bind(null, id);
+  const deactivateWithId = deactivateBrand.bind(null, id);
 
   return (
     <div className="min-h-screen bg-green-dark">
@@ -67,7 +80,12 @@ export default async function BrandDetailPage({
             </span>
           </div>
         </div>
-        <BrandForm brand={brand} currentUser={currentUser} saveAction={saveWithId} />
+        <BrandForm
+          brand={brand}
+          currentUser={currentUser}
+          saveAction={saveWithId}
+          deactivateAction={brand.status !== "Inaktiv" ? deactivateWithId : undefined}
+        />
       </div>
     </div>
   );

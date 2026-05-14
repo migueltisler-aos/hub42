@@ -20,6 +20,7 @@ interface Props {
   brand?: Brand;
   currentUser: string;
   saveAction: (formData: FormData) => Promise<void>;
+  deactivateAction?: (formData: FormData) => Promise<void>;
 }
 
 function Field({
@@ -82,7 +83,7 @@ function Field({
   );
 }
 
-export default function BrandForm({ brand, currentUser, saveAction }: Props) {
+export default function BrandForm({ brand, currentUser, saveAction, deactivateAction }: Props) {
   const router = useRouter();
 
   const [fitData, setFitData] = useState({
@@ -103,6 +104,7 @@ export default function BrandForm({ brand, currentUser, saveAction }: Props) {
   const fitScore = assessFit(fitData);
 
   return (
+    <>
     <form action={saveAction} className="space-y-6">
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Field label="Brand-Name *" name="name" value={brand?.name} />
@@ -174,5 +176,37 @@ export default function BrandForm({ brand, currentUser, saveAction }: Props) {
         </button>
       </div>
     </form>
+
+    {/* Inaktiv schalten — separates Formular, außerhalb des Hauptformulars */}
+    {deactivateAction && (
+      <details className="mt-8 border-t border-stone-dark pt-6 group">
+        <summary className="text-stone/50 text-xs font-mono cursor-pointer hover:text-red-400 transition-colors list-none flex items-center gap-2">
+          <span className="group-open:hidden">▸</span>
+          <span className="hidden group-open:inline">▾</span>
+          Brand inaktiv schalten
+        </summary>
+        <form action={deactivateAction} className="mt-4 space-y-3">
+          <div>
+            <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-1">
+              Grund / Kommentar <span className="text-red-400">*</span>
+            </label>
+            <textarea
+              name="kommentar"
+              rows={2}
+              required
+              placeholder="z. B. zu groß, schon bei Zalando, kein Kontakt zustande …"
+              className="w-full bg-green-dark border border-stone-dark text-cream px-3 py-2 text-sm font-mono focus:outline-none focus:border-red-500/60 resize-none"
+            />
+          </div>
+          <button
+            type="submit"
+            className="px-4 py-2 border border-red-500/40 text-red-400 text-xs font-mono hover:border-red-400 transition-colors"
+          >
+            Inaktiv schalten →
+          </button>
+        </form>
+      </details>
+    )}
+    </>
   );
 }

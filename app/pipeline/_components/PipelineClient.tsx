@@ -13,7 +13,7 @@ const FIT_BADGE: Record<string, string> = {
 };
 
 const STATUSES: BrandStatus[] = [
-  "Neu", "Kontaktiert", "Antwort", "Gespräch", "Angebot", "Onboarded", "Abgelehnt", "Später"
+  "Neu", "Kontaktiert", "Antwort", "Gespräch", "Angebot", "Onboarded", "Abgelehnt", "Später", "Inaktiv"
 ];
 
 const STATUS_COLOR: Record<BrandStatus, string> = {
@@ -25,6 +25,7 @@ const STATUS_COLOR: Record<BrandStatus, string> = {
   Onboarded:    "text-green-400",
   Abgelehnt:    "text-stone/40",
   Später:       "text-stone/60",
+  Inaktiv:      "text-stone/30",
 };
 
 const ROW_COLOR: Record<BrandStatus, string> = {
@@ -36,6 +37,7 @@ const ROW_COLOR: Record<BrandStatus, string> = {
   Onboarded:    "opacity-60",
   Abgelehnt:    "opacity-30",
   Später:       "opacity-50",
+  Inaktiv:      "opacity-20",
 };
 
 function isOverdue(dateStr: string | null): boolean {

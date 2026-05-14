@@ -41,14 +41,24 @@ async function runImport(formData: FormData) {
 
 const PROMPTS = [
   {
-    label: "Standard – unabhängige Deutsche Brands",
+    label: "Standard – Emerging Brands Deutschland",
     tool: "Perplexity / Gemini / ChatGPT",
-    text: `Finde 10 unabhängige deutsche Consumer-Brands (Food, Drinks, Kosmetik, Lifestyle, Home).
-Kriterien:
-- Preisrange 10–60 €
-- Kein Supermarkt-Listing (kein Rewe, Edeka, DM, Rossmann)
-- Eigener Online-Shop oder starke Instagram-Präsenz
-- Founder-geführt, echte Story dahinter
+    text: `Finde 10 kleine, aufstrebende deutsche Consumer-Brands die noch wachsen – KEINE etablierten Marken.
+
+HARTE AUSSCHLUSSKRITERIEN (alle müssen erfüllt sein):
+- NICHT bei Zalando, Amazon, DM, Rossmann, Rewe, Edeka, Douglas oder Müller gelistet
+- KEIN Promi-Founder / Celebrity-Brand (keine Influencer mit über 500.000 Followern)
+- KEINE eigenen stationären Stores oder Flagship-Filialen
+- Max. 50.000 Instagram-Follower
+- Noch KEIN überregional bekanntes Massenprodukt
+
+Suchkriterien:
+- Preisrange 15–60 €
+- Eigener Online-Shop + aktiver Instagram-Account
+- Founder-geführt mit echter persönlicher Geschichte
+- Physisches Produkt (Food, Drinks, Kosmetik/Beauty, Lifestyle oder Home)
+- DACH-Standort (Deutschland bevorzugt)
+- Herstellt selbst oder lässt produzieren – kein Reseller
 
 Antworte NUR als JSON-Array, kein Text davor oder danach:
 [{
@@ -59,14 +69,26 @@ Antworte NUR als JSON-Array, kein Text davor oder danach:
   "produkt": "",
   "preisrange": "",
   "standort": "",
-  "notizen": ""
+  "notizen": "Founder-Name, warum emerging, ca. Follower-Zahl"
 }]`,
   },
   {
-    label: "Berlin-Fokus – lokale Hersteller",
+    label: "Berlin-Fokus – lokale Emerging Brands",
     tool: "Perplexity",
-    text: `Finde 10 Berliner Brands die physische Produkte herstellen und verkaufen.
-Kriterien: nicht in großen Ketten gelistet, eigene Community oder Newsletter, founder-geführt.
+    text: `Finde 10 kleine Berliner Brands die physische Produkte herstellen – noch unbekannt, wachsend.
+
+HARTE AUSSCHLUSSKRITERIEN:
+- NICHT bei Zalando, Amazon, DM, Rossmann oder Rewe gelistet
+- Max. 30.000 Instagram-Follower
+- Keine eigenen Filialen oder Flagship Stores
+- Kein Promi-Founder
+
+Suchkriterien:
+- Eigener Webshop + Instagram vorhanden
+- Founder-geführt, echte Story
+- Preisrange 10–60 €
+- Physisches Produkt: Food, Drinks, Kosmetik, Lifestyle oder Home
+- Direkt in Berlin ansässig oder produzierend
 
 Antworte NUR als JSON-Array:
 [{
@@ -77,14 +99,26 @@ Antworte NUR als JSON-Array:
   "produkt": "",
   "preisrange": "",
   "standort": "Berlin",
-  "notizen": ""
+  "notizen": "Founder-Name, ca. Follower-Zahl, warum noch klein"
 }]`,
   },
   {
-    label: "Nische: Nachhaltig / Zero Waste",
+    label: "Nische: Nachhaltig / Zero Waste (emerging)",
     tool: "Perplexity / ChatGPT",
-    text: `Finde 10 nachhaltige deutsche Brands (Nachfüllprodukte, Zero Waste, plastikfrei, regional).
-Preisrange 8–50 €, nicht bei DM oder Rossmann, eigener Webshop.
+    text: `Finde 10 kleine nachhaltige deutsche Brands (Nachfüllprodukte, Zero Waste, plastikfrei, regional) – noch nicht etabliert.
+
+HARTE AUSSCHLUSSKRITERIEN:
+- NICHT bei DM, Rossmann, Müller, Rewe oder Edeka im Regal
+- NICHT auf Amazon oder Zalando
+- Max. 40.000 Instagram-Follower
+- Kein Promi-Founder
+
+Suchkriterien:
+- Preisrange 10–55 €
+- Eigener Webshop + Instagram
+- Founder-geführt
+- Physisches Produkt mit nachhaltigem Ansatz
+- DACH-Standort
 
 Antworte NUR als JSON-Array:
 [{
@@ -95,7 +129,7 @@ Antworte NUR als JSON-Array:
   "produkt": "",
   "preisrange": "",
   "standort": "",
-  "notizen": ""
+  "notizen": "Founder-Name, Nachhaltigkeitsansatz, ca. Follower-Zahl"
 }]`,
   },
 ];
