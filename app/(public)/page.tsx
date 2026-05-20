@@ -5,6 +5,8 @@ import FounderStory from "@/components/FounderStory";
 import ValueProps from "@/components/ValueProps";
 import BrandsCarousel from "@/components/BrandsCarousel";
 import ErlebnisCard from "@/components/ErlebnisCard";
+import HerstWieEsFunktioniert from "@/components/HerstWieEsFunktioniert";
+import ProofSection from "@/components/ProofSection";
 import { ERLEBNISSE } from "@/lib/erlebnisse";
 
 export const metadata: Metadata = {
@@ -65,8 +67,58 @@ export default function Home() {
         </div>
       </section>
 
-      <FounderStory />
+      <HerstWieEsFunktioniert />
       <ValueProps />
+
+      {/* Hersteller CTA */}
+      <section className="bg-green-dark py-20 md:py-28 relative overflow-hidden border-t border-stone-dark/50" aria-label="Für Hersteller">
+        <div className="absolute inset-0 markthalle-pattern opacity-30" />
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(200,150,74,0.08) 0%, transparent 60%)",
+          }}
+        />
+        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <p className="text-bronze/60 text-xs font-mono tracking-[0.3em] uppercase mb-6">
+            Für Hersteller
+          </p>
+          <h2
+            className="text-cream text-[clamp(2.5rem,7vw,7rem)] leading-none tracking-widest mb-6"
+            style={{ fontFamily: "var(--font-bebas)" }}
+          >
+            Dein Produkt im
+            <br />
+            <span className="text-bronze">Alexa Berlin</span>
+          </h2>
+          <p className="text-cream/50 text-base max-w-lg mx-auto mb-4">
+            Der günstigste Weg zu echten Berliner Kunden. Ohne Händler, ohne Risiko, mit allen Daten.
+          </p>
+          <div className="inline-flex items-center gap-2 mb-10 px-4 py-2 border border-bronze/30 bg-bronze/5">
+            <span className="text-bronze text-2xl" style={{ fontFamily: "var(--font-bebas)" }}>
+              Ab 55 €
+            </span>
+            <span className="text-cream/40 text-sm font-mono">/Monat · Konsignation · 0% Marge</span>
+          </div>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
+            <Link
+              href="/hersteller"
+              className="inline-flex items-center justify-center px-8 py-4 bg-bronze text-green-dark font-semibold text-sm tracking-wide hover:bg-bronze-light transition-colors rounded-sm"
+            >
+              Wie es funktioniert
+            </Link>
+            <Link
+              href="/hersteller#regalfront-anfragen"
+              className="inline-flex items-center justify-center px-8 py-4 border border-bronze/50 text-bronze font-semibold text-sm tracking-wide hover:bg-bronze/10 transition-colors rounded-sm"
+            >
+              Regalfläche anfragen →
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <ProofSection />
+      <FounderStory />
       <BrandsCarousel />
 
       {/* Erlebnis-System */}
@@ -182,52 +234,6 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Hersteller CTA */}
-      <section className="bg-green-dark py-20 md:py-28 relative overflow-hidden border-t border-stone-dark/50" aria-label="Für Hersteller">
-        <div className="absolute inset-0 markthalle-pattern opacity-30" />
-        <div
-          className="absolute inset-0 pointer-events-none"
-          style={{
-            background: "radial-gradient(ellipse 80% 60% at 50% 100%, rgba(200,150,74,0.08) 0%, transparent 60%)",
-          }}
-        />
-        <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-bronze/60 text-xs font-mono tracking-[0.3em] uppercase mb-6">
-            Für Hersteller
-          </p>
-          <h2
-            className="text-cream text-[clamp(2.5rem,7vw,7rem)] leading-none tracking-widest mb-6"
-            style={{ fontFamily: "var(--font-bebas)" }}
-          >
-            Dein Produkt im
-            <br />
-            <span className="text-bronze">Alexa Berlin</span>
-          </h2>
-          <p className="text-cream/50 text-base max-w-lg mx-auto mb-4">
-            Der günstigste Weg zu echten Berliner Kunden. Ohne Händler, ohne Risiko, mit allen Daten.
-          </p>
-          <div className="inline-flex items-center gap-2 mb-10 px-4 py-2 border border-bronze/30 bg-bronze/5">
-            <span className="text-bronze text-2xl" style={{ fontFamily: "var(--font-bebas)" }}>
-              Ab 55 €
-            </span>
-            <span className="text-cream/40 text-sm font-mono">/Monat · Konsignation · 0% Marge</span>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/hersteller"
-              className="inline-flex items-center justify-center px-8 py-4 bg-bronze text-green-dark font-semibold text-sm tracking-wide hover:bg-bronze-light transition-colors rounded-sm"
-            >
-              Wie es funktioniert
-            </Link>
-            <Link
-              href="/hersteller#regalfront-anfragen"
-              className="inline-flex items-center justify-center px-8 py-4 border border-bronze/50 text-bronze font-semibold text-sm tracking-wide hover:bg-bronze/10 transition-colors rounded-sm"
-            >
-              Regalfläche anfragen →
-            </Link>
-          </div>
-        </div>
-      </section>
     </>
   );
 }

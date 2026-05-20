@@ -41,14 +41,19 @@ export default function HeroSection() {
       {/* Content */}
       <div className="relative z-10 text-center px-4 max-w-5xl mx-auto pt-20">
         {/* Eyebrow */}
-        <motion.p
-          className="text-bronze/60 text-xs font-mono tracking-[0.3em] uppercase mb-8"
+        <motion.div
+          className="flex flex-col items-center gap-1 mb-8"
           variants={fadeUp(0)}
           initial="hidden"
           animate="visible"
         >
-          Alexa Berlin · Alexanderplatz
-        </motion.p>
+          <p className="text-bronze/60 text-xs font-mono tracking-[0.3em] uppercase">
+            Alexa Berlin · Oktober 2026
+          </p>
+          <p className="text-bronze text-xs font-mono tracking-[0.2em] uppercase">
+            Stationäre Retail-Infrastruktur für unabhängige Marken
+          </p>
+        </motion.div>
 
         {/* Wordmark */}
         <motion.h1
@@ -76,16 +81,21 @@ export default function HeroSection() {
         </motion.p>
 
         {/* Sub-tagline */}
-        <motion.p
-          className="text-cream/50 text-sm md:text-base max-w-md mx-auto leading-relaxed mb-12"
+        <motion.div
+          className="mb-12"
           variants={fadeUp(0.45)}
           initial="hidden"
           animate="visible"
         >
-          Direkt vom Hersteller. Zum ersten Mal probieren.
-          <br />
-          Im Alexa Berlin – Alexanderplatz.
-        </motion.p>
+          <p className="text-cream/50 text-sm md:text-base max-w-md mx-auto leading-relaxed mb-2">
+            Direkt vom Hersteller. Zum ersten Mal probieren.
+            <br />
+            Im Alexa Berlin – Alexanderplatz.
+          </p>
+          <p className="text-bronze/50 text-xs font-mono italic tracking-wide">
+            Kein Händler dazwischen. Deine UVP. Deine Daten.
+          </p>
+        </motion.div>
 
         {/* CTAs */}
         <motion.div
@@ -95,16 +105,16 @@ export default function HeroSection() {
           animate="visible"
         >
           <Link
-            href="/brands"
+            href="/hersteller"
             className="inline-flex items-center justify-center px-8 py-4 bg-bronze text-green-dark font-semibold text-sm tracking-wide hover:bg-bronze-light transition-colors rounded-sm"
           >
-            Brands entdecken →
+            Ich bin Hersteller →
           </Link>
           <Link
-            href="/hersteller"
+            href="/brands"
             className="inline-flex items-center justify-center px-8 py-4 border border-bronze/40 text-bronze font-semibold text-sm tracking-wide hover:bg-bronze/10 transition-colors rounded-sm"
           >
-            Ich bin Hersteller →
+            Brands entdecken →
           </Link>
         </motion.div>
 

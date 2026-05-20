@@ -7,7 +7,8 @@ const VALUES = [
     number: "0%",
     label: "Handelsmarge",
     description:
-      "Hersteller behalten ihren Verkaufspreis vollständig. Kein Cent geht an einen Händler. Dein Preis, deine Marge.",
+      "Wir verdienen über Regalmiete und Handling-Fee — nie über deine Marge.",
+    sub: "Kommissionsmodell §383 HGB",
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" className="text-bronze">
         <circle cx="10" cy="10" r="6" stroke="currentColor" strokeWidth="1.5" />
@@ -17,10 +18,11 @@ const VALUES = [
     ),
   },
   {
-    number: "0%",
-    label: "Informationsasymmetrie",
+    number: "100%",
+    label: "Deine UVP. Deine Daten.",
     description:
-      "Monatliche Verkaufszahlen inklusive – tagesgenau mit Pro Analytics. Daten die kein Supermarkt je herausgibt.",
+      "Du setzt den Preis. Scan-Rate, Tasting-to-Buy, Wiederbuchung — alles gehört dir.",
+    sub: "Optional: Pro Analytics Dashboard",
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" className="text-bronze">
         <rect x="4" y="4" width="24" height="24" rx="2" stroke="currentColor" strokeWidth="1.5" />
@@ -30,9 +32,10 @@ const VALUES = [
   },
   {
     number: "Try It",
-    label: "Günstigster Markttest Berlins",
+    label: "Try Before You Buy",
     description:
-      "Ab 55 €/Monat in Berlins größtem Shoppingcenter. 41.000 Besucher täglich. Echter Markt, echter Test.",
+      "Tasting, Story-Fläche und QR am Regal — für Produkte die erklärungsbedürftig, probierbar oder geschenkfähig sind.",
+    sub: "Ab 55 €/Monat · kein Mindestabsatz",
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" className="text-bronze">
         <path d="M8 20 C8 20 10 12 16 12 C22 12 24 20 24 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
@@ -90,6 +93,11 @@ export default function ValueProps() {
               {/* Description */}
               <p className="text-stone text-sm leading-relaxed">
                 {v.description}
+              </p>
+
+              {/* Sub note */}
+              <p className="text-bronze/40 text-xs font-mono tracking-wide">
+                {v.sub}
               </p>
 
               {/* Bottom accent */}
