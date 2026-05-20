@@ -5,6 +5,8 @@ import HerstellerRechner from "@/components/HerstellerRechner";
 import SlotCard from "@/components/SlotCard";
 import ContactForm from "@/components/ContactForm";
 import SlotFeatureTable from "@/components/SlotFeatureTable";
+import CountdownTimer from "@/components/CountdownTimer";
+import TrustBadges from "@/components/TrustBadges";
 import { SLOTS, ANALYTICS_PAKETE } from "@/lib/slots";
 
 export const metadata: Metadata = {
@@ -112,11 +114,14 @@ export default function HerstellerPage() {
       {/* Hero */}
       <section className="bg-green-dark pt-32 pb-20 border-b border-stone-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="inline-flex items-center gap-3 mb-6">
+          <div className="inline-flex items-center gap-3 mb-3">
             <span className="w-2 h-2 rounded-full bg-bronze animate-pulse" />
             <span className="text-bronze text-xs font-mono tracking-[0.2em] uppercase">
               Eröffnung Oktober 2026 · Jetzt First-Mover-Platz sichern
             </span>
+          </div>
+          <div className="mb-6">
+            <CountdownTimer />
           </div>
           <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-4">
             Für Hersteller
@@ -146,7 +151,7 @@ export default function HerstellerPage() {
             <span>41.000 Berliner täglich</span>
           </div>
 
-          <div className="flex flex-wrap gap-4">
+          <div className="flex flex-wrap gap-4 mb-8">
             <a
               href="#regalfront-anfragen"
               className="px-8 py-4 bg-bronze text-green-dark font-semibold rounded-sm hover:bg-bronze-light transition-colors text-sm"
@@ -160,6 +165,7 @@ export default function HerstellerPage() {
               Rechner öffnen
             </a>
           </div>
+          <TrustBadges />
         </div>
       </section>
 
@@ -533,6 +539,14 @@ export default function HerstellerPage() {
       {/* Kontakt / CTA */}
       <section id="regalfront-anfragen" className="bg-green-mid py-20 border-t border-stone-dark">
         <div className="max-w-2xl mx-auto px-4 sm:px-6">
+          {/* Scarcity signal */}
+          <div className="flex items-center gap-3 mb-8 px-4 py-3 border border-bronze/30 bg-bronze/5">
+            <span className="w-2 h-2 rounded-full bg-bronze animate-pulse shrink-0" />
+            <p className="text-bronze text-xs font-mono tracking-[0.15em]">
+              Noch 8 von 12 First-Mover-Slots verfügbar · Preisgarantie bis Eröffnung
+            </p>
+          </div>
+
           <div className="mb-10 text-center">
             <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
               Jetzt starten
@@ -550,6 +564,17 @@ export default function HerstellerPage() {
               </a>
             </p>
           </div>
+
+          {/* Urgency box */}
+          <div className="border-l-4 border-bronze bg-bronze/5 px-5 py-4 mb-8">
+            <p className="text-cream text-sm font-semibold mb-1">
+              First-Mover-Konditionen: 55 €/Monat · Preisgarantie für gesamte Laufzeit
+            </p>
+            <p className="text-stone text-xs font-mono">
+              Gültig für Anfragen bis Eröffnung Oktober 2026. Danach reguläre Preise.
+            </p>
+          </div>
+
           <ContactForm />
         </div>
       </section>

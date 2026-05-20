@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import TrustBadges from "@/components/TrustBadges";
 
 const BLOCKS = [
   {
@@ -44,12 +45,15 @@ export default function ProofSection() {
             Warum jetzt
           </p>
           <h2
-            className="text-cream text-[clamp(2rem,5vw,4.5rem)] leading-none tracking-widest"
+            className="text-cream text-[clamp(2rem,5vw,4.5rem)] leading-none tracking-widest mb-6"
             style={{ fontFamily: "var(--font-bebas)" }}
           >
             Ein Pilot.
             <span className="text-bronze"> Echte Zahlen. Klare KPIs.</span>
           </h2>
+          <div className="flex justify-center">
+            <TrustBadges />
+          </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-stone-dark/20">
