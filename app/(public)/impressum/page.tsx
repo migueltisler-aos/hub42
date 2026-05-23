@@ -2,7 +2,7 @@
 
 export const metadata: Metadata = {
   title: "Impressum",
-  description: "Impressum der Hub42 GmbH",
+  description: "Impressum der Hub42 UG (haftungsbeschränkt)",
 };
 
 export default function ImpressumPage() {
@@ -20,10 +20,16 @@ export default function ImpressumPage() {
         <div className="space-y-8 text-sm text-stone leading-relaxed">
           <div>
             <h2 className="text-cream text-lg font-semibold mb-2">Angaben gemäß § 5 TMG</h2>
-            <p>Hub42 GmbH<br />
-            Grunerstraße 20 (Alexa Berlin)<br />
-            10179 Berlin<br />
+            <p>Hub42 UG (haftungsbeschränkt)<br />
+            c/o Valuedfriends Innovation GmbH<br />
+            Spreeinsel 6<br />
+            15848 Beeskow<br />
             Deutschland</p>
+          </div>
+
+          <div>
+            <h2 className="text-cream text-lg font-semibold mb-2">Vertreten durch</h2>
+            <p>Miguel Tisler (Geschäftsführer)</p>
           </div>
 
           <div>
@@ -37,26 +43,24 @@ export default function ImpressumPage() {
           </div>
 
           <div>
-            <h2 className="text-cream text-lg font-semibold mb-2">Vertreten durch</h2>
-            <p>Miguel Tisler (Geschäftsführer)</p>
-          </div>
-
-          <div>
             <h2 className="text-cream text-lg font-semibold mb-2">Handelsregister</h2>
-            <p>Eintragung in Vorbereitung.<br />
-            Registergericht: Amtsgericht Berlin-Charlottenburg</p>
+            <p>
+              Registergericht: Amtsgericht Frankfurt (Oder)<br />
+              Registernummer: HRB 22313 FF
+            </p>
           </div>
 
           <div>
             <h2 className="text-cream text-lg font-semibold mb-2">Umsatzsteuer-ID</h2>
-            <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: wird nach Eintragung ergänzt.</p>
+            <p>Umsatzsteuer-Identifikationsnummer gemäß § 27a UStG: wird nach Zuteilung ergänzt.</p>
           </div>
 
           <div>
             <h2 className="text-cream text-lg font-semibold mb-2">Verantwortlich für den Inhalt (§ 55 Abs. 2 RStV)</h2>
             <p>Miguel Tisler<br />
-            Grunerstraße 20 (Alexa Berlin)<br />
-            10179 Berlin</p>
+            c/o Valuedfriends Innovation GmbH<br />
+            Spreeinsel 6<br />
+            15848 Beeskow</p>
           </div>
 
           <div>
