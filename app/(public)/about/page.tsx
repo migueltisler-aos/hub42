@@ -46,8 +46,24 @@ export default function AboutPage() {
               Die Frage die mich nicht losgelassen hat: Wie löst man das cleverer — ohne das
               Marketing abzuschaffen, aber ohne es zur Eintrittskarte zu machen?
             </p>
-            <footer className="mt-6 text-bronze text-xs font-mono tracking-[0.2em] uppercase">
-              Miguel Tisler · Gründer · ehem. 3PL / Omnichannel Logistik
+            <footer className="mt-6 flex flex-wrap gap-x-5 gap-y-2 items-center">
+              <span className="text-bronze text-xs font-mono tracking-[0.2em] uppercase">
+                Miguel Tisler · Gründer
+              </span>
+              <a href="tel:+4917787956437" className="text-bronze/70 hover:text-bronze text-xs font-mono transition-colors">
+                0177 879 56 37
+              </a>
+              <a href="mailto:info@tryhub42.de" className="text-bronze/70 hover:text-bronze text-xs font-mono transition-colors">
+                info@tryhub42.de
+              </a>
+              <a
+                href="https://www.linkedin.com/in/miguel-tisler-0a2976120/"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-bronze/70 hover:text-bronze text-xs font-mono transition-colors"
+              >
+                LinkedIn →
+              </a>
             </footer>
           </blockquote>
         </div>

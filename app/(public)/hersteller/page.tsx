@@ -557,12 +557,27 @@ export default function HerstellerPage() {
             >
               Regalfläche anfragen
             </h2>
-            <p className="text-stone text-sm mt-3">
-              Miguel Tisler · Gründer ·{" "}
-              <a href="mailto:info@tryhub42.de" className="text-bronze hover:underline">
-                info@tryhub42.de
-              </a>
-            </p>
+            <div className="flex flex-col items-center gap-1 mt-3">
+              <p className="text-stone text-sm">
+                Miguel Tisler · Gründer
+              </p>
+              <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 text-sm">
+                <a href="tel:+4917787956437" className="text-bronze hover:text-bronze-light transition-colors font-mono">
+                  0177 879 56 37
+                </a>
+                <a href="mailto:info@tryhub42.de" className="text-bronze hover:text-bronze-light transition-colors">
+                  info@tryhub42.de
+                </a>
+                <a
+                  href="https://www.linkedin.com/in/miguel-tisler-0a2976120/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-bronze/60 hover:text-bronze transition-colors font-mono text-xs self-center"
+                >
+                  LinkedIn →
+                </a>
+              </div>
+            </div>
           </div>
 
           {/* Urgency box */}
