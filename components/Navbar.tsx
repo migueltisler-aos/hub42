@@ -10,6 +10,7 @@ const NAV_LINKS = [
   { href: "/brands", label: "Unsere Brands" },
   { href: "/erlebnis", label: "Das Erlebnis" },
   { href: "/store", label: "Der Store" },
+  { href: "/about", label: "Über uns" },
   { href: "/kontakt", label: "Kontakt" },
 ];
 
