@@ -330,7 +330,7 @@ export default function HerstellerPage() {
                 </div>
 
                 {/* Height label */}
-                <div className="absolute -right-16 top-6 flex flex-col items-center gap-0.5 hidden sm:flex">
+                <div className="absolute -right-16 top-6 hidden sm:flex flex-col items-center gap-0.5">
                   <div className="w-px flex-1 bg-stone-dark" style={{ minHeight: 24 }} />
                   <span className="text-stone/50 text-[10px] font-mono rotate-90 whitespace-nowrap">15 cm</span>
                   <div className="w-px flex-1 bg-stone-dark" style={{ minHeight: 24 }} />
