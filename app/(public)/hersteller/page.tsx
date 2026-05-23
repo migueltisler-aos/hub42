@@ -130,17 +130,17 @@ export default function HerstellerPage() {
             className="text-cream text-[clamp(2.5rem,8vw,7rem)] leading-none tracking-widest mb-4"
             style={{ fontFamily: "var(--font-bebas)" }}
           >
-            Miete deinen Platz
+            Wir setzen auf dich.
             <br />
-            <span className="text-bronze">im Retail.</span>
+            <span className="text-bronze">Du setzt auf uns.</span>
           </h1>
-          <p className="text-stone text-base max-w-xl mb-6 leading-relaxed">
-            Erlebe stationären Handel wie er sein sollte.
-            Bewerbe deine Produkte. Verlinke deinen Shop.
-            Gewinne Fans jenseits von TikTok.
+          <p className="text-stone text-base max-w-xl mb-3 leading-relaxed">
+            Dein Produkt. Dein Preis. Deine Daten.
+            Wir bringen den Ort, die Kunden, die Infrastruktur.
+            Und wir verdienen erst wenn du verkaufst.
           </p>
           <p className="text-bronze text-sm font-mono mb-8">
-            Wir suchen Marken die besser sind.
+            Stationärer Handel wie er sein sollte.
           </p>
 
           {/* Facts strip */}
@@ -259,6 +259,73 @@ export default function HerstellerPage() {
                 <p className="text-stone text-sm leading-relaxed">{s.beschreibung}</p>
               </div>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Gemeinsam wachsen */}
+      <section className="bg-green-dark py-20 border-t border-stone-dark">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+            <div>
+              <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-4">
+                Unser Modell
+              </p>
+              <h2
+                className="text-cream text-[clamp(2rem,5vw,4.5rem)] leading-none tracking-widest mb-6"
+                style={{ fontFamily: "var(--font-bebas)" }}
+              >
+                Dein Erfolg ist
+                <br />
+                <span className="text-bronze">unser Geschäftsmodell.</span>
+              </h2>
+              <p className="text-stone text-base leading-relaxed mb-6 max-w-lg">
+                Wir nehmen 0,40 € pro verkauftem Artikel. Nicht pro Monat, nicht pauschal —
+                pro Verkauf. Das bedeutet: Wenn du nichts verkaufst, verdienen wir kaum etwas.
+                Wir sind strukturell daran interessiert, dass dein Produkt läuft.
+              </p>
+              <p className="text-stone text-base leading-relaxed max-w-lg">
+                Kein klassischer Vermieter denkt so. Wir schon — weil wir das Modell so
+                gebaut haben. Tasting, Story-Fläche, Creator Playbook, Promo-Tag im Store:
+                das sind keine Extras. Das ist unser Beitrag zu deinem Verkauf.
+              </p>
+            </div>
+
+            {/* Visual: aligned incentives */}
+            <div className="grid grid-cols-1 gap-px bg-stone-dark/20">
+              {[
+                {
+                  label: "Du bringst",
+                  items: ["Dein Produkt", "Deine Story", "Deinen Preis", "Deine Ware auf Kommission"],
+                },
+                {
+                  label: "Wir bringen",
+                  items: ["Alexa Berlin · 41.000 Besucher täglich", "Store, Kasse, Warenpflege", "Tasting & Story-Fläche am Regal", "Daten & monatliche Abrechnung"],
+                },
+                {
+                  label: "Wir verdienen beide wenn",
+                  items: ["Dein Produkt verkauft wird", "Kunden wiederkommen", "Deine Marke wächst"],
+                  highlight: true,
+                },
+              ].map((block) => (
+                <div
+                  key={block.label}
+                  className={`p-8 ${block.highlight ? "bg-bronze/10 border border-bronze/30" : "bg-green-dark"}`}
+                >
+                  <p className={`text-xs font-mono tracking-[0.2em] uppercase mb-3 ${block.highlight ? "text-bronze" : "text-stone/60"}`}>
+                    {block.label}
+                  </p>
+                  <ul className="space-y-1.5">
+                    {block.items.map((item) => (
+                      <li key={item} className={`flex items-start gap-2 text-sm ${block.highlight ? "text-cream" : "text-stone"}`}>
+                        <span className="text-bronze/50 shrink-0 mt-0.5">—</span>
+                        {item}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       </section>

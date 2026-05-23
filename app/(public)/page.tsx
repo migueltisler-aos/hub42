@@ -92,7 +92,7 @@ export default function Home() {
             <span className="text-bronze">Alexa Berlin</span>
           </h2>
           <p className="text-cream/50 text-base max-w-lg mx-auto mb-4">
-            Der günstigste Weg zu echten Berliner Kunden. Ohne Händler, ohne Risiko, mit allen Daten.
+            Wir bringen den Ort. Du bringst dein Produkt. Wir wachsen zusammen — und verdienen erst, wenn du verkaufst.
           </p>
           <div className="inline-flex items-center gap-2 mb-10 px-4 py-2 border border-bronze/30 bg-bronze/5">
             <span className="text-bronze text-2xl" style={{ fontFamily: "var(--font-bebas)" }}>
