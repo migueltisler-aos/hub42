@@ -3,7 +3,7 @@
 import { useState, useTransition, useEffect } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { supabase } from "@/lib/supabase";
+import { getSupabaseClient } from "@/lib/supabase";
 import type { Brand, BrandStatus } from "@/lib/pipeline";
 
 const FIT_BADGE: Record<string, string> = {
@@ -69,7 +69,7 @@ export default function PipelineClient({ initialBrands, currentUser, updateStatu
 
   // Supabase Realtime — live updates ohne Refresh
   useEffect(() => {
-    const channel = supabase
+    const channel = getSupabaseClient()
       .channel("pipeline_brands")
       .on(
         "postgres_changes",
@@ -88,7 +88,7 @@ export default function PipelineClient({ initialBrands, currentUser, updateStatu
       )
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
+    return () => { getSupabaseClient().removeChannel(channel); };
   }, []);
 
   const filtered = brands.filter((b) => {

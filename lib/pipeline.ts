@@ -1,4 +1,4 @@
-import { supabase } from "./supabase";
+import { getSupabaseClient } from "./supabase";
 
 export type BrandStatus =
   | "Neu"
@@ -184,7 +184,7 @@ export async function getBrands(filter?: {
   zugewiesen?: string;
   status?: BrandStatus;
 }): Promise<Brand[]> {
-  let query = supabase
+  let query = getSupabaseClient()
     .from("pipeline_brands")
     .select("*")
     .order("created_at", { ascending: false });
@@ -202,7 +202,7 @@ export async function getBrands(filter?: {
 }
 
 export async function getBrand(id: string): Promise<Brand | null> {
-  const { data, error } = await supabase
+  const { data, error } = await getSupabaseClient()
     .from("pipeline_brands")
     .select("*")
     .eq("id", id)
@@ -221,7 +221,7 @@ export async function upsertBrand(
   };
 
   if (id) {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from("pipeline_brands")
       .update(payload)
       .eq("id", id)
@@ -230,7 +230,7 @@ export async function upsertBrand(
     if (error) throw error;
     return data as Brand;
   } else {
-    const { data, error } = await supabase
+    const { data, error } = await getSupabaseClient()
       .from("pipeline_brands")
       .insert(payload)
       .select()
@@ -244,7 +244,7 @@ export async function updateStatus(
   id: string,
   status: BrandStatus
 ): Promise<void> {
-  const { error } = await supabase
+  const { error } = await getSupabaseClient()
     .from("pipeline_brands")
     .update({ status, datum_letzte_aktion: new Date().toISOString().split("T")[0] })
     .eq("id", id);
@@ -264,7 +264,7 @@ export async function importBrands(
     const website_key = b.website ? normalizeWebsite(b.website) : null;
 
     if (website_key) {
-      const { data: existing } = await supabase
+      const { data: existing } = await getSupabaseClient()
         .from("pipeline_brands")
         .select("name, zugewiesen")
         .eq("website_key", website_key)
@@ -281,7 +281,7 @@ export async function importBrands(
 
     const hub42_fit = assessFit(b);
 
-    const { error } = await supabase.from("pipeline_brands").insert({
+    const { error } = await getSupabaseClient().from("pipeline_brands").insert({
       name: b.name,
       website: b.website ?? null,
       website_key,
