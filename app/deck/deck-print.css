@@ -1,0 +1,89 @@
+/* ============================================================
+   Hub42 /deck — Print- & Screen-Steuerung
+   Bildschirm: lebendiges Pre-Launch-Deck (grüne CI)
+   Druck: sauberes A4-PDF, eine Section ≈ eine Seite
+   ============================================================ */
+
+/* ---- Sichtbarkeits-Utilities ---- */
+.deck-print-only { display: none; }
+
+/* ---- Bildschirm ---- */
+.deck-print-header,
+.deck-print-footer {
+  display: none;
+}
+
+/* ============================================================
+   DRUCK
+   ============================================================ */
+@media print {
+  @page {
+    size: A4;
+    margin: 18mm 15mm 20mm 15mm;
+  }
+
+  /* Hintergrundfarben/SVG-Füllungen mitdrucken */
+  html, body {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+    background: #ffffff !important;
+  }
+
+  /* Sichtbarkeit umschalten */
+  .deck-screen-only { display: none !important; }
+  .deck-print-only  { display: block !important; }
+  table.deck-print-only { display: table !important; }
+
+  /* Jede Section beginnt sauber, kein Umbruch mitten drin */
+  .deck-section {
+    page-break-inside: avoid;
+    break-inside: avoid;
+    page-break-after: always;
+    break-after: page;
+  }
+  .deck-section:last-of-type {
+    page-break-after: auto;
+    break-after: auto;
+  }
+
+  /* Animationen auf statischen Endzustand zwingen */
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+    transform: none !important;
+  }
+
+  /* Print-Header (Logo) + Footer (Seiteninfo), auf jeder Seite wiederholt */
+  .deck-print-header {
+    display: block;
+    position: fixed;
+    top: 6mm;
+    left: 15mm;
+    right: 15mm;
+    font-family: var(--font-dm-mono), monospace;
+    font-size: 8pt;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #2A4A3C;
+    border-bottom: 0.4pt solid #C8964A;
+    padding-bottom: 2mm;
+  }
+  .deck-print-footer {
+    display: block;
+    position: fixed;
+    bottom: 6mm;
+    left: 15mm;
+    right: 15mm;
+    font-family: var(--font-dm-mono), monospace;
+    font-size: 7.5pt;
+    letter-spacing: 0.1em;
+    color: #7A6E62;
+    border-top: 0.4pt solid #d8d4cc;
+    padding-top: 2mm;
+    text-align: center;
+  }
+  /* Hinweis: echte Seitenzahlen (counter(page)) werden beim HTML-Druck
+     nicht zuverlässig gerendert → statischer Footer-Text. */
+}
