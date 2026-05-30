@@ -5,6 +5,10 @@
    verwenden. Alle Werte offengelegt, konservativ gedefaultet.
    ============================================================ */
 
+export const RATES = { basis: 11.80, standard: 13.11, premium: 16.39 } as const;
+export const MIN_REGAL_CM = 5;
+export const MIN_SLOT_MIETE = 59;
+
 export interface Assumptions {
   vk: number; // Verkaufspreis / Artikel
   sales: number; // Sales / Monat
@@ -42,7 +46,7 @@ export const DEFAULTS: Assumptions = {
   hubPayPct: 0.85,
   hubPayFix: 0.25,
   regalCm: 5, // ein einzelnes F&B-Produkt belegt ~5 cm Front
-  ratePerCm: 9.0,
+  ratePerCm: RATES.basis,
 };
 
 export interface Result {
@@ -70,7 +74,7 @@ export function compute(a: Assumptions): Result {
   // Hub42 hat keinen Wareneingang/Stück – nur Checkout + Payment + Slot-Anteil
   const hubPayment = a.vk * (a.hubPayPct / 100) + a.hubPayFix;
   const hubFixed = a.hubCheckout + hubPayment;
-  const slotMonthly = a.regalCm * a.ratePerCm;
+  const slotMonthly = Math.max(MIN_SLOT_MIETE, a.regalCm * a.ratePerCm);
   const slotPerSale = a.sales > 0 ? slotMonthly / a.sales : Infinity;
   const hubPerSale = hubFixed + slotPerSale;
 

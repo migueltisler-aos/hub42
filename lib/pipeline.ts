@@ -36,6 +36,7 @@ export interface Brand {
   hub42_fit: string | null;
   hub42_potenzial: string | null;
   notizen: string | null;
+  follower_ca: number | null;
   created_at: string;
   created_by: string | null;
 }
@@ -51,11 +52,12 @@ export interface AiBrand {
   preisrange?: string;
   standort?: string;
   notizen?: string;
+  follower_ca?: number;
 }
 
 export interface ImportResult {
   imported: number;
-  duplicates: Array<{ name: string; existing_by: string | null }>;
+  duplicates: Array<{ name: string; existing_by: string | null; reason: "website" | "instagram" | "name" }>;
   errors: string[];
 }
 
@@ -66,6 +68,7 @@ export interface FitCheckData {
   standort?: string | null;
   notizen?: string | null;
   kategorie?: string | null;
+  follower_ca?: number | null;
 }
 
 export interface FitCriterion {
@@ -146,13 +149,16 @@ const SCORED_CRITERIA: FitCriterion[] = [
   {
     id: "entdeckbar",
     label: "DACH-Emerging Brand",
-    hint: "Standort (DACH) setzen; keine Millionen-Follower in Notizen",
+    hint: "Standort (DACH) setzen; unter 500.000 Follower",
     weight: 1,
     check: (b) => {
       const s = (b.standort ?? "").toLowerCase();
       const n = (b.notizen ?? "").toLowerCase();
       const isDach = /deutschland|berlin|hamburg|münchen|köln|frankfurt|düsseldorf|austria|österreich|schweiz|germany/.test(s);
-      const isMassFollower = /million\s*follower|mio\.\s*follower|\d+\s*mio\.?\s*(instagram|follower)|bundesweit bekannt/.test(n);
+      // follower_ca wenn vorhanden, sonst Regex-Fallback auf notizen
+      const isMassFollower = b.follower_ca != null
+        ? b.follower_ca > 500_000
+        : /million\s*follower|mio\.\s*follower|\d+\s*mio\.?\s*(instagram|follower)|bundesweit bekannt/.test(n);
       return isDach && !isMassFollower;
     },
   },
@@ -178,6 +184,25 @@ export function normalizeWebsite(url: string): string {
     .trim()
     .replace(/^https?:\/\/(www\.)?/, "")
     .replace(/\/$/, "");
+}
+
+export function normalizeInstagram(handle: string): string {
+  return handle
+    .toLowerCase()
+    .trim()
+    .replace(/^@/, "")
+    .replace(/^https?:\/\/(www\.)?instagram\.com\//, "")
+    .replace(/\/$/, "")
+    .split("?")[0]; // strip query params
+}
+
+export function normalizeBrandName(name: string): string {
+  return name
+    .toLowerCase()
+    .trim()
+    .replace(/\s+(gmbh|ug|ag|gbr|e\.k\.|& co\. kg|kg|ohg|e\.v\.)\.?$/i, "")
+    .replace(/\s+/g, " ")
+    .trim();
 }
 
 export async function getBrands(filter?: {
@@ -257,40 +282,74 @@ export async function importBrands(
   created_by: string
 ): Promise<ImportResult> {
   const result: ImportResult = { imported: 0, duplicates: [], errors: [] };
+  const sb = getSupabaseClient();
+
+  // Einmalig alle bestehenden Keys laden (1 Query für den ganzen Batch)
+  const { data: existing } = await sb
+    .from("pipeline_brands")
+    .select("name, website_key, instagram, zugewiesen");
+
+  const existingBrands = (existing ?? []) as Array<{
+    name: string;
+    website_key: string | null;
+    instagram: string | null;
+    zugewiesen: string | null;
+  }>;
+
+  const existingWebsiteKeys = new Set(
+    existingBrands.map((b) => b.website_key).filter(Boolean)
+  );
+  const existingInstagramKeys = new Set(
+    existingBrands
+      .map((b) => (b.instagram ? normalizeInstagram(b.instagram) : null))
+      .filter(Boolean)
+  );
+  const existingNameKeys = new Map(
+    existingBrands.map((b) => [normalizeBrandName(b.name), b.zugewiesen])
+  );
 
   for (const b of brands) {
     if (!b.name?.trim()) continue;
 
-    const website_key = b.website ? normalizeWebsite(b.website) : null;
+    const website_key = b.website?.trim() ? normalizeWebsite(b.website) : null;
+    const instagram_key = b.instagram?.trim() ? normalizeInstagram(b.instagram) : null;
+    const name_key = normalizeBrandName(b.name);
 
-    if (website_key) {
-      const { data: existing } = await getSupabaseClient()
-        .from("pipeline_brands")
-        .select("name, zugewiesen")
-        .eq("website_key", website_key)
-        .maybeSingle();
+    // Dedup 1: website_key
+    if (website_key && existingWebsiteKeys.has(website_key)) {
+      const match = existingBrands.find((e) => e.website_key === website_key);
+      result.duplicates.push({ name: b.name, existing_by: match?.zugewiesen ?? null, reason: "website" });
+      continue;
+    }
 
-      if (existing) {
-        result.duplicates.push({
-          name: b.name,
-          existing_by: (existing as { zugewiesen: string | null }).zugewiesen,
-        });
-        continue;
-      }
+    // Dedup 2: instagram handle
+    if (instagram_key && existingInstagramKeys.has(instagram_key)) {
+      const match = existingBrands.find(
+        (e) => e.instagram && normalizeInstagram(e.instagram) === instagram_key
+      );
+      result.duplicates.push({ name: b.name, existing_by: match?.zugewiesen ?? null, reason: "instagram" });
+      continue;
+    }
+
+    // Dedup 3: normalisierter Name
+    if (existingNameKeys.has(name_key)) {
+      result.duplicates.push({ name: b.name, existing_by: existingNameKeys.get(name_key) ?? null, reason: "name" });
+      continue;
     }
 
     const hub42_fit = assessFit(b);
 
-    const { error } = await getSupabaseClient().from("pipeline_brands").insert({
+    const { error } = await sb.from("pipeline_brands").insert({
       name: b.name,
-      website: b.website ?? null,
+      website: b.website?.trim() || null,
       website_key,
-      instagram: b.instagram ?? null,
+      instagram: b.instagram?.trim() || null,
       kategorie: b.kategorie ?? null,
       produkt: b.produkt ?? null,
       preisrange: b.preisrange ?? null,
       standort: b.standort ?? null,
       notizen: b.notizen ?? null,
+      follower_ca: b.follower_ca ?? null,
       gefunden_via,
       hub42_fit,
       status: "Neu",
@@ -300,12 +359,16 @@ export async function importBrands(
 
     if (error) {
       if (error.code === "23505") {
-        result.duplicates.push({ name: b.name, existing_by: null });
+        result.duplicates.push({ name: b.name, existing_by: null, reason: "name" });
       } else {
         result.errors.push(`${b.name}: ${error.message}`);
       }
     } else {
       result.imported++;
+      // Neu importierte Brand für spätere Dedup-Checks in dieser Batch-Session registrieren
+      if (website_key) existingWebsiteKeys.add(website_key);
+      if (instagram_key) existingInstagramKeys.add(instagram_key);
+      existingNameKeys.set(name_key, created_by);
     }
   }
 

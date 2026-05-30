@@ -50,7 +50,7 @@ export const SLOTS: SlotTier[] = [
     id: "premium",
     name: "Premium",
     position: "Augenhöhe – prime conversion",
-    ratePerCm: 10.80,
+    ratePerCm: 16.39,
     color: "silver",
     empfohlen: true,
     highlights: [
@@ -65,7 +65,7 @@ export const SLOTS: SlotTier[] = [
     id: "standard",
     name: "Standard",
     position: "Mitte – solide Performance",
-    ratePerCm: 9.00,
+    ratePerCm: 13.11,
     color: "standard",
     empfohlen: false,
     highlights: [
@@ -79,7 +79,7 @@ export const SLOTS: SlotTier[] = [
     id: "basis",
     name: "Basis",
     position: "Einstiegsebene",
-    ratePerCm: 7.20,
+    ratePerCm: 11.80,
     color: "base",
     empfohlen: false,
     highlights: [
@@ -113,7 +113,7 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
     label: "Einstiegskosten",
     messe: "3.000–8.000 € / Event",
     rewe: "2.000–50.000 €",
-    hub42: "Ab 72 €/Mo",
+    hub42: "ab 59 €/Mo",
     hub42Highlight: true,
   },
   {

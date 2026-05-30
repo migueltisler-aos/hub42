@@ -405,7 +405,7 @@ export default function HerstellerPage() {
               </div>
 
               <p className="text-stone/50 text-xs font-mono mt-4">
-                Miete 30 cm → Preis Standard: 30 × 9,00 € = <span className="text-stone">270 €/Monat</span>
+                Miete 30 cm → Preis Standard: 30 × 13,11 € = <span className="text-stone">393 €/Monat</span>
               </p>
             </div>
           </div>

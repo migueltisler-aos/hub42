@@ -12,23 +12,38 @@ const C = {
   hi: "#2A4A3C", // green-dark (Highlight-Fond)
 };
 
-const LEVELS: { name: string; rate: string | null; tag?: string; restock?: boolean }[] = [
+interface Level {
+  name: string;
+  rate: string | null;
+  example?: string;
+  tag?: string;
+  hint?: string;
+  restock?: boolean;
+}
+
+const LEVELS: Level[] = [
   { name: "Stauraum", rate: null, tag: "Reserve / Überbestand", restock: true },
-  { name: "Premium", rate: "10,80 €/cm", tag: "Augenhöhe" },
-  { name: "Standard", rate: "9,00 €/cm" },
-  { name: "Basis", rate: "7,20 €/cm" },
+  {
+    name: "Premium",
+    rate: "16,39 €/cm",
+    example: "20 cm: 328 €/Mo",
+    tag: "Augenhöhe",
+    hint: "30–80 % mehr Conversion",
+  },
+  { name: "Standard", rate: "13,11 €/cm", example: "20 cm: 262 €/Mo" },
+  { name: "Basis", rate: "11,80 €/cm", example: "20 cm: 236 €/Mo" },
   { name: "Nachschub", rate: null, tag: "Verkaufsstauraum · 60 cm Tiefe", restock: true },
 ];
 
 const X0 = 30;
 const W = 196;
 const TOP = 138; // erste Ebene
-const H = 58; // Ebenenhöhe
+const H = 68; // Ebenenhöhe (erhöht für Platz der Beispielzeile)
 
 export default function ShelfSlotSVG({ className = "" }: { className?: string }) {
   return (
     <svg
-      viewBox="0 0 380 480"
+      viewBox="0 0 380 530"
       role="img"
       aria-label="Gemietete Regalfront: Werbefläche, Preisauszeichnung, 5 Ebenen nach Preisklasse, unterste Ebene Nachschub"
       className={className}
@@ -85,37 +100,58 @@ export default function ShelfSlotSVG({ className = "" }: { className?: string })
             {lvl.restock
               ? [0, 1, 2].map((k) => (
                   <g key={k}>
-                    <rect x={X0 + 8 + k * 62} y={y + 6} width="52" height="34" fill="none" stroke={C.soft} strokeWidth="1" strokeDasharray="2 2" />
-                    <line x1={X0 + 8 + k * 62} y1={y + 17} x2={X0 + 8 + k * 62 + 52} y2={y + 17} stroke={C.soft} strokeWidth="1" strokeDasharray="2 2" />
+                    <rect x={X0 + 8 + k * 62} y={y + 6} width="52" height="40" fill="none" stroke={C.soft} strokeWidth="1" strokeDasharray="2 2" />
+                    <line x1={X0 + 8 + k * 62} y1={y + 20} x2={X0 + 8 + k * 62 + 52} y2={y + 20} stroke={C.soft} strokeWidth="1" strokeDasharray="2 2" />
                   </g>
                 ))
               : [0, 1, 2, 3].map((k) => (
-                  <rect key={k} x={X0 + 8 + k * 47} y={y + 4} width="36" height="34" fill={C.fill} stroke={eye ? C.line : C.soft} strokeWidth="1" />
+                  <rect key={k} x={X0 + 8 + k * 47} y={y + 4} width="36" height="40" fill={C.fill} stroke={eye ? C.line : C.soft} strokeWidth="1" />
                 ))}
 
             {/* Klassen-Label rechts */}
-            <text x={X0 + W + 16} y={y + 18} fill={eye ? C.line : C.cream} fontSize="11" fontWeight={eye ? "bold" : "normal"}>
+            <text x={X0 + W + 16} y={y + 16} fill={eye ? C.line : C.cream} fontSize="11" fontWeight={eye ? "bold" : "normal"}>
               {lvl.name}
             </text>
-            {lvl.rate ? (
-              <text x={X0 + W + 16} y={y + 32} fill={C.stone} fontSize="9" fontFamily="monospace">
+            {lvl.rate && (
+              <text x={X0 + W + 16} y={y + 28} fill={C.stone} fontSize="9" fontFamily="monospace">
                 {lvl.rate}
               </text>
-            ) : null}
-            {lvl.tag ? (
-              <text x={X0 + W + 16} y={lvl.rate ? y + 44 : y + 32} fill={eye ? C.line : C.stone} fontSize={lvl.restock ? "8" : "8.5"} fontFamily="monospace">
+            )}
+            {lvl.example && (
+              <text x={X0 + W + 16} y={y + 39} fill={eye ? C.line + "CC" : C.stone} fontSize="8" fontFamily="monospace">
+                {lvl.example}
+              </text>
+            )}
+            {lvl.tag && !lvl.hint && (
+              <text
+                x={X0 + W + 16}
+                y={lvl.rate ? y + 50 : y + 28}
+                fill={eye ? C.line : C.stone}
+                fontSize={lvl.restock ? "8" : "8.5"}
+                fontFamily="monospace"
+              >
                 {lvl.tag}
               </text>
-            ) : null}
+            )}
+            {lvl.tag && lvl.hint && (
+              <>
+                <text x={X0 + W + 16} y={y + 50} fill={C.line} fontSize="8.5" fontFamily="monospace">
+                  {lvl.tag}
+                </text>
+                <text x={X0 + W + 16} y={y + 61} fill={C.line} fontSize="7.5" fontFamily="monospace">
+                  {lvl.hint}
+                </text>
+              </>
+            )}
           </g>
         );
       })}
 
       {/* Event-Fähnchen ganz unten */}
       <g>
-        <line x1={X0} y1="468" x2={X0} y2="442" stroke={C.line} strokeWidth="1.5" />
-        <path d={`M${X0} 442 L${X0 + 28} 448 L${X0} 454 Z`} fill={C.line} />
-        <text x={X0 + 34} y="454" fill={C.cream} fontSize="9">
+        <line x1={X0} y1="518" x2={X0} y2="492" stroke={C.line} strokeWidth="1.5" />
+        <path d={`M${X0} 492 L${X0 + 28} 498 L${X0} 504 Z`} fill={C.line} />
+        <text x={X0 + 34} y="504" fill={C.cream} fontSize="9">
           1× / Quartal: dein Event-Tag
         </text>
       </g>

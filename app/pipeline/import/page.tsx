@@ -42,6 +42,25 @@ async function runImport(formData: FormData) {
   redirect(`/pipeline?${summary}`);
 }
 
+const JSON_TEMPLATE = `[{
+  "name": "",
+  "website": "",
+  "instagram": "",
+  "kategorie": "",
+  "produkt": "",
+  "preisrange": "",
+  "standort": "",
+  "follower_ca": 0,
+  "notizen": "Founder-Name, warum emerging"
+}]`;
+
+const OUTPUT_RULES = `AUSGABE-REGELN (strikt einhalten):
+- Antworte NUR als JSON-Array, kein Text davor oder danach
+- Wenn du dir bei einem Wert nicht sicher bist: Feld leer lassen ("") statt zu raten
+- website: nur die echte, existierende Domain (z. B. brandname.de) – kein Raten, lieber leer
+- instagram: nur der Handle ohne @ (z. B. brandname) – kein Raten, lieber leer
+- follower_ca: geschätzte Instagram-Follower als Zahl (z. B. 8500), 0 wenn unbekannt`;
+
 const PROMPTS = [
   {
     label: "Standard – Emerging Brands Deutschland",
@@ -63,17 +82,9 @@ Suchkriterien:
 - DACH-Standort (Deutschland bevorzugt)
 - Herstellt selbst oder lässt produzieren – kein Reseller
 
-Antworte NUR als JSON-Array, kein Text davor oder danach:
-[{
-  "name": "",
-  "website": "",
-  "instagram": "",
-  "kategorie": "",
-  "produkt": "",
-  "preisrange": "",
-  "standort": "",
-  "notizen": "Founder-Name, warum emerging, ca. Follower-Zahl"
-}]`,
+${OUTPUT_RULES}
+
+${JSON_TEMPLATE}`,
   },
   {
     label: "Berlin-Fokus – lokale Emerging Brands",
@@ -93,7 +104,8 @@ Suchkriterien:
 - Physisches Produkt: Food, Drinks, Kosmetik, Lifestyle oder Home
 - Direkt in Berlin ansässig oder produzierend
 
-Antworte NUR als JSON-Array:
+${OUTPUT_RULES}
+
 [{
   "name": "",
   "website": "",
@@ -102,7 +114,8 @@ Antworte NUR als JSON-Array:
   "produkt": "",
   "preisrange": "",
   "standort": "Berlin",
-  "notizen": "Founder-Name, ca. Follower-Zahl, warum noch klein"
+  "follower_ca": 0,
+  "notizen": "Founder-Name, warum noch klein"
 }]`,
   },
   {
@@ -123,7 +136,8 @@ Suchkriterien:
 - Physisches Produkt mit nachhaltigem Ansatz
 - DACH-Standort
 
-Antworte NUR als JSON-Array:
+${OUTPUT_RULES}
+
 [{
   "name": "",
   "website": "",
@@ -132,7 +146,8 @@ Antworte NUR als JSON-Array:
   "produkt": "",
   "preisrange": "",
   "standort": "",
-  "notizen": "Founder-Name, Nachhaltigkeitsansatz, ca. Follower-Zahl"
+  "follower_ca": 0,
+  "notizen": "Founder-Name, Nachhaltigkeitsansatz"
 }]`,
   },
 ];

@@ -140,7 +140,7 @@ export default function SlotFeatureTable() {
         <tfoot>
           <tr>
             <td colSpan={6} className="px-4 py-3 text-stone/40 text-xs font-mono border-t border-stone-dark">
-              Beispiel Regalbreite: 10 cm → Basis 72 €/Mo · Standard 90 €/Mo · Premium 108 €/Mo · Schaufenster &amp; Hero Wall: Fixpreis
+              Beispiel Regalbreite: 10 cm → Basis 118 €/Mo · Standard 131 €/Mo · Premium 164 €/Mo · Schaufenster &amp; Hero Wall: Fixpreis
             </td>
           </tr>
         </tfoot>

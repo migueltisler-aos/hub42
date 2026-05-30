@@ -4,7 +4,7 @@ const FAQ = [
   {
     n: "01",
     q: "Mindestlaufzeit?",
-    a: "3 Monate. Danach monatlich kündbar. Wir wollen nur Marken, die bleiben wollen.",
+    a: "3 Monate, danach monatlich kündbar. Längere Bindung möglich (6 oder 12 Monate) – mit Slot-Rabatt bis 10 % und mehr Event-Spielraum.",
   },
   {
     n: "02",

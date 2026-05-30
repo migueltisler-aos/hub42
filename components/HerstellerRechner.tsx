@@ -3,9 +3,9 @@
 import { useState, useMemo } from "react";
 
 const POSITIONEN = [
-  { id: "basis",        label: "Basis",        ratePerCm: 7.20,  fixedMonat: null  },
-  { id: "standard",     label: "Standard",     ratePerCm: 9.00,  fixedMonat: null  },
-  { id: "premium",      label: "Premium",      ratePerCm: 10.80, fixedMonat: null  },
+  { id: "basis",        label: "Basis",        ratePerCm: 11.80, fixedMonat: null  },
+  { id: "standard",     label: "Standard",     ratePerCm: 13.11, fixedMonat: null  },
+  { id: "premium",      label: "Premium",      ratePerCm: 16.39, fixedMonat: null  },
   { id: "schaufenster", label: "Schaufenster", ratePerCm: null,  fixedMonat: 149   },
   { id: "hero-wall",    label: "Hero Wall",    ratePerCm: null,  fixedMonat: 490   },
 ] as const;

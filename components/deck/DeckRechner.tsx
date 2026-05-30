@@ -1,7 +1,14 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { DEFAULTS, compute, type Assumptions } from "@/lib/deck-economics";
+import { DEFAULTS, RATES, MIN_REGAL_CM, compute, type Assumptions } from "@/lib/deck-economics";
+
+const TIERS = [
+  { id: "basis",    label: "Basis",    rate: RATES.basis },
+  { id: "standard", label: "Standard", rate: RATES.standard },
+  { id: "premium",  label: "Premium",  rate: RATES.premium },
+] as const;
+type TierId = (typeof TIERS)[number]["id"];
 
 /* ── Formatierung (de-DE) ───────────────────────────────── */
 function fmt(n: number, decimals = 2): string {
@@ -137,9 +144,14 @@ function BreakRow({
 
 export default function DeckRechner() {
   const [a, setA] = useState<Assumptions>({ ...DEFAULTS });
+  const [tier, setTier] = useState<TierId>("basis");
   const [showDetail, setShowDetail] = useState(false);
   const set = <K extends keyof Assumptions>(key: K, v: number) =>
     setA((prev) => ({ ...prev, [key]: Number.isFinite(v) ? v : 0 }));
+  const selectTier = (id: TierId) => {
+    setTier(id);
+    set("ratePerCm", TIERS.find((t) => t.id === id)!.rate);
+  };
 
   const c = useMemo(() => compute(a), [a]);
   const cheaper = c.saving > 0;
@@ -210,6 +222,44 @@ export default function DeckRechner() {
             unit="€"
             onChange={(v) => set("cac", v)}
           />
+
+          {/* Ebene-Toggle */}
+          <div>
+            <p className="text-cream/60 text-xs font-mono uppercase tracking-widest mb-3">
+              Regal-Ebene
+            </p>
+            <div className="grid grid-cols-3 gap-2">
+              {TIERS.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => selectTier(t.id)}
+                  aria-pressed={tier === t.id}
+                  className={`py-3 px-2 text-xs font-mono tracking-wide border transition-colors text-center ${
+                    tier === t.id
+                      ? "bg-bronze text-green-dark border-bronze font-semibold"
+                      : "bg-transparent text-cream/50 border-cream/20 hover:border-bronze/50 hover:text-cream/80"
+                  }`}
+                >
+                  <span className="block text-[11px] font-semibold">{t.label}</span>
+                  <span className="block mt-0.5 opacity-80">
+                    {t.rate.toFixed(2).replace(".", ",")} €/cm
+                  </span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <Lever
+            label="Slot-Breite"
+            value={a.regalCm}
+            min={MIN_REGAL_CM}
+            max={100}
+            step={1}
+            unit="cm"
+            onChange={(v) => set("regalCm", Math.max(MIN_REGAL_CM, v))}
+          />
+
           {/* Detail-Toggle */}
           <div className="pt-2 border-t border-cream/10">
             <button
@@ -268,7 +318,7 @@ export default function DeckRechner() {
                     <BreakRow label="Summe / Sale" value={c.hubPerSale} strong />
                     <div className="mt-4 pt-3 border-t border-cream/10 space-y-1">
                       <BreakRow label="Platzbedarf (Breite)" sub="F&B-Produkt ≈ 5 cm" value={a.regalCm} editable step={1} unit="cm" money={false} onChange={(v) => set("regalCm", v)} />
-                      <BreakRow label="Rate" sub="Basis 7,20 · Standard 9,00 · Premium 10,80" value={a.ratePerCm} editable step={0.1} unit="€/cm" money={false} onChange={(v) => set("ratePerCm", v)} />
+                      <BreakRow label="Rate" sub="Basis 11,80 · Standard 13,11 · Premium 16,39" value={a.ratePerCm} editable step={0.01} unit="€/cm" money={false} onChange={(v) => set("ratePerCm", v)} />
                       <BreakRow label="= Slot-Miete / Monat" value={c.slotMonthly} />
                     </div>
                   </div>
@@ -379,8 +429,7 @@ export default function DeckRechner() {
         </tbody>
       </table>
       <p className="deck-print-only mt-3 text-sm" style={{ fontFamily: "var(--font-dm-mono), monospace" }}>
-<strong>Hub42 ist pro Sale günstiger als der eigene Online-Shop</strong> – der Vorteil
-        wächst mit dem Volumen (siehe Szenarien oben).
+        <strong>Hub42 ist ab dem ersten Sale günstiger als der eigene Online-Shop</strong> – und der Vorteil wächst spürbar mit dem Volumen.
       </p>
       <p className="deck-print-only mt-2 text-xs" style={{ color: "#7A6E62" }}>
         Discovery-Käufer mit späterem Online-Wiederkauf sind nicht eingerechnet — zusätzlicher
