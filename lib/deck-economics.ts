@@ -19,6 +19,7 @@ export interface Assumptions {
   ausgangsauftrag: number; // Ausgangsauftrag
   pick: number; // Pick
   dhl: number; // DHL Label
+  verpackung: number; // Verpackungsmaterial pro Stück
   onlinePayPct: number; // Payment % vom VK (Shopify Payments)
   onlinePayFix: number; // Payment Fixbetrag
   shopMonthly: number; // Shopify-Abo (Plattformgebühr, fix/Monat)
@@ -39,6 +40,7 @@ export const DEFAULTS: Assumptions = {
   ausgangsauftrag: 1.2,
   pick: 0.2,
   dhl: 3.25,
+  verpackung: 0.19,
   onlinePayPct: 3.0,
   onlinePayFix: 0.25,
   shopMonthly: 36, // Shopify Basic ~36 €/Monat
@@ -67,7 +69,7 @@ export function compute(a: Assumptions): Result {
   const onlinePayment = a.vk * (a.onlinePayPct / 100) + a.onlinePayFix;
   // variabel je Sale (ohne fixes Shopify-Abo)
   const onlineVar =
-    a.anlieferung + a.lagerung + a.ausgangsauftrag + a.pick + a.dhl + onlinePayment + a.cac;
+    a.anlieferung + a.lagerung + a.ausgangsauftrag + a.pick + a.dhl + a.verpackung + onlinePayment + a.cac;
   const shopPerSale = a.sales > 0 ? a.shopMonthly / a.sales : Infinity;
   const onlinePerSale = onlineVar + shopPerSale;
 

@@ -295,6 +295,7 @@ export default function DeckRechner() {
                     <BreakRow label="Ausgangsauftrag" value={a.ausgangsauftrag} editable onChange={(v) => set("ausgangsauftrag", v)} />
                     <BreakRow label="Pick" value={a.pick} editable onChange={(v) => set("pick", v)} />
                     <BreakRow label="DHL Label" value={a.dhl} editable onChange={(v) => set("dhl", v)} />
+                    <BreakRow label="Verpackung / Stück" value={a.verpackung} editable onChange={(v) => set("verpackung", v)} />
                     <BreakRow label={`Shopify Payments (${fmt(a.onlinePayPct, 1)} % + ${fmt(a.onlinePayFix)} €)`} value={c.onlinePayment} />
                     <BreakRow label="Shopify-Abo anteilig" sub={`${eur(a.shopMonthly)}/Mo ÷ ${a.sales} Sales`} value={c.shopPerSale} />
                     <BreakRow label="Marketing / CAC" sub="aus Hauptregler" value={a.cac} editable step={1} onChange={(v) => set("cac", v)} />
