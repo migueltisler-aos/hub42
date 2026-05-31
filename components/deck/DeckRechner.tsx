@@ -405,23 +405,23 @@ export default function DeckRechner() {
       <table className="deck-print-only w-full border-collapse text-sm">
         <caption
           className="text-left mb-3 text-base"
-          style={{ fontFamily: "var(--font-bebas)", letterSpacing: "0.04em" }}
+          style={{ fontFamily: "var(--font-bebas)", letterSpacing: "0.04em", color: "#F9F5EE" }}
         >
           Kosten pro Sale: eigener Online-Shop vs. Hub42 (VK {eur(a.vk)}, CAC {eur(a.cac)})
         </caption>
         <thead>
-          <tr style={{ borderBottom: "1.5pt solid #2A4A3C" }}>
-            <th className="text-left py-2 pr-4 font-mono text-xs uppercase tracking-wider">Szenario</th>
-            <th className="text-right py-2 px-4 font-mono text-xs uppercase tracking-wider">Sales / Monat</th>
-            <th className="text-right py-2 pl-4 font-mono text-xs uppercase tracking-wider">Ersparnis / Sale</th>
+          <tr style={{ borderBottom: "1.5pt solid #C8964A" }}>
+            <th className="text-left py-2 pr-4 font-mono text-xs uppercase tracking-wider" style={{ color: "#B0A494" }}>Szenario</th>
+            <th className="text-right py-2 px-4 font-mono text-xs uppercase tracking-wider" style={{ color: "#B0A494" }}>Sales / Monat</th>
+            <th className="text-right py-2 pl-4 font-mono text-xs uppercase tracking-wider" style={{ color: "#B0A494" }}>Ersparnis / Sale</th>
           </tr>
         </thead>
         <tbody>
           {printScenarios.map((r) => (
-            <tr key={r.label} style={{ borderBottom: "0.4pt solid #d8d4cc" }}>
-              <td className="py-2 pr-4">{r.label}</td>
-              <td className="py-2 px-4 text-right font-mono">{r.sales}</td>
-              <td className="py-2 pl-4 text-right font-mono" style={{ color: "#2A6E4F" }}>
+            <tr key={r.label} style={{ borderBottom: "0.4pt solid #3A5A4C" }}>
+              <td className="py-2 pr-4" style={{ color: "#F9F5EE" }}>{r.label}</td>
+              <td className="py-2 px-4 text-right font-mono" style={{ color: "#B0A494" }}>{r.sales}</td>
+              <td className="py-2 pl-4 text-right font-mono" style={{ color: r.saving >= 0 ? "#C8964A" : "#d98a8a" }}>
                 {r.saving >= 0 ? "+" : ""}
                 {eur(r.saving)}
               </td>
@@ -429,10 +429,10 @@ export default function DeckRechner() {
           ))}
         </tbody>
       </table>
-      <p className="deck-print-only mt-3 text-sm" style={{ fontFamily: "var(--font-dm-mono), monospace" }}>
+      <p className="deck-print-only mt-3 text-sm" style={{ fontFamily: "var(--font-dm-mono), monospace", color: "#F9F5EE" }}>
         <strong>Hub42 ist ab dem ersten Sale günstiger als der eigene Online-Shop</strong> – und der Vorteil wächst spürbar mit dem Volumen.
       </p>
-      <p className="deck-print-only mt-2 text-xs" style={{ color: "#7A6E62" }}>
+      <p className="deck-print-only mt-2 text-xs" style={{ color: "#B0A494" }}>
         Discovery-Käufer mit späterem Online-Wiederkauf sind nicht eingerechnet — zusätzlicher
         Wert. Konservativ gerechnet.
       </p>
