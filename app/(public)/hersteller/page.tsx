@@ -12,7 +12,7 @@ import { SLOTS, ANALYTICS_PAKETE } from "@/lib/slots";
 export const metadata: Metadata = {
   title: "Für Hersteller – Miete deinen Platz im Retail",
   description:
-    "Stationärer Handel wie er sein sollte. 0% Handelsmarge, Regalfront ab 10 cm / 72 €/Monat, 3 Monate Mindestlaufzeit. Bewirb dein Produkt, verlinke deinen Shop, gewinne Fans jenseits von TikTok.",
+    "Stationärer Handel wie er sein sollte. 0% Handelsmarge, Regalfront ab 5 cm / 59 €/Monat, 3 Monate Mindestlaufzeit. Bewirb dein Produkt, verlinke deinen Shop, gewinne Fans jenseits von TikTok.",
 };
 
 const SCHRITTE = [
@@ -146,7 +146,7 @@ export default function HerstellerPage() {
           {/* Facts strip */}
           <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-xs font-mono text-stone border-l-2 border-bronze pl-4">
             <span>0% Handelsmarge</span>
-            <span>Ab 55 €/Monat</span>
+            <span>Ab 59 €/Monat</span>
             <span>3 Monate · dann monatlich kündbar</span>
             <span>41.000 Berliner täglich</span>
           </div>
@@ -650,7 +650,7 @@ export default function HerstellerPage() {
           {/* Urgency box */}
           <div className="border-l-4 border-bronze bg-bronze/5 px-5 py-4 mb-8">
             <p className="text-cream text-sm font-semibold mb-1">
-              First-Mover-Konditionen: 55 €/Monat · Preisgarantie für gesamte Laufzeit
+              First-Mover-Konditionen: 59 €/Monat · Preisgarantie für gesamte Laufzeit
             </p>
             <p className="text-stone text-xs font-mono">
               Gültig für Anfragen bis Eröffnung Oktober 2026. Danach reguläre Preise.
