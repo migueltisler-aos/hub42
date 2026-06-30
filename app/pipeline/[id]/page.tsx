@@ -100,7 +100,7 @@ export default async function BrandDetailPage({
           ) : (
             <ul className="divide-y divide-stone-dark/40">
               {angebote.map((a) => {
-                const sum = computeAngebot(a.positionen, a.laufzeit_monate);
+                const sum = computeAngebot(a.positionen, a.laufzeit_monate, a.ebenen ?? []);
                 return (
                   <li key={a.id} className="flex items-center justify-between py-2 gap-3">
                     <Link href={`/pipeline/angebote/${a.id}`} className="flex-1 min-w-0">

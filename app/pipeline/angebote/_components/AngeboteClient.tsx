@@ -94,7 +94,7 @@ export default function AngeboteClient({ initialAngebote, updateStatusAction }: 
   }
 
   const summe = filtered.reduce(
-    (s, a) => s + computeAngebot(a.positionen, a.laufzeit_monate).gesamtBrutto,
+    (s, a) => s + computeAngebot(a.positionen, a.laufzeit_monate, a.ebenen ?? []).gesamtBrutto,
     0
   );
 
@@ -157,7 +157,7 @@ export default function AngeboteClient({ initialAngebote, updateStatusAction }: 
               </tr>
             )}
             {filtered.map((a) => {
-              const sum = computeAngebot(a.positionen, a.laufzeit_monate);
+              const sum = computeAngebot(a.positionen, a.laufzeit_monate, a.ebenen ?? []);
               const expired = isExpired(a);
               return (
                 <tr

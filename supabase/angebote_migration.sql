@@ -19,9 +19,10 @@ create table if not exists pipeline_angebote (
   -- Fläche, Bestückung & Nachschub
   tasting             boolean not null default false, -- Tasting Bar anbieten?
   tasting_pct         int not null default 10,        -- Tasting-Muster = % der Bestückung
-  gemietete_breite_cm int,                            -- Regalbreite in cm
+  gemietete_breite_cm int,                            -- Regalbreite in cm (Summe der Ebenen)
   max_artikel         int,                            -- max. Bestückung in Stück
   nachschub_email     text,                           -- Mail für Nachschub-Bestellung
+  ebenen          jsonb not null default '[]'::jsonb,  -- [{ name, cm }] – Fläche je Regalebene
   positionen      jsonb not null default '[]'::jsonb,  -- [{ typ, label, menge, einheit, einzelpreisMonat, einmalig }]
   deliverables    jsonb not null default '[]'::jsonb,  -- [{ label, status, notiz }]
   notiz           text,
@@ -36,6 +37,7 @@ alter table pipeline_angebote add column if not exists tasting_pct         int n
 alter table pipeline_angebote add column if not exists gemietete_breite_cm int;
 alter table pipeline_angebote add column if not exists max_artikel         int;
 alter table pipeline_angebote add column if not exists nachschub_email     text;
+alter table pipeline_angebote add column if not exists ebenen              jsonb not null default '[]'::jsonb;
 
 create index if not exists pipeline_angebote_brand_id_idx on pipeline_angebote (brand_id);
 create index if not exists pipeline_angebote_status_idx   on pipeline_angebote (status);

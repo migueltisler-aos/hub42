@@ -11,18 +11,49 @@ import { MIN_SLOT_MIETE } from "./deck-economics";
 
 export const MWST_PCT = 19;
 
-/* ── Lagerfläche ──────────────────────────────────────────────────
-   Die gemietete Regalbreite gibt es zweimal: einmal als sichtbare
-   Regalfläche, einmal als gleich große, unsichtbare Nachschubfläche.
-   Tiefe ist konstant 60 cm. */
-export const LAGER_TIEFE_CM = 60;
+/* ── Flächenpreis ─────────────────────────────────────────────────
+   Miete = belegte Fläche (m²) × Preis/m² – mit Mindestmiete.
+   Fläche je Ebene = Breite (cm) × Regaltiefe (60 cm).
+   PREIS_PRO_QM ist die EINE Stellschraube für den m²-Preis. */
+export const PREIS_PRO_QM = 4.64; // €/m²/Monat
+export const REGAL_TIEFE_CM = 60;
+export const MINDESTMIETE_MONAT = 59; // €/Monat
+export const MINDESTLAUFZEIT_MONATE = 3; // anpassbar je Angebot
+export const KUENDIGUNG_VORLAUF_MONATE = 1;
 
-/** Sichtbare Regalfläche in cm² (Breite × 60 cm Tiefe). */
+/** Eine gemietete Regalebene: Name/Höhe + Breite in cm. */
+export interface Ebene {
+  name: string;
+  cm: number;
+}
+
+/** Fläche einer Ebene in m² (Breite × 60 cm Tiefe). */
+export function ebeneM2(e: Ebene): number {
+  return (Math.max(0, e.cm) * REGAL_TIEFE_CM) / 10_000;
+}
+
+/** Gesamte belegte Fläche aller Ebenen in m². */
+export function flaecheM2(ebenen: Ebene[]): number {
+  return ebenen.reduce((s, e) => s + ebeneM2(e), 0);
+}
+
+/** Gesamte Regalbreite in cm (Summe aller Ebenen). */
+export function gesamtBreiteCm(ebenen: Ebene[]): number {
+  return ebenen.reduce((s, e) => s + Math.max(0, e.cm), 0);
+}
+
+/** Monatliche Flächenmiete: max(Mindestmiete, Fläche × Preis/m²). 0 ohne Fläche. */
+export function flaechenMieteMonat(ebenen: Ebene[]): number {
+  const m2 = flaecheM2(ebenen);
+  if (m2 <= 0) return 0;
+  return Math.max(MINDESTMIETE_MONAT, Math.round(m2 * PREIS_PRO_QM * 100) / 100);
+}
+
+// ── Alt-Lagerfläche (Bestückung/Nachschub – nur intern) ──────────
+export const LAGER_TIEFE_CM = REGAL_TIEFE_CM;
 export function regalflaecheCm2(breiteCm: number): number {
   return Math.max(0, breiteCm) * LAGER_TIEFE_CM;
 }
-
-/** Gesamte Lagerfläche in cm²: Regal (sichtbar) + Nachschub (unsichtbar). */
 export function lagerGesamtCm2(breiteCm: number): number {
   return regalflaecheCm2(breiteCm) * 2;
 }
@@ -89,6 +120,7 @@ export interface Angebot {
   gemietete_breite_cm: number | null;
   max_artikel: number | null;
   nachschub_email: string | null;
+  ebenen: Ebene[];
   positionen: Position[];
   deliverables: Deliverable[];
   notiz: string | null;
@@ -174,7 +206,9 @@ export function addonPosition(addonId: string): Position | null {
 
 /* ── Summen-Berechnung ─────────────────────────────────────────── */
 export interface AngebotSummary {
-  monatlichNetto: number; // Summe der laufenden Positionen / Monat
+  flaechenMonat: number; // Flächenmiete / Monat
+  positionenMonat: number; // laufende Zusatzleistungen / Monat
+  monatlichNetto: number; // Fläche + laufende Positionen / Monat
   einmaligNetto: number; // Summe der einmaligen Positionen
   gesamtNetto: number; // monatlich × Laufzeit + einmalig
   mwst: number;
@@ -191,13 +225,18 @@ export function positionEinmalig(p: Position): number {
 
 export function computeAngebot(
   positionen: Position[],
-  laufzeitMonate: number
+  laufzeitMonate: number,
+  ebenen: Ebene[] = []
 ): AngebotSummary {
-  const monatlichNetto = positionen.reduce((s, p) => s + positionMonatlich(p), 0);
+  const flaechenMonat = flaechenMieteMonat(ebenen);
+  const positionenMonat = positionen.reduce((s, p) => s + positionMonatlich(p), 0);
+  const monatlichNetto = flaechenMonat + positionenMonat;
   const einmaligNetto = positionen.reduce((s, p) => s + positionEinmalig(p), 0);
   const gesamtNetto = monatlichNetto * Math.max(0, laufzeitMonate) + einmaligNetto;
   const mwst = gesamtNetto * (MWST_PCT / 100);
   return {
+    flaechenMonat,
+    positionenMonat,
     monatlichNetto,
     einmaligNetto,
     gesamtNetto,
@@ -298,6 +337,7 @@ export async function updateAngebotStatus(
 export function parseAngebotForm(formData: FormData): Partial<AngebotInput> {
   let positionen: Position[] = [];
   let deliverables: Deliverable[] = [];
+  let ebenen: Ebene[] = [];
   try {
     positionen = JSON.parse((formData.get("positionen") as string) || "[]");
   } catch {
@@ -307,6 +347,11 @@ export function parseAngebotForm(formData: FormData): Partial<AngebotInput> {
     deliverables = JSON.parse((formData.get("deliverables") as string) || "[]");
   } catch {
     deliverables = [];
+  }
+  try {
+    ebenen = JSON.parse((formData.get("ebenen") as string) || "[]");
+  } catch {
+    ebenen = [];
   }
   return {
     brand_id: (formData.get("brand_id") as string) || null,
@@ -319,9 +364,10 @@ export function parseAngebotForm(formData: FormData): Partial<AngebotInput> {
     gueltig_bis: (formData.get("gueltig_bis") as string) || null,
     tasting: formData.get("tasting") === "on",
     tasting_pct: Math.max(0, Number(formData.get("tasting_pct")) || 10),
-    gemietete_breite_cm: numOrNull(formData.get("gemietete_breite_cm")),
+    gemietete_breite_cm: ebenen.length ? gesamtBreiteCm(ebenen) : numOrNull(formData.get("gemietete_breite_cm")),
     max_artikel: numOrNull(formData.get("max_artikel")),
     nachschub_email: (formData.get("nachschub_email") as string) || null,
+    ebenen,
     positionen,
     deliverables,
     notiz: (formData.get("notiz") as string) || null,
