@@ -2,6 +2,7 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { getBrand, upsertBrand } from "@/lib/pipeline";
+import { getAngeboteForBrand, computeAngebot, formatEUR } from "@/lib/angebote";
 import BrandForm from "../_components/BrandForm";
 
 async function saveBrand(id: string, formData: FormData) {
@@ -58,6 +59,8 @@ export default async function BrandDetailPage({
   if (!brandOrNull) notFound();
   const brand = brandOrNull!;
 
+  const angebote = await getAngeboteForBrand(id);
+
   const saveWithId = saveBrand.bind(null, id);
   const deactivateWithId = deactivateBrand.bind(null, id);
 
@@ -81,6 +84,45 @@ export default async function BrandDetailPage({
             </span>
           </div>
         </div>
+        {/* Angebote zu dieser Brand */}
+        <div className="mb-8 border border-stone-dark bg-green-mid/10 p-4">
+          <div className="flex items-center justify-between mb-3">
+            <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase">Angebote</p>
+            <Link
+              href={`/pipeline/angebote/neu?brand=${brand.id}`}
+              className="px-3 py-1.5 bg-bronze text-green-dark text-xs font-mono font-semibold hover:bg-bronze-light transition-colors"
+            >
+              + Angebot
+            </Link>
+          </div>
+          {angebote.length === 0 ? (
+            <p className="text-stone/40 text-xs font-mono">Noch kein Angebot für diese Brand.</p>
+          ) : (
+            <ul className="divide-y divide-stone-dark/40">
+              {angebote.map((a) => {
+                const sum = computeAngebot(a.positionen, a.laufzeit_monate);
+                return (
+                  <li key={a.id} className="flex items-center justify-between py-2 gap-3">
+                    <Link href={`/pipeline/angebote/${a.id}`} className="flex-1 min-w-0">
+                      <span className="text-cream font-mono text-xs">{a.angebot_nr}</span>
+                      <span className="text-stone/50 text-xs ml-2">
+                        {a.laufzeit_monate} Mon. · {formatEUR(sum.gesamtBrutto)} brutto
+                      </span>
+                    </Link>
+                    <span className="text-stone text-xs font-mono shrink-0">{a.status}</span>
+                    <Link
+                      href={`/pipeline/angebote/${a.id}/print`}
+                      className="text-bronze text-xs font-mono hover:underline shrink-0"
+                    >
+                      Druck ↗
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          )}
+        </div>
+
         <BrandForm
           brand={brand}
           currentUser={currentUser}
