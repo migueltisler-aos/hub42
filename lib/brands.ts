@@ -1,12 +1,9 @@
 export type BrandCategory =
-  | "Spirits"
   | "Feinkost"
-  | "Kosmetik"
   | "Supplements"
-  | "Schokolade"
-  | "Tee"
   | "Kaffee"
-  | "Craft Bier";
+  | "Granola"
+  | "Hot Sauce";
 
 export type BrandTier = "Juwel" | "Platform Brand" | "Anker" | "Ikone";
 
@@ -15,12 +12,19 @@ export interface Brand {
   name: string;
   kategorie: BrandCategory;
   kategorieSlug: string;
+  /** Flagship-Produkt – Headline der Produkt-First-Karte */
+  produktName: string;
+  /** Konkrete Produkte / Sorten als Pills */
+  produkte: string[];
+  /** Pfad zum echten Produktbild in /public/brands */
+  bild?: string;
   tagline: string;
   beschreibung: string;
   herkunft: string;
   tier: BrandTier;
   url?: string;
   featured?: boolean;
+  /** Akzentfarbe – Verlauf hinter dem Produktbild + Fallback-Platzhalter */
   accentColor: string;
   initials: string;
   slug: string;
@@ -28,10 +32,51 @@ export interface Brand {
 
 export const BRANDS: Brand[] = [
   {
+    id: "berlin-oats",
+    name: "Berlin Oats",
+    kategorie: "Granola",
+    kategorieSlug: "granola",
+    produktName: "Crunchy Granola",
+    produkte: ["Matcha", "Six Spice"],
+    bild: "/brands/berlin-oats-matcha.png",
+    tagline: "Crunchy. Fein. Anders.",
+    beschreibung:
+      "Granola neu gedacht – maximaler Crunch, ungewöhnliche Zutaten, keine künstlichen Zusätze. Bewusster Genuss aus Berlin.",
+    herkunft: "Berlin",
+    tier: "Juwel",
+    url: "https://www.berlinoats.com",
+    featured: true,
+    accentColor: "#8BAE6A",
+    initials: "BO",
+    slug: "berlin-oats",
+  },
+  {
+    id: "crazy-bastard",
+    name: "Crazy Bastard Sauce",
+    kategorie: "Hot Sauce",
+    kategorieSlug: "hot-sauce",
+    produktName: "7 Pot Tropical",
+    produkte: ["7 Pot Tropical", "Ghost Pepper & Mango", "Jalapeño & Date"],
+    bild: "/brands/crazy-bastard-7pot.png",
+    tagline: "Hot Sauce Done Right",
+    beschreibung:
+      "Seit 2013 in Neukölln handgemacht: rund 1.200 Flaschen täglich aus gerösteten Chilis, ohne Zuckerzusatz. Schärfe mit Charakter.",
+    herkunft: "Berlin Neukölln",
+    tier: "Juwel",
+    url: "https://www.crazybsauce.com",
+    featured: true,
+    accentColor: "#C0392B",
+    initials: "CB",
+    slug: "crazy-bastard",
+  },
+  {
     id: "ikani",
     name: "Ikani",
     kategorie: "Feinkost",
     kategorieSlug: "feinkost",
+    produktName: "Bourbon-Vanille",
+    produkte: ["Vanilleschoten", "Vanille-Extrakt"],
+    bild: "/brands/ikani-vanille.jpg",
     tagline: "Echte Vanille aus Bali",
     beschreibung:
       "Direkthandel mit balinesischen Vanillebauern. Keine Zwischenhändler, maximale Qualität – für alle die wissen was echte Vanille ist.",
@@ -44,95 +89,57 @@ export const BRANDS: Brand[] = [
     slug: "ikani",
   },
   {
+    id: "auteniq",
+    name: "auteniQ",
+    kategorie: "Feinkost",
+    kategorieSlug: "feinkost",
+    produktName: "Bio-Olivenöl",
+    produkte: ["Olivenöl", "Balsamico", "Ibérico"],
+    bild: "/brands/auteniq-olivenoel.png",
+    tagline: "Feinkost direkt vom Erzeuger",
+    beschreibung:
+      "Feinkost & Delikatessen direkt vom Erzeuger. Geprüfte Manufakturen, transparente Herkunft – von Olivenöl bis Ibérico.",
+    herkunft: "Deutschland",
+    tier: "Platform Brand",
+    url: "https://auteniq.de",
+    featured: false,
+    accentColor: "#1F3A5F",
+    initials: "AQ",
+    slug: "auteniq",
+  },
+  {
     id: "green-naturals",
     name: "Green Naturals",
     kategorie: "Supplements",
     kategorieSlug: "supplements",
+    produktName: "Ashwagandha 2.500 mg",
+    produkte: ["Ashwagandha", "Shilajit", "Spermidin"],
+    bild: "/brands/green-naturals-ashwagandha.png",
     tagline: "Nahrungsergänzung ohne Kompromisse",
     beschreibung:
-      "Hochwertige Supplements aus natürlichen Rohstoffen. Transparent deklariert, wissenschaftlich formuliert, konsequent nachhaltig.",
-    herkunft: "Berlin",
+      "Vegane, hochdosierte Supplements aus natürlichen Rohstoffen. Abgefüllt und laborgeprüft in Deutschland, transparent deklariert.",
+    herkunft: "Deutschland",
     tier: "Juwel",
-    url: "https://greennaturals.de",
+    url: "https://www.green-naturals.de",
     featured: true,
     accentColor: "#2d6a4f",
     initials: "GN",
     slug: "green-naturals",
   },
   {
-    id: "havel-wasser",
-    name: "Havel Wasser",
-    kategorie: "Spirits",
-    kategorieSlug: "spirits",
-    tagline: "Gin & Feinkost aus Brandenburg",
-    beschreibung:
-      "Handwerklich destilliert an der Havel. Botanicals aus Brandenburger Wäldern. Ein Gin der seinen Ursprung trägt.",
-    herkunft: "Brandenburg an der Havel",
-    tier: "Platform Brand",
-    url: "https://havelwasser.de",
-    featured: true,
-    accentColor: "#1e3a5f",
-    initials: "HW",
-    slug: "havel-wasser",
-  },
-  {
-    id: "berliner-berg",
-    name: "Berliner Berg",
-    kategorie: "Craft Bier",
-    kategorieSlug: "spirits",
-    tagline: "Craft Bier aus dem Herzen Berlins",
-    beschreibung:
-      "Seit 2014 brauen wir Bier das Charakter hat. Von der Berliner Weiße bis zum Imperial Stout – immer handwerklich, immer authentisch.",
-    herkunft: "Berlin Neukölln",
-    tier: "Anker",
-    url: "https://berlinerberg.de",
-    featured: false,
-    accentColor: "#7a1e1e",
-    initials: "BB",
-    slug: "berliner-berg",
-  },
-  {
-    id: "teekampagne",
-    name: "Teekampagne",
-    kategorie: "Tee",
-    kategorieSlug: "tee",
-    tagline: "Darjeeling direkt vom Berg",
-    beschreibung:
-      "Weltgrößter Darjeeling-Importeur in Einzelportionen. Direkthandel mit Bergbauern seit 1985. Günstiger als der Supermarkt, besser als alles andere.",
-    herkunft: "Darjeeling / Berlin",
-    tier: "Ikone",
-    url: "https://teekampagne.de",
-    featured: true,
-    accentColor: "#C8D86A",
-    initials: "TK",
-    slug: "teekampagne",
-  },
-  {
-    id: "theyo",
-    name: "Theyo",
-    kategorie: "Schokolade",
-    kategorieSlug: "schokolade",
-    tagline: "Craft Schokolade aus Berlin",
-    beschreibung:
-      "Bean-to-bar Schokolade handgefertigt in Berlin. Kakaobohnen aus fairem Direkthandel, verarbeitet mit höchster Handwerkskunst.",
-    herkunft: "Berlin Prenzlauer Berg",
-    tier: "Juwel",
-    url: "https://theyo.de",
-    featured: false,
-    accentColor: "#5c2d0e",
-    initials: "TH",
-    slug: "theyo",
-  },
-  {
     id: "tekoha",
     name: "Tekoha",
     kategorie: "Kaffee",
     kategorieSlug: "kaffee",
+    produktName: "Matekaffee",
+    produkte: ["Löslicher Mate", "Zuckerfrei"],
+    bild: "/brands/tekoha-matekaffee.jpg",
     tagline: "Matekaffee mit Berliner Seele",
     beschreibung:
-      "Energetisierend, natürlich, unkonventionell. Mate trifft Kaffee – für alle die beides wollen.",
-    herkunft: "Berlin",
+      "Die lösliche Kaffeealternative aus 100 % geröstetem Mate. Natürliches Koffein, in Sekunden zubereitet, ohne Zucker und Zusätze.",
+    herkunft: "Berlin / Paraguay",
     tier: "Juwel",
+    url: "https://tekoha.de",
     featured: false,
     accentColor: "#3d5a1e",
     initials: "TC",
@@ -142,11 +149,9 @@ export const BRANDS: Brand[] = [
 
 export const KATEGORIEN = [
   { label: "Alle", slug: "alle" },
-  { label: "Spirits", slug: "spirits" },
+  { label: "Granola", slug: "granola" },
+  { label: "Hot Sauce", slug: "hot-sauce" },
   { label: "Feinkost", slug: "feinkost" },
-  { label: "Kosmetik", slug: "kosmetik" },
   { label: "Supplements", slug: "supplements" },
-  { label: "Schokolade", slug: "schokolade" },
-  { label: "Tee", slug: "tee" },
   { label: "Kaffee", slug: "kaffee" },
 ];

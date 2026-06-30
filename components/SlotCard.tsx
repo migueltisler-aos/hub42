@@ -10,8 +10,6 @@ interface SlotCardProps {
 }
 
 export default function SlotCard({ slot, index = 0 }: SlotCardProps) {
-  const isHero = slot.name === "Hero Wall";
-
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -21,8 +19,6 @@ export default function SlotCard({ slot, index = 0 }: SlotCardProps) {
       className={`relative flex flex-col border rounded-sm p-6 ${
         slot.empfohlen
           ? "border-bronze bg-green-mid"
-          : isHero
-          ? "border-bronze/60 bg-green-mid"
           : "border-stone-dark bg-green-mid"
       }`}
     >
@@ -31,11 +27,6 @@ export default function SlotCard({ slot, index = 0 }: SlotCardProps) {
         {slot.empfohlen && (
           <span className="text-[10px] tracking-widest font-mono px-2 py-0.5 bg-bronze text-green-dark rounded-sm">
             EMPFOHLEN
-          </span>
-        )}
-        {isHero && (
-          <span className="text-[10px] tracking-widest font-mono px-2 py-0.5 border border-bronze/40 text-bronze rounded-sm">
-            TOP
           </span>
         )}
       </div>
@@ -92,7 +83,7 @@ export default function SlotCard({ slot, index = 0 }: SlotCardProps) {
       <Link
         href="/kontakt"
         className={`block text-center py-3 rounded-sm text-sm font-semibold transition-colors ${
-          slot.empfohlen || isHero
+          slot.empfohlen
             ? "bg-bronze text-green-dark hover:bg-bronze-light"
             : "border border-bronze/40 text-bronze hover:border-bronze"
         }`}

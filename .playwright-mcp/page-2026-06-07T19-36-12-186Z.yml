@@ -1,0 +1,153 @@
+- generic [active] [ref=e1]:
+  - region "cookieconsent":
+    - generic [ref=e2]:
+      - img "Frühling94" [ref=e4]
+      - generic [ref=e5]:
+        - text: This website uses cookies to ensure you get the best experience.
+        - link "Learn more" [ref=e6] [cursor=pointer]:
+          - /url: https://fruhling94-3536.myshopify.com/policies/privacy-policy
+      - generic [ref=e7]:
+        - button "Decline" [ref=e8]
+        - button "Accept" [ref=e9]
+      - generic "Close the cookie banner" [ref=e10] [cursor=pointer]: ✕
+  - link "Skip to content" [ref=e11] [cursor=pointer]:
+    - /url: "#MainContent"
+  - generic [ref=e12]:
+    - region "Announcement" [ref=e13]:
+      - paragraph [ref=e15]: Made in France. Based in Berlin. Inspired by Women.
+    - region "Announcement" [ref=e16]:
+      - link "EXPLORE OUR BODY CARE COLLECTION" [ref=e17] [cursor=pointer]:
+        - /url: /collections/all
+        - paragraph [ref=e19]:
+          - text: EXPLORE OUR BODY CARE COLLECTION
+          - img
+  - banner [ref=e22]:
+    - navigation [ref=e23]:
+      - list [ref=e24]:
+        - listitem [ref=e25]:
+          - link "Home" [ref=e26] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e27]: Home
+        - listitem [ref=e28]:
+          - link "Catalog" [ref=e29] [cursor=pointer]:
+            - /url: /collections/all
+            - generic [ref=e30]: Catalog
+        - listitem [ref=e31]:
+          - link "Blog" [ref=e32] [cursor=pointer]:
+            - /url: /blogs/news
+            - generic [ref=e33]: Blog
+        - listitem [ref=e34]:
+          - link "Contact" [ref=e35] [cursor=pointer]:
+            - /url: /pages/contact
+            - generic [ref=e36]: Contact
+        - listitem [ref=e37]:
+          - link "B2B" [ref=e38] [cursor=pointer]:
+            - /url: /pages/b2b-solutions
+            - generic [ref=e39]: B2B
+    - link "Frühling94" [ref=e40] [cursor=pointer]:
+      - /url: /
+      - img "Frühling94" [ref=e41]
+    - generic [ref=e42]:
+      - group [ref=e44]:
+        - button "Search" [ref=e45] [cursor=pointer]:
+          - img [ref=e47]
+      - link "Log in" [ref=e49] [cursor=pointer]:
+        - /url: https://www.fruehling94.com/customer_authentication/redirect?locale=en&region_country=DE
+        - img [ref=e50]
+        - generic [ref=e51]: Log in
+      - link "Cart" [ref=e52] [cursor=pointer]:
+        - /url: /cart
+        - img [ref=e53]
+        - generic [ref=e55]: Cart
+  - generic [ref=e59]:
+    - heading "NATURAL, SENSORIAL SCRUBS FOR AT-HOME SPA RITUALS" [level=2] [ref=e60]
+    - link "SHOP BODY SCRUBS" [ref=e61] [cursor=pointer]:
+      - /url: /collections/all
+  - main [ref=e62]:
+    - generic [ref=e64]:
+      - heading "Contact" [level=1] [ref=e65]
+      - generic [ref=e66]:
+        - paragraph [ref=e67]:
+          - text: We are based in Berlin, Germany.
+          - text: We accept letters and correspondence at
+          - link "contact@fruehling94.com" [ref=e68] [cursor=pointer]:
+            - /url: mailto:contact@fruehling94.com%20
+        - paragraph [ref=e69]:
+          - link "We are in Beauty Studios" [ref=e70] [cursor=pointer]:
+            - /url: https://www.fruehling94.com/pages/we-are-in-beauty-studios
+    - generic [ref=e73]:
+      - heading "Write a letter directly from our site" [level=2] [ref=e74]
+      - generic [ref=e75]:
+        - generic [ref=e76]:
+          - generic [ref=e77]:
+            - textbox "Name" [ref=e78]
+            - generic: Name
+          - generic [ref=e79]:
+            - textbox "Email" [ref=e80]
+            - generic: Email *
+        - generic [ref=e81]:
+          - textbox "Phone number" [ref=e82]
+          - generic: Phone number
+        - generic [ref=e83]:
+          - textbox "Comment" [ref=e84]
+          - generic: Comment
+        - button "Send" [ref=e86] [cursor=pointer]
+  - contentinfo [ref=e88]:
+    - generic [ref=e89]:
+      - generic [ref=e90]:
+        - generic [ref=e91]:
+          - heading "Quick links" [level=2] [ref=e92]
+          - list [ref=e93]:
+            - listitem [ref=e94]:
+              - link "Our Brand, Mission & Values" [ref=e95] [cursor=pointer]:
+                - /url: /pages/mission-values
+            - listitem [ref=e96]:
+              - link "Contact us" [ref=e97] [cursor=pointer]:
+                - /url: /pages/contact
+            - listitem [ref=e98]:
+              - link "Blog" [ref=e99] [cursor=pointer]:
+                - /url: /blogs/news
+            - listitem [ref=e100]:
+              - link "FAQ" [ref=e101] [cursor=pointer]:
+                - /url: /pages/faq
+        - generic [ref=e102]:
+          - heading "Customer Service" [level=2] [ref=e103]
+          - generic [ref=e104]:
+            - heading "Privacy Policy" [level=5] [ref=e105]:
+              - link "Privacy Policy" [ref=e106] [cursor=pointer]:
+                - /url: /policies/privacy-policy
+            - heading "Terms and Conditions" [level=5] [ref=e107]:
+              - link "Terms and Conditions" [ref=e108] [cursor=pointer]:
+                - /url: /policies/terms-of-service
+            - heading "Refund Policy" [level=5] [ref=e109]:
+              - link "Refund Policy" [ref=e110] [cursor=pointer]:
+                - /url: /policies/refund-policy
+            - heading "Imprint" [level=5] [ref=e111]:
+              - link "Imprint" [ref=e112] [cursor=pointer]:
+                - /url: /pages/imprint
+      - generic [ref=e113]:
+        - generic [ref=e114]:
+          - heading "Subscribe to our emails" [level=2] [ref=e115]
+          - generic [ref=e118]:
+            - textbox "Email" [ref=e119]
+            - generic: Email
+            - button "Subscribe" [ref=e120] [cursor=pointer]:
+              - img [ref=e121]
+        - button "Follow on Shop" [ref=e125] [cursor=pointer]:
+          - img [ref=e128]
+          - generic [ref=e130]:
+            - text: Follow on
+            - img "Shop" [ref=e131]
+        - list [ref=e133]:
+          - listitem [ref=e134]:
+            - link "Instagram" [ref=e135] [cursor=pointer]:
+              - /url: https://www.instagram.com/fruhling94/
+              - img [ref=e136]
+              - generic [ref=e138]: Instagram
+    - generic [ref=e141]:
+      - generic [ref=e142]:
+        - text: © 2026,
+        - link "Frühling94" [ref=e143] [cursor=pointer]:
+          - /url: /
+      - link "Powered by Shopify" [ref=e145] [cursor=pointer]:
+        - /url: https://www.shopify.com?utm_campaign=poweredby&utm_medium=shopify&utm_source=onlinestore

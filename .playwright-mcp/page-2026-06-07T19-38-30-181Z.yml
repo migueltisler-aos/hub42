@@ -1,0 +1,182 @@
+- generic [ref=e1]:
+  - complementary "Accessibility Tools":                     
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#MainContent"
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic:
+          - banner [ref=e6]:
+            - generic [ref=e9]:
+              - link [ref=e12] [cursor=pointer]:
+                - /url: /
+                - figure [ref=e13]:
+                  - img "Berlin Skin" [ref=e14]
+              - navigation [ref=e16]:
+                - button "Shop" [ref=e17]:
+                  - link "Shop" [ref=e18] [cursor=pointer]:
+                    - /url: /collections/all
+                    - generic [ref=e19]: Shop
+                - button "About" [ref=e20]:
+                  - link "About" [ref=e21] [cursor=pointer]:
+                    - /url: /pages/founder-story
+                    - generic [ref=e22]: About
+                - link "Order Samples" [ref=e24] [cursor=pointer]:
+                  - /url: /products/sample-prickly-pear-face-oil
+                  - generic [ref=e25]: Order Samples
+                - link "Before/After Results" [ref=e27] [cursor=pointer]:
+                  - /url: /pages/before-after
+                  - generic [ref=e28]: Before/After Results
+              - generic [ref=e30]:
+                - group [ref=e33]:
+                  - generic "Search" [ref=e34] [cursor=pointer]:
+                    - img [ref=e35]
+                    - generic [ref=e38]: Search
+                - link "Cart" [ref=e40] [cursor=pointer]:
+                  - /url: /cart
+                  - generic [ref=e41]:
+                    - generic [ref=e42]: Cart
+                    - img [ref=e44]
+          - generic "Menu"
+      - generic:
+        - generic:
+          - generic "Menu"
+    - main [ref=e46]:
+      - generic [ref=e50]:
+        - heading "Contact" [level=2] [ref=e51]
+        - generic [ref=e53]:
+          - strong [ref=e55]: We'd love to hear from you.
+          - paragraph [ref=e56]
+          - generic [ref=e57]:
+            - text: If you have a general or customer service related question please fill out the form below or
+            - link "check our FAQs page here" [ref=e58] [cursor=pointer]:
+              - /url: https://berlin-skin.myshopify.com/pages/faq
+            - text: . Our customer service hours are PST Monday - Thursday, 8-2 & Friday, 9-12.
+          - paragraph [ref=e59]
+          - paragraph [ref=e60]
+          - paragraph [ref=e61]: "Product Questions: orders@berlinskin.com"
+          - paragraph [ref=e62]
+          - paragraph [ref=e63]:
+            - generic [ref=e64]: "Order Inquiries: orders@berlinskin.com"
+          - paragraph [ref=e65]:
+            - generic [ref=e66]: "Career Opportunities: ashley@berlinskin.com"
+          - paragraph [ref=e67]:
+            - generic [ref=e68]:
+              - text: Partnerships/Press
+              - strong [ref=e69]: ":"
+              - text: info@berlinskin.com
+      - generic [ref=e73]:
+        - generic [ref=e74]:
+          - generic [ref=e75]: Full Name
+          - textbox "Full Name" [ref=e76]
+        - generic [ref=e77]:
+          - generic [ref=e78]: Email
+          - textbox "Email" [ref=e79]:
+            - /placeholder: Email*
+        - generic [ref=e80]:
+          - generic [ref=e81]: Message
+          - textbox "Message" [ref=e82]:
+            - /placeholder: Message*
+        - button "Send" [ref=e84] [cursor=pointer]
+        - generic [ref=e85]: Fields marked with an asterisk (*) are required.
+        - paragraph [ref=e87]:
+          - text: This site is protected by hCaptcha and the hCaptcha
+          - link "Privacy Policy" [ref=e88] [cursor=pointer]:
+            - /url: https://hcaptcha.com/privacy
+          - text: and
+          - link "Terms of Service" [ref=e89] [cursor=pointer]:
+            - /url: https://hcaptcha.com/terms
+          - text: apply.
+  - contentinfo [ref=e90]:
+    - contentinfo [ref=e92]:
+      - generic [ref=e93]:
+        - link "Footer logo" [ref=e95] [cursor=pointer]:
+          - /url: /
+          - figure [ref=e96]:
+            - img "Berlin Skin" [ref=e97]
+        - generic [ref=e99]:
+          - group [ref=e100]:
+            - list [ref=e102]:
+              - listitem [ref=e103]:
+                - link "Contact" [ref=e104] [cursor=pointer]:
+                  - /url: /pages/contact
+              - listitem [ref=e105]:
+                - link "Customer Service" [ref=e106] [cursor=pointer]:
+                  - /url: /pages/customer-service
+              - listitem [ref=e107]:
+                - link "FAQ" [ref=e108] [cursor=pointer]:
+                  - /url: /pages/faq
+              - listitem [ref=e109]:
+                - link "Accessibility" [ref=e110] [cursor=pointer]:
+                  - /url: /pages/accessibility
+              - listitem [ref=e111]:
+                - link "BTS" [ref=e112] [cursor=pointer]:
+                  - /url: /pages/bts
+              - listitem [ref=e113]:
+                - link "Find Your Routine" [ref=e114] [cursor=pointer]:
+                  - /url: /pages/find-your-routine
+          - group [ref=e115]:
+            - list [ref=e117]:
+              - listitem [ref=e118]:
+                - link "Philosophy" [ref=e119] [cursor=pointer]:
+                  - /url: /pages/philosophy
+              - listitem [ref=e120]:
+                - link "Press" [ref=e121] [cursor=pointer]:
+                  - /url: /pages/press
+              - listitem [ref=e122]:
+                - link "Wholesale Info" [ref=e123] [cursor=pointer]:
+                  - /url: /pages/trade-login
+              - listitem [ref=e124]:
+                - link "Careers" [ref=e125] [cursor=pointer]:
+                  - /url: /pages/careers
+              - listitem [ref=e126]:
+                - link "Bestsellers" [ref=e127] [cursor=pointer]:
+                  - /url: /collections/bestsellers
+              - listitem [ref=e128]:
+                - link "Return Policy" [ref=e129] [cursor=pointer]:
+                  - /url: /pages/return-policy
+          - group [ref=e130]:
+            - list [ref=e133]:
+              - listitem [ref=e134]:
+                - link "Instagram" [ref=e135] [cursor=pointer]:
+                  - /url: https://www.instagram.com/berlin.skin/
+                  - img [ref=e136]
+                  - generic [ref=e140]: Instagram
+              - listitem [ref=e141]:
+                - link "TikTok" [ref=e142] [cursor=pointer]:
+                  - /url: https://www.tiktok.com/@berlinskin
+                  - img [ref=e143]
+                  - generic [ref=e146]: TikTok
+              - listitem [ref=e147]:
+                - link "Pinterest" [ref=e148] [cursor=pointer]:
+                  - /url: https://www.pinterest.com/berlinskin/
+                  - img [ref=e149]
+                  - generic [ref=e152]: Pinterest
+              - listitem [ref=e153]:
+                - link "YouTube" [ref=e154] [cursor=pointer]:
+                  - /url: https://www.youtube.com/channel/UC6yTEfcJVvMMaVGVCeK7Tmg?view_as=subscriber
+                  - img [ref=e155]
+                  - generic [ref=e158]: YouTube
+    - list [ref=e163]:
+      - listitem [ref=e164]:
+        - link "© Berlin Skin 2026" [ref=e165] [cursor=pointer]:
+          - /url: https://www.berlinskin.com
+      - listitem [ref=e166]:
+        - link "Privacy Policy" [ref=e167] [cursor=pointer]:
+          - /url: /policies/privacy-policy
+      - listitem [ref=e168]:
+        - link "Terms of Service" [ref=e169] [cursor=pointer]:
+          - /url: /policies/terms-of-service
+  - dialog "POPUP Form" [ref=e170]:
+    - generic [ref=e175]:
+      - button "Close dialog" [active] [ref=e176] [cursor=pointer]:
+        - img [ref=e177]
+      - generic [ref=e181]:
+        - heading "Join the club & get 15% off" [level=1] [ref=e185]:
+          - strong [ref=e187]: Join the club & get 15% off
+        - paragraph [ref=e191]: Be the first to know about exclusive discount codes & launches.
+        - generic [ref=e194]:
+          - generic [ref=e195]: Email
+          - textbox "Email" [ref=e196]
+        - button "Subscribe" [ref=e199] [cursor=pointer]
+      - alert [ref=e200]

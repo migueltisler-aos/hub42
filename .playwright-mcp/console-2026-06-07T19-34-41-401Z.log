@@ -1,0 +1,5 @@
+[     619ms] [LOG] {threshold: 3500, currentLength: 141, https: true, dryRun: false} @ https://purelei.com/pages/impressum:591
+[     880ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://purelei.com/pages/impressum:0
+[     969ms] [INFO] Clear-Site-Data header on 'https://purelei.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://purelei.com/pages/impressum:0
+[     969ms] [LOG] success @ https://purelei.com/pages/impressum:49
+[    1372ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://purelei.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0

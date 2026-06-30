@@ -1,0 +1,144 @@
+- generic [ref=e1]:
+  - complementary "Accessibility Tools":                     
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#MainContent"
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic:
+          - banner [ref=e6]:
+            - generic [ref=e9]:
+              - link [ref=e12] [cursor=pointer]:
+                - /url: /
+                - figure [ref=e13]:
+                  - img "Berlin Skin" [ref=e14]
+              - navigation [ref=e16]:
+                - button "Shop" [ref=e17]:
+                  - link "Shop" [ref=e18] [cursor=pointer]:
+                    - /url: /collections/all
+                    - generic [ref=e19]: Shop
+                - button "About" [ref=e20]:
+                  - link "About" [ref=e21] [cursor=pointer]:
+                    - /url: /pages/founder-story
+                    - generic [ref=e22]: About
+                - link "Order Samples" [ref=e24] [cursor=pointer]:
+                  - /url: /products/sample-prickly-pear-face-oil
+                  - generic [ref=e25]: Order Samples
+                - link "Before/After Results" [ref=e27] [cursor=pointer]:
+                  - /url: /pages/before-after
+                  - generic [ref=e28]: Before/After Results
+              - generic [ref=e30]:
+                - group [ref=e33]:
+                  - generic "Search" [ref=e34] [cursor=pointer]:
+                    - img [ref=e35]
+                    - generic [ref=e38]: Search
+                - link "Cart" [ref=e40] [cursor=pointer]:
+                  - /url: /cart
+                  - generic [ref=e41]:
+                    - generic [ref=e42]: Cart
+                    - img [ref=e44]
+          - generic "Menu"
+      - generic:
+        - generic:
+          - generic "Menu"
+    - main [ref=e46]:
+      - generic [ref=e48]:
+        - heading "404 Page Not Found" [level=2] [ref=e49]
+        - paragraph [ref=e50]: The page you requested does not exist.
+        - generic [ref=e53]:
+          - searchbox "Search our store" [ref=e55]
+          - button "Search" [ref=e56] [cursor=pointer]:
+            - img [ref=e57]
+  - contentinfo [ref=e60]:
+    - contentinfo [ref=e62]:
+      - generic [ref=e63]:
+        - link "Footer logo" [ref=e65] [cursor=pointer]:
+          - /url: /
+          - figure [ref=e66]:
+            - img "Berlin Skin" [ref=e67]
+        - generic [ref=e69]:
+          - group [ref=e70]:
+            - list [ref=e72]:
+              - listitem [ref=e73]:
+                - link "Contact" [ref=e74] [cursor=pointer]:
+                  - /url: /pages/contact
+              - listitem [ref=e75]:
+                - link "Customer Service" [ref=e76] [cursor=pointer]:
+                  - /url: /pages/customer-service
+              - listitem [ref=e77]:
+                - link "FAQ" [ref=e78] [cursor=pointer]:
+                  - /url: /pages/faq
+              - listitem [ref=e79]:
+                - link "Accessibility" [ref=e80] [cursor=pointer]:
+                  - /url: /pages/accessibility
+              - listitem [ref=e81]:
+                - link "BTS" [ref=e82] [cursor=pointer]:
+                  - /url: /pages/bts
+              - listitem [ref=e83]:
+                - link "Find Your Routine" [ref=e84] [cursor=pointer]:
+                  - /url: /pages/find-your-routine
+          - group [ref=e85]:
+            - list [ref=e87]:
+              - listitem [ref=e88]:
+                - link "Philosophy" [ref=e89] [cursor=pointer]:
+                  - /url: /pages/philosophy
+              - listitem [ref=e90]:
+                - link "Press" [ref=e91] [cursor=pointer]:
+                  - /url: /pages/press
+              - listitem [ref=e92]:
+                - link "Wholesale Info" [ref=e93] [cursor=pointer]:
+                  - /url: /pages/trade-login
+              - listitem [ref=e94]:
+                - link "Careers" [ref=e95] [cursor=pointer]:
+                  - /url: /pages/careers
+              - listitem [ref=e96]:
+                - link "Bestsellers" [ref=e97] [cursor=pointer]:
+                  - /url: /collections/bestsellers
+              - listitem [ref=e98]:
+                - link "Return Policy" [ref=e99] [cursor=pointer]:
+                  - /url: /pages/return-policy
+          - group [ref=e100]:
+            - list [ref=e103]:
+              - listitem [ref=e104]:
+                - link "Instagram" [ref=e105] [cursor=pointer]:
+                  - /url: https://www.instagram.com/berlin.skin/
+                  - img [ref=e106]
+                  - generic [ref=e110]: Instagram
+              - listitem [ref=e111]:
+                - link "TikTok" [ref=e112] [cursor=pointer]:
+                  - /url: https://www.tiktok.com/@berlinskin
+                  - img [ref=e113]
+                  - generic [ref=e116]: TikTok
+              - listitem [ref=e117]:
+                - link "Pinterest" [ref=e118] [cursor=pointer]:
+                  - /url: https://www.pinterest.com/berlinskin/
+                  - img [ref=e119]
+                  - generic [ref=e122]: Pinterest
+              - listitem [ref=e123]:
+                - link "YouTube" [ref=e124] [cursor=pointer]:
+                  - /url: https://www.youtube.com/channel/UC6yTEfcJVvMMaVGVCeK7Tmg?view_as=subscriber
+                  - img [ref=e125]
+                  - generic [ref=e128]: YouTube
+    - list [ref=e133]:
+      - listitem [ref=e134]:
+        - link "© Berlin Skin 2026" [ref=e135] [cursor=pointer]:
+          - /url: https://www.berlinskin.com
+      - listitem [ref=e136]:
+        - link "Privacy Policy" [ref=e137] [cursor=pointer]:
+          - /url: /policies/privacy-policy
+      - listitem [ref=e138]:
+        - link "Terms of Service" [ref=e139] [cursor=pointer]:
+          - /url: /policies/terms-of-service
+  - dialog "POPUP Form" [ref=e140]:
+    - generic [ref=e145]:
+      - button "Close dialog" [active] [ref=e146] [cursor=pointer]:
+        - img [ref=e147]
+      - generic [ref=e151]:
+        - heading "Join the club & get 15% off" [level=1] [ref=e155]:
+          - strong [ref=e157]: Join the club & get 15% off
+        - paragraph [ref=e161]: Be the first to know about exclusive discount codes & launches.
+        - generic [ref=e164]:
+          - generic [ref=e165]: Email
+          - textbox "Email" [ref=e166]
+        - button "Subscribe" [ref=e169] [cursor=pointer]
+      - alert [ref=e170]

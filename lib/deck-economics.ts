@@ -5,9 +5,26 @@
    verwenden. Alle Werte offengelegt, konservativ gedefaultet.
    ============================================================ */
 
-export const RATES = { basis: 11.80, standard: 13.11, premium: 16.39 } as const;
+/* ── Slot-Preismodell (eine Quelle der Wahrheit) ──────────────
+   Grundpreis je cm Regalfront + Zonen-Aufschlag.
+   Augenhöhe +10 %, Greifhöhe garantiert +20 %. Mindestens 59 €/Slot. */
+export const BASE_RATE_PER_CM = 4.64;
+export const ZONE_SURCHARGE_PCT = { basis: 0, augenhoehe: 10, greifhoehe: 20 } as const;
+
+const round2 = (n: number) => Math.round(n * 100) / 100;
+
+/** Abgeleitete €/cm-Monatsraten je Zone – nie hartkodieren, immer von hier importieren. */
+export const RATES = {
+  basis: round2(BASE_RATE_PER_CM * (1 + ZONE_SURCHARGE_PCT.basis / 100)), // 4,64
+  augenhoehe: round2(BASE_RATE_PER_CM * (1 + ZONE_SURCHARGE_PCT.augenhoehe / 100)), // 5,10
+  greifhoehe: round2(BASE_RATE_PER_CM * (1 + ZONE_SURCHARGE_PCT.greifhoehe / 100)), // 5,57
+} as const;
+
 export const MIN_REGAL_CM = 5;
 export const MIN_SLOT_MIETE = 59;
+
+/** Fixpreis-Slot Schaufenster / Ladenfront (Außensichtbarkeit). */
+export const SCHAUFENSTER_MONAT = 140;
 
 export interface Assumptions {
   vk: number; // Verkaufspreis / Artikel

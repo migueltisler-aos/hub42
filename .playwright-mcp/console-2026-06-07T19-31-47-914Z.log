@@ -1,0 +1,4 @@
+[     344ms] [LOG]  Initializing Smart Data Protector @ https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js:0
+[     494ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://www.ondua.de/impressum/:0
+[     494ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ https://www.ondua.de/impressum/:0
+[     771ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ https://www.ondua.de/impressum/:0

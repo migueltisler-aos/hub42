@@ -8,6 +8,7 @@ import SlotFeatureTable from "@/components/SlotFeatureTable";
 import CountdownTimer from "@/components/CountdownTimer";
 import TrustBadges from "@/components/TrustBadges";
 import { SLOTS, ANALYTICS_PAKETE } from "@/lib/slots";
+import { RATES } from "@/lib/deck-economics";
 
 export const metadata: Metadata = {
   title: "Für Hersteller – Miete deinen Platz im Retail",
@@ -405,12 +406,13 @@ export default function HerstellerPage() {
               </div>
 
               <p className="text-stone/50 text-xs font-mono mt-4">
-                Miete 30 cm → Preis Standard: 30 × 13,11 € = <span className="text-stone">393 €/Monat</span>
+                Miete 30 cm → Augenhöhe: 30 × {RATES.augenhoehe.toFixed(2).replace(".", ",")} € ={" "}
+                <span className="text-stone">{Math.round(30 * RATES.augenhoehe)} €/Monat</span>
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[...SLOTS].reverse().map((slot, i) => (
               <SlotCard key={slot.name} slot={slot} index={i} />
             ))}

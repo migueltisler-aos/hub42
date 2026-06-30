@@ -1,0 +1,294 @@
+- generic [ref=e1]:
+  - generic:
+    - dialog "Cookie Banner" [active]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - heading "HOLY🤝DEINE PRIVATSPHÄRE" [level=2] [ref=e8]
+          - paragraph [ref=e11]:
+            - paragraph [ref=e12]:
+              - text: Wir können Cookies zur Analyse unserer Besucherdaten platzieren, um unsere Webseite zu verbessern, personalisierte Inhalte anzuzeigen und Dir ein großartiges Webseiten-Erlebnis zu bieten. Für weitere Informationen zu den von uns verwendeten Cookies öffne die Einstellungen. Die Daten werden zum Zweck der Personalisierung von Werbung und zur Messung der Wirksamkeit von Werbekampagnen erhoben. Die Daten können mit Google LLC geteilt werden; weitere Informationen findest du
+              - link "hier" [ref=e13] [cursor=pointer]:
+                - /url: https://business.safety.google/privacy/
+              - text: .
+        - generic [ref=e15]:
+          - button "cookie Einstellungen anpassen" [ref=e17] [cursor=pointer]:
+            - generic [ref=e18]: Nein, anpassen
+          - button "Akzeptieren Sie alle cookies" [ref=e20] [cursor=pointer]:
+            - generic [ref=e21]: Alle akzeptieren
+  - img [ref=e22]
+  - link "Direkt zum Inhalt" [ref=e23] [cursor=pointer]:
+    - /url: "#main"
+  - button "🤩 2 MILLIONEN GLÜCKLICHE KUNDEN" [ref=e30] [cursor=pointer]
+  - banner [ref=e32]:
+    - generic [ref=e34]:
+      - navigation [ref=e35]:
+        - list [ref=e37]:
+          - listitem [ref=e38]:
+            - link "Probier's" [ref=e39] [cursor=pointer]:
+              - /url: /collections/neueinsteiger-packs
+              - generic [ref=e40]: Probier's
+              - img [ref=e41]
+          - listitem [ref=e43]:
+            - link "Highlights" [ref=e44] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e45]: Highlights
+              - img [ref=e46]
+          - listitem [ref=e48]:
+            - link "Drinks" [ref=e49] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e50]: Drinks
+              - img [ref=e51]
+          - listitem [ref=e53]:
+            - link "Mix & Match" [ref=e54] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e55]: Mix & Match
+              - img [ref=e56]
+          - listitem [ref=e58]:
+            - link "Mehr Entdecken" [ref=e59] [cursor=pointer]:
+              - /url: "#"
+              - generic [ref=e60]: Mehr Entdecken
+              - img [ref=e61]
+      - link "HOLY DE HOLY DE" [ref=e64] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e65]: HOLY DE
+        - img "HOLY DE" [ref=e66]
+      - generic [ref=e67]:
+        - group [ref=e69] [cursor=pointer]:
+          - generic "Flagge von Deutschland mit drei horizontalen Streifen in Schwarz, Rot und Gold. DE" [ref=e70]:
+            - img "Flagge von Deutschland mit drei horizontalen Streifen in Schwarz, Rot und Gold." [ref=e71]
+            - generic [ref=e72]: DE
+            - img [ref=e73]
+        - link "Whatsapp" [ref=e76] [cursor=pointer]:
+          - /url: https://waurl.me/bgoivqs4y
+          - generic [ref=e77]: Whatsapp
+          - img [ref=e78]
+        - generic [ref=e81]:
+          - link "Suche" [ref=e82] [cursor=pointer]:
+            - /url: /search
+            - img [ref=e83]
+          - link "Login" [ref=e86] [cursor=pointer]:
+            - /url: /account/login
+            - img [ref=e87]
+          - link "Warenkorb" [ref=e90] [cursor=pointer]:
+            - /url: /cart
+            - img [ref=e91]
+            - generic [ref=e95]: "0"
+  - main [ref=e96]:
+    - generic [ref=e99]:
+      - heading "Impressum" [level=1] [ref=e102]
+      - generic [ref=e104]:
+        - paragraph [ref=e105]:
+          - strong [ref=e106]: HOLY Softdrinks GmbH
+          - text: Saarbrücker Straße 37
+          - text: 10405 Berlin
+          - text: Deutschland
+        - paragraph [ref=e107]:
+          - emphasis [ref=e108]: "Vertreten durch die Geschäftsführer: Philipp Naß, Mathias Horsch, Frederick Jost"
+          - strong
+        - paragraph [ref=e109]:
+          - strong [ref=e110]: Eintragung im Handelsregister
+          - text: "Registergericht: Amtsgericht Charlottenburg"
+          - text: "Registernummer: HRB 222782 B"
+        - paragraph [ref=e111]:
+          - strong [ref=e112]: Umsatzsteuer-ID
+          - text: "Umsatzsteuer-Identifikationsnummer gemäß §27a UStG:"
+          - text: DE815887577
+        - paragraph [ref=e113]:
+          - strong [ref=e114]: Kontakt
+          - text: "E-Mail:"
+          - link "hello@holy.com" [ref=e116] [cursor=pointer]:
+            - /url: hello@holy.com
+          - text: "Kontakt Formular:"
+          - link "https://de.holy.com/pages/contact-form" [ref=e118] [cursor=pointer]:
+            - /url: https://de.holy.com/pages/contact-form
+        - paragraph [ref=e119]:
+          - text: Information zur Verbraucherstreitbeilegung
+          - text: Zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle sind wir nicht verpflichtet und nicht bereit.
+    - generic [ref=e126]:
+      - button "I. ALLGEMEINE GESCHÄFTSBEDINGUNGEN (AGB) DER HOLY SOFTDRINKS GMBH - B2C" [ref=e128] [cursor=pointer]: I. ALLGEMEINE GESCHÄFTSBEDINGUNGEN (AGB) DER HOLY SOFTDRINKS GMBH - B2C
+      - button "II. ALLGEMEINE GESCHÄFTSBEDINGUNGEN (AGB) DER HOLY SOFTDRINKS GMBH FÜR GESCHÄFTSKUNDEN" [ref=e131] [cursor=pointer]: II. ALLGEMEINE GESCHÄFTSBEDINGUNGEN (AGB) DER HOLY SOFTDRINKS GMBH FÜR GESCHÄFTSKUNDEN
+  - generic [ref=e138]:
+    - generic [ref=e139]:
+      - img "Umriss eines Lieferwagens mit Blattmotiv auf der Seite." [ref=e141]
+      - generic [ref=e142]:
+        - paragraph [ref=e143]: GRATIS VERSAND AB 49 €
+        - paragraph [ref=e144]: Lieferung innerhalb weniger Werktage.
+    - generic [ref=e145]:
+      - img "Schwarzes Herzsymbol in einem Kreis auf weißem Hintergrund." [ref=e147]
+      - generic [ref=e148]:
+        - paragraph [ref=e149]: KUNDE IST KÖNIG
+        - paragraph [ref=e150]:
+          - text: Wir helfen dir via WhatsApp,
+          - text: Email & Insta weiter.
+    - generic [ref=e151]:
+      - img "Schwarzes Schild-Symbol mit einem Häkchen in der Mitte." [ref=e153]
+      - generic [ref=e154]:
+        - paragraph [ref=e155]: FLEXIBEL ZAHLEN
+        - paragraph [ref=e156]:
+          - text: Zahle sicher & flexibel mit
+          - text: Klarna, PayPal & Co.
+    - generic [ref=e157]:
+      - img "Daumen-hoch-Symbol in einem Kreis, dargestellt auf schwarzem Hintergrund." [ref=e159]
+      - generic [ref=e160]:
+        - paragraph [ref=e161]: GANZ OHNE RISIKO
+        - paragraph [ref=e162]: Top-Bewertungen & 30 Tage Zufriedenheitsgarantie.
+  - contentinfo [ref=e164]:
+    - generic [ref=e167]:
+      - generic [ref=e168]:
+        - img "Gelbes ovales Logo mit dem Wort \"HOLY\" in weißen, fetten Buchstaben." [ref=e169]
+        - generic [ref=e170]:
+          - generic [ref=e171]:
+            - paragraph [ref=e172]: FOLLOW US
+            - list [ref=e174]:
+              - listitem [ref=e175]:
+                - link "Folge uns auf Facebook" [ref=e176] [cursor=pointer]:
+                  - /url: https://www.facebook.com/groups/holysquad
+                  - img
+              - listitem [ref=e177]:
+                - link "Folge uns auf Twitter" [ref=e178] [cursor=pointer]:
+                  - /url: https://twitter.com/holysquad_de
+                  - img
+              - listitem [ref=e179]:
+                - link "Folge uns auf Instagram" [ref=e180] [cursor=pointer]:
+                  - /url: https://www.instagram.com/holysquad.official/
+                  - img
+              - listitem [ref=e181]:
+                - link "Folge uns auf Discord" [ref=e182] [cursor=pointer]:
+                  - /url: https://www.weareholy.com/discord
+                  - img
+              - listitem [ref=e183]:
+                - link "Folge uns auf YouTube" [ref=e184] [cursor=pointer]:
+                  - /url: https://www.youtube.com/c/HOLYSquadOfficial
+                  - img
+              - listitem [ref=e185]:
+                - link "Folge uns auf TikTok" [ref=e186] [cursor=pointer]:
+                  - /url: https://www.tiktok.com/@holysquad.official
+                  - img
+          - paragraph [ref=e187]: WIR AKZEPTIEREN
+          - generic [ref=e189]:
+            - img "American Express" [ref=e190]
+            - img "Apple Pay" [ref=e199]
+            - img "EPS" [ref=e210]
+            - img "Google Pay" [ref=e219]
+            - img "iDEAL Wero" [ref=e227]
+            - img "Maestro" [ref=e242]
+            - img "Mastercard" [ref=e248]
+            - img "PayPal" [ref=e254]
+            - img "Shop Pay" [ref=e260]
+            - img "Union Pay" [ref=e264]
+            - img "Visa" [ref=e270]
+      - generic [ref=e274]:
+        - generic [ref=e275]:
+          - paragraph [ref=e276]: SERVICE
+          - list [ref=e278]:
+            - listitem [ref=e279]:
+              - link "Häufige Fragen" [ref=e280] [cursor=pointer]:
+                - /url: /pages/help-center
+            - listitem [ref=e281]:
+              - link "WhatsApp" [ref=e282] [cursor=pointer]:
+                - /url: https://api.whatsapp.com/send/?phone=4915150749081&text=Hi%20HOLY%20Team%20%F0%9F%9A%80%20Ich%20habe%20eine%20Frage:%20%0A%0A
+            - listitem [ref=e283]:
+              - link "Kontakt Formular" [ref=e284] [cursor=pointer]:
+                - /url: /pages/contact-form
+            - listitem [ref=e285]:
+              - link "Versand" [ref=e286] [cursor=pointer]:
+                - /url: /pages/help-center
+            - listitem [ref=e287]:
+              - link "Paket verfolgen" [ref=e288] [cursor=pointer]:
+                - /url: /pages/parcel-tracking
+            - listitem [ref=e289]:
+              - link "Studentenrabatt" [ref=e290] [cursor=pointer]:
+                - /url: https://www.studentbeans.com/de-de/de/beansid-connect/hosted/holy
+        - generic [ref=e291]:
+          - paragraph [ref=e292]: ÜBER HOLY
+          - list [ref=e294]:
+            - listitem [ref=e295]:
+              - link "Über uns" [ref=e296] [cursor=pointer]:
+                - /url: /pages/our-story
+            - listitem [ref=e297]:
+              - link "Unsere Zutaten" [ref=e298] [cursor=pointer]:
+                - /url: /pages/ingredients
+            - listitem [ref=e299]:
+              - link "Rewards" [ref=e300] [cursor=pointer]:
+                - /url: /pages/rewards
+            - listitem [ref=e301]:
+              - link "Partnerschaften" [ref=e302] [cursor=pointer]:
+                - /url: /pages/partnership-landing-page
+            - listitem [ref=e303]:
+              - link "Karriere" [ref=e304] [cursor=pointer]:
+                - /url: https://www.notion.so/weareholy/Work-at-HOLY-The-Soft-Drink-Revolution-c7cdff26df2b4b23963597c6b1b6eea6?pvs=4
+        - generic [ref=e305]:
+          - paragraph [ref=e306]: SHOP
+          - list [ref=e308]:
+            - listitem [ref=e309]:
+              - link "Bestseller" [ref=e310] [cursor=pointer]:
+                - /url: /collections/bestseller
+            - listitem [ref=e311]:
+              - link "HOLY Energy" [ref=e312] [cursor=pointer]:
+                - /url: /collections/holy-energy
+            - listitem [ref=e313]:
+              - link "HOLY Iced Tea" [ref=e314] [cursor=pointer]:
+                - /url: /collections/holy-iced-tea
+            - listitem [ref=e315]:
+              - link "HOLY Hydration" [ref=e316] [cursor=pointer]:
+                - /url: /collections/holy-hydration
+            - listitem [ref=e317]:
+              - link "HOLY Milkshake" [ref=e318] [cursor=pointer]:
+                - /url: /collections/milkshake
+            - listitem [ref=e319]:
+              - link "HOLY Syrup" [ref=e320] [cursor=pointer]:
+                - /url: /collections/syrup-launch
+            - listitem [ref=e321]:
+              - link "Shaker & Merch" [ref=e322] [cursor=pointer]:
+                - /url: /collections/shaker-merch
+            - listitem [ref=e323]:
+              - link "Alle Produkte" [ref=e324] [cursor=pointer]:
+                - /url: /pages/products
+            - listitem [ref=e325]:
+              - link "Geschenkgutscheine" [ref=e326] [cursor=pointer]:
+                - /url: /products/gift-card-product
+        - generic [ref=e327]:
+          - paragraph [ref=e328]: RECHTLICHES
+          - list [ref=e330]:
+            - listitem [ref=e331]:
+              - link "Impressum" [ref=e332] [cursor=pointer]:
+                - /url: /pages/impressum
+            - listitem [ref=e333]:
+              - link "AGBs" [ref=e334] [cursor=pointer]:
+                - /url: /pages/agb
+            - listitem [ref=e335]:
+              - link "Widerrufsrecht" [ref=e336] [cursor=pointer]:
+                - /url: /pages/widerrufsrecht
+            - listitem [ref=e337]:
+              - link "Datenschutz" [ref=e338] [cursor=pointer]:
+                - /url: /pages/datenschutz
+            - listitem [ref=e339]:
+              - link "Barrierefreiheit" [ref=e340] [cursor=pointer]:
+                - /url: /pages/barrierefreiheit
+            - listitem [ref=e341]:
+              - link "Teilnahmebedingungen Gewinnspiel „Matcha Kampagne\"" [ref=e342] [cursor=pointer]:
+                - /url: https://de.holy.com/pages/teilnahmebedingungen-gewinnspiel-matcha-kampagne
+            - listitem [ref=e343]:
+              - button "Cookie-Einstellungen" [ref=e344] [cursor=pointer]
+      - generic [ref=e347]:
+        - generic [ref=e348]:
+          - img "Anthropomorphe Brombeere mit Gesicht, Armen und Beinen, trägt grüne Schuhe und hat ein schelmisches Lächeln." [ref=e350]
+          - heading "KOMM IN DEN SQUAD!" [level=3] [ref=e352]:
+            - text: KOMM IN
+            - text: DEN SQUAD!
+        - generic [ref=e353]:
+          - generic [ref=e355]:
+            - generic [ref=e358]:
+              - textbox "Deine E-Mail-Adresse" [ref=e362]
+              - button "Jetzt anmelden" [ref=e365] [cursor=pointer]
+            - alert [ref=e366]
+          - generic [ref=e368]: Mit der Bestätigung akzeptierst du unsere Datenschutzerklärung & bleibst auf dem Laufenden via E-Mail.
+  - generic [ref=e371]:
+    - img [ref=e373]
+    - heading "DIE SOFTDRINK REVOLUTION" [level=2] [ref=e381]
+    - img [ref=e383]
+  - img [ref=e390]
+  - generic:
+    - generic:
+      - generic:
+        - region "Notifications"

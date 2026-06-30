@@ -1,0 +1,227 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - link "Du bist Hersteller? → Hier entlang" [ref=e6] [cursor=pointer]:
+      - /url: /hersteller
+    - generic [ref=e8]:
+      - link "Hub42 – Startseite" [ref=e9] [cursor=pointer]:
+        - /url: /
+        - generic [ref=e10]: HUB42
+        - generic [ref=e11]: tryhub42.de
+      - navigation "Hauptnavigation" [ref=e12]:
+        - link "Für Hersteller" [ref=e13] [cursor=pointer]:
+          - /url: /hersteller
+        - link "Unsere Brands" [ref=e14] [cursor=pointer]:
+          - /url: /brands
+        - link "Das Erlebnis" [ref=e15] [cursor=pointer]:
+          - /url: /erlebnis
+        - link "Der Store" [ref=e16] [cursor=pointer]:
+          - /url: /store
+        - link "Über uns" [ref=e17] [cursor=pointer]:
+          - /url: /about
+        - link "Kontakt" [ref=e18] [cursor=pointer]:
+          - /url: /kontakt
+      - link "Slot anfragen" [ref=e20] [cursor=pointer]:
+        - /url: /hersteller#slot-anfragen
+  - main [ref=e21]:
+    - generic [ref=e23]:
+      - paragraph [ref=e24]: Partner-Brands
+      - heading "Brands die du noch nicht kennst." [level=1] [ref=e25]:
+        - text: Brands die du
+        - text: noch nicht kennst.
+      - paragraph [ref=e26]: Kuratiert. Unabhängig. Direkt vom Hersteller. Jede Brand hier hat sich beworben – und wir haben ja gesagt.
+    - generic [ref=e28]:
+      - generic [ref=e29]:
+        - button "Alle" [ref=e30]
+        - button "Granola" [ref=e31]
+        - button "Hot Sauce" [ref=e32]
+        - button "Feinkost" [ref=e33]
+        - button "Supplements" [ref=e34]
+        - button "Kaffee" [ref=e35]
+      - generic [ref=e36]:
+        - generic [ref=e37]:
+          - generic [ref=e38]:
+            - img "Crunchy Granola – Berlin Oats" [ref=e40]
+            - generic [ref=e41]:
+              - generic [ref=e42]: Matcha
+              - generic [ref=e44]: Six Spice
+          - generic [ref=e46]:
+            - generic [ref=e47]:
+              - generic [ref=e48]: Granola · Berlin
+              - generic [ref=e49]: Juwel
+            - heading "Crunchy Granola" [level=3] [ref=e50]
+            - paragraph [ref=e51]: von Berlin Oats
+            - paragraph [ref=e52]: Crunchy. Fein. Anders.
+        - generic [ref=e53]:
+          - generic [ref=e54]:
+            - img "7 Pot Tropical – Crazy Bastard Sauce" [ref=e56]
+            - generic [ref=e57]:
+              - generic [ref=e58]: 7 Pot Tropical
+              - generic [ref=e60]: Ghost Pepper & Mango
+              - generic [ref=e62]: Jalapeño & Date
+          - generic [ref=e64]:
+            - generic [ref=e65]:
+              - generic [ref=e66]: Hot Sauce · Berlin Neukölln
+              - generic [ref=e67]: Juwel
+            - heading "7 Pot Tropical" [level=3] [ref=e68]
+            - paragraph [ref=e69]: von Crazy Bastard Sauce
+            - paragraph [ref=e70]: Hot Sauce Done Right
+        - generic [ref=e71]:
+          - generic [ref=e72]:
+            - img "Bourbon-Vanille – Ikani" [ref=e74]
+            - generic [ref=e75]:
+              - generic [ref=e76]: Vanilleschoten
+              - generic [ref=e78]: Vanille-Extrakt
+          - generic [ref=e80]:
+            - generic [ref=e81]:
+              - generic [ref=e82]: Feinkost · Bali / Berlin
+              - generic [ref=e83]: Juwel
+            - heading "Bourbon-Vanille" [level=3] [ref=e84]
+            - paragraph [ref=e85]: von Ikani
+            - paragraph [ref=e86]: Echte Vanille aus Bali
+        - generic [ref=e87]:
+          - generic [ref=e88]:
+            - img "Bio-Olivenöl – auteniQ" [ref=e90]
+            - generic [ref=e91]:
+              - generic [ref=e92]: Olivenöl
+              - generic [ref=e94]: Balsamico
+              - generic [ref=e96]: Ibérico
+          - generic [ref=e98]:
+            - generic [ref=e99]:
+              - generic [ref=e100]: Feinkost · Deutschland
+              - generic [ref=e101]: Platform Brand
+            - heading "Bio-Olivenöl" [level=3] [ref=e102]
+            - paragraph [ref=e103]: von auteniQ
+            - paragraph [ref=e104]: Feinkost direkt vom Erzeuger
+        - generic [ref=e105]:
+          - generic [ref=e106]:
+            - img "Ashwagandha 2.500 mg – Green Naturals" [ref=e108]
+            - generic [ref=e109]:
+              - generic [ref=e110]: Ashwagandha
+              - generic [ref=e112]: Shilajit
+              - generic [ref=e114]: Spermidin
+          - generic [ref=e116]:
+            - generic [ref=e117]:
+              - generic [ref=e118]: Supplements · Deutschland
+              - generic [ref=e119]: Juwel
+            - heading "Ashwagandha 2.500 mg" [level=3] [ref=e120]
+            - paragraph [ref=e121]: von Green Naturals
+            - paragraph [ref=e122]: Nahrungsergänzung ohne Kompromisse
+        - generic [ref=e123]:
+          - generic [ref=e124]:
+            - img "Matekaffee – Tekoha" [ref=e126]
+            - generic [ref=e127]:
+              - generic [ref=e128]: Löslicher Mate
+              - generic [ref=e130]: Zuckerfrei
+          - generic [ref=e132]:
+            - generic [ref=e133]:
+              - generic [ref=e134]: Kaffee · Berlin / Paraguay
+              - generic [ref=e135]: Juwel
+            - heading "Matekaffee" [level=3] [ref=e136]
+            - paragraph [ref=e137]: von Tekoha
+            - paragraph [ref=e138]: Matekaffee mit Berliner Seele
+    - generic [ref=e140]:
+      - generic [ref=e141]:
+        - paragraph [ref=e142]: Blind Box
+        - heading "Noch mehr Brands – nur in der Blind Box entdeckbar." [level=2] [ref=e143]:
+          - text: Noch mehr Brands –
+          - text: nur in der Blind Box entdeckbar.
+        - paragraph [ref=e144]: Einige Brands sind exklusiv in unseren Überraschungskisten. Kein Regal. Kein Schild. Nur Entdeckerfreude.
+      - generic [ref=e145]:
+        - generic [ref=e146]:
+          - generic [ref=e149]:
+            - generic [ref=e153]: "?"
+            - generic [ref=e154]: SEALED
+          - generic [ref=e156]:
+            - paragraph [ref=e157]: Überraschung
+            - heading "Entdeckerbox S" [level=3] [ref=e158]
+            - paragraph [ref=e159]: 3 kuratierte Produkte. Nur die Kategorie bekannt.
+            - paragraph [ref=e160]: 25 €
+        - generic [ref=e161]:
+          - generic [ref=e164]:
+            - generic [ref=e168]: "?"
+            - generic [ref=e169]: SEALED
+          - generic [ref=e171]:
+            - paragraph [ref=e172]: Überraschung
+            - heading "Entdeckerbox M" [level=3] [ref=e173]
+            - paragraph [ref=e174]: 5 Produkte. Thematisch kuratiert. Nichts aus dem Supermarkt.
+            - paragraph [ref=e175]: 39 €
+        - generic [ref=e176]:
+          - generic [ref=e179]:
+            - generic [ref=e183]: "?"
+            - generic [ref=e184]: SEALED
+          - generic [ref=e186]:
+            - paragraph [ref=e187]: Berlin Special
+            - heading "Berliner Box" [level=3] [ref=e188]
+            - paragraph [ref=e189]: Ausschließlich Berliner Brands. Stadtgefühl inklusive.
+            - paragraph [ref=e190]: 45 €
+        - generic [ref=e191]:
+          - generic [ref=e194]:
+            - generic [ref=e198]: "?"
+            - generic [ref=e199]: SEALED
+          - generic [ref=e201]:
+            - paragraph [ref=e202]: Saisonal
+            - heading "Saisonbox" [level=3] [ref=e203]
+            - paragraph [ref=e204]: Wechselnde Zusammenstellung. Sommer, Winter, Feiertage.
+            - paragraph [ref=e205]: 49 €
+    - generic [ref=e207]:
+      - heading "Deine Brand fehlt hier?" [level=2] [ref=e208]
+      - paragraph [ref=e209]: Wenn dein Produkt gut genug ist, sagen wir ja. Kein Bullshit-Prozess. Kein halbes Jahr warten.
+      - link "Regalfläche anfragen →" [ref=e210] [cursor=pointer]:
+        - /url: /hersteller
+  - contentinfo [ref=e211]:
+    - generic [ref=e212]:
+      - generic [ref=e213]:
+        - generic [ref=e214]:
+          - generic [ref=e215]: HUB42
+          - paragraph [ref=e216]: The Store You Have To Solve.
+          - paragraph [ref=e217]: Where consumer brands are born.
+          - paragraph [ref=e218]: 42 ist die Antwort auf alles.
+          - generic [ref=e219]:
+            - text: Alexa Berlin · Grunerstraße 20 · 10179 Berlin
+            - text: Mo–Sa 10–20 Uhr
+          - link "info@tryhub42.de" [ref=e220] [cursor=pointer]:
+            - /url: mailto:info@tryhub42.de
+        - generic [ref=e221]:
+          - heading "Entdecken" [level=3] [ref=e222]
+          - list [ref=e223]:
+            - listitem [ref=e224]:
+              - link "Für Hersteller" [ref=e225] [cursor=pointer]:
+                - /url: /hersteller
+            - listitem [ref=e226]:
+              - link "Das Erlebnis" [ref=e227] [cursor=pointer]:
+                - /url: /erlebnis
+            - listitem [ref=e228]:
+              - link "Unsere Brands" [ref=e229] [cursor=pointer]:
+                - /url: /brands
+            - listitem [ref=e230]:
+              - link "Der Store" [ref=e231] [cursor=pointer]:
+                - /url: /store
+            - listitem [ref=e232]:
+              - link "Kontakt" [ref=e233] [cursor=pointer]:
+                - /url: /kontakt
+        - generic [ref=e234]:
+          - heading "Rechtliches" [level=3] [ref=e235]
+          - list [ref=e236]:
+            - listitem [ref=e237]:
+              - link "Impressum" [ref=e238] [cursor=pointer]:
+                - /url: /impressum
+            - listitem [ref=e239]:
+              - link "Datenschutz" [ref=e240] [cursor=pointer]:
+                - /url: /datenschutz
+            - listitem [ref=e241]:
+              - link "AGB" [ref=e242] [cursor=pointer]:
+                - /url: /agb
+          - generic [ref=e243]:
+            - heading "Social" [level=3] [ref=e244]
+            - link "@hub42berlin" [ref=e245] [cursor=pointer]:
+              - /url: https://instagram.com/hub42berlin
+      - generic [ref=e246]:
+        - paragraph [ref=e247]: © 2026 Hub42 UG (haftungsbeschränkt) · Alle Rechte vorbehalten
+        - paragraph [ref=e248]: Eröffnung Oktober 2026 · Alexa Berlin
+  - link "Direkt per WhatsApp schreiben" [ref=e249] [cursor=pointer]:
+    - /url: https://wa.me/4917787956437?text=Hallo%20Miguel%2C%20ich%20interessiere%20mich%20f%C3%BCr%20einen%20Slot%20bei%20Hub42.
+    - img [ref=e250]
+    - generic [ref=e252]: Direkt schreiben
+  - button "Open Next.js Dev Tools" [ref=e258] [cursor=pointer]:
+    - img [ref=e259]
+  - alert [ref=e262]

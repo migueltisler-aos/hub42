@@ -1,0 +1,25 @@
+[     734ms] [WARNING] [ABConvert] ABCONVERT_SENTRY_DSN not configured @ https://www.malunt.com/pages/impressum:577
+[     735ms] [LOG] [ABConvert] [url-redirect-test-v1] [INFO] [init] Running ABConvert URL redirect test 2.0.0 with cart attribute updates {source: ABConvert, script: url-redirect-test-v1, level: info, step: init, message: Running ABConvert URL redirect test 2.0.0 with cart attribute updates} @ https://www.malunt.com/pages/impressum:577
+[     736ms] [LOG] [ABConvert] [url-redirect-test-v1] [INFO] [shop-url] Stored shop URL for redirect test {source: ABConvert, script: url-redirect-test-v1, level: info, step: shop-url, message: Stored shop URL for redirect test} @ https://www.malunt.com/pages/impressum:577
+[    1056ms] TypeError: (root || document).querySelectorAll is not a function
+    at bkMediaPatchAllBundleDrawers (https://www.malunt.com/cdn/shop/t/55/assets/bk-media.js?v=106700411547173876041779444162:6:37195)
+[    1333ms] [LOG] ABConvert webpixel version 1.1.0 @ https://www.malunt.com/web-pixels/strict/app/web-pixel-4192371015@97817f51c502525386cd0f8afb3446d2.js:0
+[    1414ms] ReferenceError: timeoutId is not defined
+    at probe (https://www.malunt.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-254312775@1/sandbox/modern/pages/impressum:11:948)
+    at loadScript (https://www.malunt.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-254312775@1/sandbox/modern/pages/impressum:11:4519)
+    at https://www.malunt.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-254312775@1/sandbox/modern/pages/impressum:11:4777
+    at Object.<anonymous> (https://www.malunt.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-254312775@1/sandbox/modern/pages/impressum:11:5276)
+    at ue (https://www.malunt.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:1:70488)
+    at h (https://www.malunt.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:1:71954)
+    at o (https://www.malunt.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:1:73761)
+[    1461ms] [INFO] Clear-Site-Data header on 'https://www.malunt.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://www.malunt.com/pages/impressum:0
+[    1699ms] [LOG] %c⚡ Surveys powered by Zigpoll [https://www.zigpoll.com] font-size: 14px; font-weight: 600; padding: 4px 10px; border-radius: 4px; border: 1px solid #dfdfdf; @ https://cdn.zigpoll.com/static/js/main.js:0
+[    1747ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://www.malunt.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0
+[    1824ms] [LOG] [klarna-osm] Current page type: static @ https://s3.eu-west-1.amazonaws.com/production-klarna-il-shopify-osm/0b7fe7c4a98ef8166eeafee767bc667686567a25/malunt.myshopify.com-1762333447154.js?shop=malunt.myshopify.com:2
+[    1824ms] [LOG] [klarna-osm] Initializing Klarna On-Site Messaging @ https://s3.eu-west-1.amazonaws.com/production-klarna-il-shopify-osm/0b7fe7c4a98ef8166eeafee767bc667686567a25/malunt.myshopify.com-1762333447154.js?shop=malunt.myshopify.com:2
+[    1824ms] [LOG] [klarna-osm] Selected currency: EUR @ https://s3.eu-west-1.amazonaws.com/production-klarna-il-shopify-osm/0b7fe7c4a98ef8166eeafee767bc667686567a25/malunt.myshopify.com-1762333447154.js?shop=malunt.myshopify.com:2
+[    1824ms] [LOG] [klarna-osm] Shop currency: EUR @ https://s3.eu-west-1.amazonaws.com/production-klarna-il-shopify-osm/0b7fe7c4a98ef8166eeafee767bc667686567a25/malunt.myshopify.com-1762333447154.js?shop=malunt.myshopify.com:2
+[    1824ms] [LOG] [klarna-osm] Page detected: /pages/impressum @ https://s3.eu-west-1.amazonaws.com/production-klarna-il-shopify-osm/0b7fe7c4a98ef8166eeafee767bc667686567a25/malunt.myshopify.com-1762333447154.js?shop=malunt.myshopify.com:2
+[    1824ms] [LOG] [klarna-osm] Loaded: 0. Failed: 0 @ https://s3.eu-west-1.amazonaws.com/production-klarna-il-shopify-osm/0b7fe7c4a98ef8166eeafee767bc667686567a25/malunt.myshopify.com-1762333447154.js?shop=malunt.myshopify.com:2
+[    1825ms] [LOG] [klarna-osm] Klarna OSM Script Tag has been added successfully @ https://s3.eu-west-1.amazonaws.com/production-klarna-il-shopify-osm/0b7fe7c4a98ef8166eeafee767bc667686567a25/malunt.myshopify.com-1762333447154.js?shop=malunt.myshopify.com:2
+[    2196ms] [INFO] Clear-Site-Data header on 'https://www.malunt.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://www.malunt.com/pages/impressum:0

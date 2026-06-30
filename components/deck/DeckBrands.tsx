@@ -2,7 +2,7 @@
 import { BRANDS } from "@/lib/brands";
 
 // Vom Brief bestätigte Partner
-const CONFIRMED = ["teekampagne", "havel-wasser", "tekoha", "ikani", "green-naturals"];
+const CONFIRMED = ["berlin-oats", "crazy-bastard", "ikani", "auteniq", "green-naturals", "tekoha"];
 const PARTNERS = CONFIRMED.map((id) => BRANDS.find((b) => b.id === id)).filter(
   (b): b is NonNullable<typeof b> => Boolean(b),
 );

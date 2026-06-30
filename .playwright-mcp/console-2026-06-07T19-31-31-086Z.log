@@ -1,0 +1,10 @@
+[     397ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.fruehling94.com/pages/kontakt:0
+[     439ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.fruehling94.com/cdn/shop/t/8/assets/%7B%7B%20%22akrobat-thin.woff2%22%20%7C%20asset_url%20%7D%7D:0
+[     443ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.fruehling94.com/cdn/shop/t/8/assets/%7B%7B%20%22akrobat-thin.woff%22%20%7C%20asset_url%20%7D%7D:0
+[     451ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.fruehling94.com/cdn/shop/t/8/assets/%7B%7B%20%22akrobat-regular.woff2%22%20%7C%20asset_url%20%7D%7D:0
+[     451ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.fruehling94.com/cdn/shop/t/8/assets/%7B%7B%20%22akrobat-semibold.woff2%22%20%7C%20asset_url%20%7D%7D:0
+[     452ms] [LOG] %c This store is Powered by Reelfy background:#000;color: #dcf3fb Visit https://apps.shopify.com/reelfy/ for more info @ https://cdn.shopify.com/extensions/019e4361-5518-7aba-8cc1-191e912dec5f/reelfy-shoppable-video-582/assets/reelfy.js:0
+[     453ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.fruehling94.com/cdn/shop/t/8/assets/%7B%7B%20%22akrobat-regular.woff%22%20%7C%20asset_url%20%7D%7D:0
+[     453ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.fruehling94.com/cdn/shop/t/8/assets/%7B%7B%20%22akrobat-semibold.woff%22%20%7C%20asset_url%20%7D%7D:0
+[     810ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.fruehling94.com/cdn/shop/t/8/assets/%7B%7B%20%22akrobat-bold.woff2%22%20%7C%20asset_url%20%7D%7D:0
+[     812ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.fruehling94.com/cdn/shop/t/8/assets/%7B%7B%20%22akrobat-bold.woff%22%20%7C%20asset_url%20%7D%7D:0

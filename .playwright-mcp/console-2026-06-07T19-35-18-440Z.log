@@ -1,0 +1,52 @@
+[     741ms] [LOG] [AB Script] Script loaded @ https://cdn.shopify.com/extensions/019e9301-712e-7d58-9b45-e82c233d432b/ab_genius-92/assets/script.js:1
+[     741ms] [LOG] [AB Script] Client ID: 85118b3f-8709-4318-ad38-481b05bc1b53 @ https://cdn.shopify.com/extensions/019e9301-712e-7d58-9b45-e82c233d432b/ab_genius-92/assets/script.js:12
+[     741ms] [LOG] [AB Script] Current path: /policies/legal-notice @ https://cdn.shopify.com/extensions/019e9301-712e-7d58-9b45-e82c233d432b/ab_genius-92/assets/script.js:20
+[     742ms] [LOG] [AB Script] Is on proxy page: false @ https://cdn.shopify.com/extensions/019e9301-712e-7d58-9b45-e82c233d432b/ab_genius-92/assets/script.js:21
+[     742ms] [LOG] [AB Script] Fetching config from API @ https://cdn.shopify.com/extensions/019e9301-712e-7d58-9b45-e82c233d432b/ab_genius-92/assets/script.js:34
+[     848ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://t.organic-workout.de/v1/lst/universal-script?ph=4fc97bf86dc6646acad7e21384139d4d76dd86bb0e7bc01a8dd172195190856d&tag=!clicked&origin=SHOPIFY&shopify_ppp=true&ref_url=https://organic-workout.de/policies/legal-notice:0
+[    1015ms] [LOG] Running... @ https://organic-workout.de/web-pixels/strict/app/web-pixel-370770184@2cb743079161678654abfc4da89248b8.js:0
+[    1031ms] [LOG] [Pixel] ===== WEB PIXEL SCRIPT LOADED ===== @ https://organic-workout.de/web-pixels/strict/app/web-pixel-1151205640@3f3b72381e02d97f6a811795ea79032d.js:0
+[    1031ms] [LOG] [Pixel] Timestamp: 2026-06-07T19:35:19.471Z @ https://organic-workout.de/web-pixels/strict/app/web-pixel-1151205640@3f3b72381e02d97f6a811795ea79032d.js:0
+[    1031ms] [LOG] [Pixel] ===================================== @ https://organic-workout.de/web-pixels/strict/app/web-pixel-1151205640@3f3b72381e02d97f6a811795ea79032d.js:0
+[    1082ms] [LOG] [Pixel] ===== REGISTER FUNCTION CALLED ===== @ https://organic-workout.de/web-pixels/strict/app/web-pixel-1151205640@3f3b72381e02d97f6a811795ea79032d.js:0
+[    1082ms] [LOG] [Pixel] Shop: organic-workout.de @ https://organic-workout.de/web-pixels/strict/app/web-pixel-1151205640@3f3b72381e02d97f6a811795ea79032d.js:0
+[    1082ms] [LOG] [Pixel] Setting up analytics subscriptions... @ https://organic-workout.de/web-pixels/strict/app/web-pixel-1151205640@3f3b72381e02d97f6a811795ea79032d.js:0
+[    1082ms] [LOG] [Pixel] Web pixel setup complete. Tracking ALL standard Shopify pixel events + A/B experiment tracking @ https://organic-workout.de/web-pixels/strict/app/web-pixel-1151205640@3f3b72381e02d97f6a811795ea79032d.js:0
+[    1083ms] [INFO] k-web-pixel-version 1 @ https://organic-workout.de/web-pixels/strict/app/web-pixel-3777069320@524f6c1ee37bacdca7657a665bdca589.js:0
+[    1130ms] [LOG] [AB Script] Config fetched: {updateAfter: 1780862716547, experiments: Array(0)} @ https://cdn.shopify.com/extensions/019e9301-712e-7d58-9b45-e82c233d432b/ab_genius-92/assets/script.js:41
+[    1130ms] [LOG] [AB Script] Found experiment: undefined @ https://cdn.shopify.com/extensions/019e9301-712e-7d58-9b45-e82c233d432b/ab_genius-92/assets/script.js:52
+[    1130ms] [LOG] [AB Script] No experiment for current path @ https://cdn.shopify.com/extensions/019e9301-712e-7d58-9b45-e82c233d432b/ab_genius-92/assets/script.js:63
+[    1141ms] [LOG] [Pixel] Page viewed event triggered @ https://organic-workout.de/web-pixels/strict/app/web-pixel-1151205640@3f3b72381e02d97f6a811795ea79032d.js:0
+[    1151ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://organic-workout.de/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0
+[    1184ms] [LOG] [Pixel] No visitor ID found @ https://organic-workout.de/web-pixels/strict/app/web-pixel-1151205640@3f3b72381e02d97f6a811795ea79032d.js:0
+[    1185ms] [LOG] [Pixel] No visitor ID found, skipping event: PAGE_VIEW @ https://organic-workout.de/web-pixels/strict/app/web-pixel-1151205640@3f3b72381e02d97f6a811795ea79032d.js:0
+[    1210ms] [LOG] %c ► UpPromote Affiliate Marketing [Customer Referral Extension] - Loaded background-color: #092C4C; color: #fff; padding: 5px; @ https://cdn.shopify.com/extensions/019e260c-3ea0-71dd-8656-60984bbcd609/affliate-by-secomapp-117/assets/customer-referral.js:163
+[    1297ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://organic-workout.de/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0
+[    1836ms] [WARNING] Ecom popup data element not found @ https://cdn.shopify.com/extensions/019e7143-52dc-7036-9424-f6c00b97284b/ecomposer-128/assets/ecom_popup.js:0
+[    1909ms] [INFO] Clear-Site-Data header on 'https://organic-workout.de/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://organic-workout.de/policies/legal-notice:0
+[    1919ms] [LOG] %c ► UpPromote Affiliate Marketing [Application] - Running... background-color: #092C4C; color: #fff; padding: 5px; @ https://d1639lhkj5l89m.cloudfront.net/js/storefront/uppromote.js:0
+[    2026ms] ChunkLoadError: Loading chunk 7917 failed after 3 retries.
+(vendors~Render~ClientStore~~~onsite-back-in-stock.7d7b5b811b79d6bdfaae.js)
+    at m.f.j (https://static.klaviyo.com/onsite/js/build-preview/commit-e93d48723ad76f27cbf4145e2c348bc69f9234d5/runtime.39fb216910603f05bc32.js?cb=2:1:20768)
+    at https://static.klaviyo.com/onsite/js/build-preview/commit-e93d48723ad76f27cbf4145e2c348bc69f9234d5/runtime.39fb216910603f05bc32.js?cb=2:1:1402
+    at Array.reduce (<anonymous>)
+    at m.e (https://static.klaviyo.com/onsite/js/build-preview/commit-e93d48723ad76f27cbf4145e2c348bc69f9234d5/runtime.39fb216910603f05bc32.js?cb=2:1:1367)
+    at m.e (https://static.klaviyo.com/onsite/js/build-preview/commit-e93d48723ad76f27cbf4145e2c348bc69f9234d5/runtime.39fb216910603f05bc32.js?cb=2:1:19140)
+    at https://static.klaviyo.com/onsite/js/build-preview/commit-e93d48723ad76f27cbf4145e2c348bc69f9234d5/runtime.39fb216910603f05bc32.js?cb=2:1:19430
+[    2026ms] ChunkLoadError: Loading chunk 7917 failed after 3 retries.
+(vendors~Render~ClientStore~~~onsite-back-in-stock.7d7b5b811b79d6bdfaae.js)
+    at m.f.j (https://static.klaviyo.com/onsite/js/build-preview/commit-e93d48723ad76f27cbf4145e2c348bc69f9234d5/runtime.39fb216910603f05bc32.js?cb=2:1:20768)
+    at https://static.klaviyo.com/onsite/js/build-preview/commit-e93d48723ad76f27cbf4145e2c348bc69f9234d5/runtime.39fb216910603f05bc32.js?cb=2:1:1402
+    at Array.reduce (<anonymous>)
+    at m.e (https://static.klaviyo.com/onsite/js/build-preview/commit-e93d48723ad76f27cbf4145e2c348bc69f9234d5/runtime.39fb216910603f05bc32.js?cb=2:1:1367)
+    at m.e (https://static.klaviyo.com/onsite/js/build-preview/commit-e93d48723ad76f27cbf4145e2c348bc69f9234d5/runtime.39fb216910603f05bc32.js?cb=2:1:19140)
+    at https://static.klaviyo.com/onsite/js/build-preview/commit-e93d48723ad76f27cbf4145e2c348bc69f9234d5/runtime.39fb216910603f05bc32.js?cb=2:1:19430
+[    2132ms] [WARNING] Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently @ https://cdn.iubenda.com/cookie_solution/iubenda_cs/1.100.0/core-de.js:0
+[    2134ms] [WARNING] Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently @ https://cdn.iubenda.com/cookie_solution/iubenda_cs/1.100.0/core-de.js:0
+[    2137ms] [WARNING] Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently @ https://cdn.iubenda.com/cookie_solution/iubenda_cs/1.100.0/core-de.js:0
+[    2141ms] [WARNING] Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently @ https://cdn.iubenda.com/cookie_solution/iubenda_cs/1.100.0/core-de.js:0
+[    2143ms] [WARNING] Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently @ https://cdn.iubenda.com/cookie_solution/iubenda_cs/1.100.0/core-de.js:0
+[    2145ms] [WARNING] Canvas2D: Multiple readback operations using getImageData are faster with the willReadFrequently attribute set to true. See: https://html.spec.whatwg.org/multipage/canvas.html#concept-canvas-will-read-frequently @ https://cdn.iubenda.com/cookie_solution/iubenda_cs/1.100.0/core-de.js:0
+[    2312ms] ReferenceError: getCountryCode is not defined
+    at https://organic-workout.de/policies/legal-notice:4603:21
+[    2418ms] [LOG] %c⚡ Surveys powered by Zigpoll [https://www.zigpoll.com] font-size: 14px; font-weight: 600; padding: 4px 10px; border-radius: 4px; border: 1px solid #dfdfdf; @ https://cdn.zigpoll.com/static/js/main.js:0

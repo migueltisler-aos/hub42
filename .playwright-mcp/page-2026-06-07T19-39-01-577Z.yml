@@ -1,0 +1,311 @@
+- generic [ref=e1]:
+  - dialog "Cookie bar" [ref=e4]:
+    - paragraph [ref=e7]:
+      - text: Wir verwenden Cookies, um dein Einkaufserlebnis zu verbessern und unsere Website laufend zu optimieren. Du entscheidest, welche Cookies wir nutzen dürfen – deine Auswahl kannst du jederzeit anpassen.
+      - link "Datenschutzrichtlinie (opens in a new tab)" [ref=e8] [cursor=pointer]:
+        - /url: https://gittiberlin.myshopify.com/policies/privacy-policy
+        - text: Datenschutzrichtlinie
+    - generic [ref=e10]:
+      - button "Alles Akzeptieren" [ref=e11] [cursor=pointer]
+      - button "Einstellungen" [ref=e12] [cursor=pointer]
+  - banner [ref=e13]:
+    - generic [ref=e18]:
+      - link [ref=e20] [cursor=pointer]:
+        - /url: /pages/sip-into-summer
+        - generic [ref=e21]: Neue Sommerfarben + Fast Dry Top Coat
+      - link [ref=e23] [cursor=pointer]:
+        - /url: /pages/gitti-nail-treatments
+        - generic [ref=e24]: "Unsere Bestseller: Nail Treatments"
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - generic [ref=e29]:
+          - link [ref=e31] [cursor=pointer]:
+            - /url: /collections/all-products
+            - generic [ref=e32]: Alle Produkte
+          - link [ref=e34] [cursor=pointer]:
+            - /url: /collections/nail-polish
+            - generic [ref=e35]: Nagellack
+          - link [ref=e37] [cursor=pointer]:
+            - /url: /collections/pflege
+            - generic [ref=e38]: Hand- & Nagelpflege
+          - link [ref=e40] [cursor=pointer]:
+            - /url: /collections/all-makeup
+            - generic [ref=e41]: Make-up
+          - link [ref=e43] [cursor=pointer]:
+            - /url: /collections/sets
+            - generic [ref=e44]: Sets
+          - link [ref=e46] [cursor=pointer]:
+            - /url: /pages/about-us
+            - generic [ref=e47]: Über uns
+        - link [ref=e48] [cursor=pointer]:
+          - /url: /
+          - generic:
+            - img
+        - generic [ref=e49]:
+          - generic [ref=e52]:
+            - generic:
+              - img
+            - text: DE / DE
+          - generic [ref=e53] [cursor=pointer]:
+            - generic:
+              - img
+          - generic [ref=e54]:
+            - link [ref=e55] [cursor=pointer]:
+              - /url: https://www.gitticonsciousbeauty.com/customer_authentication/redirect?locale=de&region_country=DE
+              - generic:
+                - img
+            - generic [ref=e56] [cursor=pointer]:
+              - generic:
+                - img
+              - generic [ref=e57]: "0"
+      - generic [ref=e61] [cursor=pointer]:
+        - generic:
+          - img
+    - generic [ref=e63]:
+      - img [ref=e67] [cursor=pointer]
+      - generic [ref=e70]:
+        - generic [ref=e71]:
+          - generic [ref=e72]: Alle Produkte
+          - img [ref=e74]
+        - generic [ref=e76]:
+          - generic [ref=e77]: Nagellack
+          - img [ref=e79]
+        - generic [ref=e81]:
+          - generic [ref=e82]: Pflegelack
+          - img [ref=e84]
+        - generic [ref=e86]:
+          - generic [ref=e87]: Hand- & Nagelpflege
+          - img [ref=e89]
+        - generic [ref=e91]:
+          - generic [ref=e92]: Make-Up
+          - img [ref=e94]
+        - generic [ref=e96]:
+          - generic [ref=e97]: Sets
+          - img [ref=e99]
+        - link [ref=e101] [cursor=pointer]:
+          - /url: /products/digital-gift-card
+          - text: Geschenkgutschein
+        - link [ref=e102] [cursor=pointer]:
+          - /url: https://www.gitticonsciousbeauty.com/pages/sip-into-summer
+          - generic [ref=e105]: "Neu: Sip into Summer Collection"
+        - generic [ref=e106]:
+          - generic [ref=e107]: Über uns
+          - img [ref=e109]
+      - generic [ref=e113]:
+        - img [ref=e115]
+        - text: DE / DE
+  - generic [ref=e123]:
+    - generic [ref=e124]:
+      - generic [ref=e126]:
+        - img [ref=e129] [cursor=pointer]
+        - paragraph [ref=e132]:
+          - strong [ref=e133]: Dein Warenkorb (0)
+      - paragraph [ref=e135]: Noch 50,00 € bis zum kostenfreien Versand.
+    - generic [ref=e138]:
+      - img [ref=e141]
+      - paragraph [ref=e143]: Dein Warenkorb ist leer.
+      - link [ref=e144] [cursor=pointer]:
+        - /url: /collections/all-products
+        - text: Alle Produkte entdecken
+  - main [ref=e145]:
+    - generic [ref=e146]:
+      - heading [level=1] [ref=e148]: Impressum
+      - generic [ref=e150]:
+        - paragraph [ref=e151]
+        - paragraph [ref=e152]
+        - paragraph [ref=e153]:
+          - strong [ref=e155]: gitti GmbH
+          - text: Schönhauser Allee 43a 10435 Berlin
+        - paragraph [ref=e156]: "E-Mail: hallo@gitti.de"
+        - paragraph [ref=e157]: "Vertreten durch Founder & Managing Director: Jennifer Baum-Minkus"
+        - paragraph [ref=e158]: "Registergericht: Amtsgericht Charlottenburg Registernummer: HRB 199608 B Umsatzsteuer-Identifikationsnummer gemäß §27 a Umsatzsteuergesetz: DE320618135"
+        - paragraph [ref=e159]: "Verantwortliche für eigene Inhalte der gitti GmbH gem. § 55 RStV: Jennifer Baum-Minkus"
+        - paragraph [ref=e160]:
+          - text: "Plattform der EU zur Online-Streitbeilegung gem. Art 14 Abs. 1 ODR_VO:"
+          - link [ref=e161] [cursor=pointer]:
+            - /url: http://ec.europa.eu/consumers/odr/
+            - text: http://ec.europa.eu/consumers/odr/
+          - text: . Zur Teilnahme an einem Schlichtungsverfahren sind wir nicht verpflichtet und können sie leider auch nicht anbieten.
+        - paragraph [ref=e162]: Für alle Links zu anderen Seiten im Internet erklärt die gitti GmbH ausdrücklich, dass sie keinerlei Einfluss auf die Gestaltung und die Inhalte der verlinkten Seiten hat. Deshalb distanzieren wir uns hiermit ausdrücklich von allen Inhalten aller verlinkten Seiten Dritter auf www.gitticonsciousbeauty.de, machen uns diese Inhalte nicht zu Eigen und übernehmen keinerlei Haftung und Gewähr für diese fremden Inhalte. Diese Erklärung gilt für alle angezeigten Links und für alle Inhalte der Seiten, zu denen Links führen.
+        - paragraph [ref=e163]
+  - generic [ref=e166]:
+    - generic [ref=e167]:
+      - paragraph [ref=e168]:
+        - strong [ref=e169]: gitti News
+      - paragraph [ref=e171]: Abonniere unseren Newsletter und erhalte 10% auf deine erste Bestellung.
+    - generic [ref=e174]:
+      - generic [ref=e177]:
+        - generic [ref=e178]:
+          - textbox [ref=e181]:
+            - /placeholder: Deine E-Mail Adresse
+          - button [ref=e183] [cursor=pointer]: Anmelden
+        - paragraph [ref=e187]:
+          - text: Informationen dazu, wie gitti deine Daten nutzt, findest du in unserer
+          - link [ref=e188] [cursor=pointer]:
+            - /url: https://www.gitticonsciousbeauty.com/pages/privacy-policy
+            - text: Datenschutzerklärung
+          - text: . Du kannst dich jederzeit kostenlos abmelden.
+      - alert [ref=e189]
+  - generic [ref=e192]:
+    - link [ref=e194] [cursor=pointer]:
+      - /url: /
+      - img [ref=e196]
+    - generic [ref=e201]:
+      - generic [ref=e203]:
+        - paragraph [ref=e204]: Shop gitti
+        - list [ref=e205]:
+          - listitem [ref=e206]:
+            - link [ref=e207] [cursor=pointer]:
+              - /url: /collections/all-products
+              - text: Alle Produkte
+          - listitem [ref=e208]:
+            - link [ref=e209] [cursor=pointer]:
+              - /url: /collections/plant-based-nail-polish
+              - text: Pflanzenbasierter Nagellack
+          - listitem [ref=e210]:
+            - link [ref=e211] [cursor=pointer]:
+              - /url: /collections/pflegelacke
+              - text: Pflegelack
+          - listitem [ref=e212]:
+            - link [ref=e213] [cursor=pointer]:
+              - /url: /collections/gel-nagellack
+              - text: Gel-Nagellack
+          - listitem [ref=e214]:
+            - link [ref=e215] [cursor=pointer]:
+              - /url: /pages/gitti-kids
+              - text: Kinder-Nagellack
+          - listitem [ref=e216]:
+            - link [ref=e217] [cursor=pointer]:
+              - /url: /collections/all-makeup
+              - text: Make-Up
+      - generic [ref=e219]:
+        - paragraph [ref=e220]: Most wanted
+        - list [ref=e221]:
+          - listitem [ref=e222]:
+            - link [ref=e223] [cursor=pointer]:
+              - /url: /products/infinite-gloss-routine
+              - text: Infinite Gloss Routine
+          - listitem [ref=e224]:
+            - link [ref=e225] [cursor=pointer]:
+              - /url: /products/nail-recovery-treatment
+              - text: Nail Recovery Treatment
+          - listitem [ref=e226]:
+            - link [ref=e227] [cursor=pointer]:
+              - /url: /products/plant-collection-set
+              - text: Plant Collection
+          - listitem [ref=e228]:
+            - link [ref=e229] [cursor=pointer]:
+              - /url: /products/nail-glaze
+              - text: Nail Glaze
+          - listitem [ref=e230]:
+            - link [ref=e231] [cursor=pointer]:
+              - /url: /products/nail-polish-remover
+              - text: Nagellackentferner
+          - listitem [ref=e232]:
+            - link [ref=e233] [cursor=pointer]:
+              - /url: /products/eye-level-no-01-black
+              - text: Eye Level
+          - listitem [ref=e234]:
+            - link [ref=e235] [cursor=pointer]:
+              - /url: /pages/nail-treatments
+              - text: Nail Treatments
+      - generic [ref=e237]:
+        - paragraph [ref=e238]: Über gitti
+        - list [ref=e239]:
+          - listitem [ref=e240]:
+            - link [ref=e241] [cursor=pointer]:
+              - /url: /pages/about-us
+              - text: Über uns
+          - listitem [ref=e242]:
+            - link [ref=e243] [cursor=pointer]:
+              - /url: /pages/wo-kann-ich-gitti-kaufen
+              - text: Wo kann ich gitti kaufen?
+          - listitem [ref=e244]:
+            - link [ref=e245] [cursor=pointer]:
+              - /url: /pages/gitti-x-dm
+              - text: Jetzt auch bei dm
+          - listitem [ref=e246]:
+            - link [ref=e247] [cursor=pointer]:
+              - /url: https://www.gitticonsciousbeauty.com/pages/inhaltsstoffe
+              - text: Inhaltsstoffe
+      - generic [ref=e249]:
+        - paragraph [ref=e250]: Versand & Retouren
+        - list [ref=e251]:
+          - listitem [ref=e252]:
+            - link [ref=e253] [cursor=pointer]:
+              - /url: /pages/shipping
+              - text: Versandbedingungen
+          - listitem [ref=e254]:
+            - link [ref=e255] [cursor=pointer]:
+              - /url: /pages/return-policy
+              - text: Retouren
+          - listitem [ref=e256]:
+            - link [ref=e257] [cursor=pointer]:
+              - /url: https://www.gitticonsciousbeauty.com/apps/karla/track
+              - text: Sendungsverfolgung
+      - generic [ref=e259]:
+        - paragraph [ref=e260]: Hilfe & Kontakt
+        - list [ref=e261]:
+          - listitem [ref=e262]:
+            - link [ref=e263] [cursor=pointer]:
+              - /url: /pages/contact-us
+              - text: Kontakt
+          - listitem [ref=e264]:
+            - link [ref=e265] [cursor=pointer]:
+              - /url: /pages/faq-helpcenter
+              - text: F. A. Q.
+          - listitem [ref=e266]:
+            - link [ref=e267] [cursor=pointer]:
+              - /url: /pages/manicure-guidelines
+              - text: Maniküre Steps
+          - listitem [ref=e268]:
+            - link [ref=e269] [cursor=pointer]:
+              - /url: /pages/manicure-steps-plantpro
+              - text: plantPRO Maniküre Steps
+          - listitem [ref=e270]:
+            - link [ref=e271] [cursor=pointer]:
+              - /url: https://gitti.jobs.personio.de/
+              - text: Jobs
+      - generic [ref=e272]:
+        - paragraph [ref=e274]:
+          - strong [ref=e275]: Follow Us
+        - generic [ref=e276]:
+          - link [ref=e278] [cursor=pointer]:
+            - /url: https://www.instagram.com/gittibeauty/#
+            - img [ref=e280]
+          - link [ref=e283] [cursor=pointer]:
+            - /url: https://www.facebook.com/gittibeauty/
+            - img [ref=e285]
+          - link [ref=e288] [cursor=pointer]:
+            - /url: https://www.facebook.com/gittibeauty/
+            - img [ref=e290]
+    - generic [ref=e292]:
+      - paragraph [ref=e294]:
+        - link [ref=e295] [cursor=pointer]:
+          - /url: https://www.gitticonsciousbeauty.com/pages/teile-deine-gitti-liebe
+          - text: Refer a friend
+      - paragraph [ref=e297]:
+        - link [ref=e298] [cursor=pointer]:
+          - /url: /pages/newsletter-sign-up
+          - text: Newsletter
+      - paragraph [ref=e300]:
+        - link [ref=e301] [cursor=pointer]:
+          - /url: /pages/aktionsbedingungen
+          - text: "*Aktionsbedingungen"
+    - generic [ref=e302]:
+      - paragraph [ref=e304]:
+        - link [ref=e305] [cursor=pointer]:
+          - /url: /pages/barrierefreiheits-erklarung
+          - text: Barrierefreiheits-Erklärung
+      - paragraph [ref=e307]:
+        - link [ref=e308] [cursor=pointer]:
+          - /url: /policies/privacy-policy
+          - text: Datenschutz
+      - paragraph [ref=e310]:
+        - link [ref=e311] [cursor=pointer]:
+          - /url: /pages/terms-of-service
+          - text: AGB
+      - paragraph [ref=e313]:
+        - link [ref=e314] [cursor=pointer]:
+          - /url: /pages/legal-notice
+          - text: Impressum

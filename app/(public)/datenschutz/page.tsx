@@ -2,7 +2,7 @@
 
 export const metadata: Metadata = {
   title: "Datenschutz",
-  description: "Datenschutzerklärung der Hub42 GmbH",
+  description: "Datenschutzerklärung der Hub42 UG (haftungsbeschränkt)",
 };
 
 export default function DatenschutzPage() {
@@ -21,7 +21,10 @@ export default function DatenschutzPage() {
           <div>
             <h2 className="text-cream text-lg font-semibold mb-2">1. Verantwortlicher</h2>
             <p>
-              Hub42 GmbH · Grunerstraße 20 · 10179 Berlin<br />
+              Hub42 UG (haftungsbeschränkt)<br />
+              c/o Valuedfriends Innovation GmbH<br />
+              Spreeinsel 6<br />
+              15848 Beeskow<br />
               E-Mail:{" "}
               <a href="mailto:info@tryhub42.de" className="text-bronze hover:underline">
                 info@tryhub42.de

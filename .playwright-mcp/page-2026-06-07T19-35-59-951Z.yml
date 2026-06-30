@@ -1,0 +1,265 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content" [ref=e2] [cursor=pointer]:
+    - /url: "#MainContent"
+  - generic [ref=e3]:
+    - region "Announcement" [ref=e4]:
+      - paragraph [ref=e6]: Made in France. Based in Berlin. Inspired by Women.
+    - region "Announcement" [ref=e7]:
+      - link "EXPLORE OUR BODY CARE COLLECTION" [ref=e8] [cursor=pointer]:
+        - /url: /collections/all
+        - paragraph [ref=e10]:
+          - text: EXPLORE OUR BODY CARE COLLECTION
+          - img
+  - banner [ref=e13]:
+    - navigation [ref=e14]:
+      - list [ref=e15]:
+        - listitem [ref=e16]:
+          - link "Home" [ref=e17] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e18]: Home
+        - listitem [ref=e19]:
+          - link "Catalog" [ref=e20] [cursor=pointer]:
+            - /url: /collections/all
+            - generic [ref=e21]: Catalog
+        - listitem [ref=e22]:
+          - link "Blog" [ref=e23] [cursor=pointer]:
+            - /url: /blogs/news
+            - generic [ref=e24]: Blog
+        - listitem [ref=e25]:
+          - link "Contact" [ref=e26] [cursor=pointer]:
+            - /url: /pages/contact
+            - generic [ref=e27]: Contact
+        - listitem [ref=e28]:
+          - link "B2B" [ref=e29] [cursor=pointer]:
+            - /url: /pages/b2b-solutions
+            - generic [ref=e30]: B2B
+    - heading "Frühling94" [level=1] [ref=e31]:
+      - link "Frühling94" [ref=e32] [cursor=pointer]:
+        - /url: /
+        - img "Frühling94" [ref=e33]
+    - generic [ref=e34]:
+      - group [ref=e36]:
+        - button "Search" [ref=e37] [cursor=pointer]:
+          - img [ref=e39]
+      - link "Log in" [ref=e41] [cursor=pointer]:
+        - /url: https://www.fruehling94.com/customer_authentication/redirect?locale=en&region_country=DE
+        - img [ref=e42]
+        - generic [ref=e43]: Log in
+      - link "Cart" [ref=e44] [cursor=pointer]:
+        - /url: /cart
+        - img [ref=e45]
+        - generic [ref=e47]: Cart
+  - generic [ref=e51]:
+    - heading "NATURAL, SENSORIAL SCRUBS FOR AT-HOME SPA RITUALS" [level=2] [ref=e52]
+    - link "SHOP BODY SCRUBS" [ref=e53] [cursor=pointer]:
+      - /url: /collections/all
+  - main [ref=e54]:
+    - generic [ref=e58]:
+      - button "Previous slide" [disabled] [ref=e59] [cursor=pointer]
+      - button "Next slide" [ref=e60] [cursor=pointer]
+      - generic [ref=e61]:
+        - group "1 / 7" [ref=e62] [cursor=pointer]:
+          - img "Mini Shiny Body Balm 50 ml" [ref=e64]
+          - img "Mini Shiny Body Balm 50 ml" [ref=e66]
+          - generic [ref=e68]:
+            - generic [ref=e70]:
+              - paragraph [ref=e72]: Mini Shiny Body Balm 50 ml
+              - paragraph [ref=e74]: €15,00
+            - generic [ref=e75]: Buy
+        - group "2 / 7" [ref=e76] [cursor=pointer]:
+          - img "Mini Mango Butter Scrub 50 ml" [ref=e78]
+          - img "Mini Mango Butter Scrub 50 ml" [ref=e80]
+          - generic [ref=e82]:
+            - generic [ref=e84]:
+              - paragraph [ref=e86]: Mini Mango Butter Scrub 50 ml
+              - paragraph [ref=e88]: €15,00
+            - generic [ref=e89]: Buy
+        - group "3 / 7" [ref=e90] [cursor=pointer]:
+          - img "Mini Coconut Body Scrub 50 ml" [ref=e92]
+          - img "Mini Coconut Body Scrub 50 ml" [ref=e94]
+          - generic [ref=e96]:
+            - generic [ref=e98]:
+              - paragraph [ref=e100]: Mini Coconut Body Scrub 50 ml
+              - paragraph [ref=e102]: €15,00
+            - generic [ref=e103]: Buy
+        - group "4 / 7" [ref=e104] [cursor=pointer]:
+          - img "Discovery Set" [ref=e106]
+          - img "Discovery Set" [ref=e108]
+          - generic [ref=e110]:
+            - generic [ref=e112]:
+              - paragraph [ref=e114]: Discovery Set
+              - paragraph [ref=e116]: €36,00
+            - generic [ref=e117]: Buy
+        - group "5 / 7" [ref=e118] [cursor=pointer]:
+          - img "Mango Lip Balm" [ref=e120]
+          - img "Mango Lip Balm" [ref=e122]
+          - generic [ref=e124]:
+            - generic [ref=e126]:
+              - paragraph [ref=e128]: Mango Lip Balm
+              - paragraph [ref=e130]: €10,00
+            - generic [ref=e131]: Buy
+        - group "6 / 7" [ref=e132] [cursor=pointer]:
+          - img "Coconut Pulp Exfoliator" [ref=e134]
+          - img "Coconut Pulp Exfoliator" [ref=e136]
+          - generic [ref=e138]:
+            - generic [ref=e140]:
+              - paragraph [ref=e142]: Coconut Pulp Exfoliator
+              - paragraph [ref=e144]: €34,00
+            - generic [ref=e145]: Buy
+        - group "7 / 7" [ref=e146] [cursor=pointer]:
+          - img "Mango Butter Exfoliator" [ref=e148]
+          - img "Mango Butter Exfoliator" [ref=e150]
+          - generic [ref=e152]:
+            - generic [ref=e154]:
+              - paragraph [ref=e156]: Mango Butter Exfoliator
+              - paragraph [ref=e158]: €34,00
+            - generic [ref=e159]: Buy
+    - generic [ref=e162]:
+      - paragraph [ref=e164]: Our Story
+      - generic [ref=e165]:
+        - generic [ref=e167]:
+          - paragraph [ref=e168]: Frühling94 was born
+          - paragraph [ref=e169]: January, 2020
+        - generic [ref=e171]:
+          - paragraph [ref=e172]: Ingredient Discovery
+          - paragraph [ref=e173]: January, 2021
+        - generic [ref=e175]:
+          - paragraph [ref=e176]: Design Evolution
+          - paragraph [ref=e177]: January, 2022
+        - generic [ref=e179]:
+          - paragraph [ref=e180]: Sales Launch
+          - paragraph [ref=e181]: August, 2023
+        - generic [ref=e183]:
+          - paragraph [ref=e184]: Professional Line Launch
+          - paragraph [ref=e185]: January, 2024
+        - generic [ref=e187]:
+          - paragraph [ref=e188]: Mango Lip Balm Launch
+          - paragraph [ref=e189]: September, 2024
+      - generic [ref=e203]:
+        - generic [ref=e205]:
+          - img [ref=e206]
+          - paragraph [ref=e209]: During the challenging days of the COVID pandemic, as a new mom, I found it difficult to carve out moments of self-care. This inspired me to create Frühling94—a brand dedicated to gifting women 15 minutes of cherished, rejuvenating time for themselves.
+        - generic [ref=e211]:
+          - img [ref=e212]
+          - paragraph [ref=e215]: After a year-long search for the finest ingredients, Frühling94 found the perfect match in Brittany, France—laying the foundation for our premium self-care products.
+        - generic [ref=e217]:
+          - img [ref=e218]
+          - paragraph [ref=e221]: Through experimenting with different materials and packaging, we developed a unique style that perfectly reflects Frühling94’s essence—crafted in France, inspired by the creativity of Berlin.
+        - generic [ref=e223]:
+          - img [ref=e224]
+          - paragraph [ref=e227]: Our jars are ready to conquer the world! With a sprinkle of love and a dash of French luxury, Frühling94 has officially launched, bringing 15 minutes of pure bliss to women everywhere. Let the self-care adventure begin!
+        - generic [ref=e229]:
+          - img [ref=e230]
+          - paragraph [ref=e233]: We introduced our professional line designed for B2B partners—offering luxurious SPA manicure essentials and long-lasting massage products, crafted to elevate the salon and spa experience.
+        - generic [ref=e235]:
+          - img [ref=e236]
+          - paragraph [ref=e239]: We’re thrilled to introduce our mango lip balm! With a natural formula and cutting-edge water-reverse production technology from South Korea, it’s a little tube of fruity perfection, crafted to nourish and delight.
+    - generic [ref=e246]:
+      - heading "B2B Tailored Solutions" [level=2] [ref=e247]
+      - heading "Frühling94 provides bespoke solutions for beauty businesses, ensuring every client’s experience is unforgettable—because luxury is all in the details." [level=4] [ref=e249]
+      - link "Become our partner" [ref=e250] [cursor=pointer]:
+        - /url: /pages/b2b-solutions
+    - generic [ref=e253]:
+      - heading "Blog" [level=2] [ref=e255]
+      - list [ref=e257]:
+        - listitem [ref=e258]:
+          - generic [ref=e260]:
+            - img "A Home Spa Ritual for When You Don’t Have Time" [ref=e264]
+            - generic [ref=e267]:
+              - heading "A Home Spa Ritual for When You Don’t Have Time" [level=3] [ref=e268]:
+                - link "A Home Spa Ritual for When You Don’t Have Time" [ref=e269] [cursor=pointer]:
+                  - /url: /blogs/news/a-home-spa-ritual-for-when-you-don-t-have-time
+              - time [ref=e272]: April 25, 2026
+              - paragraph [ref=e273]: How Frühling94 really started I didn’t start Frühling94 because I had time for beauty rituals. I started it because I didn’t. When I became a mom, everything shifted in a...
+        - listitem [ref=e274]:
+          - generic [ref=e276]:
+            - img "Marie Claire & Frühling94" [ref=e280]
+            - generic [ref=e283]:
+              - heading "Marie Claire & Frühling94" [level=3] [ref=e284]:
+                - link "Marie Claire & Frühling94" [ref=e285] [cursor=pointer]:
+                  - /url: /blogs/news/marie-claire-abour-fruhling94
+              - time [ref=e288]: December 2, 2024
+              - paragraph [ref=e289]: Dans un marché en quête constante d’authenticité et de durabilité, s’impose comme une marque singulière. Fondée par Anastasia, Frühling94 se situe entre créativité effervescente et qualité des matières premières. Avec...
+        - listitem [ref=e290]:
+          - generic [ref=e292]:
+            - img "Vienna Awards & Frühling94" [ref=e296]
+            - generic [ref=e299]:
+              - heading "Vienna Awards & Frühling94" [level=3] [ref=e300]:
+                - link "Vienna Awards & Frühling94" [ref=e301] [cursor=pointer]:
+                  - /url: /blogs/news/vienna-awards-fruhling94
+              - time [ref=e304]: October 24, 2024
+              - paragraph [ref=e305]: At the Vienna Awards event, Frühling94 not only sponsored our luxurious Mango Body Peeling and Mango Lip Balm but also had the honour, in collaboration with Austrian shop Beauty Matters,...
+    - generic [ref=e307]:
+      - heading "Our Partners" [level=2] [ref=e308]: Our Partners
+      - generic [ref=e309]:
+        - link [ref=e311] [cursor=pointer]:
+          - /url: https://thebathroom-boutique.de/en/brands/fruehling94-en/
+        - link [ref=e313] [cursor=pointer]:
+          - /url: https://beautyconceptshop.cz/collections/fruhling94
+        - link [ref=e315] [cursor=pointer]:
+          - /url: https://fb-concept-berlin.de/
+        - link [ref=e317] [cursor=pointer]:
+          - /url: https://thebeautymatters.at/collections/fruhling-94
+        - link [ref=e319] [cursor=pointer]:
+          - /url: https://gbar.de.com/
+        - link [ref=e321] [cursor=pointer]:
+          - /url: https://skillsbeauty.com/collections/products
+  - contentinfo [ref=e323]:
+    - generic [ref=e324]:
+      - generic [ref=e325]:
+        - generic [ref=e326]:
+          - heading "Quick links" [level=2] [ref=e327]
+          - list [ref=e328]:
+            - listitem [ref=e329]:
+              - link "Our Brand, Mission & Values" [ref=e330] [cursor=pointer]:
+                - /url: /pages/mission-values
+            - listitem [ref=e331]:
+              - link "Contact us" [ref=e332] [cursor=pointer]:
+                - /url: /pages/contact
+            - listitem [ref=e333]:
+              - link "Blog" [ref=e334] [cursor=pointer]:
+                - /url: /blogs/news
+            - listitem [ref=e335]:
+              - link "FAQ" [ref=e336] [cursor=pointer]:
+                - /url: /pages/faq
+        - generic [ref=e337]:
+          - heading "Customer Service" [level=2] [ref=e338]
+          - generic [ref=e339]:
+            - heading "Privacy Policy" [level=5] [ref=e340]:
+              - link "Privacy Policy" [ref=e341] [cursor=pointer]:
+                - /url: /policies/privacy-policy
+            - heading "Terms and Conditions" [level=5] [ref=e342]:
+              - link "Terms and Conditions" [ref=e343] [cursor=pointer]:
+                - /url: /policies/terms-of-service
+            - heading "Refund Policy" [level=5] [ref=e344]:
+              - link "Refund Policy" [ref=e345] [cursor=pointer]:
+                - /url: /policies/refund-policy
+            - heading "Imprint" [level=5] [ref=e346]:
+              - link "Imprint" [ref=e347] [cursor=pointer]:
+                - /url: /pages/imprint
+      - generic [ref=e348]:
+        - generic [ref=e349]:
+          - heading "Subscribe to our emails" [level=2] [ref=e350]
+          - generic [ref=e353]:
+            - textbox "Email" [ref=e354]
+            - generic: Email
+            - button "Subscribe" [ref=e355] [cursor=pointer]:
+              - img [ref=e356]
+        - button "Follow on Shop" [ref=e360] [cursor=pointer]:
+          - img [ref=e363]
+          - generic [ref=e365]:
+            - text: Follow on
+            - img "Shop" [ref=e366]
+        - list [ref=e368]:
+          - listitem [ref=e369]:
+            - link "Instagram" [ref=e370] [cursor=pointer]:
+              - /url: https://www.instagram.com/fruhling94/
+              - img [ref=e371]
+              - generic [ref=e373]: Instagram
+    - generic [ref=e376]:
+      - generic [ref=e377]:
+        - text: © 2026,
+        - link "Frühling94" [ref=e378] [cursor=pointer]:
+          - /url: /
+      - link "Powered by Shopify" [ref=e380] [cursor=pointer]:
+        - /url: https://www.shopify.com?utm_campaign=poweredby&utm_medium=shopify&utm_source=onlinestore

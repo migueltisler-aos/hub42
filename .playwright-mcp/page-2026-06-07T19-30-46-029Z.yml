@@ -1,0 +1,64 @@
+- generic [active] [ref=e1]:
+  - main [ref=e3]:
+    - generic [ref=e4]:
+      - paragraph [ref=e5]: Die Domain
+      - heading "wildcorn.de" [level=1] [ref=e6]
+      - paragraph [ref=e7]: wurde vom Domaininhaber bei DomainCatcher.com eingetragen.
+    - generic [ref=e8]:
+      - generic [ref=e10]:
+        - generic [ref=e11]:
+          - img "Check Circle Icon" [ref=e12]
+          - generic [ref=e13]:
+            - heading "Entdecke die Vorteile des Domainhandels mit DomainCatcher" [level=3] [ref=e14]
+            - paragraph [ref=e15]: Mit DomainCatcher stehen dir alle Vorteile des Domainhandels zur Verfügung. Entdecke eine benutzerfreundliche Plattform, auf der du Domains kaufen, verkaufen und recyceln kannst. Profitiere von fairen Nettopreisen bis maximal € 99,00, einer schnellen Abwicklung und sicheren Domaintransfers.
+        - generic [ref=e16]:
+          - img "Check Circle Icon" [ref=e17]
+          - generic [ref=e18]:
+            - heading "Maximiere deinen Online-Erfolg mit DomainCatcher" [level=3] [ref=e19]
+            - paragraph [ref=e20]: DomainCatcher ist dein Schlüssel zum Online-Erfolg. Mit unserem breiten Angebot an Domains kannst du deine Online-Präsenz optimieren und deine Zielgruppe gezielt ansprechen. Nutze die Möglichkeit, gezielten Traffic anzuziehen und deine Sichtbarkeit in Suchmaschinen zu steigern.
+        - generic [ref=e21]:
+          - img "Check Circle Icon" [ref=e22]
+          - generic [ref=e23]:
+            - heading "Profitiere von einer vielfältigen Auswahl an Domains" [level=3] [ref=e24]
+            - paragraph [ref=e25]: Bei DomainCatcher findest du eine breite Auswahl an erstklassigen Domains, die darauf warten, von dir entdeckt zu werden. Nutze diese vielfältigen Möglichkeiten, um deine Online-Präsenz zu stärken und dein Geschäft erfolgreich im digitalen Raum zu etablieren. Gemeinsam realisieren wir deinen Erfolg im Online-Bereich.
+      - generic [ref=e28]:
+        - paragraph [ref=e29]: Entdecke die vielfältigen Möglichkeiten bei DomainCatcher und registriere dich noch heute, um hochwertige Domains zu erwerben und dein Domainportfolio erfolgreich zu erweitern.
+        - link "Jetzt registrieren" [ref=e30] [cursor=pointer]:
+          - /url: /registration/index?type=landing&object=wildcorn.de
+  - contentinfo [ref=e31]:
+    - generic [ref=e33]:
+      - paragraph [ref=e34]: Die Domain wildcorn.de wurde vom Domaininhaber bei DomainCatcher.com eingetragen.
+      - paragraph [ref=e35]: All rights reserved © 2005 - 2026
+      - link "Impressum" [ref=e36] [cursor=pointer]:
+        - /url: /impressum
+        - paragraph [ref=e37]: Impressum
+  - generic [ref=e40]:
+    - generic [ref=e41]:
+      - heading "Wir verwenden Cookies" [level=1] [ref=e42]:
+        - generic [ref=e44]: Wir verwenden Cookies
+      - paragraph [ref=e45]:
+        - generic [ref=e46]:
+          - text: Wir verwenden Technologien wie Cookies, um dein Nutzungserlebnis zu optimieren und Informationen von deinem Gerät zu sammeln. Mit deiner Zustimmung können wir Daten wie dein Online-Verhalten, personenbezogene Daten oder einzigartige IDs auf unserer Website verarbeiten (z.B. um Inhalte zu personalisieren). Wenn du keine Zustimmung erteilst oder diese zurücknimmst, könnte dies die Qualität einiger Funktionen und Dienstleistungen einschränken. Mehr Informationen dazu erhältst du in unserer
+          - link "Datenschutzerklärung" [ref=e47] [cursor=pointer]:
+            - /url: /datenschutz
+          - text: .
+    - list [ref=e49]:
+      - listitem [ref=e50]:
+        - checkbox "Technisch notwendige Cookies (immer erforderlich)" [checked] [disabled] [ref=e51]
+        - generic [ref=e52]:
+          - generic [ref=e53]: Technisch notwendige Cookies
+          - generic "Dieser Service ist immer erforderlich" [ref=e54]: (immer erforderlich)
+      - listitem [ref=e55]:
+        - checkbox "Sonstige Cookies" [ref=e56]
+        - generic [ref=e58]: Sonstige Cookies
+      - listitem [ref=e59]:
+        - checkbox "Besucher-Statistiken" [ref=e60]
+        - generic [ref=e62]: Besucher-Statistiken
+      - listitem [ref=e63]:
+        - checkbox "Alle Dienste aktivieren oder deaktivieren" [ref=e64]
+        - generic [ref=e66]: Alle Dienste aktivieren oder deaktivieren
+        - paragraph [ref=e68]:
+          - generic [ref=e70]: Mit diesem Schalter können Sie alle Dienste aktivieren oder deaktivieren.
+    - generic [ref=e72]:
+      - button "Auswahl übernehmen" [ref=e73] [cursor=pointer]
+      - button "Alle akzeptieren" [ref=e74] [cursor=pointer]

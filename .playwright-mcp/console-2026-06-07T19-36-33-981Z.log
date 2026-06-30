@@ -1,0 +1,5 @@
+[     473ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://kapten-son.com/de/service/impressum:0
+[    1193ms] [LOG] hasEnabledContainer :  false @ :853
+[    1193ms] [LOG] hasEnabledContainer :  true @ :853
+[    1193ms] [LOG] hasEnabledContainer :  true @ :853
+[    1193ms] [LOG] hasEnabledContainer :  true @ :853

@@ -1,0 +1,13 @@
+[    1338ms] [LOG] %c 😎😍🤩 STORE LOCATOR 🤩😍😎  font-weight: 600; font-size: 12px; background: radial-gradient(circle, rgba(255,175,175,1) 17%, rgba(233,189,148,1) 74%); color: #ffffff; padding: 4px 5px; border-radius: 15px @ https://kruut.de/pages/impressum:932
+[    1435ms] [LOG] AskAIController initGlobal (header icon) @ https://play.gotolstoy.com/widget-v2/widget.js:68
+[    1437ms] [LOG] OnYou log: FloatingSearchBarController: Search bar is disabled @ https://play.gotolstoy.com/widget-v2/widget.js:54
+[    1437ms] [LOG] OnYou log: ChatBubbleController: Chat bubble is disabled. @ https://play.gotolstoy.com/widget-v2/widget.js:54
+[    1437ms] [LOG] AskAIController initGlobal skipped - Ask AI icon not enabled @ https://play.gotolstoy.com/widget-v2/widget.js:68
+[    1438ms] [LOG] object @ https://kruut.de/cdn/shop/t/72/assets/bd-footer.js?v=65367129372292787941757966465:0
+[    1439ms] [LOG] Gift Box Builder @ https://cdn.shopify.com/extensions/019e9653-b69b-72c3-91c2-37686f021955/appatticserver-399/assets/easy-bundle-min.js:0
+[    1441ms] [LOG] bootstap @ https://cdn.shopify.com/extensions/019e9653-b69b-72c3-91c2-37686f021955/appatticserver-399/assets/easy-bundle-min.js:0
+[    1510ms] [LOG] DOM Purify Loaded @ https://subscription-admin.appstle.com/assets/js/appstle-subscription.min.js?shop=kruutdev.myshopify.com&v=1779982375564:0
+[    1652ms] [LOG] jQuery is loaded, after 223 milliseconds! @ https://subscription-admin.appstle.com/assets/js/appstle-subscription.min.js?shop=kruutdev.myshopify.com&v=1779982375564:0
+[    1692ms] [LOG] %c Avada Free Gifts initialized  background: #054597; color: white @ https://static-fg.aov.ai/scripttag/avada-free-gift-main.min.js?v=1780860634760:60
+[    1991ms] [INFO] Your Gorgias chat widget is hidden, to change this go to Preferences > Visibility options @ https://config.gorgias.chat/bundle-loader/01GYCCDEZP30B0MKNMVN1VP5WV?source=shopify1click&shop=kruutdev.myshopify.com:0
+[    2205ms] [INFO] Clear-Site-Data header on 'https://kruut.de/cart/update.js?app=avada-change-cart&skip=true': Cleared data types: "prefetchCache", "prerenderCache". @ https://kruut.de/pages/impressum:0

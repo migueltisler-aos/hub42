@@ -1,0 +1,9 @@
+[     230ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://www.vox.de/sendungen/hoehle-der-loewen:0
+[     331ms] [LOG] Cookie Opt-In: true @ :0
+[     338ms] [LOG] Datalayer-Push !!Opt-In!! @ :0
+[     341ms] [LOG] Nielsen: Loading script from https://cdn-gl.imrworldwide.com/novms/js/2/ggcmb510.js @ https://www.googletagmanager.com/gtm.js?id=GTM-KCZFN55:859
+[     343ms] [LOG] Messaging without detection successfully executed. @ https://sourcepoint.vox.de/unified/wrapperMessagingWithoutDetection.js:0
+[     350ms] [LOG] interaction complete @ https://sourcepoint.vox.de/unified/wrapperMessagingWithoutDetection.js:0
+[     452ms] [LOG] Nielsen: Script loaded successfully. @ https://www.googletagmanager.com/gtm.js?id=GTM-KCZFN55:859
+[     655ms] [WARNING] [GPT] PubAdsService.collapseEmptyDivs is deprecated, use googletag.setConfig({collapseDiv: ...}) instead.
+https://goo.gle/gpt-message#170 @ https://securepubads.g.doubleclick.net/pagead/managed/js/gpt/m202606040101/pubads_impl.js?cb=31098983:18

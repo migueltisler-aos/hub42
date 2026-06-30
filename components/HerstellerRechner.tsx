@@ -1,13 +1,13 @@
 ﻿"use client";
 
 import { useState, useMemo } from "react";
+import { RATES, SCHAUFENSTER_MONAT } from "@/lib/deck-economics";
 
 const POSITIONEN = [
-  { id: "basis",        label: "Basis",        ratePerCm: 11.80, fixedMonat: null  },
-  { id: "standard",     label: "Standard",     ratePerCm: 13.11, fixedMonat: null  },
-  { id: "premium",      label: "Premium",      ratePerCm: 16.39, fixedMonat: null  },
-  { id: "schaufenster", label: "Schaufenster", ratePerCm: null,  fixedMonat: 149   },
-  { id: "hero-wall",    label: "Hero Wall",    ratePerCm: null,  fixedMonat: 490   },
+  { id: "basis",        label: "Basis",                ratePerCm: RATES.basis,      fixedMonat: null               },
+  { id: "augenhoehe",   label: "Augenhöhe",            ratePerCm: RATES.augenhoehe, fixedMonat: null               },
+  { id: "greifhoehe",   label: "Greifhöhe garantiert", ratePerCm: RATES.greifhoehe, fixedMonat: null               },
+  { id: "schaufenster", label: "Schaufenster",         ratePerCm: null,             fixedMonat: SCHAUFENSTER_MONAT  },
 ] as const;
 
 type PositionId = (typeof POSITIONEN)[number]["id"];
@@ -67,7 +67,7 @@ export default function HerstellerRechner() {
   const [listung,  setListung]  = useState(2);
   const [sales,    setSales]    = useState(50);
   const [cm,       setCm]       = useState(20);
-  const [activePos, setActivePos] = useState<PositionId>("standard");
+  const [activePos, setActivePos] = useState<PositionId>("augenhoehe");
 
   const calc = useMemo(() => {
     const pos          = POSITIONEN.find((p) => p.id === activePos)!;

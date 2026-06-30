@@ -1,0 +1,48 @@
+[     687ms] [LOG] hideOnBlur @ https://www.gitticonsciousbeauty.com/cdn/shop/t/600/assets/theme-modal.min.js?v=55618124854211298581767884410:0
+[     687ms] [LOG] hideOnBlur @ https://www.gitticonsciousbeauty.com/cdn/shop/t/600/assets/theme-modal.min.js?v=55618124854211298581767884410:0
+[     687ms] [LOG] Cart mode: Drawer @ https://www.gitticonsciousbeauty.com/cdn/shop/t/600/assets/cart.min.js?v=59526688410239520651764771663:0
+[     689ms] [LOG] [GORGIAS-CHAT] Loading chat 01K6ZGF9M9MW833JWADEY0J87J... @ https://config.gorgias.chat/bundle-loader/shopify/gittiberlin.myshopify.com:0
+[     689ms] [WARNING] Gorgias Chat is not shown on this page because of the visibility settings. @ https://config.gorgias.chat/bundle-loader/shopify/gittiberlin.myshopify.com:0
+[     723ms] [LOG] SHOPLIFT SCRIPT INITIALIZED! @ https://www.gitticonsciousbeauty.com/policies/legal-notice:10
+[     753ms] [LOG] [Klaviyo / Onsite] Initializing. @ https://a.klaviyo.com/media/js/onsite/onsite.js:143
+[     764ms] [LOG] LIQUID - consentmoSignal_onLoad event {isActive: true, consent: Object} @ https://www.gitticonsciousbeauty.com/policies/legal-notice:1228
+[     764ms] [LOG] LIQUID - set default-consent and subscribe consentmoSignal for consent-update @ https://www.gitticonsciousbeauty.com/policies/legal-notice:1244
+[     777ms] [LOG] LIQUID - consentmoSignal event {status: decline, initialConsent: true, isConsentProvided: false, salesOfData: true, outOfRegion: false} @ https://www.gitticonsciousbeauty.com/policies/legal-notice:1248
+[     777ms] [LOG] LIQUID - dataLayer [Arguments(3)] @ https://www.gitticonsciousbeauty.com/policies/legal-notice:1249
+[     863ms] [INFO] Clear-Site-Data header on 'https://www.gitticonsciousbeauty.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://www.gitticonsciousbeauty.com/policies/legal-notice:0
+[     959ms] [LOG] klaviyo init found @ https://www.gitticonsciousbeauty.com/policies/legal-notice:6111
+[     960ms] [LOG] [Klaviyo / Onsite] Executing: init @ https://a.klaviyo.com/media/js/onsite/onsite.js:143
+[     960ms] [LOG] [Klaviyo / Onsite] Executing: enable @ https://a.klaviyo.com/media/js/onsite/onsite.js:143
+[     969ms] [LOG] {storageType: Object} @ https://www.gitticonsciousbeauty.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-110264588@13/sandbox/modern/policies/legal-notice:10
+[     972ms] [LOG] Standard Event data  {id: sh-a3988308-8A61-4486-4685-BFDB9A65F32E, name: page_viewed, data: Object, type: standard, timestamp: 2026-06-07T19:39:01.118Z} @ https://www.gitticonsciousbeauty.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-110264588@13/sandbox/modern/policies/legal-notice:21
+[     972ms] [LOG] All Event data  {id: sh-a3988308-8A61-4486-4685-BFDB9A65F32E, name: page_viewed, data: Object, type: standard, timestamp: 2026-06-07T19:39:01.118Z} @ https://www.gitticonsciousbeauty.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-110264588@13/sandbox/modern/policies/legal-notice:25
+[     972ms] [LOG] All Event data  {name: consentmoSignal_onLoad, customData: Object, type: custom, timestamp: 2026-06-07T19:39:01.229Z, context: Object} @ https://www.gitticonsciousbeauty.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-110264588@13/sandbox/modern/policies/legal-notice:25
+[     973ms] [LOG] All Event data  {name: consentmoSignal, customData: Object, type: custom, timestamp: 2026-06-07T19:39:01.241Z, context: Object} @ https://www.gitticonsciousbeauty.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-110264588@13/sandbox/modern/policies/legal-notice:25
+[    1018ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://bc-event-listener.dev1.beeclever.app/session.php:0
+[    1018ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://bc-event-listener.dev1.beeclever.app/session.php:0
+[    1019ms] Uncaught (in promise) TypeError: Failed to fetch
+    at r.fetch (https://www.gitticonsciousbeauty.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0:74101)
+    at o (https://www.gitticonsciousbeauty.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-110264588@13/sandbox/modern/policies/legal-notice:10:2897)
+    at m (https://www.gitticonsciousbeauty.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-110264588@13/sandbox/modern/policies/legal-notice:10:3051)
+    at v (https://www.gitticonsciousbeauty.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-110264588@13/sandbox/modern/policies/legal-notice:10:3398)
+    at <anonymous> (https://www.gitticonsciousbeauty.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-110264588@13/sandbox/modern/policies/legal-notice:423:24)
+    at call (https://www.gitticonsciousbeauty.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0:54258)
+    at h (https://www.gitticonsciousbeauty.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0:72432)
+    at o (https://www.gitticonsciousbeauty.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0:73760)
+[    1019ms] Uncaught (in promise) TypeError: Failed to fetch
+    at r.fetch (https://www.gitticonsciousbeauty.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0:74101)
+    at o (https://www.gitticonsciousbeauty.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-110264588@13/sandbox/modern/policies/legal-notice:10:2897)
+    at m (https://www.gitticonsciousbeauty.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-110264588@13/sandbox/modern/policies/legal-notice:10:3051)
+    at v (https://www.gitticonsciousbeauty.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-110264588@13/sandbox/modern/policies/legal-notice:10:3398)
+    at <anonymous> (https://www.gitticonsciousbeauty.com/web-pixels@a9664f44w6a62cec8p04af10e4mb91e3447/custom/web-pixel-110264588@13/sandbox/modern/policies/legal-notice:423:24)
+    at call (https://www.gitticonsciousbeauty.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0:54258)
+    at h (https://www.gitticonsciousbeauty.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0:72432)
+    at o (https://www.gitticonsciousbeauty.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0:73760)
+[    1074ms] [LOG] [Clever Gift] dispatch cg:attributesUpdated @ https://www.gitticonsciousbeauty.com/policies/legal-notice:6366
+[    1452ms] [LOG] [Clever Gift] picked Config:  null @ https://cdn.shopify.com/extensions/019e40a5-83d6-7f8d-b968-7d3971c48917/gitti-discount-free-gift-123/assets/index.min.js:27
+[    1452ms] [LOG] [Clever Gift] config updated - checking globals false false @ https://cdn.shopify.com/extensions/019e40a5-83d6-7f8d-b968-7d3971c48917/gitti-discount-free-gift-123/assets/index.min.js:10
+[    1452ms] [LOG] [Clever Gift] config updated - updating visibility @ https://cdn.shopify.com/extensions/019e40a5-83d6-7f8d-b968-7d3971c48917/gitti-discount-free-gift-123/assets/index.min.js:10
+[    1452ms] [LOG] [Clever Gift] updating visibility @ https://cdn.shopify.com/extensions/019e40a5-83d6-7f8d-b968-7d3971c48917/gitti-discount-free-gift-123/assets/index.min.js:10
+[    1452ms] [LOG] [Clever Gift] No Config available {routes: Object, cartBehavior: cg:update, unhideOnRemove: false, cart: t, currentValidFreeGiftStageIndex: -1} @ https://cdn.shopify.com/extensions/019e40a5-83d6-7f8d-b968-7d3971c48917/gitti-discount-free-gift-123/assets/index.min.js:10
+[    1762ms] [INFO] Clear-Site-Data header on 'https://www.gitticonsciousbeauty.com/cart/update.js?cgApp=true&sections=': Cleared data types: "prefetchCache", "prerenderCache". @ https://www.gitticonsciousbeauty.com/policies/legal-notice:0
+[    1764ms] [LOG] [Clever Gift] dispatch cg:configUpdated @ https://cdn.shopify.com/extensions/019e40a5-83d6-7f8d-b968-7d3971c48917/gitti-discount-free-gift-123/assets/index.min.js:27

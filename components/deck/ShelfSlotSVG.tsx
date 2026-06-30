@@ -1,7 +1,12 @@
 /* Schematische, drucktaugliche Darstellung einer gemieteten Regalfront:
    Werbefläche/Story (15 cm) + 4×4 cm Preisauszeichnung oben rechts,
-   darunter 5 Ebenen nach Preisklasse (Augenhöhe = Premium), unterste
-   Ebene = Nachschub / Verkaufsstauraum. Inline-SVG, feste Farben. */
+   darunter 5 Ebenen nach Preisklasse (Greifhöhe garantiert = Top-Tier),
+   unterste Ebene = Nachschub / Verkaufsstauraum. Inline-SVG, feste Farben. */
+
+import { RATES } from "@/lib/deck-economics";
+
+const rateStr = (r: number) => `${r.toFixed(2).replace(".", ",")} €/cm`;
+const exStr = (r: number) => `20 cm: ${Math.round(20 * r)} €/Mo`;
 
 const C = {
   line: "#C8964A", // bronze
@@ -19,19 +24,21 @@ interface Level {
   tag?: string;
   hint?: string;
   restock?: boolean;
+  highlight?: boolean;
 }
 
 const LEVELS: Level[] = [
   { name: "Stauraum", rate: null, tag: "Reserve / Überbestand", restock: true },
   {
-    name: "Premium",
-    rate: "16,39 €/cm",
-    example: "20 cm: 328 €/Mo",
-    tag: "Augenhöhe",
+    name: "Greifhöhe",
+    rate: rateStr(RATES.greifhoehe),
+    example: exStr(RATES.greifhoehe),
+    tag: "Greifzone garantiert",
     hint: "30–80 % mehr Conversion",
+    highlight: true,
   },
-  { name: "Standard", rate: "13,11 €/cm", example: "20 cm: 262 €/Mo" },
-  { name: "Basis", rate: "11,80 €/cm", example: "20 cm: 236 €/Mo" },
+  { name: "Augenhöhe", rate: rateStr(RATES.augenhoehe), example: exStr(RATES.augenhoehe) },
+  { name: "Basis", rate: rateStr(RATES.basis), example: exStr(RATES.basis) },
   { name: "Nachschub", rate: null, tag: "Verkaufsstauraum · 60 cm Tiefe", restock: true },
 ];
 
@@ -86,7 +93,7 @@ export default function ShelfSlotSVG({ className = "" }: { className?: string })
       {/* 5 Ebenen nach Preisklasse */}
       {LEVELS.map((lvl, i) => {
         const y = TOP + i * H;
-        const eye = lvl.tag === "Augenhöhe";
+        const eye = lvl.highlight === true;
         return (
           <g key={i}>
             {/* Highlight-Fond bei Augenhöhe */}

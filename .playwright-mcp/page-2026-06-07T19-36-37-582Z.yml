@@ -1,0 +1,682 @@
+- generic [ref=e3]:
+  - link "Limited Ibiza Collection – Jetzt entdecken" [ref=e5] [cursor=pointer]:
+    - /url: /de/limited
+    - generic [ref=e8]:
+      - text: Limited Ibiza Collection –
+      - generic [ref=e9]: Jetzt entdecken
+    - img [ref=e10]
+  - banner [ref=e12]:
+    - generic [ref=e17] [cursor=pointer]:
+      - text: Versand & Rückgabe
+      - img [ref=e18]
+    - navigation [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - link "Homepage" [ref=e23] [cursor=pointer]:
+            - /url: /de
+            - img [ref=e25]
+          - generic [ref=e28]:
+            - button "Auswahl des Lieferlandes öffnen" [ref=e32] [cursor=pointer]:
+              - img "DE flag" [ref=e33]
+              - text: DE
+              - img [ref=e34]
+            - link "Mein Konto" [ref=e36] [cursor=pointer]:
+              - /url: /de/anmelden
+              - img [ref=e37]
+            - link "Wunschliste" [ref=e39] [cursor=pointer]:
+              - /url: /de/wishlist
+              - img [ref=e40]
+            - link "Warenkorb öffnen" [ref=e44] [cursor=pointer]:
+              - /url: /de/basket
+              - img [ref=e45]
+        - generic [ref=e47]:
+          - generic [ref=e49]:
+            - link "Öffne das Menü Rucksäcke" [ref=e53] [cursor=pointer]:
+              - /url: /de/rucksaecke
+              - text: Rucksäcke
+            - link "Öffne das Menü Limited" [ref=e57] [cursor=pointer]:
+              - /url: /de/limited
+              - text: Limited
+            - link "Öffne das Menü Taschen" [ref=e61] [cursor=pointer]:
+              - /url: /de/taschen
+              - text: Taschen
+            - link "Öffne das Menü Sonnenbrillen" [ref=e65] [cursor=pointer]:
+              - /url: /de/sonnenbrillen
+              - text: Sonnenbrillen
+            - link "Öffne das Menü Jacken" [ref=e69] [cursor=pointer]:
+              - /url: /de/jacken
+              - text: Jacken
+            - link "Öffne das Menü Reisegepäck" [ref=e73] [cursor=pointer]:
+              - /url: /de/reisegepaeck
+              - text: Reisegepäck
+            - link "Öffne das Menü Bestseller" [ref=e77] [cursor=pointer]:
+              - /url: /de/bestseller
+              - text: Bestseller
+            - link "Öffne das Menü NEU" [ref=e81] [cursor=pointer]:
+              - /url: /de/neu
+              - text: NEU
+            - link "Öffne das Menü Kinder- & Wickelrucksäcke" [ref=e85] [cursor=pointer]:
+              - /url: /de/kinder-wickelrucksaecke
+              - text: Kinder- & Wickelrucksäcke
+            - link "Öffne das Menü Uhren" [ref=e89] [cursor=pointer]:
+              - /url: /de/uhren
+              - text: Uhren
+            - link "Öffne das Menü Last Chance" [ref=e93] [cursor=pointer]:
+              - /url: /de/last-chance
+              - text: Last Chance
+            - link "Öffne das Menü Gutscheine" [ref=e97] [cursor=pointer]:
+              - /url: /de/gutscheine
+              - text: Gutscheine
+          - generic [ref=e100]:
+            - textbox "Suche" [ref=e101]
+            - img [ref=e103] [cursor=pointer]
+  - generic [ref=e105]:
+    - generic [ref=e110]:
+      - heading "Limited Ibiza Collection" [level=2] [ref=e111]
+      - heading "Unsere neuen boho sommer styles" [level=1] [ref=e112]
+      - link "Jetzt entdecken" [ref=e114] [cursor=pointer]:
+        - /url: /de/limited
+        - img [ref=e115]
+        - text: Jetzt entdecken
+    - generic [ref=e120]:
+      - heading "Wonach suchst du?" [level=2] [ref=e121]
+      - generic [ref=e123]:
+        - region "Image slider - use arrow keys to navigate" [ref=e124]:
+          - region "Image carousel" [ref=e125]:
+            - generic [ref=e126]:
+              - link "LIMITED LIMITED" [ref=e129] [cursor=pointer]:
+                - /url: /de/limited
+                - generic [ref=e130]:
+                  - img "LIMITED" [ref=e133]
+                  - paragraph [ref=e134]: LIMITED
+              - link "Rucksäcke Rucksäcke" [ref=e137] [cursor=pointer]:
+                - /url: /de/rucksaecke
+                - generic [ref=e138]:
+                  - img "Rucksäcke" [ref=e141]
+                  - paragraph [ref=e142]: Rucksäcke
+              - link "Taschen Taschen" [ref=e145] [cursor=pointer]:
+                - /url: /de/taschen
+                - generic [ref=e146]:
+                  - img "Taschen" [ref=e149]
+                  - paragraph [ref=e150]: Taschen
+              - link "Sonnenbrillen Sonnenbrillen" [ref=e153] [cursor=pointer]:
+                - /url: /de/sonnenbrillen
+                - generic [ref=e154]:
+                  - img "Sonnenbrillen" [ref=e157]
+                  - paragraph [ref=e158]: Sonnenbrillen
+              - link "Jacken Jacken" [ref=e161] [cursor=pointer]:
+                - /url: /de/jacken
+                - generic [ref=e162]:
+                  - img "Jacken" [ref=e165]
+                  - paragraph [ref=e166]: Jacken
+              - link "Koffer Koffer" [ref=e169] [cursor=pointer]:
+                - /url: /de/reisegepaeck/koffer
+                - generic [ref=e170]:
+                  - img "Koffer" [ref=e173]
+                  - paragraph [ref=e174]: Koffer
+              - link "Sets Sets" [ref=e177] [cursor=pointer]:
+                - /url: /de/sets
+                - generic [ref=e178]:
+                  - img "Sets" [ref=e181]
+                  - paragraph [ref=e182]: Sets
+              - link "Kulturtaschen Kulturtaschen" [ref=e185] [cursor=pointer]:
+                - /url: /de/reisegepaeck/kulturtaschen
+                - generic [ref=e186]:
+                  - img "Kulturtaschen" [ref=e189]
+                  - paragraph [ref=e190]: Kulturtaschen
+              - link "Uhren Uhren" [ref=e193] [cursor=pointer]:
+                - /url: /de/uhren-schmuck/uhren
+                - generic [ref=e194]:
+                  - img "Uhren" [ref=e197]
+                  - paragraph [ref=e198]: Uhren
+              - link "Schmuck Schmuck" [ref=e201] [cursor=pointer]:
+                - /url: /de/uhren-schmuck/schmuck
+                - generic [ref=e202]:
+                  - img "Schmuck" [ref=e205]
+                  - paragraph [ref=e206]: Schmuck
+              - link "Gutscheine Gutscheine" [ref=e209] [cursor=pointer]:
+                - /url: /de/p/gift-card-2125
+                - generic [ref=e210]:
+                  - img "Gutscheine" [ref=e213]
+                  - paragraph [ref=e214]: Gutscheine
+        - generic [ref=e217]:
+          - button "Prev" [disabled] [ref=e218]:
+            - img [ref=e219]
+            - generic [ref=e221]: Prev
+          - button "Next" [ref=e222] [cursor=pointer]:
+            - generic [ref=e223]: Next
+            - img [ref=e224]
+    - generic [ref=e228]:
+      - heading "IBIZA COLLECTION" [level=3] [ref=e230]
+      - region "Image slider - use arrow keys to navigate" [ref=e234]:
+        - region "Image carousel" [ref=e235]:
+          - generic [ref=e236]:
+            - article [ref=e240]:
+              - generic [ref=e241]:
+                - generic [ref=e243]:
+                  - generic [ref=e244]:
+                    - generic:
+                      - generic:
+                        - button
+                  - link "Fyn Ibiza Collection" [ref=e245] [cursor=pointer]:
+                    - /url: /de/p/fyn-ibiza-collection-2295
+                    - img "Fyn Ibiza Collection" [ref=e248]
+                  - generic:
+                    - generic:
+                      - generic "NEW IN"
+                    - generic:
+                      - generic "LIMITED"
+                - generic [ref=e249]:
+                  - link "Fyn Ibiza Collection 109,90 €" [ref=e250] [cursor=pointer]:
+                    - /url: /de/p/fyn-ibiza-collection-2295
+                    - paragraph [ref=e251]: Fyn Ibiza Collection
+                    - generic [ref=e254]: 109,90 €
+                  - generic [ref=e257]:
+                    - link "Fyn Ibiza Collection - Sandstone" [ref=e258] [cursor=pointer]:
+                      - /url: /de/p/fyn-ibiza-collection-2295
+                      - img [ref=e261]
+                    - link "Fyn Ibiza Collection - Schwarz" [ref=e262] [cursor=pointer]:
+                      - /url: /de/p/fyn-all-black-1662
+                    - link "Fyn Ibiza Collection - Sandstone" [ref=e265] [cursor=pointer]:
+                      - /url: /de/p/fyn-sandstone-1663
+                    - link "Fyn Ibiza Collection - Creme" [ref=e268] [cursor=pointer]:
+                      - /url: /de/p/fyn-cream-black-1664
+                      - img [ref=e271]
+                    - link "Fyn Ibiza Collection - Muted Clay" [ref=e272] [cursor=pointer]:
+                      - /url: /de/p/fyn-muted-clay-1665
+                      - img [ref=e275]
+                    - link "Fyn Ibiza Collection - Walnut" [ref=e276] [cursor=pointer]:
+                      - /url: /de/p/fyn-walnut-1947
+                    - link "Fyn Ibiza Collection - Grün" [ref=e279] [cursor=pointer]:
+                      - /url: /de/p/fyn-dusty-green-1961
+                      - img [ref=e282]
+                    - generic [ref=e283]: "+6"
+            - article [ref=e287]:
+              - generic [ref=e288]:
+                - generic [ref=e290]:
+                  - generic [ref=e291]:
+                    - generic:
+                      - generic:
+                        - button
+                  - link "Skara Small Ibiza Collection" [ref=e292] [cursor=pointer]:
+                    - /url: /de/p/skara-small-ibiza-collection-1788
+                    - img "Skara Small Ibiza Collection" [ref=e295]
+                  - generic:
+                    - generic:
+                      - generic "NEW IN"
+                    - generic:
+                      - generic "VERSAND MITTE JUNI"
+                - generic [ref=e296]:
+                  - link "Skara Small Ibiza Collection 69,90 €" [ref=e297] [cursor=pointer]:
+                    - /url: /de/p/skara-small-ibiza-collection-1788
+                    - paragraph [ref=e298]: Skara Small Ibiza Collection
+                    - generic [ref=e301]: 69,90 €
+                  - generic [ref=e304]:
+                    - link "Skara Small Ibiza Collection - Sandstone" [ref=e305] [cursor=pointer]:
+                      - /url: /de/p/skara-small-ibiza-collection-1788
+                      - img [ref=e308]
+                    - link "Skara Small Ibiza Collection - Schwarz" [ref=e309] [cursor=pointer]:
+                      - /url: /de/p/skara-small-all-black-1517
+                    - link "Skara Small Ibiza Collection - Sandstone" [ref=e312] [cursor=pointer]:
+                      - /url: /de/p/skara-small-sandstone-1518
+                    - link "Skara Small Ibiza Collection - Greige" [ref=e315] [cursor=pointer]:
+                      - /url: /de/p/skara-small-greige-1523
+                      - img [ref=e318]
+                    - link "Skara Small Ibiza Collection - Sandstone" [ref=e319] [cursor=pointer]:
+                      - /url: /de/p/skara-small-fleece-sandstone-1595
+                      - img [ref=e322]
+                    - link "Skara Small Ibiza Collection - Dusty Khaki" [ref=e323] [cursor=pointer]:
+                      - /url: /de/p/skara-small-cord-dusty-khaki-1888
+                      - img [ref=e326]
+                    - link "Skara Small Ibiza Collection - Rose Clay" [ref=e327] [cursor=pointer]:
+                      - /url: /de/p/skara-small-cord-rose-clay-1889
+                      - img [ref=e330]
+                    - generic [ref=e331]: "+8"
+            - article [ref=e335]:
+              - generic [ref=e336]:
+                - generic [ref=e338]:
+                  - generic [ref=e339]:
+                    - generic:
+                      - generic:
+                        - button
+                  - link "Hellvi Medium Ibiza Collection" [ref=e340] [cursor=pointer]:
+                    - /url: /de/p/hellvi-medium-ibiza-collection-2293
+                    - img "Hellvi Medium Ibiza Collection" [ref=e343]
+                  - generic:
+                    - generic:
+                      - generic "NEW IN"
+                    - generic:
+                      - generic "LIMITED"
+                - generic [ref=e344]:
+                  - link "Hellvi Medium Ibiza Collection 109,90 €" [ref=e345] [cursor=pointer]:
+                    - /url: /de/p/hellvi-medium-ibiza-collection-2293
+                    - paragraph [ref=e346]: Hellvi Medium Ibiza Collection
+                    - generic [ref=e349]: 109,90 €
+                  - link "Hellvi Medium Ibiza Collection - Sandstone" [ref=e353] [cursor=pointer]:
+                    - /url: /de/p/hellvi-medium-ibiza-collection-2293
+                    - img [ref=e356]
+            - article [ref=e360]:
+              - generic [ref=e361]:
+                - generic [ref=e363]:
+                  - generic [ref=e364]:
+                    - generic:
+                      - generic:
+                        - button
+                  - link "Bergen Pro Ibiza Collection" [ref=e365] [cursor=pointer]:
+                    - /url: /de/p/bergen-pro-ibiza-collection-1791
+                    - img "Bergen Pro Ibiza Collection" [ref=e368]
+                  - generic:
+                    - generic:
+                      - generic "NEW IN"
+                    - generic:
+                      - generic "PRO"
+                      - generic "LIMITED"
+                - generic [ref=e369]:
+                  - link "Bergen Pro Ibiza Collection 139,90 €" [ref=e370] [cursor=pointer]:
+                    - /url: /de/p/bergen-pro-ibiza-collection-1791
+                    - paragraph [ref=e371]: Bergen Pro Ibiza Collection
+                    - generic [ref=e374]: 139,90 €
+                  - generic [ref=e377]:
+                    - link "Bergen Pro Ibiza Collection - Sandstone" [ref=e378] [cursor=pointer]:
+                      - /url: /de/p/bergen-pro-ibiza-collection-1791
+                      - img [ref=e381]
+                    - link "Bergen Pro Ibiza Collection - Schwarz" [ref=e382] [cursor=pointer]:
+                      - /url: /de/p/bergen-pro-all-black-1479
+                    - link "Bergen Pro Ibiza Collection - Sandstone" [ref=e385] [cursor=pointer]:
+                      - /url: /de/p/bergen-pro-sandstone-1480
+                    - link "Bergen Pro Ibiza Collection - Muted Sage" [ref=e388] [cursor=pointer]:
+                      - /url: /de/p/bergen-pro-muted-sage-1481
+                      - img [ref=e391]
+                    - link "Bergen Pro Ibiza Collection - Muted Clay" [ref=e392] [cursor=pointer]:
+                      - /url: /de/p/bergen-pro-muted-clay-1482
+                      - img [ref=e395]
+                    - link "Bergen Pro Ibiza Collection - Sandstone" [ref=e396] [cursor=pointer]:
+                      - /url: /de/p/bergen-pro-fleece-sandstone-1483
+                      - img [ref=e399]
+                    - link "Bergen Pro Ibiza Collection - Greige" [ref=e400] [cursor=pointer]:
+                      - /url: /de/p/bergen-pro-greige-1520
+                      - img [ref=e403]
+                    - generic [ref=e404]: "+10"
+            - article [ref=e408]:
+              - generic [ref=e409]:
+                - generic [ref=e411]:
+                  - generic [ref=e412]:
+                    - generic:
+                      - generic:
+                        - button
+                  - link "Basic Shopper Ibiza Collection" [ref=e413] [cursor=pointer]:
+                    - /url: /de/p/basic-shopper-ibiza-collection-2296
+                    - img "Basic Shopper Ibiza Collection" [ref=e416]
+                  - generic:
+                    - generic:
+                      - generic "NEW IN"
+                    - generic:
+                      - generic "LIMITED"
+                - generic [ref=e417]:
+                  - link "Basic Shopper Ibiza Collection 49,90 €" [ref=e418] [cursor=pointer]:
+                    - /url: /de/p/basic-shopper-ibiza-collection-2296
+                    - paragraph [ref=e419]: Basic Shopper Ibiza Collection
+                    - generic [ref=e422]: 49,90 €
+                  - link "Basic Shopper Ibiza Collection - Sandstone" [ref=e426] [cursor=pointer]:
+                    - /url: /de/p/basic-shopper-ibiza-collection-2296
+                    - img [ref=e429]
+            - article [ref=e433]:
+              - generic [ref=e434]:
+                - generic [ref=e436]:
+                  - generic [ref=e437]:
+                    - generic:
+                      - generic:
+                        - button
+                  - link "Bergen Small Ibiza Collection" [ref=e438] [cursor=pointer]:
+                    - /url: /de/p/bergen-small-ibiza-collection-2294
+                    - img "Bergen Small Ibiza Collection" [ref=e441]
+                  - generic:
+                    - generic:
+                      - generic "NEW IN"
+                    - generic:
+                      - generic "LIMITED"
+                - generic [ref=e442]:
+                  - link "Bergen Small Ibiza Collection 94,90 €" [ref=e443] [cursor=pointer]:
+                    - /url: /de/p/bergen-small-ibiza-collection-2294
+                    - paragraph [ref=e444]: Bergen Small Ibiza Collection
+                    - generic [ref=e447]: 94,90 €
+                  - link "Bergen Small Ibiza Collection - Sandstone" [ref=e451] [cursor=pointer]:
+                    - /url: /de/p/bergen-small-ibiza-collection-2294
+                    - img [ref=e454]
+            - article [ref=e458]:
+              - generic [ref=e459]:
+                - generic [ref=e461]:
+                  - generic [ref=e462]:
+                    - generic:
+                      - generic:
+                        - button
+                  - link "Skara Large Ibiza Collection" [ref=e463] [cursor=pointer]:
+                    - /url: /de/p/skara-large-ibiza-collection-1787
+                    - img "Skara Large Ibiza Collection" [ref=e466]
+                  - generic:
+                    - generic:
+                      - generic "NEW IN"
+                    - generic:
+                      - generic "LIMITED"
+                - generic [ref=e467]:
+                  - link "Skara Large Ibiza Collection 84,90 €" [ref=e468] [cursor=pointer]:
+                    - /url: /de/p/skara-large-ibiza-collection-1787
+                    - paragraph [ref=e469]: Skara Large Ibiza Collection
+                    - generic [ref=e472]: 84,90 €
+                  - generic [ref=e475]:
+                    - link "Skara Large Ibiza Collection - Sandstone" [ref=e476] [cursor=pointer]:
+                      - /url: /de/p/skara-large-ibiza-collection-1787
+                      - img [ref=e479]
+                    - link "Skara Large Ibiza Collection - Schwarz" [ref=e480] [cursor=pointer]:
+                      - /url: /de/p/skara-large-all-black-1515
+                    - link "Skara Large Ibiza Collection - Sandstone" [ref=e483] [cursor=pointer]:
+                      - /url: /de/p/skara-large-sandstone-1516
+                    - link "Skara Large Ibiza Collection - Greige" [ref=e486] [cursor=pointer]:
+                      - /url: /de/p/skara-large-greige-1522
+                      - img [ref=e489]
+                    - link "Skara Large Ibiza Collection - Sandstone" [ref=e490] [cursor=pointer]:
+                      - /url: /de/p/skara-large-fleece-sandstone-1594
+                      - img [ref=e493]
+            - article [ref=e497]:
+              - generic [ref=e498]:
+                - generic [ref=e500]:
+                  - generic [ref=e501]:
+                    - generic:
+                      - generic:
+                        - button
+                  - link "Windsor Ibiza Collection" [ref=e502] [cursor=pointer]:
+                    - /url: /de/p/windsor-ibiza-collection-1790
+                    - img "Windsor Ibiza Collection" [ref=e505]
+                  - generic:
+                    - generic:
+                      - generic "NEW IN"
+                    - generic:
+                      - generic "LIMITED"
+                - generic [ref=e506]:
+                  - link "Windsor Ibiza Collection 44,90 €" [ref=e507] [cursor=pointer]:
+                    - /url: /de/p/windsor-ibiza-collection-1790
+                    - paragraph [ref=e508]: Windsor Ibiza Collection
+                    - generic [ref=e511]: 44,90 €
+                  - generic [ref=e514]:
+                    - link "Windsor Ibiza Collection - Sandstone" [ref=e515] [cursor=pointer]:
+                      - /url: /de/p/windsor-ibiza-collection-1790
+                      - img [ref=e518]
+                    - link "Windsor Ibiza Collection - Schwarz" [ref=e519] [cursor=pointer]:
+                      - /url: /de/p/windsor-all-black-16
+                      - img [ref=e522]
+                    - link "Windsor Ibiza Collection - Sandstone" [ref=e523] [cursor=pointer]:
+                      - /url: /de/p/windsor-sandstone-86
+                      - img [ref=e526]
+                    - link "Windsor Ibiza Collection - Muted Clay" [ref=e527] [cursor=pointer]:
+                      - /url: /de/p/windsor-muted-clay-1371
+                      - img [ref=e530]
+    - generic [ref=e535]:
+      - generic [ref=e536]:
+        - heading "Ibiza Collection" [level=1] [ref=e537]
+        - heading "New Summer Styles" [level=2] [ref=e538]
+        - paragraph [ref=e539]: Inspiriert vom Boho-Vibe Ibizas und ergänzt um **neue Styles** entsteht aus einem besonderen Mix aus Baumwolle und Leinen eine Kollektion, die sich nicht nur einzigartig anfühlt, sondern auch genauso aussieht. Die fein strukturierte Oberfläche macht die limitierte Kollektion zum Hingucker ideal für spontane Ausflüge, sonnige Alltagsmomente oder entspannte Stunden am Meer.
+      - link "Jetzt entdecken" [ref=e542] [cursor=pointer]:
+        - /url: /de/limited
+    - generic [ref=e546]:
+      - heading "Discover Kapten" [level=1] [ref=e547]
+      - generic [ref=e549]:
+        - region "Image slider - use arrow keys to navigate" [ref=e550]:
+          - region "Image carousel" [ref=e551]:
+            - generic [ref=e552]:
+              - generic [ref=e557]:
+                - link "Unsere Stores" [ref=e559] [cursor=pointer]:
+                  - /url: /de/unsere-stores
+                  - generic [ref=e560]:
+                    - text: Unsere Stores
+                    - img [ref=e561]
+                - generic [ref=e563]: Finde den Store in deiner Nähe
+              - generic [ref=e568]:
+                - link "Über uns" [ref=e570] [cursor=pointer]:
+                  - /url: /de/ueber-uns
+                  - generic [ref=e571]:
+                    - text: Über uns
+                    - img [ref=e572]
+                - generic [ref=e574]: This is Kapten & Son
+              - generic [ref=e579]:
+                - link "Corporate Branding" [ref=e581] [cursor=pointer]:
+                  - /url: /de/contact/corporate-branding
+                  - generic [ref=e582]:
+                    - text: Corporate Branding
+                    - img [ref=e583]
+                - generic [ref=e585]: Gemeinsame Momente schaffen
+              - generic [ref=e590]:
+                - link "Presse" [ref=e592] [cursor=pointer]:
+                  - /url: /de/presse
+                  - generic [ref=e593]:
+                    - text: Presse
+                    - img [ref=e594]
+                - generic [ref=e596]: Get in touch
+              - generic [ref=e600]:
+                - generic [ref=e601]: KAPTEN & SON
+                - generic [ref=e602]:
+                  - heading "BE(COME) PART OF THE CREW" [level=3] [ref=e603]
+                  - generic [ref=e604]: Informiere dich über alle offenen Stellen und finden deinen perfekten neuen Job.
+                - link "Kapten Career" [ref=e606] [cursor=pointer]:
+                  - /url: https://karriere.kapten-son.com/
+                  - generic [ref=e607]:
+                    - text: Kapten Career
+                    - img [ref=e608]
+        - generic [ref=e610]:
+          - button "Prev" [disabled] [ref=e611]:
+            - img [ref=e612]
+            - generic [ref=e614]: Prev
+          - button "Next" [ref=e615] [cursor=pointer]:
+            - generic [ref=e616]: Next
+            - img [ref=e617]
+  - generic [ref=e619]:
+    - generic [ref=e621]:
+      - generic [ref=e622]:
+        - heading "Newsletter" [level=3] [ref=e623]
+        - generic [ref=e624]: Meld dich an und bleib auf dem Laufenden.
+      - generic [ref=e625]:
+        - generic [ref=e626]:
+          - generic [ref=e627]:
+            - textbox "Namen eingeben" [ref=e628]:
+              - /placeholder: Dein Vorname
+            - generic: Dein Vorname
+          - generic [ref=e630]:
+            - textbox "E-Mail-Adresse eingeben" [ref=e631]:
+              - /placeholder: Deine E-Mail-Adresse
+            - generic: Deine E-Mail-Adresse
+        - group "Gender Selection" [ref=e633]:
+          - generic [ref=e634]:
+            - generic [ref=e635]:
+              - radio "Weiblich" [ref=e636]
+              - generic [ref=e637]: Weiblich
+            - generic [ref=e638]:
+              - radio "Männlich" [ref=e639]
+              - generic [ref=e640]: Männlich
+            - generic [ref=e641]:
+              - radio "Divers" [ref=e642]
+              - generic [ref=e643]: Divers
+        - button "Für den Newsletter anmelden" [ref=e645] [cursor=pointer]:
+          - text: Jetzt Anmelden
+          - img [ref=e646]
+    - contentinfo [ref=e648]:
+      - generic [ref=e649]:
+        - heading "Folge uns" [level=3] [ref=e650]
+        - generic [ref=e651]:
+          - link "Zu Instagram wechseln" [ref=e652] [cursor=pointer]:
+            - /url: https://www.instagram.com/kaptenandson.de
+            - img [ref=e653]
+          - link "Zu Facebook wechseln" [ref=e659] [cursor=pointer]:
+            - /url: https://www.facebook.com/kaptenandsonde
+            - img [ref=e660]
+          - link "Zu TikTok wechseln" [ref=e664] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@kaptenandson.de
+            - img [ref=e665]
+          - link "Zu Pinterest wechseln" [ref=e669] [cursor=pointer]:
+            - /url: https://www.pinterest.de/kaptenandson/
+            - img [ref=e670]
+          - link "Zu YouTube wechseln" [ref=e674] [cursor=pointer]:
+            - /url: https://www.youtube.com/user/kaptenandson
+            - img [ref=e675]
+          - link "Zu Snapchat wechseln" [ref=e680] [cursor=pointer]:
+            - /url: https://www.snapchat.com/add/kaptenandson
+            - img [ref=e681]
+        - generic [ref=e685]: "& Share Your Experience."
+      - separator [ref=e686]
+      - generic [ref=e687]:
+        - generic [ref=e688]:
+          - generic [ref=e690]:
+            - generic [ref=e691]: Kundenservice
+            - list "Öffne das Menü Kundenservice" [ref=e692]:
+              - listitem [ref=e693]:
+                - link "FAQ" [ref=e694] [cursor=pointer]:
+                  - /url: https://kaptenandson.zendesk.com/hc/de
+                  - text: FAQ
+              - listitem [ref=e695]:
+                - link "Hilfe & Kontakt" [ref=e696] [cursor=pointer]:
+                  - /url: https://kaptenandson.zendesk.com/hc/de/requests/new
+                  - text: Hilfe & Kontakt
+              - listitem [ref=e697]:
+                - link "Retoure / Reklamation anmelden" [ref=e698] [cursor=pointer]:
+                  - /url: https://returns.parcellab.com/kapten-son/de/de/#/
+                  - text: Retoure / Reklamation anmelden
+              - listitem [ref=e699]:
+                - link "Ersatzteile" [ref=e700] [cursor=pointer]:
+                  - /url: https://kapten-son.com/de/service/ersatzteile
+                  - text: Ersatzteile
+              - listitem [ref=e701]:
+                - link "Zahlung & Versand" [ref=e702] [cursor=pointer]:
+                  - /url: https://kaptenandson.zendesk.com/hc/de/categories/360000161574-Zahlung-Versand
+                  - text: Zahlung & Versand
+              - listitem [ref=e703]:
+                - link "Rabatte & Aktionen" [ref=e704] [cursor=pointer]:
+                  - /url: /de/rabatte-aktionen
+                  - text: Rabatte & Aktionen
+              - listitem [ref=e705]:
+                - link "Widerrufsrecht" [ref=e706] [cursor=pointer]:
+                  - /url: /de/cancellation
+                  - text: Widerrufsrecht
+              - listitem [ref=e707]:
+                - link "Digitale Barrierefreiheit" [ref=e708] [cursor=pointer]:
+                  - /url: /de/service/accessibility
+                  - text: Digitale Barrierefreiheit
+          - generic [ref=e710]:
+            - generic [ref=e711]: Kategorien
+            - list "Öffne das Menü Kategorien" [ref=e712]:
+              - listitem [ref=e713]:
+                - link "Rucksäcke" [ref=e714] [cursor=pointer]:
+                  - /url: /de/rucksaecke
+                  - text: Rucksäcke
+              - listitem [ref=e715]:
+                - link "Taschen" [ref=e716] [cursor=pointer]:
+                  - /url: /de/taschen
+                  - text: Taschen
+              - listitem [ref=e717]:
+                - link "Sonnenbrillen" [ref=e718] [cursor=pointer]:
+                  - /url: /de/sonnenbrillen
+                  - text: Sonnenbrillen
+              - listitem [ref=e719]:
+                - link "Reisegepäck" [ref=e720] [cursor=pointer]:
+                  - /url: /de/reisegepaeck
+                  - text: Reisegepäck
+              - listitem [ref=e721]:
+                - link "Jacken" [ref=e722] [cursor=pointer]:
+                  - /url: /de/jacken
+                  - text: Jacken
+              - listitem [ref=e723]:
+                - link "Uhren & Schmuck" [ref=e724] [cursor=pointer]:
+                  - /url: /de/uhren-schmuck
+                  - text: Uhren & Schmuck
+          - generic [ref=e726]:
+            - generic [ref=e727]: Über Uns
+            - list [ref=e728]:
+              - listitem [ref=e729]:
+                - link "Unsere Stores" [ref=e730] [cursor=pointer]:
+                  - /url: /de/unsere-stores
+                  - text: Unsere Stores
+              - listitem [ref=e731]:
+                - link "Store Locator" [ref=e732] [cursor=pointer]:
+                  - /url: /de/partners
+                  - text: Store Locator
+              - listitem [ref=e733]:
+                - link "Unsere Mission" [ref=e734] [cursor=pointer]:
+                  - /url: /de/ueber-uns
+                  - text: Unsere Mission
+              - listitem [ref=e735]:
+                - link "Jobs" [ref=e736] [cursor=pointer]:
+                  - /url: https://karriere.kapten-son.com
+                  - text: Jobs
+              - listitem [ref=e737]:
+                - link "Presse" [ref=e738] [cursor=pointer]:
+                  - /url: /de/presse
+                  - text: Presse
+              - listitem [ref=e739]:
+                - link "Corporate Branding" [ref=e740] [cursor=pointer]:
+                  - /url: /de/contact/corporate-branding
+                  - text: Corporate Branding
+              - listitem [ref=e741]:
+                - link "Distribution & B2B" [ref=e742] [cursor=pointer]:
+                  - /url: /de/b2b
+                  - text: Distribution & B2B
+              - listitem [ref=e743]:
+                - link "Impressum" [ref=e744] [cursor=pointer]:
+                  - /url: /de/impressum
+                  - text: Impressum
+              - listitem [ref=e745]:
+                - link "AGB" [ref=e746] [cursor=pointer]:
+                  - /url: /de/agb
+                  - text: AGB
+              - listitem [ref=e747]:
+                - link "Datenschutz" [ref=e748] [cursor=pointer]:
+                  - /url: /de/datenschutz
+                  - text: Datenschutz
+              - listitem [ref=e749]:
+                - link "Newsletter" [ref=e750] [cursor=pointer]:
+                  - /url: /de/newsletter-signup
+                  - text: Newsletter
+              - listitem [ref=e751]:
+                - link "Fakten" [ref=e752] [cursor=pointer]:
+                  - /url: /de/fakten
+                  - text: Fakten
+              - listitem [ref=e753]:
+                - link "Blog" [ref=e754] [cursor=pointer]:
+                  - /url: https://blog.kapten-son.com/
+                  - text: Blog
+              - listitem [ref=e755]:
+                - link "App" [ref=e756] [cursor=pointer]:
+                  - /url: /de/discounts-promotions/app
+                  - text: App
+        - generic [ref=e757]:
+          - generic [ref=e758]:
+            - generic [ref=e759]: Unsere Zahlungsmöglichkeiten
+            - list [ref=e761]:
+              - listitem [ref=e762]:
+                - img "VISA" [ref=e763]
+              - listitem [ref=e764]:
+                - img "Mastercard" [ref=e765]
+              - listitem [ref=e766]:
+                - img "PayPal" [ref=e767]
+              - listitem [ref=e768]:
+                - img "Klarna" [ref=e769]
+              - listitem [ref=e770]:
+                - img "Apple Pay" [ref=e771]
+              - listitem [ref=e772]:
+                - img "Google Pay" [ref=e773]
+              - listitem [ref=e774]:
+                - img "American Express" [ref=e775]
+          - generic [ref=e776]:
+            - generic [ref=e777]: Unsere Versandmöglichkeiten
+            - list [ref=e778]:
+              - listitem [ref=e779]:
+                - img "DHL" [ref=e780]
+              - listitem [ref=e781]:
+                - img "DHL Express" [ref=e782]
+              - listitem [ref=e783]:
+                - img "Hermes" [ref=e784]
+          - generic [ref=e785]:
+            - generic [ref=e786]: Geprüfte und ausgezeichnete Leistung
+            - generic [ref=e787]:
+              - generic [ref=e790]:
+                - generic [ref=e791]: 4.70 von 5 Sternen
+                - generic [ref=e792]: 84666 Bewertungen
+              - link "Zu Reviews.io wechseln" [ref=e793] [cursor=pointer]:
+                - /url: http://www.reviews.io/company-reviews/store/kapten--son?utm_source=kapten--son&utm_medium=widget&utm_campaign=badge-modern
+                - img "Reviews.io logo" [ref=e794]

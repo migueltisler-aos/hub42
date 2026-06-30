@@ -1,0 +1,7 @@
+[    1051ms] TypeError: $.imgpreload is not a function
+    at preLoadImg (http://gitti.com/templates/default/js/main.js:17:5)
+    at HTMLDocument.<anonymous> (http://gitti.com/templates/default/js/main.js:56:5)
+    at n (http://gitti.com/templates/default/js/jquery.min.js:2:14765)
+    at Object.fireWith (http://gitti.com/templates/default/js/jquery.min.js:2:15534)
+    at e.ready (http://gitti.com/templates/default/js/jquery.min.js:2:9667)
+    at HTMLDocument.C (http://gitti.com/templates/default/js/jquery.min.js:2:14230)

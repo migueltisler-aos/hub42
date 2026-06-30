@@ -2,52 +2,57 @@
 
 import { motion } from "framer-motion";
 import { SLOTS } from "@/lib/slots";
+import { RATES, MIN_SLOT_MIETE, SCHAUFENSTER_MONAT } from "@/lib/deck-economics";
 
 type CellValue = true | false | string;
 
 interface FeatureRow {
   label: string;
   basis: CellValue;
-  standard: CellValue;
-  premium: CellValue;
+  augenhoehe: CellValue;
+  greifhoehe: CellValue;
   schaufenster: CellValue;
-  hero: CellValue;
 }
 
 const FEATURES: FeatureRow[] = [
   {
     label: "Regalplatz im Alexa Berlin",
-    basis: true, standard: true, premium: true, schaufenster: true, hero: true,
+    basis: true, augenhoehe: true, greifhoehe: true, schaufenster: true,
   },
   {
     label: "QR-Code + Traverse-Karte",
-    basis: true, standard: true, premium: true, schaufenster: true, hero: true,
+    basis: true, augenhoehe: true, greifhoehe: true, schaufenster: true,
   },
   {
     label: "Monatliche Verkaufszahlen",
-    basis: true, standard: true, premium: true, schaufenster: true, hero: true,
+    basis: true, augenhoehe: true, greifhoehe: true, schaufenster: true,
   },
   {
     label: "Creator Playbook",
-    basis: true, standard: true, premium: true, schaufenster: true, hero: true,
+    basis: true, augenhoehe: true, greifhoehe: true, schaufenster: true,
   },
   {
     label: "Tasting Bar Integration",
-    basis: false, standard: false, premium: true, schaufenster: false, hero: true,
+    basis: false, augenhoehe: false, greifhoehe: true, schaufenster: false,
   },
   {
     label: "Promo-Tag (1× pro Quartal)",
-    basis: false, standard: false, premium: true, schaufenster: false, hero: true,
+    basis: false, augenhoehe: false, greifhoehe: true, schaufenster: false,
   },
   {
     label: "Pro Analytics – 1 Monat gratis",
-    basis: false, standard: false, premium: true, schaufenster: false, hero: true,
+    basis: false, augenhoehe: false, greifhoehe: true, schaufenster: false,
   },
   {
     label: "Sonderfläche",
-    basis: false, standard: false, premium: false, schaufenster: "Schaufenster", hero: "Stirnseite",
+    basis: false, augenhoehe: false, greifhoehe: false, schaufenster: "Ladenfront",
   },
 ];
+
+/** Slot-Monatsmiete bei gegebener Breite, inkl. 59-€-Mindestmiete. */
+function monatBei(cm: number, rate: number): number {
+  return Math.round(Math.max(MIN_SLOT_MIETE, cm * rate));
+}
 
 function slotPreis(id: string): { label: string; sub: string; highlight?: boolean } {
   const slot = SLOTS.find((s) => s.id === id);
@@ -68,10 +73,9 @@ function slotPreis(id: string): { label: string; sub: string; highlight?: boolea
 
 const TIERS = [
   { key: "basis",        slotId: "basis",        label: "Basis" },
-  { key: "standard",     slotId: "standard",     label: "Standard" },
-  { key: "premium",      slotId: "premium",      label: "Premium" },
+  { key: "augenhoehe",   slotId: "augenhoehe",   label: "Augenhöhe" },
+  { key: "greifhoehe",   slotId: "greifhoehe",   label: "Greifhöhe garantiert" },
   { key: "schaufenster", slotId: "schaufenster", label: "Schaufenster" },
-  { key: "hero",         slotId: "hero-wall",    label: "Hero Wall" },
 ] as const;
 
 function Cell({ value, highlight }: { value: CellValue; highlight?: boolean }) {
@@ -130,17 +134,18 @@ export default function SlotFeatureTable() {
             >
               <td className="p-4 text-cream font-medium">{row.label}</td>
               <td className="p-4 text-center"><Cell value={row.basis} /></td>
-              <td className="p-4 text-center"><Cell value={row.standard} /></td>
-              <td className="p-4 text-center"><Cell value={row.premium} highlight /></td>
+              <td className="p-4 text-center"><Cell value={row.augenhoehe} /></td>
+              <td className="p-4 text-center"><Cell value={row.greifhoehe} highlight /></td>
               <td className="p-4 text-center"><Cell value={row.schaufenster} /></td>
-              <td className="p-4 text-center"><Cell value={row.hero} /></td>
             </tr>
           ))}
         </tbody>
         <tfoot>
           <tr>
-            <td colSpan={6} className="px-4 py-3 text-stone/40 text-xs font-mono border-t border-stone-dark">
-              Beispiel Regalbreite: 10 cm → Basis 118 €/Mo · Standard 131 €/Mo · Premium 164 €/Mo · Schaufenster &amp; Hero Wall: Fixpreis
+            <td colSpan={5} className="px-4 py-3 text-stone/40 text-xs font-mono border-t border-stone-dark">
+              Beispiel Regalbreite: 20 cm → Basis {monatBei(20, RATES.basis)} €/Mo · Augenhöhe{" "}
+              {monatBei(20, RATES.augenhoehe)} €/Mo · Greifhöhe garantiert {monatBei(20, RATES.greifhoehe)} €/Mo ·
+              Schaufenster {SCHAUFENSTER_MONAT} €/Mo fix · mind. {MIN_SLOT_MIETE} €/Slot
             </td>
           </tr>
         </tfoot>

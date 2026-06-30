@@ -1,0 +1,25 @@
+[    1147ms] [LOG] ### @ https://api.fastbundle.co/scripts/cart.js?rgn=497813:0
+[    1301ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://jacks-beautyline.com/pages/impressum.js:0
+[    1488ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://jacks-beautyline.com/cdn/shop/t/243/assets/wishlist-king-settings.js?v=283721:0
+[    1543ms] [LOG] %c
+🏆 Trusted by 20,000+ Shopify merchants
+📦 Flexible bundles for every type of store
+💡 Proven to lift sales and customer happiness
+
+Learn more at:
+https://apps.shopify.com/fast-bundle-product-bundles?utm_source=storefront-console&utm_medium=attribution&utm_campaign=bundle-banner&utm_content=learn-more&utm_term=jacks-beautyline.com font-size:14px; @ https://sdk.fastbundle.co/1.27.81/main.min.js:169
+[    1562ms] [LOG] [FloatingWidget] skip legacy widget flow - v2 handles @ https://widget.gotolstoy.com/we/widget.js:78
+[    1611ms] [LOG] Running... @ https://jacks-beautyline.com/web-pixels/strict/app/web-pixel-3407413623@2cb743079161678654abfc4da89248b8.js:0
+[    1682ms] [LOG] AskAIController initGlobal (header icon) @ https://play.gotolstoy.com/widget-v2/widget.js:68
+[    1683ms] [LOG] OnYou log: FloatingSearchBarController: Search bar is disabled @ https://play.gotolstoy.com/widget-v2/widget.js:54
+[    1684ms] [LOG] OnYou log: ChatBubbleController: Chat bubble is disabled. @ https://play.gotolstoy.com/widget-v2/widget.js:54
+[    1684ms] [LOG] AskAIController initGlobal skipped - Ask AI icon not enabled @ https://play.gotolstoy.com/widget-v2/widget.js:68
+[    1684ms] [LOG] [Klaviyo / Onsite] Initializing. @ https://a.klaviyo.com/media/js/onsite/onsite.js:143
+[    1684ms] [LOG] [Klaviyo / Onsite] Executing: init @ https://a.klaviyo.com/media/js/onsite/onsite.js:143
+[    1684ms] [LOG] [Klaviyo / Onsite] Executing: enable @ https://a.klaviyo.com/media/js/onsite/onsite.js:143
+[    1845ms] [INFO] Clear-Site-Data header on 'https://jacks-beautyline.com/cart.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://jacks-beautyline.com/pages/impressum:0
+[    2038ms] [INFO] Clear-Site-Data header on 'https://jacks-beautyline.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://jacks-beautyline.com/pages/impressum:0
+[    2175ms] [LOG] %c ► UpPromote Affiliate Marketing [Application] - Running... background-color: #092C4C; color: #fff; padding: 5px; @ https://d1639lhkj5l89m.cloudfront.net/js/storefront/uppromote.js:0
+[    2274ms] [INFO] Clear-Site-Data header on 'https://jacks-beautyline.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://jacks-beautyline.com/pages/impressum:0
+[    2732ms] [LOG] [GORGIAS-CHAT] Loading chat 01GYCCFMZQ4V6KDYMXCS9ZG773... @ https://config.gorgias.chat/bundle-loader/01GYCCFMZQ4V6KDYMXCS9ZG773?source=shopify1click&shop=jacks-beauty-line.myshopify.com:0
+[    2732ms] [WARNING] Gorgias Chat is not shown on this page because of the visibility settings. @ https://config.gorgias.chat/bundle-loader/01GYCCFMZQ4V6KDYMXCS9ZG773?source=shopify1click&shop=jacks-beauty-line.myshopify.com:0
