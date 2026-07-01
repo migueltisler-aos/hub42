@@ -74,7 +74,7 @@ export default function HerstellerRechner() {
     const reweMargeEur = uvp * (marge / 100);
     const reweUnit     = uvp - reweMargeEur - listung;
     const reweMonthly  = reweUnit * sales;
-    const checkoutFee  = 0.40;
+    const checkoutFee  = 0.30;
     const regalkosten  = pos.fixedMonat != null ? pos.fixedMonat : cm * (pos.ratePerCm ?? 0);
     const regalkostenPerUnit = regalkosten / sales;
     const hubUnit      = uvp - regalkostenPerUnit - checkoutFee;

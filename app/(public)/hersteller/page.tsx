@@ -40,7 +40,7 @@ const SCHRITTE = [
   {
     nr: "05",
     titel: "Daten & Erlös",
-    beschreibung: "Du behältst den Erlös minus Mietgebühr und 0,40 € pro verkauftem Artikel. Monatliche Abrechnung. Zahlen die zählen.",
+    beschreibung: "Du behältst den Erlös minus Mietgebühr und 0,30 € pro verkauftem Artikel – plus die durchgereichte Kartenzahlungsgebühr (ca. 1,15 %). Monatliche Abrechnung. Zahlen die zählen.",
   },
 ];
 
@@ -70,7 +70,7 @@ const FAQ = [
   {
     frage: "Was ist die Checkout-Gebühr?",
     antwort:
-      "0,40 € pro verkauftem Artikel – nicht pro Transaktion. Kauft ein Kunde 3 Produkte, fallen 3 × 0,40 € an. Keine Handelsmarge. Keine versteckten Kosten.",
+      "0,30 € pro verkauftem Artikel – nicht pro Transaktion. Kauft ein Kunde 3 Produkte, fallen 3 × 0,30 € an. Dazu reichen wir nur die reine Kartenzahlungsgebühr durch (ca. 1,15 %) – ohne Aufschlag. Keine Handelsmarge. Keine versteckten Kosten.",
   },
   {
     frage: "Wie funktioniert die Abrechnung?",
@@ -281,7 +281,8 @@ export default function HerstellerPage() {
                 <span className="text-bronze">unser Geschäftsmodell.</span>
               </h2>
               <p className="text-stone text-base leading-relaxed mb-6 max-w-lg">
-                Wir nehmen 0,40 € pro verkauftem Artikel. Nicht pro Monat, nicht pauschal —
+                Wir nehmen 0,30 € pro verkauftem Artikel – plus die reine Kartenzahlungsgebühr
+                (ca. 1,15 %), die wir 1:1 durchreichen. Nicht pro Monat, nicht pauschal —
                 pro Verkauf. Das bedeutet: Wenn du nichts verkaufst, verdienen wir kaum etwas.
                 Wir sind strukturell daran interessiert, dass dein Produkt läuft.
               </p>
@@ -478,11 +479,12 @@ export default function HerstellerPage() {
               {/* Checkout-Fee */}
               <div className="border-l-2 border-bronze pl-6">
                 <p className="text-bronze text-4xl mb-1" style={{ fontFamily: "var(--font-bebas)" }}>
-                  0,40 €
+                  0,30 €
                 </p>
                 <p className="text-stone text-sm mb-2">pro verkauftem Artikel → unsere Marge</p>
                 <p className="text-stone text-sm leading-relaxed">
-                  Die Checkout-Fee ist unsere Gewinnmarge – und deckt EC-Kartengebühren.
+                  Die Checkout-Fee ist unsere Gewinnmarge. Die Kartenzahlungsgebühr
+                  (ca. 1,15 %) reichen wir 1:1 durch – ohne Aufschlag.
                   Wir verdienen erst wenn du verkaufst.
                   Kein Umsatz bei dir = kein Umsatz bei uns.
                 </p>

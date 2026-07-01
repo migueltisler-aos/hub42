@@ -62,7 +62,7 @@ export const DEFAULTS: Assumptions = {
   onlinePayFix: 0.25,
   shopMonthly: 36, // Shopify Basic ~36 €/Monat
   hubCheckout: 0.3,
-  hubPayPct: 0.85,
+  hubPayPct: 1.15,
   hubPayFix: 0.25,
   regalCm: 5, // ein einzelnes F&B-Produkt belegt ~5 cm Front
   ratePerCm: RATES.basis,
