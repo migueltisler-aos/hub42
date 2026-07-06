@@ -43,7 +43,11 @@ export default function BrandCard({ brand, variant = "grid" }: BrandCardProps) {
             alt={`${brand.produktName} – ${brand.name}`}
             fill
             sizes={isCarousel ? "224px" : "(max-width: 640px) 50vw, 25vw"}
-            className="object-contain p-5 drop-shadow-xl transition-transform duration-300 group-hover:scale-[1.06]"
+            className={`transition-transform duration-300 group-hover:scale-[1.06] ${
+              brand.bildFit === "cover"
+                ? "object-cover"
+                : "object-contain p-5 drop-shadow-xl"
+            }`}
           />
         ) : (
           <span

@@ -3,7 +3,8 @@ export type BrandCategory =
   | "Supplements"
   | "Kaffee"
   | "Granola"
-  | "Hot Sauce";
+  | "Hot Sauce"
+  | "Lifestyle";
 
 export type BrandTier = "Juwel" | "Platform Brand" | "Anker" | "Ikone";
 
@@ -18,6 +19,8 @@ export interface Brand {
   produkte: string[];
   /** Pfad zum echten Produktbild in /public/brands */
   bild?: string;
+  /** "contain" = freigestelltes Produkt schwebt (Default), "cover" = randfüllendes Foto */
+  bildFit?: "contain" | "cover";
   tagline: string;
   beschreibung: string;
   herkunft: string;
@@ -68,6 +71,26 @@ export const BRANDS: Brand[] = [
     accentColor: "#C0392B",
     initials: "CB",
     slug: "crazy-bastard",
+  },
+  {
+    id: "lchtnbrg",
+    name: "Lchtnbrg",
+    kategorie: "Lifestyle",
+    kategorieSlug: "lifestyle",
+    produktName: "Postkarten & Magnete",
+    produkte: ["Postkarten", "Magnete", "Sticker"],
+    bild: "/brands/lchtnbrg-postkarten.jpg",
+    bildFit: "cover",
+    tagline: "Trashig-schöne Meme-Kultur aus Berlin.",
+    beschreibung:
+      "Streetwear, Postkarten, Magnete & mehr mit Lichtenberg-Attitude. Schräg, bunt, unverkennbar Berlin – Merch das man verschenkt und behält.",
+    herkunft: "Berlin Lichtenberg",
+    tier: "Juwel",
+    url: "https://lchtnbrg.com",
+    featured: true,
+    accentColor: "#D98CA8",
+    initials: "LB",
+    slug: "lchtnbrg",
   },
   {
     id: "ikani",
@@ -151,6 +174,7 @@ export const KATEGORIEN = [
   { label: "Alle", slug: "alle" },
   { label: "Granola", slug: "granola" },
   { label: "Hot Sauce", slug: "hot-sauce" },
+  { label: "Lifestyle", slug: "lifestyle" },
   { label: "Feinkost", slug: "feinkost" },
   { label: "Supplements", slug: "supplements" },
   { label: "Kaffee", slug: "kaffee" },
