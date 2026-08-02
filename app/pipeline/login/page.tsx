@@ -1,13 +1,14 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
+import { PIPELINE_USERS, isPipelineUser } from "@/lib/pipeline-users";
 
 async function login(formData: FormData) {
   "use server";
   const password = formData.get("password") as string;
-  const name = (formData.get("name") as string).trim();
+  const name = (formData.get("name") as string)?.trim();
   const from = (formData.get("from") as string) || "/pipeline";
 
-  if (!password || !name) return;
+  if (!password || !name || !isPipelineUser(name)) return;
   if (password !== process.env.PIPELINE_PASSWORD) return;
 
   const cookieStore = await cookies();
@@ -46,13 +47,21 @@ export default async function LoginPage({
             <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-1">
               Dein Name
             </label>
-            <input
+            <select
               name="name"
-              type="text"
-              placeholder="z.B. Miguel"
               required
+              defaultValue=""
               className="w-full bg-green-mid border border-stone-dark text-cream px-4 py-3 text-sm font-mono focus:outline-none focus:border-bronze"
-            />
+            >
+              <option value="" disabled>
+                Wählen…
+              </option>
+              {PIPELINE_USERS.map((u) => (
+                <option key={u} value={u}>
+                  {u}
+                </option>
+              ))}
+            </select>
           </div>
 
           <div>

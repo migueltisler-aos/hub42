@@ -2,7 +2,9 @@ import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
 import { getBrand, upsertBrand } from "@/lib/pipeline";
+import { sendMail } from "@/lib/mail";
 import BrandForm from "../_components/BrandForm";
+import MailComposer from "../_components/MailComposer";
 
 async function saveBrand(id: string, formData: FormData) {
   "use server";
@@ -45,12 +47,52 @@ async function deactivateBrand(id: string, formData: FormData) {
   redirect("/pipeline");
 }
 
+async function sendColdEmailAction(id: string, formData: FormData) {
+  "use server";
+  const cookieStore = await cookies();
+  const currentUser = cookieStore.get("pipeline_user")?.value ?? "Unbekannt";
+
+  const subject = (formData.get("subject") as string)?.trim();
+  const body = (formData.get("body") as string)?.trim();
+
+  const brand = await getBrand(id);
+  if (!brand?.email) {
+    redirect(`/pipeline/${id}?mailerror=noemail`);
+  }
+
+  let sendFailed = false;
+  try {
+    await sendMail({ to: brand.email!, subject, text: body, fromName: currentUser });
+  } catch (err) {
+    console.error("SMTP-Versand fehlgeschlagen", err);
+    sendFailed = true;
+  }
+
+  if (sendFailed) {
+    redirect(`/pipeline/${id}?mailerror=send`);
+  }
+
+  const today = new Date().toISOString().split("T")[0];
+  await upsertBrand(id, {
+    kanal: "E-Mail",
+    datum_erstkontakt: brand.datum_erstkontakt ?? today,
+    datum_letzte_aktion: today,
+    status: brand.status === "Neu" ? "Kontaktiert" : brand.status,
+    notizen: `${brand.notizen ? brand.notizen + "\n" : ""}[${today}] E-Mail gesendet von ${currentUser}: "${subject}"`,
+  });
+
+  redirect(`/pipeline/${id}?mailsent=1`);
+}
+
 export default async function BrandDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ id: string }>;
+  searchParams: Promise<{ mailsent?: string; mailerror?: string }>;
 }) {
   const { id } = await params;
+  const { mailsent, mailerror } = await searchParams;
   const cookieStore = await cookies();
   const currentUser = cookieStore.get("pipeline_user")?.value ?? "Unbekannt";
 
@@ -60,6 +102,7 @@ export default async function BrandDetailPage({
 
   const saveWithId = saveBrand.bind(null, id);
   const deactivateWithId = deactivateBrand.bind(null, id);
+  const sendMailWithId = sendColdEmailAction.bind(null, id);
 
   return (
     <div className="min-h-screen bg-green-dark">
@@ -81,12 +124,39 @@ export default async function BrandDetailPage({
             </span>
           </div>
         </div>
+
+        {mailsent && (
+          <div className="border border-emerald-500/40 bg-emerald-950/20 px-4 py-3 mb-6 text-emerald-400 text-sm font-mono">
+            E-Mail gesendet – Status und Kontakt-Historie wurden aktualisiert.
+          </div>
+        )}
+        {mailerror === "noemail" && (
+          <div className="border border-red-500/40 bg-red-950/20 px-4 py-3 mb-6 text-red-400 text-sm font-mono">
+            Keine E-Mail-Adresse hinterlegt. Erst oben eintragen und speichern.
+          </div>
+        )}
+        {mailerror === "send" && (
+          <div className="border border-red-500/40 bg-red-950/20 px-4 py-3 mb-6 text-red-400 text-sm font-mono">
+            Versand fehlgeschlagen – SMTP-Zugangsdaten (SMTP_HOST/SMTP_USER/SMTP_PASS/SMTP_FROM_EMAIL) prüfen.
+          </div>
+        )}
+
         <BrandForm
           brand={brand}
           currentUser={currentUser}
           saveAction={saveWithId}
           deactivateAction={brand.status !== "Inaktiv" ? deactivateWithId : undefined}
         />
+
+        <div className="mt-8">
+          <MailComposer
+            brandEmail={brand.email}
+            brandName={brand.name}
+            ansprechpartner={brand.ansprechpartner}
+            currentUser={currentUser}
+            sendAction={sendMailWithId}
+          />
+        </div>
       </div>
     </div>
   );
