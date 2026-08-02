@@ -7,7 +7,7 @@ const SCHRITTE = [
   {
     num: "01",
     titel: "Slot buchen",
-    copy: "Regalfläche ab 55 €/Monat. Kein Listingvertrag, keine Vorauszahlung auf Kommission.",
+    copy: "Regalfläche ab 59 €/Monat. Kein Listingvertrag, keine Vorauszahlung auf Kommission.",
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" className="text-bronze">
         <rect x="4" y="6" width="20" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />

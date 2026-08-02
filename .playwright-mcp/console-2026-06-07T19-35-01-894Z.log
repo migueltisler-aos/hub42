@@ -1,0 +1,21 @@
+[     431ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://oceanmata.com/cdn/shop/t/89/assets/cookiesAppHelper.js?v=79042:0
+[     431ms] [ERROR] Refused to execute script from 'https://oceanmata.com/cdn/shop/t/89/assets/cookiesAppHelper.js?v=79042' because its MIME type ('text/html') is not executable, and strict MIME type checking is enabled. @ https://oceanmata.com/policies/legal-notice:0
+[     555ms] [LOG] SEO Variants: App Embed Initializing @ https://oceanmata.com/policies/legal-notice:686
+[     555ms] [LOG] SEO Variants: Current locale is de ( Deutsch ) @ https://oceanmata.com/policies/legal-notice:693
+[     555ms] [LOG] App Embed: Set metafieldDataV3 from legacy data @ https://oceanmata.com/policies/legal-notice:703
+[     555ms] [LOG] App Embed: Set metacss @ https://oceanmata.com/policies/legal-notice:724
+[     555ms] [LOG] App Embed: Set metastyles @ https://oceanmata.com/policies/legal-notice:733
+[     555ms] [LOG] App Embed: Set isProductPage to false @ https://oceanmata.com/policies/legal-notice:743
+[     555ms] [LOG] App Embed: App Block not detected, will create variant picker if needed @ https://oceanmata.com/policies/legal-notice:754
+[     555ms] [LOG] App Embed: Added collection styles @ https://oceanmata.com/policies/legal-notice:778
+[     557ms] [LOG] App Embed: metafieldDataV3 size: 1065.1KB (137 groups) @ https://oceanmata.com/policies/legal-notice:784
+[     714ms] [LOG] SEO Variants Embed Helper: Initializing @ https://cdn.shopify.com/extensions/019c5303-15e1-71cf-a48d-05378f08e9e4/seov-3-285/assets/seo-variants-embed.js?1780860899:3
+[     714ms] [LOG] SEO Variants Embed Helper: Not on a product page, but will continue for global functions @ https://cdn.shopify.com/extensions/019c5303-15e1-71cf-a48d-05378f08e9e4/seov-3-285/assets/seo-variants-embed.js?1780860899:7
+[     726ms] [INFO] k-web-pixel-version 1 @ https://oceanmata.com/web-pixels/strict/app/web-pixel-3321692426@524f6c1ee37bacdca7657a665bdca589.js:0
+[     822ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://oceanmata.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0
+[     832ms] [LOG] [SEO Variants Collection] Collection load method: legacy @ https://cdn.shopify.com/extensions/019c5303-15e1-71cf-a48d-05378f08e9e4/seov-3-285/assets/seo-variants-collection.js?1780860899:16
+[     833ms] [LOG] [SEO Variants Collection] metafieldDataV3: 137 groups, 1065.1KB @ https://cdn.shopify.com/extensions/019c5303-15e1-71cf-a48d-05378f08e9e4/seov-3-285/assets/seo-variants-collection.js?1780860899:16
+[     833ms] [LOG] [SEO Variants Collection] Collection pickers disabled via showPickerOptionsOnCollection setting @ https://cdn.shopify.com/extensions/019c5303-15e1-71cf-a48d-05378f08e9e4/seov-3-285/assets/seo-variants-collection.js?1780860899:16
+[     858ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://oceanmata.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0
+[    1075ms] [WARNING] <meta name="apple-mobile-web-app-capable" content="yes"> is deprecated. Please include <meta name="mobile-web-app-capable" content="yes"> @ https://oceanmata.com/policies/legal-notice:0
+[    1389ms] [INFO] Clear-Site-Data header on 'https://oceanmata.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://oceanmata.com/policies/legal-notice:0

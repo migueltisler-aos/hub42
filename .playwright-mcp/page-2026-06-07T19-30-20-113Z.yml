@@ -1,0 +1,639 @@
+- generic [ref=e1]:
+  - generic:
+    - complementary:
+      - generic:
+        - generic:
+          - paragraph
+          - generic:
+            - generic:
+              - img
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - paragraph: WARENKORB
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic: Nur noch 60,00 € für kostenlosen Versand & zwei gratis Proben! Noch 90,00 € für ein gratis Mini!**
+                          - generic:
+                            - generic:
+                              - generic: 0 €
+                              - generic: 60 €
+                              - generic: 90 €
+                - generic:
+                  - paragraph: Dein Warenkorb ist leer.
+  - banner [ref=e2]:
+    - generic:
+      - generic:
+        - button "Close product finder":
+          - generic:
+            - img
+      - generic:
+        - button "Close product finder":
+          - generic:
+            - img
+      - generic:
+        - img "Set Poren verfeinern von JUNGLÜCK auftragen"
+        - generic:
+          - generic:
+            - generic: Finde deine passenden Produkte
+            - generic: "Wir bieten dir zwei Möglichkeiten, deine perfekte Routine für dich zu finden:"
+            - link "Gesichts-Scan starten":
+              - /url: /pages/skin-ai
+            - generic: oder
+            - link "Fragen beantworten":
+              - /url: /pages/productfinder
+        - button "Close product finder":
+          - generic:
+            - img
+    - generic [ref=e3]:
+      - generic [ref=e8]:
+        - paragraph [ref=e11]: Gratis Versand & zwei gratis Proben ab 60 € | ein gratis Mini ab 90 €**
+        - paragraph [ref=e14]: 30 Tage Zufriedenheitsgarantie¹
+        - paragraph [ref=e17]: Hochverträglich – auch bei empfindlicher Haut.
+      - generic [ref=e18]:
+        - link "Junglück" [ref=e20] [cursor=pointer]:
+          - /url: /
+        - generic [ref=e22]:
+          - generic [ref=e23]:
+            - link "GESICHTSPFLEGE" [ref=e24] [cursor=pointer]:
+              - /url: /collections/gesichtspflege
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - link "Alle Produkte":
+                      - /url: /collections/gesichtspflege
+                      - generic: Alle Produkte
+                    - generic:
+                      - link "Reinigung":
+                        - /url: /collections/gesichtspflege-reinigung
+                      - link "Gesichtswasser":
+                        - /url: /collections/gesichtswasser
+                      - link "Seren & Wirkprodukte":
+                        - /url: /collections/seren-wirkprodukte
+                      - link "Cremes":
+                        - /url: /collections/cremes
+                      - link "Sonnenschutz & After Sun":
+                        - /url: /collections/sonnenschutz-after-sun
+                      - link "Feuchtigkeitspflege":
+                        - /url: /collections/feuchtigkeitspflege
+                      - link "Augenpflege":
+                        - /url: /collections/augenpflege
+                      - link "Getönte Pflege":
+                        - /url: /collections/getoente-pflege
+                      - link "Peeling":
+                        - /url: /collections/gesichtspflege-peeling
+                      - link "Bräunung":
+                        - /url: /collections/braeunung
+                      - link "Öle":
+                        - /url: /collections/gesichtspflege-oele
+                      - link "Masken":
+                        - /url: /collections/masken
+                  - generic:
+                    - link "Nach Hautbedürfnis":
+                      - /url: "#"
+                      - generic: Nach Hautbedürfnis
+                    - generic:
+                      - link "Unreinheiten mindern":
+                        - /url: /pages/unreinheiten-mindern-routine
+                      - link "Linien & Falten minimieren":
+                        - /url: /pages/linien-falten-minimieren-routine
+                      - link "Trockenheit reduzieren":
+                        - /url: /pages/trockenheit-reduzieren-routine
+                      - link "Rötungen lindern":
+                        - /url: /pages/roetungen-lindern-routine
+                      - link "Poren verfeinern":
+                        - /url: /pages/poren-verfeinern-routine
+                      - link "Pigmentflecken & Pickelmale aufhellen":
+                        - /url: /pages/pigmentflecken-pickelmale-aufhellen-routine
+                      - link "Fahlen Teint ausgleichen":
+                        - /url: /pages/fahlen-teint-ausgleichen-routine
+                      - link "Hautbarriere stärken":
+                        - /url: /pages/hautbarriere-staerken-routine
+                    - link "Unsere Minis":
+                      - /url: /collections/unsere-minis
+                      - generic: Unsere Minis
+                  - generic:
+                    - link "Sets":
+                      - /url: https://junglueck.de/collections/sets
+                      - generic: Sets
+                    - generic:
+                      - link "Geschenksets":
+                        - /url: /collections/geschenksets
+                      - link "Hautbedürfnis Sets":
+                        - /url: /collections/hautbeduerfnis-sets
+                      - link "Basis-Pflege nach Hauttypen":
+                        - /url: /collections/basis-pflege-nach-hauttypen
+                      - link "1+1 Kombis":
+                        - /url: /collections/1-1-kombis
+                      - link "Trios":
+                        - /url: /collections/trio-sets
+                      - link "Kennenlern Sets":
+                        - /url: /collections/kennenlern-sets
+                      - link "Mix & Match":
+                        - /url: /products/mix-match-routine
+                    - link "Bestseller":
+                      - /url: /collections/bestseller
+                      - generic: Bestseller
+                    - link "Neuheiten":
+                      - /url: /collections/unsere-neuheiten
+                      - generic: Neuheiten
+                    - link "Archiv Sale":
+                      - /url: /collections/archiv-sale
+                      - generic: Archiv Sale
+                  - generic:
+                    - link "Andere Produkte":
+                      - /url: "#"
+                      - generic: Andere Produkte
+                    - generic:
+                      - link "Gesichtsbehandlungen":
+                        - /url: /pages/flagship-store
+                      - link "Accessoires & Gutscheine":
+                        - /url: /collections/accessoires
+                - generic:
+                  - generic:
+                    - generic:
+                      - link "Bye-Bye-Falten-Kombi_Set Moodbild PRODUKFINDER":
+                        - /url: https://junglueck.de/pages/productfinder
+                        - img "Bye-Bye-Falten-Kombi_Set Moodbild"
+                        - generic:
+                          - paragraph: PRODUKFINDER
+                        - generic:
+                          - generic:
+                            - img
+          - generic [ref=e25]:
+            - link "KÖRPERPFLEGE" [ref=e26] [cursor=pointer]:
+              - /url: /collections/koerper-haare
+            - generic:
+              - generic:
+                - generic: Körperpflege
+                - generic: Haarpflege
+                - generic: Accessoires & Gutscheine
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - link "Alle Produkte":
+                        - /url: /collections/koerperpflege
+                        - generic: Alle Produkte
+                      - link "Mit Duft":
+                        - /url: /collections/koerperpflege-mit-duft
+                        - generic: Mit Duft
+                      - link "Handpflege":
+                        - /url: /collections/handpflege
+                        - generic: Handpflege
+                      - link "Deodorant":
+                        - /url: /collections/deodorant
+                        - generic: Deodorant
+                      - link "Körperpflege-Sets":
+                        - /url: /collections/koerperpflege-sets
+                        - generic: Körperpflege-Sets
+                  - generic:
+                    - generic:
+                      - generic:
+                        - link "Eincremen mit Hautschutz Kombi Set von JUNGLÜCK KÖRPERPFLEGE-SETS":
+                          - /url: https://junglueck.de/collections/koerperpflege-sets
+                          - img "Eincremen mit Hautschutz Kombi Set von JUNGLÜCK"
+                          - generic:
+                            - paragraph: KÖRPERPFLEGE-SETS
+                          - generic:
+                            - generic:
+                              - img
+          - link "JUNGLÜCK CLUB" [ref=e28] [cursor=pointer]:
+            - /url: /pages/junglueck-club
+          - generic [ref=e29]:
+            - link "HAUTWISSEN" [ref=e30] [cursor=pointer]:
+              - /url: /pages/hautwissen
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - link "Beratung":
+                      - /url: "#"
+                      - generic: Beratung
+                    - generic:
+                      - link "Produktfinder":
+                        - /url: /pages/productfinder
+                      - link "AI-Gesichtsanalyse":
+                        - /url: /pages/skin-ai
+                      - link "Videoberatung":
+                        - /url: /pages/video-beratung
+                      - link "Kontakt":
+                        - /url: /pages/kontakt
+                      - link "Unser Store":
+                        - /url: /pages/flagship-store
+                  - generic:
+                    - link "Deine Haut":
+                      - /url: /pages/hautwissen
+                      - generic: Deine Haut
+                    - link "Wirkstoffe":
+                      - /url: /pages/wirkstoffe-uebersicht
+                      - generic: Wirkstoffe
+                    - generic:
+                      - link "Aloe Vera":
+                        - /url: /pages/wirkstoff-aloe-vera
+                      - link "Azelain":
+                        - /url: /pages/wirkstoff-azelain
+                      - link "Bakuchiol":
+                        - /url: /pages/wirkstoff-bakuchiol
+                      - link "Ceramide":
+                        - /url: /pages/wirkstoff-ceramide
+                      - link "Hyaluron":
+                        - /url: /pages/wirkstoff-hyaluron
+                      - link "Niacinamid":
+                        - /url: /pages/wirkstoff-niacinamid
+                      - link "Panthenol":
+                        - /url: /pages/wirkstoff-panthenol
+                      - link "Retinol":
+                        - /url: /pages/wirkstoff-retinol
+                      - link "Vitamin C":
+                        - /url: /pages/wirkstoff-vitamin-c
+                  - generic:
+                    - link "Inhaltsstoffe":
+                      - /url: "#"
+                      - generic: Inhaltsstoffe
+                    - generic:
+                      - link "Inhaltsstoff-Glossar":
+                        - /url: /pages/inhaltsstoffe
+                      - link "Entscheidungskriterien":
+                        - /url: /pages/entscheidungskriterien
+                  - generic:
+                    - link "Magazin":
+                      - /url: /blogs/magazin
+                      - generic: Magazin
+                    - generic:
+                      - link "Produktwissen":
+                        - /url: https://junglueck.de/blogs/produktwissen
+                      - link "Hautpflege":
+                        - /url: https://junglueck.de/blogs/hautpflege
+                      - link "Nachhaltigkeit":
+                        - /url: https://junglueck.de/blogs/nachhaltigkeit
+                - generic:
+                  - generic:
+                    - generic:
+                      - link "ENTSCHEIDUNGS-KRITERIEN":
+                        - /url: https://junglueck.de/pages/entscheidungskriterien
+                        - generic:
+                          - paragraph: ENTSCHEIDUNGS-KRITERIEN
+                        - generic:
+                          - generic:
+                            - img
+          - generic [ref=e31]:
+            - link "ÜBER UNS" [ref=e32] [cursor=pointer]:
+              - /url: /pages/ueber-uns-uebersicht
+            - generic:
+              - generic:
+                - generic:
+                  - link "ALOE-CORE™":
+                    - /url: /pages/aloe-core
+                    - generic: ALOE-CORE™
+                  - link "Produktentwicklung":
+                    - /url: /pages/produktentwicklung
+                    - generic: Produktentwicklung
+                  - link "Unternehmen":
+                    - /url: /pages/gruenderstory
+                    - generic: Unternehmen
+                  - 'link "Malawi: Unser Engagement"':
+                    - /url: /pages/malawi
+                    - generic: "Malawi: Unser Engagement"
+                  - link "Nachhaltigkeit":
+                    - /url: /pages/nachhaltigkeit
+                    - generic: Nachhaltigkeit
+                  - link "Unser Store & Spa":
+                    - /url: /pages/flagship-store
+                    - generic: Unser Store & Spa
+                  - link "Unser Store Düsseldorf":
+                    - /url: /pages/store-dusseldorf
+                    - generic: Unser Store Düsseldorf
+                  - link "B2B":
+                    - /url: /pages/b2b
+                    - generic: B2B
+                  - link "Store Finder":
+                    - /url: /pages/store-locator
+                    - generic: Store Finder
+                  - link "Affiliate Programm":
+                    - /url: /pages/influencer-junglueck-familie
+                    - generic: Affiliate Programm
+                - generic:
+                  - generic:
+                    - generic:
+                      - link "Junglück Kosmetikbehandlung - Frau wird Gesichtsmaske mit Pinsel aufgetragen UNSER STORE & SPA":
+                        - /url: https://junglueck.de/pages/flagship-store
+                        - img "Junglück Kosmetikbehandlung - Frau wird Gesichtsmaske mit Pinsel aufgetragen"
+                        - generic:
+                          - paragraph: UNSER STORE & SPA
+                        - generic:
+                          - generic:
+                            - img
+                    - generic:
+                      - link "PRODUKTKONZEPT":
+                        - /url: https://junglueck.de/pages/produktkonzept
+                        - generic:
+                          - paragraph: PRODUKTKONZEPT
+                        - generic:
+                          - generic:
+                            - img
+        - generic [ref=e33]:
+          - generic [ref=e34] [cursor=pointer]: Passendes Produkt finden
+          - generic [ref=e35]:
+            - 'complementary "Ausgewählte Sprache: Deutsch" [ref=e39] [cursor=pointer]':
+              - combobox "Sprachumschalter" [ref=e40]:
+                - link "DE" [ref=e41]:
+                  - /url: "#"
+            - img [ref=e44] [cursor=pointer]
+            - link "Account" [ref=e46] [cursor=pointer]:
+              - /url: /account/login
+              - img [ref=e48]
+            - link [ref=e51] [cursor=pointer]:
+              - /url: /apps/wishlist
+              - generic [ref=e52]:
+                - img
+            - img [ref=e55] [cursor=pointer]
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - button "Close search":
+                    - generic:
+                      - img
+                - search:
+                  - generic:
+                    - button "Start search":
+                      - generic:
+                        - img
+                    - combobox "Gib etwas ein..."
+                    - button "Close search":
+                      - generic:
+                        - img
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - paragraph: Beliebte Suchbegriffe
+                      - generic:
+                        - link "RETINOL":
+                          - /url: /search?q=retinol
+                        - link "NIACINAMID SERUM":
+                          - /url: /search?q=niacinamid serum
+                        - link "ADVENTSKALENDER":
+                          - /url: /search?q=adventskalender
+                        - link "VITAMIN C SERUM":
+                          - /url: /search?q=vitamin c serum
+                        - link "TROCKENE HAUT":
+                          - /url: /search?q=trockene haut
+                        - link "HYALURON":
+                          - /url: /search?q=hyaluron
+  - main [ref=e57]:
+    - generic [ref=e58]:
+      - heading "Impressum" [level=1] [ref=e60]
+      - generic [ref=e62]:
+        - heading "JUNGLÜCK GmbH Keltenring 9 D-82041 Oberhaching" [level=6] [ref=e63]:
+          - generic [ref=e64]: JUNGLÜCK GmbH
+          - generic [ref=e65]:
+            - text: Keltenring 9
+            - text: D-82041 Oberhaching
+        - 'heading "Telefon: +49 (0) 89 2555 25 663 E-Mail: info@junglueck.de Geschäftsführer: Benedikt Klarmann Handelsregister: Amtsgericht München, HRB 229553 USt.-ID.: DE309688269" [level=6] [ref=e66]':
+          - text: "Telefon: +49 (0) 89 2555 25 663"
+          - text: "E-Mail:"
+          - link "info@junglueck.de" [ref=e69] [cursor=pointer]:
+            - /url: mailto:info@junglueck.de
+          - text: "Geschäftsführer: Benedikt Klarmann"
+          - text: "Handelsregister: Amtsgericht München, HRB 229553"
+          - text: "USt.-ID.:"
+          - generic [ref=e70]: DE309688269
+        - 'heading "Redaktionell verantwortlicher nach § 18 MStV: Benedikt Klarmann Keltenring 9 D-82041 Oberhaching" [level=6] [ref=e71]':
+          - text: Redaktionell v
+          - generic [ref=e73]: "erantwortlicher nach § 18 MStV:"
+          - text: Benedikt Klarmann
+          - generic [ref=e74]:
+            - text: Keltenring 9
+            - text: D-82041 Oberhaching
+        - 'heading "Alternative Streitbeilegung und OS-Plattform Die Europäischen Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit. Diese ist über die folgende Internetadresse erreichbar: https://ec.europa.eu/consumers/odr/. Wir sind bereit, an einem außergerichtlichen Schlichtungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen. Zuständige Verbraucherschlichtungsstelle ist die Universalschlichtungsstelle des Bundes Zentrum für Schlichtung e.V., Straßburger Straße 8, D-77694 Kehl am Rhein, Tel.: +49 (0)7851 / 795 79 40, Fax +49 (0) 7851 / 795 79 41, E-Mail: mail@universalschlichtungsstelle.de, Web: www.verbraucher-schlichter.de." [level=6] [ref=e75]':
+          - generic [ref=e76]: Alternative Streitbeilegung und OS-Plattform
+          - text: "Die Europäischen Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit. Diese ist über die folgende Internetadresse erreichbar:"
+          - link "https://ec.europa.eu/consumers/odr/" [ref=e78] [cursor=pointer]:
+            - /url: https://ec.europa.eu/consumers/odr/
+          - generic [ref=e79]: .
+          - text: "Wir sind bereit, an einem außergerichtlichen Schlichtungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen. Zuständige Verbraucherschlichtungsstelle ist die Universalschlichtungsstelle des Bundes Zentrum für Schlichtung e.V., Straßburger Straße 8, D-77694 Kehl am Rhein, Tel.: +49 (0)7851 / 795 79 40, Fax +49 (0) 7851 / 795 79 41, E-Mail:"
+          - link "mail@universalschlichtungsstelle.de" [ref=e80] [cursor=pointer]:
+            - /url: mailto:mail@universalschlichtungsstelle.de
+            - generic [ref=e81]: mail@universalschlichtungsstelle.de
+          - generic [ref=e82]: ", Web: www.verbraucher-schlichter.de."
+  - contentinfo "31648940170--main-footer" [ref=e83]:
+    - generic [ref=e85]:
+      - paragraph [ref=e87]: ✓ Kostenloser Versand ab 60 €
+      - paragraph [ref=e89]: ✓ DHL Lieferung ca. 2-5 Werktage
+      - paragraph [ref=e91]: ✓ 30 Tage Zufriedenheitsgarantie ¹
+    - generic [ref=e94]:
+      - paragraph [ref=e95]: Entdecke unsere App
+      - generic [ref=e96]:
+        - link "Unsere App im App Store laden" [ref=e98] [cursor=pointer]:
+          - /url: https://apps.apple.com/de/app/jungl%C3%BCck/id6737055524
+          - img "Unsere App im App Store laden" [ref=e99]
+        - link "Unsere App bei Google Play laden" [ref=e101] [cursor=pointer]:
+          - /url: https://play.google.com/store/apps/details?id=co.stikky.app.jg
+          - img "Unsere App bei Google Play laden" [ref=e102]
+    - generic [ref=e104]:
+      - generic [ref=e105]:
+        - generic [ref=e106]:
+          - generic [ref=e108]:
+            - paragraph [ref=e110]: TOP-KATEGORIEN
+            - generic [ref=e111]:
+              - link "Cleansing und Gesichtsreinigung" [ref=e112] [cursor=pointer]:
+                - /url: https://junglueck.de/collections/gesichtspflege-reinigung
+              - link "Selbstbräuner für das Gesicht" [ref=e113] [cursor=pointer]:
+                - /url: https://junglueck.de/collections/braeunung
+              - link "Gesichtsmasken für trockene Haut" [ref=e114] [cursor=pointer]:
+                - /url: https://junglueck.de/collections/masken
+              - link "Feuchtigkeitspflege für das Gesicht" [ref=e115] [cursor=pointer]:
+                - /url: https://junglueck.de/collections/feuchtigkeitspflege
+              - link "Poren verkleinern im Gesicht" [ref=e116] [cursor=pointer]:
+                - /url: https://junglueck.de/collections/poren-verfeinern
+          - generic [ref=e118]:
+            - paragraph [ref=e120]: TOP-PRODUKTE
+            - generic [ref=e121]:
+              - link "Aloe Vera Gel für Gesicht, Haare und Haut" [ref=e122] [cursor=pointer]:
+                - /url: https://junglueck.de/products/aloe-vera-gel
+              - link "Set zum Aufhellen von Pickelmalen" [ref=e123] [cursor=pointer]:
+                - /url: https://junglueck.de/products/set-pigmentflecken-pickelmale-aufhellen
+              - link "Anti-Schuppen-Tonikum bei trockener und juckender Kopfhaut" [ref=e124] [cursor=pointer]:
+                - /url: https://junglueck.de/products/anti-schuppen-tonikum
+          - generic [ref=e126]:
+            - paragraph [ref=e128]: TOP-ARTIKEL
+            - generic [ref=e129]:
+              - link "Wirkung und Anwendung von Vitamin C Serum für die Haut" [ref=e130] [cursor=pointer]:
+                - /url: https://junglueck.de/blogs/produktwissen/vitamin-c-fuer-die-haut-wirkung-und-tipps-zur-richtigen-anwendung
+              - link "Wirkung, Anwendung und Kombination von AHA, BHA und PHA" [ref=e131] [cursor=pointer]:
+                - /url: https://junglueck.de/blogs/produktwissen/aha-bha-pha-wirkung-und-anwendung-von-hydroxysaeuren
+              - link "Besenreiser und Cellulite - Entstehung und was hilft" [ref=e132] [cursor=pointer]:
+                - /url: https://junglueck.de/blogs/bewusst-leben/besenreiser-beulen-cellulite-eine-hommage-ans-bindegewebe
+          - generic [ref=e134]:
+            - paragraph [ref=e136]: JUNGLÜCK
+            - generic [ref=e137]:
+              - link "Jobs" [ref=e138] [cursor=pointer]:
+                - /url: /pages/karriere
+              - link "JUNGLÜCK CLUB" [ref=e139] [cursor=pointer]:
+                - /url: /pages/junglueck-club
+              - link "Empfehlungsprogramm" [ref=e140] [cursor=pointer]:
+                - /url: /pages/freunde-werben-freunde
+              - link "Store Finder" [ref=e141] [cursor=pointer]:
+                - /url: /pages/store-locator
+              - link "Kund*innenstimmen" [ref=e142] [cursor=pointer]:
+                - /url: /pages/kundenstimmen
+              - link "Unser Flagship Store" [ref=e143] [cursor=pointer]:
+                - /url: /pages/flagship-store
+              - link "Creator Programm" [ref=e144] [cursor=pointer]:
+                - /url: /pages/influencer-junglueck-familie
+          - generic [ref=e146]:
+            - paragraph [ref=e148]: SERVICE
+            - generic [ref=e149]:
+              - link "FAQ & Hilfe" [ref=e150] [cursor=pointer]:
+                - /url: https://junglueckhilft.zendesk.com/hc/de
+              - link "Videoberatung" [ref=e151] [cursor=pointer]:
+                - /url: /pages/video-beratung
+              - link "Zahlung & Versand" [ref=e152] [cursor=pointer]:
+                - /url: https://junglueck.de/policies/shipping-policy
+              - link "JUNGLÜCK x Hotellerie" [ref=e153] [cursor=pointer]:
+                - /url: /pages/hotellerie
+              - link "Rücksendung" [ref=e154] [cursor=pointer]:
+                - /url: https://junglueckhilft.zendesk.com/hc/de/sections/5593647972881-Ich-m%C3%B6chte-Produkte-zur%C3%BCckschicken
+              - link "Junglück Whistleblower" [ref=e155] [cursor=pointer]:
+                - /url: /pages/whistleblower
+              - link "Erklärung zur Barrierefreiheit" [ref=e156] [cursor=pointer]:
+                - /url: /pages/accessibility
+          - generic [ref=e158]:
+            - paragraph [ref=e160]: KONTAKT
+            - generic [ref=e161]:
+              - paragraph [ref=e162]
+              - link "Kontaktformular" [ref=e163] [cursor=pointer]:
+                - /url: /pages/kontakt
+            - generic [ref=e164]:
+              - paragraph [ref=e165]
+              - paragraph [ref=e167]:
+                - text: "E-Mail:"
+                - link "info@junglueck.de" [ref=e168] [cursor=pointer]:
+                  - /url: mailto:info@junglueck.de
+                - strong [ref=e169]: "Geschäftszeiten:"
+                - text: Montag bis Freitag
+                - text: 10 Uhr - 15 Uhr
+                - text: (Außer an Feiertagen)
+            - link "WhatsApp" [ref=e171] [cursor=pointer]:
+              - /url: https://wa.me/message/FPN3D2YSQTCVG1
+              - img [ref=e173]
+              - generic [ref=e176]: WhatsApp
+            - generic [ref=e177]:
+              - link "facebook" [ref=e178] [cursor=pointer]:
+                - /url: https://www.facebook.com/junglueck
+                - img [ref=e180]
+              - link "instagram" [ref=e182] [cursor=pointer]:
+                - /url: https://www.instagram.com/junglueck
+                - img [ref=e184]
+              - link "pinterest" [ref=e188] [cursor=pointer]:
+                - /url: https://pinterest.com/junglueck
+                - img [ref=e190]
+              - link "youtube" [ref=e192] [cursor=pointer]:
+                - /url: https://www.youtube.com/channel/UCXhWKRFdbrxiZoH43JwHCaA
+                - img [ref=e194]
+          - generic [ref=e197]:
+            - paragraph [ref=e199]: FLAGSHIP STORE MÜNCHEN
+            - generic [ref=e200]:
+              - paragraph [ref=e201]: Gärtnerplatz 5
+              - paragraph [ref=e202]: 80469 München
+            - generic [ref=e203]:
+              - paragraph [ref=e204]: Öffnungszeiten
+              - paragraph [ref=e205]: Montag bis Samstag
+              - paragraph [ref=e206]: 10 Uhr - 19 Uhr
+            - paragraph [ref=e208]: Wir freuen uns auf deinen Besuch!
+          - generic [ref=e210]:
+            - paragraph [ref=e212]: STORE DÜSSELDORF
+            - generic [ref=e213]:
+              - paragraph [ref=e214]: Benrather Straße 8
+              - paragraph [ref=e215]: 40213 Düsseldorf
+            - generic [ref=e216]:
+              - paragraph [ref=e217]: Öffnungszeiten
+              - paragraph [ref=e218]: Montag bis Samstag
+              - paragraph [ref=e219]: 10 Uhr - 18 Uhr
+            - paragraph [ref=e221]: Wir freuen uns auf deinen Besuch!
+        - generic [ref=e222]:
+          - img [ref=e224]
+          - img [ref=e268]
+      - generic [ref=e300]:
+        - paragraph [ref=e301]
+        - generic [ref=e302]:
+          - paragraph [ref=e303]: "**Zwei gratis Proben ab 60 € & ein gratis Mini ab 90 € nach Abzug etwaiger Rabatte. Nicht gültig beim Kauf von nur Gutscheinen. Nur solange der Vorrat reicht."
+          - paragraph
+          - paragraph [ref=e304]:
+            - text: ¹ Innerhalb unserer Zufriedenheitsgarantie besteht eine 30-Tage-Rückgabemöglichkeit, auch nach Öffnung eines Produktes. Die Garantiezeit beginnt mit der Übergabe der Ware an den Käufer bzw. die Käuferin. Sollte ein Produkt nach Öffnung nicht gefallen oder nicht verträglich sein, kann es im Rahmen von 30 Tagen kostenfrei retourniert werden. Der Garantieanspruch ist, ohne dass es einer bestimmten Form bedarf, unter Nennung des Kaufgegenstandes, des Kaufdatums und der mit dem Kaufvertrag korrespondierenden Rechnungsnummer direkt an uns unter
+            - link "diesem Link" [ref=e305] [cursor=pointer]:
+              - /url: https://junglueck.de/pages/return-form
+            - text: zu richten. Der Anspruch aus der Zufriedenheitsgarantie besteht zusätzlich zu den gesetzlichen Rechten des Verbrauchers bei Mängeln (Gewährleistung), die durch die Garantie nicht eingeschränkt werden. Die Inanspruchnahme der vorstehend erwähnten gesetzlichen Rechte des Verbrauchers ist unentgeltlich.
+          - paragraph [ref=e306]: ²Deine Mix & Match Routine ist nicht mit anderen Rabatten kombinierbar.
+      - generic [ref=e307]:
+        - generic [ref=e308]:
+          - paragraph [ref=e310]: © Junglück 2024
+          - generic [ref=e311]:
+            - link "Datenschutz" [ref=e312] [cursor=pointer]:
+              - /url: /policies/privacy-policy
+            - link "AGB" [ref=e313] [cursor=pointer]:
+              - /url: /policies/terms-of-service
+            - link "Impressum" [ref=e314] [cursor=pointer]:
+              - /url: /policies/legal-notice
+            - link "Widerrufsrecht" [ref=e315] [cursor=pointer]:
+              - /url: /policies/refund-policy
+            - link "Cookie Einstellungen ändern" [ref=e316] [cursor=pointer]:
+              - /url: https://junglueck.myshopify.com/?#
+        - generic [ref=e317]:
+          - img "Klarna" [ref=e318]
+          - img "American Express" [ref=e322]
+          - img "Apple Pay" [ref=e331]
+          - img "Bancontact" [ref=e342]
+          - img "EPS" [ref=e349]
+          - img "Google Pay" [ref=e358]
+          - img "iDEAL Wero" [ref=e366]
+          - img "Mastercard" [ref=e381]
+          - img "PayPal" [ref=e387]
+          - img "Shop Pay" [ref=e393]
+          - img "Visa" [ref=e397]
+  - complementary [active]:
+    - dialog "Wir verwenden Cookies für ein tolles Shopping-Erlebnis" [ref=e403]:
+      - generic [ref=e405]:
+        - button "Sprache auswählen" [ref=e407] [cursor=pointer]
+        - img "Logo JUNGLÜCK" [ref=e408]
+        - generic [ref=e409]:
+          - heading "Wir verwenden Cookies für ein tolles Shopping-Erlebnis" [level=2] [ref=e410]
+          - generic:
+            - generic:
+              - text: Wir können diese zur Analyse unserer Besucherdaten platzieren, um unsere Website zu verbessern, personalisierte Inhalte anzuzeigen und dir ein großartiges Website-Erlebnis zu bieten. Du kannst dies natürlich auch
+              - link "ablehnen" [ref=e411] [cursor=pointer]:
+                - /url: javascript:UC_UI.denyAllConsents().then(UC_UI.closeCMP);
+              - text: .
+        - generic [ref=e412]:
+          - link "Öffnen Datenschutzerklärung" [ref=e413] [cursor=pointer]:
+            - /url: https://junglueck.de/policies/privacy-policy
+            - text: Datenschutzerklärung
+          - link "Öffnen Impressum" [ref=e414] [cursor=pointer]:
+            - /url: https://junglueck.de/policies/legal-notice
+            - text: Impressum
+          - button "Mehr Informationen" [ref=e415] [cursor=pointer]
+      - generic [ref=e416]:
+        - button "Alles akzeptieren" [ref=e419] [cursor=pointer]
+        - link "Powered by Usercentrics Consent Management" [ref=e421] [cursor=pointer]:
+          - /url: https://usercentrics.com/de/consent-management-platform-powered-by-usercentrics/?utm_source=banner_uc&utm_medium=referral&utm_content=v3
+  - generic:
+    - generic:
+      - generic [ref=e423]:
+        - iframe [ref=e424]:
+          - button "Nachricht vom Unternehmen schließen" [ref=f11e4] [cursor=pointer]:
+            - img [ref=f11e5]
+        - iframe
+      - iframe [ref=e425]:
+        - button "Messaging-Fenster öffnen" [ref=f13e5] [cursor=pointer]:
+          - img [ref=f13e7]
+          - img [ref=f13e10]
+  - iframe [ref=e428]:
+    

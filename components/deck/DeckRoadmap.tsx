@@ -3,7 +3,7 @@ const PHASES = [
   {
     when: "Q4 2026",
     title: "Launch Store 1 · Alexa Berlin",
-    points: ["4 Kategorie-Regale + Hero Wall & Tasting Bar live", "Erste Brand-Partner im Regal", "Daten-Layer ab Tag 1 aktiv"],
+    points: ["4 Kategorie-Regale + Tasting Bar live", "Erste Brand-Partner im Regal", "Daten-Layer ab Tag 1 aktiv"],
     active: true,
   },
   {

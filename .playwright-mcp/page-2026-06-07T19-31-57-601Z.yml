@@ -1,0 +1,270 @@
+- generic [active] [ref=e1]:
+  - alertdialog "Wir respektieren Ihre Privatsphäre" [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - heading "Wir respektieren Ihre Privatsphäre" [level=2] [ref=e5]
+        - paragraph [ref=e6]:
+          - text: Wir verwenden Cookies und andere Technologien zur Personalisierung Ihres Nutzererlebnisses sowie für Marketing- und Analysezwecke. Erfahren Sie mehr in unserer
+          - link "Datenschutzerklärung." [ref=e7] [cursor=pointer]:
+            - /url: https://cf4e4b.myshopify.com/policies/privacy-policy
+      - generic [ref=e8]:
+        - button "Einstellungen verwalten" [ref=e9] [cursor=pointer]
+        - button "Akzeptieren" [ref=e10] [cursor=pointer]
+        - button "Ablehnen" [ref=e11] [cursor=pointer]
+  - link "Inhalt überspringen" [ref=e12] [cursor=pointer]:
+    - /url: "#MainContent"
+  - banner [ref=e14]:
+    - generic [ref=e15]:
+      - heading "www.trinitae.de" [level=1] [ref=e16]:
+        - link "www.trinitae.de" [ref=e17] [cursor=pointer]:
+          - /url: /
+          - img [ref=e18]
+      - navigation [ref=e20]:
+        - generic [ref=e21]:
+          - navigation [ref=e22]:
+            - link "Shop" [ref=e23] [cursor=pointer]:
+              - /url: /collections/alle-produkte
+              - generic [ref=e24]: Shop
+          - button "Hauttypen" [ref=e25]:
+            - link "Hauttypen" [ref=e26] [cursor=pointer]:
+              - /url: /pages/hauttypen-seiten-tipps-fur-hautpflege
+              - generic [ref=e27]: Hauttypen
+          - link "Blog" [ref=e29] [cursor=pointer]:
+            - /url: /blogs/news
+            - generic [ref=e30]: Blog
+          - button "Über Uns" [ref=e31]:
+            - link "Über Uns" [ref=e32] [cursor=pointer]:
+              - /url: /pages/uber-uns-expert-fur-naturliche-hautpflege
+              - generic [ref=e33]: Über Uns
+        - generic [ref=e34]:
+          - group [ref=e36]:
+            - button "Suchleiste öffnen" [ref=e37] [cursor=pointer]:
+              - img
+              - generic [ref=e38]: Suchleiste öffnen
+          - link "Mein Account" [ref=e40] [cursor=pointer]:
+            - /url: /account
+            - generic [ref=e41]: Mein Account
+            - img
+          - link "Warenkorb öffnen" [ref=e43] [cursor=pointer]:
+            - /url: /cart
+            - generic [ref=e44]: Warenkorb öffnen
+            - img
+  - generic [ref=e49]:
+    - generic [ref=e56]: Neukunden sparen 10% mit dem Code WELCOME10
+    - button "Previous" [disabled]
+    - button "Next" [disabled]
+  - main [ref=e57]:
+    - generic [ref=e62]:
+      - link "Versand" [ref=e64] [cursor=pointer]:
+        - /url: /policies/shipping-policy
+        - heading "Versand" [level=3] [ref=e67]
+      - link "AGB's" [ref=e69] [cursor=pointer]:
+        - /url: /pages/agbs
+        - heading "AGB's" [level=3] [ref=e72]
+      - link "Widerrufsrecht" [ref=e74] [cursor=pointer]:
+        - /url: /pages/widerrufsrecht-mineralesierte-naturkosmetik
+        - heading "Widerrufsrecht" [level=3] [ref=e77]
+      - link "Impressum" [ref=e79] [cursor=pointer]:
+        - /url: /pages/impressum-naturkosmetik
+        - heading "Impressum" [level=3] [ref=e82]
+      - link "Datenschutzerklärung" [ref=e84] [cursor=pointer]:
+        - /url: /pages/datenschutzerklarung
+        - heading "Datenschutzerklärung" [level=3] [ref=e87]
+      - link "Widerrufsformular" [ref=e89] [cursor=pointer]:
+        - /url: https://cdn.shopify.com/s/files/1/0769/6429/9075/files/Widerrufsformular_1.pdf?v=1718888722
+        - heading "Widerrufsformular" [level=3] [ref=e92]
+    - generic [ref=e96]:
+      - generic [ref=e102]:
+        - heading "Impressum" [level=3] [ref=e103]
+        - generic [ref=e104]:
+          - paragraph [ref=e105]:
+            - strong [ref=e106]: "Angaben gemäß § 5 TMG:"
+            - text: Duftkultur.de GmbH & Co.KG (Trinitae Germany)
+            - text: Friedrichstraße 64
+            - text: 53111 Bonn
+            - text: Vertreten durch die Komplementär-Gesellschaft
+            - text: Duftkultur Holding GmbH
+            - text: Friedrichstraße 64
+            - text: 53111 Bonn
+            - text: diese vertreten durch die Geschäftsführerin
+            - text: Frau Elena Heuft
+          - paragraph [ref=e107]:
+            - strong [ref=e108]: "Kontakt:"
+            - text: "Telefon: +49 - (0)228 - 908 597 51"
+            - text: "Telefax: +49 - (0)228 - 908 597 52"
+            - text: "E-Mail: info@trinitae.de"
+            - strong [ref=e109]: "Registereintrag:"
+            - text: "Eintragung der Duftkultur.de GmbH & Co.KG im Handelsregister:"
+            - text: "Registergericht: AG Bonn"
+            - text: "Registernummer: HRA 9063"
+            - text: "Eintragung der Duftkultur Holding GmbH im Handelsregister:"
+            - text: "Registergericht: AG Bonn"
+            - text: "Registernummer: HRB 23586"
+            - strong [ref=e110]: "Umsatzsteuer-ID:"
+            - text: Umsatzsteuer-Identifikationsnummer gemäß §27a
+            - text: "Umsatzsteuergesetz: DE 317918642"
+          - paragraph [ref=e111]:
+            - strong [ref=e112]: "Verbraucherinformationen:"
+            - text: "Online-Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO: Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die Sie hier finden:"
+            - text: http://ec.europa.eu/consumers/odr
+          - paragraph [ref=e113]:
+            - strong [ref=e114]: Bildnachweis, Design & Inhalt
+            - text: "Die Bilder und die Inhalte, die hier auf dieser Website Verwendung finden stammen von: Trinity Cosmetics, Jordan / Trinitae Germany / Shutterstock"
+            - text: "Alle Rechte vorbehalten: Trinitae Germany - Duftlultur GmbH & Co. KG, Trinity Cosmetics Jordan"
+            - strong [ref=e115]: "Art Direction & Coding:"
+            - text: "Trinitae Germany: Elena Heuft, Raya Mismar, Laith Alarmouti"
+      - generic [ref=e122]:
+        - heading [level=3]
+        - heading "Haftungsausschluss" [level=3] [ref=e123]
+        - paragraph [ref=e124]:
+          - strong [ref=e125]: Haftung für Inhalte
+        - paragraph [ref=e126]: Die auf den Webseiten abrufbaren Beiträge dienen nur der allgemeinen Information und nicht der Beratung in konkreten Fällen. Wir sind bemüht, für die Richtigkeit und Aktualität aller auf der Website enthaltenen Informationen und Daten gemäß § 7 Abs. 1 TMG zu sorgen. Für die Korrektheit, Vollständigkeit, Aktualität oder Qualität der bereitgestellten Informationen und Daten wird jedoch keine Gewähr nach §§ 8 bis 10 TMG übernommen. Die Haftung für den Inhalt der abrufbaren Informationen wird ausgeschlossen, soweit es sich nicht um vorsätzliche oder grob fahrlässige Falschinformation handelt. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+        - paragraph [ref=e127]:
+          - strong [ref=e128]: Haftung für Links
+        - paragraph [ref=e129]: Wir sind für den Inhalt von Webseiten, die über einen Hyperlink erreicht werden, nicht verantwortlich. Für den Inhalt der verlinkten Seiten sind ausschließlich deren Betreiber verantwortlich. Wir machen uns die Inhalte dieser Internetseiten ausdrücklich nicht zu eigen und können deshalb für die inhaltliche Korrektheit, Vollständigkeit und Verfügbarkeit keine Gewähr leisten. Wir haben bei der erstmaligen Verknüpfung zwar den fremden Inhalt daraufhin überprüft, ob durch ihn eine mögliche zivilrechtliche oder strafrechtliche Verantwortlichkeit ausgelöst wird. Wir sind aber nicht dazu verpflichtet, die Inhalte, auf die wir in unserem Angebot verweisen, ständig auf Veränderungen zu überprüfen, die eine Verantwortlichkeit neu begründen könnten. Erst wenn wir feststellen oder von anderen darauf hingewiesen werden, dass ein konkretes Angebot, zu dem wir einen Link bereitgestellt haben, eine zivil- oder strafrechtliche Verantwortlichkeit auslöst, werden wir den Verweis auf dieses Angebot aufheben, soweit uns dies technisch möglich und zumutbar ist.
+        - paragraph [ref=e130]:
+          - strong [ref=e131]: Urheberrecht
+        - paragraph [ref=e132]: Die durch den Betreiber dieser Seite erstellten Inhalte und Werke auf diesen Webseiten unterliegen dem deutschen Urheberrecht. Sämtliche Beiträge Dritter sind als solche gekennzeichnet. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechts bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Kopien von diesen Seiten sind nur für den privaten Bereich gestattet, nicht jedoch für kommerzielle Zwecke.
+        - paragraph [ref=e133]:
+          - strong [ref=e134]: Privatsphäre-Einstellungen
+        - list [ref=e135]:
+          - listitem [ref=e136]: "[Google Analytics deaktivieren]"
+          - listitem [ref=e137]: "[Google Analytics aktivieren]"
+  - contentinfo [ref=e139]:
+    - img [ref=e141]
+    - generic [ref=e145]:
+      - generic [ref=e146]:
+        - link [ref=e147] [cursor=pointer]:
+          - /url: /
+          - figure [ref=e149]:
+            - img "www.trinitae.de" [ref=e150]
+        - link "www.trinitae.de" [ref=e151] [cursor=pointer]:
+          - /url: /
+      - generic [ref=e152]:
+        - paragraph [ref=e153]:
+          - button "Über uns" [ref=e154]
+        - list [ref=e156]:
+          - listitem [ref=e157]:
+            - link "Unsere Geschichte" [ref=e158] [cursor=pointer]:
+              - /url: /pages/trinitae-geschichte
+          - listitem [ref=e159]:
+            - link "Unsere Philosophie" [ref=e160] [cursor=pointer]:
+              - /url: /pages/unsere-philosophie-1
+          - listitem [ref=e161]:
+            - link "Das Tote Meer" [ref=e162] [cursor=pointer]:
+              - /url: /pages/das-tote-meer-mineralreiche-hautpflege-produkte
+          - listitem [ref=e163]:
+            - link "Jordaniens Reichtum" [ref=e164] [cursor=pointer]:
+              - /url: /pages/jordaniens-reichtum-fur-gesunde-haut
+          - listitem [ref=e165]:
+            - link "Trinitae Germany" [ref=e166] [cursor=pointer]:
+              - /url: https://maps.app.goo.gl/jYxpheXwpfiR49DV6
+      - generic [ref=e167]:
+        - paragraph [ref=e168]:
+          - button "Kundenservice" [ref=e169]
+        - list [ref=e171]:
+          - listitem [ref=e172]:
+            - link "Versand" [ref=e173] [cursor=pointer]:
+              - /url: /policies/shipping-policy
+          - listitem [ref=e174]:
+            - link "Widerrufsrecht" [ref=e175] [cursor=pointer]:
+              - /url: /policies/refund-policy
+          - listitem [ref=e176]:
+            - link "AGB'S" [ref=e177] [cursor=pointer]:
+              - /url: /policies/terms-of-service
+          - listitem [ref=e178]:
+            - link "Impressum" [ref=e179] [cursor=pointer]:
+              - /url: /policies/legal-notice
+          - listitem [ref=e180]:
+            - link "Datenschutzerklärung" [ref=e181] [cursor=pointer]:
+              - /url: /policies/privacy-policy
+          - listitem [ref=e182]:
+            - link "Widerrufsformular" [ref=e183] [cursor=pointer]:
+              - /url: https://cdn.shopify.com/s/files/1/0769/6429/9075/files/Widerrufsformular_1.pdf?v=1718888722
+      - generic [ref=e184]:
+        - paragraph [ref=e185]:
+          - button "Hilfe & Kontakt" [ref=e186]
+        - list [ref=e188]:
+          - listitem [ref=e189]:
+            - link "+49 (0)228-908 597 51" [ref=e190] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e191]:
+            - link "Mo-Sa von 11:00-19:00 Uhr" [ref=e192] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e193]:
+            - link "info@trinitae.de" [ref=e194] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e195]:
+            - link "Friedrichstrasse 64" [ref=e196] [cursor=pointer]:
+              - /url: /
+          - listitem [ref=e197]:
+            - link "53111 Bonn" [ref=e198] [cursor=pointer]:
+              - /url: /
+      - separator [ref=e200]
+      - generic [ref=e201]:
+        - generic [ref=e202]: Newsletter
+        - paragraph [ref=e204]: Email eintragen, abschicken, Newsletter erhalten. So einfach ist das...
+        - generic [ref=e206]:
+          - textbox "Deine email" [ref=e209]
+          - button "Abonniere unseren newsletter" [ref=e211] [cursor=pointer]:
+            - generic [ref=e212]: Abonniere unseren newsletter
+            - img [ref=e213]
+    - generic [ref=e215]:
+      - generic [ref=e216]:
+        - link "Ansehen www.trinitae.de auf Instagram" [ref=e217] [cursor=pointer]:
+          - /url: https://www.instagram.com/trinitae_germany/
+          - img [ref=e218]
+        - link "Ansehen www.trinitae.de auf Pinterest" [ref=e220] [cursor=pointer]:
+          - /url: https://www.pinterest.com/Mineralisierte_Naturkosmetik/_created/
+          - img [ref=e221]
+        - button "In Shop folgen" [ref=e226] [cursor=pointer]:
+          - img [ref=e229]
+          - generic [ref=e231]:
+            - text: In
+            - img "Shop" [ref=e232]
+            - text: folgen
+      - generic [ref=e234]:
+        - generic [ref=e236]:
+          - heading "Land" [level=2] [ref=e237]
+          - button "Deutschland Deutschland (EUR €)" [ref=e239] [cursor=pointer]:
+            - img "Deutschland" [ref=e240]
+            - text: Deutschland (EUR €)
+            - img
+        - generic [ref=e242]:
+          - generic [ref=e243]:
+            - text: © 2026,
+            - link "www.trinitae.de" [ref=e244] [cursor=pointer]:
+              - /url: /
+            - text: .
+          - generic [ref=e245]:
+            - text: Unterstützt von
+            - link "Shopify" [ref=e246] [cursor=pointer]:
+              - /url: https://www.shopify.com/
+            - text: .
+      - list [ref=e247]:
+        - listitem [ref=e248]:
+          - img "American Express" [ref=e249]
+        - listitem [ref=e258]:
+          - img "Apple Pay" [ref=e259]
+        - listitem [ref=e270]:
+          - img "Bancontact" [ref=e271]
+        - listitem [ref=e278]:
+          - img "EPS" [ref=e279]
+        - listitem [ref=e288]:
+          - img "Google Pay" [ref=e289]
+        - listitem [ref=e297]:
+          - img "iDEAL Wero" [ref=e298]
+        - listitem [ref=e313]:
+          - img "Klarna" [ref=e314]
+        - listitem [ref=e318]:
+          - img "Maestro" [ref=e319]
+        - listitem [ref=e325]:
+          - img "Mastercard" [ref=e326]
+        - listitem [ref=e332]:
+          - img "PayPal" [ref=e333]
+        - listitem [ref=e339]:
+          - img "Shop Pay" [ref=e340]
+        - listitem [ref=e344]:
+          - img "Union Pay" [ref=e345]
+        - listitem [ref=e351]:
+          - img "Visa" [ref=e352]

@@ -31,6 +31,12 @@ export default async function PipelinePage() {
           </div>
           <div className="flex gap-3">
             <Link
+              href="/pipeline/angebote"
+              className="px-4 py-2 border border-bronze/40 text-bronze text-xs font-mono hover:border-bronze transition-colors"
+            >
+              Angebote
+            </Link>
+            <Link
               href="/pipeline/import"
               className="px-4 py-2 bg-bronze text-green-dark text-xs font-mono font-semibold hover:bg-bronze-light transition-colors"
             >

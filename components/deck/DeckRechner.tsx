@@ -4,9 +4,9 @@ import { useState, useMemo } from "react";
 import { DEFAULTS, RATES, MIN_REGAL_CM, compute, type Assumptions } from "@/lib/deck-economics";
 
 const TIERS = [
-  { id: "basis",    label: "Basis",    rate: RATES.basis },
-  { id: "standard", label: "Standard", rate: RATES.standard },
-  { id: "premium",  label: "Premium",  rate: RATES.premium },
+  { id: "basis",      label: "Basis",                rate: RATES.basis },
+  { id: "augenhoehe", label: "Augenhöhe",            rate: RATES.augenhoehe },
+  { id: "greifhoehe", label: "Greifhöhe garantiert", rate: RATES.greifhoehe },
 ] as const;
 type TierId = (typeof TIERS)[number]["id"];
 
@@ -319,7 +319,7 @@ export default function DeckRechner() {
                     <BreakRow label="Summe / Sale" value={c.hubPerSale} strong />
                     <div className="mt-4 pt-3 border-t border-cream/10 space-y-1">
                       <BreakRow label="Platzbedarf (Breite)" sub="F&B-Produkt ≈ 5 cm" value={a.regalCm} editable step={1} unit="cm" money={false} onChange={(v) => set("regalCm", v)} />
-                      <BreakRow label="Rate" sub="Basis 11,80 · Standard 13,11 · Premium 16,39" value={a.ratePerCm} editable step={0.01} unit="€/cm" money={false} onChange={(v) => set("ratePerCm", v)} />
+                      <BreakRow label="Rate" sub={`Basis ${fmt(RATES.basis)} · Augenhöhe ${fmt(RATES.augenhoehe)} · Greifhöhe ${fmt(RATES.greifhoehe)}`} value={a.ratePerCm} editable step={0.01} unit="€/cm" money={false} onChange={(v) => set("ratePerCm", v)} />
                       <BreakRow label="= Slot-Miete / Monat" value={c.slotMonthly} />
                     </div>
                   </div>

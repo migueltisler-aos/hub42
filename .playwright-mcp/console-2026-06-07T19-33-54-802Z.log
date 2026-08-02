@@ -1,0 +1,23 @@
+[    1797ms] NotFoundError: Failed to execute 'insertBefore' on 'Node': The node before which the new node is to be inserted is not a child of this node.
+    at https://de.holy.com/pages/impressum:3142:35
+    at https://de.holy.com/pages/impressum:3148:7
+[    1992ms] [LOG] {template: page.legal, pageType: page, isCheckout: undefined} @ https://de.holy.com/cdn/shop/t/2646/assets/index.js?v=11712995875135519431780490902:187
+[    2031ms] [LOG] Custom Language Switcher! @ https://de.holy.com/cdn/shop/t/2646/assets/language-switcher.js?v=24888682649639280391779094451:0
+[    2034ms] [LOG] true @ https://de.holy.com/cdn/shop/t/2646/assets/index.js?v=11712995875135519431780490902:0
+[    2296ms] [LOG] ### initialized {} @ https://cdn.shopify.com/extensions/019e1bbb-4f9a-7cf5-984a-a9336f21e146/hive-logistics-services-200/assets/initialize_hive_dp_id.js:136
+[    2297ms] [WARNING] _shopify_y cookie not found, generating via crypto.randomUUID @ https://cdn.shopify.com/extensions/019e1bbb-4f9a-7cf5-984a-a9336f21e146/hive-logistics-services-200/assets/initialize_hive_dp_id.js:155
+[    2298ms] [INFO] Clear-Site-Data header on 'https://de.holy.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://de.holy.com/pages/impressum:0
+[    2333ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://de.holy.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0
+[    2426ms] [INFO] Clear-Site-Data header on 'https://de.holy.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://de.holy.com/pages/impressum:0
+[    2508ms] [INFO] Clear-Site-Data header on 'https://de.holy.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://de.holy.com/pages/impressum:0
+[    2590ms] [LOG] [Shopify Debug] Environment: theme | Session ID: 019ea393-de0f-71c0-9483-8967139be6de @ https://cdn.optimeleon.com/hol-cjlpc/hol-cjlpg/v1.main.js:0
+[    2644ms] [INFO] Clear-Site-Data header on 'https://de.holy.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://de.holy.com/pages/impressum:0
+[    2663ms] [LOG] Loading delivery promise script: https://app.hive.app/scx/v1/delivery_promise_script.js?domain=holyenergy.myshopify.com&hive_dp_id=18cf1519-a988-42a5-97e4-9954d096a263 @ https://cdn.shopify.com/extensions/019e1bbb-4f9a-7cf5-984a-a9336f21e146/hive-logistics-services-200/assets/initialize_hive_dp_id.js:114
+[    2883ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://cdn.shopify.com/s/files/1/0473/2885/4173/t/57/assets/PPAgrandir-Bold.woff2:0
+[    2924ms] [LOG] %c[DEBUG] Starting HiveDeliveryPromise color: white; background-color: #0f014d; padding: 0px 2px; {uuid: 03ff1133-7ed8-4eed-ae78-97ef32dafdb1, baseUrl: https://app.hive.app, widgetVariant: product, countrySelectEnabled: true, ipPrediction: false} @ https://app.hive.app/scx/v1/delivery_promise_script.js?domain=holyenergy.myshopify.com&hive_dp_id=18cf1519-a988-42a5-97e4-9954d096a263:57
+[    3081ms] [ERROR] [1;30;41m > ERROR [0m[1;31m FAILED TO FETCH CONFIGURATION FROM UNIVERSE: Error: [object ProgressEvent]
+    at XMLHttpRequest._0xcbe3a9 (https://cdn.shopify.com/proxy/ee5dc8dcb79e5e0d5bd33912eb90415d45be712036f5f32ebee4f2627892ac34/cdn.hello-charles.com/charles-satellite/1.x/charles-snippet.js?proxy_vendor=shopify&universe_uri=holy-energy.hello-charles.com&script_id=d608566a-0815-4c0f-8967-5114db73aa49&shop=holyenergy.myshopify.com&sp-cache-control=cHVibGljLCBtYXgtYWdlPTkwMA:7:122715)
+    at XMLHttpRequest.n (https://app.hive.app/scx/v1/delivery_promise_script.js?domain=holyenergy.myshopify.com&hive_dp_id=18cf1519-a988-42a5-97e4-9954d096a263:58:52152) @ https://app.hive.app/scx/v1/delivery_promise_script.js?domain=holyenergy.myshopify.com&hive_dp_id=18cf1519-a988-42a5-97e4-9954d096a263:57
+[    3081ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://holy-energy.hello-charles.com/api/v3/public/storefronts/scripts/d608566a-0815-4c0f-8967-5114db73aa49/config:0
+[    8002ms] [LOG] %c[DEBUG] Anchor element not found color: white; background-color: #0f014d; padding: 0px 2px; @ https://app.hive.app/scx/v1/delivery_promise_script.js?domain=holyenergy.myshopify.com&hive_dp_id=18cf1519-a988-42a5-97e4-9954d096a263:57
+[   10424ms] [WARNING] The resource https://de.holy.com/cdn/shop/t/2646/assets/ds-slideshow.min.js?v=144217180936539605851779094451 was preloaded using link preload but not used within a few seconds from the window's load event. Please make sure it has an appropriate `as` value and it is preloaded intentionally. @ https://de.holy.com/pages/impressum:0

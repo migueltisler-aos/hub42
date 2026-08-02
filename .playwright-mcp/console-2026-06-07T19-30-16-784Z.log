@@ -1,0 +1,45 @@
+[    1202ms] [LOG] [UpdateConsent] update {api-loaded: false, uc-loaded: false} @ https://junglueck.de/policies/legal-notice:46
+[    1203ms] [LOG] [UpdateConsent] update {api-loaded: false, uc-loaded: false} @ https://junglueck.de/policies/legal-notice:46
+[    1227ms] [INFO] Run helper.... @ https://cdn.shopify.com/extensions/019e6d6b-87ea-756b-a21c-3bbb5e2e9f43/pagefly-page-builder-288/assets/pagefly-general-helper.js:0
+[    1237ms] [LOG] productATCs [] @ https://cdn.shopify.com/extensions/019e6d6b-87ea-756b-a21c-3bbb5e2e9f43/pagefly-page-builder-288/assets/pagefly-product.js:4
+[    1266ms] [LOG] [TABOOLA DEBUG SANDBOXED] - Extension Loaded @ https://junglueck.de/web-pixels/strict/app/web-pixel-2564096266@256e0f107bfa102eabd3cbf632fd11d1.js:0
+[    1345ms] [LOG] %c[DiscountKit Cart]%c Script loaded font-weight: bold; color: #0078d4 color: inherit {debugMode: false} @ https://cdn.shopify.com/extensions/019e7468-d8d6-705f-a828-dc1fa89283f0/discount-kit-529/assets/dk_cart.js:64
+[    1346ms] [LOG] %c[DiscountKit Core]%c Script loaded font-weight: bold; color: #008060 color: inherit {debugMode: false} @ https://cdn.shopify.com/extensions/019e7468-d8d6-705f-a828-dc1fa89283f0/discount-kit-529/assets/dk_core.js:79
+[    1367ms] [INFO] k-web-pixel-version 1 @ https://junglueck.de/web-pixels/strict/app/web-pixel-3321823498@524f6c1ee37bacdca7657a665bdca589.js:0
+[    1370ms] [LOG] Running... @ https://junglueck.de/web-pixels/strict/app/web-pixel-321716490@2cb743079161678654abfc4da89248b8.js:0
+[    1486ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://junglueck.de/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0
+[    1503ms] [LOG] Script loaded successfully: https://cdn.shopify.com/extensions/019e6d6b-87ea-756b-a21c-3bbb5e2e9f43/pagefly-page-builder-288/assets/pagefly-htmlvideo2.js @ https://cdn.shopify.com/extensions/019e6d6b-87ea-756b-a21c-3bbb5e2e9f43/pagefly-page-builder-288/assets/pagefly-general-helper.js:0
+[    1521ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://junglueck.de/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0
+[    1602ms] [LOG] [UpdateConsent] update {api-loaded: true, uc-loaded: false} @ https://junglueck.de/policies/legal-notice:46
+[    1636ms] [LOG] Weglot Event switchersReady @ https://junglueck.de/policies/legal-notice:6533
+[    1665ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://junglueck.de/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0
+[    1771ms] TypeError: Cannot set properties of null (setting 'innerText')
+    at s.updated (https://cdn.appmate.io/themecode/junglueck/main/wishlist-link-headless.js?generation=1755681687672243:1:575)
+    at s.setState (https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-element-headless.js:1:5633)
+    at b.<anonymous> (https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-element-headless.js:1:5799)
+    at b.next (https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-element-headless.js:1:991)
+    at e (https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-element-headless.js:1:2385)
+    at Nt.<anonymous> (https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-element-headless.js:1:2551)
+    at Nt.next (https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-app.js:1:13562)
+    at https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-app.js:1:14405
+[    1771ms] TypeError: Cannot set properties of null (setting 'innerText')
+    at s.updated (https://cdn.appmate.io/themecode/junglueck/main/wishlist-link-headless.js?generation=1755681687672243:1:575)
+    at s.setState (https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-element-headless.js:1:5633)
+    at b.<anonymous> (https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-element-headless.js:1:5799)
+    at b.next (https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-element-headless.js:1:991)
+    at e (https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-element-headless.js:1:2385)
+    at Nt.<anonymous> (https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-element-headless.js:1:2551)
+    at Nt.next (https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-app.js:1:13562)
+    at https://cdn.jsdelivr.net/npm/@appmate/wishlist@5.29.0/wishlist-app.js:1:14405
+[    1788ms] [INFO] Clear-Site-Data header on 'https://junglueck.de/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://junglueck.de/policies/legal-notice:0
+[    1814ms] [LOG] %c ► UpPromote Affiliate Marketing [Application] - Running... background-color: #092C4C; color: #fff; padding: 5px; @ https://d1639lhkj5l89m.cloudfront.net/js/storefront/uppromote.js:0
+[    1838ms] [LOG] [UpdateConsent] update {api-loaded: true, uc-loaded: true} @ https://junglueck.de/policies/legal-notice:46
+[    2032ms] [LOG] [UpdateConsent] Consent has been updated. @ https://junglueck.de/policies/legal-notice:40
+[    2088ms] [INFO] Clear-Site-Data header on 'https://junglueck.de/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://junglueck.de/policies/legal-notice:0
+[    2326ms] [LOG] [TABOOLA DEBUG] - Loading tfa.js @ https://spfy-pxl.archive-digger.com/assets/script_tag.js?shopId=junglueck.myshopify.com&taboolaId=1569045&espd=true&ecav=true&eh=true&ess=true&ep=true&eatc=true&eprv=true&ecv=true&epv=true&esc=true&shop=junglueck.myshopify.com:234
+[    2326ms] [LOG] [TABOOLA DEBUG] - tfa.js Loaded successfully @ https://spfy-pxl.archive-digger.com/assets/script_tag.js?shopId=junglueck.myshopify.com&taboolaId=1569045&espd=true&ecav=true&eh=true&ess=true&ep=true&eatc=true&eprv=true&ecv=true&epv=true&esc=true&shop=junglueck.myshopify.com:244
+[    2327ms] [LOG] [TABOOLA DEBUG] - HEALTH LOG - Before [[page_view]] - before_tfa @ https://spfy-pxl.archive-digger.com/assets/script_tag.js?shopId=junglueck.myshopify.com&taboolaId=1569045&espd=true&ecav=true&eh=true&ess=true&ep=true&eatc=true&eprv=true&ecv=true&epv=true&esc=true&shop=junglueck.myshopify.com:34
+[    2327ms] [LOG] [TABOOLA DEBUG] - HEALTH LOG - After [[page_view]] - after_tfa @ https://spfy-pxl.archive-digger.com/assets/script_tag.js?shopId=junglueck.myshopify.com&taboolaId=1569045&espd=true&ecav=true&eh=true&ess=true&ep=true&eatc=true&eprv=true&ecv=true&epv=true&esc=true&shop=junglueck.myshopify.com:34
+[    2327ms] [LOG] [TABOOLA DEBUG] - HEALTH LOG - Before [[page_view]] http method - before_http @ https://spfy-pxl.archive-digger.com/assets/script_tag.js?shopId=junglueck.myshopify.com&taboolaId=1569045&espd=true&ecav=true&eh=true&ess=true&ep=true&eatc=true&eprv=true&ecv=true&epv=true&esc=true&shop=junglueck.myshopify.com:34
+[    2328ms] [LOG] [TABOOLA DEBUG] - HEALTH LOG - After [[page_view]] http method - after_http @ https://spfy-pxl.archive-digger.com/assets/script_tag.js?shopId=junglueck.myshopify.com&taboolaId=1569045&espd=true&ecav=true&eh=true&ess=true&ep=true&eatc=true&eprv=true&ecv=true&epv=true&esc=true&shop=junglueck.myshopify.com:34
+[    2426ms] [INFO] Clear-Site-Data header on 'https://junglueck.de/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://junglueck.de/policies/legal-notice:0

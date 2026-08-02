@@ -1,0 +1,236 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e10]:
+        - paragraph [ref=e12]:
+          - strong [ref=e13]: AB 49€ GESCHENKT
+          - text: ✨
+          - strong [ref=e14]
+          - text: DEINE EYE BRUSH DER WAHL
+        - paragraph [ref=e16]:
+          - text: "NEW:"
+          - strong [ref=e17]: DIGITAL DETOX IN A BOTTLE
+          - text: 💦
+          - link "SHOP NOW" [ref=e18] [cursor=pointer]:
+            - /url: /products/walt
+      - banner [ref=e19]:
+        - generic [ref=e21]:
+          - list [ref=e24]:
+            - listitem [ref=e25]:
+              - generic [ref=e26] [cursor=pointer]: SHOP
+            - listitem [ref=e27]:
+              - link "BESTSELLER" [ref=e28] [cursor=pointer]:
+                - /url: /collections/bestseller
+            - listitem [ref=e29]:
+              - link "WAS STEHT MIR?" [ref=e30] [cursor=pointer]:
+                - /url: /pages/digitale-make-up-beratung
+            - listitem [ref=e31]:
+              - link "GET INSPIRED" [ref=e32] [cursor=pointer]:
+                - /url: /pages/black-sale-2025-looks
+          - link "UND GRETEL" [ref=e34] [cursor=pointer]:
+            - /url: https://undgretel.com
+            - img "UND GRETEL" [ref=e35]
+          - generic [ref=e36]:
+            - link "Login" [ref=e37] [cursor=pointer]:
+              - /url: /account/login
+            - link "Account erstellen" [ref=e38] [cursor=pointer]:
+              - /url: /account/register
+          - button "Search Panel" [ref=e41] [cursor=pointer]:
+            - img [ref=e42]
+          - generic [ref=e44]:
+            - link "Wunschliste" [ref=e48] [cursor=pointer]:
+              - /url: /apps/wishlist
+              - generic [ref=e49]:
+                - img
+            - generic [ref=e52] [cursor=pointer]:
+              - generic:
+                - img
+    - main [ref=e53]:
+      - generic [ref=e55]:
+        - heading "Impressum" [level=1] [ref=e56]
+        - generic [ref=e57]:
+          - heading "DRTJ ORGANIC COSMETICS GMBH" [level=3] [ref=e58]
+          - paragraph [ref=e59]:
+            - text: Waldenserstraße 2-4
+            - text: 10551 Berlin
+            - text: Deutschland
+            - text: "Mail:"
+            - link "info@undgretel.com" [ref=e60] [cursor=pointer]:
+              - /url: mailto:info@undgretel.com
+            - text: "Website/Online-Shop: www.undgretel.com"
+            - text: "Facebook: www.facebook.com/undgretel"
+            - text: "Instagram: und_gretel_cosmetics"
+            - generic [ref=e61]:
+              - text: "Handelsregister: Amtsgericht Berlin (Charlottenburg)"
+              - text: "Registernummer: HRB 213624 B"
+            - text: "Umsatzsteuer-Identifikationsnummer: DE329306514"
+            - text: "Geschäftsführer: Lars Börgel"
+          - paragraph [ref=e62]:
+            - text: "Verantwortliche für den Inhalt nach § 55 Abs. 2 RStV:"
+            - generic [ref=e63]: Lars Börgel
+            - text: DRTJ Organic Cosmetics GmbH
+            - text: Waldenserstraße 2-4
+            - text: 10551 Berlin, Deutschland
+          - heading "HAFTUNGSAUSSCHLUSS" [level=3] [ref=e64]
+          - paragraph [ref=e65]: INHALT DES ONLINEANGEBOTES
+          - paragraph [ref=e66]: UND GRETEL übernimmt keinerlei Gewähr für die Aktualität, Korrektheit, Vollständigkeit oder Qualität der bereitgestellten Informationen. Haftungsansprüche gegen UND GRETEL, welche sich auf Schäden materieller oder ideeller Art beziehen, die durch die Nutzung oder Nichtnutzung der dargebotenen Informationen bzw. durch die Nutzung fehlerhafter und unvollständiger Informationen verursacht wurden, sind grundsätzlich ausgeschlossen, sofern seitens UND GRETEL kein nachweislich vorsätzliches oder grob fahrlässiges Verschulden vorliegt. Alle Angebote sind freibleibend und unverbindlich. UND GRETEL behält es sich ausdrücklich vor, Teile der Seiten oder das gesamte Angebot ohne gesonderte Ankündigung zu verändern, zu ergänzen, zu löschen oder die Veröffentlichung zeitweise oder endgültig einzustellen.
+          - paragraph [ref=e67]: VERWEISE UND LINKS
+          - paragraph [ref=e68]: Das Internetangebot von UND GRETEL enthält Links zu externen Webseiten Dritter, auf deren Inhalte UND GRETEL keinen Einfluss hat. Deshalb kann UND GRETEL für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf etwaige Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zu diesem Zeitpunkt nicht ersichtlich. Eine ständige inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen wird UND GRETEL derartige Links unverzüglich löschen.
+          - paragraph [ref=e69]: URHEBERRECHTLICHER HINWEIS
+          - paragraph [ref=e70]: Die durch UND GRETEL erstellten Inhalte auf diesen Seiten unterliegen dem deutschen Urheberrecht. Jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes müssen durch die Zustimmung in Schriftform des jeweiligen Autors bzw. Erstellers genehmigt werden. Die Verwendung von Kopien und Downloads aus dieser Seite dürfen nur im Rahmen des privaten, nicht kommerziellen Gebrauchs verwendet werden. Inhalte Dritter auf den Seiten von UND GRETEL beachtet UND GRETEL als das Urheberrecht von Dritten und achtet diese dementsprechend. Jene Inhalte werden deshalb ebenfalls als solche gekennzeichnet. Solltest Du trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bittet UND GRETEL um einen entsprechenden Hinweis. Selbstverständlich wird UND GRETEL bei Bekanntwerden von Rechtsverletzungen derartige Inhalte umgehend entfernen.
+          - paragraph [ref=e71]: DATENSCHUTZERKLÄRUNG WEGEN DER VERWENDUNG VON GOOGLE ANALYTICS
+          - paragraph [ref=e72]: Unsere Internetseite verwendet Google Analytics. Dies ist ein Dienst zur Analyse von Internetseiten der Google Inc., 1600 Amphitheatre Parkway, Mountain View, CA 94043, USA. Google Analytics verwendet sogenannte Cookies. Die Cookies sind Dateien. Durch die Speicherung der Cookies auf Ihrem Computer kann Google Ihre Benutzung unserer Internetseite analysieren. Diese Informationen und Deine IP-Adresse werden an die Google-Server in den USA übermittelt und von diesen gespeichert.
+          - paragraph [ref=e73]: Google wertet die Informationen Deiner Nutzung unserer Internetseite aus. Damit werden Berichte zu Deinen Aktivitäten auf unserer Internetseite erstellt und uns zugänglich gemacht. Dies kann auch der Möglichkeit dienen, weitere mit der Nutzung unserer Internetseite oder der Nutzung des Internets verbundene Dienstleistungen anbieten oder erbringen zu können. Diese Informationen wird Google möglicherweise an Dritte weitergeben, wenn dies von Gesetzes wegen gefordert ist oder für den Fall, dass Dritte von Google beauftragt werden, diese Datenverarbeitung vorzunehmen. Keinesfalls wird Google jedoch Deine IP-Adresse mit anderen Daten von Google verknüpfen.
+          - paragraph [ref=e74]:
+            - text: "Du hast die Möglichkeit zu verhindern, dass die genannten Cookies auf Deinem Computer gespeichert werden. Dazu musst Du an Deinem Internetbrowser eine dementsprechende Einstellung vornehmen. Allerdings besteht dann die Möglichkeit, dass unsere Internetseite für Dich nur eingeschränkt nutzbar ist. Du kannst die Erfassung, den Versand und die Verarbeitung Deiner Daten sowie Deiner IP-Adresse durch Google verhindern. Dazu kannst Du ein Plugin für Deinen Internetbrowser herunterladen und installieren. Dieses Plugin ist unter folgendem Link verfügbar:"
+            - link "tools.google.com/dlpage/gaoptout" [ref=e75] [cursor=pointer]:
+              - /url: http://tools.google.com/dlpage/gaoptout?hl=de
+            - text: .
+          - paragraph [ref=e76]:
+            - text: Weiterführende Informationen zu unserem Datenschutz gibt es
+            - link "hier" [ref=e77] [cursor=pointer]:
+              - /url: /pages/datenschutz
+            - text: .
+    - contentinfo [ref=e78]:
+      - generic [ref=e79]:
+        - img "Und Gretel - Berlin" [ref=e81]
+        - generic [ref=e82]:
+          - generic [ref=e83]:
+            - strong [ref=e84]: NEWSLETTER – 15% FÜR DICH
+            - paragraph [ref=e85]: Registriere Dich für unseren Newsletter und erhalte immer als erstes alle Infos zu unseren Specials, Neuheiten, einmalige Profi-Tipps, exklusive Insights sowie 15% auf Deine erste Bestellung.
+            - generic [ref=e87]:
+              - textbox "E-Mail" [ref=e88]
+              - button "Absenden" [ref=e89] [cursor=pointer]
+          - generic [ref=e90]:
+            - list [ref=e93]:
+              - listitem [ref=e94]:
+                - link "ABOUT" [ref=e95] [cursor=pointer]:
+                  - /url: /pages/geschichte
+              - listitem [ref=e96]:
+                - link "IMPRESSUM" [ref=e97] [cursor=pointer]:
+                  - /url: /pages/impressum
+              - listitem [ref=e98]:
+                - link "DATENSCHUTZ" [ref=e99] [cursor=pointer]:
+                  - /url: /pages/datenschutz
+              - listitem [ref=e100]:
+                - link "AGB" [ref=e101] [cursor=pointer]:
+                  - /url: /pages/agb
+              - listitem [ref=e102]:
+                - link "MAGAZIN" [ref=e103] [cursor=pointer]:
+                  - /url: /blogs/news
+              - listitem [ref=e104]:
+                - link "CHARITY" [ref=e105] [cursor=pointer]:
+                  - /url: /pages/charity-undgretel
+              - listitem [ref=e106]:
+                - link "CONTENT CREATOR" [ref=e107] [cursor=pointer]:
+                  - /url: /pages/ugc
+            - list [ref=e110]:
+              - listitem [ref=e111]:
+                - link "Zahlungsarten" [ref=e112] [cursor=pointer]:
+                  - /url: /pages/zahlungsarten
+              - listitem [ref=e113]:
+                - link "Versand & Retouren" [ref=e114] [cursor=pointer]:
+                  - /url: /pages/versand-retouren
+              - listitem [ref=e115]:
+                - link "Loyalty" [ref=e116] [cursor=pointer]:
+                  - /url: /pages/loyalty
+              - listitem [ref=e117]:
+                - link "FAQ" [ref=e118] [cursor=pointer]:
+                  - /url: https://intercom.help/undgretel/de
+              - listitem [ref=e119]:
+                - link "Kontakt" [ref=e120] [cursor=pointer]:
+                  - /url: /pages/kontakt-2
+              - listitem [ref=e121]:
+                - link "Events" [ref=e122] [cursor=pointer]:
+                  - /url: /pages/und-gretel-events
+              - listitem [ref=e123]:
+                - link "📍 Storefinder" [ref=e124] [cursor=pointer]:
+                  - /url: /pages/store-locator
+            - list [ref=e127]:
+              - listitem [ref=e128]:
+                - link "INSTAGRAM" [ref=e129] [cursor=pointer]:
+                  - /url: https://www.instagram.com/und_gretel_cosmetics/
+              - listitem [ref=e130]:
+                - link "FACEBOOK" [ref=e131] [cursor=pointer]:
+                  - /url: https://www.facebook.com/undgretel
+              - listitem [ref=e132]:
+                - link "YOUTUBE" [ref=e133] [cursor=pointer]:
+                  - /url: https://www.youtube.com/user/undgretel
+              - listitem [ref=e134]:
+                - link "TIKTOK" [ref=e135] [cursor=pointer]:
+                  - /url: https://www.tiktok.com/@und_gretel
+              - listitem [ref=e136]:
+                - link "PINTEREST" [ref=e137] [cursor=pointer]:
+                  - /url: https://www.pinterest.de/undgretel/
+          - combobox "Sprachumschalter" [ref=e140]:
+            - 'generic "Ausgewählte Sprache: Deutsch" [ref=e141] [cursor=pointer]':
+              - link "DE" [ref=e142]:
+                - /url: "#"
+                - img "Deutsch flag" [ref=e143]
+                - text: DE
+            - listbox "Sprachliste":
+              - option "EN":
+                - link "EN":
+                  - /url: "#"
+                  - img "English flag"
+                  - text: EN
+      - generic [ref=e145]:
+        - generic [ref=e146]: © 2026 UND GRETEL
+        - generic [ref=e147]:
+          - img "American Express" [ref=e148]
+          - img "Apple Pay" [ref=e157]
+          - img "Bancontact" [ref=e168]
+          - img "EPS" [ref=e175]
+          - img "Google Pay" [ref=e184]
+          - img "iDEAL Wero" [ref=e192]
+          - img "Klarna" [ref=e207]
+          - img "Maestro" [ref=e211]
+          - img "Mastercard" [ref=e217]
+          - img "PayPal" [ref=e223]
+          - img "Shop Pay" [ref=e229]
+          - img "Visa" [ref=e233]
+  - generic [active]:
+    - generic:
+      - generic:
+        - button "Öffnen Privatsphäre-Einstellungen" [ref=e237] [cursor=pointer]:
+          - img [ref=e239]
+        - dialog "Privatsphäre-Einstellungen" [ref=e244]:
+          - generic [ref=e250]:
+            - generic [ref=e251]:
+              - img "UND GRETEL Logo" [ref=e253]
+              - button "Sprache auswählen" [ref=e256] [cursor=pointer]:
+                - img [ref=e257]
+            - heading "Privatsphäre-Einstellungen" [level=1] [ref=e263]
+            - generic [ref=e266]: Diese Seite nutzt Website tracking -Technologien von Dritten, um ihre Dienste anzubieten, stetig zu verbessern und Werbung entsprechend der Interessen der Nutzer anzuzeigen. Ich bin damit einverstanden und kann meine Einwilligung jederzeit mit Wirkung für die Zukunft widerrufen oder ändern.
+            - generic [ref=e267]:
+              - generic [ref=e268]:
+                - link "Datenschutzerklärung" [ref=e269] [cursor=pointer]:
+                  - /url: https://undgretel.com/pages/datenschutz
+                - link "Impressum" [ref=e270] [cursor=pointer]:
+                  - /url: https://undgretel.com/pages/impressum
+              - button "Mehr Informationen" [ref=e272] [cursor=pointer]:
+                - generic [ref=e273]: Mehr Informationen
+          - generic [ref=e275]:
+            - generic [ref=e277]:
+              - button "Ablehnen" [ref=e278] [cursor=pointer]
+              - button "Alles akzeptieren" [ref=e279] [cursor=pointer]
+            - link "Powered by Usercentrics Consent Management" [ref=e281] [cursor=pointer]:
+              - /url: https://usercentrics.com/de/consent-management-platform-powered-by-usercentrics/?utm_source=banner_uc&utm_medium=referral&utm_content=v2
+  - generic:
+    - generic:
+      - generic:
+        - img [ref=e284] [cursor=pointer]
+        - generic [ref=e290]:
+          - main [ref=e291]:
+            - generic [ref=e294]: Wenn Du Fragen hast, wir beraten Dich gerne.
+            - generic [ref=e296]:
+              - separator [ref=e297]
+              - generic [ref=e298]:
+                - button "Chat öffnen" [ref=e299] [cursor=pointer]
+                - generic [ref=e300]: "Oft gestellte Fragen:"
+                - generic [ref=e301]:
+                  - generic [ref=e304] [cursor=pointer]: Ich habe Fragen zu den Inhaltsstoffen eines Produktes.
+                  - generic [ref=e307] [cursor=pointer]: Ich brauche Hilfe bei der Auswahl der Produkte oder weiß noch nicht so recht, was mir steht.
+                  - generic [ref=e310] [cursor=pointer]: Ich habe eine Frage zu einem oder mehreren Produkten.
+                  - generic [ref=e313] [cursor=pointer]: Andere Frage
+          - contentinfo

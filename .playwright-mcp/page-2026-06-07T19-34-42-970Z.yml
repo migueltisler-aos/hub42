@@ -1,0 +1,277 @@
+- generic [active] [ref=e1]:
+  - dialog "Aloha! Deine Reise mit PURELEI beginnt hier":
+    - generic [ref=e2]:
+      - img "Cookie banner" [ref=e4]
+      - generic [ref=e5]:
+        - generic [ref=e6]: Wir verwenden Cookies und ähnliche Technologien, um dein Surferlebnis zu verbessern, personalisierte Werbung bereitzustellen und unseren Datenverkehr zu analysieren. Durch Klicken auf „Akzeptieren“ stimmen du der Verwendung von Cookies für Personalisierungs- und Analysezwecke zu.
+        - generic [ref=e7]:
+          - link "Datenschutzerklärung" [ref=e8] [cursor=pointer]:
+            - /url: https://purelei.com/pages/datenschutz
+          - generic [ref=e9]: ●
+          - link "Impressum" [ref=e10] [cursor=pointer]:
+            - /url: https://purelei.com/pages/impressum
+      - generic [ref=e11]:
+        - button "Selbst entscheiden" [ref=e12] [cursor=pointer]
+        - button "Akzeptieren" [ref=e13] [cursor=pointer]
+        - button "Ablehnen" [ref=e14] [cursor=pointer]
+  - link "Zum Inhalt springen" [ref=e15] [cursor=pointer]:
+    - /url: "#MainContent"
+  - banner [ref=e16]:
+    - generic [ref=e17]:
+      - generic [ref=e21]:
+        - link "DE PURELEI" [ref=e23] [cursor=pointer]:
+          - /url: /
+          - img "Modeschmuck für Frauen und Männer kaufen im PURELEI Shop" [ref=e25]
+          - img "Modeschmuck für Frauen und Männer kaufen im PURELEI Shop" [ref=e28]
+          - generic [ref=e30]: Modeschmuck für Frauen und Männer kaufen im PURELEI Shop
+        - navigation [ref=e31]:
+          - list:
+            - listitem [ref=e32]:
+              - link "Summer Sale" [ref=e33] [cursor=pointer]:
+                - /url: /collections/summer-sale
+            - listitem [ref=e34]:
+              - link "Schmuck" [ref=e35] [cursor=pointer]:
+                - /url: /collections/schmuck
+              - generic:
+                - button "Öffnet Untermenü":
+                  - img
+                  - generic: Öffnet Untermenü
+            - listitem [ref=e36]:
+              - link "Deine LEI" [ref=e37] [cursor=pointer]:
+                - /url: /pages/ueber-die-lei
+              - generic:
+                - button "Öffnet Untermenü":
+                  - img
+                  - generic: Öffnet Untermenü
+            - listitem [ref=e38]:
+              - link "Jewelry Box" [ref=e39] [cursor=pointer]:
+                - /url: /pages/jewelry-box
+              - generic:
+                - button "Öffnet Untermenü":
+                  - img
+                  - generic: Öffnet Untermenü
+            - listitem [ref=e40]:
+              - link "Essentials" [ref=e41] [cursor=pointer]:
+                - /url: /collections/essentials
+        - navigation [ref=e42]:
+          - list:
+            - listitem [ref=e43]:
+              - link [ref=e44] [cursor=pointer]:
+                - /url: /search
+                - img [ref=e46]
+            - listitem [ref=e48]:
+              - button "Konto" [ref=e49]:
+                - img [ref=e50]
+                - generic [ref=e53]: Konto
+            - listitem [ref=e54]:
+              - link "0 Warenkorb" [ref=e55] [cursor=pointer]:
+                - /url: /cart
+                - img [ref=e56]
+                - generic [ref=e58]: "0"
+                - generic [ref=e59]: Warenkorb
+      - 'link "Dein Sommer startet JETZT: Spare bis zu 50 % im Sale*" [ref=e66] [cursor=pointer]':
+        - /url: /collections/summer-sale
+        - paragraph [ref=e68]:
+          - strong [ref=e69]: "Dein Sommer startet JETZT: Spare bis zu 50 % im Sale*"
+  - main [ref=e70]:
+    - generic [ref=e79]:
+      - paragraph [ref=e80]:
+        - strong [ref=e81]: "Privatkunden Service:"
+        - text: "E-Mail:"
+        - link "aloha@purelei.com" [ref=e82] [cursor=pointer]:
+          - /url: mailto:aloha@purelei.com
+        - text: Anfragen werden in der Regel innerhalb von 24 Stunden bearbeitet.
+      - paragraph [ref=e83]
+      - paragraph [ref=e84]:
+        - generic [ref=e85]: "Rücksendungen:"
+        - text: "Bitte nutze für Deine Rücksendung immer folgende Adresse:"
+      - paragraph [ref=e86]:
+        - text: PURELEI GmbH
+        - strong [ref=e87]: Dudenstraße 37-43
+        - strong [ref=e88]: 68167 Mannheim
+      - paragraph [ref=e89]
+      - paragraph [ref=e90]:
+        - text: Weitere Infos zum Thema Rücksendung findest Du
+        - link "hier" [ref=e91] [cursor=pointer]:
+          - /url: https://intercom.help/purelei-gmbh/de/collections/13856567-rucksendung
+        - text: .
+      - paragraph [ref=e92]
+      - paragraph [ref=e93]:
+        - text: "Verantwortlich für den Inhalt der Seite:"
+        - text: (Bitte schicke an diese Adresse keine Rücksendungen)
+      - paragraph [ref=e94]
+      - paragraph [ref=e95]:
+        - text: Angaben gemäß § 5 TMG
+        - text: PURELEI GmbH
+        - strong [ref=e96]: Glücksteinallee 43-45
+        - strong [ref=e97]: 68163 Mannheim
+      - paragraph [ref=e98]
+      - paragraph [ref=e99]:
+        - text: "Vertreten durch:"
+        - text: Alisa Jahnke
+        - text: Etienne Espenner
+        - text: Frederik Jahnke
+      - paragraph [ref=e100]
+      - paragraph [ref=e101]:
+        - strong
+        - strong [ref=e102]: "Registereintrag:"
+      - paragraph [ref=e103]:
+        - text: "Eintragung im Registergericht: Mannheim"
+        - text: Registernummer HRB 726494
+      - paragraph [ref=e104]
+      - paragraph [ref=e105]:
+        - strong [ref=e106]: "Umsatzsteuer-ID:"
+        - text: Umsatzsteuer-Identifikationsnummer gemäß §27a
+        - text: "Umsatzsteuergesetz: DE309497497"
+      - paragraph [ref=e107]
+      - paragraph [ref=e108]:
+        - strong [ref=e109]: "Verantwortlich für den Inhalt nach § 55 Abs. 2 RStV:"
+        - text: Etienne Espenner
+        - text: Frederik Jahnke
+        - text: Alisa Maria Jahnke
+        - text: Glücksteinallee 43-45
+        - text: D- 68163 Mannheim
+      - paragraph [ref=e110]
+      - paragraph [ref=e111]:
+        - strong [ref=e112]:
+          - generic [ref=e113]: WEEE-Registrierungsnummer
+        - text: Unter der Registrierungsnummer DE 23808098 sind wir bei der stiftung elektro-altgeräte register, Benno-Strauß-Str. 1, 90763 Fürth als Hersteller von Elektro- und/ oder Elektronikgeräten registriert.
+      - paragraph [ref=e114]
+      - paragraph [ref=e115]:
+        - strong [ref=e116]: Haftung für Inhalte
+        - text: Die Inhalte unserer Seiten wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+      - paragraph [ref=e117]:
+        - strong [ref=e118]: Haftung für Links
+        - text: Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.
+        - strong [ref=e119]: Urheberrecht & KI-Hinweise
+        - text: Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
+      - paragraph [ref=e120]:
+        - generic [ref=e121]: "In unserem Onlineshop verwenden wir teilweise künstlich generiertes Bildmaterial (KI). Wir kennzeichnen diese Inhalte gemäß den Richtlinien der EU-KI-Verordnung (AI Act), um Transparenz über die Entstehung unserer visuellen Inhalte zu gewährleisten. Soweit nicht anders angegeben, dienen diese Bilder der Illustration und stellen keine realen Personen oder Orte dar. Diese Inhalte sind mit dem folgenden Symbol gekennzeichnet:"
+      - paragraph [ref=e122]
+      - paragraph [ref=e124]
+      - paragraph [ref=e125]:
+        - strong [ref=e126]: Europäische Kommission
+        - text: Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit. Die Plattform finden Sie unter
+        - link "https://webgate.ec.europa.eu/odr/" [ref=e127] [cursor=pointer]:
+          - /url: https://webgate.ec.europa.eu/odr/
+        - text: Wir sind bereit, an einem außergerichtlichen Schlichtungsverfahren vor einer Verbraucherschlichtungsstelle teilzunehmen. Zuständig ist die Universalschlichtungsstelle des Bundes am Zentrum Schlichtung e.V., Straßburger Straße 8, 77694 Kehl am Rhein.
+      - paragraph [ref=e128]
+      - paragraph [ref=e129]:
+        - generic [ref=e130]: "E-Mail: aloha@purelei.com"
+      - list [ref=e131]:
+        - listitem [ref=e132]: Entsorgung von Elektro- und Elektronikgeräten
+      - paragraph [ref=e133]: Die durchgestrichene Mülltonne bedeutet, dass Sie gesetzlich verpflichtet sind, diese Geräte einer vom unsortierten Siedlungsabfall getrennten Erfassung zuzuführen. Die Entsorgung über die Restmülltonne oder die gelbe Tonne ist untersagt. Enthalten die Produkte Batterien oder Akkus, die nicht fest verbaut sind, müssen diese vor der Entsorgung entnommen und getrennt als Batterie entsorgt werden.
+      - list [ref=e134]:
+        - listitem [ref=e135]: Möglichkeiten der Rückgabe von Altgeräten
+      - paragraph [ref=e136]:
+        - text: "Besitzer von Altgeräten können diese im Rahmen der durch öffentlich-rechtlichen Entsorgungsträger eingerichteten und zur Verfügung stehenden Möglichkeiten der Rückgabe oder Sammlung von Altgeräten abgeben, damit eine ordnungsgemäße Entsorgung der Altgeräte sichergestellt ist. Unter dem folgenden Link besteht die Möglichkeit, sich ein Onlineverzeichnis der Sammel- und Rücknahmestellen anzuzeigen zu lassen:"
+        - link "https://www.ear-system.de/ear-verzeichnis/sammel-und-ruecknahmestellen" [ref=e137] [cursor=pointer]:
+          - /url: https://www.ear-system.de/ear-verzeichnis/sammel-und-ruecknahmestellen
+      - list [ref=e138]:
+        - listitem [ref=e139]: Datenschutz
+      - paragraph [ref=e140]: Wir weisen alle Endnutzer von Elektro- und Elektronikaltgeräten darauf hin, dass Sie für das Löschen personenbezogener Daten auf den zu entsorgenden Altgeräten selbst verantwortlich sind.
+  - contentinfo "Footer" [ref=e142]:
+    - generic [ref=e145]:
+      - generic [ref=e146]:
+        - generic [ref=e149]:
+          - generic [ref=e150]:
+            - link "Über uns" [ref=e151] [cursor=pointer]:
+              - /url: /pages/about-us
+            - generic [ref=e152]:
+              - link "Über PURELEI" [ref=e153] [cursor=pointer]:
+                - /url: /pages/about-us
+              - link "Raffaello x PURELEI" [ref=e154] [cursor=pointer]:
+                - /url: /pages/embracing-beauty-copy-copy
+              - link "Material" [ref=e155] [cursor=pointer]:
+                - /url: /pages/material
+              - link "Wir unterstützen" [ref=e156] [cursor=pointer]:
+                - /url: /pages/wir-unterstuetzen
+              - link "Karriere" [ref=e157] [cursor=pointer]:
+                - /url: /pages/hrhome
+              - link "PURELEI App" [ref=e158] [cursor=pointer]:
+                - /url: /pages/purelei-app
+              - link "Schmuckgeschäft Köln" [ref=e159] [cursor=pointer]:
+                - /url: /pages/mode-schmuck-koeln
+              - link "Schmuckgeschäft München" [ref=e160] [cursor=pointer]:
+                - /url: /pages/mode-schmuck-muenchen
+          - generic [ref=e161]:
+            - link "Service" [ref=e162] [cursor=pointer]:
+              - /url: /pages/contact-us
+            - generic [ref=e163]:
+              - link "Kontakt" [ref=e164] [cursor=pointer]:
+                - /url: /pages/contact-us
+              - link "News" [ref=e165] [cursor=pointer]:
+                - /url: /blogs/news
+              - link "B2B Anfrage" [ref=e166] [cursor=pointer]:
+                - /url: /pages/wholesale-anfrage
+              - link "Rücksendungen" [ref=e167] [cursor=pointer]:
+                - /url: https://help.purelei.com/de/collections/18567489-ruckgabe-ruckerstattung
+              - link "FAQ" [ref=e168] [cursor=pointer]:
+                - /url: http://help.purelei.com/
+              - link "Kundenbewertungen" [ref=e169] [cursor=pointer]:
+                - /url: /pages/reviews
+              - link "Versand" [ref=e170] [cursor=pointer]:
+                - /url: https://help.purelei.com/de/collections/18567724-versand-lieferung
+          - generic [ref=e171]:
+            - link "Rechtliches" [ref=e172] [cursor=pointer]:
+              - /url: /pages/rechtliche-bedingungen
+            - generic [ref=e173]:
+              - link "Widerrufsbelehrung" [ref=e174] [cursor=pointer]:
+                - /url: /pages/widerrufsbelehrung
+              - link "AGB" [ref=e175] [cursor=pointer]:
+                - /url: /pages/agb
+              - link "Datenschutz" [ref=e176] [cursor=pointer]:
+                - /url: /pages/datenschutz
+              - link "Informationspflicht" [ref=e177] [cursor=pointer]:
+                - /url: /pages/informationspflicht
+              - link "Impressum" [ref=e178] [cursor=pointer]:
+                - /url: /pages/impressum
+              - link "Rechtliche Bedingungen" [ref=e179] [cursor=pointer]:
+                - /url: /pages/rechtliche-bedingungen
+              - link "Whistleblowing Hotline" [ref=e180] [cursor=pointer]:
+                - /url: /pages/whistleblowing-hotline
+              - link "Jewelry Box Abo kündigen" [ref=e181] [cursor=pointer]:
+                - /url: /pages/abonnement-kundigen
+              - link "KI-generierte Inhalte" [ref=e182] [cursor=pointer]:
+                - /url: /pages/faq-ki-generierte-inhalte-bei-purelei
+              - generic [ref=e183] [cursor=pointer]: Cookie Guidelines
+        - paragraph [ref=e185]: Modeschmuck für Frauen und Männer kaufen im PURELEI Shop
+        - generic [ref=e186]:
+          - list [ref=e189]:
+            - listitem [ref=e190]:
+              - link "Facebook" [ref=e191] [cursor=pointer]:
+                - /url: https://www.facebook.com/purelei?adb_sid=c883f7d5-eea1-4e6c-bf7c-3c8d478cfd8d
+                - img [ref=e192]
+                - generic [ref=e194]: Facebook
+            - listitem [ref=e195]:
+              - link "Instagram" [ref=e196] [cursor=pointer]:
+                - /url: https://www.instagram.com/purelei/?adb_sid=c883f7d5-eea1-4e6c-bf7c-3c8d478cfd8d
+                - img [ref=e197]
+                - generic [ref=e200]: Instagram
+            - listitem [ref=e201]:
+              - link "LinkedIn" [ref=e202] [cursor=pointer]:
+                - /url: https://de.linkedin.com/company/purelei?adb_sid=c883f7d5-eea1-4e6c-bf7c-3c8d478cfd8d
+                - img [ref=e203]
+                - generic [ref=e205]: LinkedIn
+            - listitem [ref=e206]:
+              - link "Pinterest" [ref=e207] [cursor=pointer]:
+                - /url: https://www.pinterest.co.uk/purelei_/?adb_sid=c883f7d5-eea1-4e6c-bf7c-3c8d478cfd8d
+                - img [ref=e208]
+                - generic [ref=e210]: Pinterest
+            - listitem [ref=e211]:
+              - link "YouTube" [ref=e212] [cursor=pointer]:
+                - /url: https://www.youtube.com/channel/UCXa1zc34JGzOEaBUhHKA-gA?adb_sid=c883f7d5-eea1-4e6c-bf7c-3c8d478cfd8d
+                - img [ref=e213]
+                - generic [ref=e215]: YouTube
+            - listitem [ref=e216]:
+              - link "TikTok" [ref=e217] [cursor=pointer]:
+                - /url: https://www.tiktok.com/@purelei?adb_sid=c883f7d5-eea1-4e6c-bf7c-3c8d478cfd8d
+                - img [ref=e218]
+                - generic [ref=e220]: TikTok
+            - listitem [ref=e221]:
+              - link "Whatsapp" [ref=e222] [cursor=pointer]:
+                - /url: https://wa.me/message/NDZ7QNYOGD2TF1?adb_sid=c883f7d5-eea1-4e6c-bf7c-3c8d478cfd8d
+                - img [ref=e223]
+                - generic [ref=e226]: Whatsapp
+          - paragraph [ref=e228]: Urheberrecht © 2026, DE PURELEI
+      - heading "Jetzt Newsletter abonnieren und 20 % auf Deine erste Bestellung sparen." [level=3] [ref=e232]

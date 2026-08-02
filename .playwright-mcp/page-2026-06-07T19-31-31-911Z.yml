@@ -1,0 +1,130 @@
+- generic [active] [ref=e1]:
+  - region "cookieconsent":
+    - generic [ref=e2]:
+      - img "Frühling94" [ref=e4]
+      - generic [ref=e5]:
+        - text: This website uses cookies to ensure you get the best experience.
+        - link "Learn more" [ref=e6] [cursor=pointer]:
+          - /url: https://fruhling94-3536.myshopify.com/policies/privacy-policy
+      - generic [ref=e7]:
+        - button "Decline" [ref=e8]
+        - button "Accept" [ref=e9]
+      - generic "Close the cookie banner" [ref=e10] [cursor=pointer]: ✕
+  - link "Skip to content" [ref=e11] [cursor=pointer]:
+    - /url: "#MainContent"
+  - generic [ref=e12]:
+    - region "Announcement" [ref=e13]:
+      - paragraph [ref=e15]: Made in France. Based in Berlin. Inspired by Women.
+    - region "Announcement" [ref=e16]:
+      - link "EXPLORE OUR BODY CARE COLLECTION" [ref=e17] [cursor=pointer]:
+        - /url: /collections/all
+        - paragraph [ref=e19]:
+          - text: EXPLORE OUR BODY CARE COLLECTION
+          - img
+  - banner [ref=e22]:
+    - navigation [ref=e23]:
+      - list [ref=e24]:
+        - listitem [ref=e25]:
+          - link "Home" [ref=e26] [cursor=pointer]:
+            - /url: /
+            - generic [ref=e27]: Home
+        - listitem [ref=e28]:
+          - link "Catalog" [ref=e29] [cursor=pointer]:
+            - /url: /collections/all
+            - generic [ref=e30]: Catalog
+        - listitem [ref=e31]:
+          - link "Blog" [ref=e32] [cursor=pointer]:
+            - /url: /blogs/news
+            - generic [ref=e33]: Blog
+        - listitem [ref=e34]:
+          - link "Contact" [ref=e35] [cursor=pointer]:
+            - /url: /pages/contact
+            - generic [ref=e36]: Contact
+        - listitem [ref=e37]:
+          - link "B2B" [ref=e38] [cursor=pointer]:
+            - /url: /pages/b2b-solutions
+            - generic [ref=e39]: B2B
+    - link "Frühling94" [ref=e40] [cursor=pointer]:
+      - /url: /
+      - img "Frühling94" [ref=e41]
+    - generic [ref=e42]:
+      - group [ref=e44]:
+        - button "Search" [ref=e45] [cursor=pointer]:
+          - img [ref=e47]
+      - link "Log in" [ref=e49] [cursor=pointer]:
+        - /url: https://www.fruehling94.com/customer_authentication/redirect?locale=en&region_country=DE
+        - img [ref=e50]
+        - generic [ref=e51]: Log in
+      - link "Cart" [ref=e52] [cursor=pointer]:
+        - /url: /cart
+        - img [ref=e53]
+        - generic [ref=e55]: Cart
+  - generic [ref=e59]:
+    - heading "NATURAL, SENSORIAL SCRUBS FOR AT-HOME SPA RITUALS" [level=2] [ref=e60]
+    - link "SHOP BODY SCRUBS" [ref=e61] [cursor=pointer]:
+      - /url: /collections/all
+  - main [ref=e62]:
+    - generic [ref=e64]:
+      - paragraph [ref=e65]: "404"
+      - heading "Page not found" [level=1] [ref=e66]
+      - link "Continue shopping" [ref=e67] [cursor=pointer]:
+        - /url: /collections/all
+  - contentinfo [ref=e69]:
+    - generic [ref=e70]:
+      - generic [ref=e71]:
+        - generic [ref=e72]:
+          - heading "Quick links" [level=2] [ref=e73]
+          - list [ref=e74]:
+            - listitem [ref=e75]:
+              - link "Our Brand, Mission & Values" [ref=e76] [cursor=pointer]:
+                - /url: /pages/mission-values
+            - listitem [ref=e77]:
+              - link "Contact us" [ref=e78] [cursor=pointer]:
+                - /url: /pages/contact
+            - listitem [ref=e79]:
+              - link "Blog" [ref=e80] [cursor=pointer]:
+                - /url: /blogs/news
+            - listitem [ref=e81]:
+              - link "FAQ" [ref=e82] [cursor=pointer]:
+                - /url: /pages/faq
+        - generic [ref=e83]:
+          - heading "Customer Service" [level=2] [ref=e84]
+          - generic [ref=e85]:
+            - heading "Privacy Policy" [level=5] [ref=e86]:
+              - link "Privacy Policy" [ref=e87] [cursor=pointer]:
+                - /url: /policies/privacy-policy
+            - heading "Terms and Conditions" [level=5] [ref=e88]:
+              - link "Terms and Conditions" [ref=e89] [cursor=pointer]:
+                - /url: /policies/terms-of-service
+            - heading "Refund Policy" [level=5] [ref=e90]:
+              - link "Refund Policy" [ref=e91] [cursor=pointer]:
+                - /url: /policies/refund-policy
+            - heading "Imprint" [level=5] [ref=e92]:
+              - link "Imprint" [ref=e93] [cursor=pointer]:
+                - /url: /pages/imprint
+      - generic [ref=e94]:
+        - generic [ref=e95]:
+          - heading "Subscribe to our emails" [level=2] [ref=e96]
+          - generic [ref=e99]:
+            - textbox "Email" [ref=e100]
+            - generic: Email
+            - button "Subscribe" [ref=e101] [cursor=pointer]:
+              - img [ref=e102]
+        - button "Follow on Shop" [ref=e106] [cursor=pointer]:
+          - img [ref=e109]
+          - generic [ref=e111]:
+            - text: Follow on
+            - img "Shop" [ref=e112]
+        - list [ref=e114]:
+          - listitem [ref=e115]:
+            - link "Instagram" [ref=e116] [cursor=pointer]:
+              - /url: https://www.instagram.com/fruhling94/
+              - img [ref=e117]
+              - generic [ref=e119]: Instagram
+    - generic [ref=e122]:
+      - generic [ref=e123]:
+        - text: © 2026,
+        - link "Frühling94" [ref=e124] [cursor=pointer]:
+          - /url: /
+      - link "Powered by Shopify" [ref=e126] [cursor=pointer]:
+        - /url: https://www.shopify.com?utm_campaign=poweredby&utm_medium=shopify&utm_source=onlinestore

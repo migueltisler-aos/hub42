@@ -1,0 +1,201 @@
+- generic [active] [ref=e1]:
+  - link "Zum Inhalt springen" [ref=e2] [cursor=pointer]:
+    - /url: "#wp--skip-link--target"
+  - generic [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - generic [ref=e7]:
+            - figure [ref=e8]:
+              - link "FoodTogether" [ref=e9] [cursor=pointer]:
+                - /url: /
+                - img "FoodTogether" [ref=e10]
+            - paragraph [ref=e11]:
+              - text: FOOD
+              - text: TOGETHER
+          - navigation "Primary Navigation" [ref=e12]:
+            - generic [ref=e16]:
+              - list [ref=e17]:
+                - listitem [ref=e18]:
+                  - link "Shop" [ref=e19] [cursor=pointer]:
+                    - /url: https://foodtogether.de/shop/
+                - listitem [ref=e20]:
+                  - link "Partnerhöfe" [ref=e21] [cursor=pointer]:
+                    - /url: https://foodtogether.de/partner/
+                - listitem [ref=e22]:
+                  - link "Märkte" [ref=e23] [cursor=pointer]:
+                    - /url: https://www.foodtogether.de/markt/
+                - listitem [ref=e24]:
+                  - link "Impact" [ref=e25] [cursor=pointer]:
+                    - /url: https://foodtogether.de/impact/
+                - listitem [ref=e26]:
+                  - link "Manifest" [ref=e27] [cursor=pointer]:
+                    - /url: https://foodtogether.de/manifest/
+                - listitem [ref=e28]:
+                  - link "Über uns" [ref=e29] [cursor=pointer]:
+                    - /url: https://foodtogether.de/wer-wir-sind/
+                - listitem [ref=e30]:
+                  - link "Blog" [ref=e31] [cursor=pointer]:
+                    - /url: https://foodtogether.de/aktuelles/
+                - listitem [ref=e32]:
+                  - link "Login" [ref=e33] [cursor=pointer]:
+                    - /url: https://www.foodtogether.de/mein-konto/
+              - button "Kontrast erhöhen oder verringern" [ref=e35] [cursor=pointer]
+        - 'button "Anzahl der Artikel im Warenkorb: 0" [ref=e37] [cursor=pointer]':
+          - img [ref=e39]
+        - paragraph
+      - banner [ref=e44]:
+        - generic [ref=e46]:
+          - heading "Impressum" [level=1] [ref=e47]
+          - generic:
+            - paragraph
+      - generic [ref=e52]:
+        - link "Startseite" [ref=e54] [cursor=pointer]:
+          - /url: https://www.foodtogether.de/
+        - text: » Impressum
+      - main [ref=e55]:
+        - generic [ref=e56]:
+          - generic [ref=e57]:
+            - heading "Angaben gemäß §5 TMG" [level=2] [ref=e58]:
+              - strong [ref=e59]: Angaben gemäß §5 TMG
+            - paragraph [ref=e60]:
+              - text: FoodTogether UG (haftungsbeschränkt)
+              - text: Marchlewskistraße 41
+              - text: 10243 Berlin
+            - paragraph [ref=e61]: "E-Mail: hello@foodtogether.de"
+            - heading "Biozertifiziert durch ABCert:" [level=3] [ref=e62]:
+              - strong [ref=e63]: "Biozertifiziert durch ABCert:"
+            - paragraph [ref=e64]: DE-ÖKO-006
+            - heading "Haftung für Links" [level=3] [ref=e65]:
+              - strong [ref=e66]: Haftung für Links
+            - paragraph [ref=e67]: Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.
+            - heading "Urheberrecht" [level=3] [ref=e68]:
+              - strong [ref=e69]: Urheberrecht
+            - paragraph [ref=e70]: Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen. Der Autor ist bestrebt, in allen Publikationen die Urheberrechte der verwendeten Bilder, Grafiken, Tondokumente, Videosequenzen und Texte zu beachten, von ihm selbst erstellte Bilder, Grafiken, Tondokumente, Videosequenzen und Texte zu nutzen oder auf lizenzfreie Grafiken, Tondokumente, Videosequenzen und Texte zurückzugreifen. Alle innerhalb des Internetangebotes genannten und ggf. durch Dritte geschützten Marken- und Warenzeichen unterliegen uneingeschränkt den Bestimmungen des jeweils gültigen Kennzeichenrechts und den Besitzrechten der jeweiligen eingetragenen Eigentümer. Allein aufgrund der bloßen Nennung ist nicht der Schluss zu ziehen, dass Markenzeichen nicht durch Rechte Dritter geschützt sind! Das Copyright für veröffentlichte, vom Autor selbst erstellte Objekte bleibt allein beim Autor der Seiten. Eine Vervielfältigung oder Verwendung solcher Grafiken, Tondokumente, Videosequenzen und Texte in anderen elektronischen oder gedruckten Publikationen ist ohne ausdrückliche Zustimmung des Autors nicht gestattet.
+          - generic [ref=e71]:
+            - heading "Alternative Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO und § 36 VSBG:" [level=3] [ref=e72]
+            - text: Wir sind bereit, an einem außergerichtlichen Schlichtungsverfahren teilzunehmen.
+      - generic [ref=e75]:
+        - heading "Unterstützer & Freunde" [level=3] [ref=e76]
+        - paragraph [ref=e77]:
+          - text: Wir setzen auf Kooperation und Zusammenarbeit, lerne unser
+          - link "Netzwerk" [ref=e78] [cursor=pointer]:
+            - /url: https://www.foodtogether.de/wer-wir-sind/
+          - text: kennen und werde Teil davon.
+        - generic [ref=e79]:
+          - figure [ref=e80]:
+            - img "Farm Food Climate" [ref=e81]
+          - figure [ref=e82]:
+            - img "RCE Stettiner Haff" [ref=e83]
+          - figure [ref=e84]:
+            - img "Impact Hub Berlin" [ref=e85]
+          - figure [ref=e86]:
+            - img "FH;P" [ref=e87]
+      - contentinfo [ref=e88]:
+        - generic [ref=e90]:
+          - generic [ref=e91]:
+            - generic [ref=e93]:
+              - heading "Über FoodTogether" [level=4] [ref=e94]
+              - paragraph [ref=e95]: "FoodTogether ist Teil der Farm-Food-Climate Challenge und #UpdateDeutschland unter dem Dach von ProjectTogether."
+            - generic [ref=e96]:
+              - figure [ref=e98]:
+                - link "Logo Project Together" [ref=e99] [cursor=pointer]:
+                  - /url: "#"
+                  - img "Logo Project Together" [ref=e100]
+              - generic [ref=e101]:
+                - figure "DE -ÖKO-006" [ref=e102]:
+                  - generic [ref=e103]: DE -ÖKO-006
+                - figure [ref=e104]
+                - figure [ref=e105]:
+                  - link "Logo Update Deutschland" [ref=e106] [cursor=pointer]:
+                    - /url: "#"
+                    - img "Logo Update Deutschland" [ref=e107]
+          - separator [ref=e108]
+          - generic [ref=e109]:
+            - generic [ref=e110]:
+              - paragraph [ref=e111]:
+                - strong [ref=e112]: Unternehmen
+              - navigation "Footer Column 1" [ref=e113]:
+                - list [ref=e114]:
+                  - listitem [ref=e115]:
+                    - link "Wer wir sind" [ref=e116] [cursor=pointer]:
+                      - /url: https://foodtogether.de/wer-wir-sind/
+                  - listitem [ref=e117]:
+                    - link "Aktuelles" [ref=e118] [cursor=pointer]:
+                      - /url: https://foodtogether.de/aktuelles/
+            - generic [ref=e119]:
+              - paragraph [ref=e120]:
+                - strong [ref=e121]: Werteversprechen
+              - navigation "Footer Column 2" [ref=e122]:
+                - list [ref=e123]:
+                  - listitem [ref=e124]:
+                    - link "Unser Impact" [ref=e125] [cursor=pointer]:
+                      - /url: https://foodtogether.de/impact/
+                  - listitem [ref=e126]:
+                    - link "Für Produzent:innen" [ref=e127] [cursor=pointer]:
+                      - /url: https://foodtogether.de/fuer-produzentinnen/
+            - generic [ref=e128]:
+              - paragraph [ref=e129]:
+                - strong [ref=e130]: Kontakt
+              - navigation "Footer Column 3" [ref=e131]:
+                - list [ref=e132]:
+                  - listitem [ref=e133]:
+                    - link "Schreib uns" [ref=e134] [cursor=pointer]:
+                      - /url: https://foodtogether.de/wir-freuen-uns-von-dir-zu-hoeren
+                  - listitem [ref=e135]:
+                    - link "Für Geschäftskund:innen" [ref=e136] [cursor=pointer]:
+                      - /url: https://foodtogether.de/fur-b2b-kundinnen
+            - generic [ref=e137]:
+              - paragraph [ref=e138]:
+                - strong [ref=e139]: Produkte & Partner:innen
+              - navigation "Footer Column 4" [ref=e140]:
+                - list [ref=e141]:
+                  - listitem [ref=e142]:
+                    - link "Shop" [ref=e143] [cursor=pointer]:
+                      - /url: https://foodtogether.de/shop/
+                  - listitem [ref=e144]:
+                    - link "Partnerhöfe" [ref=e145] [cursor=pointer]:
+                      - /url: https://foodtogether.de/partner/
+          - separator [ref=e146]
+          - generic [ref=e147]:
+            - generic [ref=e148]:
+              - paragraph [ref=e149]:
+                - strong [ref=e150]: © 2025 FoodTogether
+              - navigation "Legal Navigation" [ref=e151]:
+                - list [ref=e152]:
+                  - listitem [ref=e153]:
+                    - link "AGB" [ref=e154] [cursor=pointer]:
+                      - /url: https://foodtogether.de/agb/
+                  - listitem [ref=e155]:
+                    - link "Datenschutzerklärung" [ref=e156] [cursor=pointer]:
+                      - /url: https://foodtogether.de/datenschutzerklaerung/
+                  - listitem [ref=e157]:
+                    - link "Impressum" [ref=e158] [cursor=pointer]:
+                      - /url: https://foodtogether.de/impressum/
+            - list [ref=e159]:
+              - listitem [ref=e160]:
+                - link "Instagram" [ref=e161] [cursor=pointer]:
+                  - /url: https://www.instagram.com/foodtogether.de
+                  - img [ref=e162]
+                  - generic [ref=e164]: Instagram
+              - listitem [ref=e165]:
+                - link "LinkedIn" [ref=e166] [cursor=pointer]:
+                  - /url: https://www.linkedin.com/company/foodtogether
+                  - img [ref=e167]
+                  - generic [ref=e169]: LinkedIn
+    - generic:
+      - generic:
+        - generic:
+          - generic:
+            - generic:
+              - button:
+                - img
+              - generic:
+                - generic:
+                  - paragraph:
+                    - strong: Dein Warenkorb ist gerade leer!
+                  - generic:
+                    - link:
+                      - /url: https://www.foodtogether.de/shop/
+                      - generic: Einkaufen beginnen
+  - status [ref=e171]

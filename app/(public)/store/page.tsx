@@ -209,7 +209,7 @@ export default function StorePage() {
             Dein Produkt hierher?
           </h2>
           <p className="text-stone text-sm mb-8">
-            41.000 Berliner täglich. Regalfront ab 20 cm / 55 €/Monat. 0% Handelsmarge.
+            41.000 Berliner täglich. Regalfront ab 20 cm / 59 €/Monat. 0% Handelsmarge.
           </p>
           <Link
             href="/hersteller"

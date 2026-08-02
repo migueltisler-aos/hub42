@@ -35,7 +35,7 @@ const VALUES = [
     label: "Try Before You Buy",
     description:
       "Tasting, Story-Fläche und QR am Regal — für Produkte die erklärungsbedürftig, probierbar oder geschenkfähig sind.",
-    sub: "Ab 55 €/Monat · kein Mindestabsatz",
+    sub: "Ab 59 €/Monat · kein Mindestabsatz",
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" className="text-bronze">
         <path d="M8 20 C8 20 10 12 16 12 C22 12 24 20 24 20" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />

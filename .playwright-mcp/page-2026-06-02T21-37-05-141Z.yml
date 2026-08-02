@@ -1,0 +1,1160 @@
+- generic [ref=e12]:
+  - generic [ref=e15]:
+    - link "Meta-Werbebibliothek" [ref=e18] [cursor=pointer]:
+      - /url: /ads/library/?source=fb-logo
+      - generic [ref=e20]: Meta-Werbebibliothek
+    - generic [ref=e22]: Werbebibliothek
+    - menuitem "Werbebericht" [ref=e24] [cursor=pointer]:
+      - generic [ref=e25]: Werbebericht
+    - menuitem "Werbebibliotheks-API" [ref=e27] [cursor=pointer]:
+      - generic [ref=e28]: Werbebibliotheks-API
+    - menuitem "Branded Content" [ref=e30] [cursor=pointer]:
+      - generic [ref=e31]: Branded Content
+    - menuitem "Open navigation panel" [ref=e33] [cursor=pointer]
+  - generic [ref=e40]:
+    - combobox "Deutschland" [ref=e44] [cursor=pointer]:
+      - generic [ref=e51]: Deutschland
+    - combobox "Alle Werbeanzeigen" [ref=e57] [cursor=pointer]:
+      - generic [ref=e67]: Alle Werbeanzeigen
+    - generic [ref=e77]:
+      - generic [ref=e83]: Nach Stichwort oder Werbetreibendem suchen
+      - generic [ref=e89]:
+        - searchbox "Nach Stichwort oder Werbetreibendem suchen" [ref=e95]: vegane Naturkosmetik
+        - button "Löschen" [ref=e97] [cursor=pointer]
+  - dialog [ref=e99]:
+    - generic [ref=e100]:
+      - link [ref=e101] [cursor=pointer]:
+        - /url: /
+        - heading [level=4] [ref=e102]: Anmelden
+      - menuitem [ref=e103] [cursor=pointer]
+    - generic [ref=e105]:
+      - generic [ref=e106]:
+        - heading [level=4] [ref=e108]: Werbebibliothek
+        - menuitem [ref=e110] [cursor=pointer]:
+          - heading [level=4] [ref=e112]: Werbebericht
+        - menuitem [ref=e114] [cursor=pointer]:
+          - heading [level=4] [ref=e116]: Werbebibliotheks-API
+        - menuitem [ref=e118] [cursor=pointer]:
+          - heading [level=4] [ref=e120]: Branded Content
+      - separator [ref=e121]
+      - generic [ref=e122]:
+        - menuitem [ref=e124] [cursor=pointer]:
+          - heading [level=4] [ref=e126]: Systemstatus
+        - menuitem [ref=e128] [cursor=pointer]:
+          - heading [level=4] [ref=e130]: E-Mail-Updates abonnieren
+        - menuitem [ref=e132] [cursor=pointer]:
+          - heading [level=4] [ref=e134]: FAQ
+        - menuitem [ref=e136] [cursor=pointer]:
+          - heading [level=4] [ref=e138]: Informationen zu Werbeanzeigen und zur Datennutzung
+        - menuitem [ref=e140] [cursor=pointer]:
+          - heading [level=4] [ref=e142]: Privatsphäre
+        - menuitem [ref=e144] [cursor=pointer]:
+          - heading [level=4] [ref=e146]: Nutzungsbedingungen
+        - menuitem [ref=e148] [cursor=pointer]:
+          - heading [level=4] [ref=e150]: Cookies
+  - generic [ref=e151]:
+    - generic [ref=e185]:
+      - generic [ref=e191]:
+        - heading "~18 Ergebnisse" [level=3] [ref=e193]
+        - generic [ref=e195]:
+          - text: Diese Ergebnisse beinhalten aktive Werbeanzeigen, die deiner
+          - strong [ref=e196]: Keyword-Suche
+          - text: entsprechen.
+      - generic [ref=e197]:
+        - generic [ref=e206]:
+          - generic [ref=e207]:
+            - button "Filter" [ref=e208] [cursor=pointer]:
+              - generic [ref=e213]: Filter
+            - generic [ref=e215]:
+              - generic [ref=e221]: Sortieren
+              - combobox "Sortieren" [ref=e226] [cursor=pointer]:
+                - generic [ref=e233]: Sortieren nach
+          - generic [ref=e238]:
+            - generic [ref=e239]:
+              - strong [ref=e240]: Aktiv-Status
+              - text: ": Aktive Anzeigen"
+            - button "Entfernen" [ref=e241] [cursor=pointer]:
+              - generic [ref=e244]: Entfernen
+        - generic [ref=e248]:
+          - generic [ref=e250]:
+            - generic [ref=e252]:
+              - generic [ref=e253]:
+                - generic [ref=e260]: Aktiv
+                - generic [ref=e263]: "Bibliotheks-ID: 2149225578932815"
+                - generic [ref=e265]: Seit dem 21.07.2025 ausgeliefert
+                - generic [ref=e267]: Plattformen
+                - generic [ref=e291]: Es gibt mehrere Versionen dieser Werbeanzeige
+                - generic [ref=e298]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e305] [cursor=pointer]:
+                - generic [ref=e308]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e311] [cursor=pointer]:
+              - generic [ref=e315]: Anzeigendetails ansehen
+            - separator [ref=e316]
+            - generic [ref=e321]:
+              - generic [ref=e324]:
+                - img "Terra Elements" [ref=e325]
+                - generic [ref=e327]:
+                  - link "Terra Elements" [ref=e328] [cursor=pointer]:
+                    - /url: https://www.facebook.com/terraelements/
+                  - generic [ref=e332]:
+                    - strong [ref=e334]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e336]:
+                - button "Terra Elements ist Deine Marke für vegane Superfoods, Ayurveda & mehr!" [ref=e339]:
+                  - generic [ref=e341]: Terra Elements ist Deine Marke für vegane Superfoods, Ayurveda & mehr!
+                - link "TERRAELEMENTS.DE Mangostan Pulver, 100 g Vegane Superfoods, Rohkost & Nahrungsergänzung für Sie handverlesen im Shop von Terra Elements. Bio & ohne künstliche Zusätze für einen gesunden Lifestyle! Shop Now" [ref=e342] [cursor=pointer]:
+                  - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.terraelements.de%2Fnon-food%2Fpflanzliche-rohstoffe%2Fmangostan-pulver-100-g.html&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e344]:
+                    - generic [ref=e345]:
+                      - button "TERRAELEMENTS.DE" [ref=e347]:
+                        - generic [ref=e348]: TERRAELEMENTS.DE
+                      - button "Mangostan Pulver, 100 g" [ref=e350]:
+                        - generic [ref=e351]: Mangostan Pulver, 100 g
+                      - button "Vegane Superfoods, Rohkost & Nahrungsergänzung für Sie handverlesen im Shop von Terra Elements. Bio & ohne künstliche Zusätze für einen gesunden Lifestyle!" [ref=e353]:
+                        - generic [ref=e354]: Vegane Superfoods, Rohkost & Nahrungsergänzung für Sie handverlesen im Shop von Terra Elements. Bio & ohne künstliche Zusätze für einen gesunden Lifestyle!
+                      - generic:
+                        - button
+                    - button "Shop Now" [ref=e356]:
+                      - generic [ref=e360]: Shop Now
+          - generic [ref=e362]:
+            - generic [ref=e364]:
+              - generic [ref=e365]:
+                - generic [ref=e372]: Aktiv
+                - generic [ref=e375]: "Bibliotheks-ID: 1025784013358598"
+                - generic [ref=e377]: Seit dem 29.05.2026 ausgeliefert
+                - generic [ref=e379]: Plattformen
+                - generic [ref=e393]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e400] [cursor=pointer]:
+                - generic [ref=e403]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e406] [cursor=pointer]:
+              - generic [ref=e410]: Anzeigendetails ansehen
+            - separator [ref=e411]
+            - generic [ref=e416]:
+              - generic [ref=e418]:
+                - img "Yves Rocher Germany" [ref=e419]
+                - generic [ref=e421]:
+                  - link "Yves Rocher Germany" [ref=e422] [cursor=pointer]:
+                    - /url: https://www.facebook.com/YvesRocher/
+                  - generic [ref=e426]:
+                    - strong [ref=e428]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e429]:
+                - 'button "Duft wie im Paradies 🌺 https://shorturl.at/9A4zT Was wir lieben: - der feine Schaum (so angenehm auf der Haut) - der unglaubliche Duft (man riecht ihn schon durch die Verpackung) - dieses saubere Gefühl (wie nach einem Tag am Strand) - hinterlässt die Haut weich (auch ohne Pflege!!) - vegane Formel (93% Inhaltsstoffe natürlichen Ursprungs) Wir können es kaum erwarten, dass ihr es auch ausprobiert!! 🥹 #monoipflege #festesdusghel #naturkosmetik #yvesrocher #monoi" [ref=e432]':
+                  - generic [ref=e435]:
+                    - text: Duft wie im Paradies 🌺
+                    - link "https://shorturl.at/9A4zT" [ref=e436] [cursor=pointer]:
+                      - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fshorturl.at%2F9A4zT&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                    - text: "Was wir lieben:"
+                    - text: "- der feine Schaum (so angenehm auf der Haut)"
+                    - text: "- der unglaubliche Duft (man riecht ihn schon durch die Verpackung)"
+                    - text: "- dieses saubere Gefühl (wie nach einem Tag am Strand)"
+                    - text: "- hinterlässt die Haut weich (auch ohne Pflege!!)"
+                    - text: "- vegane Formel (93% Inhaltsstoffe natürlichen Ursprungs)"
+                    - text: Wir können es kaum erwarten, dass ihr es auch ausprobiert!! 🥹
+                    - text: "#monoipflege #festesdusghel #naturkosmetik #yvesrocher #monoi"
+                - group "Video player" [ref=e446]:
+                  - button "Video abspielen" [ref=e448] [cursor=pointer]
+                  - generic [ref=e450]:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - button "Abspielen"
+                      - generic: 0:00 / 0:10
+                    - generic:
+                      - generic:
+                        - slider "Change Position"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - button "Einstellungen"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - button "Vollbild"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - slider "Lautstärke regeln"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - button "Stummschaltung aufheben":
+                                - img
+          - generic [ref=e452]:
+            - generic [ref=e454]:
+              - generic [ref=e455]:
+                - generic [ref=e462]: Aktiv
+                - generic [ref=e465]: "Bibliotheks-ID: 2313370889092673"
+                - generic [ref=e467]: Seit dem 08.10.2025 ausgeliefert
+                - generic [ref=e469]: Plattformen
+                - generic [ref=e498]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e505] [cursor=pointer]:
+                - generic [ref=e508]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e511] [cursor=pointer]:
+              - generic [ref=e515]: Anzeigendetails ansehen
+            - separator [ref=e516]
+            - generic [ref=e521]:
+              - generic [ref=e523]:
+                - img "Holy Pit" [ref=e524]
+                - generic [ref=e526]:
+                  - link "Holy Pit" [ref=e527] [cursor=pointer]:
+                    - /url: https://www.facebook.com/holypitofficial/
+                  - generic [ref=e531]:
+                    - strong [ref=e533]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e534]:
+                - button "Du willst auch sicher durch den Tag kommen? Überzeuge dich selbst! 😃 Über 50.000 Menschen haben bereits gewechselt. ⭐⭐⭐⭐⭐ 4,8 von 5 - über 1000 Bewertungen ➡️ Werde auch du Teil der Revolution des Deos! ✅ Einzigartiges Deo ohne Aluminium und ohne Mikroplastik ✅ Recyceltes Deos-Case aus bereits weggeworfenem Einwegplastik ✅ Kartuschen aus Papier statt Plastik ✅ Vegane Naturkosmetik - PETA approved ✅ Startup aus Österreich 🦁 Bekannt aus dem TV ➡️ Teste es jetzt risikofrei! 30-tägiges Rückgaberecht Mit unserem REFILL DEO konnten wir bereits internationale Preise gewinnen! 🏆 Green Product Award Winner 2022 🏆 Finalist - Deutscher Nachhaltigkeitspreis 2023 🏆 1.Platz - Deutscher Award für Nachhaltigkeitsprojekte" [ref=e537]:
+                  - generic [ref=e540]:
+                    - text: Du willst auch sicher durch den Tag kommen? Überzeuge dich selbst! 😃 Über 50.000 Menschen haben bereits gewechselt. ⭐⭐⭐⭐⭐ 4,8 von 5 - über 1000 Bewertungen
+                    - text: ➡️ Werde auch du Teil der Revolution des Deos!
+                    - text: ✅ Einzigartiges Deo ohne Aluminium und ohne Mikroplastik
+                    - text: ✅ Recyceltes Deos-Case aus bereits weggeworfenem Einwegplastik
+                    - text: ✅ Kartuschen aus Papier statt Plastik
+                    - text: ✅ Vegane Naturkosmetik - PETA approved
+                    - text: ✅ Startup aus Österreich
+                    - text: 🦁 Bekannt aus dem TV
+                    - text: ➡️ Teste es jetzt risikofrei! 30-tägiges Rückgaberecht
+                    - text: Mit unserem REFILL DEO konnten wir bereits internationale Preise gewinnen!
+                    - text: 🏆 Green Product Award Winner 2022
+                    - text: 🏆 Finalist - Deutscher Nachhaltigkeitspreis 2023
+                    - text: 🏆 1.Platz - Deutscher Award für Nachhaltigkeitsprojekte
+                - group "Video player" [ref=e551]:
+                  - button "Video abspielen" [ref=e553] [cursor=pointer]
+                  - generic [ref=e555]:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - button "Abspielen"
+                      - generic: 0:00 / 0:32
+                    - generic:
+                      - generic:
+                        - slider "Change Position"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - button "Einstellungen"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - button "Vollbild"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - slider "Lautstärke regeln"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - button "Stummschaltung aufheben":
+                                - img
+                - link "WWW.HOLY-PIT.COM ➡️ Jetzt risikofrei 30 Tage testen! ⭐ 4,8 von 5 - über 1000 Bewertungen Mehr dazu" [ref=e557] [cursor=pointer]:
+                  - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.holy-pit.com%2Fpages%2Fdas-kluge-refilldeo-aus-osterreich-w2&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e558]:
+                    - generic [ref=e559]:
+                      - button "WWW.HOLY-PIT.COM" [ref=e561]:
+                        - generic [ref=e562]: WWW.HOLY-PIT.COM
+                      - button "➡️ Jetzt risikofrei 30 Tage testen!" [ref=e564]:
+                        - generic [ref=e565]: ➡️ Jetzt risikofrei 30 Tage testen!
+                      - button "⭐ 4,8 von 5 - über 1000 Bewertungen" [ref=e567]:
+                        - generic [ref=e568]: ⭐ 4,8 von 5 - über 1000 Bewertungen
+                      - generic:
+                        - button
+                    - button "Mehr dazu" [ref=e570]:
+                      - generic [ref=e574]: Mehr dazu
+          - generic [ref=e576]:
+            - generic [ref=e578]:
+              - generic [ref=e579]:
+                - generic [ref=e586]: Aktiv
+                - generic [ref=e589]: "Bibliotheks-ID: 1679824916593289"
+                - generic [ref=e591]: Seit dem 29.05.2026 ausgeliefert
+                - generic [ref=e593]: Plattformen
+                - generic [ref=e622]: Es gibt mehrere Versionen dieser Werbeanzeige
+                - generic [ref=e629]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e636] [cursor=pointer]:
+                - generic [ref=e639]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e642] [cursor=pointer]:
+              - generic [ref=e646]: Anzeigendetails ansehen
+            - separator [ref=e647]
+            - generic [ref=e652]:
+              - generic [ref=e655]:
+                - img "Spilanthox therapy" [ref=e656]
+                - generic [ref=e658]:
+                  - link "Spilanthox therapy" [ref=e659] [cursor=pointer]:
+                    - /url: https://www.facebook.com/100083411888932/
+                  - generic [ref=e663]:
+                    - strong [ref=e665]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e667]:
+                - button "Pflanzliche Mimikglättung, Aufpolsterung und intensives Anti-Aging – ganz ohne Irritation. Ab sofort bei dm – für deine tägliche Pflegeroutine. ✨" [ref=e670]:
+                  - generic [ref=e673]:
+                    - text: Pflanzliche Mimikglättung, Aufpolsterung und intensives Anti-Aging – ganz ohne Irritation.
+                    - text: Ab sofort bei dm – für deine tägliche Pflegeroutine. ✨
+                - link "DM.DE/SPILANTHOX-THERAPY Vegane Naturkosmetik, die wirkt 🌿 Vegane Naturkosmetik mit Sofort-Effekt & klinisch bestätigter Wirkung. See Details" [ref=e674] [cursor=pointer]:
+                  - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.dm.de%2Fspilanthox-therapy-serum-high-potency-facelift-booster-p4260546840041.html&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e676]:
+                    - generic [ref=e677]:
+                      - button "DM.DE/SPILANTHOX-THERAPY" [ref=e679]:
+                        - generic [ref=e680]: DM.DE/SPILANTHOX-THERAPY
+                      - button "Vegane Naturkosmetik, die wirkt 🌿" [ref=e682]:
+                        - generic [ref=e683]: Vegane Naturkosmetik, die wirkt 🌿
+                      - button "Vegane Naturkosmetik mit Sofort-Effekt & klinisch bestätigter Wirkung." [ref=e685]:
+                        - generic [ref=e686]: Vegane Naturkosmetik mit Sofort-Effekt & klinisch bestätigter Wirkung.
+                      - generic:
+                        - button
+                    - button "See Details" [ref=e688]:
+                      - generic [ref=e692]: See Details
+          - generic [ref=e694]:
+            - generic [ref=e696]:
+              - generic [ref=e697]:
+                - generic [ref=e704]: Aktiv
+                - generic [ref=e707]: "Bibliotheks-ID: 2415853975574513"
+                - generic [ref=e709]: Seit dem 29.05.2026 ausgeliefert
+                - generic [ref=e711]: Plattformen
+                - generic [ref=e740]: Es gibt mehrere Versionen dieser Werbeanzeige
+                - generic [ref=e747]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e754] [cursor=pointer]:
+                - generic [ref=e757]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e760] [cursor=pointer]:
+              - generic [ref=e764]: Anzeigendetails ansehen
+            - separator [ref=e765]
+            - generic [ref=e770]:
+              - generic [ref=e773]:
+                - img "Spilanthox therapy" [ref=e774]
+                - generic [ref=e776]:
+                  - link "Spilanthox therapy" [ref=e777] [cursor=pointer]:
+                    - /url: https://www.facebook.com/100083411888932/
+                  - generic [ref=e781]:
+                    - strong [ref=e783]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e785]:
+                - button "Sanfte Mimikglättung, intensive Feuchtigkeit und ein strahlender Blick – ganz ohne Irritation. Auch bei dm in deiner Nähe oder online erhältlich! 💚" [ref=e788]:
+                  - generic [ref=e791]:
+                    - text: Sanfte Mimikglättung, intensive Feuchtigkeit und ein strahlender Blick – ganz ohne Irritation.
+                    - text: Auch bei dm in deiner Nähe oder online erhältlich! 💚
+                - link "DM.DE/SPILANTHOX-THERAPY Vegane Naturkosmetik, die wirkt 🌿 Vegane Naturkosmetik mit Sofort-Effekt & klinisch bestätigter Wirkung. See Details" [ref=e792] [cursor=pointer]:
+                  - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.dm.de%2Fspilanthox-therapy-augencreme-ultra-rich-lifting-fluid-p4260546840294.html&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e794]:
+                    - generic [ref=e795]:
+                      - button "DM.DE/SPILANTHOX-THERAPY" [ref=e797]:
+                        - generic [ref=e798]: DM.DE/SPILANTHOX-THERAPY
+                      - button "Vegane Naturkosmetik, die wirkt 🌿" [ref=e800]:
+                        - generic [ref=e801]: Vegane Naturkosmetik, die wirkt 🌿
+                      - button "Vegane Naturkosmetik mit Sofort-Effekt & klinisch bestätigter Wirkung." [ref=e803]:
+                        - generic [ref=e804]: Vegane Naturkosmetik mit Sofort-Effekt & klinisch bestätigter Wirkung.
+                      - generic:
+                        - button
+                    - button "See Details" [ref=e806]:
+                      - generic [ref=e810]: See Details
+          - generic [ref=e812]:
+            - generic [ref=e814]:
+              - generic [ref=e815]:
+                - generic [ref=e822]: Aktiv
+                - generic [ref=e825]: "Bibliotheks-ID: 977130101666964"
+                - generic [ref=e827]: Seit dem 21.04.2026 ausgeliefert
+                - generic [ref=e829]: Plattformen
+                - generic [ref=e863]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e870] [cursor=pointer]:
+                - generic [ref=e873]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e876] [cursor=pointer]:
+              - generic [ref=e880]: Anzeigendetails ansehen
+            - separator [ref=e881]
+            - generic [ref=e886]:
+              - generic [ref=e888]:
+                - img "Seifenmanufaktur Kristin's Seifentraum" [ref=e889]
+                - generic [ref=e891]:
+                  - link "Seifenmanufaktur Kristin's Seifentraum" [ref=e892] [cursor=pointer]:
+                    - /url: https://www.facebook.com/100070968445312/
+                  - generic [ref=e896]:
+                    - strong [ref=e898]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e899]:
+                - button "Wir sind eine kleine Seifenmanufaktur die mit viel Herz und Liebe pflegende, handgemachte, vegane und palmölfreie Seifen herstellt. www.kristinsseifentraum.de" [ref=e902]:
+                  - generic [ref=e905]:
+                    - text: Wir sind eine kleine Seifenmanufaktur die mit viel Herz und Liebe pflegende, handgemachte, vegane und palmölfreie Seifen herstellt.
+                    - link "www.kristinsseifentraum.de" [ref=e906] [cursor=pointer]:
+                      - /url: https://l.facebook.com/l.php?u=http%3A%2F%2Fwww.kristinsseifentraum.de%2F&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                - 'link "KRISTINSSEIFENTRAUM.DE Seifenmanufaktur Kristin`s Seifentraum | Seifenmanufaktur | Kurze Str. 18, 09577 Niederwiesa, Germany Herzlich willkommen bei der Seifenmanufaktur \"Kristin`s Seifentraum\". Schön das Sie auf unsere Seite gefunden haben. Hier finden Sie liebevoll hergestellte Naturkosmetik. Zu unseren Produkten gehören pflegende Naturseifen,Deocreme,Sheasahne und noch weitere Körperflegeprodukte. Mehr ansehen" [ref=e907] [cursor=pointer]':
+                  - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.kristinsseifentraum.de%2F&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e909]:
+                    - generic [ref=e910]:
+                      - button "KRISTINSSEIFENTRAUM.DE" [ref=e912]:
+                        - generic [ref=e913]: KRISTINSSEIFENTRAUM.DE
+                      - 'button "Seifenmanufaktur Kristin`s Seifentraum | Seifenmanufaktur | Kurze Str. 18, 09577 Niederwiesa, Germany" [ref=e915]':
+                        - generic [ref=e916]: "Seifenmanufaktur Kristin`s Seifentraum | Seifenmanufaktur | Kurze Str. 18, 09577 Niederwiesa, Germany"
+                      - 'button "Herzlich willkommen bei der Seifenmanufaktur \"Kristin`s Seifentraum\". Schön das Sie auf unsere Seite gefunden haben. Hier finden Sie liebevoll hergestellte Naturkosmetik. Zu unseren Produkten gehören pflegende Naturseifen,Deocreme,Sheasahne und noch weitere Körperflegeprodukte." [ref=e918]':
+                        - generic [ref=e919]: "Herzlich willkommen bei der Seifenmanufaktur \"Kristin`s Seifentraum\". Schön das Sie auf unsere Seite gefunden haben. Hier finden Sie liebevoll hergestellte Naturkosmetik. Zu unseren Produkten gehören pflegende Naturseifen,Deocreme,Sheasahne und noch weitere Körperflegeprodukte."
+                      - generic:
+                        - button
+                    - button "Mehr ansehen" [ref=e921]:
+                      - generic [ref=e925]: Mehr ansehen
+          - generic [ref=e927]:
+            - generic [ref=e929]:
+              - generic [ref=e930]:
+                - generic [ref=e937]: Aktiv
+                - generic [ref=e940]: "Bibliotheks-ID: 1533354128507175"
+                - generic [ref=e942]: Seit dem 29.05.2026 ausgeliefert
+                - generic [ref=e944]: Plattformen
+                - generic [ref=e973]: Es gibt mehrere Versionen dieser Werbeanzeige
+                - generic [ref=e980]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e987] [cursor=pointer]:
+                - generic [ref=e990]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e993] [cursor=pointer]:
+              - generic [ref=e997]: Anzeigendetails ansehen
+            - separator [ref=e998]
+            - generic [ref=e1003]:
+              - generic [ref=e1006]:
+                - img "Spilanthox therapy" [ref=e1007]
+                - generic [ref=e1009]:
+                  - link "Spilanthox therapy" [ref=e1010] [cursor=pointer]:
+                    - /url: https://www.facebook.com/100083411888932/
+                  - generic [ref=e1014]:
+                    - strong [ref=e1016]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e1018]:
+                - button "Die Extreme Night Repair regeneriert die Haut über Nacht – mit dem Bio-Botox Original, Hyaluron und hochwirksamen Pflanzenextrakten. Glättet Mimikfalten, stärkt die Hautbarriere und versorgt intensiv mit Feuchtigkeit. Die Produktwirksamkeit wurde in unabhängigen, klinischen in-vivo Studien wissenschaftlich bestätigt.* Jetzt bei dm erhältlich – im Markt & online 💚" [ref=e1021]:
+                  - generic [ref=e1024]:
+                    - text: Die Extreme Night Repair regeneriert die Haut über Nacht – mit dem Bio-Botox Original, Hyaluron und hochwirksamen Pflanzenextrakten.
+                    - text: Glättet Mimikfalten, stärkt die Hautbarriere und versorgt intensiv mit Feuchtigkeit.
+                    - text: Die Produktwirksamkeit wurde in unabhängigen, klinischen in-vivo Studien wissenschaftlich bestätigt.*
+                    - text: Jetzt bei dm erhältlich – im Markt & online 💚
+                - link "DM.DE/SPILANTHOX-THERAPY 🌟 4.6 Sterne bei 144 Bewertungen Vegane Naturkosmetik mit Sofort-Effekt & klinisch bestätigter Wirkung. See Details" [ref=e1026] [cursor=pointer]:
+                  - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.dm.de%2Fspilanthox-therapy-nachtcreme-extreme-night-repair-p4260546840034.html&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e1028]:
+                    - generic [ref=e1029]:
+                      - button "DM.DE/SPILANTHOX-THERAPY" [ref=e1031]:
+                        - generic [ref=e1032]: DM.DE/SPILANTHOX-THERAPY
+                      - button "🌟 4.6 Sterne bei 144 Bewertungen" [ref=e1034]:
+                        - generic [ref=e1035]: 🌟 4.6 Sterne bei 144 Bewertungen
+                      - button "Vegane Naturkosmetik mit Sofort-Effekt & klinisch bestätigter Wirkung." [ref=e1037]:
+                        - generic [ref=e1038]: Vegane Naturkosmetik mit Sofort-Effekt & klinisch bestätigter Wirkung.
+                      - generic:
+                        - button
+                    - button "See Details" [ref=e1040]:
+                      - generic [ref=e1044]: See Details
+          - generic [ref=e1046]:
+            - generic [ref=e1048]:
+              - generic [ref=e1049]:
+                - generic [ref=e1056]: Aktiv
+                - generic [ref=e1059]: "Bibliotheks-ID: 4366474890290180"
+                - generic [ref=e1061]: Seit dem 26.05.2026 ausgeliefert
+                - generic [ref=e1063]: Plattformen
+                - generic [ref=e1092]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e1099] [cursor=pointer]:
+                - generic [ref=e1102]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e1105] [cursor=pointer]:
+              - generic [ref=e1109]: Anzeigendetails ansehen
+            - separator [ref=e1110]
+            - generic [ref=e1115]:
+              - generic [ref=e1117]:
+                - img "Fine Deodorant" [ref=e1118]
+                - generic [ref=e1120]:
+                  - link "Fine Deodorant" [ref=e1121] [cursor=pointer]:
+                    - /url: https://www.facebook.com/finedeo/
+                  - generic [ref=e1125]:
+                    - strong [ref=e1127]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e1128]:
+                - 'button "Natürliches Deodorant hat schon lange ein Problem: Entweder es wirkt nicht richtig – oder es fühlt sich nach Kompromiss an. FINE wurde entwickelt, um genau das neu zu denken: Ein basisches Milieu gegen geruchsbildende Bakterien. Natürliche Öle mit antibakterieller Wirkung. Kaolin zur sanften Feuchtigkeitsaufnahme. Pflegeöle, die deine Haut weich halten statt sie auszutrocknen." [ref=e1131]':
+                  - generic [ref=e1133]: "Natürliches Deodorant hat schon lange ein Problem: Entweder es wirkt nicht richtig – oder es fühlt sich nach Kompromiss an. FINE wurde entwickelt, um genau das neu zu denken: Ein basisches Milieu gegen geruchsbildende Bakterien. Natürliche Öle mit antibakterieller Wirkung. Kaolin zur sanften Feuchtigkeitsaufnahme. Pflegeöle, die deine Haut weich halten statt sie auszutrocknen."
+                - 'link "FINECOSMETIC.DE FINE selbst erleben Vegane Naturkosmetik: Nachhaltiges Premium-Deodorant und Bodycare. Kompromisslos wirksam, natürlich und luxuriös - das Ende deiner Suche nach perfekter Pflege. Jetzt bestellen" [ref=e1134] [cursor=pointer]':
+                  - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Ffinecosmetic.de%2Fpages%2Ffine-shop&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e1136]:
+                    - generic [ref=e1137]:
+                      - button "FINECOSMETIC.DE" [ref=e1139]:
+                        - generic [ref=e1140]: FINECOSMETIC.DE
+                      - button "FINE selbst erleben" [ref=e1142]:
+                        - generic [ref=e1143]: FINE selbst erleben
+                      - 'button "Vegane Naturkosmetik: Nachhaltiges Premium-Deodorant und Bodycare. Kompromisslos wirksam, natürlich und luxuriös - das Ende deiner Suche nach perfekter Pflege." [ref=e1145]':
+                        - generic [ref=e1146]: "Vegane Naturkosmetik: Nachhaltiges Premium-Deodorant und Bodycare. Kompromisslos wirksam, natürlich und luxuriös - das Ende deiner Suche nach perfekter Pflege."
+                      - generic:
+                        - button
+                    - button "Jetzt bestellen" [ref=e1148]:
+                      - generic [ref=e1152]: Jetzt bestellen
+          - generic [ref=e1154]:
+            - generic [ref=e1156]:
+              - generic [ref=e1157]:
+                - generic [ref=e1164]: Aktiv
+                - generic [ref=e1167]: "Bibliotheks-ID: 4144948775743322"
+                - generic [ref=e1169]: Seit dem 08.10.2025 ausgeliefert
+                - generic [ref=e1171]: Plattformen
+                - generic [ref=e1199]:
+                  - strong [ref=e1200]: 2 Werbeanzeigen
+                  - text: verwenden diese Anzeigengestaltung und diesen Text
+              - button "Dropdown-Menü öffnen" [ref=e1203] [cursor=pointer]:
+                - generic [ref=e1206]: Dropdown-Menü öffnen
+            - button "Details ansehen" [ref=e1209] [cursor=pointer]:
+              - generic [ref=e1213]: Details ansehen
+            - separator [ref=e1214]
+            - generic [ref=e1219]:
+              - generic [ref=e1221]:
+                - img "Holy Pit" [ref=e1222]
+                - generic [ref=e1224]:
+                  - link "Holy Pit" [ref=e1225] [cursor=pointer]:
+                    - /url: https://www.facebook.com/holypitofficial/
+                  - generic [ref=e1229]:
+                    - strong [ref=e1231]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e1232]:
+                - button "Du willst auch sicher durch den Tag kommen? Überzeuge dich selbst! 😃 Über 60.000 Menschen haben bereits gewechselt. ⭐⭐⭐⭐⭐ 4,7 von 5 - über 2000 Bewertungen ➡️ Werde auch du Teil der Revolution des Deos! ✅ Effektiv, stark und langanhaltend ✖️ ohne Aluminium und ohne Mikroplastik ✅ Recyceltes Deos-Case aus bereits weggeworfenem Einwegplastik ✅ Kartuschen aus Papier statt Plastik ✅ Vegane Naturkosmetik - PETA approved ✅ Startup aus Österreich 🦁 Bekannt aus dem TV ➡️ Teste es jetzt risikofrei! 30-tägiges Rückgaberecht Mit unserem REFILL DEO konnten wir bereits internationale Preise gewinnen! 🏆 Green Product Award Winner 2022 🏆 Finalist - Deutscher Nachhaltigkeitspreis 2023 🏆 1.Platz - Deutscher Award für Nachhaltigkeitsprojekte" [ref=e1235]:
+                  - generic [ref=e1238]:
+                    - text: Du willst auch sicher durch den Tag kommen? Überzeuge dich selbst! 😃 Über 60.000 Menschen haben bereits gewechselt. ⭐⭐⭐⭐⭐ 4,7 von 5 - über 2000 Bewertungen
+                    - text: ➡️ Werde auch du Teil der Revolution des Deos!
+                    - text: ✅ Effektiv, stark und langanhaltend
+                    - text: ✖️ ohne Aluminium und ohne Mikroplastik
+                    - text: ✅ Recyceltes Deos-Case aus bereits weggeworfenem Einwegplastik
+                    - text: ✅ Kartuschen aus Papier statt Plastik
+                    - text: ✅ Vegane Naturkosmetik - PETA approved
+                    - text: ✅ Startup aus Österreich
+                    - text: 🦁 Bekannt aus dem TV
+                    - text: ➡️ Teste es jetzt risikofrei! 30-tägiges Rückgaberecht
+                    - text: Mit unserem REFILL DEO konnten wir bereits internationale Preise gewinnen!
+                    - text: 🏆 Green Product Award Winner 2022
+                    - text: 🏆 Finalist - Deutscher Nachhaltigkeitspreis 2023
+                    - text: 🏆 1.Platz - Deutscher Award für Nachhaltigkeitsprojekte
+                - group "Video player" [ref=e1249]:
+                  - button "Video abspielen" [ref=e1251] [cursor=pointer]
+                  - generic [ref=e1253]:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - button "Abspielen"
+                      - generic: 0:00 / 0:38
+                    - generic:
+                      - generic:
+                        - slider "Change Position"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - button "Einstellungen"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - button "Vollbild"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - slider "Lautstärke regeln"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - button "Stummschaltung aufheben":
+                                - img
+                - generic:
+                  - link:
+                    - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.holy-pit.com%2Fproducts%2Frefill-deo-all-natural-starterpack&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+          - generic [ref=e1255]:
+            - generic [ref=e1257]:
+              - generic [ref=e1258]:
+                - generic [ref=e1265]: Aktiv
+                - generic [ref=e1268]: "Bibliotheks-ID: 2754275168282576"
+                - generic [ref=e1270]: Seit dem 27.05.2026 ausgeliefert
+                - generic [ref=e1272]: Plattformen
+                - generic [ref=e1286]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e1293] [cursor=pointer]:
+                - generic [ref=e1296]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e1299] [cursor=pointer]:
+              - generic [ref=e1303]: Anzeigendetails ansehen
+            - separator [ref=e1304]
+            - generic [ref=e1309]:
+              - generic [ref=e1311]:
+                - img "Trinitae Germany" [ref=e1312]
+                - generic [ref=e1314]:
+                  - link "Trinitae Germany" [ref=e1315] [cursor=pointer]:
+                    - /url: https://www.facebook.com/Trinitae.Bonn/
+                  - generic [ref=e1319]:
+                    - strong [ref=e1321]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e1322]:
+                - button [ref=e1325]:
+                  - generic [ref=e1328]:
+                    - text: ✨ FEUCHTIGKEIT ALLEIN REICHT NICHT. DEINE HAUT BRAUCHT MEHR. ✨
+                    - text: Normale Creme spendet Feuchtigkeit. Trinitae mineralisiert, schützt und pflegt.
+                    - text: Entdecke die Trinitae Feuchtigkeitsspendende Tagescreme mit Hyaluron & Anti-Aging Wirkung – entwickelt für anspruchsvolle Haut, die mehr erwartet als nur Pflege.
+                    - text: "💎 Warum deine Haut sie lieben wird:"
+                    - text: ✨ Hyaluron + Ceramide
+                    - text: Spenden intensive Feuchtigkeit und helfen, die Haut sichtbar aufzupolstern.
+                    - text: ✨ Anti-Aging Pflege
+                    - text: Traubenkernöl, Granatapfelöl und Hagebuttenöl unterstützen ein glatteres und gepflegteres Hautbild.
+                    - text: ✨ Mineralien aus dem Toten Meer
+                    - text: Magnesium • Kalium • Kalzium • Brom – die Kraft natürlicher Mineralisierung für eine gepflegte und vital aussehende Haut.
+                    - text: ✨ Rosenhydrolat + Aloe Vera
+                    - text: Beruhigen die Haut und schenken ein angenehmes Hautgefühl.
+                    - text: ✨ Für sensible Haut geeignet
+                    - text: Ohne Silikone • Ohne Parabene • Ohne Mineralöle • Ohne künstliche Farb- und Duftstoffe.
+                    - text: ✨ Luxuspflege für jeden Tag
+                    - text: Mit hochwertigen Pflanzenölen, Shea Butter, Kakao Butter und Bio-Inhaltsstoffen.
+                    - text: Das Ergebnis?
+                    - text: 💫 Mehr Ausstrahlung
+                    - text: 💫 Gepflegteres Hautbild
+                    - text: 💫 Geschmeidige Haut
+                    - text: 💫 Luxuspflege inspiriert von den Mineralien des Toten Meeres
+                    - text: Normale Kosmetik pflegt. Trinitae mineralisiert.
+                    - text: ✨ Für Frauen, die ihrer Haut mehr geben möchten als nur Feuchtigkeit.
+                    - text: "#Trinitae #TotesMeerMineralien #AntiAging #Hyaluron #Feuchtigkeitscreme LuxurySkincare Naturkosmetik DeadSeaMinerals AntiAgingPflege Gesichtspflege Ceramide VeganeKosmetik SensibleHaut GlowSkin LuxusKosmetik PremiumSkincare Mineralisierung Hautpflege BeautyRoutine"
+                - group "Video player" [ref=e1338]:
+                  - button "Video abspielen" [ref=e1340] [cursor=pointer]
+                  - generic [ref=e1342]:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - button "Abspielen"
+                      - generic: 0:00 / 0:04
+                    - generic:
+                      - generic:
+                        - slider "Change Position"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - button "Einstellungen"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - button "Vollbild"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - slider "Lautstärke regeln"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - button "Stummschaltung aufheben":
+                                - img
+                - link "WWW.TRINITAE.DE Trinitae Germany Jetzt kaufen" [ref=e1344] [cursor=pointer]:
+                  - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.trinitae.de%2Fcollections%2Fgesichtscreme-gesichtsol-butter%2Fproducts%2Ftrinitae-feuchtigkeitsspende-tagescreme-mit-traubenkernextrakt-hyaluron&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e1345]:
+                    - generic [ref=e1346]:
+                      - button "WWW.TRINITAE.DE" [ref=e1348]:
+                        - generic [ref=e1349]: WWW.TRINITAE.DE
+                      - button "Trinitae Germany" [ref=e1351]:
+                        - generic [ref=e1352]: Trinitae Germany
+                      - generic:
+                        - button
+                      - generic:
+                        - button
+                    - button "Jetzt kaufen" [ref=e1354]:
+                      - generic [ref=e1358]: Jetzt kaufen
+          - generic [ref=e1360]:
+            - generic [ref=e1362]:
+              - generic [ref=e1363]:
+                - generic [ref=e1370]: Aktiv
+                - generic [ref=e1373]: "Bibliotheks-ID: 833597799191510"
+                - generic [ref=e1375]: Seit dem 08.10.2025 ausgeliefert
+                - generic [ref=e1377]: Plattformen
+                - generic [ref=e1406]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e1413] [cursor=pointer]:
+                - generic [ref=e1416]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e1419] [cursor=pointer]:
+              - generic [ref=e1423]: Anzeigendetails ansehen
+            - separator [ref=e1424]
+            - generic [ref=e1429]:
+              - generic [ref=e1431]:
+                - img "Holy Pit" [ref=e1432]
+                - generic [ref=e1434]:
+                  - link "Holy Pit" [ref=e1435] [cursor=pointer]:
+                    - /url: https://www.facebook.com/holypitofficial/
+                  - generic [ref=e1439]:
+                    - strong [ref=e1441]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e1442]:
+                - button "Du willst auch sicher durch den Tag kommen? Überzeuge dich selbst! 😃 Über 30.000 Menschen haben bereits gewechselt. ⭐⭐⭐⭐⭐ 4,8 von 5 - über 1000 Bewertungen ➡️ Werde auch du Teil der Revolution des Deos! ✅ Einzigartiges Deo ohne Aluminium und ohne Mikroplastik ✅ Recyceltes Deos-Case aus bereits weggeworfenem Einwegplastik ✅ Kartuschen aus Papier statt Plastik ✅ Vegane Naturkosmetik - PETA approved ✅ Startup aus Österreich 🦁 Bekannt aus dem TV ➡️ Teste es jetzt risikofrei! 30-tägiges Rückgaberecht Mit unserem REFILL DEO konnten wir bereits internationale Preise gewinnen! 🏆 Green Product Award Winner 2022 🏆 Finalist - Deutscher Nachhaltigkeitspreis 2023 🏆 1.Platz - Deutscher Award für Nachhaltigkeitsprojekte" [ref=e1445]:
+                  - generic [ref=e1448]:
+                    - text: Du willst auch sicher durch den Tag kommen? Überzeuge dich selbst! 😃 Über 30.000 Menschen haben bereits gewechselt. ⭐⭐⭐⭐⭐ 4,8 von 5 - über 1000 Bewertungen
+                    - text: ➡️ Werde auch du Teil der Revolution des Deos!
+                    - text: ✅ Einzigartiges Deo ohne Aluminium und ohne Mikroplastik
+                    - text: ✅ Recyceltes Deos-Case aus bereits weggeworfenem Einwegplastik
+                    - text: ✅ Kartuschen aus Papier statt Plastik
+                    - text: ✅ Vegane Naturkosmetik - PETA approved
+                    - text: ✅ Startup aus Österreich
+                    - text: 🦁 Bekannt aus dem TV
+                    - text: ➡️ Teste es jetzt risikofrei! 30-tägiges Rückgaberecht
+                    - text: Mit unserem REFILL DEO konnten wir bereits internationale Preise gewinnen!
+                    - text: 🏆 Green Product Award Winner 2022
+                    - text: 🏆 Finalist - Deutscher Nachhaltigkeitspreis 2023
+                    - text: 🏆 1.Platz - Deutscher Award für Nachhaltigkeitsprojekte
+                - group "Video player" [ref=e1459]:
+                  - button "Video abspielen" [ref=e1461] [cursor=pointer]
+                  - generic [ref=e1463]:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - button "Abspielen"
+                      - generic: 0:00 / 0:35
+                    - generic:
+                      - generic:
+                        - slider "Change Position"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - button "Einstellungen"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - button "Vollbild"
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - slider "Lautstärke regeln"
+                        - generic:
+                          - generic:
+                            - generic:
+                              - button "Stummschaltung aufheben":
+                                - img
+                - link "WWW.HOLY-PIT.COM Das kluge REFILL DEO ♻️ aus Österreich ⭐ 4,8 von 5 - über 1000 Bewertungen Mehr dazu" [ref=e1465] [cursor=pointer]:
+                  - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.holy-pit.com%2Fpages%2Fdas-kluge-refilldeo-aus-osterreich-w2&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e1466]:
+                    - generic [ref=e1467]:
+                      - button "WWW.HOLY-PIT.COM" [ref=e1469]:
+                        - generic [ref=e1470]: WWW.HOLY-PIT.COM
+                      - button "Das kluge REFILL DEO ♻️ aus Österreich" [ref=e1472]:
+                        - generic [ref=e1473]: Das kluge REFILL DEO ♻️ aus Österreich
+                      - button "⭐ 4,8 von 5 - über 1000 Bewertungen" [ref=e1475]:
+                        - generic [ref=e1476]: ⭐ 4,8 von 5 - über 1000 Bewertungen
+                      - generic:
+                        - button
+                    - button "Mehr dazu" [ref=e1478]:
+                      - generic [ref=e1482]: Mehr dazu
+          - generic [ref=e1484]:
+            - generic [ref=e1486]:
+              - generic [ref=e1487]:
+                - generic [ref=e1494]: Aktiv
+                - generic [ref=e1497]: "Bibliotheks-ID: 1037922391894367"
+                - generic [ref=e1499]: Seit dem 25.05.2026 ausgeliefert
+                - generic [ref=e1501]: Plattformen
+                - generic [ref=e1530]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e1537] [cursor=pointer]:
+                - generic [ref=e1540]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e1543] [cursor=pointer]:
+              - generic [ref=e1547]: Anzeigendetails ansehen
+            - separator [ref=e1548]
+            - generic [ref=e1553]:
+              - generic [ref=e1555]:
+                - img "PURE SOUL Naturkosmetik" [ref=e1556]
+                - generic [ref=e1558]:
+                  - link "PURE SOUL Naturkosmetik" [ref=e1559] [cursor=pointer]:
+                    - /url: https://www.facebook.com/PureSoulNaturkosmetik/
+                  - generic [ref=e1563]:
+                    - strong [ref=e1565]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e1566]:
+                - button "Magisch reiten ✨🐎 statt gruselig riechen 😵‍💫 Wenn du im Sommer schon nach kurzer Zeit das Gefühl hast nicht mehr frisch zu sein ☀️💦 Dann kennst du diesen unangenehmen Gedanken ständig zu gut 😬 Rieche ich gerade? 😶 Genau deshalb lieben so viele Frauen die Pure Soul Mojito Deocreme 💚 100 Prozent natürliche Bio Inhaltsstoffe 🌿 Kein Alkohol 🚫 Kein Aluminium 🚫 Keine synthetischen Duftstoffe ✨ Und trotzdem hält sie selbst bei Hitze, langen Tagen oder im Stall erstaunlich lange frisch ☀️🐴💚 Der limettig minzige Duft fühlt sich leicht an 🍋🌱 Sauber ✨ Natürlich 🌿 Fast wie Sommer auf der Haut ☀️ Für alle die endlich ein Deo wollen das funktioniert ohne chemisch zu wirken 🙌 Probier es selbst 💚 [www.pure-soul-shop.de](http://www.pure-soul-shop.de)" [ref=e1569]:
+                  - generic [ref=e1572]:
+                    - text: Magisch reiten ✨🐎 statt gruselig riechen 😵‍💫
+                    - text: Wenn du im Sommer schon nach kurzer Zeit das Gefühl hast nicht mehr frisch zu sein ☀️💦
+                    - text: Dann kennst du diesen unangenehmen Gedanken ständig zu gut 😬
+                    - text: Rieche ich gerade? 😶
+                    - text: Genau deshalb lieben so viele Frauen die Pure Soul Mojito Deocreme 💚
+                    - text: 100 Prozent natürliche Bio Inhaltsstoffe 🌿
+                    - text: Kein Alkohol 🚫
+                    - text: Kein Aluminium 🚫
+                    - text: Keine synthetischen Duftstoffe ✨
+                    - text: Und trotzdem hält sie selbst bei Hitze, langen Tagen oder im Stall erstaunlich lange frisch ☀️🐴💚
+                    - text: Der limettig minzige Duft fühlt sich leicht an 🍋🌱
+                    - text: Sauber ✨
+                    - text: Natürlich 🌿
+                    - text: Fast wie Sommer auf der Haut ☀️
+                    - text: Für alle die endlich ein Deo wollen das funktioniert ohne chemisch zu wirken 🙌
+                    - text: Probier es selbst 💚
+                    - text: "["
+                    - link "www.pure-soul-shop.de" [ref=e1574] [cursor=pointer]:
+                      - /url: https://l.facebook.com/l.php?u=http%3A%2F%2Fwww.pure-soul-shop.de%2F&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                    - text: "]("
+                    - link "http://www.pure-soul-shop.de" [ref=e1575] [cursor=pointer]:
+                      - /url: https://l.facebook.com/l.php?u=http%3A%2F%2Fwww.pure-soul-shop.de%2F&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                    - text: )
+                - link "PURE-SOUL-SHOP.DE Natürliches Deo stoppt Schweißgeruch ab Minute 1 Entdecke natürliche Pflege für Frauen. Vegane Deocremes ohne Aluminium, handgemachte Seifen und sanfte Düfte für deine tägliche Routine. Details ansehen" [ref=e1576] [cursor=pointer]:
+                  - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.pure-soul-shop.de%2Fcollections%2Ffrauen%2Ffrauen&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e1578]:
+                    - generic [ref=e1579]:
+                      - button "PURE-SOUL-SHOP.DE" [ref=e1581]:
+                        - generic [ref=e1582]: PURE-SOUL-SHOP.DE
+                      - button "Natürliches Deo stoppt Schweißgeruch ab Minute 1" [ref=e1584]:
+                        - generic [ref=e1585]: Natürliches Deo stoppt Schweißgeruch ab Minute 1
+                      - button "Entdecke natürliche Pflege für Frauen. Vegane Deocremes ohne Aluminium, handgemachte Seifen und sanfte Düfte für deine tägliche Routine." [ref=e1587]:
+                        - generic [ref=e1588]: Entdecke natürliche Pflege für Frauen. Vegane Deocremes ohne Aluminium, handgemachte Seifen und sanfte Düfte für deine tägliche Routine.
+                      - generic:
+                        - button
+                    - button "Details ansehen" [ref=e1590]:
+                      - generic [ref=e1594]: Details ansehen
+          - generic [ref=e1596]:
+            - generic [ref=e1598]:
+              - generic [ref=e1599]:
+                - generic [ref=e1606]: Aktiv
+                - generic [ref=e1609]: "Bibliotheks-ID: 1003461632075495"
+                - generic [ref=e1611]: "Geschaltet seit dem 02.06.2026 · Aktive Zeit insgesamt: 8 Std."
+                - generic [ref=e1613]: Plattformen
+                - generic [ref=e1622]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e1629] [cursor=pointer]:
+                - generic [ref=e1632]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e1635] [cursor=pointer]:
+              - generic [ref=e1639]: Anzeigendetails ansehen
+            - separator [ref=e1640]
+            - generic [ref=e1645]:
+              - generic [ref=e1648]:
+                - img "yuca.naturkosmetik" [ref=e1649]
+                - generic [ref=e1651]:
+                  - link "yuca.naturkosmetik" [ref=e1652] [cursor=pointer]:
+                    - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.instagram.com%2F_u%2Fyuca.naturkosmetik&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e1656]:
+                    - strong [ref=e1658]: Anzeige
+                    - generic:
+                      - strong
+              - 'button "Kopfhautpflege kann mehr sein als nur ein zusätzlicher Pflegeschritt. Unser YUCA Scalp Care wurde mit Rosmarinöl und ausgewählten Pflegeölen entwickelt, um die Kopfhaut bewusst zu pflegen und die natürliche Haar-Routine sinnvoll zu unterstützen. Wenige Tropfen auf die Kopfhaut geben, sanft einmassieren und regelmäßig anwenden. Keine überladene Routine. Kein Beauty-Hype. Ein ruhiger Pflegeschritt für Kopfhaut und Haaransatz. Würdet ihr Scalp Care eher vor dem Waschen oder als festen Abend-Ritual-Schritt nutzen? #YUCANaturkosmetik #Kopfhautpflege #ScalpCare #Rosmarinöl #Haarpflege" [ref=e1663]':
+                - generic [ref=e1666]:
+                  - text: Kopfhautpflege kann mehr sein als nur ein zusätzlicher Pflegeschritt.
+                  - text: Unser YUCA Scalp Care wurde mit Rosmarinöl und ausgewählten Pflegeölen entwickelt, um die Kopfhaut bewusst zu pflegen und die natürliche Haar-Routine sinnvoll zu unterstützen.
+                  - text: Wenige Tropfen auf die Kopfhaut geben, sanft einmassieren und regelmäßig anwenden.
+                  - text: Keine überladene Routine.
+                  - text: Kein Beauty-Hype.
+                  - text: Ein ruhiger Pflegeschritt für Kopfhaut und Haaransatz.
+                  - text: Würdet ihr Scalp Care eher vor dem Waschen oder als festen Abend-Ritual-Schritt nutzen?
+                  - text: "#YUCANaturkosmetik #Kopfhautpflege #ScalpCare #Rosmarinöl #Haarpflege"
+              - generic [ref=e1669]:
+                - generic:
+                  - button [disabled]:
+                    - img
+                - generic [ref=e1672]:
+                  - generic [ref=e1676]:
+                    - link "YUCA-NATURKOSMETIK.DE YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle Shop Now" [ref=e1677] [cursor=pointer]:
+                      - /url: https://l.facebook.com/l.php?u=http%3A%2F%2FYuca-naturkosmetik.de%2F&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                      - generic [ref=e1679]:
+                        - generic [ref=e1680]:
+                          - button "YUCA-NATURKOSMETIK.DE" [ref=e1682]:
+                            - generic [ref=e1683]: YUCA-NATURKOSMETIK.DE
+                          - button "YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle" [ref=e1685]:
+                            - generic [ref=e1686]: YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle
+                          - generic:
+                            - button
+                          - generic:
+                            - button
+                        - button "Shop Now" [ref=e1688]:
+                          - generic [ref=e1692]: Shop Now
+                    - button [ref=e1695]
+                  - generic [ref=e1701]:
+                    - link "YUCA-NATURKOSMETIK.DE YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle Shop Now" [ref=e1702] [cursor=pointer]:
+                      - /url: https://l.facebook.com/l.php?u=http%3A%2F%2FYuca-naturkosmetik.de%2F&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                      - generic [ref=e1704]:
+                        - generic [ref=e1705]:
+                          - button "YUCA-NATURKOSMETIK.DE" [ref=e1707]:
+                            - generic [ref=e1708]: YUCA-NATURKOSMETIK.DE
+                          - button "YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle" [ref=e1710]:
+                            - generic [ref=e1711]: YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle
+                          - generic:
+                            - button
+                          - generic:
+                            - button
+                        - button "Shop Now" [ref=e1713]:
+                          - generic [ref=e1717]: Shop Now
+                    - button [ref=e1720]
+                - button "Nächste Elemente" [ref=e1724] [cursor=pointer]:
+                  - img [ref=e1725]
+          - generic [ref=e1728]:
+            - generic [ref=e1730]:
+              - generic [ref=e1731]:
+                - generic [ref=e1738]: Aktiv
+                - generic [ref=e1741]: "Bibliotheks-ID: 1327551382672366"
+                - generic [ref=e1743]: Seit dem 23.05.2026 ausgeliefert
+                - generic [ref=e1745]: Plattformen
+                - generic [ref=e1769]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e1776] [cursor=pointer]:
+                - generic [ref=e1779]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e1782] [cursor=pointer]:
+              - generic [ref=e1786]: Anzeigendetails ansehen
+            - separator [ref=e1787]
+            - generic [ref=e1792]:
+              - generic [ref=e1794]:
+                - img "Viva Maia Beauty" [ref=e1795]
+                - generic [ref=e1797]:
+                  - link "Viva Maia Beauty" [ref=e1798] [cursor=pointer]:
+                    - /url: https://www.facebook.com/vivamaia.beauty/
+                  - generic [ref=e1802]:
+                    - strong [ref=e1804]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e1805]:
+                - 'button "⭐⭐⭐⭐⭐ 20.000+ Bewertungen können nicht lügen: Hochwertige Naturkosmetik, beruhend auf der indigenen Pflanzenheilkunde Mexikos. Natürlich, effektiv, ohne Zusatzstoffe." [ref=e1808]':
+                  - generic [ref=e1810]: "⭐⭐⭐⭐⭐ 20.000+ Bewertungen können nicht lügen: Hochwertige Naturkosmetik, beruhend auf der indigenen Pflanzenheilkunde Mexikos. Natürlich, effektiv, ohne Zusatzstoffe."
+                - 'link "VIVAMAIA.COM Hochwertige Naturkosmetik von Viva Maia Viva Maia ist authentische mexikanische Hautpflege: wirksam, natürlich und umweltfreundlich. Wir verbinden botanisches Wissen mit moderner Wissenschaft und schaffen vegane, klimaneutrale Produkte, die deine Haut und unsere Welt pflegen. Jetzt kaufen" [ref=e1811] [cursor=pointer]':
+                  - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.vivamaia.com%2F&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e1813]:
+                    - generic [ref=e1814]:
+                      - button "VIVAMAIA.COM" [ref=e1816]:
+                        - generic [ref=e1817]: VIVAMAIA.COM
+                      - button "Hochwertige Naturkosmetik von Viva Maia" [ref=e1819]:
+                        - generic [ref=e1820]: Hochwertige Naturkosmetik von Viva Maia
+                      - 'button "Viva Maia ist authentische mexikanische Hautpflege: wirksam, natürlich und umweltfreundlich. Wir verbinden botanisches Wissen mit moderner Wissenschaft und schaffen vegane, klimaneutrale Produkte, die deine Haut und unsere Welt pflegen." [ref=e1822]':
+                        - generic [ref=e1823]: "Viva Maia ist authentische mexikanische Hautpflege: wirksam, natürlich und umweltfreundlich. Wir verbinden botanisches Wissen mit moderner Wissenschaft und schaffen vegane, klimaneutrale Produkte, die deine Haut und unsere Welt pflegen."
+                      - generic:
+                        - button
+                    - button "Jetzt kaufen" [ref=e1825]:
+                      - generic [ref=e1829]: Jetzt kaufen
+          - generic [ref=e1831]:
+            - generic [ref=e1833]:
+              - generic [ref=e1834]:
+                - generic [ref=e1841]: Aktiv
+                - generic [ref=e1844]: "Bibliotheks-ID: 2163068947877335"
+                - generic [ref=e1846]: "Geschaltet seit dem 02.06.2026 · Aktive Zeit insgesamt: 8 Std."
+                - generic [ref=e1848]: Plattformen
+                - generic [ref=e1857]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e1864] [cursor=pointer]:
+                - generic [ref=e1867]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e1870] [cursor=pointer]:
+              - generic [ref=e1874]: Anzeigendetails ansehen
+            - separator [ref=e1875]
+            - generic [ref=e1880]:
+              - generic [ref=e1883]:
+                - img "yuca.naturkosmetik" [ref=e1884]
+                - generic [ref=e1886]:
+                  - link "yuca.naturkosmetik" [ref=e1887] [cursor=pointer]:
+                    - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.instagram.com%2F_u%2Fyuca.naturkosmetik&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e1891]:
+                    - strong [ref=e1893]: Anzeige
+                    - generic:
+                      - strong
+              - 'button "Pflege muss nicht laut sein. YUCA MEN steht für klare Routinen, reduzierte Anwendung und hochwertige Pflege für Haar, Kopfhaut und Bart. Wenige Tropfen. Sanft einarbeiten. Regelmäßig anwenden. Fertig. Für alle, die Pflege wollen, aber keinen unnötigen Aufwand. Was wäre für euch spannender: Beard Oil, Hair Repair Oil oder Hair & Scalp Tonic? #YUCAMEN #Männerpflege #Bartpflege #Haarpflege #Naturkosmetik" [ref=e1898]':
+                - generic [ref=e1901]:
+                  - text: Pflege muss nicht laut sein.
+                  - text: YUCA MEN steht für klare Routinen, reduzierte Anwendung und hochwertige Pflege für Haar, Kopfhaut und Bart.
+                  - text: Wenige Tropfen.
+                  - text: Sanft einarbeiten.
+                  - text: Regelmäßig anwenden.
+                  - text: Fertig.
+                  - text: Für alle, die Pflege wollen, aber keinen unnötigen Aufwand.
+                  - text: "Was wäre für euch spannender: Beard Oil, Hair Repair Oil oder Hair & Scalp Tonic?"
+                  - text: "#YUCAMEN #Männerpflege #Bartpflege #Haarpflege #Naturkosmetik"
+              - generic [ref=e1904]:
+                - generic:
+                  - button [disabled]:
+                    - img
+                - generic [ref=e1907]:
+                  - generic [ref=e1911]:
+                    - link "YUCA-NATURKOSMETIK.DE YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle Shop Now" [ref=e1912] [cursor=pointer]:
+                      - /url: https://l.facebook.com/l.php?u=http%3A%2F%2FYuca-naturkosmetik.de%2F&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                      - generic [ref=e1914]:
+                        - generic [ref=e1915]:
+                          - button "YUCA-NATURKOSMETIK.DE" [ref=e1917]:
+                            - generic [ref=e1918]: YUCA-NATURKOSMETIK.DE
+                          - button "YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle" [ref=e1920]:
+                            - generic [ref=e1921]: YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle
+                          - generic:
+                            - button
+                          - generic:
+                            - button
+                        - button "Shop Now" [ref=e1923]:
+                          - generic [ref=e1927]: Shop Now
+                    - button [ref=e1930]
+                  - generic [ref=e1936]:
+                    - link "YUCA-NATURKOSMETIK.DE YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle Shop Now" [ref=e1937] [cursor=pointer]:
+                      - /url: https://l.facebook.com/l.php?u=http%3A%2F%2FYuca-naturkosmetik.de%2F&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                      - generic [ref=e1939]:
+                        - generic [ref=e1940]:
+                          - button "YUCA-NATURKOSMETIK.DE" [ref=e1942]:
+                            - generic [ref=e1943]: YUCA-NATURKOSMETIK.DE
+                          - button "YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle" [ref=e1945]:
+                            - generic [ref=e1946]: YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle
+                          - generic:
+                            - button
+                          - generic:
+                            - button
+                        - button "Shop Now" [ref=e1948]:
+                          - generic [ref=e1952]: Shop Now
+                    - button [ref=e1955]
+                - button "Nächste Elemente" [ref=e1959] [cursor=pointer]:
+                  - img [ref=e1960]
+          - generic [ref=e1963]:
+            - generic [ref=e1965]:
+              - generic [ref=e1966]:
+                - generic [ref=e1973]: Aktiv
+                - generic [ref=e1976]: "Bibliotheks-ID: 1888314675182960"
+                - generic [ref=e1978]: Seit dem 24.05.2026 ausgeliefert
+                - generic [ref=e1980]: Plattformen
+                - generic [ref=e2009]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e2016] [cursor=pointer]:
+                - generic [ref=e2019]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e2022] [cursor=pointer]:
+              - generic [ref=e2026]: Anzeigendetails ansehen
+            - separator [ref=e2027]
+            - generic [ref=e2032]:
+              - generic [ref=e2034]:
+                - img "PURE SOUL Naturkosmetik" [ref=e2035]
+                - generic [ref=e2037]:
+                  - link "PURE SOUL Naturkosmetik" [ref=e2038] [cursor=pointer]:
+                    - /url: https://www.facebook.com/PureSoulNaturkosmetik/
+                  - generic [ref=e2042]:
+                    - strong [ref=e2044]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e2045]:
+                - 'button "Du leistest fantastische Arbeit. Deine Kundinnen verlassen den Salon glücklich, voller Selbstbewusstsein – und bald spricht die ganze Stadt über deine Haarschnitte. ✂️✨ Sorge dafür, dass nicht dein Geruch zum Gesprächsthema wird. Zwischen Föhnen, Hektik, langen Tagen und engem Kontakt mit Kundinnen brauchst du ein Deo, auf das du dich verlassen kannst. Unsere natürliche Deo Creme hält dich selbst an stressigen Tagen frisch: – Verhindert Geruch, bevor er entsteht – Kein Überdecken mit künstlichem Parfüm – Kein Nachlegen zwischen zwei Terminen – Hautfreundlich & natürlich Denn wenn Menschen über dich sprechen sollen, dann über deine Arbeit. Nicht über Schweißgeruch. PURE SOUL Deo Creme – für Friseure, die nah an Menschen arbeiten und sich den ganzen Tag sicher fühlen wollen. 👉 Jetzt entdecken & frisch durch den Arbeitstag gehen. www.pure-soul.de" [ref=e2048]':
+                  - generic [ref=e2051]:
+                    - text: Du leistest fantastische Arbeit.
+                    - text: Deine Kundinnen verlassen den Salon glücklich, voller Selbstbewusstsein – und bald spricht die ganze Stadt über deine Haarschnitte. ✂️✨
+                    - text: Sorge dafür, dass nicht dein Geruch zum Gesprächsthema wird.
+                    - text: Zwischen Föhnen, Hektik, langen Tagen und engem Kontakt mit Kundinnen brauchst du ein Deo, auf das du dich verlassen kannst.
+                    - text: "Unsere natürliche Deo Creme hält dich selbst an stressigen Tagen frisch:"
+                    - text: – Verhindert Geruch, bevor er entsteht
+                    - text: – Kein Überdecken mit künstlichem Parfüm
+                    - text: – Kein Nachlegen zwischen zwei Terminen
+                    - text: – Hautfreundlich & natürlich
+                    - text: Denn wenn Menschen über dich sprechen sollen,
+                    - text: dann über deine Arbeit. Nicht über Schweißgeruch.
+                    - text: PURE SOUL Deo Creme – für Friseure, die nah an Menschen arbeiten und sich den ganzen Tag sicher fühlen wollen.
+                    - text: 👉 Jetzt entdecken & frisch durch den Arbeitstag gehen.
+                    - link "www.pure-soul.de" [ref=e2053] [cursor=pointer]:
+                      - /url: https://l.facebook.com/l.php?u=http%3A%2F%2Fwww.pure-soul.de%2F&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                - link "PURE-SOUL-SHOP.DE Natürliches Deo stoppt Schweißgeruch ab Minute 1 Entdecke vegane Männerpflege ohne Aluminium. Herbe Deocremes und handgemachte Seifen mit Sandelholz oder Kiefer für natürliche Frische. Details ansehen" [ref=e2054] [cursor=pointer]:
+                  - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.pure-soul-shop.de%2Fcollections%2Fmanner&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e2056]:
+                    - generic [ref=e2057]:
+                      - button "PURE-SOUL-SHOP.DE" [ref=e2059]:
+                        - generic [ref=e2060]: PURE-SOUL-SHOP.DE
+                      - button "Natürliches Deo stoppt Schweißgeruch ab Minute 1" [ref=e2062]:
+                        - generic [ref=e2063]: Natürliches Deo stoppt Schweißgeruch ab Minute 1
+                      - button "Entdecke vegane Männerpflege ohne Aluminium. Herbe Deocremes und handgemachte Seifen mit Sandelholz oder Kiefer für natürliche Frische." [ref=e2065]:
+                        - generic [ref=e2066]: Entdecke vegane Männerpflege ohne Aluminium. Herbe Deocremes und handgemachte Seifen mit Sandelholz oder Kiefer für natürliche Frische.
+                      - generic:
+                        - button
+                    - button "Details ansehen" [ref=e2068]:
+                      - generic [ref=e2072]: Details ansehen
+          - generic [ref=e2074]:
+            - generic [ref=e2076]:
+              - generic [ref=e2077]:
+                - generic [ref=e2079]:
+                  - generic [ref=e2084]: Aktiv
+                  - generic [ref=e2086]: Niedrige Anzahl an Impressionen
+                - generic [ref=e2093]: "Bibliotheks-ID: 3455739567922352"
+                - generic [ref=e2095]: "Geschaltet seit dem 02.06.2026 · Aktive Zeit insgesamt: 8 Std."
+                - generic [ref=e2097]: Plattformen
+                - generic [ref=e2110]:
+                  - text: "Impressionen:"
+                  - strong [ref=e2111]: <100
+                - generic [ref=e2117]: EU-Transparenz
+              - button "Dropdown-Menü öffnen" [ref=e2124] [cursor=pointer]:
+                - generic [ref=e2127]: Dropdown-Menü öffnen
+            - button "Anzeigendetails ansehen" [ref=e2130] [cursor=pointer]:
+              - generic [ref=e2134]: Anzeigendetails ansehen
+            - separator [ref=e2135]
+            - generic [ref=e2140]:
+              - generic [ref=e2143]:
+                - img "yuca.naturkosmetik" [ref=e2144]
+                - generic [ref=e2146]:
+                  - link "yuca.naturkosmetik" [ref=e2147] [cursor=pointer]:
+                    - /url: https://l.facebook.com/l.php?u=https%3A%2F%2Fwww.instagram.com%2F_u%2Fyuca.naturkosmetik&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                  - generic [ref=e2151]:
+                    - strong [ref=e2153]: Anzeige
+                    - generic:
+                      - strong
+              - generic [ref=e2155]:
+                - 'button "Pflege, die sich leicht anfühlt. 🤍 Unsere Fluffy Body Butter ist für diese kleinen Momente gedacht, in denen die Haut Aufmerksamkeit braucht – ohne schwere Routine, ohne viel Aufwand. Eine kleine Menge reicht aus. Sanft einmassieren. Täglich oder einfach dann verwenden, wenn sich deine Haut danach anfühlt. Die Textur ist weich, cremig und angenehm auf der Haut. Genau richtig für Pflegemomente, die nicht perfekt geplant sein müssen, sondern einfach gut tun. Handgemacht mit Liebe zum Detail – für ein gepflegtes Hautgefühl und einen ruhigen Moment nur für dich. 🌿 #yucanaturkosmetik #bodybutter #naturkosmetik #handgemacht #selfcare" [ref=e2158]':
+                  - generic [ref=e2161]:
+                    - text: Pflege, die sich leicht anfühlt. 🤍
+                    - text: Unsere Fluffy Body Butter ist für diese kleinen Momente gedacht, in denen die Haut Aufmerksamkeit braucht – ohne schwere Routine, ohne viel Aufwand.
+                    - text: Eine kleine Menge reicht aus.
+                    - text: Sanft einmassieren.
+                    - text: Täglich oder einfach dann verwenden, wenn sich deine Haut danach anfühlt.
+                    - text: Die Textur ist weich, cremig und angenehm auf der Haut. Genau richtig für Pflegemomente, die nicht perfekt geplant sein müssen, sondern einfach gut tun.
+                    - text: Handgemacht mit Liebe zum Detail – für ein gepflegtes Hautgefühl und einen ruhigen Moment nur für dich. 🌿
+                    - text: "#yucanaturkosmetik #bodybutter #naturkosmetik #handgemacht #selfcare"
+                - generic [ref=e2164]: Niedrige Anzahl an Impressionen
+              - generic [ref=e2166]:
+                - generic:
+                  - button [disabled]:
+                    - img
+                - generic [ref=e2169]:
+                  - generic [ref=e2173]:
+                    - link "YUCA-NATURKOSMETIK.DE YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle Shop Now" [ref=e2174] [cursor=pointer]:
+                      - /url: https://l.facebook.com/l.php?u=http%3A%2F%2FYuca-naturkosmetik.de%2F&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                      - generic [ref=e2176]:
+                        - generic [ref=e2177]:
+                          - button "YUCA-NATURKOSMETIK.DE" [ref=e2179]:
+                            - generic [ref=e2180]: YUCA-NATURKOSMETIK.DE
+                          - button "YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle" [ref=e2182]:
+                            - generic [ref=e2183]: YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle
+                          - generic:
+                            - button
+                          - generic:
+                            - button
+                        - button "Shop Now" [ref=e2185]:
+                          - generic [ref=e2189]: Shop Now
+                    - button [ref=e2192]
+                  - generic [ref=e2198]:
+                    - link "YUCA-NATURKOSMETIK.DE YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle Shop Now" [ref=e2199] [cursor=pointer]:
+                      - /url: https://l.facebook.com/l.php?u=http%3A%2F%2FYuca-naturkosmetik.de%2F&h=AUCXYxWJD4bbf0Gt-rt_kNj6bc_tFIIH67_-rkFyc585-sNT-c0_EbWlRwcW73os8axJDCTWzzTZvv9cddTVsCrUOZl4kiHeDWes1a4LebGLsvpNW4ztTKlSifWrAXWk1QZxePjxkAb12o58pDVAGnyjzj3jRal69ed1tw
+                      - generic [ref=e2201]:
+                        - generic [ref=e2202]:
+                          - button "YUCA-NATURKOSMETIK.DE" [ref=e2204]:
+                            - generic [ref=e2205]: YUCA-NATURKOSMETIK.DE
+                          - button "YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle" [ref=e2207]:
+                            - generic [ref=e2208]: YUCA Naturkosmetik Heidenheim · Vegane Pflege & Öle
+                          - generic:
+                            - button
+                          - generic:
+                            - button
+                        - button "Shop Now" [ref=e2210]:
+                          - generic [ref=e2214]: Shop Now
+                    - button [ref=e2217]
+                - button "Nächste Elemente" [ref=e2221] [cursor=pointer]:
+                  - img [ref=e2222]
+    - generic [ref=e153]:
+      - generic [ref=e161]: Systemstatus
+      - generic [ref=e165]:
+        - list [ref=e166]:
+          - listitem [ref=e167]:
+            - heading "Werbebibliotheks-API" [level=3] [ref=e168]:
+              - link "Werbebibliotheks-API" [ref=e169] [cursor=pointer]:
+                - /url: /ads/library/api/?source=archive-landing-page
+          - listitem [ref=e170]:
+            - heading "Informationen zu Werbeanzeigen und zur Datennutzung" [level=3] [ref=e171]:
+              - link "Informationen zu Werbeanzeigen und zur Datennutzung" [ref=e172] [cursor=pointer]:
+                - /url: /ads/about/?entry_product=ad_library
+          - listitem [ref=e173]:
+            - heading "Privatsphäre" [level=3] [ref=e174]:
+              - link "Privatsphäre" [ref=e175] [cursor=pointer]:
+                - /url: /privacy/center/?entry_point=privacy_basics_redirect
+          - listitem [ref=e176]:
+            - heading "Nutzungsbedingungen" [level=3] [ref=e177]:
+              - link "Nutzungsbedingungen" [ref=e178] [cursor=pointer]:
+                - /url: /policies/
+          - listitem [ref=e179]:
+            - heading "Cookies" [level=3] [ref=e180]:
+              - link "Cookies" [ref=e181] [cursor=pointer]:
+                - /url: /policies/cookies/
+        - heading "Meta © 2026 | Deutsch" [level=3] [ref=e183]:
+          - text: Meta © 2026 |
+          - link "Deutsch" [ref=e184] [cursor=pointer]:
+            - /url: /language/

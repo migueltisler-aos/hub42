@@ -1,0 +1,29 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - img [ref=e4]
+    - generic [ref=e5]:
+      - link "简体中文" [ref=e6] [cursor=pointer]:
+        - /url: cn/
+      - link "繁体中文" [ref=e7] [cursor=pointer]:
+        - /url: hk/
+      - link "EN" [ref=e8] [cursor=pointer]:
+        - /url: home.html
+  - generic [ref=e9]:
+    - link [ref=e10] [cursor=pointer]:
+      - /url: https://www.facebook.com/gittihk
+      - img [ref=e11]
+    - link [ref=e12] [cursor=pointer]:
+      - /url: https://www.instagram.com/gitti_hk
+      - img [ref=e13]
+    - link [ref=e14] [cursor=pointer]:
+      - /url: https://www.youtube.com/@gitti9945
+      - img [ref=e15]
+    - link [ref=e16] [cursor=pointer]:
+      - /url: https://gitti.tmall.com/
+      - img [ref=e17]
+    - link [ref=e18] [cursor=pointer]:
+      - /url: https://shaqifs.tmall.com/
+      - img [ref=e19]
+    - link [ref=e20] [cursor=pointer]:
+      - /url: https://gitti.jd.com/
+      - img [ref=e21]

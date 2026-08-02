@@ -119,6 +119,136 @@ ${OUTPUT_RULES}
 }]`,
   },
   {
+    label: "Meta Ad Library – CAC-gepresste Brands (High Intent)",
+    tool: "Comet Browser",
+    text: `Öffne https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=DE&media_type=all
+
+Suche nacheinander nach folgenden Begriffen und notiere jeweils die aktivsten deutschen Brands:
+- "Bio Snack"
+- "Functional Drink"
+- "nachhaltige Kosmetik"
+- "Craft Gin"
+- "Matcha"
+- "Superfoods"
+- "vegane Kosmetik"
+- "Craft Bier Berlin"
+
+FILTER (unbedingt setzen):
+- Land: Deutschland
+- Status: Aktiv
+- Zeitraum: Zuletzt gesehen in den letzten 14 Tagen
+
+HARTE AUSSCHLUSSKRITERIEN:
+- NICHT bei Zalando, Amazon, DM, Rossmann oder Rewe gelistet
+- Max. 30.000 Instagram-Follower
+- Keine eigenen Filialen oder Flagship Stores
+- Kein Promi-Founder / Influencer-Brand
+
+Was eine Brand qualifiziert (alle Punkte):
+- Schaltet aktiv Meta-Anzeigen (= leidet unter CAC-Druck → High Intent Lead für Hub42)
+- Eigener Webshop vorhanden
+- Founder-geführt, physisches Produkt
+- Preisrange 10–60 €
+- Berlin oder DACH-Standort bevorzugt
+
+Gib mir 10 Brands. Füge im Feld "notizen" hinzu: welches Ad-Suchwort sie gefunden hat + geschätztes tägliches Ad-Budget wenn erkennbar.
+
+${OUTPUT_RULES}
+
+[{
+  "name": "",
+  "website": "",
+  "instagram": "",
+  "kategorie": "",
+  "produkt": "",
+  "preisrange": "",
+  "standort": "",
+  "follower_ca": 0,
+  "notizen": "Gefunden via Ad-Suchwort: X | Est. Ad-Budget: Y €/Tag"
+}]`,
+  },
+  {
+    label: "Höhle der Löwen Alumni – Post-Hype Phase",
+    tool: "Perplexity / ChatGPT",
+    text: `Suche Teilnehmer aus der Höhle der Löwen (Staffeln die VOR 2024 ausgestrahlt wurden – also mindestens 2 Jahre her).
+
+WARUM diese Quelle: TV-Bounce ist vorbei, viele Deals wurden nie umgesetzt, Marke hat Awareness aufgebaut aber kämpft wieder mit normalem CAC. Perfekter Moment für Hub42.
+
+HARTE AUSSCHLUSSKRITERIEN:
+- NICHT bei Zalando, Amazon, DM, Rossmann, Rewe oder Edeka gelistet
+- Kein eigenes Filialnetz oder stationärer Flagship Store
+- Keine Konzerntöchter oder Private-Equity-Übernahmen nach der Show
+- Max. 100.000 Instagram-Follower (kein Massenprodukt)
+
+Suchkriterien:
+- Staffeln 1–13 (ca. 2014–2023), bevorzugt Staffeln 10–13
+- Physisches Produkt (Food, Drinks, Kosmetik, Lifestyle, Home) – kein SaaS, kein Service
+- Preisrange 10–60 €
+- Founder noch aktiv, eigener Webshop + Instagram vorhanden
+- DACH-Standort
+
+Ergänze im Feld "notizen": Staffel + Jahr der Ausstrahlung + ob Deal zustande kam.
+
+${OUTPUT_RULES}
+
+[{
+  "name": "",
+  "website": "",
+  "instagram": "",
+  "kategorie": "",
+  "produkt": "",
+  "preisrange": "",
+  "standort": "",
+  "follower_ca": 0,
+  "notizen": "HdL Staffel X (Jahr) | Deal: Ja/Nein | Founder-Name"
+}]`,
+  },
+  {
+    label: "Startup Events & Demo Days – Berlin / DACH",
+    tool: "Perplexity / ChatGPT",
+    text: `Suche Consumer-Brand-Startups die in den letzten 3 Jahren bei folgenden Events oder Programmen aufgetreten sind:
+
+Events & Programme:
+- Tech Open Air (TOA) Berlin
+- APX Accelerator Demo Day (Axel Springer / Porsche)
+- German Accelerator Demo Day
+- EXIST-Gründerstipendium Absolventen
+- Startup World Cup (DACH-Qualifier)
+- Founders' Day Berlin
+- NOAH Conference Berlin/London
+- Bits & Pretzels München
+- Impact Festival Frankfurt
+- Startupnight Berlin
+
+HARTE AUSSCHLUSSKRITERIEN:
+- NICHT bei Zalando, Amazon, DM, Rossmann oder Rewe gelistet
+- Kein reines SaaS/Tech/Service Startup – muss physisches Produkt haben
+- Kein Promi-Founder / Corporate Spin-off
+- Max. 50.000 Instagram-Follower
+
+Suchkriterien:
+- Physisches Consumer-Produkt (Food, Drinks, Kosmetik, Lifestyle, Home, Pet)
+- Preisrange 10–60 €
+- Founder-geführt, eigener Webshop + Instagram
+- DACH-Standort, bevorzugt Berlin
+
+Ergänze im Feld "notizen": Event/Programm + Jahr + Programm-Stage (Seed/Early/Growth).
+
+${OUTPUT_RULES}
+
+[{
+  "name": "",
+  "website": "",
+  "instagram": "",
+  "kategorie": "",
+  "produkt": "",
+  "preisrange": "",
+  "standort": "",
+  "follower_ca": 0,
+  "notizen": "Gefunden via: [Event/Programm] [Jahr] | Stage: Seed/Early"
+}]`,
+  },
+  {
     label: "Nische: Nachhaltig / Zero Waste (emerging)",
     tool: "Perplexity / ChatGPT",
     text: `Finde 10 kleine nachhaltige deutsche Brands (Nachfüllprodukte, Zero Waste, plastikfrei, regional) – noch nicht etabliert.

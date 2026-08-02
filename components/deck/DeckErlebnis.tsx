@@ -4,10 +4,10 @@ const CATS = ["Food", "Drinks", "Drogerie", "Non-Food"];
 
 const PERSONAS = [
   { tag: "Newcomer", text: "Tee-Startup, 20 cm Basis. Test ohne Risiko." },
-  { tag: "Etabliert", text: "Lokal-Brand, 30 cm Standard. Skalieren mit Daten." },
+  { tag: "Etabliert", text: "Lokal-Brand, 30 cm Augenhöhe. Skalieren mit Daten." },
   {
     tag: "Hero",
-    text: "Bekannte Marke, 40 cm Premium + Tasting-Bar. Maximale Sichtbarkeit, eigene Events.",
+    text: "Bekannte Marke, 40 cm Greifhöhe garantiert + Tasting-Bar. Maximale Sichtbarkeit, eigene Events.",
   },
 ];
 
@@ -28,8 +28,8 @@ export default function DeckErlebnis() {
               </div>
               <div className="p-2 space-y-1">
                 {[
-                  { z: "Premium", hi: true },
-                  { z: "Standard", hi: false },
+                  { z: "Greifhöhe garantiert", hi: true },
+                  { z: "Augenhöhe", hi: false },
                   { z: "Basis", hi: false },
                 ].map((lvl) => (
                   <div
@@ -49,12 +49,8 @@ export default function DeckErlebnis() {
             </div>
           ))}
         </div>
-        {/* Hero Wall + Tasting – eigene Store-Elemente */}
-        <div className="grid grid-cols-2 gap-3 mt-3">
-          <div className="border border-bronze/40 bg-bronze/10 px-3 py-2">
-            <p className="text-bronze text-sm font-semibold leading-tight">Hero Wall</p>
-            <p className="text-stone text-[10px] font-mono">Stirnseite · maximale Sichtbarkeit</p>
-          </div>
+        {/* Tasting Bar – eigenes Store-Element */}
+        <div className="mt-3">
           <div className="border border-bronze/40 bg-bronze/10 px-3 py-2">
             <p className="text-bronze text-sm font-semibold leading-tight">Tasting Bar</p>
             <p className="text-stone text-[10px] font-mono">Probieren · Aktion · Event</p>
@@ -62,8 +58,8 @@ export default function DeckErlebnis() {
         </div>
         <p className="text-stone text-xs font-mono mt-3 leading-relaxed">
           4 Regale · 4 Kategorien · 3 Ebenen je Regal (
-          <span className="text-bronze/70">Basis · Standard · Premium = Augenhöhe</span>) – plus
-          Hero Wall &amp; Tasting Bar. Dein Slot lebt in einer dieser Kategorien; unten der
+          <span className="text-bronze/70">Basis · Augenhöhe · Greifhöhe garantiert</span>) – plus
+          Tasting Bar. Dein Slot lebt in einer dieser Kategorien; unten der
           Detailblick auf eine einzelne Regalfront.
         </p>
 
@@ -91,7 +87,7 @@ export default function DeckErlebnis() {
           deine Story, <span className="text-cream/70">4×4 cm Preisauszeichnung</span>{" "}
           oben rechts. Oben &amp; unten <span className="text-cream/70">Stauraum / Nachschub</span> (Verkaufsstauraum
           60 cm Tiefe), dazwischen drei Verkaufs-Ebenen nach Preisklasse –{" "}
-          <span className="text-cream/70">Augenhöhe = Premium</span>. Plus ein eigener Event-Tag pro
+          <span className="text-cream/70">Greifzone garantiert = höchste Conversion</span>. Plus ein eigener Event-Tag pro
           Quartal.
         </p>
       </div>

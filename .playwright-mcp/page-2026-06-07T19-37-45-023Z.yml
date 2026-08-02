@@ -1,0 +1,172 @@
+- generic [active] [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e4]:
+      - generic [ref=e5]: "Lieferzeit: 5 - 7 Tage"
+      - generic [ref=e6]: Kostenfreie DHL Lieferung nach DE ab 29 €
+      - generic [ref=e7]: Sichere Zahlung
+    - banner [ref=e8]:
+      - generic [ref=e10]:
+        - link "Zur Startseite gehen" [ref=e13] [cursor=pointer]:
+          - /url: /
+          - img "Zur Startseite gehen" [ref=e15]
+        - generic [ref=e22]:
+          - combobox "Suche" [ref=e23]
+          - button "Suchen" [ref=e25] [cursor=pointer]:
+            - img [ref=e28]
+        - generic [ref=e31]:
+          - link "Favøriten" [ref=e34] [cursor=pointer]:
+            - /url: /wishlist
+            - img [ref=e37]
+          - button "Dein Konto" [ref=e42] [cursor=pointer]:
+            - img [ref=e44]
+          - link "Warenkorb" [ref=e48] [cursor=pointer]:
+            - /url: /checkout/cart
+            - img [ref=e51]
+    - navigation "Hauptnavigation" [ref=e56]:
+      - link "Gesichtspflege" [ref=e57] [cursor=pointer]:
+        - /url: https://www.no-cosmetics.de/Gesicht
+        - generic [ref=e58]: Gesichtspflege
+      - link "Körperpflege" [ref=e59] [cursor=pointer]:
+        - /url: https://www.no-cosmetics.de/Koerperpflege/
+        - generic [ref=e60]: Körperpflege
+      - link "Routinen" [ref=e61] [cursor=pointer]:
+        - /url: https://www.no-cosmetics.de/Routinen/
+        - generic [ref=e62]: Routinen
+      - link "Sets" [ref=e63] [cursor=pointer]:
+        - /url: https://www.no-cosmetics.de/Sets/
+        - generic [ref=e64]: Sets
+      - link "Extras" [ref=e65] [cursor=pointer]:
+        - /url: https://www.no-cosmetics.de/Extras/
+        - generic [ref=e66]: Extras
+      - link "Über uns" [ref=e67] [cursor=pointer]:
+        - /url: https://www.no-cosmetics.de/Ueber-uns/
+        - generic [ref=e68]: Über uns
+  - main [ref=e69]:
+    - generic [ref=e70]:
+      - navigation "breadcrumb" [ref=e72]:
+        - list [ref=e73]:
+          - listitem [ref=e74]:
+            - generic [ref=e75]: Informationen
+          - img [ref=e78]
+          - listitem [ref=e80]:
+            - link "Impressum" [ref=e81] [cursor=pointer]:
+              - /url: https://www.no-cosmetics.de/Impressum/
+      - generic [ref=e90]:
+        - heading "IMPRESSUM" [level=1] [ref=e91]
+        - paragraph [ref=e92]:
+          - text: Angaben gemäß gesetzlicher Anforderung
+          - text: KrollCosmetics Concept GmbH
+          - text: Kieler Str. 11
+          - text: 41540 Dormagen
+          - text: Deutschland
+        - paragraph [ref=e93]:
+          - text: "Geschäftsführerin:"
+          - text: Katrin Kroll
+          - text: "E-Mail:"
+          - link "support@no-cosmetics.com" [ref=e94] [cursor=pointer]:
+            - /url: mailto:support@no-cosmetics.com
+          - link:
+            - /url: mailto:hello@no-cosmetics.de
+        - paragraph [ref=e95]:
+          - text: "Registergericht:"
+          - text: Amtsgericht Neuss
+          - text: "Registerart & -nummer: HRB 21257"
+          - text: "Umsatzsteuer-Identifikationsnummer: DE335258600"
+        - paragraph [ref=e96]:
+          - link "www.no-cosmetics.de" [ref=e97] [cursor=pointer]:
+            - /url: https://www.no-cosmetics.de/
+        - paragraph [ref=e98]:
+          - text: "Verantwortlich:"
+          - text: Katrin Kroll
+          - text: Kieler Str. 11
+          - text: 41540 Dormagen
+        - paragraph [ref=e99]:
+          - text: "Konzeption, Design und technische Umsetzung:"
+          - link "FORMAT D GmbH" [ref=e100] [cursor=pointer]:
+            - /url: https://www.format-d.com
+        - paragraph [ref=e101]
+        - paragraph [ref=e102]:
+          - text: "Alternative Streitbeilegung gemäß Art. 14 Abs. 1 ODR-VO und § 36 VSBG:"
+          - text: "Die Europäische Kommission stellt eine Plattform zur Online-Streitbeilegung (OS) bereit, die Sie unter https://ec.europa.eu/consumers/odr/ finden. Die Univeralschlichtungsstelle des Bundes erreichen Sie unter: https://www.verbraucher-schlichter.de/. Zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle sind wir nicht verpflichtet und nicht bereit."
+  - contentinfo [ref=e103]:
+    - generic [ref=e104]:
+      - list [ref=e105]:
+        - generic [ref=e106]:
+          - generic [ref=e107]: Informationen
+          - listitem [ref=e108]:
+            - list [ref=e110]:
+              - listitem [ref=e111]:
+                - link "Datenschutz" [ref=e112] [cursor=pointer]:
+                  - /url: https://www.no-cosmetics.de/Datenschutz/
+              - listitem [ref=e113]:
+                - link "Impressum" [ref=e114] [cursor=pointer]:
+                  - /url: https://www.no-cosmetics.de/Impressum/
+              - listitem [ref=e115]:
+                - link "Kontakt" [ref=e116] [cursor=pointer]:
+                  - /url: https://www.no-cosmetics.de/Kontakt/
+              - listitem [ref=e117]:
+                - link "Presse" [ref=e118] [cursor=pointer]:
+                  - /url: https://www.no-cosmetics.de/Presse/
+              - listitem [ref=e119]:
+                - button "Cookie Einstellungen" [ref=e120] [cursor=pointer]
+              - listitem [ref=e121]:
+                - link "Store Locator" [ref=e122] [cursor=pointer]:
+                  - /url: https://www.no-cosmetics.de/Informationen/Store-Locator/
+        - generic [ref=e123]:
+          - generic [ref=e124]: Service
+          - listitem [ref=e125]:
+            - list [ref=e127]:
+              - listitem [ref=e128]:
+                - link "AGB" [ref=e129] [cursor=pointer]:
+                  - /url: https://www.no-cosmetics.de/AGB/
+              - listitem [ref=e130]:
+                - link "FAQ" [ref=e131] [cursor=pointer]:
+                  - /url: https://www.no-cosmetics.de/FAQ/
+              - listitem [ref=e132]:
+                - link "Lieferung & Versandkosten" [ref=e133] [cursor=pointer]:
+                  - /url: https://www.no-cosmetics.de/Lieferung-Versandkosten/
+              - listitem [ref=e134]:
+                - link "Widerrufsrecht" [ref=e135] [cursor=pointer]:
+                  - /url: https://www.no-cosmetics.de/Widerrufsrecht/
+              - listitem [ref=e136]:
+                - link "Zahlungsarten" [ref=e137] [cursor=pointer]:
+                  - /url: https://www.no-cosmetics.de/Zahlungsarten/
+        - generic [ref=e138]:
+          - generic [ref=e139]: Newsletter
+          - generic [ref=e141]:
+            - heading "JØIN THE NØ CLUB" [level=3] [ref=e142]
+            - list [ref=e143]:
+              - listitem [ref=e144]: 10% Gutschein & Skincare Journal
+              - listitem [ref=e145]: Verpasse keine Aktionen
+              - listitem [ref=e146]: Neuste Infos rund um das Thema Skincare
+            - link "Zur Anmeldung" [ref=e147] [cursor=pointer]:
+              - /url: /Newsletter/
+      - generic [ref=e148]:
+        - generic [ref=e149]:
+          - generic [ref=e150]: Folge uns
+          - generic [ref=e151]:
+            - link "instagram" [ref=e153] [cursor=pointer]:
+              - /url: https://www.instagram.com/nocosmetics.de/?hl=de
+              - img "instagram" [ref=e154]
+            - link "facebook" [ref=e156] [cursor=pointer]:
+              - /url: https://www.facebook.com/nocosmetics.de/
+              - img "facebook" [ref=e157]
+            - link "pinterest" [ref=e159] [cursor=pointer]:
+              - /url: https://www.pinterest.de/nocosmetics/
+              - img "pinterest" [ref=e160]
+            - link "tiktok" [ref=e162] [cursor=pointer]:
+              - /url: https://www.tiktok.com/@nocosmetics.de
+              - img "tiktok" [ref=e163]
+        - generic [ref=e164]:
+          - generic [ref=e165]: Bezahlmethoden
+          - generic [ref=e167]:
+            - img "Paypal - Paypent" [ref=e169]
+            - img "Klarna - Payment" [ref=e171]
+            - img "Google Pay - Payment" [ref=e173]
+            - img "Apple Pay - Payment" [ref=e175]
+        - generic [ref=e176]:
+          - generic [ref=e177]: Wir verschicken grün
+          - generic [ref=e179]:
+            - img "biobiene" [ref=e181]
+            - img "DHL - GoGreen" [ref=e183]
+  - complementary

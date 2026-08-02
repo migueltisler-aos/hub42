@@ -1,0 +1,327 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - img [ref=e5]
+      - paragraph [ref=e10]:
+        - 'link "🛍️ NUR JETZT: BIS ZU 20 % AUF VIELE MARKEN SPAREN !" [ref=e11] [cursor=pointer]':
+          - /url: /news/
+    - list [ref=e13]:
+      - listitem [ref=e14] [cursor=pointer]:
+        - img [ref=e15]
+        - text: "Persönliche Beratung: 06204 9112222"
+      - listitem [ref=e17] [cursor=pointer]:
+        - img [ref=e18]
+        - text: IN 1-2 TAGEN GELIEFERT (DE)
+      - listitem [ref=e20] [cursor=pointer]:
+        - img [ref=e21]
+        - text: Offizieller Händler
+      - listitem [ref=e23] [cursor=pointer]:
+        - img [ref=e24]
+        - text: 5% TREUEGUTHABEN
+    - generic [ref=e27]:
+      - banner [ref=e28]:
+        - generic [ref=e31]:
+          - form [ref=e33]:
+            - generic [ref=e34]:
+              - textbox "Suchbegriff oder Marke eingeben" [ref=e35]
+              - button "Suchen" [ref=e37] [cursor=pointer]:
+                - img [ref=e38]
+          - generic [ref=e40]:
+            - link "ONDUA" [ref=e41] [cursor=pointer]:
+              - /url: https://www.ondua.de/
+              - img "ONDUA" [ref=e42]
+            - generic [ref=e43]: Beauty Secrets
+          - generic [ref=e45]:
+            - button [ref=e47] [cursor=pointer]:
+              - img [ref=e48]
+              - img [ref=e50]
+            - button [ref=e53] [cursor=pointer]:
+              - img [ref=e54]
+              - img [ref=e56]
+            - button "Mein Konto" [ref=e59] [cursor=pointer]:
+              - generic [ref=e60]: Mein Konto
+              - img [ref=e61]
+        - navigation [ref=e63]:
+          - list [ref=e66]:
+            - listitem [ref=e67]:
+              - link [ref=e68] [cursor=pointer]:
+                - /url: https://www.ondua.de/oxid-oxid-5/
+            - listitem [ref=e69]:
+              - link "❀ Frühlingsspecials" [ref=e70] [cursor=pointer]:
+                - /url: https://www.ondua.de/Fruehlingsspecials/
+            - listitem [ref=e71]:
+              - link "Marken" [ref=e72] [cursor=pointer]:
+                - /url: https://www.ondua.de/Marken/
+                - text: Marken
+                - img [ref=e73]
+            - listitem [ref=e75]:
+              - link "Aktionen %" [ref=e76] [cursor=pointer]:
+                - /url: https://www.ondua.de/Aktionen-Prozent/
+            - listitem [ref=e77]:
+              - link "Produkte" [ref=e78] [cursor=pointer]:
+                - /url: https://www.ondua.de/Produkte/
+                - text: Produkte
+                - img [ref=e79]
+            - listitem [ref=e81]:
+              - link "Pflegebedürfnisse" [ref=e82] [cursor=pointer]:
+                - /url: https://www.ondua.de/Pflegebeduerfnisse/
+                - text: Pflegebedürfnisse
+                - img [ref=e83]
+            - listitem [ref=e85]:
+              - link "Geschenkideen" [ref=e86] [cursor=pointer]:
+                - /url: https://www.ondua.de/Geschenkideen/
+                - text: Geschenkideen
+                - img [ref=e87]
+            - listitem [ref=e89]:
+              - link "Beauty Blog" [ref=e90] [cursor=pointer]:
+                - /url: https://www.ondua.de/news
+            - listitem [ref=e91]:
+              - link "Kosmetikstudio" [ref=e92] [cursor=pointer]:
+                - /url: https://www.ondua.studio
+      - generic [ref=e99]:
+        - heading "Impressum" [level=1] [ref=e101]
+        - article [ref=e102]:
+          - paragraph
+          - generic [ref=e104]: GESETZLICHE ANBIETERKENNUNG
+          - text: ONDUA Deutschland GmbH
+          - text: diese vertr. d. d. Geschäftsführer Claudia Ondrusch, Sebastian Ondrusch
+          - text: Erzbischof-Alter-Str. 6
+          - text: 68519 Viernheim
+          - text: Deutschland
+          - text: "Telefon: +49 6204 9112222"
+          - text: "E-Mail: post@ondua.de"
+          - text: WhatsApp +49 6204 9112222
+          - text: "USt-IdNr.: DE308928778"
+          - text: eingetragen im Handelsregister des Amtsgerichtes Darmstadt
+          - text: Handelsregisternummer HRB 95893
+          - strong [ref=e105]: "Inhaltlich Verantwortlicher gemäß § 18 Abs. 2 MStV:"
+          - text: ONDUA Deutschland GmbH
+          - text: Claudia Ondrusch, Sebastian Ondrusch
+          - text: Erzbischof-Alter-Str. 6
+          - text: 68519 Viernheim
+          - text: Deutschland
+          - text: Wir sind bereit, aber nicht verpflichtet, an Streitbeilegungsverfahren vor Verbraucherschlichtungsstellen teilzunehmen.
+          - strong [ref=e106]: Wir sind seit
+          - strong [ref=e107]: 09.02.2017
+          - strong [ref=e108]: Mitglied der Initiative "FairCommerce".
+          - text: Nähere Informationen hierzu finden Sie unter
+          - link "www.haendlerbund.de/faircommerce" [ref=e109] [cursor=pointer]:
+            - /url: https://www.haendlerbund.de/de/haendlerbund/interessenvertretung/faircommerce
+          - text: .
+          - paragraph
+    - generic [ref=e111] [cursor=pointer]:
+      - generic [ref=e112]:
+        - heading "Exzellent" [level=3] [ref=e113]
+        - paragraph [ref=e116]:
+          - text: basierend auf
+          - strong [ref=e117]: "8304"
+          - text: Rezensionen
+        - paragraph [ref=e118]: Hier findest du einige Kundenrezensionen für ONDUA.
+        - link "powered by eKomi" [ref=e120]:
+          - /url: http://www.ekomi.de
+          - img "powered by eKomi" [ref=e121]
+      - generic [ref=e122]:
+        - button "Previous" [ref=e123]:
+          - img [ref=e124]
+        - listbox [ref=e127]:
+          - generic [ref=e128]:
+            - generic [ref=e132]: 02.06.2026
+            - paragraph [ref=e133]: ... Das Angebot und die schnelle Lieferung.
+          - generic [ref=e134]:
+            - generic [ref=e138]: 01.06.2026
+            - paragraph [ref=e139]: ... Kundeservise sehr gout
+          - generic [ref=e140]:
+            - generic [ref=e144]: 01.06.2026
+            - paragraph [ref=e145]: ... I recommend ONDUA! 100% service! Fast delivery, always provided with samplers, this is very important in my opinion.
+          - option "05.06.2026 ... Das Produkt ist sehr schön, Danke.😄" [ref=e146]:
+            - generic [ref=e150]: 05.06.2026
+            - paragraph [ref=e151]: ... Das Produkt ist sehr schön, Danke.😄
+          - option "05.06.2026 ... Top Qualität." [ref=e152]:
+            - generic [ref=e156]: 05.06.2026
+            - paragraph [ref=e157]: ... Top Qualität.
+          - option "05.06.2026 ... Schnelle Lieferung und die Beilage von Proben." [ref=e158]:
+            - generic [ref=e162]: 05.06.2026
+            - paragraph [ref=e163]: ... Schnelle Lieferung und die Beilage von Proben.
+          - option [ref=e164]:
+            - generic [ref=e168]: 04.06.2026
+            - paragraph [ref=e169]: ... Sehr gut
+          - option [ref=e170]:
+            - generic [ref=e174]: 03.06.2026
+            - paragraph [ref=e175]: ... Schnelle Lieferung. War sorgfältig verpuckt.
+          - option [ref=e176]:
+            - generic [ref=e180]: 02.06.2026
+            - paragraph [ref=e181]: ... Die schnelle Lieferung; super verpackt! Einfach top! Kann ich nur weiter empfehlen!
+          - option [ref=e182]:
+            - generic [ref=e186]: 02.06.2026
+            - paragraph [ref=e187]: ... Produkte, Verpackung, Lieferzeit sind perfekt 😍 kaufe immer wieder gerne bei euch ☺️
+          - option [ref=e188]:
+            - generic [ref=e192]: 02.06.2026
+            - paragraph [ref=e193]: ... Das Angebot und die schnelle Lieferung.
+          - option [ref=e194]:
+            - generic [ref=e198]: 01.06.2026
+            - paragraph [ref=e199]: ... Kundeservise sehr gout
+          - option [ref=e200]:
+            - generic [ref=e204]: 01.06.2026
+            - paragraph [ref=e205]: ... I recommend ONDUA! 100% service! Fast delivery, always provided with samplers, this is very important in my opinion.
+          - generic [ref=e206]:
+            - generic [ref=e210]: 05.06.2026
+            - paragraph [ref=e211]: ... Das Produkt ist sehr schön, Danke.😄
+          - generic [ref=e212]:
+            - generic [ref=e216]: 05.06.2026
+            - paragraph [ref=e217]: ... Top Qualität.
+          - generic [ref=e218]:
+            - generic [ref=e222]: 05.06.2026
+            - paragraph [ref=e223]: ... Schnelle Lieferung und die Beilage von Proben.
+        - button "Next" [ref=e224]:
+          - text: →
+          - img [ref=e225]
+    - contentinfo [ref=e227]:
+      - generic [ref=e229]:
+        - generic [ref=e231]:
+          - generic:
+            - generic [ref=e232]:
+              - img [ref=e233]
+              - generic [ref=e234]:
+                - generic [ref=e235]:
+                  - img [ref=e236]
+                  - generic [ref=e238]: +49 06204 9112222 (Mo-Fr 9-17 Uhr)
+                - generic [ref=e239]:
+                  - img [ref=e240]
+                  - generic [ref=e242]: post@ondua.de
+            - generic [ref=e244]:
+              - generic [ref=e245] [cursor=pointer]: ONDUA-NEWSLETTER
+              - generic [ref=e246]:
+                - paragraph [ref=e247]: Bleibe immer up to date über neue Produkte, Aktionen und Angebote. Du kannst den Newsletter jederzeit abbestellen.
+                - form [ref=e248]:
+                  - generic [ref=e249]: Newsletter
+                  - textbox "Newsletter" [ref=e250]:
+                    - /placeholder: Deine E-Mail-Adresse
+                  - button "Anmelden" [ref=e251] [cursor=pointer]
+        - generic [ref=e253]:
+          - generic:
+            - generic [ref=e254]:
+              - generic [ref=e255] [cursor=pointer]: Deine Vorteile
+              - list [ref=e257]:
+                - listitem [ref=e258]:
+                  - link "- 5% im Beauty-Club" [ref=e259] [cursor=pointer]:
+                    - /url: /Bonuspunkte/
+                - listitem [ref=e260]:
+                  - link "- in 1-2 Tagen geliefert (DE)" [ref=e261] [cursor=pointer]:
+                    - /url: /Zahlung-und-Versand/
+                - listitem [ref=e262]:
+                  - link "- kostenloser Versand ab 69 € (DE)" [ref=e263] [cursor=pointer]:
+                    - /url: /Zahlung-und-Versand/
+                - listitem [ref=e264]:
+                  - link "- per Rechnung bestellen" [ref=e265] [cursor=pointer]:
+                    - /url: /Zahlung-und-Versand/
+                - listitem [ref=e266]:
+                  - link "- Gratisproben" [ref=e267] [cursor=pointer]:
+                    - /url: /Hilfe-FAQ/
+            - generic [ref=e268]:
+              - generic [ref=e269] [cursor=pointer]: Dein Service
+              - list [ref=e271]:
+                - listitem [ref=e272]:
+                  - link "Kontakt" [ref=e273] [cursor=pointer]:
+                    - /url: https://www.ondua.de/index.php?cl=contact
+                - listitem [ref=e274]:
+                  - link "Zahlung und Versand" [ref=e275] [cursor=pointer]:
+                    - /url: https://www.ondua.de/Zahlung-und-Versand/
+                - listitem [ref=e276]:
+                  - link "Datenschutzerklärung" [ref=e277] [cursor=pointer]:
+                    - /url: https://www.ondua.de/Datenschutzerklaerung/
+                - listitem [ref=e278]:
+                  - link "Widerrufsrecht" [ref=e279] [cursor=pointer]:
+                    - /url: https://www.ondua.de/Widerrufsrecht/
+                - listitem [ref=e280]:
+                  - link "Konto" [ref=e281] [cursor=pointer]:
+                    - /url: https://www.ondua.de/index.php?cl=account
+            - generic [ref=e282]:
+              - generic [ref=e283] [cursor=pointer]: ÜBER ONDUA
+              - list [ref=e285]:
+                - listitem [ref=e286]:
+                  - link "Über uns" [ref=e287] [cursor=pointer]:
+                    - /url: https://www.ondua.de/UEber-uns/
+                - listitem [ref=e288]:
+                  - link "Jobs - Wir suchen Dich!" [ref=e289] [cursor=pointer]:
+                    - /url: https://www.ondua.de/Jobs-Wir-suchen-Dich/
+                - listitem [ref=e290]:
+                  - link "Hilfe & FAQ" [ref=e291] [cursor=pointer]:
+                    - /url: https://www.ondua.de/Hilfe-FAQ/
+                - listitem [ref=e292]:
+                  - link "Impressum" [ref=e293] [cursor=pointer]:
+                    - /url: https://www.ondua.de/Impressum/
+                - listitem [ref=e294]:
+                  - link "AGB" [ref=e295] [cursor=pointer]:
+                    - /url: https://www.ondua.de/AGB/
+                - listitem [ref=e296]:
+                  - link "Glossar" [ref=e297] [cursor=pointer]:
+                    - /url: https://www.ondua.de/Glossar/
+      - generic [ref=e300]:
+        - generic [ref=e302]:
+          - text: Sicheres Einkaufen
+          - list [ref=e303]:
+            - listitem [ref=e304]:
+              - img [ref=e306]
+            - listitem [ref=e307]
+        - generic [ref=e309]:
+          - text: "Folge uns auf:"
+          - list [ref=e310]:
+            - listitem [ref=e311]:
+              - link [ref=e312] [cursor=pointer]:
+                - /url: https://www.facebook.com/ondua.de/
+                - img [ref=e313]
+            - listitem [ref=e315]:
+              - link [ref=e316] [cursor=pointer]:
+                - /url: https://www.instagram.com/ondua.de/
+                - img [ref=e317]
+        - generic [ref=e320]:
+          - text: Bezahle bequem & einfach!
+          - list [ref=e321]:
+            - listitem [ref=e322]:
+              - img [ref=e324]
+            - listitem [ref=e325]:
+              - img [ref=e327]
+            - listitem [ref=e328]:
+              - img [ref=e330]
+            - listitem [ref=e331]:
+              - img [ref=e333]
+            - listitem [ref=e334]:
+              - img [ref=e336]
+            - listitem [ref=e337]:
+              - img [ref=e339]
+        - generic [ref=e341]:
+          - text: Designed with
+          - img [ref=e342]
+    - button [ref=e345] [cursor=pointer]:
+      - img [ref=e347]
+  - complementary [active]:
+    - dialog "Wir respektieren deine Privatsphäre" [ref=e352]:
+      - generic [ref=e354]:
+        - button "Sprache auswählen" [ref=e356] [cursor=pointer]
+        - generic [ref=e357]:
+          - heading "Wir respektieren deine Privatsphäre" [level=2] [ref=e358]
+          - generic:
+            - generic:
+              - paragraph: Wir verwenden Cookies und ähnliche Technologien, um unsere Website sicher zu betreiben, Inhalte zu personalisieren und die Performance unserer Werbung zu analysieren. Mit deiner Einwilligung können Daten an Partner wie Google übermittelt und für personalisierte Werbung, Remarketing und Analysen verarbeitet werden — auch außerhalb der EU, z. B. in den USA.
+              - text: Du kannst deine Auswahl jederzeit anpassen oder widerrufen. Mehr dazu erfährst du in unserer Datenschutzerklärung sowie zur Datenverarbeitung durch Google
+              - link "h" [ref=e359] [cursor=pointer]:
+                - /url: https://business.safety.google/privacy/
+              - generic:
+                - link:
+                  - /url: https://business.safety.google/privacy/
+                - text: ier
+              - text: .
+        - generic [ref=e360]:
+          - link "Öffnen Datenschutzerklärung" [ref=e361] [cursor=pointer]:
+            - /url: https://www.ondua.de/Datenschutzerklaerung/
+            - text: Datenschutzerklärung
+          - link "Öffnen Impressum" [ref=e362] [cursor=pointer]:
+            - /url: https://www.ondua.de/Impressum/
+            - text: Impressum
+      - generic [ref=e363]:
+        - generic [ref=e365]:
+          - button "Mehr" [ref=e366] [cursor=pointer]
+          - button "Ablehnen" [ref=e367] [cursor=pointer]
+          - button "Akzeptieren" [ref=e368] [cursor=pointer]
+        - link "Powered by Usercentrics Consent Management" [ref=e370] [cursor=pointer]:
+          - /url: https://usercentrics.com/de/consent-management-platform-powered-by-usercentrics/?utm_source=banner_uc&utm_medium=referral&utm_content=v3

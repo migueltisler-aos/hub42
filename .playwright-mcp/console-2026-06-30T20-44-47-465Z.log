@@ -1,0 +1,8 @@
+[    1738ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3137/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[    3222ms] [LOG] [HMR] connected @ http://localhost:3137/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[    4678ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3137/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[    5401ms] [LOG] [Fast Refresh] done in 827ms @ http://localhost:3137/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   17772ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3137/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   17974ms] [LOG] [Fast Refresh] done in 308ms @ http://localhost:3137/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  193479ms] [ERROR] WebSocket connection to 'ws://localhost:3137/_next/webpack-hmr?id=tqUJ-BWqyJ8QzMf7qDPNq' failed:  @ http://localhost:3137/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299
+[  196838ms] [ERROR] WebSocket connection to 'ws://localhost:3137/_next/webpack-hmr?id=tqUJ-BWqyJ8QzMf7qDPNq' failed: Error in connection establishment: net::ERR_CONNECTION_REFUSED @ http://localhost:3137/_next/static/chunks/node_modules_next_dist_client_0fhqo1d._.js:13299

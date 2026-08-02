@@ -1,0 +1,179 @@
+- generic [ref=e1]:
+  - generic [ref=e2]:
+    - dialog "Cookie-Einstellungen" [ref=e4]:
+      - button "Cookie-Banner nach gespeicherter Auswahl schließen" [disabled]
+      - generic [ref=e5]:
+        - heading "Cookie-Einstellungen" [level=2] [ref=e6]
+        - paragraph [ref=e7]:
+          - text: Wir verwenden Cookies, um unsere Website zu verbessern und Dir das bestmögliche Erlebnis zu bieten. Weitere Informationen findest Du in unserer
+          - link "Datenschutzerklärung" [active] [ref=e8] [cursor=pointer]:
+            - /url: /privacy
+          - text: .
+        - generic [ref=e9]:
+          - generic [ref=e10] [cursor=pointer]:
+            - checkbox "Notwendige Cookies" [checked] [disabled]
+            - generic [ref=e12]: Notwendige Cookies
+          - generic [ref=e13] [cursor=pointer]:
+            - checkbox "Funktionale Cookies"
+            - generic [ref=e15]: Funktionale Cookies
+          - generic [ref=e16] [cursor=pointer]:
+            - checkbox "Statistik-Cookies"
+            - generic [ref=e18]: Statistik-Cookies
+          - generic [ref=e19] [cursor=pointer]:
+            - checkbox "Marketing-Cookies"
+            - generic [ref=e21]: Marketing-Cookies
+        - generic [ref=e22]:
+          - button "Alle akzeptieren" [ref=e23] [cursor=pointer]
+          - button "Nur notwendige akzeptieren" [ref=e24] [cursor=pointer]
+          - button "Auswahl speichern" [ref=e25] [cursor=pointer]
+    - link "Zum Inhalt springen" [ref=e26] [cursor=pointer]:
+      - /url: "#main-content"
+    - banner [ref=e27]:
+      - generic [ref=e28]:
+        - link "Nivona Logo" [ref=e29] [cursor=pointer]:
+          - /url: /
+          - img "Nivona Logo" [ref=e30]
+        - navigation [ref=e31]:
+          - list [ref=e32]:
+            - listitem [ref=e33] [cursor=pointer]:
+              - link "Kaffeeautomaten" [ref=e34]:
+                - /url: /de/overview
+            - listitem [ref=e36] [cursor=pointer]:
+              - link "Zubehör" [ref=e37]:
+                - /url: /de/accessories
+            - listitem [ref=e39] [cursor=pointer]:
+              - link "Marke" [ref=e40]:
+                - /url: /de/brand
+            - listitem [ref=e42] [cursor=pointer]:
+              - link "Service" [ref=e43]:
+                - /url: /de/service
+            - listitem [ref=e45] [cursor=pointer]:
+              - link "FAQ" [ref=e46]:
+                - /url: /de/faq
+        - generic [ref=e48]:
+          - button "Suche ..." [ref=e50]
+          - button "DE ▾" [ref=e52] [cursor=pointer]:
+            - generic [ref=e53]: DE
+            - generic [ref=e54]: ▾
+          - link "B2B" [ref=e55] [cursor=pointer]:
+            - /url: https://b2b.nivona.com/account/login
+          - link "Händler finden" [ref=e56] [cursor=pointer]:
+            - /url: /#retailer-contact
+            - heading "Händler finden" [level=5] [ref=e57]
+    - main [ref=e58]:
+      - generic [ref=e59]:
+        - heading "404" [level=1] [ref=e60]
+        - paragraph [ref=e61]: Du hast sicher eine andere Seite an dieser Stelle erwartet. Hat sich vielleicht ein Tippfehler in die URL eingeschlichen? Ansonsten probiere es am besten später noch einmal. Dürfen wir Dich in der Zwischenzeit auf ein Käffchen einladen?
+        - link "Zurück zur Startseite" [ref=e62] [cursor=pointer]:
+          - /url: /
+    - contentinfo [ref=e63]:
+      - generic [ref=e64]:
+        - generic [ref=e65]:
+          - img "NIVONA Logo" [ref=e68]
+          - generic [ref=e69]:
+            - heading "Kaffeeautomaten" [level=3] [ref=e70]
+            - list [ref=e71]:
+              - listitem [ref=e72]:
+                - link "Unsere Serien" [ref=e73] [cursor=pointer]:
+                  - /url: /de/overview#
+              - listitem [ref=e74]:
+                - link "Modelle vergleichen" [ref=e75] [cursor=pointer]:
+                  - /url: /de/compare
+          - generic [ref=e76]:
+            - heading "Zubehör" [level=3] [ref=e77]
+            - list [ref=e78]:
+              - listitem [ref=e79]:
+                - link "Zubehör" [ref=e80] [cursor=pointer]:
+                  - /url: /de/accessories#accessories
+              - listitem [ref=e81]:
+                - link "Pflege" [ref=e82] [cursor=pointer]:
+                  - /url: /de/accessories#maintenance
+              - listitem [ref=e83]:
+                - link "NIVONA-Kaffeebohnen" [ref=e84] [cursor=pointer]:
+                  - /url: /de/accessories#coffee
+          - generic [ref=e85]:
+            - heading "Marke" [level=3] [ref=e86]
+            - list [ref=e87]:
+              - listitem [ref=e88]:
+                - link "Philosophie" [ref=e89] [cursor=pointer]:
+                  - /url: /de/brand#philosophy
+              - listitem [ref=e90]:
+                - link "NIVONA-Standards" [ref=e91] [cursor=pointer]:
+                  - /url: /de/brand#standards
+              - listitem [ref=e92]:
+                - link "Die NIVONA-Historie" [ref=e93] [cursor=pointer]:
+                  - /url: /de/brand#brandhistory
+              - listitem [ref=e94]:
+                - link "Fachhandelsmarke" [ref=e95] [cursor=pointer]:
+                  - /url: /de/brand#brandoverview
+              - listitem [ref=e96]:
+                - link "Nachhaltigkeit" [ref=e97] [cursor=pointer]:
+                  - /url: /de/brand#sustainability
+              - listitem [ref=e98]:
+                - link "Jobs" [ref=e99] [cursor=pointer]:
+                  - /url: /de/brand#jobs
+          - generic [ref=e100]:
+            - heading "Service" [level=3] [ref=e101]
+            - list [ref=e102]:
+              - listitem [ref=e103]:
+                - link "Serviceversprechen" [ref=e104] [cursor=pointer]:
+                  - /url: /de/service#service-promise
+              - listitem [ref=e105]:
+                - link "Kontakt" [ref=e106] [cursor=pointer]:
+                  - /url: /de/service#service-contact
+              - listitem [ref=e107]:
+                - link "Reparaturanmeldung" [ref=e108] [cursor=pointer]:
+                  - /url: /de/service#service-repair-request
+              - listitem [ref=e109]:
+                - link "Kostenpauschalen" [ref=e110] [cursor=pointer]:
+                  - /url: /de/service#flat-rate-costs
+              - listitem [ref=e111]:
+                - link "Verpacken" [ref=e112] [cursor=pointer]:
+                  - /url: /de/service#service-packaging
+              - listitem [ref=e113]:
+                - link "Downloads zu allen NIVONA-Modellen" [ref=e114] [cursor=pointer]:
+                  - /url: /de/service#downloads
+          - generic [ref=e115]:
+            - heading "FAQ" [level=3] [ref=e116]
+            - list [ref=e117]:
+              - listitem [ref=e118]:
+                - link "Allgemeine Fragen" [ref=e119] [cursor=pointer]:
+                  - /url: /de/faq#general-questions
+              - listitem [ref=e120]:
+                - link "Fehlerbehebung" [ref=e121] [cursor=pointer]:
+                  - /url: /de/faq#problems
+              - listitem [ref=e122]:
+                - link "Reinigung" [ref=e123] [cursor=pointer]:
+                  - /url: /de/faq#cleaning
+        - generic [ref=e124]:
+          - generic [ref=e125]:
+            - generic [ref=e126]:
+              - link "Facebook" [ref=e127] [cursor=pointer]:
+                - /url: https://de-de.facebook.com/NIVONACoffee/
+                - img "Facebook" [ref=e128]
+              - link "Instagram" [ref=e129] [cursor=pointer]:
+                - /url: https://www.instagram.com/nivona_coffee/?hl=de
+                - img "Instagram" [ref=e130]
+              - link "Linkedin" [ref=e131] [cursor=pointer]:
+                - /url: https://www.linkedin.com/company/nivona/
+                - img "Linkedin" [ref=e132]
+              - link "YouTube" [ref=e133] [cursor=pointer]:
+                - /url: https://www.youtube.com/channel/UCWxT7TVZ-OZzSQHvIfEg_hA
+                - img "YouTube" [ref=e134]
+            - generic [ref=e135]: ©2026 - NIVONA Apparate GmbH
+          - generic [ref=e136]:
+            - link "Kontakt" [ref=e137] [cursor=pointer]:
+              - /url: /de/service
+            - link "Distributoren" [ref=e138] [cursor=pointer]:
+              - /url: /de/distributors
+            - link "Impressum" [ref=e139] [cursor=pointer]:
+              - /url: /de/legal-notice
+            - link "Datenschutz" [ref=e140] [cursor=pointer]:
+              - /url: /de/privacy
+            - button "Cookie-Einstellungen" [ref=e141] [cursor=pointer]
+            - link "AGB" [ref=e142] [cursor=pointer]:
+              - /url: /de/terms
+          - button "Land / Region Deutschland" [ref=e144] [cursor=pointer]:
+            - generic [ref=e145]: Land / Region
+            - generic [ref=e146]: Deutschland
+  - img [ref=e148] [cursor=pointer]

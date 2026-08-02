@@ -31,8 +31,8 @@ export const metadata: Metadata = {
   description:
     "Hub42 im Alexa Berlin – der kuratierte Geschenke-Store wo Einkaufen ein Spiel ist. Where consumer brands are born.",
   keywords: ["Hub42", "Alexa Berlin", "Geschenke", "Consumer Brands", "Popup Store", "Berlin"],
-  authors: [{ name: "Hub42 GmbH" }],
-  creator: "Hub42 GmbH",
+  authors: [{ name: "Hub42 UG (haftungsbeschränkt)" }],
+  creator: "Hub42 UG (haftungsbeschränkt)",
   openGraph: {
     type: "website",
     locale: "de_DE",

@@ -1,12 +1,14 @@
+import { RATES, SCHAUFENSTER_MONAT } from "./deck-economics";
+
 export type SlotColor = "gold" | "silver" | "standard" | "base" | "window";
 
 export interface SlotTier {
   id: string;
   name: string;
   position: string;
-  /** Fixed monthly price – set for Schaufenster and Hero Wall */
+  /** Fixed monthly price – set for Schaufenster / Ladenfront */
   kostenMonat?: number;
-  /** Per-cm monthly rate – set for Basis, Standard, Premium */
+  /** Per-cm monthly rate – set for Basis, Augenhöhe, Greifhöhe garantiert */
   ratePerCm?: number;
   color: SlotColor;
   empfohlen?: boolean;
@@ -16,26 +18,10 @@ export interface SlotTier {
 
 export const SLOTS: SlotTier[] = [
   {
-    id: "hero-wall",
-    name: "Hero Wall",
-    position: "Ladenfront – maximale Sichtbarkeit",
-    kostenMonat: 490,
-    color: "gold",
-    empfohlen: false,
-    highlights: [
-      "Stirnseite Ladenfront – maximale Sichtbarkeit",
-      "QR-Code + Traverse-Karte inklusive",
-      "Promo-Tag 1× pro Quartal (Fr/Sa)",
-      "Pro Analytics – 1 Monat gratis",
-      "Tasting Bar inklusive",
-    ],
-    idealFor: "Launch-Kampagnen, Saisonartikel, Brand Awareness",
-  },
-  {
     id: "schaufenster",
     name: "Schaufenster",
-    position: "Außensichtbarkeit – Laufkundschaft",
-    kostenMonat: 149,
+    position: "Ladenfront – Außensichtbarkeit",
+    kostenMonat: SCHAUFENSTER_MONAT,
     color: "window",
     empfohlen: false,
     highlights: [
@@ -47,29 +33,30 @@ export const SLOTS: SlotTier[] = [
     idealFor: "Visual-Produkte, Awareness, saisonale Aktionen",
   },
   {
-    id: "premium",
-    name: "Premium",
-    position: "Augenhöhe – prime conversion",
-    ratePerCm: 16.39,
+    id: "greifhoehe",
+    name: "Greifhöhe garantiert",
+    position: "Greifzone garantiert – prime conversion (+20 %)",
+    ratePerCm: RATES.greifhoehe,
     color: "silver",
     empfohlen: true,
     highlights: [
-      "Augenhöhe = höchste Conversion",
+      "Garantierte Greifzone = höchste Conversion",
       "QR-Code + Traverse-Karte inklusive",
       "Promo-Tag 1× pro Quartal (Fr/Sa)",
       "Pro Analytics – 1 Monat gratis",
+      "Tasting Bar inklusive",
     ],
     idealFor: "Etablierte Produkte, Food & Drinks, Gifting",
   },
   {
-    id: "standard",
-    name: "Standard",
-    position: "Mitte – solide Performance",
-    ratePerCm: 13.11,
+    id: "augenhoehe",
+    name: "Augenhöhe",
+    position: "Augenhöhe – starke Sichtbarkeit (+10 %)",
+    ratePerCm: RATES.augenhoehe,
     color: "standard",
     empfohlen: false,
     highlights: [
-      "Sichtbare Regalposition",
+      "Augenhöhe – sofort im Blickfeld",
       "QR-Code + Traverse-Karte inklusive",
       "Monatliche Verkaufszahlen",
     ],
@@ -78,8 +65,8 @@ export const SLOTS: SlotTier[] = [
   {
     id: "basis",
     name: "Basis",
-    position: "Einstiegsebene",
-    ratePerCm: 11.80,
+    position: "Grundpreis – Einstiegsebene",
+    ratePerCm: RATES.basis,
     color: "base",
     empfohlen: false,
     highlights: [

@@ -1,0 +1,898 @@
+- generic [active] [ref=e1]:
+  - generic:
+    - generic:
+      - generic:
+        - button "4.6 / 5 Verifiziertes Kunden-Feedback Alle Bewertungen Lesen" [ref=e2] [cursor=pointer]:
+          - generic [ref=e3]:
+            - text: 
+            - generic [ref=e4]:
+              - generic [ref=e5]:
+                - generic [ref=e7]: "4.6"
+                - generic [ref=e9]: / 5
+              - generic "4.6 Sterne" [ref=e11]:
+                - generic [ref=e12]: 
+                - generic [ref=e13]: 
+                - generic [ref=e14]: 
+                - generic [ref=e15]: 
+                - generic [ref=e16]: 
+              - generic [ref=e18]: Verifiziertes Kunden-Feedback
+              - generic "Alle Bewertungen Lesen" [ref=e19]:
+                - generic "REVIEWS.io" [ref=e20]:
+                  - img "REVIEWS.io" [ref=e21]
+        - generic:
+          - generic:
+            - generic:
+              - generic:
+                - generic:
+                  - generic:
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic "4.6 Sterne":
+                            - generic: 
+                            - generic: 
+                            - generic: 
+                            - generic: 
+                            - generic: 
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - strong: 4,6
+                                - text: Rating
+                            - generic:
+                              - generic:
+                                - generic:
+                                  - strong: "6.381"
+                                - text: Bewertungen
+                  - generic:
+                    - generic:
+                      - link "REVIEWS.io":
+                        - /url: https://reviews.io/company-reviews/store/oceanmata
+                        - img "REVIEWS.io"
+            - generic:
+              - generic:
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Dirk Drews
+                      - generic:
+                        - generic "1 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: Keine Lieferung erhalten
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Werl, DE, 7.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Anonym
+                      - generic:
+                        - generic "4 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: Als Projekt zum Schutz der Meere eine mega coole Sache. Leider sind die Lieferzeiten recht lange. Dafür bekommt man eine schöne Hülle und einen netten handgeschriebenen Brief dazu.
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Mühlacker, DE, 6.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Anonym
+                      - generic:
+                        - generic "5 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: tolle Qualität und Verarbeitung, wirkt hochwertig, angenehme Haptik, schnelle Lieferung. Unternehmen mit tollem Mindset!
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Munich, DE, 6.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Annette Husemann
+                      - generic:
+                        - generic "5 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: Ein toller Service und viele witzige Ideen!
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Hamburg, DE, 6.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Anonym
+                      - generic:
+                        - generic "5 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: "Ich habe mich für eine “oceanmata Hülle” entschieden, weil ich das Konzept einfach toll finde. Ich liebe das Meer, die Tiere und unterstütze gerne Projekte die Nachhaltig sind. Aber ich muss sagen als dann die Hüllen kamen war ich so begeistert, dass sie wirklich schön waren, sehr passig und einfach tolles Design! Etwas ganz besonderes 🐙 Tipp von einer sehr zufriedenen Kundin: etwas genauere Beschreibungen, bei Hüllen mit Design Optionen, das keine Überraschungen kommen."
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Langenau, DE, 6.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Oliver schmitz-briese
+                      - generic:
+                        - generic "5 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: Nicht zum ersten Mal und sicher nicht zum letzten Mal bei oceanmata bestellt! Danke für die schöne Hülle und das gute Gefühl die Welt ein bisschen sauberer gemacht zu haben!
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Wunstorf, DE, 6.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Anonym
+                      - generic:
+                        - generic "4 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: Super Qualität der "Wave" Hülle und geliefert wurde auch sehr schnell, nur die Farbe der Umrandung entsprich nicht ganz der Farbe auf den Bildern. Ich würde den Rand eher als dunkelblau beschreiben, während er auf den Bildern eideutig hellblau dargestellt ist. Allerdings stört mich das nicht weiter und ich behalte die Hülle auf jeden Fall, da sie ansonsten sehr überzeugend ist :)
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Berlin, DE, 6.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Gisela Albert
+                      - generic:
+                        - generic "5 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: Ein super Service und Produkt - persönliche Nachricht anbei. Mögt ihr hoch und lang leben! :)
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Nuremberg, DE, 5.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Anonym
+                      - generic:
+                        - generic "5 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: Bin total begeistert 🫶🏻
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Merseburg, DE, 5.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Marion Justen
+                      - generic:
+                        - generic "3 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: Die Lieferzeit war mit 2-4 Tagen angegeben . Es waren letztendlich 2 Wochen.
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Bonn, DE, 5.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Anonym
+                      - generic:
+                        - generic "2 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: Nach der Bestellung hat es zwei Wochen gedauert, bis der Versand angekündigt wurde. Anschließend verging eine weitere Woche bis sich der Sendungsstatus geändert hat, weil die Post endlich die Sendung erhalten hat. Beim zwischenzeitlichen Versuch über die Telefonnummer auf der Rechnung anzurufen, kommt nur die Ansage, dass diese Nummer nicht bekannt bzw. vergeben ist. Die handgeschriebene Nachricht bei der Sendung kann dann auch nichts mehr gutmachen.
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Marburg an der Lahn, DE, 5.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Anonym
+                      - generic:
+                        - generic "5 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: Sehr schöne Handyhülle in guter Qualität! :)
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Gießen, DE, 4.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Simon Burczyk
+                      - generic:
+                        - generic "5 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: Schöne Hülle und sehr guter Bildschirmschutz!!
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Hamburg, DE, 4.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Anonym
+                      - generic:
+                        - generic "5 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: Super Produkte und sehr sehr netter Kundenservice:) Definitiv weiterzuempfehlen
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Dornach, CH, 4.6.2026
+                - generic:
+                  - article:
+                    - generic:
+                      - generic:
+                        - generic: Antigone Bayer
+                      - generic:
+                        - generic "5 Sterne":
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                          - generic: 
+                    - generic:
+                      - generic:
+                        - generic: 
+                      - generic:
+                        - generic: Verifizierter Kunde
+                    - generic:
+                      - generic: Ihr Lieben, ich bin so begeistert von allen euren Produkten! Besonders liebe ich die Armbänder. Aber auch die Handyhüllen sind mega! Ich kann nur sagen, dass alles eine tolle Qualität hat und wunderschön aussieht. Ich werde auf jeden Fall weiter bei euch einkaufen, um von hier aus zu unterstützen. Vielen Dank euch für die tolle Arbeit 🙏 🌊🫍 💜
+                    - generic:
+                      - generic:
+                        - generic:
+                          - generic:
+                            - generic:
+                              - generic: Hilfreich?
+                            - button "Ja"
+                            - generic:
+                              - button "Teilen"
+                              - generic:
+                                - button "Twitter":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Twitter
+                                - button "Facebook":
+                                  - generic:
+                                    - generic:
+                                      - generic:
+                                        - generic: 
+                                      - generic: Facebook
+                        - generic:
+                          - generic: Frankfurt am Main, DE, 4.6.2026
+              - generic:
+                - link "Alle Bewertungen Lesen":
+                  - /url: https://reviews.io/company-reviews/store/oceanmata
+  - img [ref=e22]
+  - link "Direkt zum Inhalt" [ref=e23] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e25]:
+    - generic [ref=e27]:
+      - generic [ref=e28]:
+        - img [ref=e29]
+        - text: 4.61/5 basierend auf 11.424 Bewertungen
+      - paragraph [ref=e30]: 1 Produkt = 1 kg Ocean Plastic | Kostenloser Versand in DE & AT
+    - generic [ref=e31]:
+      - generic [ref=e32]:
+        - navigation [ref=e33]:
+          - search [ref=e35]:
+            - img
+            - textbox "Suche" [ref=e36]:
+              - /placeholder: Nach was suchst Du?
+        - link "OCEANMATA" [ref=e38] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e39]: OCEANMATA
+        - generic [ref=e41]:
+          - generic [ref=e42]:
+            - button "Deine Hülle finden" [ref=e43] [cursor=pointer]:
+              - img [ref=e44]
+              - text: Deine Hülle finden
+              - img
+            - option "Marke wählen" [selected]
+            - option "iPhone"
+            - option "Samsung"
+            - option "AirPods"
+            - option "Erst Marke wählen" [selected]
+          - link "Login" [ref=e46] [cursor=pointer]:
+            - /url: https://oceanmata.com/customer_authentication/redirect?locale=de&region_country=DE
+            - img
+            - generic [ref=e47]: Login
+          - link "Warenkorb" [ref=e48] [cursor=pointer]:
+            - /url: /cart
+            - img
+            - generic [ref=e49]: "0"
+            - generic [ref=e50]: Warenkorb
+      - navigation [ref=e51]:
+        - list [ref=e53]:
+          - listitem [ref=e54]:
+            - link "Am meisten geliebt" [ref=e55] [cursor=pointer]:
+              - /url: /collections/bestseller
+          - listitem [ref=e56]:
+            - link "Finde dein Gerät" [ref=e57] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e58]:
+            - link "Alle Produkte entdecken" [ref=e59] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e60]:
+            - link "Kollektionen entdecken" [ref=e61] [cursor=pointer]:
+              - /url: "#"
+          - listitem [ref=e62]:
+            - link "Vision Oceanmata" [ref=e63] [cursor=pointer]:
+              - /url: "#"
+  - main [ref=e64]:
+    - generic [ref=e68]:
+      - generic: "404"
+      - generic [ref=e69]:
+        - heading "Seite nicht gefunden" [level=3] [ref=e70]
+        - paragraph [ref=e71]: Entschuldige, diese Seite existiert nicht.
+        - link "Zurück zur Startseite" [ref=e73] [cursor=pointer]:
+          - /url: /
+  - generic [ref=e74]:
+    - generic [ref=e75]:
+      - generic [ref=e78]:
+        - generic [ref=e81]:
+          - paragraph [ref=e82]: 10% Rabatt & erfahre mehr von Oceanmata
+          - paragraph [ref=e83]
+        - textbox "Email" [ref=e87]
+        - button "Jetzt eintragen" [ref=e90] [cursor=pointer]
+      - alert [ref=e91]
+    - contentinfo [ref=e92]:
+      - generic [ref=e94]:
+        - generic [ref=e95]:
+          - generic [ref=e96]:
+            - paragraph [ref=e97]: Produkte
+            - list [ref=e99]:
+              - listitem [ref=e100]:
+                - link "iPhone Handyhüllen" [ref=e101] [cursor=pointer]:
+                  - /url: /collections/nachhaltige-iphone-hullen
+              - listitem [ref=e102]:
+                - link "Samsung Handyhüllen" [ref=e103] [cursor=pointer]:
+                  - /url: /collections/nachhaltige-samsung-hullen
+              - listitem [ref=e104]:
+                - link "Airpods Pro Hüllen" [ref=e105] [cursor=pointer]:
+                  - /url: /collections/hulle-fur-air-pods-pro
+              - listitem [ref=e106]:
+                - link "Airpods Hüllen" [ref=e107] [cursor=pointer]:
+                  - /url: /collections/hulle-fur-air-pods
+              - listitem [ref=e108]:
+                - link "Schutzglas" [ref=e109] [cursor=pointer]:
+                  - /url: /products/nachhaltiges-panzerglas
+              - listitem [ref=e110]:
+                - link "Schildkröten Patenschaften" [ref=e111] [cursor=pointer]:
+                  - /url: /collections/patenschaften
+              - listitem [ref=e112]:
+                - link "Halsketten" [ref=e113] [cursor=pointer]:
+                  - /url: /collections/nachhaltige-halskette-ringe
+          - generic [ref=e114]:
+            - paragraph [ref=e115]: Hilfe & Kontakt
+            - list [ref=e117]:
+              - listitem [ref=e118]:
+                - link "Hilfe & Kontakt" [ref=e119] [cursor=pointer]:
+                  - /url: /pages/hilfe-kontakt
+              - listitem [ref=e120]:
+                - link "Unsere Story" [ref=e121] [cursor=pointer]:
+                  - /url: /pages/unsere-story
+              - listitem [ref=e122]:
+                - link "Unser Team" [ref=e123] [cursor=pointer]:
+                  - /url: /pages/team
+              - listitem [ref=e124]:
+                - link "B2B Handyhüllen" [ref=e125] [cursor=pointer]:
+                  - /url: https://oceanmata.com/pages/b2b-kontakt-firmen
+              - listitem [ref=e126]:
+                - link "Presse" [ref=e127] [cursor=pointer]:
+                  - /url: /pages/presse
+              - listitem [ref=e128]:
+                - link "Jobs" [ref=e129] [cursor=pointer]:
+                  - /url: /pages/jobs
+              - listitem [ref=e130]:
+                - link "Blog" [ref=e131] [cursor=pointer]:
+                  - /url: /blogs/news
+          - generic [ref=e132]:
+            - paragraph [ref=e133]: Allgemeines
+            - list [ref=e135]:
+              - listitem [ref=e136]:
+                - link "Impressum" [ref=e137] [cursor=pointer]:
+                  - /url: /policies/legal-notice
+              - listitem [ref=e138]:
+                - link "Versand & Zahlung" [ref=e139] [cursor=pointer]:
+                  - /url: /policies/shipping-policy
+              - listitem [ref=e140]:
+                - link "AGB" [ref=e141] [cursor=pointer]:
+                  - /url: /policies/terms-of-service
+              - listitem [ref=e142]:
+                - link "Widerrufsbelehrung" [ref=e143] [cursor=pointer]:
+                  - /url: /policies/refund-policy
+              - listitem [ref=e144]:
+                - link "Datenschutzerklärung" [ref=e145] [cursor=pointer]:
+                  - /url: /policies/privacy-policy
+          - generic [ref=e146]:
+            - paragraph [ref=e147]: Folge uns auf Socialmedia
+            - list [ref=e149]:
+              - listitem [ref=e150]:
+                - link "Folge uns auf Facebook" [ref=e151] [cursor=pointer]:
+                  - /url: https://www.facebook.com/oceanmata/
+                  - img
+              - listitem [ref=e152]:
+                - link "Folge uns auf Instagram" [ref=e153] [cursor=pointer]:
+                  - /url: https://www.instagram.com/oceanmata/
+                  - img
+              - listitem [ref=e154]:
+                - link "Folge uns auf YouTube" [ref=e155] [cursor=pointer]:
+                  - /url: https://www.youtube.com/channel/UC8NYuH-7YDl-Mt_PlMgHEDw
+                  - img
+              - listitem [ref=e156]:
+                - link "Folge uns auf TikTok" [ref=e157] [cursor=pointer]:
+                  - /url: https://www.tiktok.com/@oceanmata
+                  - img
+          - generic [ref=e158]:
+            - paragraph [ref=e159]: Versandarten
+            - img [ref=e161]
+        - generic [ref=e162]:
+          - generic [ref=e164]:
+            - generic [ref=e165]: Land/Region
+            - button "Deutschland (EUR €)" [ref=e166] [cursor=pointer]:
+              - text: Deutschland (EUR €)
+              - img
+          - generic [ref=e167]:
+            - text: © Oceanmata. All Rights Reserved.
+            - link "Webhop Entwicklung von Bitweave.co" [ref=e169] [cursor=pointer]:
+              - /url: https://bitweave.co
+          - generic [ref=e170]:
+            - generic [ref=e171]: Wir akzeptieren
+            - generic [ref=e172]:
+              - img "American Express" [ref=e173]
+              - img "Apple Pay" [ref=e182]
+              - img "Bancontact" [ref=e193]
+              - img "Google Pay" [ref=e200]
+              - img "iDEAL Wero" [ref=e208]
+              - img "Klarna" [ref=e223]
+              - img "Maestro" [ref=e227]
+              - img "Mastercard" [ref=e233]
+              - img "PayPal" [ref=e239]
+              - img "Shop Pay" [ref=e245]
+              - img "Twint" [ref=e249]
+              - img "Union Pay" [ref=e254]
+              - img "Visa" [ref=e260]
+  - option "Marke wählen" [selected]
+  - option "iPhone"
+  - option "Samsung"
+  - option "AirPods"
+  - option "Erst Marke wählen" [selected]

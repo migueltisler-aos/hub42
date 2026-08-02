@@ -1,0 +1,261 @@
+- generic [active] [ref=e1]:
+  - dialog "Deine Privatsphäre":
+    - generic [ref=e2]:
+      - generic [ref=e3]:
+        - text: Auch wir machen diese Sache mit den Cookies. Sie helfen uns dabei, unsere Seite besser zu machen. Geht das für dich klar?
+        - link "Ich will mehr Wissen." [ref=e4] [cursor=pointer]:
+          - /url: https://malunt.myshopify.com/policies/privacy-policy
+      - generic [ref=e5]:
+        - button "Einstellungen" [ref=e6] [cursor=pointer]
+        - button "Ok" [ref=e7] [cursor=pointer]
+  - link "Zum Inhalt springen" [ref=e8] [cursor=pointer]:
+    - /url: "#main"
+  - banner [ref=e9]:
+    - generic [ref=e12]:
+      - generic [ref=e14]:
+        - generic [ref=e15]:
+          - paragraph [ref=e16]: ⭐⭐⭐⭐⭐(4.8)50.000+ zufriedene Kunden
+          - paragraph [ref=e18]: 🥇PETA Award "Bester Riegel 2026"
+          - paragraph [ref=e20]: 📦 Kostenloser Versand ab 49,90€
+          - paragraph [ref=e22]: 🌱Bio-Qualität
+          - paragraph [ref=e24]: "📙 Ab 49,90€ Bestellwert: GRATIS E-Book"
+        - generic [ref=e26]:
+          - paragraph [ref=e27]: ⭐⭐⭐⭐⭐(4.8)50.000+ zufriedene Kunden
+          - paragraph [ref=e29]: 🥇PETA Award "Bester Riegel 2026"
+          - paragraph [ref=e31]: 📦 Kostenloser Versand ab 49,90€
+          - paragraph [ref=e33]: 🌱Bio-Qualität
+          - paragraph [ref=e35]: "📙 Ab 49,90€ Bestellwert: GRATIS E-Book"
+        - generic [ref=e37]:
+          - paragraph [ref=e38]: ⭐⭐⭐⭐⭐(4.8)50.000+ zufriedene Kunden
+          - paragraph [ref=e40]: 🥇PETA Award "Bester Riegel 2026"
+          - paragraph [ref=e42]: 📦 Kostenloser Versand ab 49,90€
+          - paragraph [ref=e44]: 🌱Bio-Qualität
+          - paragraph [ref=e46]: "📙 Ab 49,90€ Bestellwert: GRATIS E-Book"
+        - generic [ref=e48]:
+          - paragraph [ref=e49]: ⭐⭐⭐⭐⭐(4.8)50.000+ zufriedene Kunden
+          - paragraph [ref=e51]: 🥇PETA Award "Bester Riegel 2026"
+          - paragraph [ref=e53]: 📦 Kostenloser Versand ab 49,90€
+          - paragraph [ref=e55]: 🌱Bio-Qualität
+          - paragraph [ref=e57]: "📙 Ab 49,90€ Bestellwert: GRATIS E-Book"
+        - generic [ref=e59]:
+          - paragraph [ref=e60]: ⭐⭐⭐⭐⭐(4.8)50.000+ zufriedene Kunden
+          - paragraph [ref=e62]: 🥇PETA Award "Bester Riegel 2026"
+          - paragraph [ref=e64]: 📦 Kostenloser Versand ab 49,90€
+          - paragraph [ref=e66]: 🌱Bio-Qualität
+          - paragraph [ref=e68]: "📙 Ab 49,90€ Bestellwert: GRATIS E-Book"
+        - generic [ref=e70]:
+          - paragraph [ref=e71]: ⭐⭐⭐⭐⭐(4.8)50.000+ zufriedene Kunden
+          - paragraph [ref=e73]: 🥇PETA Award "Bester Riegel 2026"
+          - paragraph [ref=e75]: 📦 Kostenloser Versand ab 49,90€
+          - paragraph [ref=e77]: 🌱Bio-Qualität
+          - paragraph [ref=e79]: "📙 Ab 49,90€ Bestellwert: GRATIS E-Book"
+        - generic [ref=e81]:
+          - paragraph [ref=e82]: ⭐⭐⭐⭐⭐(4.8)50.000+ zufriedene Kunden
+          - paragraph [ref=e84]: 🥇PETA Award "Bester Riegel 2026"
+          - paragraph [ref=e86]: 📦 Kostenloser Versand ab 49,90€
+          - paragraph [ref=e88]: 🌱Bio-Qualität
+          - paragraph [ref=e90]: "📙 Ab 49,90€ Bestellwert: GRATIS E-Book"
+        - generic [ref=e92]:
+          - paragraph [ref=e93]: ⭐⭐⭐⭐⭐(4.8)50.000+ zufriedene Kunden
+          - paragraph [ref=e95]: 🥇PETA Award "Bester Riegel 2026"
+          - paragraph [ref=e97]: 📦 Kostenloser Versand ab 49,90€
+          - paragraph [ref=e99]: 🌱Bio-Qualität
+          - paragraph [ref=e101]: "📙 Ab 49,90€ Bestellwert: GRATIS E-Book"
+        - generic [ref=e103]:
+          - paragraph [ref=e104]: ⭐⭐⭐⭐⭐(4.8)50.000+ zufriedene Kunden
+          - paragraph [ref=e106]: 🥇PETA Award "Bester Riegel 2026"
+          - paragraph [ref=e108]: 📦 Kostenloser Versand ab 49,90€
+          - paragraph [ref=e110]: 🌱Bio-Qualität
+          - paragraph [ref=e112]: "📙 Ab 49,90€ Bestellwert: GRATIS E-Book"
+        - generic [ref=e114]:
+          - paragraph [ref=e115]: ⭐⭐⭐⭐⭐(4.8)50.000+ zufriedene Kunden
+          - paragraph [ref=e117]: 🥇PETA Award "Bester Riegel 2026"
+          - paragraph [ref=e119]: 📦 Kostenloser Versand ab 49,90€
+          - paragraph [ref=e121]: 🌱Bio-Qualität
+          - paragraph [ref=e123]: "📙 Ab 49,90€ Bestellwert: GRATIS E-Book"
+      - generic [ref=e125]:
+        - navigation [ref=e128]:
+          - list [ref=e129]:
+            - listitem [ref=e130]:
+              - link "Alle Produkte Alle Produkte" [ref=e131] [cursor=pointer]:
+                - /url: /collections/alle-produkte
+                - img "Alle Produkte" [ref=e133]
+                - generic [ref=e134]: Alle Produkte
+            - listitem [ref=e135]:
+              - link "Gemüseriegel Gemüseriegel" [ref=e136] [cursor=pointer]:
+                - /url: /collections/bio-gemuese-riegel
+                - img "Gemüseriegel" [ref=e138]
+                - generic [ref=e139]: Gemüseriegel
+            - listitem [ref=e140]:
+              - link "Gemüseflocken Gemüseflocken" [ref=e141] [cursor=pointer]:
+                - /url: /collections/bio-gemuseflocken
+                - img "Gemüseflocken" [ref=e143]
+                - generic [ref=e144]: Gemüseflocken
+            - listitem [ref=e145]:
+              - link "Sparsets Sparsets" [ref=e146] [cursor=pointer]:
+                - /url: /collections/gemuese-bundles
+                - img "Sparsets" [ref=e148]
+                - generic [ref=e149]: Sparsets
+            - listitem [ref=e150]:
+              - group [ref=e151]:
+                - generic "Mehr" [ref=e152] [cursor=pointer]:
+                  - generic [ref=e153]: Mehr
+        - link "malunt malunt, logo" [ref=e156] [cursor=pointer]:
+          - /url: /
+          - generic [ref=e157]: malunt
+          - img "malunt, logo" [ref=e158]
+        - list [ref=e160]:
+          - listitem
+          - listitem [ref=e161]:
+            - link "Anmelden" [ref=e162] [cursor=pointer]:
+              - /url: https://www.malunt.com/customer_authentication/redirect?locale=de&region_country=DE
+              - generic [ref=e163]: Anmelden
+          - listitem [ref=e166]:
+            - link "Warenkorb" [ref=e167] [cursor=pointer]:
+              - /url: /cart
+              - generic [ref=e168]: Warenkorb
+              - generic [ref=e172]:
+                - generic: "0"
+  - main [ref=e174]:
+    - generic [ref=e178]:
+      - heading "Impressum" [level=1] [ref=e179]
+      - generic [ref=e180]:
+        - paragraph [ref=e181]
+        - strong [ref=e184]: Impressum
+        - generic [ref=e185]: Allgemeine Informationen
+        - generic [ref=e186]: "Angaben gemäß § 5 TMG:"
+        - generic [ref=e187]: malu nutrition GmbH
+        - generic [ref=e188]: Im Patkegarten 13a
+        - generic [ref=e189]: D-49124 Georgsmarienhütte
+        - generic [ref=e190]: "Geschäftsführer: Marie Luise Ueckeroth"
+        - strong [ref=e193]: (ACHTUNG! Keine Versandadresse für Retouren
+        - strong [ref=e195]
+        - generic [ref=e196]: "E-Mail: hallo@malunt.com"
+        - strong [ref=e200]: Umsatzsteuer
+        - generic [ref=e201]: "Umsatzsteuer-Identifikationsnummer gemäß §27 a Umsatzsteuergesetz:"
+        - generic [ref=e202]: DE353979624
+        - generic [ref=e204]: Amtsgericht Osnabrück, HRB 217825
+        - generic [ref=e205]:
+          - strong
+        - strong [ref=e207]: Bio-Zertifizierung
+        - generic [ref=e208]: DE-ÖKO-007
+        - strong [ref=e212]: Haftung für Inhalte
+        - generic [ref=e213]: Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+        - generic [ref=e214]: Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+        - strong [ref=e218]: Haftung für Links
+        - generic [ref=e219]: Unser Angebot enthält Links zu externen Webseiten Dritter, für deren Inhalte der jeweilige Anbieter oder Betreiber der Seiten verantwortlich ist. Da wir auf diese Inhalte keinen Einfluss haben, können wir dafür keine Gewähr übernehmen. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine regelmäßige inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen. Wir behalten uns das Recht vor, ohne vorherige Ankündigung, Änderungen oder Ergänzungen der bereitgestellten Informationen vorzunehmen.
+        - strong [ref=e225]: Urheberrecht
+        - generic [ref=e226]: Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet.
+        - generic [ref=e227]: Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
+    - generic [ref=e232]:
+      - generic [ref=e233]:
+        - generic [ref=e234]:
+          - img "malunt, logo" [ref=e235]
+          - paragraph [ref=e237]:
+            - strong [ref=e238]: Mehr Gemüse. Jeden Tag. Gut im Bauch. Leicht im Alltag.
+        - generic [ref=e239]:
+          - heading "Online-Shop" [level=5] [ref=e240]
+          - list [ref=e241]:
+            - listitem [ref=e242]:
+              - link "Alle Produkte" [ref=e243] [cursor=pointer]:
+                - /url: /collections/alle-produkte
+            - listitem [ref=e244]:
+              - link "Probierpaket" [ref=e245] [cursor=pointer]:
+                - /url: /products/probierpaket-bio-gemuese-riegel
+            - listitem [ref=e246]:
+              - link "Sparsets" [ref=e247] [cursor=pointer]:
+                - /url: /collections/gemuese-bundles
+            - listitem [ref=e248]:
+              - link "Malunt Mission" [ref=e249] [cursor=pointer]:
+                - /url: /pages/uber-die-marke
+        - generic [ref=e250]:
+          - heading "Informationen" [level=5] [ref=e251]
+          - list [ref=e252]:
+            - listitem [ref=e253]:
+              - link "Newsletter" [ref=e254] [cursor=pointer]:
+                - /url: /pages/newsletter
+            - listitem [ref=e255]:
+              - link "Presse" [ref=e256] [cursor=pointer]:
+                - /url: /pages/presse
+            - listitem [ref=e257]:
+              - link "B2B" [ref=e258] [cursor=pointer]:
+                - /url: /pages/b2b
+            - listitem [ref=e259]:
+              - link "Jobs" [ref=e260] [cursor=pointer]:
+                - /url: /pages/jobs
+            - listitem [ref=e261]:
+              - link "Gemüse-Rezepte" [ref=e262] [cursor=pointer]:
+                - /url: /blogs/rezepte
+        - generic [ref=e263]:
+          - heading "KUNDENSERVICE" [level=5] [ref=e264]
+          - list [ref=e265]:
+            - listitem [ref=e266]:
+              - link "Kontakt & Hilfe" [ref=e267] [cursor=pointer]:
+                - /url: /pages/kundenservice
+            - listitem [ref=e268]:
+              - link "Storefinder" [ref=e269] [cursor=pointer]:
+                - /url: /pages/malunt-storefinder
+            - listitem [ref=e270]:
+              - link "Impressum" [ref=e271] [cursor=pointer]:
+                - /url: /policies/legal-notice
+            - listitem [ref=e272]:
+              - link "AGB" [ref=e273] [cursor=pointer]:
+                - /url: /policies/terms-of-service
+            - listitem [ref=e274]:
+              - link "Datenschutz" [ref=e275] [cursor=pointer]:
+                - /url: /policies/privacy-policy
+            - listitem [ref=e276]:
+              - link "Widerruf" [ref=e277] [cursor=pointer]:
+                - /url: /pages/widerrufsrecht
+            - listitem [ref=e278]:
+              - link "Zahlung & Versand" [ref=e279] [cursor=pointer]:
+                - /url: /policies/shipping-policy
+      - generic [ref=e282]:
+        - generic [ref=e283]:
+          - list [ref=e285]:
+            - listitem [ref=e286]:
+              - link "Auf Facebook folgen" [ref=e287] [cursor=pointer]:
+                - /url: https://www.facebook.com/malunt.de/
+            - listitem [ref=e289]:
+              - link "Auf Instagram folgen" [ref=e290] [cursor=pointer]:
+                - /url: https://www.instagram.com/malunt_de?igsh=MTJybGh4OGVkNXV1bA%3D%3D&utm_source=qr
+            - listitem [ref=e292]:
+              - link "Auf YouTube folgen" [ref=e293] [cursor=pointer]:
+                - /url: https://www.youtube.com/@malunt_de
+            - listitem [ref=e295]:
+              - link "Auf TikTok folgen" [ref=e296] [cursor=pointer]:
+                - /url: https://tiktok.com/@malunt.de
+            - listitem [ref=e298]:
+              - link "Auf LinkedIn folgen" [ref=e299] [cursor=pointer]:
+                - /url: https://de.linkedin.com/company/malu-nutrition-gmbh
+          - list [ref=e301]:
+            - listitem [ref=e302]:
+              - img "American Express" [ref=e303]
+            - listitem [ref=e312]:
+              - img "Apple Pay" [ref=e313]
+            - listitem [ref=e324]:
+              - img "Google Pay" [ref=e325]
+            - listitem [ref=e333]:
+              - img "Klarna" [ref=e334]
+            - listitem [ref=e338]:
+              - img "Maestro" [ref=e339]
+            - listitem [ref=e345]:
+              - img "Mastercard" [ref=e346]
+            - listitem [ref=e352]:
+              - img "PayPal" [ref=e353]
+            - listitem [ref=e359]:
+              - img "Shop Pay" [ref=e360]
+            - listitem [ref=e364]:
+              - img "Union Pay" [ref=e365]
+            - listitem [ref=e371]:
+              - img "Visa" [ref=e372]
+          - paragraph [ref=e376]: © 2026, malunt
+        - generic:
+          - generic:
+            - img "Footer image"
+          - generic:
+            - img "Footer image"
+          - generic:
+            - img "Footer image"
+          - generic:
+            - img "Footer image"

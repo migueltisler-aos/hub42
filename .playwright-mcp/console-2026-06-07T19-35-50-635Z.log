@@ -1,0 +1,35 @@
+[     666ms] [LOG]  Initializing Smart Data Protector @ https://privacy-proxy.usercentrics.eu/latest/uc-block.bundle.js:0
+[    1178ms] [LOG] [SC Discount Debug] engine-connected {config: Object} @ https://buy.thefemalecompany.com/cdn/shop/t/546/assets/custom.js?v=137934017739655854101780497457:0
+[    1178ms] [LOG] [SC Discount Debug] init-start {} @ https://buy.thefemalecompany.com/cdn/shop/t/546/assets/custom.js?v=137934017739655854101780497457:0
+[    1196ms] [INFO] Run helper.... @ https://cdn.shopify.com/extensions/019e6d6b-87ea-756b-a21c-3bbb5e2e9f43/pagefly-page-builder-288/assets/pagefly-general-helper.js:0
+[    1206ms] [LOG] productATCs [] @ https://cdn.shopify.com/extensions/019e6d6b-87ea-756b-a21c-3bbb5e2e9f43/pagefly-page-builder-288/assets/pagefly-product.js:4
+[    1228ms] [LOG] [Klaviyo / Onsite] Initializing. @ https://a.klaviyo.com/media/js/onsite/onsite.js:143
+[    1229ms] [LOG] [Loaded CSS, //a.klaviyo.com/media/css/public/klaviyo_subscribe.css] @ https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js:39
+[    1230ms] [LOG] [Loaded JS, //cdnjs.cloudflare.com/ajax/libs/jquery.form/3.32/jquery.form.min.js] @ https://www.klaviyo.com/media/js/public/klaviyo_subscribe.js:39
+[    1235ms] [LOG] AskAIController initGlobal (header icon) @ https://play.gotolstoy.com/widget-v2/widget.js:68
+[    1249ms] [LOG] OnYou log: FloatingSearchBarController: Search bar is disabled @ https://play.gotolstoy.com/widget-v2/widget.js:54
+[    1249ms] [LOG] OnYou log: ChatBubbleController: Chat bubble is disabled. @ https://play.gotolstoy.com/widget-v2/widget.js:54
+[    1249ms] [LOG] AskAIController initGlobal skipped - Ask AI icon not enabled @ https://play.gotolstoy.com/widget-v2/widget.js:68
+[    1364ms] [LOG] BSS scripts loaded @ https://buy.thefemalecompany.com/policies/legal-notice:1203
+[    1386ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://buy.thefemalecompany.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0
+[    1432ms] [LOG] [USERCENTRICS CONSENT] Consent event {action: onInitialPageLoad, event: consent_status, type: implicit, ucCategory: Object, Usercentrics Consent Management Platform: true} @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    1452ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://buy.thefemalecompany.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0
+[    1458ms] [LOG] [SHOPIFY CONSENT] Attempting consent update {preferences: true, analytics: false, marketing: false} @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    1461ms] [LOG] [SC Discount Debug] cart-fetched {source: ShopifyData.getCart, cart: Object} @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    1461ms] [LOG] [SC Discount Debug] state-built {cart: Object, state: Object} @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    1462ms] [LOG] [SC Discount Debug] state-set {eventName: null, state: Object} @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    1462ms] [LOG] [SC Discount Debug] sync-plan {syncPlan: Object} @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    1582ms] [LOG] [SHOPIFY CONSENT] Consent updated {marketing: no, analytics: no, preferences: yes, sale_of_data: } @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    1587ms] [LOG] Script loaded successfully: https://cdn.shopify.com/extensions/019e6d6b-87ea-756b-a21c-3bbb5e2e9f43/pagefly-page-builder-288/assets/pagefly-htmlvideo2.js @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    1651ms] [INFO] Clear-Site-Data header on 'https://buy.thefemalecompany.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://buy.thefemalecompany.com/policies/legal-notice:0
+[    1702ms] [LOG] [Waiting for DOM to process queue.] @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    1707ms] [LOG] [Processing queue.] @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    1707ms] [LOG] [Attaching to forms, #footer-newsletter, 1] @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    1708ms] [LOG] [Attached to form, form#footer-newsletter.footer__newsletter-form.form.klaviyo_gdpr_embed_Y79uEj] @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    2051ms] [LOG] [IDENTIFY USER] {language_locale: de, region_locale: de} @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    2151ms] [LOG] [SC Discount Debug] state-built {cart: Object, state: Object} @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    2151ms] [LOG] [SC Discount Debug] cart-event-received {source: cart-event, cart: Object, state: Object} @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1
+[    2172ms] Identifier 'trustpilot_trustbox_settings' has already been declared
+[    2200ms] Uncaught Error: Goaffpro is already loaded. This message prevents duplicate loading of the script. Kindly ignore.
+    at <anonymous> (https://cdn.shopify.com/proxy/0f02ad1a61c05ef28ac7709371e92b5f3cb5eed7be34e9d08929795f41c1e0a5/api.goaffpro.com/loader.js?shop=thefemalecompany.myshopify.com&sp-cache-control=cHVibGljLCBtYXgtYWdlPTkwMA:0:49)
+[    6705ms] [LOG] [Processing queue.] @ https://browser.sentry-cdn.com/7.120.4/bundle.tracing.es5.min.js:1

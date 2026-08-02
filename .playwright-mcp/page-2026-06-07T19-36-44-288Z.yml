@@ -1,0 +1,342 @@
+- generic [ref=e3]:
+  - link "Limited Ibiza Collection – Jetzt entdecken" [ref=e5] [cursor=pointer]:
+    - /url: /de/limited
+    - generic [ref=e8]:
+      - text: Limited Ibiza Collection –
+      - generic [ref=e9]: Jetzt entdecken
+    - img [ref=e10]
+  - banner [ref=e12]:
+    - generic [ref=e17] [cursor=pointer]:
+      - text: Versand & Rückgabe
+      - img [ref=e18]
+    - navigation [ref=e20]:
+      - generic [ref=e21]:
+        - generic [ref=e22]:
+          - link "Homepage" [ref=e23] [cursor=pointer]:
+            - /url: /de
+            - img [ref=e25]
+          - generic [ref=e28]:
+            - button "Auswahl des Lieferlandes öffnen" [ref=e32] [cursor=pointer]:
+              - img "DE flag" [ref=e33]
+              - text: DE
+              - img [ref=e34]
+            - link "Mein Konto" [ref=e36] [cursor=pointer]:
+              - /url: /de/anmelden
+              - img [ref=e37]
+            - link "Wunschliste" [ref=e39] [cursor=pointer]:
+              - /url: /de/wishlist
+              - img [ref=e40]
+            - link "Warenkorb öffnen" [ref=e44] [cursor=pointer]:
+              - /url: /de/basket
+              - img [ref=e45]
+        - generic [ref=e47]:
+          - generic [ref=e49]:
+            - link "Öffne das Menü Rucksäcke" [ref=e53] [cursor=pointer]:
+              - /url: /de/rucksaecke
+              - text: Rucksäcke
+            - link "Öffne das Menü Limited" [ref=e57] [cursor=pointer]:
+              - /url: /de/limited
+              - text: Limited
+            - link "Öffne das Menü Taschen" [ref=e61] [cursor=pointer]:
+              - /url: /de/taschen
+              - text: Taschen
+            - link "Öffne das Menü Sonnenbrillen" [ref=e65] [cursor=pointer]:
+              - /url: /de/sonnenbrillen
+              - text: Sonnenbrillen
+            - link "Öffne das Menü Jacken" [ref=e69] [cursor=pointer]:
+              - /url: /de/jacken
+              - text: Jacken
+            - link "Öffne das Menü Reisegepäck" [ref=e73] [cursor=pointer]:
+              - /url: /de/reisegepaeck
+              - text: Reisegepäck
+            - link "Öffne das Menü Bestseller" [ref=e77] [cursor=pointer]:
+              - /url: /de/bestseller
+              - text: Bestseller
+            - link "Öffne das Menü NEU" [ref=e81] [cursor=pointer]:
+              - /url: /de/neu
+              - text: NEU
+            - link "Öffne das Menü Kinder- & Wickelrucksäcke" [ref=e85] [cursor=pointer]:
+              - /url: /de/kinder-wickelrucksaecke
+              - text: Kinder- & Wickelrucksäcke
+            - link "Öffne das Menü Uhren" [ref=e89] [cursor=pointer]:
+              - /url: /de/uhren
+              - text: Uhren
+            - link "Öffne das Menü Last Chance" [ref=e93] [cursor=pointer]:
+              - /url: /de/last-chance
+              - text: Last Chance
+            - link "Öffne das Menü Gutscheine" [ref=e97] [cursor=pointer]:
+              - /url: /de/gutscheine
+              - text: Gutscheine
+          - generic [ref=e100]:
+            - textbox "Suche" [ref=e101]
+            - img [ref=e103] [cursor=pointer]
+  - generic [ref=e106]:
+    - generic [ref=e109]:
+      - link "Home |" [ref=e110] [cursor=pointer]:
+        - /url: /de
+        - text: Home
+        - generic [ref=e111]: "|"
+      - generic [ref=e113]: Impressum
+    - generic [ref=e114]:
+      - heading "Impressum" [level=1] [ref=e117]
+      - generic [ref=e121]:
+        - paragraph [ref=e122]: "Angaben gemäß § 5 TMG:"
+        - paragraph [ref=e123]:
+          - strong [ref=e124]: "Verantwortlich für den Inhalt:"
+        - paragraph [ref=e125]: Kapten & Son GmbH
+        - paragraph [ref=e126]:
+          - strong [ref=e127]: "Registergericht:"
+        - paragraph [ref=e128]: Amtsgericht Köln
+        - paragraph [ref=e129]:
+          - text: HRB Nr:93163
+          - text: "Ust-ID: DE297165047"
+        - paragraph [ref=e130]:
+          - strong [ref=e131]: "Anschrift:"
+        - paragraph [ref=e132]:
+          - text: Agrippinawerft 28
+          - text: 50678 Köln
+          - strong [ref=e133]: "WICHTIG:"
+          - text: Bitte schicke an diese Adresse keine Retouren oder Reklamationen, diese können nicht bearbeitet werden.
+          - text: Alle Infos zu deiner Rücksendung findest du
+          - strong [ref=e134]:
+            - link "HIER" [ref=e135] [cursor=pointer]:
+              - /url: https://returns.parcellab.com/kapten-son/de/de/
+            - text: .
+        - paragraph [ref=e136]:
+          - text: "Du hast ein anderes Anliegen? Melde dich gerne bei uns:"
+          - link "Kontakt Customer Care" [ref=e137] [cursor=pointer]:
+            - /url: https://kaptenandson.zendesk.com/hc/de/requests/new
+        - paragraph [ref=e138]: "Telefon: +49 221 292 56494"
+        - paragraph [ref=e139]:
+          - text: "Erreichbarkeit:"
+          - text: "Montag – Donnerstag: 9:00 - 17:00 Uhr"
+          - text: "Freitag: 9:00 - 16:00 Uhr"
+          - text: "Samstag: 10:00 - 14:00 Uhr"
+        - paragraph [ref=e140]:
+          - strong [ref=e141]: "Vertretungsberechtigte Geschäftsführer:"
+        - paragraph [ref=e142]: Johannes Theobald, Phil Pezus
+      - heading "HAFTUNGSAUSSCHLUSS" [level=1] [ref=e145]
+      - generic [ref=e151]:
+        - paragraph [ref=e152]: Haftung für Inhalte
+        - paragraph [ref=e153]: Die Inhalte unserer Seiten sowie unserer App wurden mit größter Sorgfalt erstellt. Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG sind wir als Diensteanbieter jedoch nicht verpflichtet, übermittelte oder gespeicherte fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen. Verpflichtungen zur Entfernung oder Sperrung der Nutzung von Informationen nach den allgemeinen Gesetzen bleiben hiervon unberührt. Eine diesbezügliche Haftung ist jedoch erst ab dem Zeitpunkt der Kenntnis einer konkreten Rechtsverletzung möglich. Bei Bekanntwerden von entsprechenden Rechtsverletzungen werden wir diese Inhalte umgehend entfernen.
+        - paragraph [ref=e154]: Haftung für Links
+        - paragraph [ref=e155]: Unser Angebot enthält Links zu externen Webseiten Dritter, auf deren Inhalte wir keinen Einfluss haben. Deshalb können wir für diese fremden Inhalte auch keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets der jeweilige Anbieter oder Betreiber der Seiten verantwortlich. Die verlinkten Seiten wurden zum Zeitpunkt der Verlinkung auf mögliche Rechtsverstöße überprüft. Rechtswidrige Inhalte waren zum Zeitpunkt der Verlinkung nicht erkennbar. Eine permanente inhaltliche Kontrolle der verlinkten Seiten ist jedoch ohne konkrete Anhaltspunkte einer Rechtsverletzung nicht zumutbar. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Links umgehend entfernen.
+        - paragraph [ref=e156]: Urheberrecht
+        - paragraph [ref=e157]: Die durch die Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht. Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers. Downloads und Kopien dieser Seite sind nur für den privaten, nicht kommerziellen Gebrauch gestattet. Soweit die Inhalte auf dieser Seite nicht vom Betreiber erstellt wurden, werden die Urheberrechte Dritter beachtet. Insbesondere werden Inhalte Dritter als solche gekennzeichnet. Sollten Sie trotzdem auf eine Urheberrechtsverletzung aufmerksam werden, bitten wir um einen entsprechenden Hinweis. Bei Bekanntwerden von Rechtsverletzungen werden wir derartige Inhalte umgehend entfernen.
+        - paragraph [ref=e158]: Datenschutz
+        - paragraph [ref=e159]:
+          - text: Die Nutzung unserer Webseite sowie unserer App ist in der Regel ohne Angabe personenbezogener Daten möglich. Soweit auf unseren Seiten personenbezogene Daten (beispielsweise Name, Anschrift oder eMail-Adressen) erhoben werden, erfolgt dies, soweit möglich, stets auf freiwilliger Basis. Diese Daten werden ohne Ihre ausdrückliche Zustimmung nicht an Dritte weitergegeben.
+          - text: Wir weisen darauf hin, dass die Datenübertragung im Internet (z.B. bei der Kommunikation per E-Mail) Sicherheitslücken aufweisen kann. Ein lückenloser Schutz der Daten vor dem Zugriff durch Dritte ist nicht möglich.
+          - text: Der Nutzung von im Rahmen der Impressumspflicht veröffentlichten Kontaktdaten durch Dritte zur Übersendung von nicht ausdrücklich angeforderter Werbung und Informationsmaterialien wird hiermit ausdrücklich widersprochen. Die Betreiber der Seiten behalten sich ausdrücklich rechtliche Schritte im Falle der unverlangten Zusendung von Werbeinformationen, etwa durch Spam-Mails, vor.
+  - generic [ref=e160]:
+    - generic [ref=e162]:
+      - generic [ref=e163]:
+        - heading "Newsletter" [level=3] [ref=e164]
+        - generic [ref=e165]: Meld dich an und bleib auf dem Laufenden.
+      - generic [ref=e166]:
+        - generic [ref=e167]:
+          - generic [ref=e168]:
+            - textbox "Namen eingeben" [ref=e169]:
+              - /placeholder: Dein Vorname
+            - generic: Dein Vorname
+          - generic [ref=e171]:
+            - textbox "E-Mail-Adresse eingeben" [ref=e172]:
+              - /placeholder: Deine E-Mail-Adresse
+            - generic: Deine E-Mail-Adresse
+        - group "Gender Selection" [ref=e174]:
+          - generic [ref=e175]:
+            - generic [ref=e176]:
+              - radio "Weiblich" [ref=e177]
+              - generic [ref=e178]: Weiblich
+            - generic [ref=e179]:
+              - radio "Männlich" [ref=e180]
+              - generic [ref=e181]: Männlich
+            - generic [ref=e182]:
+              - radio "Divers" [ref=e183]
+              - generic [ref=e184]: Divers
+        - button "Für den Newsletter anmelden" [ref=e186] [cursor=pointer]:
+          - text: Jetzt Anmelden
+          - img [ref=e187]
+    - contentinfo [ref=e189]:
+      - generic [ref=e190]:
+        - heading "Folge uns" [level=3] [ref=e191]
+        - generic [ref=e192]:
+          - link "Zu Instagram wechseln" [ref=e193] [cursor=pointer]:
+            - /url: https://www.instagram.com/kaptenandson.de
+            - img [ref=e194]
+          - link "Zu Facebook wechseln" [ref=e200] [cursor=pointer]:
+            - /url: https://www.facebook.com/kaptenandsonde
+            - img [ref=e201]
+          - link "Zu TikTok wechseln" [ref=e205] [cursor=pointer]:
+            - /url: https://www.tiktok.com/@kaptenandson.de
+            - img [ref=e206]
+          - link "Zu Pinterest wechseln" [ref=e210] [cursor=pointer]:
+            - /url: https://www.pinterest.de/kaptenandson/
+            - img [ref=e211]
+          - link "Zu YouTube wechseln" [ref=e215] [cursor=pointer]:
+            - /url: https://www.youtube.com/user/kaptenandson
+            - img [ref=e216]
+          - link "Zu Snapchat wechseln" [ref=e221] [cursor=pointer]:
+            - /url: https://www.snapchat.com/add/kaptenandson
+            - img [ref=e222]
+        - generic [ref=e226]: "& Share Your Experience."
+      - separator [ref=e227]
+      - generic [ref=e228]:
+        - generic [ref=e229]:
+          - generic [ref=e231]:
+            - generic [ref=e232]: Kundenservice
+            - list "Öffne das Menü Kundenservice" [ref=e233]:
+              - listitem [ref=e234]:
+                - link "FAQ" [ref=e235] [cursor=pointer]:
+                  - /url: https://kaptenandson.zendesk.com/hc/de
+                  - text: FAQ
+              - listitem [ref=e236]:
+                - link "Hilfe & Kontakt" [ref=e237] [cursor=pointer]:
+                  - /url: https://kaptenandson.zendesk.com/hc/de/requests/new
+                  - text: Hilfe & Kontakt
+              - listitem [ref=e238]:
+                - link "Retoure / Reklamation anmelden" [ref=e239] [cursor=pointer]:
+                  - /url: https://returns.parcellab.com/kapten-son/de/de/#/
+                  - text: Retoure / Reklamation anmelden
+              - listitem [ref=e240]:
+                - link "Ersatzteile" [ref=e241] [cursor=pointer]:
+                  - /url: https://kapten-son.com/de/service/ersatzteile
+                  - text: Ersatzteile
+              - listitem [ref=e242]:
+                - link "Zahlung & Versand" [ref=e243] [cursor=pointer]:
+                  - /url: https://kaptenandson.zendesk.com/hc/de/categories/360000161574-Zahlung-Versand
+                  - text: Zahlung & Versand
+              - listitem [ref=e244]:
+                - link "Rabatte & Aktionen" [ref=e245] [cursor=pointer]:
+                  - /url: /de/rabatte-aktionen
+                  - text: Rabatte & Aktionen
+              - listitem [ref=e246]:
+                - link "Widerrufsrecht" [ref=e247] [cursor=pointer]:
+                  - /url: /de/cancellation
+                  - text: Widerrufsrecht
+              - listitem [ref=e248]:
+                - link "Digitale Barrierefreiheit" [ref=e249] [cursor=pointer]:
+                  - /url: /de/service/accessibility
+                  - text: Digitale Barrierefreiheit
+          - generic [ref=e251]:
+            - generic [ref=e252]: Kategorien
+            - list "Öffne das Menü Kategorien" [ref=e253]:
+              - listitem [ref=e254]:
+                - link "Rucksäcke" [ref=e255] [cursor=pointer]:
+                  - /url: /de/rucksaecke
+                  - text: Rucksäcke
+              - listitem [ref=e256]:
+                - link "Taschen" [ref=e257] [cursor=pointer]:
+                  - /url: /de/taschen
+                  - text: Taschen
+              - listitem [ref=e258]:
+                - link "Sonnenbrillen" [ref=e259] [cursor=pointer]:
+                  - /url: /de/sonnenbrillen
+                  - text: Sonnenbrillen
+              - listitem [ref=e260]:
+                - link "Reisegepäck" [ref=e261] [cursor=pointer]:
+                  - /url: /de/reisegepaeck
+                  - text: Reisegepäck
+              - listitem [ref=e262]:
+                - link "Jacken" [ref=e263] [cursor=pointer]:
+                  - /url: /de/jacken
+                  - text: Jacken
+              - listitem [ref=e264]:
+                - link "Uhren & Schmuck" [ref=e265] [cursor=pointer]:
+                  - /url: /de/uhren-schmuck
+                  - text: Uhren & Schmuck
+          - generic [ref=e267]:
+            - generic [ref=e268]: Über Uns
+            - list [ref=e269]:
+              - listitem [ref=e270]:
+                - link "Unsere Stores" [ref=e271] [cursor=pointer]:
+                  - /url: /de/unsere-stores
+                  - text: Unsere Stores
+              - listitem [ref=e272]:
+                - link "Store Locator" [ref=e273] [cursor=pointer]:
+                  - /url: /de/partners
+                  - text: Store Locator
+              - listitem [ref=e274]:
+                - link "Unsere Mission" [ref=e275] [cursor=pointer]:
+                  - /url: /de/ueber-uns
+                  - text: Unsere Mission
+              - listitem [ref=e276]:
+                - link "Jobs" [ref=e277] [cursor=pointer]:
+                  - /url: https://karriere.kapten-son.com
+                  - text: Jobs
+              - listitem [ref=e278]:
+                - link "Presse" [ref=e279] [cursor=pointer]:
+                  - /url: /de/presse
+                  - text: Presse
+              - listitem [ref=e280]:
+                - link "Corporate Branding" [ref=e281] [cursor=pointer]:
+                  - /url: /de/contact/corporate-branding
+                  - text: Corporate Branding
+              - listitem [ref=e282]:
+                - link "Distribution & B2B" [ref=e283] [cursor=pointer]:
+                  - /url: /de/b2b
+                  - text: Distribution & B2B
+              - listitem [ref=e284]:
+                - link "Impressum" [ref=e285] [cursor=pointer]:
+                  - /url: /de/impressum
+                  - text: Impressum
+              - listitem [ref=e286]:
+                - link "AGB" [ref=e287] [cursor=pointer]:
+                  - /url: /de/agb
+                  - text: AGB
+              - listitem [ref=e288]:
+                - link "Datenschutz" [ref=e289] [cursor=pointer]:
+                  - /url: /de/datenschutz
+                  - text: Datenschutz
+              - listitem [ref=e290]:
+                - link "Newsletter" [ref=e291] [cursor=pointer]:
+                  - /url: /de/newsletter-signup
+                  - text: Newsletter
+              - listitem [ref=e292]:
+                - link "Fakten" [ref=e293] [cursor=pointer]:
+                  - /url: /de/fakten
+                  - text: Fakten
+              - listitem [ref=e294]:
+                - link "Blog" [ref=e295] [cursor=pointer]:
+                  - /url: https://blog.kapten-son.com/
+                  - text: Blog
+              - listitem [ref=e296]:
+                - link "App" [ref=e297] [cursor=pointer]:
+                  - /url: /de/discounts-promotions/app
+                  - text: App
+        - generic [ref=e298]:
+          - generic [ref=e299]:
+            - generic [ref=e300]: Unsere Zahlungsmöglichkeiten
+            - list [ref=e302]:
+              - listitem [ref=e303]:
+                - img "VISA" [ref=e304]
+              - listitem [ref=e305]:
+                - img "Mastercard" [ref=e306]
+              - listitem [ref=e307]:
+                - img "PayPal" [ref=e308]
+              - listitem [ref=e309]:
+                - img "Klarna" [ref=e310]
+              - listitem [ref=e311]:
+                - img "Apple Pay" [ref=e312]
+              - listitem [ref=e313]:
+                - img "Google Pay" [ref=e314]
+              - listitem [ref=e315]:
+                - img "American Express" [ref=e316]
+          - generic [ref=e317]:
+            - generic [ref=e318]: Unsere Versandmöglichkeiten
+            - list [ref=e319]:
+              - listitem [ref=e320]:
+                - img "DHL" [ref=e321]
+              - listitem [ref=e322]:
+                - img "DHL Express" [ref=e323]
+              - listitem [ref=e324]:
+                - img "Hermes" [ref=e325]
+          - generic [ref=e326]:
+            - generic [ref=e327]: Geprüfte und ausgezeichnete Leistung
+            - generic [ref=e328]:
+              - generic [ref=e331]:
+                - generic [ref=e332]: 4.70 von 5 Sternen
+                - generic [ref=e333]: 84666 Bewertungen
+              - link "Zu Reviews.io wechseln" [ref=e334] [cursor=pointer]:
+                - /url: http://www.reviews.io/company-reviews/store/kapten--son?utm_source=kapten--son&utm_medium=widget&utm_campaign=badge-modern
+                - img "Reviews.io logo" [ref=e335]

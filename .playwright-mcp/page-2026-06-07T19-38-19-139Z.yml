@@ -1,0 +1,267 @@
+- generic [active] [ref=e1]:
+  - dialog "cookieconsent":
+    - generic [ref=e2]:
+      - generic [ref=e3]: Privatsphäre-Einstellungen – Der Schutz deiner Daten ist uns wichtig
+      - generic [ref=e4]:
+        - generic [ref=e5]: Wir verwenden Cookies und respektieren zeitgleich deine Privatsphäre! Indem du auf "Annehmen" klickst, hilfst du uns dabei dir das beste Shopping-Erlebnis zu bieten. Die Erfassung, Weitergabe und Verwendung personenbezogener Daten kann zum Beispiel zur Personalisierung von Anzeigen genutzt werden. Deine Einwilligung ist freiwillig und kann jederzeit widerrufen werden
+        - generic [ref=e6]:
+          - link "Datenschutzerklärung" [ref=e7] [cursor=pointer]:
+            - /url: https://jacks-beautyline.com/pages/datenschutzerklarung
+          - generic [ref=e8]: ●
+          - link "Impressum" [ref=e9] [cursor=pointer]:
+            - /url: https://jacks-beautyline.com/pages/impressum
+      - generic [ref=e10]:
+        - button "settings cookies" [ref=e11] [cursor=pointer]: Einstellungen / Ablehnen
+        - button "allow cookies" [ref=e12] [cursor=pointer]: Annehmen
+  - link "Direkt zum Inhalt" [ref=e13] [cursor=pointer]:
+    - /url: "#MainContent"
+  - region "Announcement" [ref=e16]:
+    - generic [ref=e18] [cursor=pointer]:
+      - paragraph [ref=e21]:
+        - strong [ref=e22]: Made in Germany
+      - paragraph [ref=e25]:
+        - strong [ref=e26]: Dein Geschenk ab 75 €
+        - text: – Mini Day Cream SPF30
+      - paragraph [ref=e29]:
+        - strong [ref=e30]: Kostenloser Versand
+        - text: ab 70€ | DE, AT & CH
+      - paragraph [ref=e33]:
+        - strong [ref=e34]: Made in Germany
+      - paragraph [ref=e37]:
+        - strong [ref=e38]: Dein Geschenk ab 75 €
+        - text: – Mini Day Cream SPF30
+  - banner [ref=e42]:
+    - list [ref=e44]:
+      - listitem [ref=e45]:
+        - generic [ref=e47] [cursor=pointer]: Shop
+      - listitem [ref=e48]:
+        - generic [ref=e50] [cursor=pointer]: JACKS Atelier
+      - listitem [ref=e51]:
+        - link [ref=e52] [cursor=pointer]:
+          - /url: /pages/jacks-club
+          - figure [ref=e53]:
+            - img "JACKS Club" [ref=e55]
+      - listitem [ref=e56]:
+        - generic [ref=e58] [cursor=pointer]: Beratung
+      - listitem [ref=e59]:
+        - generic [ref=e61] [cursor=pointer]: Über uns
+    - link "JACKS beauty line" [ref=e62] [cursor=pointer]:
+      - /url: /
+      - img [ref=e63]
+    - generic [ref=e75]:
+      - generic [ref=e76]:
+        - generic [ref=e80] [cursor=pointer]:
+          - img "Language switcher country flag for Deutsch" [ref=e81]
+          - generic [ref=e82]: de
+        - button "Open accessibility menu" [ref=e84] [cursor=pointer]:
+          - img [ref=e85]
+      - link "2 min. digitale Beratung" [ref=e91] [cursor=pointer]:
+        - /url: https://jacks-beautyline.com/pages/digitale-beratung
+      - link "Einloggen" [ref=e93] [cursor=pointer]:
+        - /url: /account/login
+        - img [ref=e94]
+        - generic [ref=e102]: Einloggen
+      - button "Suche" [ref=e105] [cursor=pointer]:
+        - img [ref=e106]
+      - link "0" [ref=e114] [cursor=pointer]:
+        - /url: /pages/wishlist
+        - generic [ref=e115]:
+          - img
+        - generic [ref=e116]: "0"
+      - button "Warenkorb öffnen" [ref=e118] [cursor=pointer]:
+        - img [ref=e119]
+        - generic [ref=e126]: Warenkorb öffnen
+  - main [ref=e127]:
+    - generic [ref=e129]:
+      - heading "Impressum" [level=1] [ref=e131]
+      - generic "Page 30" [ref=e135]:
+        - generic [ref=e138]:
+          - paragraph [ref=e139]:
+            - strong [ref=e140]: JACKS beauty GmbH
+          - paragraph [ref=e141]:
+            - generic [ref=e142]: Rotherstraße 16
+            - text: 10245 Berlin Deutschland
+          - paragraph [ref=e143]:
+            - text: Für den Kundensupport, schaue dir bitte die
+            - link "Seite mit den Häufigen Fragen" [ref=e144] [cursor=pointer]:
+              - /url: https://jacks-beautyline.com/pages/faq
+            - text: an
+            - text: oder nutze unser
+            - link "Kontaktformular" [ref=e145] [cursor=pointer]:
+              - /url: https://jacks-beautyline.com/pages/kontakt
+            - text: .
+          - paragraph [ref=e146]:
+            - text: "Telefon Büro: +49(0)30-284 21 566 (keine Kundenanfragen)"
+            - text: "Mail bei Kundenanfragen:"
+            - link "support@jacks-beautyline.com" [ref=e147] [cursor=pointer]:
+              - /url: mailto:support@jacks-beautyline.com
+          - paragraph [ref=e148]:
+            - generic [ref=e149]: "Geschäftsführerin: Lisa Buchholz und Miriam Jacks"
+          - paragraph [ref=e150]: "Handelsregister: Amtsgericht Berlin Charlottenburg, HRB192892 B Umsatzsteuer-"
+          - paragraph [ref=e151]: "Identifikationsnummer: DE315620086"
+          - paragraph [ref=e152]:
+            - generic [ref=e153]: "Verantwortlich gemäß §18 Abs. 2 MStV:"
+            - text: Lisa Buchholz
+            - generic [ref=e154]: Rotherstraße 16 10245 Berlin Deutschland
+  - contentinfo [ref=e157]:
+    - generic [ref=e158]:
+      - generic [ref=e159]:
+        - generic [ref=e160]:
+          - paragraph [ref=e161]: Über uns
+          - list [ref=e163]:
+            - listitem [ref=e164]:
+              - link "Kundenservice" [ref=e165] [cursor=pointer]:
+                - /url: https://jacks-beautyline.com/pages/kundenservice
+            - listitem [ref=e166]:
+              - link "Kontakt" [ref=e167] [cursor=pointer]:
+                - /url: /pages/kontakt
+            - listitem [ref=e168]:
+              - link "Jobs" [ref=e169] [cursor=pointer]:
+                - /url: /pages/jobs
+            - listitem [ref=e170]:
+              - link "FAQ" [ref=e171] [cursor=pointer]:
+                - /url: /pages/faq
+            - listitem [ref=e172]:
+              - link "Store" [ref=e173] [cursor=pointer]:
+                - /url: /pages/stores
+            - listitem [ref=e174]:
+              - link "Glowcast Podcast" [ref=e175] [cursor=pointer]:
+                - /url: https://jacks-beautyline.com/blogs/news/glowcast
+        - generic [ref=e176]:
+          - paragraph [ref=e177]: Gut zu Wissen
+          - list [ref=e179]:
+            - listitem [ref=e180]:
+              - link "AGB" [ref=e181] [cursor=pointer]:
+                - /url: /pages/allgemeine-geschaftsbedingungen
+            - listitem [ref=e182]:
+              - link "Impressum" [ref=e183] [cursor=pointer]:
+                - /url: /pages/impressum
+            - listitem [ref=e184]:
+              - link "Widerrufsbelehrung" [ref=e185] [cursor=pointer]:
+                - /url: /pages/widerrufsbelehrung
+            - listitem [ref=e186]:
+              - link "Grounding Page" [ref=e187] [cursor=pointer]:
+                - /url: https://jacks-beautyline.com/pages/grounding-page
+            - listitem [ref=e188]:
+              - link "Datenschutz" [ref=e189] [cursor=pointer]:
+                - /url: /pages/datenschutzerklarung
+            - listitem [ref=e190]:
+              - link "Datenschutzeinstellungen" [ref=e191] [cursor=pointer]:
+                - /url: https://jacks-beautyline.com/pages/datenschutzeinstellungen
+            - listitem [ref=e192]:
+              - link "Versand & Lieferung" [ref=e193] [cursor=pointer]:
+                - /url: /pages/versand-lieferung
+            - listitem [ref=e194]:
+              - link "Retourenportal" [ref=e195] [cursor=pointer]:
+                - /url: https://track.hive.app/de/jacks-beauty-line-2/returns
+            - listitem [ref=e196]:
+              - link "Wo ist mein Paket?" [ref=e197] [cursor=pointer]:
+                - /url: https://track.hive.app/de/jacks-beauty-line-2?utm_source=kundenportal&utm_medium=footer&utm_campaign=after-purchase
+        - generic [ref=e198]:
+          - paragraph [ref=e199]: Top Produkte
+          - list [ref=e201]:
+            - listitem [ref=e202]:
+              - link "2 min. digitale Beratung" [ref=e203] [cursor=pointer]:
+                - /url: https://jacks-beautyline.com/pages/digitale-beratung
+            - listitem [ref=e204]:
+              - link "Glow Foundation" [ref=e205] [cursor=pointer]:
+                - /url: /products/glow-foundation-makeup
+            - listitem [ref=e206]:
+              - link "Cream Concealer" [ref=e207] [cursor=pointer]:
+                - /url: /products/new-cream-concealer
+            - listitem [ref=e208]:
+              - link "Mascara" [ref=e209] [cursor=pointer]:
+                - /url: /products/the-mascara
+            - listitem [ref=e210]:
+              - link "Pressed Powder" [ref=e211] [cursor=pointer]:
+                - /url: /products/pressed-powder-compact-m
+            - listitem [ref=e212]:
+              - link "Bronzer" [ref=e213] [cursor=pointer]:
+                - /url: /products/bronzer-compactm
+            - listitem [ref=e214]:
+              - link "Cream Blush" [ref=e215] [cursor=pointer]:
+                - /url: /products/cream-blush
+            - listitem [ref=e216]:
+              - link "Lipstick" [ref=e217] [cursor=pointer]:
+                - /url: /products/lipstick
+            - listitem [ref=e218]:
+              - link "Eyeshadow Palette" [ref=e219] [cursor=pointer]:
+                - /url: https://jacks-beautyline.com/products/individual-eyeshadow-palette-alu
+            - listitem [ref=e220]:
+              - link "Powder Palette" [ref=e221] [cursor=pointer]:
+                - /url: https://jacks-beautyline.com/products/individual-powder-palette-alu
+        - generic [ref=e222]:
+          - paragraph [ref=e223]: Newsletter
+          - generic [ref=e226]:
+            - generic [ref=e229]:
+              - paragraph [ref=e233]:
+                - generic [ref=e234]:
+                  - text: Bleibe auf dem Laufenden und lass dich inspirieren! Jetzt zum Newsletter anmelden und einen
+                  - strong [ref=e235]: gratis Lipstick
+                  - text: ab einem Mindestbestellwert von 35€ sichern.
+                  - text: Du kannst dich natürlich jederzeit wieder abmelden.
+              - textbox "E-Mail" [ref=e239]
+              - button "Anmelden" [ref=e242] [cursor=pointer]
+            - alert [ref=e243]
+      - generic [ref=e244]:
+        - img [ref=e246]
+        - generic [ref=e258]:
+          - paragraph [ref=e259]: Folge uns hier
+          - list [ref=e260]:
+            - listitem [ref=e261]:
+              - link "Facebook" [ref=e262] [cursor=pointer]:
+                - /url: https://www.facebook.com/JACKSbeautyline
+                - img [ref=e263]
+                - generic [ref=e265]: Facebook
+            - listitem [ref=e266]:
+              - link "Pinterest" [ref=e267] [cursor=pointer]:
+                - /url: https://de.pinterest.com/jacks_beautyline/
+                - img [ref=e268]
+                - generic [ref=e270]: Pinterest
+            - listitem [ref=e271]:
+              - link "Instagram" [ref=e272] [cursor=pointer]:
+                - /url: https://www.instagram.com/jacksbeautyline/
+                - img [ref=e273]
+                - generic [ref=e277]: Instagram
+            - listitem [ref=e278]:
+              - link "YouTube" [ref=e279] [cursor=pointer]:
+                - /url: https://www.youtube.com/@JACKSbeautyline
+                - img [ref=e280]
+                - generic [ref=e283]: YouTube
+            - listitem [ref=e284]:
+              - link "TikTok Icon Tiktok" [ref=e285] [cursor=pointer]:
+                - /url: https://www.tiktok.com/@jacksbeautyline
+                - img "TikTok Icon" [ref=e286]
+                - generic [ref=e287]: Tiktok
+        - generic [ref=e288]:
+          - paragraph [ref=e289]: Wir akzeptieren
+          - generic [ref=e290]: Unsere Bezahlarten
+          - list [ref=e291]:
+            - listitem [ref=e292]:
+              - img [ref=e293]
+            - listitem [ref=e296]:
+              - img [ref=e297]
+            - listitem [ref=e304]:
+              - img [ref=e305]
+            - listitem [ref=e308]:
+              - img [ref=e309]
+            - listitem [ref=e314]:
+              - img [ref=e315]
+            - listitem [ref=e320]:
+              - img [ref=e321]
+            - listitem [ref=e327]:
+              - img [ref=e328]
+            - listitem [ref=e331]:
+              - img [ref=e332]
+      - paragraph [ref=e337]: © JACKS beauty line 2026. All rights reserved.
+  - generic:
+    - generic:
+      - button "Open actions":
+        - generic:
+          - strong: Lass dich beraten
+        - button "Beratungs-Button schließen":
+          - img
+  - generic:
+    - generic:
+      - generic:
+        - region "Notifications"

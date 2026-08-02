@@ -1,0 +1,27 @@
+[    1169ms] [LOG] [Klaviyo / Onsite] Initializing. @ https://a.klaviyo.com/media/js/onsite/onsite.js:143
+[    1246ms] [LOG] [TABOOLA DEBUG SANDBOXED] - Extension Loaded @ https://undgretel.com/web-pixels/strict/app/web-pixel-2149122426@256e0f107bfa102eabd3cbf632fd11d1.js:0
+[    1270ms] [INFO] k-web-pixel-version 1 @ https://undgretel.com/web-pixels/strict/app/web-pixel-2065858938@524f6c1ee37bacdca7657a665bdca589.js:0
+[    1408ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://undgretel.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0
+[    1448ms] [WARNING] In a sandboxed environment, addEventListener may not behave as expected. @ https://undgretel.com/cdn/wpm/sa9664f44w6a62cec8p04af10e4mb91e3447m.js:0
+[    1593ms] [ERROR] Unable to process event: init,[object Object],function(i){t&&t(i),n(i)} @ https://static.klaviyo.com/onsite/js/build-preview/commit-e93d48723ad76f27cbf4145e2c348bc69f9234d5/sharedUtils.b39e9b140d27feb19917.js?cb=2:0
+[    1593ms] [ERROR] Unable to process event: enable,backinstock,[object Object],function(i){t&&t(i),n(i)} @ https://static.klaviyo.com/onsite/js/build-preview/commit-e93d48723ad76f27cbf4145e2c348bc69f9234d5/sharedUtils.b39e9b140d27feb19917.js?cb=2:0
+[    1698ms] [INFO] Clear-Site-Data header on 'https://undgretel.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://undgretel.com/pages/impressum:0
+[    2399ms] [LOG] [TABOOLA DEBUG] - Loading tfa.js @ https://spfy-pxl.archive-digger.com/assets/script_tag.js?shopId=undgretel.myshopify.com&taboolaId=1943153&espd=true&ecav=true&eh=true&ess=true&ep=true&eatc=true&eprv=true&ecv=true&epv=true&esc=true&shop=undgretel.myshopify.com:234
+[    2399ms] [LOG] [TABOOLA DEBUG] - tfa.js Loaded successfully @ https://spfy-pxl.archive-digger.com/assets/script_tag.js?shopId=undgretel.myshopify.com&taboolaId=1943153&espd=true&ecav=true&eh=true&ess=true&ep=true&eatc=true&eprv=true&ecv=true&epv=true&esc=true&shop=undgretel.myshopify.com:244
+[    2399ms] [LOG] [TABOOLA DEBUG] - HEALTH LOG - Before [[page_view]] - before_tfa @ https://spfy-pxl.archive-digger.com/assets/script_tag.js?shopId=undgretel.myshopify.com&taboolaId=1943153&espd=true&ecav=true&eh=true&ess=true&ep=true&eatc=true&eprv=true&ecv=true&epv=true&esc=true&shop=undgretel.myshopify.com:34
+[    2400ms] [LOG] [TABOOLA DEBUG] - HEALTH LOG - After [[page_view]] - after_tfa @ https://spfy-pxl.archive-digger.com/assets/script_tag.js?shopId=undgretel.myshopify.com&taboolaId=1943153&espd=true&ecav=true&eh=true&ess=true&ep=true&eatc=true&eprv=true&ecv=true&epv=true&esc=true&shop=undgretel.myshopify.com:34
+[    2400ms] [LOG] [TABOOLA DEBUG] - HEALTH LOG - Before [[page_view]] http method - before_http @ https://spfy-pxl.archive-digger.com/assets/script_tag.js?shopId=undgretel.myshopify.com&taboolaId=1943153&espd=true&ecav=true&eh=true&ess=true&ep=true&eatc=true&eprv=true&ecv=true&epv=true&esc=true&shop=undgretel.myshopify.com:34
+[    2401ms] [LOG] [TABOOLA DEBUG] - HEALTH LOG - After [[page_view]] http method - after_http @ https://spfy-pxl.archive-digger.com/assets/script_tag.js?shopId=undgretel.myshopify.com&taboolaId=1943153&espd=true&ecav=true&eh=true&ess=true&ep=true&eatc=true&eprv=true&ecv=true&epv=true&esc=true&shop=undgretel.myshopify.com:34
+[    2415ms] [LOG] Oxi Social Login Initialized @ https://social-login.oxiapps.com/api/init?vt=928364&shop=undgretel.myshopify.com:19
+[    2820ms] [LOG] %c
+
+📈 Increased conversion rates
+📈 Increased average order value
+📈 Increased customer lifetime value
+
+
+Learn more at: https://developers.rebuyengine.com/
+
+ font-size: 14px; @ https://cdn.rebuyengine.com/onsite/js/global.js?build=1780672498:0
+[    3222ms] [INFO] Clear-Site-Data header on 'https://undgretel.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://undgretel.com/pages/impressum:0
+[    3475ms] [INFO] Clear-Site-Data header on 'https://undgretel.com/cart/update.js': Cleared data types: "prefetchCache", "prerenderCache". @ https://undgretel.com/pages/impressum:0

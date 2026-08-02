@@ -17,7 +17,7 @@ const BLOCKS = [
   {
     eyebrow: "Pipeline",
     headline: "Early Bird",
-    headlineSub: "ab 55 €/Monat",
+    headlineSub: "ab 59 €/Monat",
     lines: [
       "LOIs in Verhandlung",
       "First-Mover-Slots verfügbar",

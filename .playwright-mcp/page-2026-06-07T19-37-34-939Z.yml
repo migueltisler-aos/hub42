@@ -1,0 +1,186 @@
+- generic [active] [ref=e1]:
+  - alertdialog "Cookie-Zustimmung" [ref=e2]:
+    - generic [ref=e3]:
+      - generic [ref=e4]:
+        - heading "Cookie-Zustimmung" [level=2] [ref=e5]
+        - paragraph [ref=e6]:
+          - text: Wir und unsere Partner, einschließlich Shopify, verwenden Cookies und weitere Technologien, um dein Erlebnis individuell an dich anzupassen, dir Werbung zu zeigen und Analysen durchzuführen. Wir nutzen Cookies und andere Technologien für diese Zwecke nur mit deiner Zustimmung. Mehr Informationen findest du in unserer
+          - link "Datenschutzerklärung" [ref=e7] [cursor=pointer]:
+            - /url: https://coeur-de-beaute.de/policies/privacy-policy
+      - generic [ref=e8]:
+        - button "Einstellungen verwalten" [ref=e9]
+        - button "Akzeptieren" [ref=e10]
+        - button "Ablehnen" [ref=e11]
+  - link "Direkt zum Inhalt" [ref=e12] [cursor=pointer]:
+    - /url: "#MainContent"
+  - generic [ref=e13]:
+    - complementary [ref=e16]:
+      - paragraph [ref=e20]: Clean Beauty. Ohne Kompromisse
+    - banner [ref=e21]:
+      - generic [ref=e25]:
+        - generic [ref=e26]:
+          - 'link "Translation missing: de.cœur de beauté accessibility.home" [ref=e27] [cursor=pointer]':
+            - /url: /
+            - 'img "Translation missing: de.cœur de beauté accessibility.home" [ref=e29]'
+          - navigation "Haupt-" [ref=e32]:
+            - list [ref=e34]:
+              - generic:
+                - link "Produkte entdecken" [ref=e35] [cursor=pointer]:
+                  - /url: /collections/coeur-de-beaute-pflegeserien
+                  - generic [ref=e36]: Produkte entdecken
+                - link "Pflege nach Hauttyp" [ref=e37] [cursor=pointer]:
+                  - /url: /pages/hautzustand-1
+                  - generic [ref=e38]: Pflege nach Hauttyp
+                - link "Wissenswertes" [ref=e39] [cursor=pointer]:
+                  - /url: /blogs/magazin
+                  - generic [ref=e40]: Wissenswertes
+                - link "Über uns" [ref=e41] [cursor=pointer]:
+                  - /url: https://coeur-de-beaute.de/pages/about-us
+                  - generic [ref=e42]: Über uns
+                - link "Hauttest" [ref=e43] [cursor=pointer]:
+                  - /url: "#quiz"
+                  - generic [ref=e44]: Hauttest
+        - generic [ref=e45]:
+          - button "Suchen" [ref=e47] [cursor=pointer]:
+            - generic:
+              - img
+          - generic [ref=e48]:
+            - button "Konto" [ref=e53] [cursor=pointer]:
+              - img [ref=e55]
+            - button "Warenkorb" [ref=e58] [cursor=pointer]:
+              - generic [ref=e59]:
+                - generic:
+                  - img
+            - status [ref=e62]
+  - main [ref=e63]:
+    - generic [ref=e64]:
+      - heading "Impressum" [level=1] [ref=e66]
+      - generic [ref=e68]:
+        - generic [ref=e69]:
+          - text: aideon GmbH
+          - text: Kindlebenstraße 20
+          - text: 14089 Berlin
+          - text: Deutschland
+          - text: "Tel.: 030/92211899‬"
+          - text: "E-Mail: shop@coeur-de-beaute.de"
+          - text: "Registergericht: Berlin Charlottenburg"
+          - text: "Registernummer: HRB 146736 B"
+          - text: "Geschäftsführer/innen: Sabine Stempfhuber, Frank Besinger"
+          - text: "Umsatzsteuer-Identifikationsnummer: DE206853438"
+          - text: "Verantwortliche/r i.S.d. § 18 Abs. 2 MStV:"
+          - text: Sabine Stempfhuber, Kindlebenstrasse 20, 14089 Berlin
+          - text: Wir sind zur Teilnahme an einem Streitbeilegungsverfahren vor einer Verbraucherschlichtungsstelle weder verpflichtet noch bereit.
+          - text: "Bildrechte: Frank Besinger, Luci Eisenmann, Francesca Willbrant"
+        - generic [ref=e71]: "Stand: 31.05.2026, 23:28:44"
+  - contentinfo [ref=e72]:
+    - generic [ref=e80]:
+      - generic [ref=e81]:
+        - img [ref=e83]
+        - paragraph [ref=e88]: Kostenfreier Versand ab 60 €
+      - generic [ref=e89]:
+        - img [ref=e91]
+        - paragraph [ref=e95]: DHL Lieferung 2–5 Werktage
+      - generic [ref=e96]:
+        - img [ref=e98]
+        - paragraph [ref=e101]: 30 Tage Zufriedenheitsgarantie
+    - generic [ref=e106]:
+      - generic [ref=e108]:
+        - generic [ref=e110]:
+          - paragraph [ref=e112]: Anmelden zum Newsletter
+          - paragraph [ref=e114]: Hautwissen für sensible Haut – Tipps aus meiner Praxis
+        - generic [ref=e117]:
+          - generic [ref=e118]: E-Mail
+          - textbox "E-Mail" [ref=e119]:
+            - /placeholder: E-Mail-Adresse
+          - button "Registrieren" [ref=e120]:
+            - img [ref=e121]
+      - generic [ref=e124]:
+        - generic [ref=e125]:
+          - button "ZERTIFIKATE" [expanded] [ref=e126] [cursor=pointer]:
+            - heading "ZERTIFIKATE" [level=3] [ref=e127]
+            - img [ref=e129]
+          - generic [ref=e132]:
+            - img [ref=e133]
+            - img [ref=e134]
+            - img [ref=e135]
+        - generic [ref=e137]:
+          - heading "CŒUR DE BEAUTÉ" [level=3] [ref=e138]
+          - list [ref=e139]:
+            - listitem [ref=e140]:
+              - link "Über cœur de beauté" [ref=e141] [cursor=pointer]:
+                - /url: /pages/about-us
+            - listitem [ref=e142]:
+              - link "Unserer Philosophie" [ref=e143] [cursor=pointer]:
+                - /url: /pages/philosophy
+            - listitem [ref=e144]:
+              - link "Unser Treueprogramm" [ref=e145] [cursor=pointer]:
+                - /url: /pages/treueprogramm
+            - listitem [ref=e146]:
+              - link "Häufige Fragen (FAQs)" [ref=e147] [cursor=pointer]:
+                - /url: /pages/faqs-1
+        - generic [ref=e149]:
+          - heading "INFORMATION" [level=3] [ref=e150]
+          - list [ref=e151]:
+            - listitem [ref=e152]:
+              - link "Impressum" [ref=e153] [cursor=pointer]:
+                - /url: /policies/legal-notice
+            - listitem [ref=e154]:
+              - link "Datenschutzerklärung" [ref=e155] [cursor=pointer]:
+                - /url: /policies/privacy-policy
+            - listitem [ref=e156]:
+              - link "Widerrufsbelehrung" [ref=e157] [cursor=pointer]:
+                - /url: /policies/refund-policy
+            - listitem [ref=e158]:
+              - link "Versandkosten" [ref=e159] [cursor=pointer]:
+                - /url: /policies/shipping-policy
+            - listitem [ref=e160]:
+              - link "AGB's" [ref=e161] [cursor=pointer]:
+                - /url: /policies/terms-of-service
+            - listitem [ref=e162]:
+              - link "Retouren" [ref=e163] [cursor=pointer]:
+                - /url: /pages/retouren
+        - generic [ref=e164]:
+          - button "KONTAKT" [expanded] [ref=e165] [cursor=pointer]:
+            - heading "KONTAKT" [level=3] [ref=e166]
+            - img [ref=e168]
+          - generic [ref=e171]:
+            - generic [ref=e172]:
+              - text: Hast Du Fragen zu unseren Produkten?
+              - text: "Hier kannst Du uns kontaktieren:"
+            - link "e-mail info@coeur-de-beaute.de" [ref=e173] [cursor=pointer]:
+              - /url: mailto:info@coeur-de-beaute.de
+              - img "e-mail" [ref=e174]
+              - generic [ref=e175]: info@coeur-de-beaute.de
+            - 'link "telefon Telefon: (030) 92211899" [ref=e176] [cursor=pointer]':
+              - /url: tel:+493092211899
+              - img "telefon" [ref=e177]
+              - text: "Telefon:"
+              - generic [ref=e178]: (030) 92211899
+            - link "WhatsApp WhatsApp Nachricht" [ref=e179] [cursor=pointer]:
+              - /url: https://api.whatsapp.com/send?phone=%2B493092211899&text&app_absent=0
+              - img "WhatsApp" [ref=e180]
+              - generic [ref=e181]: WhatsApp Nachricht
+        - link "Kauf widerrufen" [ref=e182] [cursor=pointer]:
+          - /url: /pages/widerrufsformular
+    - generic [ref=e186]:
+      - generic [ref=e188]:
+        - text: © 2026
+        - link "cœur de beauté" [ref=e189] [cursor=pointer]:
+          - /url: /
+      - generic [ref=e190]:
+        - link "Facebook" [ref=e192] [cursor=pointer]:
+          - /url: https://www.facebook.com/naturkosmetikcoeurdebeaute/
+          - img [ref=e193]
+        - link "Instagram" [ref=e196] [cursor=pointer]:
+          - /url: https://www.instagram.com/coeur_de_beaute_/ coeur_de_beaute_
+          - img [ref=e197]
+        - link "Youtube" [ref=e200] [cursor=pointer]:
+          - /url: https://www.youtube.com/channel/UCTrvTzw59I1QMRc75y171Jg
+          - img [ref=e201]
+        - link "Pinterest" [ref=e204] [cursor=pointer]:
+          - /url: https://www.pinterest.com/coeurdebeauteBerlin
+          - img [ref=e205]
+  - generic "Shopify Onlineshop-Chat" [ref=e207]:
+    - button "Chat" [ref=e209] [cursor=pointer]:
+      - img [ref=e210]
+      - generic [ref=e212]: Chat

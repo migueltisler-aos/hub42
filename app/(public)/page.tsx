@@ -96,7 +96,7 @@ export default function Home() {
           </p>
           <div className="inline-flex items-center gap-2 mb-10 px-4 py-2 border border-bronze/30 bg-bronze/5">
             <span className="text-bronze text-2xl" style={{ fontFamily: "var(--font-bebas)" }}>
-              Ab 55 €
+              Ab 59 €
             </span>
             <span className="text-cream/40 text-sm font-mono">/Monat · Konsignation · 0% Marge</span>
           </div>

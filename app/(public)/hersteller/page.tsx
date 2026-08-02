@@ -8,11 +8,12 @@ import SlotFeatureTable from "@/components/SlotFeatureTable";
 import CountdownTimer from "@/components/CountdownTimer";
 import TrustBadges from "@/components/TrustBadges";
 import { SLOTS, ANALYTICS_PAKETE } from "@/lib/slots";
+import { RATES } from "@/lib/deck-economics";
 
 export const metadata: Metadata = {
   title: "Für Hersteller – Miete deinen Platz im Retail",
   description:
-    "Stationärer Handel wie er sein sollte. 0% Handelsmarge, Regalfront ab 10 cm / 72 €/Monat, 3 Monate Mindestlaufzeit. Bewirb dein Produkt, verlinke deinen Shop, gewinne Fans jenseits von TikTok.",
+    "Stationärer Handel wie er sein sollte. 0% Handelsmarge, Regalfront ab 5 cm / 59 €/Monat, 3 Monate Mindestlaufzeit. Bewirb dein Produkt, verlinke deinen Shop, gewinne Fans jenseits von TikTok.",
 };
 
 const SCHRITTE = [
@@ -39,7 +40,7 @@ const SCHRITTE = [
   {
     nr: "05",
     titel: "Daten & Erlös",
-    beschreibung: "Du behältst den Erlös minus Mietgebühr und 0,40 € pro verkauftem Artikel. Monatliche Abrechnung. Zahlen die zählen.",
+    beschreibung: "Du behältst den Erlös minus Mietgebühr und 0,30 € pro verkauftem Artikel – plus die durchgereichte Kartenzahlungsgebühr (ca. 1,15 %). Monatliche Abrechnung. Zahlen die zählen.",
   },
 ];
 
@@ -69,7 +70,7 @@ const FAQ = [
   {
     frage: "Was ist die Checkout-Gebühr?",
     antwort:
-      "0,40 € pro verkauftem Artikel – nicht pro Transaktion. Kauft ein Kunde 3 Produkte, fallen 3 × 0,40 € an. Keine Handelsmarge. Keine versteckten Kosten.",
+      "0,30 € pro verkauftem Artikel – nicht pro Transaktion. Kauft ein Kunde 3 Produkte, fallen 3 × 0,30 € an. Dazu reichen wir nur die reine Kartenzahlungsgebühr durch (ca. 1,15 %) – ohne Aufschlag. Keine Handelsmarge. Keine versteckten Kosten.",
   },
   {
     frage: "Wie funktioniert die Abrechnung?",
@@ -146,7 +147,7 @@ export default function HerstellerPage() {
           {/* Facts strip */}
           <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-xs font-mono text-stone border-l-2 border-bronze pl-4">
             <span>0% Handelsmarge</span>
-            <span>Ab 55 €/Monat</span>
+            <span>Ab 59 €/Monat</span>
             <span>3 Monate · dann monatlich kündbar</span>
             <span>41.000 Berliner täglich</span>
           </div>
@@ -280,7 +281,8 @@ export default function HerstellerPage() {
                 <span className="text-bronze">unser Geschäftsmodell.</span>
               </h2>
               <p className="text-stone text-base leading-relaxed mb-6 max-w-lg">
-                Wir nehmen 0,40 € pro verkauftem Artikel. Nicht pro Monat, nicht pauschal —
+                Wir nehmen 0,30 € pro verkauftem Artikel – plus die reine Kartenzahlungsgebühr
+                (ca. 1,15 %), die wir 1:1 durchreichen. Nicht pro Monat, nicht pauschal —
                 pro Verkauf. Das bedeutet: Wenn du nichts verkaufst, verdienen wir kaum etwas.
                 Wir sind strukturell daran interessiert, dass dein Produkt läuft.
               </p>
@@ -405,12 +407,13 @@ export default function HerstellerPage() {
               </div>
 
               <p className="text-stone/50 text-xs font-mono mt-4">
-                Miete 30 cm → Preis Standard: 30 × 13,11 € = <span className="text-stone">393 €/Monat</span>
+                Miete 30 cm → Augenhöhe: 30 × {RATES.augenhoehe.toFixed(2).replace(".", ",")} € ={" "}
+                <span className="text-stone">{Math.round(30 * RATES.augenhoehe)} €/Monat</span>
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {[...SLOTS].reverse().map((slot, i) => (
               <SlotCard key={slot.name} slot={slot} index={i} />
             ))}
@@ -476,11 +479,12 @@ export default function HerstellerPage() {
               {/* Checkout-Fee */}
               <div className="border-l-2 border-bronze pl-6">
                 <p className="text-bronze text-4xl mb-1" style={{ fontFamily: "var(--font-bebas)" }}>
-                  0,40 €
+                  0,30 €
                 </p>
                 <p className="text-stone text-sm mb-2">pro verkauftem Artikel → unsere Marge</p>
                 <p className="text-stone text-sm leading-relaxed">
-                  Die Checkout-Fee ist unsere Gewinnmarge – und deckt EC-Kartengebühren.
+                  Die Checkout-Fee ist unsere Gewinnmarge. Die Kartenzahlungsgebühr
+                  (ca. 1,15 %) reichen wir 1:1 durch – ohne Aufschlag.
                   Wir verdienen erst wenn du verkaufst.
                   Kein Umsatz bei dir = kein Umsatz bei uns.
                 </p>
@@ -650,7 +654,7 @@ export default function HerstellerPage() {
           {/* Urgency box */}
           <div className="border-l-4 border-bronze bg-bronze/5 px-5 py-4 mb-8">
             <p className="text-cream text-sm font-semibold mb-1">
-              First-Mover-Konditionen: 55 €/Monat · Preisgarantie für gesamte Laufzeit
+              First-Mover-Konditionen: 59 €/Monat · Preisgarantie für gesamte Laufzeit
             </p>
             <p className="text-stone text-xs font-mono">
               Gültig für Anfragen bis Eröffnung Oktober 2026. Danach reguläre Preise.
