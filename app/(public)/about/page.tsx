@@ -25,6 +25,22 @@ export default function AboutPage() {
             <span className="text-bronze">lässt sich nicht mit mehr Marketing lösen.</span>
           </h1>
 
+          {/* Video – Miguel erklärt Hub42 */}
+          <div className="mb-10">
+            <p className="text-bronze/60 text-xs font-mono tracking-[0.2em] uppercase mb-3">
+              Miguel erklärt Hub42
+            </p>
+            <div className="aspect-video w-full overflow-hidden rounded-sm border border-stone-dark">
+              <iframe
+                className="w-full h-full"
+                src="https://www.youtube.com/embed/ghvqFMl3roE"
+                title="Miguel Tisler erklärt Hub42"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                allowFullScreen
+              />
+            </div>
+          </div>
+
           {/* Miguel-Zitat */}
           <blockquote className="border-l-4 border-bronze pl-6 mb-10">
             <p className="text-cream text-base md:text-lg leading-relaxed mb-4">
