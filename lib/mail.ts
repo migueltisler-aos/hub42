@@ -22,13 +22,17 @@ function getConfigFor(fromName: string): SmtpConfig {
   const pass = process.env[envKey(fromName, "PASS")] ?? process.env.SMTP_PASS;
   const fromEmail = process.env[envKey(fromName, "FROM_EMAIL")] ?? process.env.SMTP_FROM_EMAIL;
 
-  if (!host || !user || !pass || !fromEmail) {
-    throw new Error(
-      `SMTP-Zugangsdaten für "${fromName}" fehlen (weder ${envKey(fromName, "USER")} noch SMTP_USER gesetzt)`
-    );
+  const missing: string[] = [];
+  if (!host) missing.push(`${envKey(fromName, "HOST")} oder SMTP_HOST`);
+  if (!user) missing.push(`${envKey(fromName, "USER")} oder SMTP_USER`);
+  if (!pass) missing.push(`${envKey(fromName, "PASS")} oder SMTP_PASS`);
+  if (!fromEmail) missing.push(`${envKey(fromName, "FROM_EMAIL")} oder SMTP_FROM_EMAIL`);
+
+  if (missing.length > 0) {
+    throw new Error(`SMTP-Zugangsdaten für "${fromName}" fehlen: ${missing.join("; ")}`);
   }
 
-  return { host, port, user, pass, fromEmail };
+  return { host: host!, port, user: user!, pass: pass!, fromEmail: fromEmail! };
 }
 
 const transporters = new Map<string, ReturnType<typeof nodemailer.createTransport>>();
