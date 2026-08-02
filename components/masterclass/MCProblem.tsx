@@ -2,7 +2,7 @@ const CHANNELS = [
   {
     n: "01",
     t: "Online-Shop",
-    d: "Ein Neukunde kostet 70 € und mehr – und amortisiert sich erst nach dem 2. oder 3. Kauf. Dazu kommen Porto, Shopgebühr und Zahlungsabwicklung: rund 5–6 € pro Bestellung, bevor die Marge überhaupt beginnt.",
+    d: "Versand, Verpackung, Shopgebühr und Zahlungsabwicklung summieren sich auf rund 6 € pro Bestellung – noch bevor das Marketing zählt. Und jeder Neukunde kostet zusätzlich Werbebudget, das sich oft erst nach dem 2. oder 3. Kauf amortisiert.",
     tag: "Teuer. Langsam. Datenreich.",
   },
   {

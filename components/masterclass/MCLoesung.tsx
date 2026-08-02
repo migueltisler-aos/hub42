@@ -12,7 +12,7 @@ const STEPS = [
   {
     n: "03",
     t: "Niemals Marge",
-    d: "Hub42 nimmt keine Handelsmarge. Die Marke setzt den Preis. Wir verdienen an der Regalmiete – transparent, kalkulierbar, ohne Interessenkonflikt.",
+    d: "Hub42 nimmt keine Handelsmarge. Die Marke setzt den Preis. Wir verdienen an der Regalmiete plus einer kleinen Checkout-Fee (0,30 €/Verkauf) und den reinen Zahlungstransaktionskosten (0,85 % + 0,25 €) – transparent, kalkulierbar, ohne Interessenkonflikt.",
   },
 ];
 
@@ -59,9 +59,9 @@ export default function MCLoesung() {
       {/* Standort-Kontext */}
       <div className="flex flex-col sm:flex-row gap-6">
         {[
-          { label: "Frequenz", value: "41.000", sub: "Besucher täglich · Alexa Berlin" },
-          { label: "Standort", value: "Top 5", sub: "Einkaufszentren Deutschlands" },
-          { label: "Modell", value: "§383 HGB", sub: "Konsignation · Kein Eigentumsübergang" },
+          { label: "ALEXA-Center", value: "41.000", sub: "Besucher/Tag im Center (Standortfrequenz, konservativ)" },
+          { label: "Davon im Store", value: "~600–800", sub: "realistischer Korridor/Tag – die für Marken relevante Zahl" },
+          { label: "Modell", value: "§383 HGB", sub: "Konsignation · kein Eigentumsübergang" },
         ].map((s) => (
           <div key={s.label} className="flex-1 bg-green-dark border border-stone-dark/50 p-5">
             <p className="text-stone text-xs font-mono uppercase tracking-widest mb-1">{s.label}</p>

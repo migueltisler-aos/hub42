@@ -430,7 +430,15 @@ export default function DeckRechner() {
         </tbody>
       </table>
       <p className="deck-print-only mt-3 text-sm" style={{ fontFamily: "var(--font-dm-mono), monospace", color: "#F9F5EE" }}>
-        <strong>Hub42 ist ab dem ersten Sale günstiger als der eigene Online-Shop</strong> – und der Vorteil wächst spürbar mit dem Volumen.
+        {c.breakEven && c.breakEven > 1 ? (
+          <>
+            <strong>Hub42 ist bei diesen Annahmen ab {c.breakEven} Verkäufen pro Monat günstiger als der eigene Online-Shop</strong> – darunter wiegt die feste Slot-Miete noch schwerer; darüber wächst der Vorteil mit dem Volumen.
+          </>
+        ) : (
+          <>
+            <strong>Hub42 ist schon ab dem ersten Verkauf günstiger als der eigene Online-Shop</strong> – und der Vorteil wächst mit dem Volumen.
+          </>
+        )}
       </p>
       <p className="deck-print-only mt-2 text-xs" style={{ color: "#B0A494" }}>
         Discovery-Käufer mit späterem Online-Wiederkauf sind nicht eingerechnet — zusätzlicher

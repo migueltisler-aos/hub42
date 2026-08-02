@@ -20,11 +20,16 @@ export default function MCHero() {
           noch reicht.
         </h1>
 
-        <p className="text-stone text-base md:text-lg leading-relaxed max-w-xl mb-10">
+        <p className="text-stone text-base md:text-lg leading-relaxed max-w-xl mb-6">
           Die UG ist gegründet. Der Standort steht. Jetzt geht es um das Einzige,
           das zählt:{" "}
           <span className="text-cream">die ersten Marken</span>, die das Konzept
           zum Leben bringen.
+        </p>
+
+        <p className="text-bronze/80 text-xs md:text-sm font-mono tracking-wide leading-relaxed max-w-xl mb-10">
+          Regalplatz im ALEXA Berlin · Konsignation nach §383 HGB · ab 59 €/Monat ·
+          keine Marge, kein Abnahmezwang.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4">

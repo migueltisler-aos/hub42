@@ -98,7 +98,7 @@ export default function MCEmpfehlung() {
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-px bg-cream/10">
           {[
             { label: "E-Mail", value: "info@tryhub42.de", href: "mailto:info@tryhub42.de" },
-            { label: "WhatsApp", value: "+49 177 879 564 37", href: "https://wa.me/4917787956437?text=Hallo%20Miguel%2C%20ich%20habe%20eine%20Marken-Empfehlung%20f%C3%BCr%20Hub42." },
+            { label: "WhatsApp", value: "+49 177 87956437", href: "https://wa.me/4917787956437?text=Hallo%20Miguel%2C%20ich%20habe%20eine%20Marken-Empfehlung%20f%C3%BCr%20Hub42." },
           ].map((c) => (
             <a
               key={c.label}

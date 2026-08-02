@@ -9,7 +9,7 @@ import MCEmpfehlung from "@/components/masterclass/MCEmpfehlung";
 export const metadata: Metadata = {
   title: "Hub42 · Faltin Masterclass",
   description:
-    "Hub42 – ein Entdecker-Store im Alexa Berlin für unabhängige Marken. Konsignation, keine Marge, ab 59 €/Monat.",
+    "Hub42 – ein Entdecker-Store im ALEXA Berlin für unabhängige Marken. Konsignation, keine Marge, ab 59 €/Monat.",
   robots: { index: false, follow: false },
 };
 
@@ -64,7 +64,8 @@ export default function MasterclassPage() {
             <p className="text-stone text-base leading-relaxed mt-5 max-w-xl">
               Hub42 ist kein Händler. Wir stellen Regalplatz, Kasse, Personal und Daten.
               Die Marke bleibt Eigentümerin – bis zum Verkauf. Kein Abnahmezwang,
-              keine Marge, keine Preishoheit, die wir übernehmen.
+              keine Marge, keine Preishoheit, die wir übernehmen. Kurz: Hub42 ist die
+              Vertriebs-Komponente, die du nicht selbst aufbauen musst.
             </p>
           </div>
           <MCLoesung />
@@ -119,6 +120,13 @@ export default function MasterclassPage() {
               (anteilige Slot-Miete + variable Kosten). Alle Annahmen sind anpassbar –
               auch Preis und CAC.
             </p>
+            <p className="text-stone/70 text-sm leading-relaxed mt-3 max-w-xl">
+              Fair gerechnet in beide Richtungen: Die Online-Seite ist ein Worst-Case
+              (jeder Verkauf = Neukunde mit voller CAC, Einzelartikel-Versand) –
+              Stammkunden und Mehrartikel-Bestellungen senken sie. Umgekehrt ist der
+              Hub42-Vorteil aus Discovery-Käufern, die später online wiederkaufen, hier
+              bewusst nicht eingerechnet.
+            </p>
           </div>
           <DeckRechner />
         </div>
@@ -147,6 +155,25 @@ export default function MasterclassPage() {
           <MCEmpfehlung />
         </div>
       </section>
+
+      {/* ─── Footer (nur Bildschirm – aus dem Druckbereich) ─────── */}
+      <footer
+        className="print:hidden border-t border-stone-dark/50 bg-green-dark py-10"
+        aria-label="Fußzeile"
+      >
+        <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <p className="text-stone/60 text-xs font-mono">
+            Hub42 UG · Miguel Tisler ·{" "}
+            <a href="https://tryhub42.de" className="text-bronze hover:text-bronze-light transition-colors">
+              tryhub42.de
+            </a>
+          </p>
+          <nav className="flex items-center gap-6 text-stone/60 text-xs font-mono uppercase tracking-widest">
+            <a href="/impressum" className="hover:text-bronze transition-colors">Impressum</a>
+            <a href="/datenschutz" className="hover:text-bronze transition-colors">Datenschutz</a>
+          </nav>
+        </div>
+      </footer>
     </main>
   );
 }

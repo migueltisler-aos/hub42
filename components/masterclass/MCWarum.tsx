@@ -2,7 +2,7 @@ const REASONS = [
   {
     n: "01",
     t: "Einstieg ab 59 €/Monat",
-    d: "Statt Werbebudget zu verbrennen, das keiner mehr zurückbekommt. Eine feste, kalkulierbare Kosten – kein Variablenrisiko.",
+    d: "Statt Werbebudget zu verbrennen, das keiner zurückbekommt: eine feste, planbare Miete. Die Kehrseite ehrlich – sie fällt auch ohne Verkäufe an; ab wenigen Verkäufen im Monat ist Hub42 günstiger als der eigene Online-Shop (siehe Rechner).",
   },
   {
     n: "02",
@@ -12,7 +12,7 @@ const REASONS = [
   {
     n: "03",
     t: "Geringes Risiko auf beiden Seiten",
-    d: "Hub42 trägt kein Warenlager, die Marke kein Shop-Risiko. Unsere Fixkosten sind durch die Mieteinnahmen gedeckt. Gewinn entsteht erst beim Verkauf – auf beiden Seiten.",
+    d: "Hub42 trägt kein Warenlager, die Marke kein Shop- oder Retouren-Risiko. Klar verteilt: Die Marke trägt das Abverkaufsrisiko ihrer Fläche (feste Miete), Hub42 das Auslastungsrisiko des Standorts.",
   },
   {
     n: "04",
