@@ -63,16 +63,16 @@ async function sendColdEmailAction(id: string, formData: FormData) {
     redirect(`/pipeline/${id}?mailerror=noemail`);
   }
 
-  let sendFailed = false;
+  let sendErrorMessage: string | null = null;
   try {
     await sendMail({ to: brand.email!, subject, text: body, fromName: currentUser });
   } catch (err) {
     console.error("SMTP-Versand fehlgeschlagen", err);
-    sendFailed = true;
+    sendErrorMessage = err instanceof Error ? err.message : "Unbekannter Fehler";
   }
 
-  if (sendFailed) {
-    redirect(`/pipeline/${id}?mailerror=send`);
+  if (sendErrorMessage) {
+    redirect(`/pipeline/${id}?mailerror=send&reason=${encodeURIComponent(sendErrorMessage)}`);
   }
 
   const today = new Date().toISOString().split("T")[0];
@@ -92,10 +92,10 @@ export default async function BrandDetailPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ mailsent?: string; mailerror?: string }>;
+  searchParams: Promise<{ mailsent?: string; mailerror?: string; reason?: string }>;
 }) {
   const { id } = await params;
-  const { mailsent, mailerror } = await searchParams;
+  const { mailsent, mailerror, reason } = await searchParams;
   const cookieStore = await cookies();
   const currentUser = cookieStore.get("pipeline_user")?.value ?? "Unbekannt";
 
@@ -142,7 +142,7 @@ export default async function BrandDetailPage({
         )}
         {mailerror === "send" && (
           <div className="border border-red-500/40 bg-red-950/20 px-4 py-3 mb-6 text-red-400 text-sm font-mono">
-            Versand fehlgeschlagen – SMTP-Zugangsdaten (SMTP_HOST/SMTP_USER/SMTP_PASS/SMTP_FROM_EMAIL) prüfen.
+            Versand fehlgeschlagen{reason ? `: ${reason}` : " – SMTP-Zugangsdaten prüfen."}
           </div>
         )}
 
