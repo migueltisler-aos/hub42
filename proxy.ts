@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
+const PIPELINE_GESCHUETZT = ["/pipeline", "/wareneingang", "/bestand"];
+
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  if (pathname.startsWith("/pipeline")) {
+  if (PIPELINE_GESCHUETZT.some((pfad) => pathname === pfad || pathname.startsWith(`${pfad}/`))) {
     if (pathname === "/pipeline/login") {
       return NextResponse.next();
     }
@@ -42,5 +44,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/pipeline/:path*", "/feedback/admin/:path*"],
+  matcher: ["/pipeline/:path*", "/wareneingang/:path*", "/bestand/:path*", "/feedback/admin/:path*"],
 };
