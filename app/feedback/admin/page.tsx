@@ -4,6 +4,8 @@ import Link from "next/link";
 import QRCode from "qrcode";
 import { createProduct, getProducts, type DifferentialPair } from "@/lib/feedback";
 
+export const dynamic = "force-dynamic";
+
 function parseAttributes(raw: string): DifferentialPair[] {
   return raw
     .split("\n")

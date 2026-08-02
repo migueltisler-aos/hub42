@@ -1,6 +1,8 @@
 import { getProducts } from "@/lib/feedback";
 import ScannerClient from "@/components/feedback/ScannerClient";
 
+export const dynamic = "force-dynamic";
+
 export default async function ScanPage() {
   const products = await getProducts();
 

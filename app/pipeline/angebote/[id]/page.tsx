@@ -9,6 +9,8 @@ import {
 } from "@/lib/angebote";
 import AngebotForm, { type BrandOption } from "../_components/AngebotForm";
 
+export const dynamic = "force-dynamic";
+
 async function saveAngebot(id: string, formData: FormData) {
   "use server";
   await upsertAngebot(id, parseAngebotForm(formData));

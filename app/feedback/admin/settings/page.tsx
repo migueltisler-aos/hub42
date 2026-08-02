@@ -2,6 +2,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getSettings, updateSettings } from "@/lib/feedback";
 
+export const dynamic = "force-dynamic";
+
 async function saveSettingsAction(formData: FormData) {
   "use server";
   await updateSettings({

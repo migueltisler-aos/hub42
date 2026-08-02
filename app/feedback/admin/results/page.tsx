@@ -1,6 +1,8 @@
 import Link from "next/link";
 import { getPanelOverview, getProducts, getProductStats } from "@/lib/feedback";
 
+export const dynamic = "force-dynamic";
+
 function HedonicBars({ distribution }: { distribution: number[] }) {
   const max = Math.max(1, ...distribution);
   return (

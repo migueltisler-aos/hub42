@@ -17,6 +17,8 @@ import {
 } from "@/lib/angebote";
 import PrintButton from "./PrintButton";
 
+export const dynamic = "force-dynamic";
+
 const GREEN = "#2A4A3C";
 const BRONZE = "#C8964A";
 const INK = "#2A2A2A";
