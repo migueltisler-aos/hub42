@@ -23,7 +23,7 @@ const BLIND_BOXES = [
     name: "Berliner Box",
     preis: "45 €",
     kategorie: "Berlin Special",
-    beschreibung: "Ausschließlich Berliner Brands. Stadtgefühl inklusive.",
+    beschreibung: "Ausschließlich Berliner Marken. Stadtgefühl inklusive.",
   },
   {
     name: "Saisonbox",
@@ -47,18 +47,18 @@ export default function BrandsPage() {
       <section className="bg-green-dark pt-32 pb-20 border-b border-stone-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-4">
-            Partner-Brands
+            Partner-Marken
           </p>
           <h1
             className="text-cream text-[clamp(2.5rem,8vw,7rem)] leading-none tracking-widest mb-6"
             style={{ fontFamily: "var(--font-bebas)" }}
           >
-            Brands die du
+            Marken, die du
             <br />
             <span className="text-bronze">noch nicht kennst.</span>
           </h1>
           <p className="text-stone text-sm max-w-lg">
-            Kuratiert. Unabhängig. Direkt vom Hersteller. Jede Brand hier hat sich beworben –
+            Kuratiert. Unabhängig. Direkt vom Hersteller. Jede Marke hier hat sich beworben –
             und wir haben ja gesagt.
           </p>
         </div>
@@ -94,7 +94,7 @@ export default function BrandsPage() {
           ) : (
             <div className="text-center py-20">
               <p className="text-stone text-sm font-mono">
-                Keine Brands in dieser Kategorie – noch nicht.
+                Keine Marken in dieser Kategorie – noch nicht.
               </p>
             </div>
           )}
@@ -112,12 +112,12 @@ export default function BrandsPage() {
               className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-3"
               style={{ fontFamily: "var(--font-bebas)" }}
             >
-              Noch mehr Brands –
+              Noch mehr Marken –
               <br />
               <span className="text-bronze">nur in der Blind Box entdeckbar.</span>
             </h2>
             <p className="text-stone text-sm max-w-lg">
-              Einige Brands sind exklusiv in unseren Überraschungskisten. Kein Regal.
+              Einige Marken sind exklusiv in unseren Überraschungskisten. Kein Regal.
               Kein Schild. Nur Entdeckerfreude.
             </p>
           </div>
@@ -137,7 +137,7 @@ export default function BrandsPage() {
             className="text-cream text-[clamp(1.8rem,4vw,3.5rem)] leading-none tracking-widest mb-4"
             style={{ fontFamily: "var(--font-bebas)" }}
           >
-            Deine Brand fehlt hier?
+            Deine Marke fehlt hier?
           </h2>
           <p className="text-stone text-sm mb-8 max-w-md mx-auto">
             Wenn dein Produkt gut genug ist, sagen wir ja. Kein Bullshit-Prozess.

@@ -62,7 +62,7 @@ export default function HerstWieEsFunktioniert() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-14">
           <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
-            Für Hersteller & Brands
+            Für Hersteller & Marken
           </p>
           <h2
             className="text-cream text-[clamp(2.5rem,6vw,5rem)] leading-none tracking-widest"
@@ -115,13 +115,13 @@ export default function HerstWieEsFunktioniert() {
             href="/hersteller"
             className="inline-flex items-center justify-center px-8 py-4 bg-bronze text-green-dark font-semibold text-sm tracking-wide hover:bg-bronze-light transition-colors rounded-sm"
           >
-            Slot anfragen →
+            Regalplatz anfragen →
           </Link>
           <Link
             href="/hersteller"
             className="inline-flex items-center gap-2 text-bronze text-sm font-mono hover:text-bronze-light transition-colors self-center"
           >
-            Alle Details für Brands →
+            Alle Details für Marken →
           </Link>
         </div>
       </div>

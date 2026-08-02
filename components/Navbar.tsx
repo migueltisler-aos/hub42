@@ -7,7 +7,7 @@ import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
   { href: "/hersteller", label: "Für Hersteller" },
-  { href: "/brands", label: "Unsere Brands" },
+  { href: "/brands", label: "Die Marken" },
   { href: "/erlebnis", label: "Das Erlebnis" },
   { href: "/store", label: "Der Store" },
   { href: "/about", label: "Über uns" },
@@ -45,16 +45,22 @@ export default function Navbar() {
       }`}
       role="banner"
     >
-      {/* Routing bar – only shown outside /hersteller */}
+      {/* Announcement bar – Ort & Datum, auf jeder Seite außer /hersteller (dort bereits im Hero) */}
       {!isHersteller && (
         <div className="bg-bronze/10 border-b border-bronze/20">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-end h-8">
+            <div className="flex items-center justify-between h-8 gap-3">
+              <div className="flex items-center gap-2">
+                <span className="w-2 h-2 rounded-full bg-bronze animate-pulse shrink-0" />
+                <span className="text-bronze text-[11px] font-mono tracking-widest uppercase">
+                  Eröffnung Oktober 2026 · Alexa Berlin · Alexanderplatz
+                </span>
+              </div>
               <Link
                 href="/hersteller"
-                className="text-bronze text-[11px] font-mono tracking-widest hover:text-bronze-light transition-colors"
+                className="text-bronze text-[11px] font-mono tracking-widest hover:text-bronze-light transition-colors whitespace-nowrap"
               >
-                Du bist Hersteller? → Hier entlang
+                Jetzt First-Mover-Platz sichern →
               </Link>
             </div>
           </div>
@@ -99,7 +105,7 @@ export default function Navbar() {
               href="/hersteller#slot-anfragen"
               className="inline-flex items-center px-5 py-2 bg-bronze text-green-dark text-sm font-semibold tracking-wide rounded-sm hover:bg-bronze-light transition-colors"
             >
-              Slot anfragen
+              Regalplatz anfragen
             </Link>
           </div>
 
@@ -137,7 +143,7 @@ export default function Navbar() {
               href="/hersteller#slot-anfragen"
               className="mt-4 inline-flex justify-center items-center px-5 py-3 bg-bronze text-green-dark text-sm font-semibold tracking-wide rounded-sm"
             >
-              Slot anfragen
+              Regalplatz anfragen
             </Link>
           </nav>
         </div>

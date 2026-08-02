@@ -74,7 +74,7 @@ export const SLOTS: SlotTier[] = [
       "QR-Code + Traverse-Karte inklusive",
       "Monatliche Verkaufszahlen inklusive",
     ],
-    idealFor: "Markttest, günstiger Einstieg, kleine Brands",
+    idealFor: "Markttest, günstiger Einstieg, kleine Marken",
   },
 ];
 
@@ -199,7 +199,7 @@ export const ANALYTICS_PAKETE: AnalyticsPaket[] = [
     inkludiert: false,
   },
   {
-    name: "Brand Report",
+    name: "Marken-Report",
     preis: 29,
     beschreibung: "Monatlicher PDF mit Handlungsempfehlungen",
     features: [

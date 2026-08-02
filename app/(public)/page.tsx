@@ -10,7 +10,7 @@ import ProofSection from "@/components/ProofSection";
 import { ERLEBNISSE } from "@/lib/erlebnisse";
 
 export const metadata: Metadata = {
-  title: "Hub42 – The Store You Have To Solve.",
+  title: "Hub42 – Der Store, den es braucht.",
   description:
     "Hub42 im Alexa Berlin – kuratierter Store direkt vom Hersteller. 0% Handelsmarge. 41.000 Berliner täglich.",
 };
@@ -23,26 +23,6 @@ export default function Home() {
   return (
     <>
       <HeroSection />
-
-      {/* Pre-Launch Banner */}
-      <section className="bg-bronze/10 border-y border-bronze/20 py-4">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-3">
-            <div className="flex items-center gap-3">
-              <span className="w-2 h-2 rounded-full bg-bronze animate-pulse shrink-0" />
-              <p className="text-bronze text-xs font-mono tracking-widest uppercase">
-                Eröffnung Oktober 2026 · Alexa Berlin · Alexanderplatz
-              </p>
-            </div>
-            <Link
-              href="/hersteller"
-              className="text-bronze text-xs font-mono tracking-widest hover:text-bronze-light transition-colors whitespace-nowrap"
-            >
-              Jetzt First-Mover-Platz sichern →
-            </Link>
-          </div>
-        </div>
-      </section>
 
       {/* Das Konzept */}
       <section className="bg-green-mid py-20 border-t border-stone-dark/50">
@@ -59,8 +39,8 @@ export default function Home() {
           <div className="max-w-2xl space-y-4 text-stone text-base leading-relaxed">
             <p>Du kennst das Gefühl. Du reist in eine neue Stadt und findest überall dasselbe.</p>
             <p>Hub42 ist das Gegenteil davon.</p>
-            <p>Hier stehen Brands die du noch nicht kennst.<br />
-            Hinter jedem Produkt steckt jemand der es wirklich macht.<br />
+            <p>Hier stehen Marken, die du noch nicht kennst.<br />
+            Hinter jedem Produkt steckt jemand, der es wirklich macht.<br />
             Kein Händler dazwischen. Kein aufgeblähter Preis.</p>
             <p className="text-cream">Einfach probieren. Mitnehmen. Wiederkommen.</p>
           </div>
@@ -170,10 +150,10 @@ export default function Home() {
               </h2>
               <div className="text-stone text-base leading-relaxed mb-8 max-w-md space-y-3">
                 <p>Zwei Regalwände. Bronze und Olivgrün.</p>
-                <p>Jede Regalfront gehört einer anderen Brand.<br />
+                <p>Jede Regalfront gehört einer anderen Marke.<br />
                 Jede Traverse erzählt eine andere Geschichte.</p>
                 <p>Kein Supermarkt. Kein Konzern.<br />
-                Nur Hersteller die ihr Produkt wirklich machen.</p>
+                Nur Hersteller, die ihr Produkt wirklich machen.</p>
               </div>
 
               <div className="grid grid-cols-3 gap-6 mb-10">

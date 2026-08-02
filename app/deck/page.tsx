@@ -144,7 +144,7 @@ export default function DeckPage() {
         {/* ─── Section 6: Brand-Erlebnis ──────────────────── */}
         <section
           className="deck-section relative overflow-hidden py-16 md:py-24 bg-green-mid border-t border-stone-dark/50"
-          aria-label="Brand-Erlebnis: Fläche, Discovery, Tasting & Events"
+          aria-label="Marken-Erlebnis: Fläche, Discovery, Tasting & Events"
         >
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-10">
@@ -195,7 +195,7 @@ export default function DeckPage() {
         {/* ─── Section 8: Brands an Bord ──────────────────── */}
         <section
           className="deck-section relative overflow-hidden py-16 md:py-24 bg-green-mid border-t border-stone-dark/50"
-          aria-label="Brands an Bord"
+          aria-label="Marken an Bord"
         >
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-10">

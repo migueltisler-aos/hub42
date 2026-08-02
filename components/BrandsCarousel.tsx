@@ -8,12 +8,12 @@ const duplicated = [...BRANDS, ...BRANDS];
 
 export default function BrandsCarousel() {
   return (
-    <section className="bg-green-dark py-20 overflow-hidden" aria-label="Partner Brands">
+    <section className="bg-green-dark py-20 overflow-hidden" aria-label="Partner Marken">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-10">
         <div className="flex items-end justify-between">
           <div>
             <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
-              Unsere Brands
+              Unsere Marken
             </p>
             <h2
               className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-2"
@@ -22,14 +22,14 @@ export default function BrandsCarousel() {
               Kuratiert. Direkt. Echt.
             </h2>
             <p className="text-stone text-sm">
-              Jede Brand hat eine Geschichte. Jedes Produkt einen Grund.
+              Jede Marke hat eine Geschichte. Jedes Produkt einen Grund.
             </p>
           </div>
           <Link
             href="/brands"
             className="hidden md:inline-flex items-center text-bronze text-sm font-mono hover:text-bronze-light transition-colors"
           >
-            Alle Brands →
+            Alle Marken →
           </Link>
         </div>
       </div>
@@ -56,7 +56,7 @@ export default function BrandsCarousel() {
           href="/brands"
           className="inline-flex items-center text-bronze text-sm font-mono"
         >
-          Alle Brands ansehen →
+          Alle Marken ansehen →
         </Link>
       </div>
     </section>

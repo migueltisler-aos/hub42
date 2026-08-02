@@ -6,7 +6,7 @@ export type BrandCategory =
   | "Hot Sauce"
   | "Lifestyle";
 
-export type BrandTier = "Juwel" | "Platform Brand" | "Anker" | "Ikone";
+export type BrandTier = "Juwel" | "Platform Marke" | "Anker" | "Ikone";
 
 export interface Brand {
   id: string;
@@ -123,7 +123,7 @@ export const BRANDS: Brand[] = [
     beschreibung:
       "Feinkost & Delikatessen direkt vom Erzeuger. Geprüfte Manufakturen, transparente Herkunft – von Olivenöl bis Ibérico.",
     herkunft: "Deutschland",
-    tier: "Platform Brand",
+    tier: "Platform Marke",
     url: "https://auteniq.de",
     featured: false,
     accentColor: "#1F3A5F",

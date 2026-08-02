@@ -126,14 +126,14 @@ export default function ContactForm() {
 
       <div>
         <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-2">
-          Brand / Unternehmen
+          Marke / Unternehmen
         </label>
         <input
           type="text"
           name="brand"
           value={form.brand}
           onChange={handleChange}
-          placeholder="Deine Brand GmbH"
+          placeholder="Deine Marke GmbH"
           className={inputClass("brand")}
         />
       </div>
@@ -164,7 +164,7 @@ export default function ContactForm() {
           value={form.nachricht}
           onChange={handleChange}
           rows={5}
-          placeholder="Erzähl uns von deiner Brand und was du dir vorstellst..."
+          placeholder="Erzähl uns von deiner Marke und was du dir vorstellst..."
           className={`${inputClass("nachricht")} resize-none`}
           aria-invalid={!!errors.nachricht}
         />

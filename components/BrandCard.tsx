@@ -11,7 +11,7 @@ interface BrandCardProps {
 
 const TIER_LABEL_COLOR: Record<string, string> = {
   Juwel:            "var(--color-bronze)",
-  "Platform Brand": "#6B9BD2",
+  "Platform Marke": "#6B9BD2",
   Anker:            "#7CB87C",
   Ikone:            "#E8A87C",
 };

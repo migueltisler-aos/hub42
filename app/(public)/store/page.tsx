@@ -27,7 +27,7 @@ const FEATURES = [
   {
     icon: "🎤",
     titel: "Launch Events",
-    beschreibung: "Freitags neue Brands persönlich. Hersteller vor Ort. Fragen erlaubt.",
+    beschreibung: "Freitags neue Marken persönlich. Hersteller vor Ort. Fragen erlaubt.",
   },
 ];
 

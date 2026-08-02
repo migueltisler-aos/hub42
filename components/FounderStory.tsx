@@ -32,17 +32,17 @@ export default function FounderStory() {
           {/* Right: Story */}
           <div className="space-y-5 text-stone text-base leading-relaxed">
             <p>
-              Ich komme aus der Logistik. 3PL-Lager, Dutzende Brands,
+              Ich komme aus der Logistik. 3PL-Lager, Dutzende Marken,
               eine Infrastruktur. Das Prinzip: du mietest Kapazität –
               wir stellen den Rest.
             </p>
             <p>
-              Irgendwann habe ich mich gefragt warum das im Retail nicht existiert.
+              Irgendwann habe ich mich gefragt, warum das im Retail nicht existiert.
               In der Logistik mietest du Kapazität und behältst die Kontrolle.
               Im Handel gibst du alles ab – bevor du auch nur einen Artikel verkauft hast.
             </p>
             <p>
-              Wer ins Regal will zahlt Listungsgebühr, gibt 35–40% Marge ab
+              Wer ins Regal will, zahlt Listungsgebühr, gibt 35–40% Marge ab
               und verliert die Kontrolle über den eigenen Preis.
               Der Category Manager entscheidet was Deutschland kauft.
               Nicht der Kunde. Nicht der Hersteller.
@@ -52,8 +52,8 @@ export default function FounderStory() {
             </p>
             <p>
               Hub42 ist meine Antwort. Kein Händler. Keine Marge.
-              Kein Category Manager. Nur Hersteller die ihr Produkt
-              wirklich machen – und ein Regal das ihnen gehört.
+              Kein Category Manager. Nur Hersteller, die ihr Produkt
+              wirklich machen – und ein Regal, das ihnen gehört.
             </p>
           </div>
         </div>

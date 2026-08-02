@@ -4,7 +4,7 @@ const CATS = ["Food", "Drinks", "Drogerie", "Non-Food"];
 
 const PERSONAS = [
   { tag: "Newcomer", text: "Tee-Startup, 20 cm Basis. Test ohne Risiko." },
-  { tag: "Etabliert", text: "Lokal-Brand, 30 cm Augenhöhe. Skalieren mit Daten." },
+  { tag: "Etabliert", text: "Lokale Marke, 30 cm Augenhöhe. Skalieren mit Daten." },
   {
     tag: "Hero",
     text: "Bekannte Marke, 40 cm Greifhöhe garantiert + Tasting-Bar. Maximale Sichtbarkeit, eigene Events.",

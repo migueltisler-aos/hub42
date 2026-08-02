@@ -13,8 +13,8 @@ export default function Footer() {
             >
               HUB42
             </span>
-            <p className="text-cream text-sm mb-1">The Store You Have To Solve.</p>
-            <p className="text-stone text-sm mb-1">Where consumer brands are born.</p>
+            <p className="text-cream text-sm mb-1">Der Store, den es braucht.</p>
+            <p className="text-stone text-sm mb-1">Wo Marken geboren werden.</p>
             <p className="text-stone text-sm mb-4">42 ist die Antwort auf alles.</p>
             <address className="not-italic text-stone text-xs leading-relaxed">
               Alexa Berlin · Grunerstraße 20 · 10179 Berlin<br />
@@ -40,7 +40,7 @@ export default function Footer() {
               {[
                 { href: "/hersteller", label: "Für Hersteller" },
                 { href: "/erlebnis", label: "Das Erlebnis" },
-                { href: "/brands", label: "Unsere Brands" },
+                { href: "/brands", label: "Unsere Marken" },
                 { href: "/store", label: "Der Store" },
                 { href: "/kontakt", label: "Kontakt" },
               ].map((link) => (

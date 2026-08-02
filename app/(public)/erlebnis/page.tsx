@@ -6,14 +6,14 @@ import { ERLEBNISSE } from "@/lib/erlebnisse";
 export const metadata: Metadata = {
   title: "Das Erlebnis – Einkaufen als Spiel",
   description:
-    "Hub42 ist der einzige Store in Deutschland wo Einkaufen ein Spiel ist. Escape, Blind Tasting, Auktion, Blind Box, Scouts Club und mehr.",
+    "Hub42 ist der einzige Store in Deutschland, wo Einkaufen ein Spiel ist. Escape, Blind Tasting, Auktion, Blind Box, Scouts Club und mehr.",
 };
 
 const UGC = [
   { icon: "📸", titel: "Packtisch Foto-Spot", beschreibung: "Für den perfekten Unboxing-Moment." },
   { icon: "🏷️", titel: '"Entdeckt bei Hub42" Sticker', beschreibung: "Auf jede Tüte." },
   { icon: "💛", titel: "5 € Rabatt", beschreibung: "Für Posts mit @hub42berlin und @alexaberlin." },
-  { icon: "🗳️", titel: "Brand des Monats Voting", beschreibung: "Die Community entscheidet." },
+  { icon: "🗳️", titel: "Marke des Monats Voting", beschreibung: "Die Community entscheidet." },
 ];
 
 export default function ErlebnisPage() {
@@ -31,7 +31,7 @@ export default function ErlebnisPage() {
           >
             Hub42 ist der einzige Store
             <br />
-            <span className="text-bronze">in Deutschland</span>
+            <span className="text-bronze">in Deutschland,</span>
             <br />
             wo Einkaufen ein Spiel ist.
           </h1>
@@ -109,7 +109,7 @@ export default function ErlebnisPage() {
               href="/brands"
               className="px-8 py-3 border border-stone-dark text-cream hover:border-bronze/40 rounded-sm transition-colors text-sm"
             >
-              Unsere Brands
+              Unsere Marken
             </Link>
           </div>
         </div>

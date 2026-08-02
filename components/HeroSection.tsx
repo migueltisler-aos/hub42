@@ -47,9 +47,6 @@ export default function HeroSection() {
           initial="hidden"
           animate="visible"
         >
-          <p className="text-bronze/60 text-xs font-mono tracking-[0.3em] uppercase">
-            Alexa Berlin · Oktober 2026
-          </p>
           <p className="text-bronze text-xs font-mono tracking-[0.2em] uppercase">
             Stationäre Retail-Infrastruktur für unabhängige Marken
           </p>
@@ -75,7 +72,7 @@ export default function HeroSection() {
           initial="hidden"
           animate="visible"
         >
-          Brands die du noch nicht kennst –
+          Marken, die du noch nicht kennst –
           <br />
           <span className="text-bronze">aber nicht mehr missen wirst.</span>
         </motion.p>
@@ -114,7 +111,7 @@ export default function HeroSection() {
             href="/brands"
             className="inline-flex items-center justify-center px-8 py-4 border border-bronze/40 text-bronze font-semibold text-sm tracking-wide hover:bg-bronze/10 transition-colors rounded-sm"
           >
-            Brands entdecken →
+            Marken entdecken →
           </Link>
         </motion.div>
 

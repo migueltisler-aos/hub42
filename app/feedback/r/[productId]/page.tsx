@@ -121,7 +121,7 @@ export default async function RatingPage({
 
         <p className="text-stone-dark text-xs text-center mt-6">
           Top-Produkte schaffen es in die Auswahl für{" "}
-          <span className="text-bronze">Brand des Monats</span>.
+          <span className="text-bronze">Marke des Monats</span>.
         </p>
       </div>
     </div>

@@ -25,12 +25,12 @@ const dmMono = DM_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://tryhub42.de"),
   title: {
-    default: "Hub42 – The Store You Have To Solve.",
+    default: "Hub42 – Der Store, den es braucht.",
     template: "%s | Hub42",
   },
   description:
-    "Hub42 im Alexa Berlin – der kuratierte Geschenke-Store wo Einkaufen ein Spiel ist. Where consumer brands are born.",
-  keywords: ["Hub42", "Alexa Berlin", "Geschenke", "Consumer Brands", "Popup Store", "Berlin"],
+    "Hub42 im Alexa Berlin – der kuratierte Geschenke-Store, wo Einkaufen ein Spiel ist. Wo Marken geboren werden.",
+  keywords: ["Hub42", "Alexa Berlin", "Geschenke", "Marken", "Popup Store", "Berlin"],
   authors: [{ name: "Hub42 UG (haftungsbeschränkt)" }],
   creator: "Hub42 UG (haftungsbeschränkt)",
   openGraph: {
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     locale: "de_DE",
     url: "https://tryhub42.de",
     siteName: "Hub42",
-    title: "Hub42 – The Store You Have To Solve.",
+    title: "Hub42 – Der Store, den es braucht.",
     description:
       "Wo Einkaufen ein Spiel ist. 41.000 Berliner täglich. 0% Handelsmarge für Hersteller.",
     images: [
@@ -46,13 +46,13 @@ export const metadata: Metadata = {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Hub42 – The Store You Have To Solve.",
+        alt: "Hub42 – Der Store, den es braucht.",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hub42 – The Store You Have To Solve.",
+    title: "Hub42 – Der Store, den es braucht.",
     description: "Wo Einkaufen ein Spiel ist. Alexa Berlin.",
     creator: "@hub42berlin",
   },

@@ -46,9 +46,9 @@ const SCHRITTE = [
 
 const WEN_WIR_SUCHEN = [
   { label: "Eigene Marke", detail: "Kein Konzern. Eine echte Story dahinter." },
-  { label: "Fairer Preis", detail: "Kein Dumping. Produkt das seinen Preis wert ist." },
+  { label: "Fairer Preis", detail: "Kein Dumping. Produkt, das seinen Preis wert ist." },
   { label: "Direkter Kontakt", detail: "Du willst Feedback. Nicht nur Umsatz." },
-  { label: "Kein LEH-Konflikt", detail: "Keine Preisbindung die uns beide blockiert." },
+  { label: "Kein LEH-Konflikt", detail: "Keine Preisbindung, die uns beide blockiert." },
 ];
 
 const WAS_DU_BEKOMMST = [
@@ -170,6 +170,26 @@ export default function HerstellerPage() {
         </div>
       </section>
 
+      {/* Kostentransparenz */}
+      <section className="bg-green-dark py-16 border-b border-stone-dark">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6">
+          <div className="border-l-4 border-bronze bg-bronze/5 px-6 py-6 space-y-4">
+            <p className="text-cream text-sm leading-relaxed">
+              <span className="text-bronze font-semibold">Deine Kosten:</span> Regalmiete ab 59 €
+              im Monat, 0,30 € Checkout-Fee je verkauftem Artikel, Kartengebühren. Sonst nichts.
+            </p>
+            <p className="text-cream text-sm leading-relaxed">
+              <span className="text-bronze font-semibold">Deine Laufzeit:</span> 3 Monate
+              Mindestlaufzeit, danach monatlich kündbar. 14 Tage von der Zusage bis ins Regal.
+            </p>
+            <p className="text-cream text-sm leading-relaxed">
+              Deine Ware bleibt bis zum Verkauf dein Eigentum. Wir verkaufen als Kommissionär
+              nach §383 HGB.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Vergleichstabelle */}
       <section className="bg-green-mid py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -204,7 +224,7 @@ export default function HerstellerPage() {
               <span className="text-bronze">Das hier schon.</span>
             </h2>
             <p className="text-stone text-sm max-w-lg">
-              Hub42 ist kein Lager für alles. Wir suchen Marken die etwas zu sagen haben.
+              Hub42 ist kein Lager für alles. Wir suchen Marken, die etwas zu sagen haben.
             </p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">

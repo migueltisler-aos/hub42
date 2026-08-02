@@ -23,7 +23,7 @@ export default function KontaktPage() {
             Reden wir.
           </h1>
           <p className="text-stone text-base max-w-lg leading-relaxed">
-            Du hast eine Brand die hier reingehört?<br />
+            Du hast eine Marke, die hier reingehört?<br />
             Oder du willst einfach mehr wissen?<br />
             Schreib uns. Wir antworten innerhalb von 24 Stunden.
           </p>
@@ -102,7 +102,7 @@ export default function KontaktPage() {
                     },
                     {
                       typ: "Scout",
-                      text: "Du kennst eine Brand die wir kennen sollten.",
+                      text: "Du kennst eine Marke, die wir kennen sollten.",
                     },
                     {
                       typ: "Presse",
