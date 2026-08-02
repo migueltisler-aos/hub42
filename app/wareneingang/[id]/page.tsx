@@ -10,6 +10,8 @@ import {
   pruefeNachbestellungGesperrt,
 } from "@/lib/wareneingang";
 
+export const dynamic = "force-dynamic";
+
 async function nachbestellungAction(chargeId: string, formData: FormData) {
   "use server";
   const cookieStore = await cookies();

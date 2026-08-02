@@ -3,6 +3,8 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { findGameToken, getRecentRedemptions, redeemGameToken } from "@/lib/feedback";
 
+export const dynamic = "force-dynamic";
+
 async function redeemAction(formData: FormData) {
   "use server";
   const code = (formData.get("code") as string)?.trim();

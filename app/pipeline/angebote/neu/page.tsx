@@ -5,6 +5,8 @@ import { getBrands } from "@/lib/pipeline";
 import { upsertAngebot, parseAngebotForm } from "@/lib/angebote";
 import AngebotForm, { type BrandOption } from "../_components/AngebotForm";
 
+export const dynamic = "force-dynamic";
+
 async function saveAngebot(formData: FormData) {
   "use server";
   const cookieStore = await cookies();

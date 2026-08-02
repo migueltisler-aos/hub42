@@ -5,6 +5,8 @@ import { importBrands, type AiBrand } from "@/lib/pipeline";
 import ImportBox from "../_components/ImportBox";
 import CopyButton from "../_components/CopyButton";
 
+export const dynamic = "force-dynamic";
+
 function sanitizeAndParseJson(raw: string): AiBrand[] {
   // Strip markdown code fences (```json ... ``` or ``` ... ```)
   let s = raw.trim().replace(/^```[a-z]*\n?/i, "").replace(/\n?```$/i, "").trim();

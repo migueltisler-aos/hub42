@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { abgangBuchen, ladeBestandReichweite, type AbgangQuelle } from "@/lib/bestand";
 
+export const dynamic = "force-dynamic";
+
 const STANDORT_STANDARD = "alexa-berlin";
 
 async function buchen(formData: FormData) {

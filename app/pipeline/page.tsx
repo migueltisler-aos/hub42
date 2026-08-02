@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getBrands, updateStatus, type BrandStatus } from "@/lib/pipeline";
 import PipelineClient from "./_components/PipelineClient";
 
+export const dynamic = "force-dynamic";
+
 async function updateStatusAction(id: string, status: BrandStatus) {
   "use server";
   await updateStatus(id, status);

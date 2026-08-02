@@ -4,6 +4,8 @@ import Link from "next/link";
 import { upsertBrand } from "@/lib/pipeline";
 import BrandForm from "../_components/BrandForm";
 
+export const dynamic = "force-dynamic";
+
 async function saveBrand(formData: FormData) {
   "use server";
   const cookieStore = await cookies();

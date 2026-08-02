@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createPanel, setPanelConsent } from "@/lib/feedback";
 
+export const dynamic = "force-dynamic";
+
 const PANEL_COOKIE = "feedback_panel";
 
 async function submitOnboarding(formData: FormData) {

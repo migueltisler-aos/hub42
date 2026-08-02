@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { ladeSendungen } from "@/lib/wareneingang";
 
+export const dynamic = "force-dynamic";
+
 export default async function WareneingangPage() {
   const cookieStore = await cookies();
   const currentUser = cookieStore.get("pipeline_user")?.value ?? "Unbekannt";

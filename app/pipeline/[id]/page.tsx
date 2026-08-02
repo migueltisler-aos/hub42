@@ -7,6 +7,8 @@ import { sendMail } from "@/lib/mail";
 import BrandForm from "../_components/BrandForm";
 import MailComposer from "../_components/MailComposer";
 
+export const dynamic = "force-dynamic";
+
 async function saveBrand(id: string, formData: FormData) {
   "use server";
   await upsertBrand(id, {

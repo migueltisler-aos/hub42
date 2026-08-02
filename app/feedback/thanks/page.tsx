@@ -15,6 +15,8 @@ import {
 } from "@/lib/feedback";
 import Celebration from "@/components/feedback/Celebration";
 
+export const dynamic = "force-dynamic";
+
 const PANEL_COOKIE = "feedback_panel";
 
 async function submitContactOptInAction(formData: FormData) {

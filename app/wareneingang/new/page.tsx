@@ -5,6 +5,8 @@ import { getBrands } from "@/lib/pipeline";
 import { erfasseSendung } from "@/lib/wareneingang";
 import SendungForm from "../_components/SendungForm";
 
+export const dynamic = "force-dynamic";
+
 async function speichern(formData: FormData) {
   "use server";
   const cookieStore = await cookies();

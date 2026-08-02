@@ -3,6 +3,8 @@ import Link from "next/link";
 import { getAngebote, updateAngebotStatus, type AngebotStatus } from "@/lib/angebote";
 import AngeboteClient from "./_components/AngeboteClient";
 
+export const dynamic = "force-dynamic";
+
 async function updateStatusAction(id: string, status: AngebotStatus) {
   "use server";
   await updateAngebotStatus(id, status);

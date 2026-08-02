@@ -9,6 +9,8 @@ import {
 } from "@/lib/feedback";
 import RatingForm from "@/components/feedback/RatingForm";
 
+export const dynamic = "force-dynamic";
+
 const PANEL_COOKIE = "feedback_panel";
 
 async function submitRatingAction(formData: FormData) {
