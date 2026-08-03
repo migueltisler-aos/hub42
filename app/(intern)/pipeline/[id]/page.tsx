@@ -4,6 +4,7 @@ import Link from "next/link";
 import { getBrand, upsertBrand } from "@/lib/pipeline";
 import { getAngeboteForBrand, computeAngebot, formatEUR } from "@/lib/angebote";
 import { sendMail } from "@/lib/mail";
+import { logSentEmail, getEmailLogForBrand } from "@/lib/email-log";
 import BrandForm from "../_components/BrandForm";
 import MailComposer from "../_components/MailComposer";
 
@@ -75,6 +76,8 @@ async function sendColdEmailAction(id: string, formData: FormData) {
     redirect(`/pipeline/${id}?mailerror=send&reason=${encodeURIComponent(sendErrorMessage)}`);
   }
 
+  await logSentEmail({ brandId: id, sender: currentUser, subject, body });
+
   const today = new Date().toISOString().split("T")[0];
   await upsertBrand(id, {
     kanal: "E-Mail",
@@ -104,6 +107,7 @@ export default async function BrandDetailPage({
   const brand = brandOrNull!;
 
   const angebote = await getAngeboteForBrand(id);
+  const emailLog = await getEmailLogForBrand(id);
 
   const saveWithId = saveBrand.bind(null, id);
   const deactivateWithId = deactivateBrand.bind(null, id);
@@ -201,6 +205,29 @@ export default async function BrandDetailPage({
             sendAction={sendMailWithId}
           />
         </div>
+
+        {emailLog.length > 0 && (
+          <div className="mt-8 border border-stone-dark bg-green-mid/10 p-4">
+            <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
+              Gesendete Anschreiben ({emailLog.length})
+            </p>
+            <div className="space-y-3">
+              {emailLog.map((e) => (
+                <details key={e.id} className="border border-stone-dark/60 group">
+                  <summary className="flex items-center justify-between gap-3 px-3 py-2 cursor-pointer list-none hover:bg-green-mid/30 transition-colors">
+                    <span className="text-cream text-xs font-mono truncate">{e.subject}</span>
+                    <span className="text-stone/50 text-xs font-mono shrink-0">
+                      {e.sender} · {new Date(e.sent_at).toLocaleDateString("de-DE")}
+                    </span>
+                  </summary>
+                  <pre className="px-3 pb-3 text-stone text-xs font-mono whitespace-pre-wrap">
+                    {e.body}
+                  </pre>
+                </details>
+              ))}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
