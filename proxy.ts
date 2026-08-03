@@ -23,26 +23,9 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  if (pathname.startsWith("/feedback/admin")) {
-    if (pathname === "/feedback/admin/login") {
-      return NextResponse.next();
-    }
-
-    const auth = request.cookies.get("feedback_admin_auth")?.value;
-    const expected = process.env.FEEDBACK_PASSWORD;
-
-    if (!auth || auth !== expected) {
-      const loginUrl = new URL("/feedback/admin/login", request.url);
-      loginUrl.searchParams.set("from", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-
-    return NextResponse.next();
-  }
-
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/pipeline/:path*", "/wareneingang/:path*", "/bestand/:path*", "/feedback/admin/:path*"],
+  matcher: ["/pipeline/:path*", "/wareneingang/:path*", "/bestand/:path*"],
 };
