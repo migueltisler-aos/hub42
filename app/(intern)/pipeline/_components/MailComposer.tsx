@@ -73,13 +73,15 @@ export default function MailComposer({ brandEmail, brandName, ansprechpartner, c
             className="w-full bg-green-dark border border-stone-dark text-cream px-3 py-2 text-sm font-mono focus:outline-none focus:border-bronze resize-y"
           />
         </div>
-        <button
-          type="submit"
-          disabled={sending}
-          className="px-6 py-3 bg-bronze text-green-dark text-sm font-semibold hover:bg-bronze-light transition-colors disabled:opacity-50"
-        >
-          {sending ? "Wird gesendet…" : "Senden →"}
-        </button>
+        <div className="flex justify-end">
+          <button
+            type="submit"
+            disabled={sending}
+            className="px-6 py-3 bg-red-600 text-cream text-sm font-semibold hover:bg-red-500 transition-colors disabled:opacity-50"
+          >
+            {sending ? "Wird gesendet…" : "Senden →"}
+          </button>
+        </div>
       </form>
     </div>
   );
