@@ -241,6 +241,9 @@ export default async function FeedbackAdminPage() {
                 <a href={p.targetUrl} target="_blank" rel="noreferrer" className="text-green-dark underline hover:text-bronze-dark">
                   Testen
                 </a>
+                <Link href={`/feedback/admin/products/${p.id}`} className="text-green-dark underline hover:text-bronze-dark">
+                  Fragensets
+                </Link>
                 <Link href={`/feedback/admin/results#${p.id}`} className="text-green-dark underline hover:text-bronze-dark">
                   Auswertung
                 </Link>
