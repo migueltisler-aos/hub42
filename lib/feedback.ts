@@ -1,10 +1,5 @@
 import { getSupabaseClient } from "./supabase";
 
-export interface DifferentialPair {
-  left: string;
-  right: string;
-}
-
 export const HEDONIC_FACES = ["😖", "😞", "🙁", "😕", "😐", "🙂", "😊", "😄", "🤩"];
 
 export interface Product {
@@ -14,7 +9,6 @@ export interface Product {
   store: string | null;
   shelf_code: string | null;
   batch: string | null;
-  attributes: DifferentialPair[];
   price_enabled: boolean;
   created_at: string;
 }
@@ -41,11 +35,17 @@ export interface PanelConsentInput {
   shoppingFrequency: string;
 }
 
+export interface AnswerInput {
+  questionId: string;
+  valueNumeric?: number | null;
+  valueText?: string | null;
+}
+
 export interface RatingInput {
   panelId: string;
   productId: string;
   hedonic: number;
-  semDiff: number[];
+  answers: AnswerInput[];
   priceTooCheap?: number | null;
   priceCheap?: number | null;
   priceExpensive?: number | null;
@@ -60,7 +60,6 @@ export interface Rating {
   panel_id: string;
   product_id: string;
   hedonic: number;
-  sem_diff: number[];
   price_too_cheap: number | null;
   price_cheap: number | null;
   price_expensive: number | null;
@@ -87,14 +86,26 @@ export async function getProduct(id: string): Promise<Product | null> {
   return data as Product;
 }
 
-export async function createProduct(input: ProductInput): Promise<Product> {
+export async function createProduct(
+  input: ProductInput,
+  questionSetIds: string[] = []
+): Promise<Product> {
   const { data, error } = await getSupabaseClient()
     .from("feedback_products")
     .insert(input)
     .select()
     .single();
   if (error) throw error;
-  return data as Product;
+  const product = data as Product;
+
+  if (questionSetIds.length > 0) {
+    const { error: linkError } = await getSupabaseClient()
+      .from("feedback_product_question_sets")
+      .insert(questionSetIds.map((setId) => ({ product_id: product.id, question_set_id: setId })));
+    if (linkError) throw linkError;
+  }
+
+  return product;
 }
 
 export async function createPanel(): Promise<Panel> {
@@ -155,7 +166,6 @@ export async function createRating(input: RatingInput): Promise<Rating> {
       panel_id: input.panelId,
       product_id: input.productId,
       hedonic: input.hedonic,
-      sem_diff: input.semDiff,
       price_too_cheap: input.priceTooCheap ?? null,
       price_cheap: input.priceCheap ?? null,
       price_expensive: input.priceExpensive ?? null,
@@ -167,7 +177,178 @@ export async function createRating(input: RatingInput): Promise<Rating> {
     .select()
     .single();
   if (error) throw error;
-  return data as Rating;
+  const rating = data as Rating;
+
+  if (input.answers.length > 0) {
+    const { error: answerError } = await getSupabaseClient()
+      .from("feedback_answers")
+      .insert(
+        input.answers.map((a) => ({
+          rating_id: rating.id,
+          question_id: a.questionId,
+          value_numeric: a.valueNumeric ?? null,
+          value_text: a.valueText ?? null,
+        }))
+      );
+    if (answerError) throw answerError;
+  }
+
+  return rating;
+}
+
+// ── Fragen-Modul ─────────────────────────────────────────────────────────
+// Wiederverwendbare Fragensets (z.B. "Basis", "Verpackung"), die sich
+// beliebigen Produkten zuordnen lassen. Die 9-Punkt-Hedonic-Skala und die
+// Van-Westendorp-Preisfragen bleiben eigenständig (Scout-Level/Vergleich
+// hängen an der Hedonic-Skala, siehe getScoutStatus/getComparisonData).
+
+export type QuestionType = "semantic_diff" | "likert" | "text";
+
+export interface Question {
+  id: string;
+  question_set_id: string;
+  type: QuestionType;
+  position: number;
+  prompt: string | null;
+  label_left: string | null;
+  label_right: string | null;
+  scale_max: number | null;
+}
+
+export interface QuestionWithSet extends Question {
+  set_name: string;
+}
+
+export interface QuestionInput {
+  questionSetId: string;
+  type: QuestionType;
+  position?: number;
+  prompt?: string | null;
+  labelLeft?: string | null;
+  labelRight?: string | null;
+  scaleMax?: number | null;
+}
+
+export interface QuestionSet {
+  id: string;
+  name: string;
+  description: string | null;
+  created_at: string;
+}
+
+export interface QuestionSetWithQuestions extends QuestionSet {
+  questions: Question[];
+}
+
+export async function getQuestionSets(): Promise<QuestionSetWithQuestions[]> {
+  const [{ data: sets, error: setsError }, { data: questions, error: qError }] = await Promise.all([
+    getSupabaseClient().from("feedback_question_sets").select("*").order("created_at", { ascending: true }),
+    getSupabaseClient().from("feedback_questions").select("*").order("position", { ascending: true }),
+  ]);
+  if (setsError) throw setsError;
+  if (qError) throw qError;
+  return ((sets ?? []) as QuestionSet[]).map((s) => ({
+    ...s,
+    questions: ((questions ?? []) as Question[]).filter((q) => q.question_set_id === s.id),
+  }));
+}
+
+export async function createQuestionSet(name: string, description: string | null): Promise<QuestionSet> {
+  const { data, error } = await getSupabaseClient()
+    .from("feedback_question_sets")
+    .insert({ name, description })
+    .select()
+    .single();
+  if (error) throw error;
+  return data as QuestionSet;
+}
+
+export async function createQuestion(input: QuestionInput): Promise<Question> {
+  const { data, error } = await getSupabaseClient()
+    .from("feedback_questions")
+    .insert({
+      question_set_id: input.questionSetId,
+      type: input.type,
+      position: input.position ?? 0,
+      prompt: input.prompt ?? null,
+      label_left: input.labelLeft ?? null,
+      label_right: input.labelRight ?? null,
+      scale_max: input.scaleMax ?? (input.type === "likert" ? 5 : 7),
+    })
+    .select()
+    .single();
+  if (error) throw error;
+  return data as Question;
+}
+
+export async function deleteQuestion(id: string): Promise<void> {
+  const { error } = await getSupabaseClient().from("feedback_questions").delete().eq("id", id);
+  if (error) throw error;
+}
+
+export async function getAllProductQuestionSetLinks(): Promise<
+  { product_id: string; question_set_id: string }[]
+> {
+  const { data, error } = await getSupabaseClient()
+    .from("feedback_product_question_sets")
+    .select("product_id, question_set_id");
+  if (error) throw error;
+  return (data ?? []) as { product_id: string; question_set_id: string }[];
+}
+
+export async function getAssignedQuestionSetIds(productId: string): Promise<string[]> {
+  const { data, error } = await getSupabaseClient()
+    .from("feedback_product_question_sets")
+    .select("question_set_id")
+    .eq("product_id", productId);
+  if (error) throw error;
+  return (data ?? []).map((r) => r.question_set_id as string);
+}
+
+export async function setProductQuestionSets(productId: string, questionSetIds: string[]): Promise<void> {
+  const { error: deleteError } = await getSupabaseClient()
+    .from("feedback_product_question_sets")
+    .delete()
+    .eq("product_id", productId);
+  if (deleteError) throw deleteError;
+
+  if (questionSetIds.length > 0) {
+    const { error: insertError } = await getSupabaseClient()
+      .from("feedback_product_question_sets")
+      .insert(questionSetIds.map((setId) => ({ product_id: productId, question_set_id: setId })));
+    if (insertError) throw insertError;
+  }
+}
+
+export async function getQuestionsForProduct(productId: string): Promise<QuestionWithSet[]> {
+  const { data: links, error: linksError } = await getSupabaseClient()
+    .from("feedback_product_question_sets")
+    .select("question_set_id")
+    .eq("product_id", productId);
+  if (linksError) throw linksError;
+  const setIds = (links ?? []).map((l) => l.question_set_id as string);
+  if (setIds.length === 0) return [];
+
+  const [{ data: sets, error: setsError }, { data: questions, error: qError }] = await Promise.all([
+    getSupabaseClient().from("feedback_question_sets").select("id, name, created_at").in("id", setIds),
+    getSupabaseClient().from("feedback_questions").select("*").in("question_set_id", setIds),
+  ]);
+  if (setsError) throw setsError;
+  if (qError) throw qError;
+
+  const orderedSets = [...(sets ?? [])].sort((a, b) =>
+    (a.created_at as string).localeCompare(b.created_at as string)
+  );
+  const setOrder = new Map(orderedSets.map((s, i) => [s.id as string, i]));
+  const setName = new Map(orderedSets.map((s) => [s.id as string, s.name as string]));
+
+  return ((questions ?? []) as Question[])
+    .map((q) => ({ ...q, set_name: setName.get(q.question_set_id) ?? "" }))
+    .sort(
+      (a, b) =>
+        (setOrder.get(a.question_set_id) ?? 0) - (setOrder.get(b.question_set_id) ?? 0) ||
+        a.position - b.position
+    );
 }
 
 interface RatedProductRow {
@@ -205,13 +386,20 @@ function stddev(values: number[]): number {
   return Math.sqrt(variance);
 }
 
+export interface QuestionStats {
+  question: QuestionWithSet;
+  mean: number | null; // semantic_diff/likert
+  n: number;
+  texts: string[]; // text-Antworten
+}
+
 export interface ProductStats {
   product: Product;
   n: number;
   hedonicMean: number;
   hedonicSd: number;
   hedonicDistribution: number[]; // index 0 = count of "1", ... index 8 = count of "9"
-  semDiffMeans: number[]; // one mean per attribute pair
+  questionStats: QuestionStats[];
   priceStats: {
     tooCheap: number;
     cheap: number;
@@ -225,10 +413,10 @@ export async function getProductStats(productId: string): Promise<ProductStats |
   const product = await getProduct(productId);
   if (!product) return null;
 
-  const { data, error } = await getSupabaseClient()
-    .from("feedback_ratings")
-    .select("*")
-    .eq("product_id", productId);
+  const [{ data, error }, questions] = await Promise.all([
+    getSupabaseClient().from("feedback_ratings").select("*").eq("product_id", productId),
+    getQuestionsForProduct(productId),
+  ]);
   if (error) throw error;
   const ratings = (data ?? []) as Rating[];
 
@@ -238,10 +426,33 @@ export async function getProductStats(productId: string): Promise<ProductStats |
     if (v >= 1 && v <= 9) hedonicDistribution[v - 1]++;
   });
 
-  const axisCount = product.attributes.length;
-  const semDiffMeans = Array.from({ length: axisCount }, (_, axis) =>
-    mean(ratings.map((r) => r.sem_diff[axis]).filter((v) => v != null))
-  );
+  const answersByQuestion = new Map<string, { numeric: number[]; texts: string[] }>();
+  if (questions.length > 0 && ratings.length > 0) {
+    const { data: answers, error: ansError } = await getSupabaseClient()
+      .from("feedback_answers")
+      .select("*")
+      .in(
+        "rating_id",
+        ratings.map((r) => r.id)
+      );
+    if (ansError) throw ansError;
+    for (const a of answers ?? []) {
+      const bucket = answersByQuestion.get(a.question_id as string) ?? { numeric: [], texts: [] };
+      if (a.value_numeric != null) bucket.numeric.push(Number(a.value_numeric));
+      if (a.value_text != null) bucket.texts.push(a.value_text as string);
+      answersByQuestion.set(a.question_id as string, bucket);
+    }
+  }
+
+  const questionStats: QuestionStats[] = questions.map((q) => {
+    const bucket = answersByQuestion.get(q.id) ?? { numeric: [], texts: [] };
+    return {
+      question: q,
+      mean: bucket.numeric.length > 0 ? mean(bucket.numeric) : null,
+      n: bucket.numeric.length > 0 ? bucket.numeric.length : bucket.texts.length,
+      texts: bucket.texts,
+    };
+  });
 
   const priceRows = ratings.filter((r) => r.price_too_cheap != null);
   const priceStats = product.price_enabled
@@ -260,7 +471,7 @@ export async function getProductStats(productId: string): Promise<ProductStats |
     hedonicMean: mean(hedonicValues),
     hedonicSd: stddev(hedonicValues),
     hedonicDistribution,
-    semDiffMeans,
+    questionStats,
     priceStats,
   };
 }
@@ -407,6 +618,77 @@ export async function submitContactOptIn(
   if (error) throw error;
 }
 
+// ── Pro-Produkt-Kontakt-Opt-in ──────────────────────────────────────────────
+// Unabhängig vom Scout-Level-Opt-in (Newsletter/Jury): direkt nach einer
+// Bewertung fragen, ob jemand zu GENAU DIESEM Produkt informiert werden will.
+// PII (E-Mail/WhatsApp) — nie auf der öffentlichen Results-Seite ausgeben,
+// nur Aggregat-Zähler. Die echte Leadliste liegt hinter pipeline_auth.
+
+export interface ProductInterestInput {
+  panelId: string;
+  productId: string;
+  email?: string | null;
+  whatsapp?: string | null;
+}
+
+export async function submitProductInterest(input: ProductInterestInput): Promise<void> {
+  const { error } = await getSupabaseClient().from("feedback_product_interest").upsert(
+    {
+      panel_id: input.panelId,
+      product_id: input.productId,
+      email: input.email || null,
+      whatsapp: input.whatsapp || null,
+    },
+    { onConflict: "panel_id,product_id" }
+  );
+  if (error) throw error;
+}
+
+export async function hasProductInterest(panelId: string, productId: string): Promise<boolean> {
+  const { data } = await getSupabaseClient()
+    .from("feedback_product_interest")
+    .select("id")
+    .eq("panel_id", panelId)
+    .eq("product_id", productId)
+    .maybeSingle();
+  return Boolean(data);
+}
+
+export async function getProductInterestCounts(): Promise<Record<string, number>> {
+  const { data, error } = await getSupabaseClient().from("feedback_product_interest").select("product_id");
+  if (error) throw error;
+  const counts: Record<string, number> = {};
+  for (const row of data ?? []) {
+    const id = row.product_id as string;
+    counts[id] = (counts[id] ?? 0) + 1;
+  }
+  return counts;
+}
+
+export interface ProductInterestLead {
+  id: string;
+  product_id: string;
+  email: string | null;
+  whatsapp: string | null;
+  created_at: string;
+}
+
+export async function getProductInterestLeads(): Promise<
+  (ProductInterestLead & { product_name: string })[]
+> {
+  const { data, error } = await getSupabaseClient()
+    .from("feedback_product_interest")
+    .select("*, feedback_products(name)")
+    .order("created_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []).map((row) => {
+    const product = Array.isArray(row.feedback_products)
+      ? row.feedback_products[0]
+      : row.feedback_products;
+    return { ...row, product_name: (product as { name: string } | null)?.name ?? "Unbekannt" };
+  }) as (ProductInterestLead & { product_name: string })[];
+}
+
 export interface ProductWithPanelStatus {
   product: Product;
   rated: boolean;
@@ -515,6 +797,102 @@ export async function redeemGameToken(
     .maybeSingle();
   if (error) throw error;
   return data as GameToken | null;
+}
+
+// ── Rohdaten-Export ──────────────────────────────────────────────────────
+// Für BiFi: zeigt, dass Hub42 die Rohdaten wirklich rausgibt, nicht nur
+// hübsche Dashboards. Eine Zeile pro Bewertung, eine Spalte pro Frage
+// (Frage-Label als Spaltenüberschrift), Panels bleiben pseudonym.
+
+function questionLabel(q: Question): string {
+  if (q.type === "semantic_diff") return `${q.label_left} ↔ ${q.label_right}`;
+  return q.prompt ?? q.id;
+}
+
+export async function getExportRows(): Promise<{ headers: string[]; rows: string[][] }> {
+  const [{ data: ratings, error: ratingsError }, { data: allQuestions, error: qError }] = await Promise.all([
+    getSupabaseClient()
+      .from("feedback_ratings")
+      .select("*, feedback_products(name, brand), feedback_panels(age_range, gender, household_size, shopping_frequency)")
+      .order("scanned_at", { ascending: true }),
+    getSupabaseClient().from("feedback_questions").select("*"),
+  ]);
+  if (ratingsError) throw ratingsError;
+  if (qError) throw qError;
+
+  const questions = (allQuestions ?? []) as Question[];
+  const questionColumns = [...new Set(questions.map(questionLabel))].sort();
+  const labelById = new Map(questions.map((q) => [q.id, questionLabel(q)]));
+
+  const ratingIds = (ratings ?? []).map((r) => r.id as string);
+  const { data: answers, error: ansError } =
+    ratingIds.length > 0
+      ? await getSupabaseClient().from("feedback_answers").select("*").in("rating_id", ratingIds)
+      : { data: [], error: null };
+  if (ansError) throw ansError;
+
+  const answersByRating = new Map<string, Map<string, string>>();
+  for (const a of answers ?? []) {
+    const label = labelById.get(a.question_id as string);
+    if (!label) continue;
+    const bucket = answersByRating.get(a.rating_id as string) ?? new Map<string, string>();
+    bucket.set(label, a.value_numeric != null ? String(a.value_numeric) : String(a.value_text ?? ""));
+    answersByRating.set(a.rating_id as string, bucket);
+  }
+
+  const headers = [
+    "rating_id",
+    "scanned_at",
+    "panel_id",
+    "age_range",
+    "gender",
+    "household_size",
+    "shopping_frequency",
+    "product_name",
+    "product_brand",
+    "store_context",
+    "shelf_context",
+    "batch_context",
+    "hedonic_1_9",
+    "price_too_cheap",
+    "price_cheap",
+    "price_expensive",
+    "price_too_expensive",
+    ...questionColumns,
+  ];
+
+  const rows = (ratings ?? []).map((r) => {
+    const product = Array.isArray(r.feedback_products) ? r.feedback_products[0] : r.feedback_products;
+    const panel = Array.isArray(r.feedback_panels) ? r.feedback_panels[0] : r.feedback_panels;
+    const answerMap = answersByRating.get(r.id as string) ?? new Map<string, string>();
+    return [
+      r.id as string,
+      r.scanned_at as string,
+      r.panel_id as string,
+      panel?.age_range ?? "",
+      panel?.gender ?? "",
+      panel?.household_size ?? "",
+      panel?.shopping_frequency ?? "",
+      product?.name ?? "",
+      product?.brand ?? "",
+      r.store_context ?? "",
+      r.shelf_context ?? "",
+      r.batch_context ?? "",
+      String(r.hedonic ?? ""),
+      r.price_too_cheap != null ? String(r.price_too_cheap) : "",
+      r.price_cheap != null ? String(r.price_cheap) : "",
+      r.price_expensive != null ? String(r.price_expensive) : "",
+      r.price_too_expensive != null ? String(r.price_too_expensive) : "",
+      ...questionColumns.map((col) => answerMap.get(col) ?? ""),
+    ];
+  });
+
+  return { headers, rows };
+}
+
+export function toCsv(headers: string[], rows: string[][]): string {
+  const escape = (v: string) => (/[",\n]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v);
+  return [headers, ...rows].map((row) => row.map(escape).join(",")).join("\n");
 }
 
 export async function getRecentRedemptions(limit = 20): Promise<GameToken[]> {

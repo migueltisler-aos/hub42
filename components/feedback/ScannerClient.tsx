@@ -59,7 +59,7 @@ export default function ScannerClient({ products }: { products: ScannerProduct[]
 
   return (
     <div className="max-w-md mx-auto">
-      <div className="relative bg-black aspect-square mb-4 overflow-hidden">
+      <div className="field-card relative bg-black aspect-square mb-6 overflow-hidden">
         <video ref={videoRef} className="w-full h-full object-cover" muted playsInline />
         {status !== "active" && (
           <div className="absolute inset-0 flex items-center justify-center text-cream text-sm px-6 text-center">
@@ -78,7 +78,7 @@ export default function ScannerClient({ products }: { products: ScannerProduct[]
           <button
             key={p.id}
             onClick={() => router.push(`/feedback/r/${p.id}`)}
-            className="w-full text-left bg-sage-warm text-green-dark px-4 py-3 text-sm hover:bg-cream-warm transition-colors"
+            className="w-full text-left bg-sage-warm text-green-dark px-4 py-3 text-sm hover:bg-cream-warm transition-colors border border-transparent hover:border-bronze/40"
           >
             {p.name}
             {p.brand && <span className="text-stone-dark"> · {p.brand}</span>}

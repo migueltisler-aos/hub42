@@ -2,36 +2,33 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import Link from "next/link";
 import QRCode from "qrcode";
-import { createProduct, getProducts, type DifferentialPair } from "@/lib/feedback";
+import {
+  createProduct,
+  getAllProductQuestionSetLinks,
+  getProducts,
+  getQuestionSets,
+} from "@/lib/feedback";
 
 export const dynamic = "force-dynamic";
-
-function parseAttributes(raw: string): DifferentialPair[] {
-  return raw
-    .split("\n")
-    .map((line) => line.trim())
-    .filter(Boolean)
-    .map((line) => {
-      const [left, right] = line.split("|").map((s) => s.trim());
-      return { left: left ?? "", right: right ?? left ?? "" };
-    })
-    .filter((pair) => pair.left);
-}
 
 async function createProductAction(formData: FormData) {
   "use server";
   const name = (formData.get("name") as string)?.trim();
   if (!name) return;
 
-  await createProduct({
-    name,
-    brand: (formData.get("brand") as string)?.trim() || null,
-    store: (formData.get("store") as string)?.trim() || null,
-    shelf_code: (formData.get("shelf_code") as string)?.trim() || null,
-    batch: (formData.get("batch") as string)?.trim() || null,
-    attributes: parseAttributes((formData.get("attributes") as string) ?? ""),
-    price_enabled: formData.get("price_enabled") === "on",
-  });
+  const questionSetIds = formData.getAll("question_sets").map((v) => v as string);
+
+  await createProduct(
+    {
+      name,
+      brand: (formData.get("brand") as string)?.trim() || null,
+      store: (formData.get("store") as string)?.trim() || null,
+      shelf_code: (formData.get("shelf_code") as string)?.trim() || null,
+      batch: (formData.get("batch") as string)?.trim() || null,
+      price_enabled: formData.get("price_enabled") === "on",
+    },
+    questionSetIds
+  );
 
   redirect("/feedback/admin");
 }
@@ -44,13 +41,22 @@ async function getBaseUrl(): Promise<string> {
 }
 
 export default async function FeedbackAdminPage() {
-  const [products, baseUrl] = await Promise.all([getProducts(), getBaseUrl()]);
+  const [products, baseUrl, questionSets, links] = await Promise.all([
+    getProducts(),
+    getBaseUrl(),
+    getQuestionSets(),
+    getAllProductQuestionSetLinks(),
+  ]);
 
   const productsWithQr = await Promise.all(
     products.map(async (p) => {
       const targetUrl = `${baseUrl}/feedback/r/${p.id}`;
       const qr = await QRCode.toDataURL(targetUrl, { margin: 1, width: 220 });
-      return { ...p, targetUrl, qr };
+      const setNames = links
+        .filter((l) => l.product_id === p.id)
+        .map((l) => questionSets.find((s) => s.id === l.question_set_id)?.name)
+        .filter(Boolean);
+      return { ...p, targetUrl, qr, setNames };
     })
   );
 
@@ -70,6 +76,18 @@ export default async function FeedbackAdminPage() {
             </h1>
           </div>
           <div className="flex gap-6">
+            <Link
+              href="/feedback/leads"
+              className="text-bronze text-xs font-mono uppercase tracking-widest hover:text-bronze-light transition-colors"
+            >
+              Leads →
+            </Link>
+            <Link
+              href="/feedback/admin/questions"
+              className="text-bronze text-xs font-mono uppercase tracking-widest hover:text-bronze-light transition-colors"
+            >
+              Fragensets →
+            </Link>
             <Link
               href="/feedback/admin/settings"
               className="text-bronze text-xs font-mono uppercase tracking-widest hover:text-bronze-light transition-colors"
@@ -152,15 +170,45 @@ export default async function FeedbackAdminPage() {
               </label>
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-1">
-                Semantisches Differential — eine Zeile pro Achse, Format: <code>links | rechts</code>
-              </label>
-              <textarea
-                name="attributes"
-                rows={3}
-                placeholder={"künstlich wirkend | natürlich wirkend\nunauffällig | auffällig\ngünstig wirkend | hochwertig wirkend"}
-                className="w-full bg-green-dark border border-stone-dark text-cream px-3 py-2 text-sm font-mono focus:outline-none focus:border-bronze"
-              />
+              <div className="flex items-center justify-between mb-1">
+                <label className="block text-stone text-xs font-mono uppercase tracking-widest">
+                  Fragensets für dieses Produkt
+                </label>
+                <Link
+                  href="/feedback/admin/questions"
+                  className="text-bronze text-xs font-mono hover:text-bronze-light transition-colors"
+                >
+                  Fragensets verwalten →
+                </Link>
+              </div>
+              {questionSets.length === 0 ? (
+                <p className="text-stone-dark text-sm">
+                  Noch keine Fragensets angelegt.
+                </p>
+              ) : (
+                <div className="grid sm:grid-cols-2 gap-2">
+                  {questionSets.map((set) => (
+                    <label
+                      key={set.id}
+                      className="flex items-start gap-2 bg-green-dark border border-stone-dark px-3 py-2 text-sm text-stone"
+                    >
+                      <input
+                        type="checkbox"
+                        name="question_sets"
+                        value={set.id}
+                        className="accent-bronze mt-0.5"
+                      />
+                      <span>
+                        <span className="text-cream">{set.name}</span>
+                        <span className="text-stone-dark text-xs block">
+                          {set.questions.length} Frage{set.questions.length === 1 ? "" : "n"}
+                          {set.description ? ` · ${set.description}` : ""}
+                        </span>
+                      </span>
+                    </label>
+                  ))}
+                </div>
+              )}
             </div>
             <div className="sm:col-span-2">
               <button
@@ -185,6 +233,9 @@ export default async function FeedbackAdminPage() {
               {p.brand && <p className="text-stone-dark text-xs">{p.brand}</p>}
               <p className="text-stone-dark text-xs font-mono mt-1">
                 {[p.store, p.shelf_code, p.batch].filter(Boolean).join(" · ") || "kein Kontext"}
+              </p>
+              <p className="text-stone-dark text-[10px] mt-1">
+                {p.setNames.length > 0 ? p.setNames.join(", ") : "keine Fragensets"}
               </p>
               <div className="flex gap-3 mt-3 text-xs font-mono uppercase tracking-widest">
                 <a href={p.targetUrl} target="_blank" rel="noreferrer" className="text-green-dark underline hover:text-bronze-dark">

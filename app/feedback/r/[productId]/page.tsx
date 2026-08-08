@@ -4,10 +4,12 @@ import {
   createRating,
   getPanel,
   getProduct,
+  getQuestionsForProduct,
   getRatingForPanelProduct,
   getRatingsTodayCount,
 } from "@/lib/feedback";
 import RatingForm from "@/components/feedback/RatingForm";
+import FieldFrame from "@/components/feedback/FieldFrame";
 
 export const dynamic = "force-dynamic";
 
@@ -22,10 +24,16 @@ async function submitRatingAction(formData: FormData) {
     redirect(`/feedback/onboarding?next=${encodeURIComponent(`/feedback/r/${productId}`)}`);
   }
 
-  const attributeCount = Number(formData.get("attribute_count") ?? 0);
-  const semDiff = Array.from({ length: attributeCount }, (_, i) =>
-    Number(formData.get(`sem_${i}`) ?? 0)
-  );
+  const questions = await getQuestionsForProduct(productId);
+  const answers = questions
+    .map((q) => {
+      const raw = formData.get(`answer_${q.id}`);
+      if (raw == null || raw === "") return null;
+      return q.type === "text"
+        ? { questionId: q.id, valueText: raw as string }
+        : { questionId: q.id, valueNumeric: Number(raw) };
+    })
+    .filter((a): a is NonNullable<typeof a> => a !== null);
 
   const priceTooCheap = formData.get("price_too_cheap");
   const priceCheap = formData.get("price_cheap");
@@ -38,7 +46,7 @@ async function submitRatingAction(formData: FormData) {
       panelId,
       productId,
       hedonic,
-      semDiff,
+      answers,
       priceTooCheap: priceTooCheap ? Number(priceTooCheap) : null,
       priceCheap: priceCheap ? Number(priceCheap) : null,
       priceExpensive: priceExpensive ? Number(priceExpensive) : null,
@@ -74,46 +82,49 @@ export default async function RatingPage({
     redirect(`/feedback/thanks?product=${productId}&hedonic=${existingRating.hedonic}`);
   }
 
-  const [product, ratingsToday] = await Promise.all([
+  const [product, ratingsToday, questions] = await Promise.all([
     getProduct(productId),
     getRatingsTodayCount(),
+    getQuestionsForProduct(productId),
   ]);
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-green-dark flex items-center justify-center px-4">
-        <p className="text-cream">Dieses Produkt wurde nicht gefunden.</p>
-      </div>
+      <FieldFrame>
+        <div className="flex items-center justify-center min-h-[70vh]">
+          <p className="text-cream">Dieses Produkt wurde nicht gefunden.</p>
+        </div>
+      </FieldFrame>
     );
   }
 
   return (
-    <div className="min-h-screen bg-green-dark px-4 py-10">
+    <FieldFrame>
       <div className="max-w-md mx-auto">
-        {ratingsToday > 0 && (
-          <p className="text-bronze/80 text-xs font-mono uppercase tracking-widest mb-4">
-            🔥 {ratingsToday} Scout-Stimmen heute schon dabei
-          </p>
-        )}
-        <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-2">
-          Deine Stimme für Hub42
-        </p>
+        <div className="flex items-center justify-between mb-4">
+          <span className="stamp text-bronze">Deine Stimme für Hub42</span>
+          {ratingsToday > 0 && (
+            <span className="text-bronze/80 text-[10px] font-mono uppercase tracking-widest text-right">
+              🔥 {ratingsToday} heute
+            </span>
+          )}
+        </div>
         <h1
-          className="text-cream text-3xl tracking-widest mb-1"
+          className="text-cream text-4xl tracking-widest mb-1"
           style={{ fontFamily: "var(--font-bebas)" }}
         >
           {product.name}
         </h1>
-        {product.brand && <p className="text-stone text-sm mb-2">{product.brand}</p>}
+        {product.brand && <p className="text-stone text-sm mb-3">{product.brand}</p>}
         {(product.store || product.shelf_code) && (
-          <p className="text-stone-dark text-xs font-mono mb-8">
+          <p className="inline-block field-card bg-green-mid/40 text-stone-dark text-[10px] font-mono uppercase tracking-widest px-3 py-1.5 mb-8">
             📍 {[product.store, product.shelf_code].filter(Boolean).join(" · ")}
           </p>
         )}
 
         <RatingForm
           productId={product.id}
-          attributes={product.attributes}
+          questions={questions}
           priceEnabled={product.price_enabled}
           productStore={product.store ?? ""}
           productShelf={product.shelf_code ?? ""}
@@ -126,6 +137,6 @@ export default async function RatingPage({
           <span className="text-bronze">Marke des Monats</span>.
         </p>
       </div>
-    </div>
+    </FieldFrame>
   );
 }

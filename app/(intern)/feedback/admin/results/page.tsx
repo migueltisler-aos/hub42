@@ -1,5 +1,11 @@
 import Link from "next/link";
-import { getPanelOverview, getProducts, getProductStats } from "@/lib/feedback";
+import {
+  getPanelOverview,
+  getProductInterestCounts,
+  getProducts,
+  getProductStats,
+  type QuestionStats,
+} from "@/lib/feedback";
 
 export const dynamic = "force-dynamic";
 
@@ -20,18 +26,23 @@ function HedonicBars({ distribution }: { distribution: number[] }) {
   );
 }
 
-function SemDiffTrack({
+function ScaleTrack({
+  label,
   left,
   right,
   mean,
+  scaleMax,
 }: {
-  left: string;
-  right: string;
+  label?: string | null;
+  left: string | null;
+  right: string | null;
   mean: number;
+  scaleMax: number;
 }) {
-  const pct = Math.min(100, Math.max(0, ((mean - 1) / 6) * 100));
+  const pct = Math.min(100, Math.max(0, ((mean - 1) / (scaleMax - 1)) * 100));
   return (
     <div className="mb-3">
+      {label && <p className="text-stone-dark text-xs mb-1">{label}</p>}
       <div className="flex justify-between text-stone-dark text-xs mb-1">
         <span>{left}</span>
         <span>{right}</span>
@@ -42,35 +53,86 @@ function SemDiffTrack({
           style={{ left: `calc(${pct}% - 6px)` }}
         />
       </div>
-      <p className="text-stone-dark text-[10px] font-mono mt-1">⌀ {mean.toFixed(2)} / 7</p>
+      <p className="text-stone-dark text-[10px] font-mono mt-1">
+        ⌀ {mean.toFixed(2)} / {scaleMax}
+      </p>
     </div>
   );
 }
 
+function QuestionResult({ qs }: { qs: QuestionStats }) {
+  const { question: q } = qs;
+  if (q.type === "text") {
+    return (
+      <div className="mb-3">
+        <p className="text-stone-dark text-xs mb-1">
+          {q.prompt} <span className="text-stone-dark/70">({qs.texts.length} Antworten)</span>
+        </p>
+        {qs.texts.length > 0 && (
+          <ul className="text-green-dark text-sm bg-sage px-3 py-2 space-y-1">
+            {qs.texts.slice(0, 5).map((t, i) => (
+              <li key={i}>&quot;{t}&quot;</li>
+            ))}
+          </ul>
+        )}
+      </div>
+    );
+  }
+  if (qs.mean == null) {
+    return (
+      <p className="text-stone-dark text-xs mb-3">
+        {q.type === "semantic_diff" ? `${q.label_left} ↔ ${q.label_right}` : q.prompt} — noch keine
+        Antworten
+      </p>
+    );
+  }
+  return (
+    <ScaleTrack
+      label={q.type === "likert" ? q.prompt : null}
+      left={q.label_left}
+      right={q.label_right}
+      mean={qs.mean}
+      scaleMax={q.scale_max ?? (q.type === "likert" ? 5 : 7)}
+    />
+  );
+}
+
 export default async function ResultsPage() {
-  const [products, panelOverview] = await Promise.all([getProducts(), getPanelOverview()]);
+  const [products, panelOverview, interestCounts] = await Promise.all([
+    getProducts(),
+    getPanelOverview(),
+    getProductInterestCounts(),
+  ]);
   const stats = await Promise.all(products.map((p) => getProductStats(p.id)));
 
   return (
     <div className="min-h-screen bg-green-dark">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
-        <div className="mb-8">
-          <Link
-            href="/feedback/admin"
-            className="text-stone text-xs font-mono hover:text-bronze transition-colors"
+        <div className="mb-8 flex items-start justify-between">
+          <div>
+            <Link
+              href="/feedback/admin"
+              className="text-stone text-xs font-mono hover:text-bronze transition-colors"
+            >
+              ← Produkte
+            </Link>
+            <h1
+              className="text-cream text-4xl tracking-widest mt-3"
+              style={{ fontFamily: "var(--font-bebas)" }}
+            >
+              Auswertung
+            </h1>
+          </div>
+          <a
+            href="/feedback/admin/export"
+            className="stamp text-bronze hover:text-bronze-light transition-colors whitespace-nowrap"
           >
-            ← Produkte
-          </Link>
-          <h1
-            className="text-cream text-4xl tracking-widest mt-3"
-            style={{ fontFamily: "var(--font-bebas)" }}
-          >
-            Auswertung
-          </h1>
+            ⤓ Rohdaten (CSV)
+          </a>
         </div>
 
         <div className="grid grid-cols-2 gap-4 mb-10">
-          <div className="bg-sage-warm p-4">
+          <div className="field-card bg-sage-warm p-4">
             <p className="text-stone-dark text-xs font-mono uppercase tracking-widest">
               Panels (unique Nutzer)
             </p>
@@ -78,7 +140,7 @@ export default async function ResultsPage() {
               {panelOverview.uniquePanels}
             </p>
           </div>
-          <div className="bg-sage-warm p-4">
+          <div className="field-card bg-sage-warm p-4">
             <p className="text-stone-dark text-xs font-mono uppercase tracking-widest">
               Ø Produkte pro Panel
             </p>
@@ -92,7 +154,7 @@ export default async function ResultsPage() {
           {stats.filter(Boolean).map((s) => {
             if (!s) return null;
             return (
-              <div key={s.product.id} id={s.product.id} className="bg-sage-warm p-6">
+              <div key={s.product.id} id={s.product.id} className="field-card bg-sage-warm p-6">
                 <div className="flex items-baseline justify-between mb-4">
                   <div>
                     <h2 className="text-green-dark text-2xl" style={{ fontFamily: "var(--font-bebas)" }}>
@@ -100,7 +162,14 @@ export default async function ResultsPage() {
                     </h2>
                     {s.product.brand && <p className="text-stone-dark text-sm">{s.product.brand}</p>}
                   </div>
-                  <p className="text-stone-dark text-xs font-mono">n = {s.n}</p>
+                  <div className="text-right">
+                    <p className="text-stone-dark text-xs font-mono">n = {s.n}</p>
+                    {(interestCounts[s.product.id] ?? 0) > 0 && (
+                      <p className="text-bronze-dark text-xs font-mono">
+                        📬 {interestCounts[s.product.id]} Leads
+                      </p>
+                    )}
+                  </div>
                 </div>
 
                 {s.n === 0 ? (
@@ -115,13 +184,8 @@ export default async function ResultsPage() {
                       <HedonicBars distribution={s.hedonicDistribution} />
                     </div>
 
-                    {s.product.attributes.map((pair, i) => (
-                      <SemDiffTrack
-                        key={i}
-                        left={pair.left}
-                        right={pair.right}
-                        mean={s.semDiffMeans[i] ?? 0}
-                      />
+                    {s.questionStats.map((qs) => (
+                      <QuestionResult key={qs.question.id} qs={qs} />
                     ))}
 
                     {s.priceStats && (

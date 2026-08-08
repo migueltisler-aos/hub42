@@ -11,13 +11,30 @@ import {
   getProductsWithPanelStatus,
   getScoutStatus,
   getSettings,
+  hasProductInterest,
   submitContactOptIn,
+  submitProductInterest,
 } from "@/lib/feedback";
 import Celebration from "@/components/feedback/Celebration";
+import FieldFrame from "@/components/feedback/FieldFrame";
 
 export const dynamic = "force-dynamic";
 
 const PANEL_COOKIE = "feedback_panel";
+
+async function submitProductInterestAction(formData: FormData) {
+  "use server";
+  const cookieStore = await cookies();
+  const panelId = cookieStore.get(PANEL_COOKIE)?.value;
+  const productId = formData.get("product_id") as string;
+  const email = (formData.get("interest_email") as string)?.trim();
+  const whatsapp = (formData.get("interest_whatsapp") as string)?.trim();
+  const back = (formData.get("back") as string) || "/feedback/scan";
+  if (!panelId || !productId || (!email && !whatsapp)) redirect(back);
+
+  await submitProductInterest({ panelId, productId, email: email || null, whatsapp: whatsapp || null });
+  redirect(back);
+}
 
 async function submitContactOptInAction(formData: FormData) {
   "use server";
@@ -42,11 +59,12 @@ export default async function ThanksPage({
   const panelId = cookieStore.get(PANEL_COOKIE)?.value;
   const backHref = `/feedback/thanks?product=${productId ?? ""}&hedonic=${hedonicParam ?? ""}`;
 
-  const [product, progress, productsWithStatus, settings] = await Promise.all([
+  const [product, progress, productsWithStatus, settings, alreadyInterested] = await Promise.all([
     productId ? getProduct(productId) : null,
     panelId ? getPanelProgress(panelId) : { count: 0, productNames: [] },
     panelId ? getProductsWithPanelStatus(panelId) : [],
     getSettings(),
+    panelId && productId ? hasProductInterest(panelId, productId) : false,
   ]);
 
   const scout = getScoutStatus(progress.count, settings);
@@ -64,25 +82,62 @@ export default async function ThanksPage({
   const celebrate = Boolean(scout.justReached) || Boolean(newToken) || showComparison;
 
   return (
-    <div className="min-h-screen bg-green-dark px-4 py-10">
+    <FieldFrame>
       <div className="relative max-w-md mx-auto text-center">
         {celebrate && <Celebration />}
 
-        <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-2">
-          Stimme gezählt
-        </p>
+        <span className="stamp text-bronze mb-3 inline-block">Stimme gezählt</span>
         <h1
-          className="text-cream text-3xl tracking-widest mb-6"
+          className="text-cream text-4xl tracking-widest mb-6"
           style={{ fontFamily: "var(--font-bebas)" }}
         >
           {product ? `Danke für ${product.name}!` : "Danke für deine Stimme!"}
         </h1>
 
+        {/* Pro-Produkt-Kontakt-Opt-in — unabhängig vom Scout-Level, jedes Mal neu für das
+            gerade bewertete Produkt, aber nur solange noch nicht eingetragen. */}
+        {product && panelId && !alreadyInterested && (
+          <form
+            action={submitProductInterestAction}
+            className="field-card bg-sage-warm p-4 mb-6 text-left space-y-3"
+          >
+            <input type="hidden" name="product_id" value={product.id} />
+            <input type="hidden" name="back" value={backHref} />
+            <p className="text-green-dark text-sm font-semibold">
+              📬 Willst du informiert werden, wenn es bei {product.name} Neuigkeiten oder
+              Angebote gibt?
+            </p>
+            <p className="text-stone-dark text-xs">
+              Nur für dieses Produkt, jederzeit abbestellbar. E-Mail oder WhatsApp reicht.
+            </p>
+            <div className="grid sm:grid-cols-2 gap-2">
+              <input
+                type="email"
+                name="interest_email"
+                placeholder="deine@email.de"
+                className="w-full bg-green-dark border border-stone-dark text-cream px-3 py-2 text-sm focus:outline-none focus:border-bronze"
+              />
+              <input
+                type="tel"
+                name="interest_whatsapp"
+                placeholder="WhatsApp-Nummer (optional)"
+                className="w-full bg-green-dark border border-stone-dark text-cream px-3 py-2 text-sm focus:outline-none focus:border-bronze"
+              />
+            </div>
+            <button
+              type="submit"
+              className="bg-bronze text-green-dark font-semibold px-4 py-2 text-xs hover:bg-bronze-light transition-colors"
+            >
+              Ja, halte mich auf dem Laufenden →
+            </button>
+          </form>
+        )}
+
         {/* Meilenstein-Vergleich — bewusst erst gebündelt nach comparison_reveal_threshold
             Bewertungen, nicht sofort pro Produkt: ein Sofort-Vergleich würde spätere
             Bewertungen unbewusst Richtung Store-Durchschnitt ziehen (Anchoring). */}
         {showComparison && comparison.length > 0 && (
-          <div className="bg-sage-warm p-4 mb-6 text-left">
+          <div className="field-card bg-sage-warm p-4 mb-6 text-left">
             <p className="text-green-dark text-sm font-semibold mb-3 text-center">
               🔍 Dein großer Vergleich ist da! Du vs. alle anderen Scouts:
             </p>
@@ -107,7 +162,7 @@ export default async function ThanksPage({
         )}
 
         {/* Scout-Level */}
-        <div className="bg-green-mid border border-stone-dark p-4 mb-6 text-left">
+        <div className="field-card bg-green-mid border border-stone-dark p-4 mb-6 text-left">
           <div className="flex items-center justify-between mb-2">
             <p className="text-stone text-xs font-mono uppercase tracking-widest">
               {scout.current ? scout.current.label : "Scout in Ausbildung"}
@@ -143,7 +198,7 @@ export default async function ThanksPage({
         {scout.justReached?.reward && (
           <form
             action={submitContactOptInAction}
-            className="bg-sage-warm p-4 mb-6 text-left space-y-3"
+            className="field-card bg-sage-warm p-4 mb-6 text-left space-y-3"
           >
             <input type="hidden" name="back" value={backHref} />
             <p className="text-green-dark text-sm font-semibold">
@@ -180,9 +235,9 @@ export default async function ThanksPage({
           </form>
         )}
 
-        {/* Spiel-Ticket */}
+        {/* Spiel-Ticket — Perforation am unteren Rand simuliert einen echten Abriss-Coupon */}
         {newToken && (
-          <div className="bg-bronze/10 border border-bronze p-4 mb-6 text-left">
+          <div className="ticket-perforation bg-bronze/10 border-2 border-dashed border-bronze p-4 mb-10 text-left">
             <p className="text-bronze text-sm font-semibold mb-1">🎟 Spiel freigeschaltet!</p>
             <p className="text-stone text-xs mb-3">
               Zeig diesen Code an der Station — Münze ins Glas im Aquarium, bei Treffer
@@ -198,7 +253,10 @@ export default async function ThanksPage({
         )}
         {!newToken &&
           pendingTokens.map((t) => (
-            <div key={t.id} className="bg-green-mid border border-stone-dark p-3 mb-4 text-left">
+            <div
+              key={t.id}
+              className="ticket-perforation bg-green-mid border-2 border-dashed border-stone-dark p-3 mb-8 text-left"
+            >
               <p className="text-stone text-xs mb-1">🎟 Noch offen: dein Spiel von Runde {t.milestone}</p>
               <p className="text-cream text-lg font-mono tracking-[0.3em] text-center bg-green-dark py-2">
                 {t.code}
@@ -219,7 +277,7 @@ export default async function ThanksPage({
                   href={rated ? backHref : `/feedback/r/${p.id}`}
                   className={`aspect-square flex flex-col items-center justify-center p-2 text-center rounded-sm border ${
                     rated
-                      ? "bg-sage-warm border-bronze/40"
+                      ? "field-card bg-sage-warm border-bronze/40"
                       : "bg-green-mid border-dashed border-stone-dark hover:border-bronze/50"
                   }`}
                 >
@@ -248,6 +306,6 @@ export default async function ThanksPage({
           {scout.tiers.map((t) => t.label).join(" · ")}
         </p>
       </div>
-    </div>
+    </FieldFrame>
   );
 }

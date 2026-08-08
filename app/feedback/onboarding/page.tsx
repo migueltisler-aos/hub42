@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { createPanel, setPanelConsent } from "@/lib/feedback";
+import FieldFrame from "@/components/feedback/FieldFrame";
 
 export const dynamic = "force-dynamic";
 
@@ -43,22 +44,29 @@ export default async function OnboardingPage({
   const { next } = await searchParams;
 
   return (
-    <div className="min-h-screen bg-green-dark flex items-center justify-center px-4 py-10">
-      <div className="w-full max-w-md">
-        <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-2">
-          Hub42 Feedback-Studio
-        </p>
+    <FieldFrame>
+      <div className="w-full max-w-md mx-auto flex flex-col justify-center min-h-[80vh]">
+        <div className="flex items-center justify-between mb-3">
+          <span className="stamp text-bronze">Scout-Zulassung</span>
+          <span className="text-stone-dark text-[10px] font-mono uppercase tracking-widest">
+            Einmalig · ~20 Sek.
+          </span>
+        </div>
         <h1
-          className="text-cream text-3xl tracking-widest mb-2"
+          className="text-cream text-4xl tracking-widest mb-2"
           style={{ fontFamily: "var(--font-bebas)" }}
         >
           Bevor es losgeht
         </h1>
         <p className="text-stone text-sm mb-6">
-          Einmalig, dauert 20 Sekunden. Danach kannst du beliebig viele Produkte bewerten.
+          Danach kannst du beliebig viele Produkte bewerten — ohne das hier noch einmal
+          auszufüllen.
         </p>
 
-        <form action={submitOnboarding} className="space-y-5">
+        <form
+          action={submitOnboarding}
+          className="field-card bg-green-mid/40 p-5 space-y-5"
+        >
           <input type="hidden" name="next" value={next ?? "/feedback/scan"} />
 
           <div>
@@ -147,6 +155,6 @@ export default async function OnboardingPage({
           </button>
         </form>
       </div>
-    </div>
+    </FieldFrame>
   );
 }

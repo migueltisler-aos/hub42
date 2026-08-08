@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { HEDONIC_FACES, type DifferentialPair } from "@/lib/feedback";
+import { HEDONIC_FACES, type QuestionWithSet } from "@/lib/feedback";
 
 function TapButton({
   selected,
@@ -20,7 +20,10 @@ function TapButton({
       type="button"
       onClick={onClick}
       whileTap={{ scale: 0.82 }}
-      animate={{ scale: selected ? 1.12 : 1 }}
+      animate={{
+        scale: selected ? 1.12 : 1,
+        boxShadow: selected ? "0 0 0 3px rgba(200,150,74,0.35)" : "0 0 0 0 rgba(200,150,74,0)",
+      }}
       transition={{ type: "spring", stiffness: 400, damping: 15 }}
       className={`flex-1 aspect-square flex items-center justify-center rounded-sm border transition-colors ${
         selected
@@ -33,9 +36,11 @@ function TapButton({
   );
 }
 
+type AnswerValue = number | string | null;
+
 export default function RatingForm({
   productId,
-  attributes,
+  questions,
   priceEnabled,
   productStore,
   productShelf,
@@ -43,7 +48,7 @@ export default function RatingForm({
   action,
 }: {
   productId: string;
-  attributes: DifferentialPair[];
+  questions: QuestionWithSet[];
   priceEnabled: boolean;
   productStore: string;
   productShelf: string;
@@ -51,22 +56,30 @@ export default function RatingForm({
   action: (formData: FormData) => void;
 }) {
   const [hedonic, setHedonic] = useState<number | null>(null);
-  const [semDiff, setSemDiff] = useState<(number | null)[]>(
-    Array(attributes.length).fill(null)
-  );
+  const [answers, setAnswers] = useState<Record<string, AnswerValue>>({});
 
-  const complete = hedonic !== null && semDiff.every((v) => v !== null);
+  const requiredQuestions = questions.filter((q) => q.type !== "text");
+  const complete =
+    hedonic !== null && requiredQuestions.every((q) => answers[q.id] != null && answers[q.id] !== "");
+
+  function setAnswer(questionId: string, value: AnswerValue) {
+    setAnswers((prev) => ({ ...prev, [questionId]: value }));
+  }
+
+  const showSetHeadingFor = questions.map(
+    (q, i) => Boolean(q.set_name) && q.set_name !== questions[i - 1]?.set_name
+  );
 
   return (
     <form action={action} className="space-y-10">
       <input type="hidden" name="product_id" value={productId} />
-      <input type="hidden" name="attribute_count" value={attributes.length} />
+      <input type="hidden" name="question_ids" value={questions.map((q) => q.id).join(",")} />
       <input type="hidden" name="product_store" value={productStore} />
       <input type="hidden" name="product_shelf" value={productShelf} />
       <input type="hidden" name="product_batch" value={productBatch} />
       <input type="hidden" name="hedonic" value={hedonic ?? ""} />
-      {semDiff.map((v, i) => (
-        <input key={i} type="hidden" name={`sem_${i}`} value={v ?? ""} />
+      {questions.map((q) => (
+        <input key={q.id} type="hidden" name={`answer_${q.id}`} value={answers[q.id] ?? ""} />
       ))}
 
       <fieldset>
@@ -89,30 +102,73 @@ export default function RatingForm({
         </div>
       </fieldset>
 
-      {attributes.map((pair, i) => (
-        <fieldset key={i}>
-          <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-3">
-            {pair.left} ↔ {pair.right}
-          </legend>
-          <div className="flex justify-between gap-1">
-            {[1, 2, 3, 4, 5, 6, 7].map((v) => (
-              <TapButton
-                key={v}
-                selected={semDiff[i] === v}
-                onClick={() =>
-                  setSemDiff((prev) => prev.map((val, idx) => (idx === i ? v : val)))
-                }
-              >
-                <span className="text-xs font-mono">{v}</span>
-              </TapButton>
-            ))}
+      {questions.map((q, i) => {
+        const showSetHeading = showSetHeadingFor[i];
+        const scaleMax = q.scale_max ?? (q.type === "likert" ? 5 : 7);
+
+        return (
+          <div key={q.id}>
+            {showSetHeading && (
+              <p className="text-bronze/70 text-[10px] font-mono uppercase tracking-widest mb-2">
+                {q.set_name}
+              </p>
+            )}
+
+            {q.type === "semantic_diff" && (
+              <fieldset>
+                <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-3">
+                  {q.label_left} ↔ {q.label_right}
+                </legend>
+                <div className="flex justify-between gap-1">
+                  {Array.from({ length: scaleMax }, (_, i) => i + 1).map((v) => (
+                    <TapButton key={v} selected={answers[q.id] === v} onClick={() => setAnswer(q.id, v)}>
+                      <span className="text-xs font-mono">{v}</span>
+                    </TapButton>
+                  ))}
+                </div>
+                <div className="flex justify-between text-stone text-[10px] mt-1">
+                  <span>{q.label_left}</span>
+                  <span>{q.label_right}</span>
+                </div>
+              </fieldset>
+            )}
+
+            {q.type === "likert" && (
+              <fieldset>
+                <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-3">
+                  {q.prompt}
+                </legend>
+                <div className="flex justify-between gap-1">
+                  {Array.from({ length: scaleMax }, (_, i) => i + 1).map((v) => (
+                    <TapButton key={v} selected={answers[q.id] === v} onClick={() => setAnswer(q.id, v)}>
+                      <span className="text-xs font-mono">{v}</span>
+                    </TapButton>
+                  ))}
+                </div>
+                <div className="flex justify-between text-stone text-[10px] mt-1">
+                  <span>{q.label_left}</span>
+                  <span>{q.label_right}</span>
+                </div>
+              </fieldset>
+            )}
+
+            {q.type === "text" && (
+              <fieldset>
+                <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-2">
+                  {q.prompt}{" "}
+                  <span className="text-stone-dark normal-case tracking-normal">(optional)</span>
+                </legend>
+                <textarea
+                  rows={2}
+                  value={(answers[q.id] as string) ?? ""}
+                  onChange={(e) => setAnswer(q.id, e.target.value)}
+                  className="w-full bg-green-mid border border-stone-dark text-cream px-3 py-2 text-sm focus:outline-none focus:border-bronze"
+                />
+              </fieldset>
+            )}
           </div>
-          <div className="flex justify-between text-stone text-[10px] mt-1">
-            <span>{pair.left}</span>
-            <span>{pair.right}</span>
-          </div>
-        </fieldset>
-      ))}
+        );
+      })}
 
       {priceEnabled && (
         <fieldset className="space-y-3">

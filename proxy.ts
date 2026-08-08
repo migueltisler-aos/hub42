@@ -1,7 +1,7 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PIPELINE_GESCHUETZT = ["/pipeline", "/wareneingang", "/bestand"];
+const PIPELINE_GESCHUETZT = ["/pipeline", "/wareneingang", "/bestand", "/feedback/leads"];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -27,5 +27,5 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/pipeline/:path*", "/wareneingang/:path*", "/bestand/:path*"],
+  matcher: ["/pipeline/:path*", "/wareneingang/:path*", "/bestand/:path*", "/feedback/leads/:path*"],
 };
