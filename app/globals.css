@@ -27,6 +27,11 @@
   --font-display: var(--font-bebas);
   --font-body:    var(--font-dm-sans);
   --font-mono:    var(--font-dm-mono);
+
+  /* ── Feedback Factory Preview (/rebranding) ───────
+     Isoliertes Theme, wird von keiner bestehenden Seite genutzt. */
+  --color-ff-turquoise:      #1FCFC0;   /* einziger Akzent, nur als Marker-Balken */
+  --color-ff-turquoise-dim:  #E4FBF8;   /* sehr helle Fläche für Karten/Panels */
 }
 
 :root {
@@ -159,4 +164,30 @@ input[type="range"]::-moz-range-thumb {
   border: 2px solid #2A4A3C;
   border-radius: 50%;
   cursor: pointer;
+}
+
+/* ── Feedback Factory Preview (/rebranding) ──────────────────────────
+   Türkis ausschließlich als Marker-Balken hinter Text, nie als Fläche. */
+.ff-mark {
+  position: relative;
+  display: inline-block;
+  white-space: nowrap;
+}
+.ff-mark::before {
+  content: "";
+  position: absolute;
+  left: -0.12em;
+  right: -0.12em;
+  bottom: 0.06em;
+  height: 0.32em;
+  background: var(--color-ff-turquoise);
+  z-index: -1;
+}
+
+.ff-eyebrow {
+  font-family: var(--font-ff-body);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
 }
