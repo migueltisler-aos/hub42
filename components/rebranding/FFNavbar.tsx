@@ -38,11 +38,7 @@ export default function FFNavbar({ variant }: { variant: "store" | "marken" }) {
 
           <nav className="hidden md:flex items-center gap-8" aria-label="Hauptnavigation">
             {links.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="text-sm tracking-wide hover:text-black/60 transition-colors"
-              >
+              <Link key={link.href} href={link.href} className="ff-link text-sm tracking-wide">
                 {link.label}
               </Link>
             ))}
@@ -52,14 +48,14 @@ export default function FFNavbar({ variant }: { variant: "store" | "marken" }) {
             {variant === "store" ? (
               <Link
                 href="/rebranding/marken"
-                className="inline-flex items-center px-5 py-2 border border-black text-sm font-semibold tracking-wide hover:bg-black hover:text-white transition-colors"
+                className="ff-btn inline-flex items-center px-5 py-2 text-sm font-semibold tracking-wide"
               >
                 Für Marken
               </Link>
             ) : (
               <Link
                 href="/rebranding"
-                className="inline-flex items-center px-5 py-2 border border-black text-sm font-semibold tracking-wide hover:bg-black hover:text-white transition-colors"
+                className="ff-btn inline-flex items-center px-5 py-2 text-sm font-semibold tracking-wide"
               >
                 Zum Store
               </Link>
@@ -85,15 +81,15 @@ export default function FFNavbar({ variant }: { variant: "store" | "marken" }) {
                 key={link.href}
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="py-3 text-base border-b border-black/10"
+                className="block py-3 border-b border-black/10"
               >
-                {link.label}
+                <span className="ff-link text-base">{link.label}</span>
               </Link>
             ))}
             <Link
               href={variant === "store" ? "/rebranding/marken" : "/rebranding"}
               onClick={() => setOpen(false)}
-              className="mt-4 inline-flex justify-center items-center px-5 py-3 border border-black text-sm font-semibold tracking-wide"
+              className="ff-btn mt-4 inline-flex justify-center items-center px-5 py-3 text-sm font-semibold tracking-wide"
             >
               {variant === "store" ? "Für Marken" : "Zum Store"}
             </Link>

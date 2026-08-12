@@ -29,8 +29,10 @@
   --font-mono:    var(--font-dm-mono);
 
   /* ── Feedback Factory Preview (/rebranding) ───────
-     Isoliertes Theme, wird von keiner bestehenden Seite genutzt. */
-  --color-ff-turquoise:      #1FCFC0;   /* einziger Akzent, nur als Marker-Balken */
+     Isoliertes Theme, wird von keiner bestehenden Seite genutzt.
+     Hex geschätzt aus dem bestehenden Feedback-Factory-Material (Logo/Datenslide) –
+     bitte mit dem exakten Wert aus den alten Vorgaben abgleichen, falls vorhanden. */
+  --color-ff-turquoise:      #5EEAD4;   /* einziger Akzent: Marker-Balken + Hover */
   --color-ff-turquoise-dim:  #E4FBF8;   /* sehr helle Fläche für Karten/Panels */
 }
 
@@ -167,7 +169,9 @@ input[type="range"]::-moz-range-thumb {
 }
 
 /* ── Feedback Factory Preview (/rebranding) ──────────────────────────
-   Türkis ausschließlich als Marker-Balken hinter Text, nie als Fläche. */
+   Türkis ausschließlich als Marker-Balken hinter Text, nie als Fläche.
+   Leichter Schief-Stand angelehnt an das bestehende Feedback-Factory-Material
+   (Stempel-Charakter, vgl. bereits vorhandene .stamp-Klasse oben). */
 .ff-mark {
   position: relative;
   display: inline-block;
@@ -182,12 +186,57 @@ input[type="range"]::-moz-range-thumb {
   height: 0.32em;
   background: var(--color-ff-turquoise);
   z-index: -1;
+  transform: rotate(-1.5deg);
 }
 
 .ff-eyebrow {
+  display: inline-block;
   font-family: var(--font-ff-body);
   font-size: 0.7rem;
   font-weight: 600;
   letter-spacing: 0.28em;
   text-transform: uppercase;
+  transform: rotate(-1deg);
+  transform-origin: left center;
+}
+
+/* Überschriften: minimaler Dreh, Ursprung oben links, damit der Text nicht
+   sichtbar "wandert", sondern nur leicht schief wirkt. */
+.ff-headline {
+  transform: rotate(-0.8deg);
+  transform-origin: left top;
+}
+
+/* Klickbare Elemente: Türkis kommt nur bei Hover/Focus als Marker-Balken dazu. */
+.ff-link {
+  position: relative;
+  display: inline-block;
+}
+.ff-link::before {
+  content: "";
+  position: absolute;
+  left: -0.12em;
+  right: -0.12em;
+  bottom: 0.06em;
+  height: 0.32em;
+  background: var(--color-ff-turquoise);
+  z-index: -1;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.15s ease;
+}
+.ff-link:hover::before,
+.ff-link:focus-visible::before {
+  transform: scaleX(1);
+}
+
+/* Buttons: Rahmen ohne Füllung im Ruhezustand, Türkis-Füllung nur bei Hover/Focus. */
+.ff-btn {
+  border: 1px solid #000;
+  transition: background-color 0.15s ease, border-color 0.15s ease;
+}
+.ff-btn:hover,
+.ff-btn:focus-visible {
+  background: var(--color-ff-turquoise);
+  border-color: var(--color-ff-turquoise);
 }

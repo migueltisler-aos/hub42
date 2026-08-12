@@ -29,7 +29,7 @@ export default function FFFooter() {
                 { href: "/rebranding/marken", label: "Für Marken" },
               ].map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-black/70 hover:text-black transition-colors">
+                  <Link href={link.href} className="ff-link text-sm text-black/70">
                     {link.label}
                   </Link>
                 </li>
@@ -54,7 +54,7 @@ export default function FFFooter() {
                 { href: "/agb", label: "AGB" },
               ].map((link) => (
                 <li key={link.href}>
-                  <Link href={link.href} className="text-sm text-black/70 hover:text-black transition-colors">
+                  <Link href={link.href} className="ff-link text-sm text-black/70">
                     {link.label}
                   </Link>
                 </li>

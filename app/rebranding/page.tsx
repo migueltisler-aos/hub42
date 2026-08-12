@@ -42,7 +42,7 @@ export default function RebrandingHome() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <p className="ff-eyebrow mb-6">Das Format</p>
             <h1
-              className="uppercase tracking-tight leading-[0.95] text-[clamp(2.5rem,7vw,6rem)] font-bold mb-8"
+              className="ff-headline uppercase tracking-tight leading-[0.95] text-[clamp(2.5rem,7vw,6rem)] font-bold mb-8"
               style={{ fontFamily: "var(--font-ff-display)" }}
             >
               Neue Marken.
@@ -72,7 +72,7 @@ export default function RebrandingHome() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <p className="ff-eyebrow mb-4">Die Marken</p>
             <h2
-              className="uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4rem)] font-bold mb-8"
+              className="ff-headline uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4rem)] font-bold mb-8"
               style={{ fontFamily: "var(--font-ff-display)" }}
             >
               Unbekannt heute.
@@ -101,7 +101,7 @@ export default function RebrandingHome() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <p className="ff-eyebrow mb-4">Das Erlebnis</p>
             <h2
-              className="uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4rem)] font-bold mb-10"
+              className="ff-headline uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4rem)] font-bold mb-10"
               style={{ fontFamily: "var(--font-ff-display)" }}
             >
               Drei Schritte.
@@ -124,7 +124,7 @@ export default function RebrandingHome() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <p className="ff-eyebrow mb-4 text-white/60">Warum so nüchtern</p>
             <h2
-              className="uppercase tracking-tight leading-[0.95] text-[clamp(1.8rem,4vw,3rem)] font-bold mb-6"
+              className="ff-headline uppercase tracking-tight leading-[0.95] text-[clamp(1.8rem,4vw,3rem)] font-bold mb-6"
               style={{ fontFamily: "var(--font-ff-display)" }}
             >
               Rohes Holz. Schwarze Schilder.
@@ -144,7 +144,7 @@ export default function RebrandingHome() {
               <div>
                 <p className="ff-eyebrow mb-4">Der Store</p>
                 <h2
-                  className="uppercase tracking-tight leading-[0.95] text-[clamp(1.8rem,4vw,3rem)] font-bold mb-6"
+                  className="ff-headline uppercase tracking-tight leading-[0.95] text-[clamp(1.8rem,4vw,3rem)] font-bold mb-6"
                   style={{ fontFamily: "var(--font-ff-display)" }}
                 >
                   Alexa Berlin.
@@ -158,7 +158,7 @@ export default function RebrandingHome() {
                     href="https://maps.google.com/?q=Alexa+Berlin,+Grunerstra%C3%9Fe+20,+10179+Berlin"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="underline hover:no-underline"
+                    className="ff-link"
                   >
                     In Google Maps öffnen
                   </a>
@@ -197,7 +197,7 @@ export default function RebrandingHome() {
             <p className="text-sm text-black/60">Du machst selbst ein Produkt und willst ins Regal?</p>
             <Link
               href="/rebranding/marken"
-              className="inline-flex items-center px-6 py-3 border border-black text-sm font-semibold hover:bg-black hover:text-white transition-colors w-fit"
+              className="ff-btn inline-flex items-center px-6 py-3 text-sm font-semibold w-fit"
             >
               Zur Marken-Seite
             </Link>

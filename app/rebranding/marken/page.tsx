@@ -35,7 +35,7 @@ export default function RebrandingMarken() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <p className="ff-eyebrow mb-6">Das Testkaufhaus</p>
             <h1
-              className="uppercase tracking-tight leading-[0.95] text-[clamp(2.5rem,7vw,6rem)] font-bold mb-8"
+              className="ff-headline uppercase tracking-tight leading-[0.95] text-[clamp(2.5rem,7vw,6rem)] font-bold mb-8"
               style={{ fontFamily: "var(--font-ff-display)" }}
             >
               Deine Marke.
@@ -60,7 +60,7 @@ export default function RebrandingMarken() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <p className="ff-eyebrow mb-4">Konditionen</p>
             <h2
-              className="uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4rem)] font-bold mb-10"
+              className="ff-headline uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4rem)] font-bold mb-10"
               style={{ fontFamily: "var(--font-ff-display)" }}
             >
               Zahlen statt
@@ -88,7 +88,7 @@ export default function RebrandingMarken() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <p className="ff-eyebrow mb-4">Ablauf</p>
             <h2
-              className="uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4rem)] font-bold mb-10"
+              className="ff-headline uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4rem)] font-bold mb-10"
               style={{ fontFamily: "var(--font-ff-display)" }}
             >
               Fünf Schritte.
@@ -117,7 +117,7 @@ export default function RebrandingMarken() {
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
             <p className="ff-eyebrow mb-4 text-white/60">Validierung</p>
             <h2
-              className="uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4rem)] font-bold mb-8"
+              className="ff-headline uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4rem)] font-bold mb-8"
               style={{ fontFamily: "var(--font-ff-display)" }}
             >
               Rohdaten.
@@ -157,17 +157,17 @@ export default function RebrandingMarken() {
           <div className="max-w-2xl mx-auto px-4 sm:px-6">
             <p className="ff-eyebrow mb-4">Kontakt</p>
             <h2
-              className="uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4rem)] font-bold mb-8"
+              className="ff-headline uppercase tracking-tight leading-[0.95] text-[clamp(2rem,5vw,4rem)] font-bold mb-8"
               style={{ fontFamily: "var(--font-ff-display)" }}
             >
               Regalfläche anfragen
             </h2>
             <p className="text-sm text-black/60 mb-1">Miguel Tisler, Gründer Hub42 UG</p>
             <div className="flex flex-wrap gap-x-6 gap-y-2 text-sm">
-              <a href="tel:+4917787956437" className="underline hover:no-underline font-mono">
+              <a href="tel:+4917787956437" className="ff-link font-mono">
                 0177 879 56 37
               </a>
-              <a href="mailto:info@tryhub42.de" className="underline hover:no-underline">
+              <a href="mailto:info@tryhub42.de" className="ff-link">
                 info@tryhub42.de
               </a>
             </div>
