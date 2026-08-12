@@ -15,6 +15,8 @@ function defaultBody(brandName: string, ansprechpartner: string | null, currentU
 
 mein Name ist ${currentUser}, ich bin Mitgründer von Hub42. Wir bringen kuratierte, aufstrebende Marken wie ${brandName} auf physische Verkaufsfläche im Alexa Berlin – ohne dass ihr euch um Personal, Kasse oder Fläche kümmern müsst.
 
+Über reine Verkaufszahlen hinaus sollen die Marken bei uns noch wissenschaftlich fundierte Erkenntnisse erhalten. Dafür arbeiten wir gerade mit Forschern zusammen, die proprietäre Analysetools, psychologische Zielgruppenanalysen und valide Marktstudien als Grundlage für Produkt-, Marketing- und Retailentscheidungen einbringen.
+
 [hier kurz individuell ergänzen, warum ${brandName} passt]
 
 Hättet ihr Lust auf ein kurzes Gespräch dazu?

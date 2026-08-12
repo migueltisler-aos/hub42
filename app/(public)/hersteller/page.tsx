@@ -522,12 +522,19 @@ export default function HerstellerPage() {
               Pro Analytics
             </p>
             <h2
-              className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest"
+              className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-6"
               style={{ fontFamily: "var(--font-bebas)" }}
             >
               Daten die
               <span className="text-bronze"> wirklich zählen</span>
             </h2>
+            <p className="text-stone text-sm max-w-2xl leading-relaxed">
+              Über reine Verkaufszahlen hinaus sollen die Marken bei uns noch wissenschaftlich
+              fundierte Erkenntnisse erhalten. Dafür arbeiten wir gerade mit Forschern zusammen,
+              die proprietäre Analysetools, psychologische Zielgruppenanalysen und valide
+              Marktstudien als Grundlage für Produkt-, Marketing- und Retailentscheidungen
+              einbringen.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
