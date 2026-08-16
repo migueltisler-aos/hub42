@@ -92,9 +92,9 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
     label: "Handelsmarge",
     messe: "0%",
     rewe: "30–50%",
-    hub42: "0%",
+    hub42: "7%",
     hub42Highlight: true,
-    note: "Du behältst deinen Verkaufspreis vollständig",
+    note: "Vermittlungsprovision statt Handelsmarge – du setzt deine eigene UVP",
   },
   {
     label: "Einstiegskosten",

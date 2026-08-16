@@ -4,10 +4,10 @@ import { motion } from "framer-motion";
 
 const VALUES = [
   {
-    number: "0%",
-    label: "Handelsmarge",
+    number: "7%",
+    label: "statt 30–50% Handelsmarge",
     description:
-      "Wir verdienen über Regalmiete und Handling-Fee — nie über deine Marge.",
+      "Wir nehmen 7 % Vermittlungsprovision auf deinen Verkaufspreis — statt 30–50 % Handelsmarge plus Listungsgebühr beim LEH. Zahlungsabwicklung inklusive, kein versteckter Aufschlag.",
     sub: "Kommissionsmodell §383 HGB",
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" className="text-bronze">

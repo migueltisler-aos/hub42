@@ -40,7 +40,7 @@ export const metadata: Metadata = {
     siteName: "Hub42",
     title: "Hub42 – Der Store, den es braucht.",
     description:
-      "Wo Einkaufen ein Spiel ist. 41.000 Berliner täglich. 0% Handelsmarge für Hersteller.",
+      "Wo Einkaufen ein Spiel ist. 41.000 Berliner täglich. 7% statt 30–50% Handelsmarge beim LEH.",
     images: [
       {
         url: "/og-image.jpg",

@@ -33,7 +33,7 @@ const SCHRITTE = [
   {
     num: "03",
     titel: "Wir verkaufen",
-    copy: "Zur deiner UVP — kein Aufschlag, kein Cent Handelsmarge. Tasting, Story-Fläche und QR inklusive.",
+    copy: "Zur deiner UVP — kein versteckter Aufschlag, nur 7 % transparente Provision. Tasting, Story-Fläche und QR inklusive.",
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" className="text-bronze">
         <circle cx="14" cy="12" r="6" stroke="currentColor" strokeWidth="1.5" />

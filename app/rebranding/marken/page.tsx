@@ -9,11 +9,11 @@ export const metadata: Metadata = {
 };
 
 const KONDITIONEN = [
-  { wert: "Ab 59 €", label: "pro Monat, kleinste Regalfront" },
-  { wert: "4,64 €", label: "pro Zentimeter Regalbreite" },
+  { wert: "Ab 59 €", label: "pro Monat, kleinste Regalfront (Gründungskonditionen)" },
+  { wert: "4,64 €", label: "pro Zentimeter Regalbreite (Gründungskonditionen)" },
   { wert: "14 Tage", label: "von Zusage bis ins Regal" },
   { wert: "3 Monate", label: "Mindestlaufzeit, danach monatlich kündbar" },
-  { wert: "0,30 €", label: "Checkout-Fee pro verkauftem Artikel" },
+  { wert: "7 %", label: "Vermittlungsprovision pro verkauftem Artikel" },
   { wert: "§ 383 HGB", label: "Kommission, Ware bleibt dein Eigentum bis zum Verkauf" },
 ];
 
@@ -49,7 +49,8 @@ export default function RebrandingMarken() {
                 zum Verkauf Eigentümer deiner Ware.
               </p>
               <p>
-                Kein Listungsgeld, keine Handelsmarge. Wir verdienen erst, wenn du verkaufst.
+                Kein Listungsgeld, keine Handelsmarge – nur 7 % transparente Vermittlungsprovision
+                beim Verkauf. Wir verdienen erst, wenn du verkaufst.
               </p>
             </div>
           </div>
@@ -80,6 +81,11 @@ export default function RebrandingMarken() {
                 </div>
               ))}
             </div>
+            <p className="text-xs text-black/40 mt-4 max-w-xl">
+              Der Preis pro cm steigt mit der Store-Auslastung, nicht mit dem Kalender: Wer jetzt
+              unterschreibt, sichert sich die Gründungskonditionen vertraglich für die gesamte
+              Erstlaufzeit – unabhängig davon, wie voll das Regal danach wird.
+            </p>
           </div>
         </section>
 

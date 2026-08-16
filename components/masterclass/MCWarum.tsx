@@ -7,7 +7,7 @@ const REASONS = [
   {
     n: "02",
     t: "Höhere Wertschöpfung – auch bei kleinen Artikeln",
-    d: "Wer seinen Preis selbst setzt und keine Marge abgibt, behält mehr. Das funktioniert auch bei 15-Euro-Produkten – wie der Rechner unten zeigt.",
+    d: "Wer seinen Preis selbst setzt und nur 7 % statt 30–50 % Marge abgibt, behält mehr. Das funktioniert auch bei 15-Euro-Produkten – wie der Rechner unten zeigt.",
   },
   {
     n: "03",

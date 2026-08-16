@@ -1,14 +1,28 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { DEFAULTS, RATES, MIN_REGAL_CM, compute, type Assumptions } from "@/lib/deck-economics";
+import {
+  DEFAULTS,
+  TRANCHE_RATES,
+  TRANCHE_INFO,
+  MIN_REGAL_CM,
+  compute,
+  type Assumptions,
+  type Tranche,
+} from "@/lib/deck-economics";
 
 const TIERS = [
-  { id: "basis",      label: "Basis",                rate: RATES.basis },
-  { id: "augenhoehe", label: "Augenhöhe",            rate: RATES.augenhoehe },
-  { id: "greifhoehe", label: "Greifhöhe garantiert", rate: RATES.greifhoehe },
+  { id: "basis", label: "Basis" },
+  { id: "augenhoehe", label: "Augenhöhe" },
+  { id: "greifhoehe", label: "Greifhöhe garantiert" },
 ] as const;
 type TierId = (typeof TIERS)[number]["id"];
+
+const TRANCHES = [
+  { id: "first_mover", ...TRANCHE_INFO.first_mover },
+  { id: "aufbau", ...TRANCHE_INFO.aufbau },
+  { id: "warteliste", ...TRANCHE_INFO.warteliste },
+] as const;
 
 /* ── Formatierung (de-DE) ───────────────────────────────── */
 function fmt(n: number, decimals = 2): string {
@@ -150,7 +164,10 @@ export default function DeckRechner() {
     setA((prev) => ({ ...prev, [key]: Number.isFinite(v) ? v : 0 }));
   const selectTier = (id: TierId) => {
     setTier(id);
-    set("ratePerCm", TIERS.find((t) => t.id === id)!.rate);
+    setA((prev) => ({ ...prev, ratePerCm: TRANCHE_RATES[prev.tranche][id] }));
+  };
+  const selectTranche = (id: Tranche) => {
+    setA((prev) => ({ ...prev, tranche: id, ratePerCm: TRANCHE_RATES[id][tier] }));
   };
 
   const c = useMemo(() => compute(a), [a]);
@@ -229,22 +246,50 @@ export default function DeckRechner() {
               Regal-Ebene
             </p>
             <div className="grid grid-cols-3 gap-2">
-              {TIERS.map((t) => (
+              {TIERS.map((t) => {
+                const rate = TRANCHE_RATES[a.tranche][t.id];
+                return (
+                  <button
+                    key={t.id}
+                    type="button"
+                    onClick={() => selectTier(t.id)}
+                    aria-pressed={tier === t.id}
+                    className={`py-3 px-2 text-xs font-mono tracking-wide border transition-colors text-center ${
+                      tier === t.id
+                        ? "bg-bronze text-green-dark border-bronze font-semibold"
+                        : "bg-transparent text-cream/50 border-cream/20 hover:border-bronze/50 hover:text-cream/80"
+                    }`}
+                  >
+                    <span className="block text-[11px] font-semibold">{t.label}</span>
+                    <span className="block mt-0.5 opacity-80">
+                      {rate.toFixed(2).replace(".", ",")} €/cm
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* Tranche-Toggle */}
+          <div>
+            <p className="text-cream/60 text-xs font-mono uppercase tracking-widest mb-3">
+              Einstiegsphase
+            </p>
+            <div className="grid grid-cols-3 gap-2">
+              {TRANCHES.map((t) => (
                 <button
                   key={t.id}
                   type="button"
-                  onClick={() => selectTier(t.id)}
-                  aria-pressed={tier === t.id}
+                  onClick={() => selectTranche(t.id)}
+                  aria-pressed={a.tranche === t.id}
                   className={`py-3 px-2 text-xs font-mono tracking-wide border transition-colors text-center ${
-                    tier === t.id
+                    a.tranche === t.id
                       ? "bg-bronze text-green-dark border-bronze font-semibold"
                       : "bg-transparent text-cream/50 border-cream/20 hover:border-bronze/50 hover:text-cream/80"
                   }`}
                 >
                   <span className="block text-[11px] font-semibold">{t.label}</span>
-                  <span className="block mt-0.5 opacity-80">
-                    {t.rate.toFixed(2).replace(".", ",")} €/cm
-                  </span>
+                  <span className="block mt-0.5 opacity-80">{t.auslastung}</span>
                 </button>
               ))}
             </div>
@@ -313,13 +358,22 @@ export default function DeckRechner() {
                         Hub42 / Sale
                       </p>
                     </div>
-                    <BreakRow label="Checkout-Fee" value={a.hubCheckout} editable onChange={(v) => set("hubCheckout", v)} />
-                    <BreakRow label={`Payment (${fmt(a.hubPayPct, 2)} % + ${fmt(a.hubPayFix)} €)`} value={c.hubPayment} />
+                    <BreakRow label="Provisionssatz" sub="ersetzt Checkout-Fee + Kartengebühr" value={a.hubMarginPct} editable step={0.5} unit="%" money={false} onChange={(v) => set("hubMarginPct", v)} />
+                    <BreakRow label="= Vermittlungsprovision / Sale" value={c.hubMargin} />
                     <BreakRow label="Slot-Miete anteilig" sub={`${eur(c.slotMonthly)}/Mo ÷ ${a.sales} Sales`} value={c.slotPerSale} />
                     <BreakRow label="Summe / Sale" value={c.hubPerSale} strong />
                     <div className="mt-4 pt-3 border-t border-cream/10 space-y-1">
                       <BreakRow label="Platzbedarf (Breite)" sub="F&B-Produkt ≈ 5 cm" value={a.regalCm} editable step={1} unit="cm" money={false} onChange={(v) => set("regalCm", v)} />
-                      <BreakRow label="Rate" sub={`Basis ${fmt(RATES.basis)} · Augenhöhe ${fmt(RATES.augenhoehe)} · Greifhöhe ${fmt(RATES.greifhoehe)}`} value={a.ratePerCm} editable step={0.01} unit="€/cm" money={false} onChange={(v) => set("ratePerCm", v)} />
+                      <BreakRow
+                        label="Rate"
+                        sub={`${TRANCHE_INFO[a.tranche].label}: Basis ${fmt(TRANCHE_RATES[a.tranche].basis)} · Augenhöhe ${fmt(TRANCHE_RATES[a.tranche].augenhoehe)} · Greifhöhe ${fmt(TRANCHE_RATES[a.tranche].greifhoehe)}`}
+                        value={a.ratePerCm}
+                        editable
+                        step={0.01}
+                        unit="€/cm"
+                        money={false}
+                        onChange={(v) => set("ratePerCm", v)}
+                      />
                       <BreakRow label="= Slot-Miete / Monat" value={c.slotMonthly} />
                     </div>
                   </div>

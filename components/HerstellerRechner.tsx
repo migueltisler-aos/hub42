@@ -1,7 +1,7 @@
 ﻿"use client";
 
 import { useState, useMemo } from "react";
-import { RATES, SCHAUFENSTER_MONAT } from "@/lib/deck-economics";
+import { RATES, SCHAUFENSTER_MONAT, HUB_MARGIN_PCT } from "@/lib/deck-economics";
 
 const POSITIONEN = [
   { id: "basis",        label: "Basis",                ratePerCm: RATES.basis,      fixedMonat: null               },
@@ -74,13 +74,13 @@ export default function HerstellerRechner() {
     const reweMargeEur = uvp * (marge / 100);
     const reweUnit     = uvp - reweMargeEur - listung;
     const reweMonthly  = reweUnit * sales;
-    const checkoutFee  = 0.30;
+    const hubMargeEur  = uvp * (HUB_MARGIN_PCT / 100);
     const regalkosten  = pos.fixedMonat != null ? pos.fixedMonat : cm * (pos.ratePerCm ?? 0);
     const regalkostenPerUnit = regalkosten / sales;
-    const hubUnit      = uvp - regalkostenPerUnit - checkoutFee;
+    const hubUnit      = uvp - regalkostenPerUnit - hubMargeEur;
     const hubMonthly   = hubUnit * sales;
     const diff         = hubMonthly - reweMonthly;
-    return { reweMargeEur, reweUnit, reweMonthly, regalkostenPerUnit, hubUnit, hubMonthly, diff, regalkosten, checkoutFee };
+    return { reweMargeEur, reweUnit, reweMonthly, regalkostenPerUnit, hubUnit, hubMonthly, diff, regalkosten, hubMargeEur };
   }, [uvp, marge, listung, sales, cm, activePos]);
 
   const winner: "hub" | "rewe" | "equal" =
@@ -204,9 +204,8 @@ export default function HerstellerRechner() {
           <div className="space-y-3">
             {[
               { label: "Endkundenpreis",      value: `${fmt(uvp)} €` },
-              { label: "Handelsmarge",         value: "– 0,00 €" },
+              { label: `Vermittlungsprovision (${HUB_MARGIN_PCT}%)`, value: `– ${fmt(calc.hubMargeEur)} €` },
               { label: "Slot-Kosten/Stk.", value: `– ${fmt(calc.regalkostenPerUnit)} €` },
-              { label: "Checkout-Fee/Artikel", value: `– ${fmt(calc.checkoutFee)} €` },
               { label: "Erlös / Einheit",      value: `${fmt(calc.hubUnit)} €`, highlight: true },
               { label: "Kundendaten",          value: "Monatlich inkl." },
               { label: "Preishoheit",          value: "Vollständig" },

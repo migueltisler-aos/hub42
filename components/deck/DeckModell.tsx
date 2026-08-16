@@ -48,7 +48,7 @@ interface Row {
 }
 
 const ROWS: Row[] = [
-  { label: "Handelsmarge", leh: "30–50 %", online: "0 %", hub42: "0 %", hi: true },
+  { label: "Handelsmarge", leh: "30–50 %", online: "0 %", hub42: "7 %", hi: true },
   { label: "Preishoheit", leh: false, online: true, hub42: true, hi: true },
   { label: "Eigene Kundendaten", leh: false, online: true, hub42: true, hi: true },
   { label: "Physische Sichtbarkeit", leh: true, online: false, hub42: true },
@@ -121,7 +121,7 @@ export default function DeckModell() {
           {
             n: "02",
             t: "Wir verkaufen für dich",
-            d: "Pro verkauftem Artikel: 0,30 € Checkout-Fee, Zahlungsgebühr durchgereicht. Keine Handelsmarge.",
+            d: "Pro verkauftem Artikel: 7 % Vermittlungsprovision, Zahlungsabwicklung inklusive. Statt 30–50 % Handelsmarge beim LEH.",
           },
           {
             n: "03",
@@ -150,8 +150,9 @@ export default function DeckModell() {
         <p className="text-cream/80 text-base leading-relaxed">
           Dein Produkt bleibt <span className="text-cream">dein Eigentum</span>, bis es
           verkauft ist. Hub42 verkauft es in deinem Namen – du setzt den Preis, wir nehmen{" "}
-          <span className="text-cream">keine Handelsmarge</span> und gehen kein Eigentum ein.
-          Heißt: kein Abnahmezwang, kein Verkaufsrisiko, keine Listungsverhandlung.
+          <span className="text-cream">7 % Vermittlungsprovision statt Handelsmarge</span> und
+          gehen kein Eigentum ein. Heißt: kein Abnahmezwang, kein Verkaufsrisiko, keine
+          Listungsverhandlung.
         </p>
       </div>
 

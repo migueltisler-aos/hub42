@@ -12,7 +12,7 @@ import { ERLEBNISSE } from "@/lib/erlebnisse";
 export const metadata: Metadata = {
   title: "Hub42 – Der Store, den es braucht.",
   description:
-    "Hub42 im Alexa Berlin – kuratierter Store direkt vom Hersteller. 0% Handelsmarge. 41.000 Berliner täglich.",
+    "Hub42 im Alexa Berlin – kuratierter Store direkt vom Hersteller. 7% statt 30–50% Handelsmarge beim LEH. 41.000 Berliner täglich.",
 };
 
 const FEATURED_ERLEBNISSE = ERLEBNISSE.filter((e) =>
@@ -78,7 +78,7 @@ export default function Home() {
             <span className="text-bronze text-2xl" style={{ fontFamily: "var(--font-bebas)" }}>
               Ab 59 €
             </span>
-            <span className="text-cream/40 text-sm font-mono">/Monat · Konsignation · 0% Marge</span>
+            <span className="text-cream/40 text-sm font-mono">/Monat · Konsignation · 7% Provision</span>
           </div>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

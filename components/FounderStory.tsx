@@ -51,7 +51,7 @@ export default function FounderStory() {
               Das wollte ich nicht mehr hinnehmen.
             </p>
             <p>
-              Hub42 ist meine Antwort. Kein Händler. Keine Marge.
+              Hub42 ist meine Antwort. Kein Händler. Nur 7 % Provision statt Marge.
               Kein Category Manager. Nur Hersteller, die ihr Produkt
               wirklich machen – und ein Regal, das ihnen gehört.
             </p>

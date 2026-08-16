@@ -143,7 +143,8 @@ export default function SlotFeatureTable() {
         <tfoot>
           <tr>
             <td colSpan={5} className="px-4 py-3 text-stone/40 text-xs font-mono border-t border-stone-dark">
-              Beispiel Regalbreite: 20 cm → Basis {monatBei(20, RATES.basis)} €/Mo · Augenhöhe{" "}
+              Gründungskonditionen (unter 60 % Store-Auslastung) – Beispiel Regalbreite: 20 cm → Basis{" "}
+              {monatBei(20, RATES.basis)} €/Mo · Augenhöhe{" "}
               {monatBei(20, RATES.augenhoehe)} €/Mo · Greifhöhe garantiert {monatBei(20, RATES.greifhoehe)} €/Mo ·
               Schaufenster {SCHAUFENSTER_MONAT} €/Mo fix · mind. {MIN_SLOT_MIETE} €/Slot
             </td>

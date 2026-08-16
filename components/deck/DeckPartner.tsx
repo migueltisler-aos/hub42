@@ -11,7 +11,7 @@ const VALUE = [
   },
   {
     t: "Risikoarm & schnell",
-    d: "Konsignation, ab 59 €/Monat, Entscheidung in 1–2 Wochen. Testen ohne Marge, Cash oder Monate zu riskieren.",
+    d: "Konsignation, ab 59 €/Monat, Entscheidung in 1–2 Wochen. Testen ohne hohe Vorabkosten, Cash oder Monate zu riskieren.",
   },
   {
     t: "Gemeinsamer Mehrwert",

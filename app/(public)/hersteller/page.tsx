@@ -13,7 +13,7 @@ import { RATES } from "@/lib/deck-economics";
 export const metadata: Metadata = {
   title: "Für Hersteller – Miete deinen Platz im Retail",
   description:
-    "Stationärer Handel wie er sein sollte. 0% Handelsmarge, Regalfront ab 5 cm / 59 €/Monat, 3 Monate Mindestlaufzeit. Bewirb dein Produkt, verlinke deinen Shop, gewinne Fans jenseits von TikTok.",
+    "Stationärer Handel wie er sein sollte. 7% statt 30–50% Handelsmarge beim LEH, Regalfront ab 5 cm / 59 €/Monat, 3 Monate Mindestlaufzeit. Bewirb dein Produkt, verlinke deinen Shop, gewinne Fans jenseits von TikTok.",
 };
 
 const SCHRITTE = [
@@ -40,7 +40,7 @@ const SCHRITTE = [
   {
     nr: "05",
     titel: "Daten & Erlös",
-    beschreibung: "Du behältst den Erlös minus Mietgebühr und 0,30 € pro verkauftem Artikel – plus die durchgereichte Kartenzahlungsgebühr (ca. 1,15 %). Monatliche Abrechnung. Zahlen die zählen.",
+    beschreibung: "Du behältst den Erlös minus Mietgebühr und 7 % Vermittlungsprovision pro verkauftem Artikel – Zahlungsabwicklung ist darin enthalten. Monatliche Abrechnung. Zahlen die zählen.",
   },
 ];
 
@@ -68,9 +68,14 @@ const FAQ = [
       "Du lieferst deine Ware an Hub42, bleibst aber rechtlich Eigentümer bis zum Verkauf. Du trägst kein Lagerrisiko im klassischen Sinne – die Ware ist immer noch deins.",
   },
   {
-    frage: "Was ist die Checkout-Gebühr?",
+    frage: "Was ist die Vermittlungsprovision?",
     antwort:
-      "0,30 € pro verkauftem Artikel – nicht pro Transaktion. Kauft ein Kunde 3 Produkte, fallen 3 × 0,30 € an. Dazu reichen wir nur die reine Kartenzahlungsgebühr durch (ca. 1,15 %) – ohne Aufschlag. Keine Handelsmarge. Keine versteckten Kosten.",
+      "7 % auf deinen Bruttoverkaufspreis – nicht mehr, nicht weniger. Zahlungsabwicklungskosten sind darin bereits enthalten, wir reichen sie nicht mehr separat durch. Kein versteckter Aufschlag, keine Handelsmarge – nur diese eine, transparente Provision.",
+  },
+  {
+    frage: "Warum gibt es 3 Regalmiet-Tranchen?",
+    antwort:
+      "Der Preis pro cm steigt mit der Store-Auslastung, nicht mit dem Kalender: Gründungskonditionen unter 60 % Auslastung (Basis 4,64 €/cm, Mindestmiete 59 €/Slot), Aufbauphase bei 60–85 % (5,10 €/cm, 65 €/Slot), Warteliste über 85 % (5,57 €/cm, 70 €/Slot). Wer in der Gründungsphase unterschreibt, behält seinen Preis vertraglich für die gesamte Erstlaufzeit (12 Monate) – auch wenn der Store danach in eine höhere Tranche wechselt.",
   },
   {
     frage: "Wie funktioniert die Abrechnung?",
@@ -85,7 +90,7 @@ const FAQ = [
   {
     frage: "Kann ich meinen Preis selbst festlegen?",
     antwort:
-      "Ja. Vollständige Preishoheit. Wir nehmen keine Handelsmarge. Du setzt den Endkundenpreis, wir kassieren nur die Regalmiete.",
+      "Ja. Vollständige Preishoheit. Du setzt deine eigene UVP – wir nehmen nur 7 % Vermittlungsprovision beim Verkauf, plus die Regalmiete. Keine Handelsmarge im klassischen Sinn, keine Listungsgebühr.",
   },
   {
     frage: "Was ist die Mindestlaufzeit?",
@@ -146,7 +151,7 @@ export default function HerstellerPage() {
 
           {/* Facts strip */}
           <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-xs font-mono text-stone border-l-2 border-bronze pl-4">
-            <span>0% Handelsmarge</span>
+            <span>7% statt 30–50% Handelsmarge beim LEH</span>
             <span>Ab 59 €/Monat</span>
             <span>3 Monate · dann monatlich kündbar</span>
             <span>41.000 Berliner täglich</span>
@@ -176,7 +181,8 @@ export default function HerstellerPage() {
           <div className="border-l-4 border-bronze bg-bronze/5 px-6 py-6 space-y-4">
             <p className="text-cream text-sm leading-relaxed">
               <span className="text-bronze font-semibold">Deine Kosten:</span> Regalmiete ab 59 €
-              im Monat, 0,30 € Checkout-Fee je verkauftem Artikel, Kartengebühren. Sonst nichts.
+              im Monat (Gründungskonditionen), 7 % Vermittlungsprovision je verkauftem Artikel –
+              Zahlungsabwicklung inklusive. Sonst nichts.
             </p>
             <p className="text-cream text-sm leading-relaxed">
               <span className="text-bronze font-semibold">Deine Laufzeit:</span> 3 Monate
@@ -301,8 +307,9 @@ export default function HerstellerPage() {
                 <span className="text-bronze">unser Geschäftsmodell.</span>
               </h2>
               <p className="text-stone text-base leading-relaxed mb-6 max-w-lg">
-                Wir nehmen 0,30 € pro verkauftem Artikel – plus die reine Kartenzahlungsgebühr
-                (ca. 1,15 %), die wir 1:1 durchreichen. Nicht pro Monat, nicht pauschal —
+                Wir nehmen 7 % Vermittlungsprovision auf deinen Verkaufspreis – statt 30–50 %
+                Handelsmarge plus Listungsgebühr wie beim klassischen LEH. Die
+                Zahlungsabwicklung ist darin bereits enthalten. Nicht pro Monat, nicht pauschal —
                 pro Verkauf. Das bedeutet: Wenn du nichts verkaufst, verdienen wir kaum etwas.
                 Wir sind strukturell daran interessiert, dass dein Produkt läuft.
               </p>
@@ -391,6 +398,8 @@ export default function HerstellerPage() {
             <p className="text-stone text-sm max-w-lg mb-10">
               Du mietest Regalfläche nach cm Breite — so viel oder so wenig wie dein Produkt braucht.
               Jeder gemietete cm bringt dir automatisch die gleiche Breite als Werbefläche dazu.
+              Die hier gezeigten Preise sind unsere Gründungskonditionen (unter 60 % Store-Auslastung)
+              – First-Mover-Brands behalten diesen Preis vertraglich für die gesamte Erstlaufzeit.
             </p>
 
             {/* Cm-Konzept Visualisierung */}
@@ -496,15 +505,15 @@ export default function HerstellerPage() {
                 </p>
               </div>
 
-              {/* Checkout-Fee */}
+              {/* Vermittlungsprovision */}
               <div className="border-l-2 border-bronze pl-6">
                 <p className="text-bronze text-4xl mb-1" style={{ fontFamily: "var(--font-bebas)" }}>
-                  0,30 €
+                  7 %
                 </p>
-                <p className="text-stone text-sm mb-2">pro verkauftem Artikel → unsere Marge</p>
+                <p className="text-stone text-sm mb-2">auf den Verkaufspreis → unsere Marge</p>
                 <p className="text-stone text-sm leading-relaxed">
-                  Die Checkout-Fee ist unsere Gewinnmarge. Die Kartenzahlungsgebühr
-                  (ca. 1,15 %) reichen wir 1:1 durch – ohne Aufschlag.
+                  Die Vermittlungsprovision ist unsere Gewinnmarge – Zahlungsabwicklung
+                  ist bereits eingerechnet, kein separater Aufschlag.
                   Wir verdienen erst wenn du verkaufst.
                   Kein Umsatz bei dir = kein Umsatz bei uns.
                 </p>

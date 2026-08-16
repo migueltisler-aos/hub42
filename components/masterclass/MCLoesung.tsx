@@ -11,8 +11,8 @@ const STEPS = [
   },
   {
     n: "03",
-    t: "Niemals Marge",
-    d: "Hub42 nimmt keine Handelsmarge. Die Marke setzt den Preis. Wir verdienen an der Regalmiete plus einer kleinen Checkout-Fee (0,30 €/Verkauf) und den reinen Zahlungstransaktionskosten (0,85 % + 0,25 €) – transparent, kalkulierbar, ohne Interessenkonflikt.",
+    t: "7 % statt Marge",
+    d: "Hub42 nimmt keine Handelsmarge im klassischen Sinn. Die Marke setzt den Preis. Wir verdienen an der Regalmiete plus 7 % Vermittlungsprovision pro Verkauf – Zahlungsabwicklung bereits inklusive, transparent, kalkulierbar, ohne Interessenkonflikt.",
   },
 ];
 
@@ -44,7 +44,7 @@ export default function MCLoesung() {
           className="text-cream text-2xl md:text-3xl tracking-wide leading-tight mb-4"
           style={{ fontFamily: "var(--font-bebas)" }}
         >
-          Niemals Marge.
+          7 % Provision.
           <br />
           <span className="text-bronze">Immer dein Preis.</span>
         </p>
@@ -52,7 +52,8 @@ export default function MCLoesung() {
           Denk an die kleine Zahnbürsten-Manufaktur aus dem Schwarzwald, die ein
           wirklich gutes Produkt macht – aber keinen Werbebudget-Apparat hinter
           sich hat. Die verdient einen fairen Marktzugang. Hub42 ist dieser
-          Marktzugang: physisch, kuratiert, ohne Marge.
+          Marktzugang: physisch, kuratiert, mit 7 % transparenter Provision statt
+          30–50 % Handelsmarge.
         </p>
       </div>
 

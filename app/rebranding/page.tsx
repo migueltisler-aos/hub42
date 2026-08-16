@@ -81,7 +81,8 @@ export default function RebrandingHome() {
             </h2>
             <p className="max-w-xl text-base leading-relaxed mb-10">
               Jede Marke im Regal ist unabhängig, hat einen echten Gründer dahinter und einen
-              Preis, den sie selbst setzt. Kein Konzern, keine Handelsmarge, kein Listungsgeld.
+              Preis, den sie selbst setzt. Kein Konzern, kein Listungsgeld, keine Handelsmarge –
+              nur 7 % transparente Vermittlungsprovision beim Verkauf.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-black/10 border border-black/10 max-w-3xl">
               {MARKEN.map((name) => (
