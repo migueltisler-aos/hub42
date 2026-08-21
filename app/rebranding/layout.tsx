@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { Space_Grotesk, Work_Sans } from "next/font/google";
 
 const spaceGrotesk = Space_Grotesk({
@@ -28,6 +29,10 @@ export default function RebrandingLayout({
 }: {
   children: React.ReactNode;
 }) {
+  // /rebranding ist offline gestellt (404). Zum Reaktivieren: notFound()-Zeile
+  // und den notFound-Import entfernen.
+  notFound();
+
   return (
     <div
       className={`${spaceGrotesk.variable} ${workSans.variable} min-h-screen bg-white text-black`}
