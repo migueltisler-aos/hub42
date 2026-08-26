@@ -44,24 +44,68 @@ async function runImport(formData: FormData) {
   redirect(`/pipeline?${summary}`);
 }
 
-const JSON_TEMPLATE = `[{
+/**
+ * Ein Template für alle Prompts — `standort` und der Notizen-Hinweis sind die
+ * einzigen Stellen, die je Vorlage abweichen. Vorher hatte jede Vorlage ihre
+ * eigene Kopie, und ein neues Feld fehlte prompt nur in der Hälfte.
+ */
+function jsonTemplate(opts: { standort?: string; notizen?: string } = {}): string {
+  return `[{
   "name": "",
   "website": "",
   "instagram": "",
+  "kategorie_kanonisch": "",
   "kategorie": "",
   "produkt": "",
   "preisrange": "",
-  "standort": "",
+  "standort": "${opts.standort ?? ""}",
   "follower_ca": 0,
-  "notizen": "Founder-Name, warum emerging"
+  "groesse": null,
+  "haendler_ca": null,
+  "retail_listung": null,
+  "eigene_filialen": null,
+  "funding": "",
+  "haltung_satz": "",
+  "haltung_tags": [],
+  "haltung_quelle": "",
+  "notizen": "${opts.notizen ?? "Founder-Name, warum emerging"}"
 }]`;
+}
+
+const JSON_TEMPLATE = jsonTemplate();
 
 const OUTPUT_RULES = `AUSGABE-REGELN (strikt einhalten):
 - Antworte NUR als JSON-Array, kein Text davor oder danach
-- Wenn du dir bei einem Wert nicht sicher bist: Feld leer lassen ("") statt zu raten
+- Wenn du dir bei einem Wert nicht sicher bist: Feld leer lassen ("" bzw. null) statt zu raten.
+  Eine sichtbare Lücke ist brauchbar, ein geratener Wert ist Schaden.
 - website: nur die echte, existierende Domain (z. B. brandname.de) – kein Raten, lieber leer
 - instagram: nur der Handle ohne @ (z. B. brandname) – kein Raten, lieber leer
-- follower_ca: geschätzte Instagram-Follower als Zahl (z. B. 8500), 0 wenn unbekannt`;
+- follower_ca: geschätzte Instagram-Follower als Zahl (z. B. 8500), 0 wenn unbekannt
+- kategorie_kanonisch: GENAU einer von Food | Drinks | Beauty | Lifestyle | Home | Sonstiges
+- kategorie: freie Subkategorie (z. B. "Craft Spirits") – nur Detail, nicht gefiltert
+
+SCOPE (wie groß ist die Marke – gemessen an Vertriebsbreite, nicht an Followern):
+- groesse: 1 = Manufaktur (Hand-/Kleinserie, nur eigener Shop) | 2 = Klein (eigene Produktion,
+  unter 10 Händler) | 3 = Wachsend (Fachhandel, 10–100 Händler) | 4 = Etabliert (überregional,
+  Retail-Listung oder eigene Filialen) | 5 = Groß/Konzern (LEH-Regal, Konzerntochter, PE/VC).
+  null, wenn du die Vertriebsbreite nicht belegen kannst.
+- haendler_ca: Anzahl genannter Verkaufsstellen als Zahl, sonst null
+- retail_listung: true NUR wenn die Marke selbst eine Listung bei Rewe/Edeka/dm/Rossmann/
+  Müller/Aldi/Lidl/Kaufland/Douglas angibt. false, wenn sie ausdrücklich sagt, dass es sie dort
+  NICHT gibt. null, wenn unklar. Ein erwähnter Händlername ist KEIN Beleg für eine Listung.
+- eigene_filialen: true bei eigenen Ladengeschäften/Flagship Stores (nicht: Marktstand, Pop-up)
+- funding: genannte Investoren/Runden, sonst ""
+
+HALTUNG (wofür die Marke steht – das Feld, das die Nachrecherche erspart):
+- haltung_satz: EIN Satz, max. 120 Zeichen, möglichst wörtlich von ihrer Über-uns-Seite.
+  Haltung, nicht Produkt. "Bio-Dattelpralinen ohne Zuckerzusatz" ist falsch (Produkt).
+  "Direktbezug von Kleinbauern in Peru, fairer Handel ohne Zwischenhändler" ist richtig.
+  Leer lassen, wenn die Marke erkennbar nur Produkte verkauft, ohne eine Idee zu vertreten –
+  das ist ein verwertbares Ergebnis, keine Lücke, die du füllen musst.
+- haltung_tags: nur aus dieser Liste, nur was der Text deckt: Regional | Bio | Vegan |
+  Direkthandel/Fair | Upcycling/Zero-Waste | Handmade/Manufaktur | Sozial/Inklusion |
+  Frauen-geführt | Transparenz-Herkunft | Familienbetrieb
+- haltung_quelle: URL der Seite, auf der der Satz steht. Ohne Quelle wird der Satz verworfen.`;
 
 const PROMPTS = [
   {
@@ -108,17 +152,7 @@ Suchkriterien:
 
 ${OUTPUT_RULES}
 
-[{
-  "name": "",
-  "website": "",
-  "instagram": "",
-  "kategorie": "",
-  "produkt": "",
-  "preisrange": "",
-  "standort": "Berlin",
-  "follower_ca": 0,
-  "notizen": "Founder-Name, warum noch klein"
-}]`,
+${jsonTemplate({ standort: "Berlin", notizen: "Founder-Name, warum noch klein" })}`,
   },
   {
     label: "Meta Ad Library – CAC-gepresste Brands (High Intent)",
@@ -157,17 +191,7 @@ Gib mir 10 Brands. Füge im Feld "notizen" hinzu: welches Ad-Suchwort sie gefund
 
 ${OUTPUT_RULES}
 
-[{
-  "name": "",
-  "website": "",
-  "instagram": "",
-  "kategorie": "",
-  "produkt": "",
-  "preisrange": "",
-  "standort": "",
-  "follower_ca": 0,
-  "notizen": "Gefunden via Ad-Suchwort: X | Est. Ad-Budget: Y €/Tag"
-}]`,
+${jsonTemplate({ notizen: "Gefunden via Ad-Suchwort: X | Est. Ad-Budget: Y €/Tag" })}`,
   },
   {
     label: "Höhle der Löwen Alumni – Post-Hype Phase",
@@ -193,17 +217,7 @@ Ergänze im Feld "notizen": Staffel + Jahr der Ausstrahlung + ob Deal zustande k
 
 ${OUTPUT_RULES}
 
-[{
-  "name": "",
-  "website": "",
-  "instagram": "",
-  "kategorie": "",
-  "produkt": "",
-  "preisrange": "",
-  "standort": "",
-  "follower_ca": 0,
-  "notizen": "HdL Staffel X (Jahr) | Deal: Ja/Nein | Founder-Name"
-}]`,
+${jsonTemplate({ notizen: "HdL Staffel X (Jahr) | Deal: Ja/Nein | Founder-Name" })}`,
   },
   {
     label: "Startup Events & Demo Days – Berlin / DACH",
@@ -238,17 +252,7 @@ Ergänze im Feld "notizen": Event/Programm + Jahr + Programm-Stage (Seed/Early/G
 
 ${OUTPUT_RULES}
 
-[{
-  "name": "",
-  "website": "",
-  "instagram": "",
-  "kategorie": "",
-  "produkt": "",
-  "preisrange": "",
-  "standort": "",
-  "follower_ca": 0,
-  "notizen": "Gefunden via: [Event/Programm] [Jahr] | Stage: Seed/Early"
-}]`,
+${jsonTemplate({ notizen: "Gefunden via: [Event/Programm] [Jahr] | Stage: Seed/Early" })}`,
   },
   {
     label: "Nische: Nachhaltig / Zero Waste (emerging)",
@@ -270,17 +274,7 @@ Suchkriterien:
 
 ${OUTPUT_RULES}
 
-[{
-  "name": "",
-  "website": "",
-  "instagram": "",
-  "kategorie": "",
-  "produkt": "",
-  "preisrange": "",
-  "standort": "",
-  "follower_ca": 0,
-  "notizen": "Founder-Name, Nachhaltigkeitsansatz"
-}]`,
+${jsonTemplate({ notizen: "Founder-Name, Nachhaltigkeitsansatz" })}`,
   },
 ];
 

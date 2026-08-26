@@ -10,10 +10,12 @@ export interface Product {
   shelf_code: string | null;
   batch: string | null;
   price_enabled: boolean;
+  /** Gesetzt = aus dem Store genommen: taucht bei Scouts nicht mehr auf. */
+  archived_at: string | null;
   created_at: string;
 }
 
-export type ProductInput = Omit<Product, "id" | "created_at">;
+export type ProductInput = Omit<Product, "id" | "created_at" | "archived_at">;
 
 export interface Panel {
   id: string;
@@ -67,11 +69,17 @@ export interface Rating {
   scanned_at: string;
 }
 
-export async function getProducts(): Promise<Product[]> {
-  const { data, error } = await getSupabaseClient()
-    .from("feedback_products")
-    .select("*")
-    .order("created_at", { ascending: false });
+/**
+ * Standardmäßig ohne archivierte Produkte — die sollen weder in der
+ * Scout-Liste noch im Scan-Flow auftauchen. Das Admin ruft mit
+ * `{ includeArchived: true }` und blendet sie hinter einem Umschalter ein.
+ */
+export async function getProducts(
+  opts: { includeArchived?: boolean } = {}
+): Promise<Product[]> {
+  let query = getSupabaseClient().from("feedback_products").select("*");
+  if (!opts.includeArchived) query = query.is("archived_at", null);
+  const { data, error } = await query.order("created_at", { ascending: false });
   if (error) throw error;
   return data as Product[];
 }
@@ -106,6 +114,62 @@ export async function createProduct(
   }
 
   return product;
+}
+
+export async function updateProduct(id: string, input: ProductInput): Promise<void> {
+  const { error } = await getSupabaseClient()
+    .from("feedback_products")
+    .update(input)
+    .eq("id", id);
+  if (error) throw error;
+}
+
+export async function archiveProduct(id: string): Promise<void> {
+  const { error } = await getSupabaseClient()
+    .from("feedback_products")
+    .update({ archived_at: new Date().toISOString() })
+    .eq("id", id);
+  if (error) throw error;
+}
+
+export async function restoreProduct(id: string): Promise<void> {
+  const { error } = await getSupabaseClient()
+    .from("feedback_products")
+    .update({ archived_at: null })
+    .eq("id", id);
+  if (error) throw error;
+}
+
+/**
+ * Endgültig löschen nur, solange keine Bewertung daran hängt — sonst wären
+ * erhobene Daten weg. Für alles andere ist Archivieren der Weg.
+ */
+export async function deleteProduct(id: string): Promise<{ ok: boolean; ratings: number }> {
+  const { count, error: countError } = await getSupabaseClient()
+    .from("feedback_ratings")
+    .select("id", { count: "exact", head: true })
+    .eq("product_id", id);
+  if (countError) throw countError;
+  const ratings = count ?? 0;
+  if (ratings > 0) return { ok: false, ratings };
+
+  const { error } = await getSupabaseClient().from("feedback_products").delete().eq("id", id);
+  if (error) throw error;
+  return { ok: true, ratings: 0 };
+}
+
+/** Bewertungen pro Produkt — für das n-Badge in der Produktliste. */
+export async function getRatingCountsByProduct(): Promise<Record<string, number>> {
+  const { data, error } = await getSupabaseClient()
+    .from("feedback_ratings")
+    .select("product_id");
+  if (error) throw error;
+  const counts: Record<string, number> = {};
+  for (const row of data ?? []) {
+    const id = row.product_id as string;
+    counts[id] = (counts[id] ?? 0) + 1;
+  }
+  return counts;
 }
 
 export async function createPanel(): Promise<Panel> {
@@ -213,6 +277,7 @@ export interface Question {
   label_left: string | null;
   label_right: string | null;
   scale_max: number | null;
+  created_at: string;
 }
 
 export interface QuestionWithSet extends Question {
@@ -243,7 +308,13 @@ export interface QuestionSetWithQuestions extends QuestionSet {
 export async function getQuestionSets(): Promise<QuestionSetWithQuestions[]> {
   const [{ data: sets, error: setsError }, { data: questions, error: qError }] = await Promise.all([
     getSupabaseClient().from("feedback_question_sets").select("*").order("created_at", { ascending: true }),
-    getSupabaseClient().from("feedback_questions").select("*").order("position", { ascending: true }),
+    // created_at als zweites Kriterium: die Bestandsfragen stehen alle auf
+    // position = 0, sonst wäre ihre Reihenfolge zufällig.
+    getSupabaseClient()
+      .from("feedback_questions")
+      .select("*")
+      .order("position", { ascending: true })
+      .order("created_at", { ascending: true }),
   ]);
   if (setsError) throw setsError;
   if (qError) throw qError;
@@ -263,13 +334,30 @@ export async function createQuestionSet(name: string, description: string | null
   return data as QuestionSet;
 }
 
+/**
+ * Ohne `position` wird hinten angehängt. Das manuelle Positions-Zahlenfeld im
+ * alten Formular war eine Fehlerquelle: alle Bestandsfragen stehen auf 0.
+ */
+async function nextQuestionPosition(questionSetId: string): Promise<number> {
+  const { data, error } = await getSupabaseClient()
+    .from("feedback_questions")
+    .select("position")
+    .eq("question_set_id", questionSetId)
+    .order("position", { ascending: false })
+    .limit(1);
+  if (error) throw error;
+  const hoechste = (data ?? [])[0]?.position as number | undefined;
+  return hoechste == null ? 0 : hoechste + 1;
+}
+
 export async function createQuestion(input: QuestionInput): Promise<Question> {
+  const position = input.position ?? (await nextQuestionPosition(input.questionSetId));
   const { data, error } = await getSupabaseClient()
     .from("feedback_questions")
     .insert({
       question_set_id: input.questionSetId,
       type: input.type,
-      position: input.position ?? 0,
+      position,
       prompt: input.prompt ?? null,
       label_left: input.labelLeft ?? null,
       label_right: input.labelRight ?? null,
@@ -281,9 +369,186 @@ export async function createQuestion(input: QuestionInput): Promise<Question> {
   return data as Question;
 }
 
-export async function deleteQuestion(id: string): Promise<void> {
+export async function updateQuestion(
+  id: string,
+  input: Omit<QuestionInput, "questionSetId" | "position">
+): Promise<void> {
+  const { error } = await getSupabaseClient()
+    .from("feedback_questions")
+    .update({
+      type: input.type,
+      prompt: input.prompt ?? null,
+      label_left: input.labelLeft ?? null,
+      label_right: input.labelRight ?? null,
+      scale_max: input.scaleMax ?? (input.type === "likert" ? 5 : 7),
+    })
+    .eq("id", id);
+  if (error) throw error;
+}
+
+/**
+ * ACHTUNG: feedback_answers.question_id löscht CASCADE — eine Frage zu löschen
+ * nimmt die bereits erhobenen Antworten mit. Deshalb wird hier gezählt und
+ * abgelehnt, statt Daten stillschweigend zu vernichten. Wer eine Frage nicht
+ * mehr stellen will, nimmt das Set aus den Produkten heraus.
+ */
+export async function deleteQuestion(id: string): Promise<{ ok: boolean; answers: number }> {
+  const { count, error: countError } = await getSupabaseClient()
+    .from("feedback_answers")
+    .select("id", { count: "exact", head: true })
+    .eq("question_id", id);
+  if (countError) throw countError;
+  const answers = count ?? 0;
+  if (answers > 0) return { ok: false, answers };
+
   const { error } = await getSupabaseClient().from("feedback_questions").delete().eq("id", id);
   if (error) throw error;
+  return { ok: true, answers: 0 };
+}
+
+/**
+ * Reihenfolge innerhalb eines Sets um eine Stelle verschieben.
+ *
+ * Schreibt bewusst ALLE Positionen des Sets neu (0…n-1) statt nur zwei zu
+ * tauschen: die Bestandsdaten haben durchweg position = 0, ein reiner Tausch
+ * würde dort nichts bewegen.
+ */
+export async function moveQuestion(id: string, richtung: "hoch" | "runter"): Promise<void> {
+  const { data: frage, error: frageError } = await getSupabaseClient()
+    .from("feedback_questions")
+    .select("id, question_set_id")
+    .eq("id", id)
+    .single();
+  if (frageError || !frage) throw frageError ?? new Error("Frage nicht gefunden");
+
+  const { data: geschwister, error: gError } = await getSupabaseClient()
+    .from("feedback_questions")
+    .select("id, position, created_at")
+    .eq("question_set_id", frage.question_set_id as string)
+    .order("position", { ascending: true })
+    .order("created_at", { ascending: true });
+  if (gError) throw gError;
+
+  const ids = (geschwister ?? []).map((g) => g.id as string);
+  const von = ids.indexOf(id);
+  const nach = richtung === "hoch" ? von - 1 : von + 1;
+  if (von < 0 || nach < 0 || nach >= ids.length) return;
+  [ids[von], ids[nach]] = [ids[nach], ids[von]];
+
+  await Promise.all(
+    ids.map((qid, index) =>
+      getSupabaseClient().from("feedback_questions").update({ position: index }).eq("id", qid)
+    )
+  );
+}
+
+export async function updateQuestionSet(
+  id: string,
+  name: string,
+  description: string | null
+): Promise<void> {
+  const { error } = await getSupabaseClient()
+    .from("feedback_question_sets")
+    .update({ name, description })
+    .eq("id", id);
+  if (error) throw error;
+}
+
+/**
+ * Wie deleteQuestion, nur eine Ebene höher: der Cascade-Pfad ist
+ * Set → Fragen → Antworten. Erhobene Antworten blockieren das Löschen.
+ */
+export async function deleteQuestionSet(id: string): Promise<{ ok: boolean; answers: number }> {
+  const { data: fragen, error: fragenError } = await getSupabaseClient()
+    .from("feedback_questions")
+    .select("id")
+    .eq("question_set_id", id);
+  if (fragenError) throw fragenError;
+
+  const frageIds = (fragen ?? []).map((f) => f.id as string);
+  if (frageIds.length > 0) {
+    const { count, error: countError } = await getSupabaseClient()
+      .from("feedback_answers")
+      .select("id", { count: "exact", head: true })
+      .in("question_id", frageIds);
+    if (countError) throw countError;
+    if ((count ?? 0) > 0) return { ok: false, answers: count ?? 0 };
+  }
+
+  const { error } = await getSupabaseClient()
+    .from("feedback_question_sets")
+    .delete()
+    .eq("id", id);
+  if (error) throw error;
+  return { ok: true, answers: 0 };
+}
+
+/** Set mit allen Fragen kopieren — Basis für Varianten, ohne alles neu zu tippen. */
+export async function duplicateQuestionSet(id: string): Promise<QuestionSet> {
+  const [{ data: original, error: origError }, { data: fragen, error: fragenError }] =
+    await Promise.all([
+      getSupabaseClient().from("feedback_question_sets").select("*").eq("id", id).single(),
+      getSupabaseClient()
+        .from("feedback_questions")
+        .select("*")
+        .eq("question_set_id", id)
+        .order("position", { ascending: true }),
+    ]);
+  if (origError || !original) throw origError ?? new Error("Set nicht gefunden");
+  if (fragenError) throw fragenError;
+
+  const kopie = await createQuestionSet(
+    `${(original as QuestionSet).name} (Kopie)`,
+    (original as QuestionSet).description
+  );
+
+  const quellFragen = (fragen ?? []) as Question[];
+  if (quellFragen.length > 0) {
+    const { error } = await getSupabaseClient()
+      .from("feedback_questions")
+      .insert(
+        quellFragen.map((q, index) => ({
+          question_set_id: kopie.id,
+          type: q.type,
+          position: index,
+          prompt: q.prompt,
+          label_left: q.label_left,
+          label_right: q.label_right,
+          scale_max: q.scale_max,
+        }))
+      );
+    if (error) throw error;
+  }
+
+  return kopie;
+}
+
+/** Set-ID → Anzahl Produkte, die es verwenden ("in 3 Produkten verwendet"). */
+export async function getQuestionSetUsageCounts(): Promise<Record<string, number>> {
+  const { data, error } = await getSupabaseClient()
+    .from("feedback_product_question_sets")
+    .select("question_set_id");
+  if (error) throw error;
+  const counts: Record<string, number> = {};
+  for (const row of data ?? []) {
+    const id = row.question_set_id as string;
+    counts[id] = (counts[id] ?? 0) + 1;
+  }
+  return counts;
+}
+
+/** Frage-ID → Anzahl erhobener Antworten. Warnt vor destruktiven Aktionen. */
+export async function getAnswerCountsByQuestion(): Promise<Record<string, number>> {
+  const { data, error } = await getSupabaseClient()
+    .from("feedback_answers")
+    .select("question_id");
+  if (error) throw error;
+  const counts: Record<string, number> = {};
+  for (const row of data ?? []) {
+    const id = row.question_id as string;
+    counts[id] = (counts[id] ?? 0) + 1;
+  }
+  return counts;
 }
 
 export async function getAllProductQuestionSetLinks(): Promise<
@@ -347,7 +612,8 @@ export async function getQuestionsForProduct(productId: string): Promise<Questio
     .sort(
       (a, b) =>
         (setOrder.get(a.question_set_id) ?? 0) - (setOrder.get(b.question_set_id) ?? 0) ||
-        a.position - b.position
+        a.position - b.position ||
+        a.created_at.localeCompare(b.created_at)
     );
 }
 
@@ -488,6 +754,37 @@ export async function getPanelOverview(): Promise<{
   const uniquePanels = new Set(panelIds).size;
   const avgProductsPerPanel = uniquePanels > 0 ? panelIds.length / uniquePanels : 0;
   return { uniquePanels, avgProductsPerPanel };
+}
+
+/** Zähler für die Registerreiter des Studios — nur COUNT, keine Zeilen. */
+export async function getStudioCounts(): Promise<{
+  produkte: number;
+  archiviert: number;
+  fragensets: number;
+  bewertungen: number;
+  leads: number;
+  offeneTickets: number;
+}> {
+  const client = getSupabaseClient();
+  const kopf = { count: "exact" as const, head: true };
+
+  const [produkte, archiviert, fragensets, bewertungen, leads, offeneTickets] = await Promise.all([
+    client.from("feedback_products").select("id", kopf).is("archived_at", null),
+    client.from("feedback_products").select("id", kopf).not("archived_at", "is", null),
+    client.from("feedback_question_sets").select("id", kopf),
+    client.from("feedback_ratings").select("id", kopf),
+    client.from("feedback_product_interest").select("id", kopf),
+    client.from("feedback_game_tokens").select("id", kopf).is("redeemed_at", null),
+  ]);
+
+  return {
+    produkte: produkte.count ?? 0,
+    archiviert: archiviert.count ?? 0,
+    fragensets: fragensets.count ?? 0,
+    bewertungen: bewertungen.count ?? 0,
+    leads: leads.count ?? 0,
+    offeneTickets: offeneTickets.count ?? 0,
+  };
 }
 
 export async function getRatingsTodayCount(): Promise<number> {

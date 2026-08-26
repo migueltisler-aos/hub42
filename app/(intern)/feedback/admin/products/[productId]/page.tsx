@@ -1,23 +1,18 @@
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import {
   getAssignedQuestionSetIds,
   getProduct,
   getQuestionSets,
-  setProductQuestionSets,
 } from "@/lib/feedback";
+import { EmptyState, PageShell, Panel, Stamp } from "@/app/(intern)/_components/ui/surfaces";
+import ProductForm, { type SetOption } from "../../_components/ProductForm";
 
 export const dynamic = "force-dynamic";
 
-async function updateQuestionSetsAction(formData: FormData) {
-  "use server";
-  const productId = formData.get("product_id") as string;
-  if (!productId) return;
-  const questionSetIds = formData.getAll("question_sets").map((v) => v as string);
-  await setProductQuestionSets(productId, questionSetIds);
-  redirect("/feedback/admin");
-}
-
+/**
+ * Einzelnes Produkt bearbeiten. In der Liste geht das inline; diese Seite
+ * bleibt als Deep-Link-Ziel bestehen und kann alles, was die Karte kann.
+ */
 export default async function EditProductPage({
   params,
 }: {
@@ -32,71 +27,57 @@ export default async function EditProductPage({
 
   if (!product) {
     return (
-      <div className="min-h-screen bg-green-dark px-4 py-10">
-        <p className="text-cream">Produkt nicht gefunden.</p>
-      </div>
+      <PageShell title="Produkt nicht gefunden" back={{ href: "/feedback/admin", label: "Produkte" }}>
+        <EmptyState
+          titel="Dieses Produkt gibt es nicht (mehr)."
+          text="Vielleicht wurde es gelöscht. Die Liste zeigt alle aktiven und archivierten Produkte."
+        />
+      </PageShell>
     );
   }
 
-  return (
-    <div className="min-h-screen bg-green-dark">
-      <div className="max-w-2xl mx-auto px-4 sm:px-6 py-10">
-        <Link href="/feedback/admin" className="text-stone text-xs font-mono hover:text-bronze transition-colors">
-          ← Produkte
-        </Link>
-        <h1
-          className="text-cream text-4xl tracking-widest mt-3 mb-1"
-          style={{ fontFamily: "var(--font-bebas)" }}
-        >
-          {product.name}
-        </h1>
-        {product.brand && <p className="text-stone text-sm mb-8">{product.brand}</p>}
+  const setOptions: SetOption[] = questionSets.map((s) => ({
+    id: s.id,
+    name: s.name,
+    description: s.description,
+    fragen: s.questions.length,
+  }));
 
-        <form action={updateQuestionSetsAction} className="bg-green-mid border border-stone-dark p-6">
-          <input type="hidden" name="product_id" value={product.id} />
-          <p className="text-stone text-xs font-mono uppercase tracking-widest mb-4">
-            Zugeordnete Fragensets
-          </p>
-          {questionSets.length === 0 ? (
-            <p className="text-stone-dark text-sm mb-4">
-              Noch keine Fragensets angelegt.{" "}
-              <Link href="/feedback/admin/questions" className="text-bronze underline">
-                Jetzt anlegen →
-              </Link>
-            </p>
-          ) : (
-            <div className="grid sm:grid-cols-2 gap-2 mb-6">
-              {questionSets.map((set) => (
-                <label
-                  key={set.id}
-                  className="flex items-start gap-2 bg-green-dark border border-stone-dark px-3 py-2 text-sm text-stone"
-                >
-                  <input
-                    type="checkbox"
-                    name="question_sets"
-                    value={set.id}
-                    defaultChecked={assignedIds.includes(set.id)}
-                    className="accent-bronze mt-0.5"
-                  />
-                  <span>
-                    <span className="text-cream">{set.name}</span>
-                    <span className="text-stone-dark text-xs block">
-                      {set.questions.length} Frage{set.questions.length === 1 ? "" : "n"}
-                      {set.description ? ` · ${set.description}` : ""}
-                    </span>
-                  </span>
-                </label>
-              ))}
-            </div>
-          )}
-          <button
-            type="submit"
-            className="bg-bronze text-green-dark font-semibold px-6 py-3 text-sm hover:bg-bronze-light transition-colors"
+  return (
+    <PageShell
+      eyebrow={product.brand ?? "Produkt"}
+      title={product.name}
+      back={{ href: "/feedback/admin", label: "Produkte" }}
+      actions={
+        product.archived_at ? (
+          <Stamp tone="stone" tilt>
+            archiviert
+          </Stamp>
+        ) : (
+          <Link
+            href={`/feedback/admin/results#${product.id}`}
+            className="text-bronze text-sm hover:text-bronze-light transition-colors"
           >
-            Speichern →
-          </button>
-        </form>
-      </div>
-    </div>
+            Auswertung →
+          </Link>
+        )
+      }
+    >
+      <Panel title="Stammdaten & Fragensets" nummer="01">
+        <ProductForm
+          produkt={{
+            id: product.id,
+            name: product.name,
+            brand: product.brand,
+            store: product.store,
+            shelf_code: product.shelf_code,
+            batch: product.batch,
+            price_enabled: product.price_enabled,
+            setIds: assignedIds,
+          }}
+          questionSets={setOptions}
+        />
+      </Panel>
+    </PageShell>
   );
 }

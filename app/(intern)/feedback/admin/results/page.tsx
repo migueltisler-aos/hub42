@@ -1,27 +1,60 @@
 import Link from "next/link";
+import { Download } from "lucide-react";
 import {
+  HEDONIC_FACES,
   getPanelOverview,
   getProductInterestCounts,
   getProducts,
   getProductStats,
   type QuestionStats,
 } from "@/lib/feedback";
+import {
+  Card,
+  EmptyState,
+  PageShell,
+  SectionHead,
+  Stamp,
+  StatTile,
+} from "@/app/(intern)/_components/ui/surfaces";
 
 export const dynamic = "force-dynamic";
 
-function HedonicBars({ distribution }: { distribution: number[] }) {
+/** Unter dieser Fallzahl ist ein Mittelwert eine Anekdote, keine Aussage. */
+const N_SCHWELLE = 5;
+
+function HedonicBars({ distribution, n }: { distribution: number[]; n: number }) {
   const max = Math.max(1, ...distribution);
   return (
-    <div className="flex items-end gap-1 h-20">
-      {distribution.map((count, i) => (
-        <div key={i} className="flex-1 flex flex-col items-center justify-end h-full">
-          <div
-            className="w-full bg-bronze"
-            style={{ height: `${(count / max) * 100}%`, minHeight: count > 0 ? "2px" : 0 }}
-          />
-          <span className="text-stone-dark text-[10px] font-mono mt-1">{i + 1}</span>
-        </div>
-      ))}
+    <div>
+      <div className="flex items-end gap-1 h-24">
+        {distribution.map((count, i) => (
+          <div key={i} className="flex-1 flex flex-col items-center justify-end h-full">
+            {count > 0 && (
+              <span className="text-stone-dark text-[10px] font-mono tabular-nums mb-0.5">
+                {count}
+              </span>
+            )}
+            <div
+              className="w-full bg-bronze rounded-t-sm"
+              style={{ height: `${(count / max) * 100}%`, minHeight: count > 0 ? "3px" : 0 }}
+            />
+          </div>
+        ))}
+      </div>
+      {/* Dieselben Gesichter, die der Scout beim Bewerten getippt hat — die
+          nackten Ziffern 1–9 waren nicht auf die Erhebung zurückzuführen. */}
+      <div className="flex gap-1 mt-1.5" aria-hidden>
+        {HEDONIC_FACES.map((face, i) => (
+          <span key={i} className="flex-1 text-center text-sm opacity-70">
+            {face}
+          </span>
+        ))}
+      </div>
+      <div className="flex justify-between text-stone-dark text-[10px] mt-0.5">
+        <span>gefällt gar nicht</span>
+        <span className="font-mono tabular-nums">{n} Stimmen</span>
+        <span>gefällt extrem gut</span>
+      </div>
     </div>
   );
 }
@@ -32,29 +65,33 @@ function ScaleTrack({
   right,
   mean,
   scaleMax,
+  n,
 }: {
   label?: string | null;
   left: string | null;
   right: string | null;
   mean: number;
   scaleMax: number;
+  n: number;
 }) {
   const pct = Math.min(100, Math.max(0, ((mean - 1) / (scaleMax - 1)) * 100));
   return (
-    <div className="mb-3">
-      {label && <p className="text-stone-dark text-xs mb-1">{label}</p>}
-      <div className="flex justify-between text-stone-dark text-xs mb-1">
-        <span>{left}</span>
-        <span>{right}</span>
+    <div className="py-2.5 border-b border-stone-dark/15 last:border-0">
+      {label && <p className="text-green-dark text-sm mb-1.5 leading-snug">{label}</p>}
+      <div className="flex items-center gap-3">
+        <span className="text-stone-dark text-xs w-24 sm:w-32 text-right shrink-0 leading-tight">
+          {left}
+        </span>
+        <div className="relative h-1.5 bg-sage rounded-full flex-1">
+          <div
+            className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-bronze ring-2 ring-sage-warm"
+            style={{ left: `calc(${pct}% - 6px)` }}
+          />
+        </div>
+        <span className="text-stone-dark text-xs w-24 sm:w-32 shrink-0 leading-tight">{right}</span>
       </div>
-      <div className="relative h-2 bg-sage rounded-full">
-        <div
-          className="absolute top-1/2 -translate-y-1/2 w-3 h-3 rounded-full bg-bronze"
-          style={{ left: `calc(${pct}% - 6px)` }}
-        />
-      </div>
-      <p className="text-stone-dark text-[10px] font-mono mt-1">
-        ⌀ {mean.toFixed(2)} / {scaleMax}
+      <p className="text-stone-dark text-[10px] font-mono mt-1 tabular-nums">
+        ⌀ {mean.toFixed(2)} / {scaleMax} · n = {n}
       </p>
     </div>
   );
@@ -62,159 +99,212 @@ function ScaleTrack({
 
 function QuestionResult({ qs }: { qs: QuestionStats }) {
   const { question: q } = qs;
+
   if (q.type === "text") {
     return (
-      <div className="mb-3">
-        <p className="text-stone-dark text-xs mb-1">
-          {q.prompt} <span className="text-stone-dark/70">({qs.texts.length} Antworten)</span>
+      <div className="py-2.5 border-b border-stone-dark/15 last:border-0">
+        <p className="text-green-dark text-sm leading-snug">
+          {q.prompt}{" "}
+          <span className="text-stone-dark text-xs font-mono">
+            {qs.texts.length} Antwort{qs.texts.length === 1 ? "" : "en"}
+          </span>
         </p>
         {qs.texts.length > 0 && (
-          <ul className="text-green-dark text-sm bg-sage px-3 py-2 space-y-1">
-            {qs.texts.slice(0, 5).map((t, i) => (
-              <li key={i}>&quot;{t}&quot;</li>
+          <ul className="mt-1.5 space-y-1">
+            {qs.texts.map((t, i) => (
+              <li
+                key={i}
+                className="text-green-dark text-sm bg-sage rounded-sm px-3 py-1.5 leading-snug"
+              >
+                {t}
+              </li>
             ))}
           </ul>
         )}
       </div>
     );
   }
+
   if (qs.mean == null) {
     return (
-      <p className="text-stone-dark text-xs mb-3">
+      <p className="text-stone-dark text-xs py-2.5 border-b border-stone-dark/15 last:border-0">
         {q.type === "semantic_diff" ? `${q.label_left} ↔ ${q.label_right}` : q.prompt} — noch keine
         Antworten
       </p>
     );
   }
+
   return (
     <ScaleTrack
-      label={q.type === "likert" ? q.prompt : null}
+      label={q.prompt}
       left={q.label_left}
       right={q.label_right}
       mean={qs.mean}
       scaleMax={q.scale_max ?? (q.type === "likert" ? 5 : 7)}
+      n={qs.n}
     />
   );
 }
 
 export default async function ResultsPage() {
   const [products, panelOverview, interestCounts] = await Promise.all([
-    getProducts(),
+    // Auch archivierte: die erhobenen Daten bleiben relevant, auch wenn das
+    // Produkt nicht mehr im Regal steht.
+    getProducts({ includeArchived: true }),
     getPanelOverview(),
     getProductInterestCounts(),
   ]);
-  const stats = await Promise.all(products.map((p) => getProductStats(p.id)));
+  const stats = (await Promise.all(products.map((p) => getProductStats(p.id)))).filter(
+    (s): s is NonNullable<typeof s> => s != null
+  );
+
+  const bewertungen = stats.reduce((summe, s) => summe + s.n, 0);
+  const mitDaten = stats.filter((s) => s.n > 0).length;
 
   return (
-    <div className="min-h-screen bg-green-dark">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-10">
-        <div className="mb-8 flex items-start justify-between">
-          <div>
-            <Link
-              href="/feedback/admin"
-              className="text-stone text-xs font-mono hover:text-bronze transition-colors"
-            >
-              ← Produkte
-            </Link>
-            <h1
-              className="text-cream text-4xl tracking-widest mt-3"
-              style={{ fontFamily: "var(--font-bebas)" }}
-            >
-              Auswertung
-            </h1>
-          </div>
-          <a
-            href="/feedback/admin/export"
-            className="stamp text-bronze hover:text-bronze-light transition-colors whitespace-nowrap"
-          >
-            ⤓ Rohdaten (CSV)
-          </a>
-        </div>
+    <PageShell
+      breit
+      eyebrow="Register 03"
+      title="Auswertung"
+      lead="Was die Scouts im Store hinterlassen haben. Rohdaten gibt es als CSV — inklusive Demografie und aller Einzelantworten."
+      actions={
+        <a
+          href="/feedback/admin/export"
+          className="inline-flex items-center gap-1.5 text-sm px-4 py-2.5 min-h-11 rounded-sm border border-bronze/40 text-bronze hover:border-bronze hover:bg-bronze/10 transition-colors"
+        >
+          <Download size={15} /> Rohdaten (CSV)
+        </a>
+      }
+    >
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-8">
+        <StatTile label="Bewertungen" value={bewertungen} />
+        <StatTile label="Panels (unique)" value={panelOverview.uniquePanels} />
+        <StatTile
+          label="⌀ Produkte / Panel"
+          value={panelOverview.avgProductsPerPanel.toFixed(1)}
+        />
+        <StatTile
+          label="Produkte mit Daten"
+          value={`${mitDaten} / ${stats.length}`}
+          note={mitDaten < stats.length ? `${stats.length - mitDaten} noch ohne Bewertung` : undefined}
+        />
+      </div>
 
-        <div className="grid grid-cols-2 gap-4 mb-10">
-          <div className="field-card bg-sage-warm p-4">
-            <p className="text-stone-dark text-xs font-mono uppercase tracking-widest">
-              Panels (unique Nutzer)
-            </p>
-            <p className="text-green-dark text-3xl" style={{ fontFamily: "var(--font-bebas)" }}>
-              {panelOverview.uniquePanels}
-            </p>
-          </div>
-          <div className="field-card bg-sage-warm p-4">
-            <p className="text-stone-dark text-xs font-mono uppercase tracking-widest">
-              Ø Produkte pro Panel
-            </p>
-            <p className="text-green-dark text-3xl" style={{ fontFamily: "var(--font-bebas)" }}>
-              {panelOverview.avgProductsPerPanel.toFixed(1)}
-            </p>
-          </div>
-        </div>
+      <SectionHead>Produkte</SectionHead>
 
-        <div className="space-y-6">
-          {stats.filter(Boolean).map((s) => {
-            if (!s) return null;
-            return (
-              <div key={s.product.id} id={s.product.id} className="field-card bg-sage-warm p-6">
-                <div className="flex items-baseline justify-between mb-4">
-                  <div>
-                    <h2 className="text-green-dark text-2xl" style={{ fontFamily: "var(--font-bebas)" }}>
-                      {s.product.name}
-                    </h2>
-                    {s.product.brand && <p className="text-stone-dark text-sm">{s.product.brand}</p>}
-                  </div>
-                  <div className="text-right">
-                    <p className="text-stone-dark text-xs font-mono">n = {s.n}</p>
-                    {(interestCounts[s.product.id] ?? 0) > 0 && (
-                      <p className="text-bronze-dark text-xs font-mono">
-                        📬 {interestCounts[s.product.id]} Leads
-                      </p>
-                    )}
-                  </div>
+      <div className="space-y-4">
+        {stats.map((s) => {
+          const duenn = s.n > 0 && s.n < N_SCHWELLE;
+          return (
+            <Card key={s.product.id} id={s.product.id} className="p-5 scroll-mt-6">
+              <div className="flex flex-wrap items-start justify-between gap-3 mb-4">
+                <div className="min-w-0">
+                  <h3
+                    className="text-green-dark text-2xl leading-none"
+                    style={{ fontFamily: "var(--font-bebas)" }}
+                  >
+                    {s.product.name}
+                  </h3>
+                  <p className="text-stone-dark text-sm mt-1">
+                    {[s.product.brand, s.product.store, s.product.shelf_code, s.product.batch]
+                      .filter(Boolean)
+                      .join(" · ") || "kein Kontext"}
+                  </p>
                 </div>
+                <div className="flex flex-col items-end gap-1 shrink-0">
+                  <span className="text-green-dark text-lg font-mono tabular-nums leading-none">
+                    n = {s.n}
+                  </span>
+                  {(interestCounts[s.product.id] ?? 0) > 0 && (
+                    <span className="text-bronze-dark text-xs font-mono tabular-nums">
+                      {interestCounts[s.product.id]} Leads
+                    </span>
+                  )}
+                  {s.product.archived_at && (
+                    <Stamp tone="stone" className="!text-stone-dark">
+                      archiviert
+                    </Stamp>
+                  )}
+                </div>
+              </div>
 
-                {s.n === 0 ? (
-                  <p className="text-stone-dark text-sm">Noch keine Bewertungen.</p>
-                ) : (
-                  <>
-                    <div className="mb-6">
-                      <p className="text-stone-dark text-xs font-mono uppercase tracking-widest mb-2">
-                        Gesamteindruck (9-Punkt-hedonisch) — ⌀ {s.hedonicMean.toFixed(2)}, SD{" "}
-                        {s.hedonicSd.toFixed(2)}
+              {s.n === 0 ? (
+                <p className="text-stone-dark text-sm">
+                  Noch keine Bewertung.{" "}
+                  <Link
+                    href="/feedback/admin/print"
+                    className="text-bronze-dark underline hover:no-underline"
+                  >
+                    QR-Etikett ans Regal?
+                  </Link>
+                </p>
+              ) : (
+                <>
+                  {duenn && (
+                    <p className="text-amber-800 text-xs bg-amber-500/10 border border-amber-700/25 rounded-sm px-3 py-2 mb-4 leading-relaxed">
+                      Nur {s.n} Stimme{s.n === 1 ? "" : "n"} — die Zahlen unten sind eine
+                      Momentaufnahme, keine belastbare Aussage. Ab {N_SCHWELLE} Stimmen wird der
+                      Hinweis ausgeblendet.
+                    </p>
+                  )}
+
+                  <div className="mb-5">
+                    <p className="text-stone-dark text-[10px] font-mono uppercase tracking-[0.16em] mb-2">
+                      Gesamteindruck · ⌀ {s.hedonicMean.toFixed(2)} von 9 · SD{" "}
+                      {s.hedonicSd.toFixed(2)}
+                    </p>
+                    <HedonicBars distribution={s.hedonicDistribution} n={s.n} />
+                  </div>
+
+                  {s.questionStats.length > 0 && (
+                    <div className="mb-4">
+                      <p className="text-stone-dark text-[10px] font-mono uppercase tracking-[0.16em] mb-1">
+                        Fragensets
                       </p>
-                      <HedonicBars distribution={s.hedonicDistribution} />
+                      {s.questionStats.map((qs) => (
+                        <QuestionResult key={qs.question.id} qs={qs} />
+                      ))}
                     </div>
+                  )}
 
-                    {s.questionStats.map((qs) => (
-                      <QuestionResult key={qs.question.id} qs={qs} />
-                    ))}
-
-                    {s.priceStats && (
-                      <div className="mt-4 grid grid-cols-4 gap-2 text-center">
+                  {s.priceStats && (
+                    <div>
+                      <p className="text-stone-dark text-[10px] font-mono uppercase tracking-[0.16em] mb-2">
+                        Preiswahrnehmung · Mittelwerte aus {s.priceStats.n} Angabe
+                        {s.priceStats.n === 1 ? "" : "n"}
+                      </p>
+                      <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                         {[
                           { label: "zu billig", value: s.priceStats.tooCheap },
                           { label: "günstig", value: s.priceStats.cheap },
                           { label: "teuer", value: s.priceStats.expensive },
                           { label: "zu teuer", value: s.priceStats.tooExpensive },
                         ].map((f) => (
-                          <div key={f.label} className="bg-sage p-2">
-                            <p className="text-stone-dark text-[10px] font-mono uppercase">{f.label}</p>
-                            <p className="text-green-dark text-sm font-semibold">
+                          <div key={f.label} className="bg-sage rounded-sm px-3 py-2">
+                            <p className="text-stone-dark text-[10px] font-mono uppercase tracking-wider">
+                              {f.label}
+                            </p>
+                            <p className="text-green-dark text-base font-semibold tabular-nums">
                               {f.value.toFixed(2)} €
                             </p>
                           </div>
                         ))}
                       </div>
-                    )}
-                  </>
-                )}
-              </div>
-            );
-          })}
-          {products.length === 0 && (
-            <p className="text-stone text-sm">Noch keine Produkte angelegt.</p>
-          )}
-        </div>
+                    </div>
+                  )}
+                </>
+              )}
+            </Card>
+          );
+        })}
+
+        {stats.length === 0 && (
+          <EmptyState
+            titel="Noch kein Produkt angelegt."
+            text="Ohne Produkt gibt es nichts zu bewerten."
+          />
+        )}
       </div>
-    </div>
+    </PageShell>
   );
 }

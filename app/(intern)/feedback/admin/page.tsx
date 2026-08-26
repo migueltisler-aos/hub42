@@ -1,37 +1,20 @@
 import { headers } from "next/headers";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 import QRCode from "qrcode";
+import { Printer } from "lucide-react";
 import {
-  createProduct,
   getAllProductQuestionSetLinks,
+  getProductInterestCounts,
   getProducts,
   getQuestionSets,
+  getRatingCountsByProduct,
 } from "@/lib/feedback";
+import { PageShell, Stamp } from "@/app/(intern)/_components/ui/surfaces";
+import NewProductPanel from "./_components/NewProductPanel";
+import ProductList, { type ProduktZeile } from "./_components/ProductList";
+import type { SetOption } from "./_components/ProductForm";
 
 export const dynamic = "force-dynamic";
-
-async function createProductAction(formData: FormData) {
-  "use server";
-  const name = (formData.get("name") as string)?.trim();
-  if (!name) return;
-
-  const questionSetIds = formData.getAll("question_sets").map((v) => v as string);
-
-  await createProduct(
-    {
-      name,
-      brand: (formData.get("brand") as string)?.trim() || null,
-      store: (formData.get("store") as string)?.trim() || null,
-      shelf_code: (formData.get("shelf_code") as string)?.trim() || null,
-      batch: (formData.get("batch") as string)?.trim() || null,
-      price_enabled: formData.get("price_enabled") === "on",
-    },
-    questionSetIds
-  );
-
-  redirect("/feedback/admin");
-}
 
 async function getBaseUrl(): Promise<string> {
   const hdrs = await headers();
@@ -41,217 +24,101 @@ async function getBaseUrl(): Promise<string> {
 }
 
 export default async function FeedbackAdminPage() {
-  const [products, baseUrl, questionSets, links] = await Promise.all([
-    getProducts(),
+  const [products, baseUrl, questionSets, links, ratingCounts, interestCounts] = await Promise.all([
+    getProducts({ includeArchived: true }),
     getBaseUrl(),
     getQuestionSets(),
     getAllProductQuestionSetLinks(),
+    getRatingCountsByProduct(),
+    getProductInterestCounts(),
   ]);
 
-  const productsWithQr = await Promise.all(
+  const zeilen: ProduktZeile[] = await Promise.all(
     products.map(async (p) => {
       const targetUrl = `${baseUrl}/feedback/r/${p.id}`;
-      const qr = await QRCode.toDataURL(targetUrl, { margin: 1, width: 220 });
-      const setNames = links
-        .filter((l) => l.product_id === p.id)
-        .map((l) => questionSets.find((s) => s.id === l.question_set_id)?.name)
-        .filter(Boolean);
-      return { ...p, targetUrl, qr, setNames };
+      const setIds = links.filter((l) => l.product_id === p.id).map((l) => l.question_set_id);
+      return {
+        id: p.id,
+        name: p.name,
+        brand: p.brand,
+        store: p.store,
+        shelf_code: p.shelf_code,
+        batch: p.batch,
+        price_enabled: p.price_enabled,
+        setIds,
+        archiviert: p.archived_at != null,
+        qr: await QRCode.toDataURL(targetUrl, { margin: 1, width: 220 }),
+        targetUrl,
+        setNames: setIds
+          .map((id) => questionSets.find((s) => s.id === id)?.name)
+          .filter((n): n is string => Boolean(n)),
+        bewertungen: ratingCounts[p.id] ?? 0,
+        leads: interestCounts[p.id] ?? 0,
+      };
     })
   );
 
-  return (
-    <div className="min-h-screen bg-green-dark">
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 py-10">
-        <div className="flex items-center justify-between mb-8">
-          <div>
-            <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-2">
-              Hub42 Intern
-            </p>
-            <h1
-              className="text-cream text-4xl tracking-widest"
-              style={{ fontFamily: "var(--font-bebas)" }}
-            >
-              Feedback-Studio · Produkte
-            </h1>
-          </div>
-          <div className="flex gap-6">
-            <Link
-              href="/feedback/leads"
-              className="text-bronze text-xs font-mono uppercase tracking-widest hover:text-bronze-light transition-colors"
-            >
-              Leads →
-            </Link>
-            <Link
-              href="/feedback/admin/questions"
-              className="text-bronze text-xs font-mono uppercase tracking-widest hover:text-bronze-light transition-colors"
-            >
-              Fragensets →
-            </Link>
-            <Link
-              href="/feedback/admin/settings"
-              className="text-bronze text-xs font-mono uppercase tracking-widest hover:text-bronze-light transition-colors"
-            >
-              Schwellen →
-            </Link>
-            <Link
-              href="/feedback/admin/redeem"
-              className="text-bronze text-xs font-mono uppercase tracking-widest hover:text-bronze-light transition-colors"
-            >
-              Ticket einlösen →
-            </Link>
-            <Link
-              href="/feedback/admin/results"
-              className="text-bronze text-xs font-mono uppercase tracking-widest hover:text-bronze-light transition-colors"
-            >
-              Auswertung →
-            </Link>
-          </div>
-        </div>
+  const setOptions: SetOption[] = questionSets.map((s) => ({
+    id: s.id,
+    name: s.name,
+    description: s.description,
+    fragen: s.questions.length,
+  }));
 
-        <div className="bg-green-mid border border-stone-dark p-6 mb-10">
-          <h2 className="text-cream text-sm font-mono uppercase tracking-widest mb-4">
-            Neues Produkt anlegen
-          </h2>
-          <form action={createProductAction} className="grid sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-1">
-                Produktname *
-              </label>
-              <input
-                name="name"
-                required
-                className="w-full bg-green-dark border border-stone-dark text-cream px-3 py-2 text-sm focus:outline-none focus:border-bronze"
-              />
-            </div>
-            <div>
-              <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-1">
-                Marke
-              </label>
-              <input
-                name="brand"
-                className="w-full bg-green-dark border border-stone-dark text-cream px-3 py-2 text-sm focus:outline-none focus:border-bronze"
-              />
-            </div>
-            <div>
-              <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-1">
-                Store / Standort
-              </label>
-              <input
-                name="store"
-                placeholder="z.B. Hub42 Alexa"
-                className="w-full bg-green-dark border border-stone-dark text-cream px-3 py-2 text-sm focus:outline-none focus:border-bronze"
-              />
-            </div>
-            <div>
-              <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-1">
-                Regalplatz
-              </label>
-              <input
-                name="shelf_code"
-                placeholder="z.B. Regal 4B"
-                className="w-full bg-green-dark border border-stone-dark text-cream px-3 py-2 text-sm focus:outline-none focus:border-bronze"
-              />
-            </div>
-            <div>
-              <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-1">
-                Charge
-              </label>
-              <input
-                name="batch"
-                placeholder="z.B. 2026-07"
-                className="w-full bg-green-dark border border-stone-dark text-cream px-3 py-2 text-sm focus:outline-none focus:border-bronze"
-              />
-            </div>
-            <div className="flex items-end pb-2">
-              <label className="flex items-center gap-2 text-stone text-xs font-mono uppercase tracking-widest">
-                <input type="checkbox" name="price_enabled" className="accent-bronze" />
-                Preisfrage (Van Westendorp) aktivieren
-              </label>
-            </div>
-            <div className="sm:col-span-2">
-              <div className="flex items-center justify-between mb-1">
-                <label className="block text-stone text-xs font-mono uppercase tracking-widest">
-                  Fragensets für dieses Produkt
-                </label>
-                <Link
-                  href="/feedback/admin/questions"
-                  className="text-bronze text-xs font-mono hover:text-bronze-light transition-colors"
-                >
-                  Fragensets verwalten →
-                </Link>
-              </div>
-              {questionSets.length === 0 ? (
-                <p className="text-stone-dark text-sm">
-                  Noch keine Fragensets angelegt.
-                </p>
-              ) : (
-                <div className="grid sm:grid-cols-2 gap-2">
-                  {questionSets.map((set) => (
-                    <label
-                      key={set.id}
-                      className="flex items-start gap-2 bg-green-dark border border-stone-dark px-3 py-2 text-sm text-stone"
-                    >
-                      <input
-                        type="checkbox"
-                        name="question_sets"
-                        value={set.id}
-                        className="accent-bronze mt-0.5"
-                      />
-                      <span>
-                        <span className="text-cream">{set.name}</span>
-                        <span className="text-stone-dark text-xs block">
-                          {set.questions.length} Frage{set.questions.length === 1 ? "" : "n"}
-                          {set.description ? ` · ${set.description}` : ""}
-                        </span>
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              )}
-            </div>
-            <div className="sm:col-span-2">
-              <button
-                type="submit"
-                className="bg-bronze text-green-dark font-semibold px-6 py-3 text-sm hover:bg-bronze-light transition-colors"
-              >
-                Produkt anlegen →
-              </button>
-            </div>
-          </form>
-        </div>
-
-        <h2 className="text-cream text-sm font-mono uppercase tracking-widest mb-4">
-          {productsWithQr.length} Produkt{productsWithQr.length === 1 ? "" : "e"}
-        </h2>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {productsWithQr.map((p) => (
-            <div key={p.id} className="bg-sage-warm p-4 flex flex-col items-center text-center">
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src={p.qr} alt={`QR-Code für ${p.name}`} className="w-36 h-36 mb-3" />
-              <p className="text-green-dark font-semibold">{p.name}</p>
-              {p.brand && <p className="text-stone-dark text-xs">{p.brand}</p>}
-              <p className="text-stone-dark text-xs font-mono mt-1">
-                {[p.store, p.shelf_code, p.batch].filter(Boolean).join(" · ") || "kein Kontext"}
-              </p>
-              <p className="text-stone-dark text-[10px] mt-1">
-                {p.setNames.length > 0 ? p.setNames.join(", ") : "keine Fragensets"}
-              </p>
-              <div className="flex gap-3 mt-3 text-xs font-mono uppercase tracking-widest">
-                <a href={p.targetUrl} target="_blank" rel="noreferrer" className="text-green-dark underline hover:text-bronze-dark">
-                  Testen
-                </a>
-                <Link href={`/feedback/admin/products/${p.id}`} className="text-green-dark underline hover:text-bronze-dark">
-                  Fragensets
-                </Link>
-                <Link href={`/feedback/admin/results#${p.id}`} className="text-green-dark underline hover:text-bronze-dark">
-                  Auswertung
-                </Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
+  // Häufigster Store der Bestandsprodukte als Vorbelegung — im Pilotbetrieb
+  // landet fast alles am selben Standort.
+  const storeVorschlag = haeufigster(
+    products.map((p) => p.store).filter((s): s is string => Boolean(s))
   );
+
+  const aktive = zeilen.filter((z) => !z.archiviert).length;
+
+  return (
+    <PageShell
+      breit
+      eyebrow="Register 01"
+      title="Produkte & QR-Codes"
+      lead="Jedes Produkt bekommt einen QR-Code fürs Regal. Was danach gefragt wird, hängt an den zugeordneten Fragensets."
+      actions={
+        aktive > 0 && (
+          <Link
+            href="/feedback/admin/print"
+            className="inline-flex items-center gap-1.5 text-sm px-4 py-2.5 min-h-11 rounded-sm border border-bronze/40 text-bronze hover:border-bronze hover:bg-bronze/10 transition-colors"
+          >
+            <Printer size={15} /> Etikettenbogen
+          </Link>
+        )
+      }
+    >
+      {setOptions.length === 0 && (
+        <div className="mb-5">
+          <Stamp tone="warn" tilt>
+            Noch keine Fragensets
+          </Stamp>
+          <p className="text-stone text-xs mt-2">
+            Ohne Fragenset wird nur die hedonische Skala („Wie gefällt dir das Produkt insgesamt?“)
+            gefragt.{" "}
+            <Link href="/feedback/admin/questions" className="text-bronze underline">
+              Fragensets anlegen
+            </Link>
+          </p>
+        </div>
+      )}
+
+      <NewProductPanel
+        questionSets={setOptions}
+        storeVorschlag={storeVorschlag}
+        offenBeimStart={products.length === 0}
+      />
+
+      <ProductList produkte={zeilen} questionSets={setOptions} />
+    </PageShell>
+  );
+}
+
+function haeufigster(werte: string[]): string | undefined {
+  if (werte.length === 0) return undefined;
+  const counts = new Map<string, number>();
+  for (const w of werte) counts.set(w, (counts.get(w) ?? 0) + 1);
+  return [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0];
 }
