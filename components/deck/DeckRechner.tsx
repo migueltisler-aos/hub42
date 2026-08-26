@@ -1,6 +1,7 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef } from "react";
+import { track } from "@/lib/analytics-client";
 import {
   DEFAULTS,
   TRANCHE_RATES,
@@ -160,13 +161,31 @@ export default function DeckRechner() {
   const [a, setA] = useState<Assumptions>({ ...DEFAULTS });
   const [tier, setTier] = useState<TierId>("basis");
   const [showDetail, setShowDetail] = useState(false);
-  const set = <K extends keyof Assumptions>(key: K, v: number) =>
+
+  // Ob der Rechner überhaupt angefasst wurde, ist die interessante Information –
+  // nicht jede einzelne Slider-Bewegung. Deshalb genau ein Event pro Besuch.
+  const benutztGemeldet = useRef(false);
+  const meldeBenutzung = () => {
+    if (benutztGemeldet.current) return;
+    benutztGemeldet.current = true;
+    track({
+      event_type: "interaction",
+      path: window.location.pathname,
+      section: "rechner",
+    });
+  };
+
+  const set = <K extends keyof Assumptions>(key: K, v: number) => {
+    meldeBenutzung();
     setA((prev) => ({ ...prev, [key]: Number.isFinite(v) ? v : 0 }));
+  };
   const selectTier = (id: TierId) => {
+    meldeBenutzung();
     setTier(id);
     setA((prev) => ({ ...prev, ratePerCm: TRANCHE_RATES[prev.tranche][id] }));
   };
   const selectTranche = (id: Tranche) => {
+    meldeBenutzung();
     setA((prev) => ({ ...prev, tranche: id, ratePerCm: TRANCHE_RATES[id][tier] }));
   };
 

@@ -1,7 +1,19 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-const PIPELINE_GESCHUETZT = ["/pipeline", "/wareneingang", "/bestand", "/feedback/leads"];
+// Muss synchron zu config.matcher am Dateiende bleiben – der Matcher entscheidet,
+// ob proxy() überhaupt läuft, diese Liste, ob dann das Passwort geprüft wird.
+// Bewusst /feedback/admin und nicht /feedback: der In-Store-QR-Flow
+// (/feedback/scan, /feedback/r/*, /feedback/onboarding, /feedback/thanks)
+// muss öffentlich bleiben.
+const PIPELINE_GESCHUETZT = [
+  "/pipeline",
+  "/wareneingang",
+  "/bestand",
+  "/feedback/leads",
+  "/feedback/admin",
+  "/admin",
+];
 
 export function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
@@ -27,5 +39,12 @@ export function proxy(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/pipeline/:path*", "/wareneingang/:path*", "/bestand/:path*", "/feedback/leads/:path*"],
+  matcher: [
+    "/pipeline/:path*",
+    "/wareneingang/:path*",
+    "/bestand/:path*",
+    "/feedback/leads/:path*",
+    "/feedback/admin/:path*",
+    "/admin/:path*",
+  ],
 };

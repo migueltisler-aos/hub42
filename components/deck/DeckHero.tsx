@@ -5,6 +5,7 @@ export default function DeckHero() {
     <section
       className="deck-section relative min-h-screen bg-green-dark flex flex-col items-center justify-center overflow-hidden py-20"
       aria-label="Hub42 – Pre-Launch Deck"
+      data-deck-section="hero"
     >
       <div className="absolute inset-0 markthalle-pattern opacity-50 deck-screen-only" />
       <div

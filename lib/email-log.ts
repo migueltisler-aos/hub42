@@ -1,4 +1,4 @@
-import { getSupabaseClient } from "./supabase";
+import { getSupabaseAdmin } from "./supabase-admin";
 
 export interface EmailLogEntry {
   id: string;
@@ -15,7 +15,7 @@ export async function logSentEmail(input: {
   subject: string;
   body: string;
 }): Promise<void> {
-  const { error } = await getSupabaseClient().from("pipeline_email_log").insert({
+  const { error } = await getSupabaseAdmin().from("pipeline_email_log").insert({
     brand_id: input.brandId,
     sender: input.sender,
     subject: input.subject,
@@ -25,7 +25,7 @@ export async function logSentEmail(input: {
 }
 
 export async function getEmailLogForBrand(brandId: string): Promise<EmailLogEntry[]> {
-  const { data, error } = await getSupabaseClient()
+  const { data, error } = await getSupabaseAdmin()
     .from("pipeline_email_log")
     .select("*")
     .eq("brand_id", brandId)

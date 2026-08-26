@@ -1,4 +1,4 @@
-import { getSupabaseClient } from "./supabase";
+import { getSupabaseAdmin } from "./supabase-admin";
 
 export interface Sendung {
   id: string;
@@ -63,7 +63,7 @@ function generiereChargeCode(standortId: string): string {
 }
 
 export async function erfasseSendung(input: SendungInput): Promise<Sendung> {
-  const supabase = getSupabaseClient();
+  const supabase = getSupabaseAdmin();
 
   const { data: sendung, error: sendungError } = await supabase
     .from("wareneingang_sendungen")
@@ -92,7 +92,7 @@ export async function erfasseSendung(input: SendungInput): Promise<Sendung> {
 }
 
 export async function ladeSendungen(): Promise<SendungMitBrand[]> {
-  const { data, error } = await getSupabaseClient()
+  const { data, error } = await getSupabaseAdmin()
     .from("wareneingang_sendungen")
     .select("*, brand:pipeline_brands(name)")
     .order("eingegangen_am", { ascending: false })
@@ -102,7 +102,7 @@ export async function ladeSendungen(): Promise<SendungMitBrand[]> {
 }
 
 export async function ladeSendungMitChargen(id: string): Promise<SendungMitChargen | null> {
-  const { data, error } = await getSupabaseClient()
+  const { data, error } = await getSupabaseAdmin()
     .from("wareneingang_sendungen")
     .select("*, chargen:wareneingang_chargen(*)")
     .eq("id", id)
@@ -112,7 +112,7 @@ export async function ladeSendungMitChargen(id: string): Promise<SendungMitCharg
 }
 
 export async function ladeChargeMitSendung(id: string): Promise<ChargeMitSendung | null> {
-  const { data, error } = await getSupabaseClient()
+  const { data, error } = await getSupabaseAdmin()
     .from("wareneingang_chargen")
     .select("*, sendung:wareneingang_sendungen(*)")
     .eq("id", id)
@@ -122,7 +122,7 @@ export async function ladeChargeMitSendung(id: string): Promise<ChargeMitSendung
 }
 
 export async function ladeNachschubEmail(brandId: string): Promise<string | null> {
-  const { data, error } = await getSupabaseClient()
+  const { data, error } = await getSupabaseAdmin()
     .from("pipeline_angebote")
     .select("nachschub_email")
     .eq("brand_id", brandId)
@@ -135,7 +135,7 @@ export async function ladeNachschubEmail(brandId: string): Promise<string | null
 }
 
 export async function nachbestellungAusloesen(input: NachbestellungInput): Promise<void> {
-  const { error } = await getSupabaseClient().from("wareneingang_nachbestellungen").insert(input);
+  const { error } = await getSupabaseAdmin().from("wareneingang_nachbestellungen").insert(input);
   if (error) throw error;
 }
 
@@ -143,7 +143,7 @@ export async function nachbestellungAusloesen(input: NachbestellungInput): Promi
 // Ausloesung fuer diese ean/standort_id weder Ware eingegangen ist noch
 // 3 Werktage vergangen sind (siehe nachbestellung_gesperrt()-Funktion in Supabase).
 export async function pruefeNachbestellungGesperrt(ean: string, standortId: string): Promise<boolean> {
-  const { data, error } = await getSupabaseClient().rpc("nachbestellung_gesperrt", {
+  const { data, error } = await getSupabaseAdmin().rpc("nachbestellung_gesperrt", {
     p_ean: ean,
     p_standort_id: standortId,
   });

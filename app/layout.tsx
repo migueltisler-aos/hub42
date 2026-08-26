@@ -1,5 +1,7 @@
 ﻿import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Bebas_Neue, DM_Sans, DM_Mono } from "next/font/google";
+import Analytics from "@/components/Analytics";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
@@ -77,6 +79,12 @@ export default function RootLayout({
       className={`${bebasNeue.variable} ${dmSans.variable} ${dmMono.variable}`}
     >
       <body className="min-h-screen flex flex-col bg-green-dark text-cream">
+        {/* Suspense ist Pflicht, nicht Vorsicht: Analytics nutzt
+            useSearchParams(), was ohne Boundary die statisch vorgerenderten
+            Public-Seiten in dynamisches Rendering kippen würde. */}
+        <Suspense fallback={null}>
+          <Analytics />
+        </Suspense>
         {children}
       </body>
     </html>

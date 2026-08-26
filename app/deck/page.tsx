@@ -12,6 +12,7 @@ import DeckRoadmap from "@/components/deck/DeckRoadmap";
 import DeckPartner from "@/components/deck/DeckPartner";
 import DeckFAQ from "@/components/deck/DeckFAQ";
 import DeckKontakt from "@/components/deck/DeckKontakt";
+import DeckScrollTracker from "@/components/deck/DeckScrollTracker";
 
 export const metadata: Metadata = {
   title: "Pre-Launch Deck",
@@ -31,6 +32,9 @@ export default function DeckPage() {
         Hub42 UG · Eröffnung Oktober 2026 · Alexa Berlin · tryhub42.de
       </div>
 
+      {/* Misst die Lesetiefe über die data-deck-section-Blöcke. Rendert nichts. */}
+      <DeckScrollTracker />
+
       <main className="bg-green-dark text-cream">
         {/* ─── Section 1: Hero / Cover ────────────────────── */}
         <DeckHero />
@@ -39,6 +43,7 @@ export default function DeckPage() {
         <section
           className="deck-section relative overflow-hidden py-16 md:py-24 bg-green-dark border-t border-stone-dark/50"
           aria-label="Das Problem für Marken"
+          data-deck-section="problem"
         >
           <div className="absolute inset-0 markthalle-pattern opacity-20 deck-screen-only" />
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -63,6 +68,7 @@ export default function DeckPage() {
         <section
           className="deck-section relative overflow-hidden py-16 md:py-24 bg-green-mid border-t border-stone-dark/50"
           aria-label="Das Modell: Hub42 im Vergleich"
+          data-deck-section="modell"
         >
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-10">
@@ -93,6 +99,7 @@ export default function DeckPage() {
         <section
           className="deck-section relative overflow-hidden py-16 md:py-24 border-t border-stone-dark/50"
           aria-label="Rechner: Hub42 vs. eigener Online-Shop"
+          data-deck-section="rechner"
         >
           <div className="absolute inset-0 markthalle-pattern opacity-20 deck-screen-only" />
           <div className="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -123,6 +130,7 @@ export default function DeckPage() {
         <section
           className="deck-section relative overflow-hidden py-16 md:py-24 bg-green-dark markthalle-pattern border-t border-stone-dark/50"
           aria-label="Standort Alexa Berlin"
+          data-deck-section="standort"
         >
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-10">
@@ -146,6 +154,7 @@ export default function DeckPage() {
         <section
           className="deck-section relative overflow-hidden py-16 md:py-24 bg-green-mid border-t border-stone-dark/50"
           aria-label="Marken-Erlebnis: Fläche, Discovery, Tasting & Events"
+          data-deck-section="erlebnis"
         >
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-10">
@@ -174,6 +183,7 @@ export default function DeckPage() {
         <section
           className="deck-section relative overflow-hidden py-16 md:py-24 bg-green-dark border-t border-stone-dark/50"
           aria-label="Daten-Layer und Conversion-Funnel"
+          data-deck-section="funnel"
         >
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-10">
@@ -197,6 +207,7 @@ export default function DeckPage() {
         <section
           className="deck-section relative overflow-hidden py-16 md:py-24 bg-green-mid border-t border-stone-dark/50"
           aria-label="Marken an Bord"
+          data-deck-section="brands"
         >
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-10">
@@ -220,6 +231,7 @@ export default function DeckPage() {
         <section
           className="deck-section relative overflow-hidden py-16 md:py-24 bg-green-dark border-t border-stone-dark/50"
           aria-label="Roadmap"
+          data-deck-section="roadmap"
         >
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-10">
@@ -243,6 +255,7 @@ export default function DeckPage() {
         <section
           className="deck-section relative overflow-hidden py-16 md:py-24 bg-green-mid border-t border-stone-dark/50"
           aria-label="Was Partner davon haben"
+          data-deck-section="partner"
         >
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-10">
@@ -269,6 +282,7 @@ export default function DeckPage() {
         <section
           className="deck-section relative overflow-hidden py-16 md:py-24 bg-green-dark border-t border-stone-dark/50"
           aria-label="Ehrliche Antworten"
+          data-deck-section="faq"
         >
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-10">
@@ -293,6 +307,7 @@ export default function DeckPage() {
         <section
           className="deck-section relative overflow-hidden py-16 md:py-24 bg-green-dark border-t border-stone-dark/50"
           aria-label="Kontakt"
+          data-deck-section="kontakt"
         >
           <div className="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="mb-10">

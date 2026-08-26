@@ -1,10 +1,12 @@
 import { cookies } from "next/headers";
 import { notFound, redirect } from "next/navigation";
 import Link from "next/link";
-import { getBrand, upsertBrand } from "@/lib/pipeline";
+import { brandFormToInput, getBrand, upsertBrand } from "@/lib/pipeline";
 import { getAngeboteForBrand, computeAngebot, formatEUR } from "@/lib/angebote";
 import { sendMail } from "@/lib/mail";
 import { logSentEmail, getEmailLogForBrand } from "@/lib/email-log";
+import { getBrandEngagement } from "@/lib/analytics-links";
+import { dauerLabel } from "@/lib/analytics-stats";
 import BrandForm from "../_components/BrandForm";
 import MailComposer from "../_components/MailComposer";
 
@@ -13,28 +15,8 @@ export const dynamic = "force-dynamic";
 async function saveBrand(id: string, formData: FormData) {
   "use server";
   await upsertBrand(id, {
-    name: formData.get("name") as string,
-    website: (formData.get("website") as string) || null,
-    instagram: (formData.get("instagram") as string) || null,
-    email: (formData.get("email") as string) || null,
-    linkedin: (formData.get("linkedin") as string) || null,
-    ansprechpartner: (formData.get("ansprechpartner") as string) || null,
-    kategorie: (formData.get("kategorie") as string) || null,
-    produkt: (formData.get("produkt") as string) || null,
-    preisrange: (formData.get("preisrange") as string) || null,
-    standort: (formData.get("standort") as string) || null,
-    gefunden_via: (formData.get("gefunden_via") as string) || null,
-    zugewiesen: (formData.get("zugewiesen") as string) || null,
-    status: ((formData.get("status") as string) || "Neu") as import("@/lib/pipeline").BrandStatus,
-    kanal: (formData.get("kanal") as string) || null,
-    hub42_fit: (formData.get("hub42_fit") as string) || null,
-    hub42_potenzial: (formData.get("hub42_potenzial") as string) || null,
-    datum_erstkontakt: (formData.get("datum_erstkontakt") as string) || null,
+    ...brandFormToInput(formData),
     datum_letzte_aktion: new Date().toISOString().split("T")[0],
-    naechste_aktion: (formData.get("naechste_aktion") as string) || null,
-    datum_naechste_aktion: (formData.get("datum_naechste_aktion") as string) || null,
-    feedback: (formData.get("feedback") as string) || null,
-    notizen: (formData.get("notizen") as string) || null,
   });
 
   redirect("/pipeline");
@@ -79,12 +61,16 @@ async function sendColdEmailAction(id: string, formData: FormData) {
   await logSentEmail({ brandId: id, sender: currentUser, subject, body });
 
   const today = new Date().toISOString().split("T")[0];
+  // Kein Anhängen an `notizen`: der Verlauf steht vollständig in
+  // pipeline_email_log (logSentEmail oben) und wird unten unter
+  // „Gesendete Anschreiben“ gerendert. Vorher wuchs das Notizen-Feld als
+  // Logbuch mit — und weil die Fit-Bewertung damals Regex über genau dieses
+  // Feld war, konnte ein Mail-Log das Fit-Label kippen.
   await upsertBrand(id, {
     kanal: "E-Mail",
     datum_erstkontakt: brand.datum_erstkontakt ?? today,
     datum_letzte_aktion: today,
     status: brand.status === "Neu" ? "Kontaktiert" : brand.status,
-    notizen: `${brand.notizen ? brand.notizen + "\n" : ""}[${today}] E-Mail gesendet von ${currentUser}: "${subject}"`,
   });
 
   redirect(`/pipeline/${id}?mailsent=1`);
@@ -108,6 +94,7 @@ export default async function BrandDetailPage({
 
   const angebote = await getAngeboteForBrand(id);
   const emailLog = await getEmailLogForBrand(id);
+  const deckAktivitaet = await getBrandEngagement(id);
 
   const saveWithId = saveBrand.bind(null, id);
   const deactivateWithId = deactivateBrand.bind(null, id);
@@ -147,6 +134,55 @@ export default async function BrandDetailPage({
         {mailerror === "send" && (
           <div className="border border-red-500/40 bg-red-950/20 px-4 py-3 mb-6 text-red-400 text-sm font-mono">
             Versand fehlgeschlagen{reason ? `: ${reason}` : " – SMTP-Zugangsdaten prüfen."}
+          </div>
+        )}
+
+        {/* Deck-Aktivität — das Signal fürs Follow-up. Nur sichtbar, wenn die
+            Brand über einen getaggten Link tatsächlich gelesen hat; ein leerer
+            Block wäre hier nur Rauschen. */}
+        {deckAktivitaet && (
+          <div className="mb-8 border border-bronze/40 bg-bronze/5 p-4">
+            <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
+              Deck-Aktivität
+            </p>
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+              <div>
+                <p className="text-stone/50 text-[10px] font-mono uppercase tracking-[0.16em]">
+                  Zuerst geöffnet
+                </p>
+                <p className="text-cream text-sm font-mono mt-0.5">
+                  {new Date(deckAktivitaet.erste_oeffnung).toLocaleDateString("de-DE")}
+                </p>
+              </div>
+              <div>
+                <p className="text-stone/50 text-[10px] font-mono uppercase tracking-[0.16em]">
+                  Zuletzt
+                </p>
+                <p className="text-cream text-sm font-mono mt-0.5">
+                  {new Date(deckAktivitaet.letzte_oeffnung).toLocaleDateString("de-DE")}
+                </p>
+              </div>
+              <div>
+                <p className="text-stone/50 text-[10px] font-mono uppercase tracking-[0.16em]">
+                  Sessions / Lesezeit
+                </p>
+                <p className="text-cream text-sm font-mono mt-0.5">
+                  {deckAktivitaet.sessions} ·{" "}
+                  {dauerLabel(Math.round(deckAktivitaet.lesezeit_ms / 1000))}
+                </p>
+              </div>
+              <div>
+                <p className="text-stone/50 text-[10px] font-mono uppercase tracking-[0.16em]">
+                  Gelesen bis
+                </p>
+                <p className="text-cream text-sm font-mono mt-0.5">
+                  {deckAktivitaet.tiefste_sektion ?? "—"}
+                  {deckAktivitaet.tiefste_pct !== null && (
+                    <span className="text-stone/40 ml-1.5">{deckAktivitaet.tiefste_pct}%</span>
+                  )}
+                </p>
+              </div>
+            </div>
           </div>
         )}
 

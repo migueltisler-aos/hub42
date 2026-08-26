@@ -7,11 +7,18 @@
     "build": "next build",
     "typecheck": "tsc --noEmit",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "backfill:scope": "tsx --conditions=react-server scripts/backfill-scope-haltung.ts",
+    "import:leads": "tsx --conditions=react-server scripts/import-outreach-leads.ts",
+    "gmail:watch": "tsx --conditions=react-server scripts/gmail-watch.ts",
+    "scrape:swyytr": "tsx --conditions=react-server scripts/scrape-food-startup-database.ts",
+    "send-batch": "tsx --conditions=react-server scripts/send-batch.ts"
   },
   "dependencies": {
+    "@anthropic-ai/sdk": "^0.117.1",
     "@supabase/supabase-js": "^2.105.4",
     "framer-motion": "^12.38.0",
+    "googleapis": "^174.0.1",
     "lucide-react": "^1.8.0",
     "motion-dom": "^12.38.0",
     "next": "16.2.2",
@@ -19,7 +26,9 @@
     "qr-scanner": "^1.4.2",
     "qrcode": "^1.5.4",
     "react": "19.2.4",
-    "react-dom": "19.2.4"
+    "react-dom": "19.2.4",
+    "server-only": "^0.0.1",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
@@ -28,9 +37,11 @@
     "@types/qrcode": "^1.5.6",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "dotenv": "^17.4.2",
     "eslint": "^9",
     "eslint-config-next": "16.2.2",
     "tailwindcss": "^4",
+    "tsx": "^4.23.12",
     "typescript": "^5"
   },
   "packageManager": "pnpm@10.18.1+sha512.77a884a165cbba2d8d1c19e3b4880eee6d2fcabd0d879121e282196b80042351d5eb3ca0935fa599da1dc51265cc68816ad2bddd2a2de5ea9fdf92adbec7cd34"

@@ -22,7 +22,7 @@ import {
   type Position,
   type Deliverable,
   type Ebene,
-} from "@/lib/angebote";
+} from "@/lib/angebote-model";
 
 export interface BrandOption {
   id: string;

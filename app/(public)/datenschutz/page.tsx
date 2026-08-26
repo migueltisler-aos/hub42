@@ -85,12 +85,59 @@ export default function DatenschutzPage() {
             <p>
               Diese Website verwendet keine Tracking-Cookies. Es werden ausschließlich
               technisch notwendige Cookies eingesetzt, die für den Betrieb der Website
-              erforderlich sind.
+              erforderlich sind. Auch zu Analysezwecken greifen wir nicht auf Ihren
+              Endgerätespeicher zu – es werden dafür weder Cookies noch Local Storage
+              oder Session Storage verwendet.
+            </p>
+          </div>
+
+          <div>
+            <h2 className="text-cream text-lg font-semibold mb-2">8. Reichweitenmessung</h2>
+            <p>
+              Um zu verstehen, wie unsere Website genutzt wird, führen wir eine eigene,
+              datensparsame Reichweitenmessung durch. Es sind keine Dritten beteiligt:
+              die Daten verlassen unsere eigene Infrastruktur nicht, es findet kein
+              Profiling und keine geräteübergreifende Wiedererkennung statt und die Daten
+              werden nicht weitergegeben oder verkauft.
+            </p>
+            <p className="mt-3">
+              Erfasst werden pro Aufruf: die aufgerufene Seite, die verweisende Domain
+              (nur die Domain, nicht die vollständige Adresse), etwaige
+              Kampagnen-Parameter der aufgerufenen Adresse, die Verweildauer, der
+              Gerätetyp (Mobil/Tablet/Desktop) und das Land.
+            </p>
+            <p className="mt-3">
+              <strong className="text-cream">Ihre IP-Adresse wird nicht gespeichert.</strong>{" "}
+              Um Aufrufe eines Tages grob zusammenfassen zu können, bilden wir aus
+              IP-Adresse, Browserkennung und einem Geheimwert einen nicht
+              umkehrbaren Prüfwert, der täglich wechselt. Nach diesem Wechsel lassen sich
+              Aufrufe verschiedener Tage nicht mehr einander zuordnen.
+            </p>
+            <p className="mt-3">
+              Rechtsgrundlage ist Art. 6 Abs. 1 lit. f DSGVO. Unser berechtigtes Interesse
+              liegt in der bedarfsgerechten Gestaltung und der statistischen Auswertung
+              unseres Angebots. Da wir für diese Messung nicht auf Ihr Endgerät zugreifen,
+              ist keine Einwilligung nach § 25 TDDDG erforderlich.
+            </p>
+            <p className="mt-3">
+              Die erhobenen Einzeldaten werden nach{" "}
+              <strong className="text-cream">12 Monaten</strong> automatisch gelöscht. Sie
+              können der Reichweitenmessung jederzeit widersprechen – eine Nachricht an{" "}
+              <a href="mailto:info@tryhub42.de" className="text-bronze hover:underline">
+                info@tryhub42.de
+              </a>{" "}
+              genügt.
+            </p>
+            <p className="mt-3">
+              Zusätzlich enthalten Links, die wir Marken und Partnern individuell zusenden,
+              eine Kennung, über die wir erkennen, ob und wie lange die verlinkte
+              Präsentation geöffnet wurde. Diese Verarbeitung erfolgt im Rahmen der
+              Geschäftsanbahnung, ebenfalls auf Grundlage von Art. 6 Abs. 1 lit. f DSGVO.
             </p>
           </div>
 
           <p className="text-stone/60 text-xs font-mono border-t border-stone-dark/30 pt-6">
-            Stand: April 2026
+            Stand: August 2026
           </p>
         </div>
       </div>

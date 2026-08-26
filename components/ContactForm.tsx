@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { submitContact } from "@/app/actions/contact";
+import { track } from "@/lib/analytics-client";
 
 type FormState = "idle" | "sending" | "success" | "error";
 
@@ -36,6 +37,19 @@ export default function ContactForm() {
 
     const result = await submitContact(form);
     setState(result.ok ? "success" : "error");
+
+    if (result.ok) {
+      // Der Trichter-Endpunkt. Bewusst hier und nicht in der Server Action:
+      // nur der Client kennt den Session-Kontext (visitor_hash über die
+      // Request-Header, Referrer-Kette), aus dem die Auswertung ableitet,
+      // ob der Weg über /hersteller oder /deck lief.
+      // Nur der Typ wird mitgeschickt, keine Formularinhalte.
+      track({
+        event_type: "conversion",
+        path: window.location.pathname,
+        meta: { form: "kontakt", typ: form.typ },
+      });
+    }
   }
 
   function handleChange(

@@ -1,215 +1,18 @@
-import { getSupabaseClient } from "./supabase";
+// Datenzugriff auf pipeline_brands. Läuft über den Service-Role-Key und ist
+// damit serverseitig-only. Reine Logik liegt in ./pipeline-model.
+import { getSupabaseAdmin } from "./supabase-admin";
+import type { AiBrand, Brand, BrandInput, BrandStatus, FitCheckData, HaltungTag, ImportResult } from "./pipeline-model";
+import { HALTUNG_TAGS, assessFit, deriveKoFlag, normalizeBrandName, normalizeInstagram, normalizeKategorie, normalizeWebsite, suggestHaltungTags } from "./pipeline-model";
 
-export type BrandStatus =
-  | "Neu"
-  | "Kontaktiert"
-  | "Antwort"
-  | "Gespräch"
-  | "Angebot"
-  | "Onboarded"
-  | "Abgelehnt"
-  | "Später"
-  | "Inaktiv";
-
-export interface Brand {
-  id: string;
-  name: string;
-  website: string | null;
-  website_key: string | null;
-  instagram: string | null;
-  email: string | null;
-  linkedin: string | null;
-  ansprechpartner: string | null;
-  kategorie: string | null;
-  produkt: string | null;
-  preisrange: string | null;
-  standort: string | null;
-  gefunden_via: string | null;
-  zugewiesen: string | null;
-  status: BrandStatus;
-  kanal: string | null;
-  datum_erstkontakt: string | null;
-  datum_letzte_aktion: string | null;
-  naechste_aktion: string | null;
-  datum_naechste_aktion: string | null;
-  feedback: string | null;
-  hub42_fit: string | null;
-  hub42_potenzial: string | null;
-  notizen: string | null;
-  follower_ca: number | null;
-  created_at: string;
-  created_by: string | null;
-}
-
-export type BrandInput = Omit<Brand, "id" | "created_at">;
-
-export interface AiBrand {
-  name: string;
-  website?: string;
-  instagram?: string;
-  kategorie?: string;
-  produkt?: string;
-  preisrange?: string;
-  standort?: string;
-  notizen?: string;
-  follower_ca?: number;
-}
-
-export interface ImportResult {
-  imported: number;
-  duplicates: Array<{ name: string; existing_by: string | null; reason: "website" | "instagram" | "name" }>;
-  errors: string[];
-}
-
-export interface FitCheckData {
-  website?: string | null;
-  instagram?: string | null;
-  preisrange?: string | null;
-  standort?: string | null;
-  notizen?: string | null;
-  kategorie?: string | null;
-  follower_ca?: number | null;
-}
-
-export interface FitCriterion {
-  id: string;
-  label: string;
-  hint: string;
-  /** Hard gate: one failure → always "Eher nicht" */
-  gate?: boolean;
-  /** Points contributed when passed (scored criteria only) */
-  weight?: number;
-  check: (b: FitCheckData) => boolean;
-}
-
-// Hard gates based on hub42_v17.docx admission criteria
-const GATE_CRITERIA: FitCriterion[] = [
-  {
-    id: "kein_konzern",
-    label: "Kein Konzern / Corporate Brand",
-    hint: "Großkonzern braucht Hub42 nicht — und passt nicht zur Curation",
-    gate: true,
-    check: (b) => {
-      const n = (b.notizen ?? "").toLowerCase();
-      return !/\bkonzern\b|\b(ag|se)\b|unilever|p&g|nestl[eé]|henkel|beiersdorf/.test(n);
-    },
-  },
-  {
-    id: "kein_leh_konflikt",
-    label: "Keine LEH-Preisbindungskonflikte (Rewe, DM, Rossmann …)",
-    hint: "Stationärer Massenvertrieb → Marke hat keinen Bedarf an Entdeckungsplattform",
-    gate: true,
-    check: (b) => {
-      const n = (b.notizen ?? "").toLowerCase();
-      return !/\brewe\b|\bedeka\b|\bdm\b|\brossmann\b|\bmüller\b|\baldi\b|\blidl\b|\bkaufland\b|\bdouglas\b/.test(n);
-    },
-  },
-  {
-    id: "kein_online_mass",
-    label: "Kein Massenvertrieb online (Zalando, Amazon, Otto …)",
-    hint: "Schon überall gelistet — kein Bedarf an kuratierten Channel",
-    gate: true,
-    check: (b) => {
-      const n = (b.notizen ?? "").toLowerCase();
-      return !/zalando|amazon|\botto\b|about.?you/.test(n);
-    },
-  },
-];
-
-// Weighted positive criteria — max 8 points total
-const SCORED_CRITERIA: FitCriterion[] = [
-  {
-    id: "erklaerbare_story",
-    label: "Erkennbare Founder-Story",
-    hint: "Persönliche Gründergeschichte in Notizen eintragen",
-    weight: 3,
-    check: (b) => {
-      const n = (b.notizen ?? "").toLowerCase();
-      return /founder|gründer|gründerin|owner|inhaberin|inhaber|founder-geführt|founder-led/.test(n);
-    },
-  },
-  {
-    id: "fairer_preis",
-    label: "Fairer Preis (10–60 €)",
-    hint: "Preisrange setzen — Zahlen bis max. 60",
-    weight: 2,
-    check: (b) => {
-      if (!b.preisrange?.trim()) return false;
-      const nums = (b.preisrange.match(/\d+/g) ?? []).map(Number);
-      return nums.length > 0 && Math.max(...nums) <= 60;
-    },
-  },
-  {
-    id: "eigener_kanal",
-    label: "Eigene Discovery-Kanäle (Shop + Instagram)",
-    hint: "Beide Felder müssen gesetzt sein",
-    weight: 2,
-    check: (b) => !!b.website?.trim() && !!b.instagram?.trim(),
-  },
-  {
-    id: "entdeckbar",
-    label: "DACH-Emerging Brand",
-    hint: "Standort (DACH) setzen; unter 500.000 Follower",
-    weight: 1,
-    check: (b) => {
-      const s = (b.standort ?? "").toLowerCase();
-      const n = (b.notizen ?? "").toLowerCase();
-      const isDach = /deutschland|berlin|hamburg|münchen|köln|frankfurt|düsseldorf|austria|österreich|schweiz|germany/.test(s);
-      // follower_ca wenn vorhanden, sonst Regex-Fallback auf notizen
-      const isMassFollower = b.follower_ca != null
-        ? b.follower_ca > 500_000
-        : /million\s*follower|mio\.\s*follower|\d+\s*mio\.?\s*(instagram|follower)|bundesweit bekannt/.test(n);
-      return isDach && !isMassFollower;
-    },
-  },
-];
-
-export const FIT_CRITERIA: FitCriterion[] = [
-  ...GATE_CRITERIA,
-  ...SCORED_CRITERIA,
-];
-
-export function assessFit(brand: FitCheckData): "Top" | "Gut" | "Eher nicht" {
-  if (GATE_CRITERIA.some((c) => !c.check(brand))) return "Eher nicht";
-  const score = SCORED_CRITERIA.filter((c) => c.check(brand))
-    .reduce((sum, c) => sum + (c.weight ?? 1), 0);
-  if (score >= 6) return "Top";
-  if (score >= 3) return "Gut";
-  return "Eher nicht";
-}
-
-export function normalizeWebsite(url: string): string {
-  return url
-    .toLowerCase()
-    .trim()
-    .replace(/^https?:\/\/(www\.)?/, "")
-    .replace(/\/$/, "");
-}
-
-export function normalizeInstagram(handle: string): string {
-  return handle
-    .toLowerCase()
-    .trim()
-    .replace(/^@/, "")
-    .replace(/^https?:\/\/(www\.)?instagram\.com\//, "")
-    .replace(/\/$/, "")
-    .split("?")[0]; // strip query params
-}
-
-export function normalizeBrandName(name: string): string {
-  return name
-    .toLowerCase()
-    .trim()
-    .replace(/\s+(gmbh|ug|ag|gbr|e\.k\.|& co\. kg|kg|ohg|e\.v\.)\.?$/i, "")
-    .replace(/\s+/g, " ")
-    .trim();
-}
+// Re-Export, damit bestehende Server-Importe aus "@/lib/pipeline" unverändert
+// weiterfunktionieren.
+export * from "./pipeline-model";
 
 export async function getBrands(filter?: {
   zugewiesen?: string;
   status?: BrandStatus;
 }): Promise<Brand[]> {
-  let query = getSupabaseClient()
+  let query = getSupabaseAdmin()
     .from("pipeline_brands")
     .select("*")
     .order("created_at", { ascending: false });
@@ -227,7 +30,7 @@ export async function getBrands(filter?: {
 }
 
 export async function getBrand(id: string): Promise<Brand | null> {
-  const { data, error } = await getSupabaseClient()
+  const { data, error } = await getSupabaseAdmin()
     .from("pipeline_brands")
     .select("*")
     .eq("id", id)
@@ -240,13 +43,34 @@ export async function upsertBrand(
   id: string | null,
   input: Partial<BrandInput>
 ): Promise<Brand> {
+  const sb = getSupabaseAdmin();
+
+  // Fit wird bei JEDEM Write serverseitig aus der zusammengeführten Zeile neu
+  // gerechnet. Vorher kam das Label aus einem versteckten Formularfeld und
+  // Schreibpfade ohne Formular (z. B. Mail-Versand) ließen es unangetastet —
+  // 43 von 202 gespeicherten Labels passten deshalb nicht mehr zu ihren
+  // eigenen Daten.
+  const bestand = id ? await getBrand(id) : null;
+  const merged = { ...(bestand ?? {}), ...input } as FitCheckData;
+  const fit = assessFit(merged);
+  const koFlag = deriveKoFlag(fit);
+
+  // website_key nur anfassen, wenn der Patch überhaupt eine Website enthält.
+  // Vorher wurde er bei jedem Teil-Update auf null gesetzt (z. B. beim
+  // Mail-Versand) — der Dedup-Key verschwand und die Marke ließ sich erneut
+  // importieren; 6 Zeilen im Bestand hat das bereits getroffen.
   const payload = {
     ...input,
-    website_key: input.website ? normalizeWebsite(input.website) : null,
+    ...("website" in input
+      ? { website_key: input.website ? normalizeWebsite(input.website) : null }
+      : {}),
+    hub42_fit: fit.label,
+    fit_grund: fit.grund,
+    ko_flag: koFlag,
   };
 
   if (id) {
-    const { data, error } = await getSupabaseClient()
+    const { data, error } = await sb
       .from("pipeline_brands")
       .update(payload)
       .eq("id", id)
@@ -255,7 +79,7 @@ export async function upsertBrand(
     if (error) throw error;
     return data as Brand;
   } else {
-    const { data, error } = await getSupabaseClient()
+    const { data, error } = await sb
       .from("pipeline_brands")
       .insert(payload)
       .select()
@@ -269,7 +93,7 @@ export async function updateStatus(
   id: string,
   status: BrandStatus
 ): Promise<void> {
-  const { error } = await getSupabaseClient()
+  const { error } = await getSupabaseAdmin()
     .from("pipeline_brands")
     .update({ status, datum_letzte_aktion: new Date().toISOString().split("T")[0] })
     .eq("id", id);
@@ -282,7 +106,7 @@ export async function importBrands(
   created_by: string
 ): Promise<ImportResult> {
   const result: ImportResult = { imported: 0, duplicates: [], errors: [] };
-  const sb = getSupabaseClient();
+  const sb = getSupabaseAdmin();
 
   // Einmalig alle bestehenden Keys laden (1 Query für den ganzen Batch)
   const { data: existing } = await sb
@@ -337,24 +161,56 @@ export async function importBrands(
       continue;
     }
 
-    const hub42_fit = assessFit(b);
+    // Haltungs-Tags: nur übernehmen, was in der geschlossenen Liste steht;
+    // fehlen sie ganz, aus den Notizen vorschlagen (markiert nichts als
+    // geprüft — groesse_quelle bleibt 'auto').
+    const gelieferteTags = (b.haltung_tags ?? []).filter(
+      (t): t is HaltungTag => (HALTUNG_TAGS as readonly string[]).includes(t)
+    );
+    const haltung_tags = gelieferteTags.length > 0
+      ? gelieferteTags
+      : suggestHaltungTags(b.notizen);
 
-    const { error } = await sb.from("pipeline_brands").insert({
+    const groesse = typeof b.groesse === "number" && b.groesse >= 1 && b.groesse <= 5
+      ? b.groesse
+      : null;
+
+    const row = {
       name: b.name,
       website: b.website?.trim() || null,
       website_key,
       instagram: b.instagram?.trim() || null,
       kategorie: b.kategorie ?? null,
+      kategorie_kanonisch:
+        normalizeKategorie(b.kategorie_kanonisch) ?? normalizeKategorie(b.kategorie),
       produkt: b.produkt ?? null,
       preisrange: b.preisrange ?? null,
       standort: b.standort ?? null,
       notizen: b.notizen ?? null,
       follower_ca: b.follower_ca ?? null,
+      groesse,
+      groesse_quelle: groesse != null ? ("auto" as const) : null,
+      haendler_ca: b.haendler_ca ?? null,
+      retail_listung: b.retail_listung ?? null,
+      eigene_filialen: b.eigene_filialen ?? null,
+      funding: b.funding ?? null,
+      haltung_satz: b.haltung_satz?.trim() || null,
+      haltung_tags: haltung_tags.length > 0 ? haltung_tags : null,
+      haltung_quelle: b.haltung_quelle?.trim() || null,
+      haltung_stand: null,
       gefunden_via,
-      hub42_fit,
       status: "Neu",
       created_by,
       zugewiesen: created_by,
+    };
+
+    const fit = assessFit(row);
+
+    const { error } = await sb.from("pipeline_brands").insert({
+      ...row,
+      hub42_fit: fit.label,
+      fit_grund: fit.grund,
+      ko_flag: deriveKoFlag(fit),
     });
 
     if (error) {

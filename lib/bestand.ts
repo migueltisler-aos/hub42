@@ -1,4 +1,4 @@
-import { getSupabaseClient } from "./supabase";
+import { getSupabaseAdmin } from "./supabase-admin";
 
 export interface BestandReichweite {
   ean: string;
@@ -24,7 +24,7 @@ export interface AbgangInput {
 }
 
 export async function ladeBestandReichweite(standortId: string): Promise<BestandReichweite[]> {
-  const { data, error } = await getSupabaseClient()
+  const { data, error } = await getSupabaseAdmin()
     .from("bestand_reichweite")
     .select("*")
     .eq("standort_id", standortId)
@@ -35,7 +35,7 @@ export async function ladeBestandReichweite(standortId: string): Promise<Bestand
 }
 
 export async function abgangBuchen(input: AbgangInput): Promise<void> {
-  const { error } = await getSupabaseClient().from("bestand_bewegungen").insert({
+  const { error } = await getSupabaseAdmin().from("bestand_bewegungen").insert({
     ean: input.ean,
     standort_id: input.standort_id,
     menge_delta: -Math.abs(input.menge),

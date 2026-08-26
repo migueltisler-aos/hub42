@@ -2,7 +2,7 @@
 
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import type { Brand } from "@/lib/pipeline";
+import type { Brand } from "@/lib/pipeline-model";
 
 interface Props {
   brands: Brand[];

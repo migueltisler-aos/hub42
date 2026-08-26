@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 
 const LINKS = [
   { href: "/pipeline", label: "Pipeline" },
+  { href: "/pipeline/analytics", label: "Analytics" },
   { href: "/wareneingang", label: "Wareneingang" },
   { href: "/bestand", label: "Bestand" },
   { href: "/feedback/admin", label: "Feedback-Studio" },
@@ -13,11 +14,18 @@ const LINKS = [
 export default function InternNav() {
   const pathname = usePathname();
 
+  const aktiverHref = LINKS.filter(
+    (l) => pathname === l.href || pathname.startsWith(`${l.href}/`)
+  ).sort((a, b) => b.href.length - a.href.length)[0]?.href;
+
   return (
     <nav className="border-b border-stone-dark bg-green-mid/40">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 flex items-center gap-1 overflow-x-auto">
         {LINKS.map((l) => {
-          const aktiv = pathname === l.href || pathname.startsWith(`${l.href}/`);
+          // Genau ein aktiver Tab: der längste passende Treffer gewinnt.
+          // Sonst wäre auf /pipeline/analytics auch "Pipeline" markiert, weil
+          // dessen Pfad ein Präfix davon ist.
+          const aktiv = l.href === aktiverHref;
           return (
             <Link
               key={l.href}

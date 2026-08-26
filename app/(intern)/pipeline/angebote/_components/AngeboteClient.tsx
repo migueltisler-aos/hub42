@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useTransition, useEffect } from "react";
+import { useState, useTransition, useOptimistic } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { getSupabaseClient } from "@/lib/supabase";
+import { useAutoRefresh } from "@/app/(intern)/_components/useAutoRefresh";
 import {
   computeAngebot,
   formatEUR,
   ANGEBOT_STATUSES,
   type Angebot,
   type AngebotStatus,
-} from "@/lib/angebote";
+} from "@/lib/angebote-model";
 
 const STATUS_COLOR: Record<AngebotStatus, string> = {
   Entwurf: "text-stone/60",
@@ -40,37 +40,20 @@ interface Props {
 }
 
 export default function AngeboteClient({ initialAngebote, updateStatusAction }: Props) {
-  const [angebote, setAngebote] = useState<Angebot[]>(initialAngebote);
+  // useOptimistic statt useState + Prop-Sync – siehe PipelineClient.
+  const [angebote, setStatusOptimistisch] = useOptimistic(
+    initialAngebote,
+    (aktuell: Angebot[], aenderung: { id: string; status: AngebotStatus }) =>
+      aktuell.map((a) => (a.id === aenderung.id ? { ...a, status: aenderung.status } : a))
+  );
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("");
   const [, startTransition] = useTransition();
   const router = useRouter();
 
-  // Supabase Realtime – live updates ohne Refresh
-  useEffect(() => {
-    const channel = getSupabaseClient()
-      .channel("pipeline_angebote")
-      .on(
-        "postgres_changes",
-        { event: "*", schema: "public", table: "pipeline_angebote" },
-        (payload) => {
-          if (payload.eventType === "INSERT") {
-            setAngebote((prev) => [payload.new as Angebot, ...prev]);
-          } else if (payload.eventType === "UPDATE") {
-            setAngebote((prev) =>
-              prev.map((a) => (a.id === payload.new.id ? (payload.new as Angebot) : a))
-            );
-          } else if (payload.eventType === "DELETE") {
-            setAngebote((prev) => prev.filter((a) => a.id !== payload.old.id));
-          }
-        }
-      )
-      .subscribe();
-
-    return () => {
-      getSupabaseClient().removeChannel(channel);
-    };
-  }, []);
+  // Live-Updates: periodisch die Server-Component-Daten neu holen.
+  // Ersetzt den früheren Supabase-Realtime-Channel — siehe useAutoRefresh.
+  useAutoRefresh();
 
   const filtered = angebote.filter((a) => {
     if (statusFilter && a.status !== statusFilter) return false;
@@ -86,8 +69,8 @@ export default function AngeboteClient({ initialAngebote, updateStatusAction }: 
   });
 
   function handleStatusChange(id: string, status: AngebotStatus) {
-    setAngebote((prev) => prev.map((a) => (a.id === id ? { ...a, status } : a)));
     startTransition(async () => {
+      setStatusOptimistisch({ id, status });
       await updateStatusAction(id, status);
       router.refresh();
     });
