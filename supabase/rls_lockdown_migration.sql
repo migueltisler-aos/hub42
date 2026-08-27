@@ -87,3 +87,25 @@ drop policy if exists anon_full_access on bestand_bewegungen;
 --   left join pg_policy p on p.polrelid = c.oid
 --   where n.nspname = 'public' and c.relkind = 'r'
 --   order by c.relname;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- NACHTRAG: SECURITY-DEFINER-Views, die den Lockdown unterlaufen hätten
+-- ─────────────────────────────────────────────────────────────────────────────
+-- Vom Supabase-Security-Advisor nach dem Lockdown gefunden: bestand_aktuell und
+-- bestand_reichweite liefen als owner=postgres OHNE security_invoker, also mit
+-- den Rechten des Erstellers. Damit hätte anon den kompletten Bestand über
+-- /rest/v1/bestand_aktuell lesen können, obwohl bestand_bewegungen gesperrt ist.
+--
+-- Beim ersten Test fiel das NICHT auf, weil die Tabelle 0 Zeilen hat und das
+-- leere Ergebnis wie ein wirksamer Schutz aussah. Erst mit einer Testzeile war
+-- es entscheidbar: Service-Key sah sie durch die View, anon nach dem Fix nicht.
+-- Ohne den Fix wäre die Lücke erst mit der Store-Eröffnung aufgetreten.
+alter view bestand_aktuell    set (security_invoker = true);
+alter view bestand_reichweite set (security_invoker = true);
+
+-- Aufräumen: rls_auto_enable() ist eine Event-Trigger-Funktion und läuft als
+-- Trigger-Owner, nicht über EXECUTE-Grants. Der Grant an anon hat keinen Zweck,
+-- erzeugt aber dauerhaft zwei WARN-Zeilen im Security-Advisor.
+revoke execute on function public.rls_auto_enable() from public;
+revoke execute on function public.rls_auto_enable() from anon;
+revoke execute on function public.rls_auto_enable() from authenticated;
