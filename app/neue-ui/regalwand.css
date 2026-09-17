@@ -1,0 +1,684 @@
+/* ══════════════════════════════════════════════════════════════
+   Hub42 — Regalwand (/neue-ui)
+
+   Portiert aus dem Design-Mockup vom 11.09.2026. Materialien aus den
+   Konzeptbildern, nicht aus dem Farbfächer: Sichtbeton, dunkelgrüner
+   Schwerlastregal-Stahl, helles Sperrholz, Auer-Eurokisten, warmes
+   Glühlicht. Das CI-Grün ist hier kein Hintergrund, sondern der Stahl
+   — so wie im Laden.
+
+   Bewusst einthemig: die Produktfotos sind auf hellem Grund
+   fotografiert und liegen per multiply auf dem Regalboden. Auf dunklem
+   Grund bricht das Verfahren.
+
+   Alles hängt unter .rw. Die Klassennamen sind kurz und generisch
+   (.card, .row, .tile, .btn) — ohne diese Kapselung würden sie nach
+   einer Client-Navigation auf den übrigen Seiten mitwirken, denn
+   Route-CSS bleibt im Dokument.
+   ══════════════════════════════════════════════════════════════ */
+
+.rw {
+  /* Beton */
+  --concrete:      #D5CFC3;
+  --concrete-lite: #E4DFD5;
+  --concrete-deep: #C7C0B2;
+  --paper:         #F6F3EB;
+
+  /* Schrift */
+  --ink:       #1E241D;
+  --ink-mid:   #4A5449;
+  --ink-mute:  #6F695C;
+
+  /* Schwerlastregal — CI-Grün als Stahl */
+  --steel:      #26392E;
+  --steel-lite: #35503F;
+  --steel-dark: #16241B;
+
+  /* Sperrholz */
+  --ply:        #EDDCC0;   /* Auflagefläche, hell */
+  --ply-mid:    #DCC19A;
+  --ply-edge:   #BE9C6D;
+  --traverse:   #E6D3AF;   /* Werbebalken */
+
+  /* Auer-Eurokisten */
+  --crate:      #A7ACA5;
+  --crate-dark: #7E837C;
+
+  /* Warmes Licht — CI-Bronze */
+  --bulb:      #C8964A;
+  --bulb-lite: #E8C88A;
+  --bulb-ink:  #82571A;   /* dunkel genug für Text auf Beton */
+
+  --night: #1B231D;
+
+  --hair:      rgba(30, 36, 29, 0.15);
+  --hair-firm: rgba(30, 36, 29, 0.28);
+
+  /* Schibsted Grotesk kommt aus dem Route-Layout, der Rest liegt schon
+     global als next/font-Variable an <html>. */
+  --f-display: var(--font-schibsted), "Helvetica Neue", Arial, sans-serif;
+  --f-body:    var(--font-dm-sans), "Helvetica Neue", Arial, sans-serif;
+  --f-mono:    var(--font-dm-mono), ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --f-sign:    var(--font-bebas), "Arial Narrow", Impact, sans-serif;
+
+  --measure: 1180px;
+
+  /* Maßstab: Pixel pro Zentimeter.
+     Ebene = 42 cm, davon 15 cm Traverse — wie im Regalkonzept. */
+  --pxcm: 6.6px;
+  --rowh: calc(42 * var(--pxcm));
+  --trav: calc(15 * var(--pxcm));
+  --plank-h: 7px;
+
+  box-sizing: border-box;
+  /* Der Root-Layout-Body ist eine Flex-Spalte in Flaschengrün – ohne diese
+     Zeile bliebe unter der Seite ein grüner Streifen stehen. */
+  min-height: 100dvh;
+  background: var(--concrete);
+  color: var(--ink);
+  font-family: var(--f-body);
+  font-size: 16px;
+  line-height: 1.6;
+
+  * { box-sizing: border-box; }
+
+  h1, h2, h3 {
+    font-family: var(--f-display);
+    font-weight: 500;
+    letter-spacing: -0.028em;
+    line-height: 1.04;
+    text-wrap: balance;
+    margin: 0;
+  }
+  h1 { font-size: clamp(2.3rem, 5.6vw, 4.6rem); }
+  h2 { font-size: clamp(1.9rem, 4.2vw, 3.4rem); }
+  h3 { font-size: clamp(1.1rem, 1.6vw, 1.45rem); letter-spacing: -0.018em; }
+  p  { margin: 0; }
+  a  { color: inherit; }
+
+  :focus-visible { outline: 2px solid var(--bulb-ink); outline-offset: 3px; border-radius: 2px; }
+
+  /* ── Bausteine ─────────────────────────────────────────────── */
+
+  .wrap { max-width: var(--measure); margin: 0 auto; padding: 0 28px; }
+
+  .eyebrow {
+    font-family: var(--f-mono);
+    font-size: 0.688rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--bulb-ink);
+    margin: 0 0 18px;
+  }
+
+  .lede {
+    font-size: clamp(1.05rem, 1.4vw, 1.28rem);
+    line-height: 1.55;
+    color: var(--ink-mid);
+    max-width: 42ch;
+    font-weight: 300;
+  }
+
+  .sect        { padding: clamp(68px, 8vw, 120px) 0; }
+  .sect--tight { padding: clamp(52px, 6vw, 80px) 0; }
+  .sect--rule  { border-top: 1px solid var(--hair); }
+  .sect--deep  { background: var(--concrete-deep); }
+
+  .fineprint {
+    font-family: var(--f-mono);
+    font-size: 0.719rem;
+    line-height: 1.85;
+    color: var(--ink-mute);
+    margin-top: 22px;
+    max-width: 80ch;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 13px 22px;
+    border-radius: 2px;
+    font-family: var(--f-body);
+    font-size: 0.875rem;
+    font-weight: 500;
+    text-decoration: none;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: background-color .18s ease, border-color .18s ease, color .18s ease;
+  }
+  .btn--solid { background: var(--steel); color: #EFEFE8; }
+  .btn--solid:hover { background: var(--steel-dark); }
+  .btn--quiet { background: transparent; color: var(--ink); border-color: var(--hair-firm); }
+  .btn--quiet:hover { border-color: var(--ink); }
+  .btn--lit   { background: var(--bulb); color: var(--night); }
+  .btn--lit:hover { background: var(--bulb-lite); }
+  .btn--dark  { background: transparent; color: var(--bulb-lite); border-color: rgba(232,200,138,.42); }
+  .btn--dark:hover { border-color: var(--bulb-lite); }
+
+  /* ── Kopfzeile ─────────────────────────────────────────────── */
+
+  .top {
+    position: sticky; top: 0; z-index: 60;
+    background: color-mix(in oklab, var(--concrete) 88%, transparent);
+    backdrop-filter: saturate(150%) blur(14px);
+    border-bottom: 1px solid var(--hair);
+  }
+  .top__in {
+    max-width: var(--measure); margin: 0 auto; padding: 0 28px;
+    height: 58px; display: flex; align-items: center; gap: 30px;
+  }
+  .mark {
+    font-family: var(--f-sign); font-size: 1.6rem; letter-spacing: 0.07em;
+    color: var(--steel); text-decoration: none; line-height: 1; padding-top: 3px;
+  }
+  .top__nav { display: flex; gap: 26px; margin-left: auto; font-size: 0.875rem; color: var(--ink-mid); }
+  .top__nav a { text-decoration: none; }
+  .top__nav a:hover { color: var(--ink); }
+  .top .btn { padding: 8px 17px; font-size: 0.813rem; }
+
+  /* ── Produktkörper ─────────────────────────────────────────── */
+  /* multiply löscht den hellen Studiogrund gegen Sperrholz und Beton.
+     Die Hebung beim Hover sitzt auf dem Bild selbst: eine transform auf
+     einem Elternelement würde einen Stacking Context aufziehen und
+     multiply aushebeln — der Studiogrund blitzte als Kasten auf. */
+  .good__img {
+    display: block; width: 100%; height: 100%;
+    object-fit: contain; object-position: bottom center;
+    mix-blend-mode: multiply;
+    transform-origin: bottom center;
+    transform: translateY(calc(var(--dy, 0%) + var(--lift, 0px))) scale(var(--zoom, 1));
+    transition: transform .22s cubic-bezier(.2,.7,.3,1);
+    -webkit-mask-image: radial-gradient(ellipse 86% 92% at 50% 52%, #000 66%, transparent 100%);
+            mask-image: radial-gradient(ellipse 86% 92% at 50% 52%, #000 66%, transparent 100%);
+  }
+  .good__img--crop { object-fit: cover; object-position: 20% bottom; }
+
+  /* ── Held: der Laden selbst ────────────────────────────────── */
+
+  .hero { position: relative; background: var(--night); }
+  .hero__img {
+    display: block; width: 100%;
+    height: clamp(360px, 62vh, 620px);
+    object-fit: cover; object-position: center 46%;
+  }
+  .hero__scrim {
+    position: absolute; inset: 0;
+    background: linear-gradient(180deg,
+      rgba(27,35,29,.40) 0%, rgba(27,35,29,0) 26%,
+      rgba(27,35,29,.30) 58%, rgba(27,35,29,.90) 100%);
+    pointer-events: none;
+  }
+  .hero__say {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    padding: 0 0 clamp(26px, 4vw, 46px);
+  }
+  .hero__say .wrap { display: grid; gap: 18px; }
+  .hero h1 { color: #F7F5EE; max-width: 17ch; }
+  .hero__sub { color: rgba(247,245,238,.76); max-width: 46ch; font-weight: 300; font-size: clamp(1rem,1.3vw,1.15rem); }
+  .hero__badge {
+    font-family: var(--f-mono); font-size: 0.656rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--bulb-lite);
+  }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 4px; }
+
+  .factbar {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1px; background: var(--hair);
+    border-bottom: 1px solid var(--hair);
+  }
+  .fact { background: var(--concrete); padding: 20px 22px 22px; }
+  .fact__v {
+    font-family: var(--f-display); font-size: clamp(1.4rem, 2.1vw, 1.95rem);
+    font-weight: 500; letter-spacing: -0.025em; font-variant-numeric: tabular-nums; line-height: 1;
+  }
+  .fact__k {
+    font-family: var(--f-mono); font-size: 0.688rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-mute); margin-top: 9px;
+  }
+
+  /* ── Maßband ───────────────────────────────────────────────── */
+
+  .lineup { overflow-x: auto; overflow-y: hidden; padding-bottom: 4px; margin-top: clamp(36px, 4.4vw, 58px); }
+  .lineup__track { position: relative; width: calc(var(--total) * var(--pxcm)); margin: 0 auto; }
+  .lineup__row { display: flex; align-items: flex-end; gap: calc(6 * var(--pxcm)); }
+  .lineup__good {
+    position: relative; flex: 0 0 auto;
+    width: calc(var(--cm) * var(--pxcm));
+    height: calc(var(--h) * var(--pxcm));
+  }
+  .lineup__good::after {
+    content: ""; position: absolute; left: 12%; right: 12%; bottom: -4px;
+    height: 9px; border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(30,36,29,.28) 0%, transparent 72%);
+  }
+
+  .brackets { position: relative; height: 30px; margin-top: 5px; }
+  .bracket {
+    position: absolute; top: 4px; height: 7px;
+    border: 1px solid color-mix(in oklab, var(--bulb-ink) 48%, transparent);
+    border-bottom: 0;
+  }
+  .bracket__n {
+    position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+    font-family: var(--f-mono); font-size: 0.625rem; letter-spacing: 0.05em;
+    color: var(--bulb-ink); font-variant-numeric: tabular-nums; white-space: nowrap;
+  }
+
+  .rule {
+    position: relative; height: 34px;
+    border-top: 1px solid var(--hair-firm);
+    background-image: repeating-linear-gradient(90deg, var(--hair-firm) 0 1px, transparent 1px var(--pxcm));
+    background-size: 100% 6px; background-repeat: no-repeat;
+  }
+  .rule::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 12px;
+    background-image: repeating-linear-gradient(90deg, var(--ink-mute) 0 1px, transparent 1px calc(var(--pxcm) * 10));
+  }
+  .rule__n {
+    position: absolute; top: 15px; transform: translateX(-50%);
+    font-family: var(--f-mono); font-size: 0.625rem; color: var(--ink-mute);
+    font-variant-numeric: tabular-nums;
+  }
+  .lineup__sum {
+    margin-top: 4px; text-align: right;
+    font-family: var(--f-mono); font-size: 0.688rem; letter-spacing: 0.07em;
+    color: var(--ink); font-variant-numeric: tabular-nums;
+  }
+
+  /* ══ Das Schwerlastregal ════════════════════════════════════ */
+
+  .wall {
+    display: grid; grid-template-columns: minmax(0, 1fr);
+    gap: clamp(32px, 3.6vw, 48px); align-items: start;
+    margin-top: clamp(38px, 4.4vw, 58px);
+  }
+  .rig { display: flex; gap: 14px; min-width: 0; }
+
+  /* Zonenschiene */
+  .zones { flex: 0 0 auto; display: grid; }
+  .zone {
+    height: var(--rowh);
+    display: flex; flex-direction: column; justify-content: center;
+    padding: 0 13px 0 0; text-align: right;
+    border-right: 1px solid var(--hair-firm);
+  }
+  .zone__n { font-family: var(--f-sign); font-size: 1.05rem; letter-spacing: 0.055em; line-height: 1; color: var(--steel); }
+  .zone__h, .zone__r {
+    font-family: var(--f-mono); font-size: 0.656rem; letter-spacing: 0.07em;
+    color: var(--ink-mute); font-variant-numeric: tabular-nums; margin-top: 4px;
+  }
+  .zone__r { color: var(--bulb-ink); }
+  .zone--pick .zone__n { color: var(--bulb-ink); }
+
+  .rackwrap { flex: 1 1 auto; min-width: 0; overflow-x: auto; padding-bottom: 4px; }
+
+  /* Rahmen: zwei gelochte Stahlständer, dazwischen die Ebenen */
+  .rack {
+    width: calc(84 * var(--pxcm) + 28px);
+    display: grid;
+    grid-template-columns: 14px minmax(0, 1fr) 14px;
+    background: linear-gradient(180deg, #CFC8BA 0%, #DAD4C7 40%, #E0DACD 100%);
+    box-shadow: inset 0 10px 18px -12px rgba(30,36,29,.5);
+  }
+  .rack__post {
+    position: relative;
+    background: linear-gradient(90deg, var(--steel-dark) 0 3px, var(--steel) 3px 10px, var(--steel-dark) 10px 14px);
+  }
+  .rack__post::before {
+    content: ""; position: absolute; left: 5px; top: 10px; bottom: 10px; width: 4px;
+    background-image: repeating-linear-gradient(180deg, #0F1A13 0 5px, transparent 5px 15px);
+    border-radius: 1px;
+  }
+  .rack__col { min-width: 0; display: flex; flex-direction: column; }
+
+  /* Kopfbanner „Hub42 Werbung“ wie im Regalkonzept */
+  .rack__banner {
+    height: 30px; background: var(--paper);
+    border: 1px solid rgba(30,36,29,.16);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--f-sign); font-size: 1rem; letter-spacing: 0.14em; color: var(--ink);
+  }
+
+  /* Auer-Eurokisten als Nachschubplätze */
+  .crates { display: flex; gap: 5px; height: 36px; padding: 4px 0; }
+  .crate {
+    flex: 1 1 auto; position: relative; border-radius: 2px;
+    background: linear-gradient(180deg, var(--crate) 0%, #949991 100%);
+    border: 1px solid var(--crate-dark);
+  }
+  .crate::after {
+    content: ""; position: absolute; left: 32%; right: 32%; top: 9px; height: 6px;
+    border-radius: 2px; background: #6B706A;
+  }
+
+  .board { height: var(--rowh); display: flex; flex-direction: column; }
+  .board__goods { position: relative; flex: 1 1 auto; display: flex; align-items: flex-end; min-height: 0; }
+
+  /* Auflagefläche in Aufsicht — je tiefer die Ebene, desto mehr sieht man */
+  .deck {
+    position: absolute; left: 0; right: 0; bottom: 0;
+    height: var(--deck, 0px);
+    clip-path: polygon(0 100%, 100% 100%, 97.5% 0, 2.5% 0);
+    background: linear-gradient(180deg, var(--ply-mid) 0%, #E4D2B2 45%, var(--ply) 100%);
+    pointer-events: none;
+  }
+  /* Kein z-index auf .front — das zöge einen Stacking Context auf und
+     hebelte multiply aus. Die Fronts stehen nach dem Deck im DOM. */
+
+  .plank {
+    flex: 0 0 auto; height: var(--plank-h);
+    background: linear-gradient(180deg, var(--ply) 0 2px, var(--ply-mid) 2px 5px, var(--ply-edge) 5px 7px);
+  }
+
+  /* Traverse: 15 cm hoher Werbebalken, die „Traverse-Karte“ */
+  .traverse {
+    flex: 0 0 auto; height: var(--trav);
+    display: flex;
+    background: linear-gradient(180deg, #EFDEBE 0%, var(--traverse) 34%, #D9C29A 100%);
+    border-top: 1px solid rgba(30,36,29,.18);
+    border-bottom: 2px solid var(--ply-edge);
+    box-shadow: 0 6px 12px -8px rgba(30,36,29,.5);
+  }
+  .tcard {
+    flex: 0 0 auto; width: calc(var(--cm) * var(--pxcm));
+    border-right: 1px dashed rgba(30,36,29,.22);
+    padding: 5px 6px; min-width: 0; overflow: hidden;
+    display: flex; flex-direction: column; justify-content: space-between;
+  }
+  .tcard:last-child { border-right: 0; }
+  .tcard__b {
+    font-family: var(--f-body); font-weight: 500; font-size: 0.688rem;
+    line-height: 1.15; color: var(--ink);
+    overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+  }
+  .tcard__m {
+    display: flex; align-items: flex-end; justify-content: space-between; gap: 4px;
+    font-family: var(--f-mono); font-size: 0.594rem; letter-spacing: 0.03em;
+    color: var(--ink-mid); font-variant-numeric: tabular-nums;
+  }
+  .tcard--free .tcard__b { color: var(--bulb-ink); }
+  .tcard svg { flex: 0 0 auto; display: block; }
+
+  /* Eine Regalfront */
+  .front {
+    position: relative; flex: 0 0 auto; align-self: stretch;
+    width: calc(var(--cm) * var(--pxcm));
+    display: flex; align-items: flex-end; justify-content: center;
+    padding: 0; border: 0; background: transparent; font: inherit; color: inherit;
+    cursor: pointer; -webkit-appearance: none; appearance: none;
+  }
+  .front__body { position: relative; width: 100%; height: calc(var(--h) * var(--pxcm)); }
+  .front__body::after {
+    content: ""; position: absolute; left: 10%; right: 10%; bottom: -4px; height: 8px;
+    border-radius: 50%;
+    background: radial-gradient(ellipse at center, rgba(30,36,29,.32) 0%, transparent 70%);
+    transition: opacity .22s ease, transform .22s ease;
+  }
+  .front:hover .good__img, .front[aria-pressed="true"] .good__img { --lift: -7px; }
+  .front:hover .front__body::after, .front[aria-pressed="true"] .front__body::after { opacity: .5; transform: scaleX(.86); }
+
+  .front--free .front__body {
+    height: calc(21 * var(--pxcm));
+    border: 1px dashed color-mix(in oklab, var(--bulb-ink) 46%, transparent);
+    border-bottom-width: 2px;
+    background: color-mix(in oklab, var(--bulb) 7%, transparent);
+    display: flex; align-items: flex-end; justify-content: center; padding-bottom: 7px;
+    transition: background-color .18s ease, border-color .18s ease;
+  }
+  .front--free .front__body::after { display: none; }
+  .front--free:hover .front__body, .front--free[aria-pressed="true"] .front__body {
+    background: color-mix(in oklab, var(--bulb) 17%, transparent);
+    border-color: var(--bulb-ink);
+  }
+  .front__free-lbl {
+    font-family: var(--f-mono); font-size: 0.625rem; letter-spacing: 0.09em;
+    text-transform: uppercase; color: var(--bulb-ink);
+    font-variant-numeric: tabular-nums; text-align: center;
+  }
+  .front--conf .front__body { border-style: solid; border-color: var(--bulb-ink); background: color-mix(in oklab, var(--bulb) 16%, transparent); }
+  .front--conf .front__free-lbl b {
+    display: block; font-family: var(--f-display); font-size: 0.938rem; font-weight: 500;
+    letter-spacing: -0.01em; text-transform: none; margin-bottom: 2px;
+  }
+
+  /* Ziehgriff — Geschwister der Front, nicht Kind: ein Slider im Button
+     wäre verschachtelte Interaktion und nicht bedienbar. Breite 0, damit
+     die Zentimeter-Rechnung der Ebene stimmt. */
+  .gripwrap { position: relative; flex: 0 0 0; width: 0; align-self: stretch; z-index: 4; }
+  .grip {
+    position: absolute; left: -8px; bottom: 0; width: 16px;
+    height: calc(21 * var(--pxcm));
+    cursor: ew-resize; touch-action: none;
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; border: 0; padding: 0;
+  }
+  .grip::before {
+    content: ""; width: 4px; height: 46px; border-radius: 2px; background: var(--bulb-ink);
+    box-shadow: 0 0 0 3px color-mix(in oklab, var(--bulb) 26%, transparent);
+    transition: height .18s ease, background-color .18s ease;
+  }
+  .grip:hover::before, .grip:focus-visible::before { height: 70px; background: #5E3E10; }
+
+  .readout {
+    position: absolute; left: 0; bottom: calc(21 * var(--pxcm) + 11px);
+    transform: translateX(-50%);
+    background: var(--steel); color: #F2F2EA;
+    padding: 6px 11px 7px; border-radius: 2px;
+    font-family: var(--f-mono); font-size: 0.719rem; line-height: 1.35;
+    white-space: nowrap; text-align: center; font-variant-numeric: tabular-nums;
+    z-index: 4; pointer-events: none;
+  }
+  .readout::after {
+    content: ""; position: absolute; left: 50%; top: 100%; transform: translateX(-50%);
+    border: 5px solid transparent; border-top-color: var(--steel);
+  }
+  .readout b { color: var(--bulb-lite); font-weight: 400; }
+  .readout em {
+    display: block; font-style: normal; font-size: 0.625rem; letter-spacing: 0.07em;
+    text-transform: uppercase; color: var(--bulb-lite); margin-top: 3px;
+  }
+
+  /* Karteikarte im Stil der Gondel-Kopfkarte */
+  .card { background: var(--paper); border: 1px solid rgba(30,36,29,.18); }
+  .card__prem {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 14px; background: var(--night);
+  }
+  .card__prem span {
+    font-family: var(--f-mono); font-size: 0.594rem; letter-spacing: 0.22em;
+    text-transform: uppercase; color: var(--bulb-lite);
+  }
+  .card__in { padding: 20px 22px 22px; }
+  .card__name {
+    font-family: var(--f-display); font-size: 1.65rem; font-weight: 500;
+    letter-spacing: -0.022em; line-height: 1.08;
+  }
+  .card__sub { color: var(--ink-mid); font-size: 0.938rem; margin-top: 6px; }
+  .card__note {
+    font-size: 0.875rem; color: var(--ink-mid); line-height: 1.55;
+    margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--hair); max-width: 42ch;
+  }
+  .rows { margin-top: 18px; border-top: 1px solid var(--hair); }
+  .row {
+    display: flex; justify-content: space-between; align-items: baseline; gap: 16px;
+    padding: 9px 0; border-bottom: 1px solid var(--hair);
+    font-family: var(--f-mono); font-size: 0.813rem; font-variant-numeric: tabular-nums;
+  }
+  .row__k { color: var(--ink-mute); letter-spacing: 0.03em; }
+  .row__v { text-align: right; }
+  .row--sum .row__v { color: var(--bulb-ink); font-weight: 500; }
+  .card__foot { margin-top: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
+  .card__hint { font-family: var(--f-mono); font-size: 0.656rem; color: var(--ink-mute); }
+
+  /* ── Rundgang ──────────────────────────────────────────────── */
+
+  .tour { display: grid; grid-template-columns: minmax(0,1fr); gap: clamp(26px,3vw,40px); align-items: start; margin-top: clamp(34px,4vw,52px); }
+
+  .shot { position: relative; line-height: 0; border: 1px solid var(--hair); }
+  .shot img { display: block; width: 100%; height: auto; }
+  .pin {
+    position: absolute;
+    left: var(--x); top: var(--y);
+    transform: translate(-50%, -50%);
+    width: 26px; height: 26px; border-radius: 50%;
+    border: 2px solid var(--paper);
+    background: rgba(27,35,29,.72);
+    color: var(--paper);
+    font-family: var(--f-mono); font-size: 0.688rem; line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; padding: 0;
+    transition: background-color .18s ease, transform .18s ease;
+  }
+  .pin[data-on="1"] { background: var(--bulb); color: var(--night); transform: translate(-50%,-50%) scale(1.28); }
+  .shot__cap {
+    font-family: var(--f-mono); font-size: 0.656rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-mute); line-height: 1.6; margin-top: 10px;
+  }
+
+  .plan { background: var(--concrete-lite); border: 1px solid var(--hair); padding: 13px; margin-top: 18px; }
+  .plan svg { display: block; width: 100%; height: auto; }
+  .plan__cap {
+    font-family: var(--f-mono); font-size: 0.656rem; letter-spacing: 0.1em;
+    text-transform: uppercase; color: var(--ink-mute); margin-top: 9px;
+    display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+  }
+
+  .stops { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--hair); }
+  .stop {
+    display: flex; gap: 15px; width: 100%; text-align: left;
+    padding: 14px 6px 14px 2px; border: 0; border-bottom: 1px solid var(--hair);
+    background: transparent; font: inherit; color: inherit; cursor: pointer;
+    transition: background-color .16s ease, padding-left .16s ease;
+  }
+  .stop:hover, .stop[data-on="1"] { background: color-mix(in oklab, var(--bulb) 12%, transparent); padding-left: 10px; }
+  .stop__n { font-family: var(--f-mono); font-size: 0.688rem; color: var(--bulb-ink); padding-top: 4px; flex: 0 0 auto; font-variant-numeric: tabular-nums; }
+  .stop__t { font-family: var(--f-display); font-weight: 500; font-size: 1.02rem; letter-spacing: -0.015em; }
+  .stop__d { font-size: 0.875rem; color: var(--ink-mid); margin-top: 3px; line-height: 1.5; }
+
+  /* ── Theke im Abendlicht ───────────────────────────────────── */
+
+  .dark { background: var(--night); color: #EDEFE9; position: relative; overflow: hidden; }
+  .dark h2 { color: #F7F5EE; }
+  .dark .eyebrow { color: var(--bulb-lite); }
+  .dark .lede { color: rgba(237,239,233,.68); }
+
+  .bar {
+    position: relative; margin-top: clamp(36px,4.4vw,56px); padding: clamp(34px,4.5vw,54px) 6px 0;
+    background: radial-gradient(ellipse 88% 152% at 50% 122%,
+      #FFFBF1 0%, #F8F2E2 44%, rgba(242,232,206,.95) 70%,
+      rgba(212,190,145,.40) 86%, rgba(200,150,74,.08) 95%, transparent 100%);
+  }
+  .bar__goods { display: flex; align-items: flex-end; justify-content: center; gap: clamp(26px,6vw,84px); }
+  .bar__good {
+    position: relative;
+    width: calc(var(--cm) * var(--pxcm) * 1.35);
+    height: calc(var(--h) * var(--pxcm) * 1.35);
+  }
+  .bar__good::after {
+    content: ""; position: absolute; left: 6%; right: 6%; bottom: -3px; height: 13px;
+    border-radius: 50%; background: radial-gradient(ellipse at center, rgba(80,60,20,.34) 0%, transparent 70%);
+  }
+  .counter {
+    height: 18px;
+    background: linear-gradient(180deg, var(--ply) 0 3px, #E2CCA8 3px 11px, var(--ply-edge) 11px 14px, #8E7048 14px 18px);
+    box-shadow: 0 12px 34px -10px rgba(0,0,0,.55);
+  }
+  .bar__cap {
+    font-family: var(--f-mono); font-size: 0.656rem; letter-spacing: 0.12em;
+    text-transform: uppercase; color: rgba(232,200,138,.74); text-align: center; margin-top: 16px;
+  }
+
+  /* ── Preistabelle ──────────────────────────────────────────── */
+
+  .tbl-scroll { overflow-x: auto; margin-top: clamp(30px,3.6vw,46px); }
+  table.rate { width: 100%; min-width: 580px; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .rate th, .rate td { text-align: right; padding: 15px 16px; border-bottom: 1px solid var(--hair); font-size: 0.938rem; }
+  .rate th:first-child, .rate td:first-child { text-align: left; padding-left: 0; }
+  .rate td:last-child, .rate th:last-child { padding-right: 0; }
+  .rate thead th {
+    font-family: var(--f-mono); font-size: 0.656rem; letter-spacing: 0.13em; text-transform: uppercase;
+    color: var(--ink-mute); font-weight: 400; border-bottom-color: var(--hair-firm); padding-bottom: 11px;
+  }
+  .rate tbody th { font-family: var(--f-display); font-weight: 500; font-size: 1.02rem; letter-spacing: -0.015em; }
+  .rate tbody th span {
+    display: block; font-family: var(--f-mono); font-size: 0.656rem; letter-spacing: 0.07em;
+    color: var(--ink-mute); font-weight: 400; margin-top: 3px;
+  }
+  .rate td { font-family: var(--f-mono); font-size: 0.875rem; }
+  .rate tr[data-pick] td, .rate tr[data-pick] th { background: color-mix(in oklab, var(--bulb) 11%, transparent); }
+  .rate tr[data-pick] td:last-child { color: var(--bulb-ink); font-weight: 500; }
+  .tag {
+    display: inline-block; font-family: var(--f-mono); font-size: 0.594rem; letter-spacing: 0.11em;
+    text-transform: uppercase; color: var(--bulb-ink);
+    border: 1px solid color-mix(in oklab, var(--bulb-ink) 40%, transparent);
+    border-radius: 2px; padding: 1px 6px; margin-left: 8px; vertical-align: 2px;
+  }
+
+  /* ── Anteilsvergleich ──────────────────────────────────────── */
+
+  .share { display: grid; gap: clamp(26px,3.4vw,42px); margin-top: clamp(34px,4vw,52px); }
+  .shelf-bar__head { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+  .shelf-bar__t { font-family: var(--f-display); font-weight: 500; font-size: 1.12rem; letter-spacing: -0.015em; }
+  .shelf-bar__m { font-family: var(--f-mono); font-size: 0.688rem; letter-spacing: 0.08em; color: var(--ink-mute); font-variant-numeric: tabular-nums; }
+  .shelf-bar__row { display: flex; gap: 2px; height: 62px; align-items: stretch; }
+  .slotlet { flex: 1 1 auto; background: #B6B0A3; border-radius: 1px; }
+  .slotlet--mine { position: relative; background: var(--bulb); }
+  .slotlet--mine::after {
+    content: "du"; position: absolute; left: 50%; bottom: calc(100% + 6px); transform: translateX(-50%);
+    font-family: var(--f-mono); font-size: 0.625rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bulb-ink);
+  }
+  .shelf-bar--hub .slotlet { background: var(--ply-mid); }
+  .shelf-bar__foot { font-family: var(--f-mono); font-size: 0.719rem; color: var(--ink-mute); margin-top: 10px; font-variant-numeric: tabular-nums; }
+  .shelf-bar__foot strong { color: var(--bulb-ink); font-weight: 500; }
+
+  /* ── Herkunft ──────────────────────────────────────────────── */
+
+  .origin { position: relative; background: var(--night); }
+  .origin__img { display: block; width: 100%; height: clamp(320px,48vh,520px); object-fit: cover; object-position: center 42%; }
+  .origin__cap { max-width: var(--measure); margin: 0 auto; padding: 24px 28px 28px; display: grid; grid-template-columns: minmax(0,1fr); gap: 14px; }
+  .origin__cap h3 { color: #F7F5EE; max-width: 26ch; }
+  .origin__cap p { color: rgba(237,239,233,.62); font-size: 0.938rem; max-width: 48ch; }
+  .origin__meta { font-family: var(--f-mono); font-size: 0.656rem; letter-spacing: 0.13em; text-transform: uppercase; color: rgba(232,200,138,.74); }
+
+  /* ── Erlebnis ──────────────────────────────────────────────── */
+
+  .tiles { display: grid; grid-template-columns: minmax(0,1fr); gap: 1px; background: var(--hair); border-top: 1px solid var(--hair); margin-top: clamp(32px,4vw,48px); }
+  .tile { background: var(--concrete-deep); padding: 25px 23px 27px; display: flex; flex-direction: column; gap: 11px; }
+  .tile__k { font-family: var(--f-mono); font-size: 0.656rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--bulb-ink); }
+  .tile p { font-size: 0.938rem; color: var(--ink-mid); line-height: 1.55; }
+  .tile__pic { margin-top: auto; background: var(--concrete-lite); border: 1px solid var(--hair); aspect-ratio: 4/3; overflow: hidden; }
+  .tile__pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
+
+  /* ── Abschluss ─────────────────────────────────────────────── */
+
+  .close__in { display: grid; gap: 24px; max-width: 36ch; }
+  .close .btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .foot {
+    background: var(--steel-dark); color: rgba(237,239,233,.52);
+    font-family: var(--f-mono); font-size: 0.688rem; line-height: 1.9;
+    padding: 30px 0 38px; letter-spacing: 0.02em;
+  }
+  .foot strong { color: rgba(232,200,138,.82); font-weight: 400; }
+
+  /* ── Breiten ───────────────────────────────────────────────── */
+
+  @media (max-width: 900px) { --pxcm: 4.4px; --plank-h: 5px; }
+
+  @media (min-width: 720px) {
+    .factbar { grid-template-columns: repeat(4, minmax(0,1fr)); }
+    .tiles   { grid-template-columns: repeat(3, minmax(0,1fr)); }
+    .origin__cap { grid-template-columns: 1fr auto; align-items: end; }
+  }
+  @media (min-width: 940px) { .tour { grid-template-columns: 1.32fr 1fr; } }
+  @media (min-width: 1060px) {
+    .wall { grid-template-columns: minmax(0,auto) minmax(280px,336px); }
+    .card { position: sticky; top: 90px; }
+  }
+  @media (max-width: 640px) { .top__nav { display: none; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
+  }
+}
