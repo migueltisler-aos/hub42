@@ -1,0 +1,247 @@
+/* ══════════════════════════════════════════════════════════════
+   Hub42 — Regalbeweis 90 (/regalbeweis)
+
+   Ergänzung zu regalwand.css, nicht Ersatz. Hier steht nur, was das
+   Angebot braucht und die Regalwand nicht hat: das Zitat des
+   Einkäufers, der Preisblock, die Garantie, die Ablaufspur und die
+   Ausschlussliste. Farben, Schriften und Abstände kommen unverändert
+   aus den Variablen der Regalwand.
+
+   Gleiche Kapselung unter .rw und gleiche Verschachtelung wie dort —
+   ohne sie würden Namen wie .step oder .price nach einer
+   Client-Navigation auf den übrigen Seiten mitwirken.
+   ══════════════════════════════════════════════════════════════ */
+
+.rw {
+  /* ── Das Zitat, an dem das ganze Angebot hängt ──────────────── */
+
+  .quote {
+    margin-top: clamp(30px, 3.6vw, 46px);
+    border-left: 3px solid var(--bulb);
+    padding: 4px 0 4px clamp(18px, 2.4vw, 30px);
+    max-width: 30ch;
+  }
+  .quote__q {
+    font-family: var(--f-display);
+    font-weight: 500;
+    font-size: clamp(1.5rem, 3vw, 2.3rem);
+    letter-spacing: -0.024em;
+    line-height: 1.12;
+    text-wrap: balance;
+  }
+  .quote__w {
+    font-family: var(--f-mono);
+    font-size: 0.688rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-top: 12px;
+  }
+
+  /* ── Preisblock ────────────────────────────────────────────── */
+  /* Baut auf .card / .rows / .row aus der Regalwand auf; ergänzt wird
+     nur die große Zahl und der durchgestrichene Einzelwert daneben. */
+
+  .offer { margin-top: clamp(34px, 4vw, 52px); max-width: 640px; }
+
+  .price {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 6px 16px;
+    margin-top: 16px;
+  }
+  .price__was {
+    font-family: var(--f-mono);
+    font-size: 1.05rem;
+    color: var(--ink-mute);
+    text-decoration: line-through;
+    font-variant-numeric: tabular-nums;
+  }
+  .price__is {
+    font-family: var(--f-display);
+    font-weight: 500;
+    font-size: clamp(2.8rem, 7vw, 4.2rem);
+    letter-spacing: -0.032em;
+    line-height: .95;
+    font-variant-numeric: tabular-nums;
+  }
+  .price__per {
+    font-family: var(--f-mono);
+    font-size: 0.813rem;
+    letter-spacing: 0.06em;
+    color: var(--ink-mute);
+  }
+
+  .specs {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px 18px;
+    margin-top: 20px;
+    padding-top: 18px;
+    border-top: 1px solid var(--hair);
+  }
+  .spec__k {
+    font-family: var(--f-mono);
+    font-size: 0.594rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--ink-mute);
+    margin-bottom: 3px;
+  }
+  .spec__v {
+    font-family: var(--f-mono);
+    font-size: 0.938rem;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* ── Garantie ──────────────────────────────────────────────── */
+  /* Steht in einer .dark-Sektion, nimmt also deren helle Schrift an. */
+
+  .guar {
+    margin-top: clamp(30px, 3.6vw, 44px);
+    border-left: 3px solid var(--bulb);
+    padding-left: clamp(18px, 2.4vw, 30px);
+    max-width: 48ch;
+  }
+  .guar__lead {
+    font-family: var(--f-display);
+    font-weight: 500;
+    font-size: clamp(1.28rem, 2.3vw, 1.8rem);
+    letter-spacing: -0.02em;
+    line-height: 1.22;
+    color: #F7F5EE;
+    text-wrap: balance;
+  }
+  .guar__body {
+    font-size: 0.975rem;
+    line-height: 1.6;
+    color: rgba(237, 239, 233, .7);
+    margin-top: 16px;
+  }
+
+  /* ── Ablauf ────────────────────────────────────────────────── */
+
+  .steps {
+    margin-top: clamp(32px, 4vw, 50px);
+    border-top: 1px solid var(--hair);
+    list-style: none;
+    padding: 0;
+  }
+  .step {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 3px 28px;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--hair);
+  }
+  .step__n {
+    font-family: var(--f-mono);
+    font-size: 0.688rem;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--bulb-ink);
+    font-variant-numeric: tabular-nums;
+    padding-top: 3px;
+  }
+  .step__t {
+    font-family: var(--f-display);
+    font-weight: 500;
+    font-size: 1.12rem;
+    letter-spacing: -0.018em;
+  }
+  .step__d {
+    font-size: 0.938rem;
+    color: var(--ink-mid);
+    line-height: 1.55;
+    max-width: 58ch;
+    margin-top: 3px;
+  }
+
+  /* ── Ausschluss ────────────────────────────────────────────── */
+
+  .nots {
+    margin-top: clamp(28px, 3.4vw, 42px);
+    border-top: 1px solid var(--hair);
+    list-style: none;
+    padding: 0;
+  }
+  .not {
+    display: flex;
+    gap: 16px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--hair);
+    font-size: 0.975rem;
+    line-height: 1.55;
+    color: var(--ink-mid);
+    max-width: 68ch;
+  }
+  .not::before {
+    content: "×";
+    font-family: var(--f-mono);
+    color: var(--bulb-ink);
+    flex: 0 0 auto;
+    line-height: 1.5;
+  }
+
+  /* ── Offene Punkte ─────────────────────────────────────────── */
+
+  .qa {
+    margin-top: clamp(30px, 3.6vw, 44px);
+    border-top: 1px solid var(--hair);
+  }
+  .qa details { border-bottom: 1px solid var(--hair); }
+  .qa summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 20px;
+    padding: 17px 0;
+    cursor: pointer;
+    list-style: none;
+    font-family: var(--f-display);
+    font-weight: 500;
+    font-size: 1.08rem;
+    letter-spacing: -0.015em;
+  }
+  .qa summary::-webkit-details-marker { display: none; }
+  .qa summary::after {
+    content: "+";
+    font-family: var(--f-mono);
+    color: var(--bulb-ink);
+    flex: 0 0 auto;
+    transition: transform .18s ease;
+  }
+  .qa details[open] summary::after { transform: rotate(45deg); }
+  .qa p {
+    padding: 0 0 20px;
+    font-size: 0.938rem;
+    line-height: 1.6;
+    color: var(--ink-mid);
+    max-width: 62ch;
+  }
+
+  /* ── Kontaktzeile im Abschluss ─────────────────────────────── */
+
+  .reach {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 22px;
+    margin-top: 6px;
+    font-family: var(--f-mono);
+    font-size: 0.813rem;
+    color: rgba(237, 239, 233, .62);
+  }
+  .reach a { color: var(--bulb-lite); text-decoration: none; }
+  .reach a:hover { text-decoration: underline; }
+
+  /* ── Breiten ───────────────────────────────────────────────── */
+
+  @media (min-width: 720px) {
+    .step { grid-template-columns: 92px minmax(0, 1fr); }
+    .specs { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  @media (min-width: 1060px) {
+    .close__in--wide { max-width: 46ch; }
+  }
+}

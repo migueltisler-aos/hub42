@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
 
 const NAV_LINKS = [
+  { href: "/neue-offer", label: "Regalbeweis 90" },
   { href: "/hersteller", label: "Für Hersteller" },
   { href: "/brands", label: "Die Marken" },
   { href: "/erlebnis", label: "Das Erlebnis" },
