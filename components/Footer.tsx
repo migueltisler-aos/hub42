@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CookieEinstellungenButton } from "@/components/GoogleAnalytics";
 
 export default function Footer() {
   return (
@@ -79,6 +80,9 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+              <li>
+                <CookieEinstellungenButton className="text-stone text-sm hover:text-bronze transition-colors" />
+              </li>
             </ul>
 
             <div className="mt-6">
