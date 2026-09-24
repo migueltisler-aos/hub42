@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: "Datenschutz",
@@ -83,11 +83,12 @@ export default function DatenschutzPage() {
           <div>
             <h2 className="text-cream text-lg font-semibold mb-2">7. Cookies</h2>
             <p>
-              Diese Website verwendet keine Tracking-Cookies. Es werden ausschließlich
-              technisch notwendige Cookies eingesetzt, die für den Betrieb der Website
-              erforderlich sind. Auch zu Analysezwecken greifen wir nicht auf Ihren
-              Endgerätespeicher zu – es werden dafür weder Cookies noch Local Storage
-              oder Session Storage verwendet.
+              Ohne Ihre Einwilligung setzt diese Website keine Tracking-Cookies. Es werden
+              dann ausschließlich technisch notwendige Speicherungen vorgenommen, etwa um
+              Ihre Entscheidung im Einwilligungs-Banner im Local Storage Ihres Browsers zu
+              merken. Unsere eigene Reichweitenmessung (Abschnitt 8) greift nicht auf Ihr
+              Endgerät zu. Cookies von Google Analytics werden nur nach Ihrer Einwilligung
+              gesetzt (Abschnitt 9).
             </p>
           </div>
 
@@ -136,8 +137,42 @@ export default function DatenschutzPage() {
             </p>
           </div>
 
+          <div>
+            <h2 className="text-cream text-lg font-semibold mb-2">9. Google Analytics</h2>
+            <p>
+              Sofern Sie im Banner einwilligen, nutzen wir Google Analytics 4, einen
+              Webanalysedienst der Google Ireland Limited, Gordon House, Barrow Street,
+              Dublin 4, Irland („Google“). Google Analytics setzt Cookies und erfasst
+              Informationen über Ihre Nutzung dieser Website (z.B. aufgerufene Seiten,
+              Verweildauer, Herkunft, Gerät, Browser und ungefährer Standort). IP-Adressen
+              werden von Google Analytics 4 nicht gespeichert.
+            </p>
+            <p className="mt-3">
+              Die Daten können an Server der Google LLC in den USA übermittelt werden.
+              Google LLC ist unter dem EU-US Data Privacy Framework zertifiziert; die
+              Übermittlung stützt sich auf den Angemessenheitsbeschluss der
+              EU-Kommission (Art. 45 DSGVO).
+            </p>
+            <p className="mt-3">
+              Rechtsgrundlage ist Ihre Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO und
+              § 25 Abs. 1 TDDDG. Sie können Ihre Einwilligung jederzeit mit Wirkung für
+              die Zukunft widerrufen – über den Link „Google Analytics deaktivieren“ im
+              Footer dieser Website. Die Daten werden von Google nach 14 Monaten gelöscht.
+              Weitere Informationen:{" "}
+              <a
+                href="https://policies.google.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-bronze hover:underline"
+              >
+                Datenschutzerklärung von Google
+              </a>
+              .
+            </p>
+          </div>
+
           <p className="text-stone/60 text-xs font-mono border-t border-stone-dark/30 pt-6">
-            Stand: August 2026
+            Stand: September 2026
           </p>
         </div>
       </div>

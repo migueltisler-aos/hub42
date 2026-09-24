@@ -1,7 +1,8 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Bebas_Neue, DM_Sans, DM_Mono } from "next/font/google";
 import Analytics from "@/components/Analytics";
+import GoogleAnalytics from "@/components/GoogleAnalytics";
 import "./globals.css";
 
 const bebasNeue = Bebas_Neue({
@@ -85,6 +86,7 @@ export default function RootLayout({
         <Suspense fallback={null}>
           <Analytics />
         </Suspense>
+        <GoogleAnalytics />
         {children}
       </body>
     </html>
