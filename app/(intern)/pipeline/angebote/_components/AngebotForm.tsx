@@ -7,9 +7,8 @@ import {
   ADDONS,
   ANGEBOT_STATUSES,
   MWST_PCT,
-  PREIS_PRO_QM,
-  MINDESTMIETE_MONAT,
   REGAL_TIEFE_CM,
+  mietKlasse,
   computeAngebot,
   formatEUR,
   addonPosition,
@@ -77,11 +76,13 @@ export default function AngebotForm({
   const [tastingPct, setTastingPct] = useState(angebot?.tasting_pct ?? 10);
 
   const [addonChoice, setAddonChoice] = useState(ADDONS[0]?.id ?? "");
+  const [besondererWert, setBesondererWert] = useState(angebot?.besonderer_wert ?? false);
 
-  const summary = computeAngebot(positionen, laufzeit, ebenen);
+  const { preisProQm, mindestmiete } = mietKlasse(besondererWert);
+  const summary = computeAngebot(positionen, laufzeit, ebenen, besondererWert);
   const totalM2 = flaecheM2(ebenen);
-  const flaecheMiete = flaechenMieteMonat(ebenen);
-  const mindestAktiv = totalM2 > 0 && totalM2 * PREIS_PRO_QM < MINDESTMIETE_MONAT;
+  const flaecheMiete = flaechenMieteMonat(ebenen, besondererWert);
+  const mindestAktiv = totalM2 > 0 && totalM2 * preisProQm < mindestmiete;
 
   function onBrandChange(id: string) {
     setBrandId(id);
@@ -203,9 +204,25 @@ export default function AngebotForm({
         <div className="flex items-center justify-between">
           <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase">Fläche &amp; Ebenen</p>
           <span className="text-stone/40 text-[11px] font-mono">
-            {PREIS_PRO_QM.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €/m² · Tiefe {REGAL_TIEFE_CM} cm · min. {MINDESTMIETE_MONAT} €
+            {preisProQm.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €/m² · Tiefe {REGAL_TIEFE_CM} cm · min. {mindestmiete} €
           </span>
         </div>
+
+        <label className="flex items-start gap-2 text-cream text-sm font-mono cursor-pointer">
+          <input
+            type="checkbox"
+            name="besonderer_wert"
+            checked={besondererWert}
+            onChange={(e) => setBesondererWert(e.target.checked)}
+            className="accent-bronze w-4 h-4 mt-0.5"
+          />
+          <span>
+            Besonderer Wert
+            <span className="block text-stone/50 text-[11px]">
+              Preisklasse für Produkte mit Handwerk, Herkunft oder Mission (auf Bewerbung): {mietKlasse(true).preisProQm.toLocaleString("de-DE", { minimumFractionDigits: 2 })} € statt {mietKlasse(false).preisProQm.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €, min. {mietKlasse(true).mindestmiete} € statt {mietKlasse(false).mindestmiete} €
+            </span>
+          </span>
+        </label>
 
         {/* Header */}
         <div className="hidden sm:grid grid-cols-12 gap-2 text-stone/40 text-[10px] font-mono uppercase tracking-widest px-1">
@@ -262,7 +279,7 @@ export default function AngebotForm({
         </div>
         {mindestAktiv && (
           <p className="text-stone/40 text-[11px] font-mono">
-            Mindestmiete {MINDESTMIETE_MONAT} € greift (Fläche × {PREIS_PRO_QM} € = {formatEUR(totalM2 * PREIS_PRO_QM)}).
+            Mindestmiete {mindestmiete} € greift (Fläche × {preisProQm} € = {formatEUR(totalM2 * preisProQm)}).
           </p>
         )}
       </section>

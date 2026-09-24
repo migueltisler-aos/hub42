@@ -7,7 +7,8 @@
    next/image würde die Bilder in einen eigenen Wrapper legen und damit
    sowohl die Zentimeter-Geometrie als auch das Blending brechen. */
 
-import { HERO, GAP_CM } from "@/lib/neue-ui/regal";
+import { HERO, GAP_CM, eur } from "@/lib/neue-ui/regal";
+import { BASE_RATE_PER_CM } from "@/lib/deck-economics";
 
 export default function Massband() {
   const warenCm = HERO.reduce((s, p) => s + p.cm, 0);
@@ -70,7 +71,7 @@ export default function Massband() {
         </div>
 
         <p className="lineup__sum">
-          {warenCm} cm Ware · {HERO.length} Marken · 4,64 € je Zentimeter und Monat
+          {warenCm} cm Ware · {HERO.length} Marken · ab {eur(BASE_RATE_PER_CM)} je Zentimeter und Monat
         </p>
       </div>
     </div>

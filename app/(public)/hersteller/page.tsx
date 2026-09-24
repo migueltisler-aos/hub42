@@ -13,7 +13,7 @@ import { RATES } from "@/lib/deck-economics";
 export const metadata: Metadata = {
   title: "Für Hersteller – Miete deinen Platz im Retail",
   description:
-    "Stationärer Handel wie er sein sollte. 7% statt 30–50% Handelsmarge beim LEH, Regalfront ab 5 cm / 59 €/Monat, 3 Monate Mindestlaufzeit. Bewirb dein Produkt, verlinke deinen Shop, gewinne Fans jenseits von TikTok.",
+    "Stationärer Handel wie er sein sollte. 7% statt 30–50% Handelsmarge beim LEH, Regalfront ab 5 cm / 89 €/Monat, 3 Monate Mindestlaufzeit. Bewirb dein Produkt, verlinke deinen Shop, gewinne Fans jenseits von TikTok.",
 };
 
 const SCHRITTE = [
@@ -75,7 +75,7 @@ const FAQ = [
   {
     frage: "Warum gibt es 3 Regalmiet-Tranchen?",
     antwort:
-      "Der Preis pro cm steigt mit der Store-Auslastung, nicht mit dem Kalender: Gründungskonditionen unter 60 % Auslastung (Basis 4,64 €/cm, Mindestmiete 59 €/Slot), Aufbauphase bei 60–85 % (5,10 €/cm, 65 €/Slot), Warteliste über 85 % (5,57 €/cm, 70 €/Slot). Wer in der Gründungsphase unterschreibt, behält seinen Preis vertraglich für die gesamte Erstlaufzeit (12 Monate) – auch wenn der Store danach in eine höhere Tranche wechselt.",
+      "Der Preis pro cm steigt mit der Store-Auslastung, nicht mit dem Kalender: Gründungskonditionen unter 60 % Auslastung (Basis 7,00 €/cm, Mindestmiete 89 €/Slot), Aufbauphase bei 60–85 % (7,70 €/cm, 98 €/Slot), Warteliste über 85 % (8,40 €/cm, 107 €/Slot). Für Produkte mit besonderem Wert – Handwerk, Herkunft, Mission – gilt auf Bewerbung 4,64 €/cm bei 59 € Mindestmiete. Wer in der Gründungsphase unterschreibt, behält seinen Preis vertraglich für die gesamte Erstlaufzeit (12 Monate) – auch wenn der Store danach in eine höhere Tranche wechselt.",
   },
   {
     frage: "Wie funktioniert die Abrechnung?",
@@ -123,7 +123,7 @@ export default function HerstellerPage() {
           <div className="inline-flex items-center gap-3 mb-3">
             <span className="w-2 h-2 rounded-full bg-bronze animate-pulse" />
             <span className="text-bronze text-xs font-mono tracking-[0.2em] uppercase">
-              Eröffnung Oktober 2026 · Jetzt First-Mover-Platz sichern
+              Eröffnung März 2027 · Jetzt First-Mover-Platz sichern
             </span>
           </div>
           <div className="mb-6">
@@ -152,7 +152,7 @@ export default function HerstellerPage() {
           {/* Facts strip */}
           <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-xs font-mono text-stone border-l-2 border-bronze pl-4">
             <span>7% statt 30–50% Handelsmarge beim LEH</span>
-            <span>Ab 59 €/Monat</span>
+            <span>Ab 89 €/Monat</span>
             <span>3 Monate · dann monatlich kündbar</span>
             <span>41.000 Berliner täglich</span>
           </div>
@@ -180,7 +180,7 @@ export default function HerstellerPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="border-l-4 border-bronze bg-bronze/5 px-6 py-6 space-y-4">
             <p className="text-cream text-sm leading-relaxed">
-              <span className="text-bronze font-semibold">Deine Kosten:</span> Regalmiete ab 59 €
+              <span className="text-bronze font-semibold">Deine Kosten:</span> Regalmiete ab 89 €
               im Monat (Gründungskonditionen), 7 % Vermittlungsprovision je verkauftem Artikel –
               Zahlungsabwicklung inklusive. Sonst nichts.
             </p>
@@ -690,10 +690,10 @@ export default function HerstellerPage() {
           {/* Urgency box */}
           <div className="border-l-4 border-bronze bg-bronze/5 px-5 py-4 mb-8">
             <p className="text-cream text-sm font-semibold mb-1">
-              First-Mover-Konditionen: 59 €/Monat · Preisgarantie für gesamte Laufzeit
+              First-Mover-Konditionen: ab 89 €/Monat · Preisgarantie für gesamte Laufzeit
             </p>
             <p className="text-stone text-xs font-mono">
-              Gültig für Anfragen bis Eröffnung Oktober 2026. Danach reguläre Preise.
+              Gültig für Anfragen bis Eröffnung März 2027. Danach reguläre Preise.
             </p>
           </div>
 

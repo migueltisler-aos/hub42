@@ -13,6 +13,8 @@
 
 import {
   RATES,
+  RATES_BESONDERER_WERT,
+  MIN_SLOT_MIETE_BESONDERER_WERT,
   ZONE_SURCHARGE_PCT,
   MIN_REGAL_CM,
   MIN_SLOT_MIETE,
@@ -72,6 +74,11 @@ export const rate = (zone: ZoneKey): number => RATES[zone];
 /** Monatsmiete einer Front – die Mindestmiete greift bei schmalen Fronten. */
 export const miete = (cm: number, zone: ZoneKey): number =>
   Math.max(MIN_SLOT_MIETE, round2(cm * rate(zone)));
+
+/** Dasselbe für Produkte mit besonderem Wert (nur auf Bewerbung). */
+export const rateBesonders = (zone: ZoneKey): number => RATES_BESONDERER_WERT[zone];
+export const mieteBesonders = (cm: number, zone: ZoneKey): number =>
+  Math.max(MIN_SLOT_MIETE_BESONDERER_WERT, round2(cm * rateBesonders(zone)));
 
 export const eur = (n: number): string =>
   n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
@@ -200,7 +207,7 @@ export const WALL: Record<ZoneKey, Front[]> = {
     },
     { free: true, cm: 24 },
     { free: true, cm: 28 },
-    /* 12 × 4,64 € = 55,68 € → Mindestmiete greift */
+    /* 12 × 7,00 € = 84 € → Mindestmiete 89 € greift */
     { free: true, cm: 12 },
   ],
 };

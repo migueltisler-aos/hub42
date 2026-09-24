@@ -32,7 +32,7 @@ export default function DeckKontakt() {
 
       <p className="text-cream/70 text-base leading-relaxed mt-10">
         Lass uns reden, welche eurer Marken zuerst ins Regal kommen –{" "}
-        <span className="text-bronze">Eröffnung Oktober 2026, Alexa Berlin.</span>
+        <span className="text-bronze">Eröffnung März 2027, Alexa Berlin.</span>
       </p>
     </div>
   );

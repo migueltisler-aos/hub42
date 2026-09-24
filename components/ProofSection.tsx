@@ -10,14 +10,14 @@ const BLOCKS = [
     headlineSub: "Besucher täglich",
     lines: [
       "Pilot Alexa Berlin – Alexanderplatz",
-      "Eröffnung Oktober 2026",
+      "Eröffnung März 2027",
       "Berlins meistbesuchtes Shoppingcenter",
     ],
   },
   {
     eyebrow: "Pipeline",
     headline: "Early Bird",
-    headlineSub: "ab 59 €/Monat",
+    headlineSub: "ab 89 €/Monat",
     lines: [
       "LOIs in Verhandlung",
       "First-Mover-Slots verfügbar",

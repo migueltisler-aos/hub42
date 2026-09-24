@@ -144,10 +144,10 @@ export default function BrandsPage() {
             Kein halbes Jahr warten.
           </p>
           <Link
-            href="/hersteller"
+            href="/#bewerben"
             className="inline-block px-10 py-4 bg-bronze text-green-dark font-semibold rounded-sm hover:bg-[#9A7548] transition-colors text-sm tracking-wide"
           >
-            Regalfläche anfragen →
+            Jetzt bewerben →
           </Link>
         </div>
       </section>

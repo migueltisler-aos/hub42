@@ -378,7 +378,7 @@ export default function RegalbeweisPage() {
             Angebotsstand {KOHORTE.name}, Start {KOHORTE.start}. Preise zzgl. USt.
           </strong>
           <br />
-          Aus dem Preismodell abgeleitet: Grundpreis 4,64 €/cm, Augenhöhe +10 %, Mindestmiete 59 €,
+          Aus dem Preismodell abgeleitet: Grundpreis 7,00 €/cm, Augenhöhe +10 %, Mindestmiete 89 €,
           Mindestbreite 5 cm, {PROVISION_PCT} % Vermittlungsprovision auf den Bruttoverkaufspreis
           inkl. Zahlungsabwicklung, Gründungskonditionen bis 60 % Store-Auslastung.
           <br />

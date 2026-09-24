@@ -63,7 +63,7 @@ const ROWS: Row[] = [
     label: "Einstieg",
     leh: "2.000–50.000 €",
     online: "Shop + Ads laufend",
-    hub42: "ab 59 € / Monat",
+    hub42: "ab 89 € / Monat",
     hi: true,
   },
   {

@@ -11,9 +11,13 @@ async function login(formData: FormData) {
   if (!password || !name || !isPipelineUser(name)) return;
   if (password !== process.env.PIPELINE_PASSWORD) return;
 
+  // 180 Tage statt Session-Cookie: das Cookie nimmt das Gerät zugleich aus der
+  // Reichweitenmessung (app/api/track). Als Session-Cookie wäre das nach jedem
+  // Browser-Neustart weg und das Team zählte wieder als Besucher.
+  const maxAge = 60 * 60 * 24 * 180;
   const cookieStore = await cookies();
-  cookieStore.set("pipeline_auth", password, { path: "/", httpOnly: true, sameSite: "lax" });
-  cookieStore.set("pipeline_user", name, { path: "/", httpOnly: false, sameSite: "lax" });
+  cookieStore.set("pipeline_auth", password, { path: "/", httpOnly: true, sameSite: "lax", maxAge });
+  cookieStore.set("pipeline_user", name, { path: "/", httpOnly: false, sameSite: "lax", maxAge });
 
   redirect(from);
 }

@@ -6,7 +6,7 @@ import { KOHORTE, LAUFZEIT_TAGE } from "@/lib/regalbeweis";
    Material-Design (Beton, Stahl, Sperrholz, Glühlicht) soll eine Quelle
    behalten. Ergänzungen, die nur dieses Angebot braucht, liegen daneben
    in angebot.css – ebenfalls unter .rw gekapselt. */
-import "../neue-ui/regalwand.css";
+import "../(start)/regalwand.css";
 import "./angebot.css";
 
 const schibsted = Schibsted_Grotesk({

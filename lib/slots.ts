@@ -100,7 +100,7 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
     label: "Einstiegskosten",
     messe: "3.000–8.000 € / Event",
     rewe: "2.000–50.000 €",
-    hub42: "ab 59 €/Mo",
+    hub42: "ab 89 €/Mo",
     hub42Highlight: true,
   },
   {

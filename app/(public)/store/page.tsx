@@ -209,13 +209,13 @@ export default function StorePage() {
             Dein Produkt hierher?
           </h2>
           <p className="text-stone text-sm mb-8">
-            41.000 Berliner täglich. Regalfront ab 20 cm / 59 €/Monat. 7% statt 30–50% Handelsmarge beim LEH.
+            41.000 Berliner täglich. Regalfront ab 20 cm / 89 €/Monat. 7% statt 30–50% Handelsmarge beim LEH.
           </p>
           <Link
-            href="/hersteller"
+            href="/#bewerben"
             className="inline-block px-10 py-4 bg-bronze text-green-dark font-semibold rounded-sm hover:bg-[#9A7548] transition-colors text-sm"
           >
-            Regalfläche anfragen →
+            Jetzt bewerben →
           </Link>
         </div>
       </section>

@@ -1,5 +1,5 @@
 /* ══════════════════════════════════════════════════════════════
-   Hub42 — Regalwand (/neue-ui)
+   Hub42 — Regalwand (Startseite /)
 
    Portiert aus dem Design-Mockup vom 11.09.2026. Materialien aus den
    Konzeptbildern, nicht aus dem Farbfächer: Sichtbeton, dunkelgrüner
@@ -654,6 +654,47 @@
 
   .close__in { display: grid; gap: 24px; max-width: 36ch; }
   .close .btn-row { display: flex; flex-wrap: wrap; gap: 12px; }
+  .close__grid { display: grid; gap: clamp(36px, 5vw, 64px); align-items: start; }
+  .close__note { font-size: 0.875rem; color: rgba(237,239,233,.6); max-width: 40ch; }
+
+  /* Onboarding-Zähler */
+  .slots { display: grid; gap: 12px; padding: 18px 0; border-top: 1px solid rgba(232,200,138,.22); border-bottom: 1px solid rgba(232,200,138,.22); }
+  .slots__dots { display: flex; gap: 8px; }
+  .slots__dots span { width: 34px; height: 12px; border: 1px solid var(--bulb-lite); background: var(--bulb); border-radius: 1px; }
+  .slots__dots span.is-taken { background: transparent; border-color: rgba(232,200,138,.32); }
+  .slots__txt { font-family: var(--f-mono); font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; color: rgba(237,239,233,.72); }
+  .slots__txt strong { color: var(--bulb-lite); font-weight: 500; }
+
+  /* Bewerbungsformular */
+  .apply { display: grid; gap: 18px; background: rgba(255,255,255,.035); border: 1px solid rgba(232,200,138,.18); padding: clamp(20px, 3vw, 32px); }
+  .apply__grid { display: grid; grid-template-columns: minmax(0,1fr); gap: 16px; }
+  .apply__field { display: grid; gap: 7px; }
+  .apply__field > span { font-family: var(--f-mono); font-size: 0.656rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(237,239,233,.6); }
+  .apply input:not([type=checkbox]), .apply select, .apply textarea {
+    width: 100%; background: rgba(0,0,0,.22); color: #F7F5EE;
+    border: 1px solid rgba(237,239,233,.18); border-radius: 2px;
+    padding: 11px 13px; font: inherit; font-size: 0.938rem;
+    transition: border-color .18s ease;
+  }
+  .apply textarea { resize: vertical; }
+  .apply select option { color: var(--ink); }
+  .apply input:focus, .apply select:focus, .apply textarea:focus { outline: none; border-color: var(--bulb); }
+  .apply__field.is-bad input, .apply__field.is-bad textarea { border-color: #E08A6E; }
+  .apply__field em { font-style: normal; font-size: 0.75rem; color: #E8A58E; }
+  .apply__special { display: grid; gap: 14px; padding: 16px; border: 1px dashed rgba(232,200,138,.32); transition: border-color .18s ease, background-color .18s ease; }
+  .apply__special.is-on { border-style: solid; border-color: var(--bulb); background: rgba(200,150,74,.08); }
+  .apply__check { display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; cursor: pointer; font-size: 0.875rem; line-height: 1.5; color: rgba(237,239,233,.68); }
+  .apply__check strong { color: #F7F5EE; font-weight: 500; }
+  .apply__check input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--bulb); }
+  .apply__hp { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+  .apply__foot { display: grid; gap: 12px; }
+  .apply__foot .btn { justify-self: start; }
+  .apply__foot .btn:disabled { opacity: .6; cursor: wait; }
+  .apply__foot p, .apply__err { font-size: 0.75rem; color: rgba(237,239,233,.52); }
+  .apply a { color: var(--bulb-lite); }
+  .apply__err { color: #E8A58E; }
+  .apply__done { border: 1px solid var(--bulb); padding: 32px; display: grid; gap: 10px; color: rgba(237,239,233,.72); }
+  .apply__done-h { font-family: var(--f-display); font-size: 1.6rem; color: #F7F5EE; }
 
   .foot {
     background: var(--steel-dark); color: rgba(237,239,233,.52);
@@ -661,18 +702,24 @@
     padding: 30px 0 38px; letter-spacing: 0.02em;
   }
   .foot strong { color: rgba(232,200,138,.82); font-weight: 400; }
+  .foot__nav { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-bottom: 16px; }
+  .foot__nav a { color: rgba(237,239,233,.78); text-decoration: none; }
+  .foot__nav a:hover { color: var(--bulb-lite); }
 
   /* ── Breiten ───────────────────────────────────────────────── */
 
   @media (max-width: 900px) { --pxcm: 4.4px; --plank-h: 5px; }
 
   @media (min-width: 720px) {
+    .apply__grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+    .apply__wide { grid-column: 1 / -1; }
     .factbar { grid-template-columns: repeat(4, minmax(0,1fr)); }
     .tiles   { grid-template-columns: repeat(3, minmax(0,1fr)); }
     .origin__cap { grid-template-columns: 1fr auto; align-items: end; }
   }
   @media (min-width: 940px) { .tour { grid-template-columns: 1.32fr 1fr; } }
   @media (min-width: 1060px) {
+    .close__grid { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }
     .wall { grid-template-columns: minmax(0,auto) minmax(280px,336px); }
     .card { position: sticky; top: 90px; }
   }

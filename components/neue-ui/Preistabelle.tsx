@@ -1,7 +1,7 @@
 /* Preistabelle: von unten nach oben gelesen – Basis, Greifhöhe, Augenhöhe –
    plus das pauschal bepreiste Schaufenster. */
 
-import { ORDER, ZONES, eur, miete, rate } from "@/lib/neue-ui/regal";
+import { ORDER, ZONES, eur, miete, mieteBesonders, rate, rateBesonders } from "@/lib/neue-ui/regal";
 import { SCHAUFENSTER_MONAT } from "@/lib/deck-economics";
 
 export default function Preistabelle() {
@@ -14,6 +14,7 @@ export default function Preistabelle() {
             <th scope="col">Höhe über Boden</th>
             <th scope="col">€ / cm / Monat</th>
             <th scope="col">Front 20 cm</th>
+            <th scope="col">Besonderer Wert*</th>
           </tr>
         </thead>
         <tbody>
@@ -32,6 +33,9 @@ export default function Preistabelle() {
                   {Z.auf ? ` (+${Z.auf} %)` : ""}
                 </td>
                 <td>{eur(miete(20, z))}</td>
+                <td>
+                  {eur(rateBesonders(z))} / cm · {eur(mieteBesonders(20, z))}
+                </td>
               </tr>
             );
           })}
@@ -42,6 +46,7 @@ export default function Preistabelle() {
             <td>Ladenfront</td>
             <td>pauschal</td>
             <td>{eur(SCHAUFENSTER_MONAT)}</td>
+            <td>—</td>
           </tr>
         </tbody>
       </table>

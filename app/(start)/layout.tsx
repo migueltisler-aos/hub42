@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { Schibsted_Grotesk } from "next/font/google";
 import "./regalwand.css";
 
-/* Die Display-Schrift der neuen UI. DM Sans, DM Mono und Bebas liegen schon
+/* Die Display-Schrift der Regalwand. DM Sans, DM Mono und Bebas liegen schon
    global als next/font-Variablen an <html>. */
 const schibsted = Schibsted_Grotesk({
   variable: "--font-schibsted",
@@ -11,13 +11,12 @@ const schibsted = Schibsted_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Regalwand",
+  title: { absolute: "Hub42 – Regalfront im Alexa Berlin, ab 5 cm" },
   description:
-    "Neue UI: der Hub42-Store als Regalwand. Jede Front hat eine Breite in Zentimetern und einen Preis.",
-  robots: { index: false, follow: false },
+    "Hub42 im Alexa Berlin: Regalfront nach Zentimetern, Provision erst beim Verkauf. 41.000 Besucher täglich. Eröffnung März 2027 – jetzt bewerben.",
 };
 
-export default function NeueUiLayout({ children }: { children: React.ReactNode }) {
+export default function StartLayout({ children }: { children: React.ReactNode }) {
   /* Alles hängt unter .rw – das kapselt die generischen Klassennamen des
      Mockups gegen den Rest der Site ab (siehe regalwand.css). */
   return <div className={`${schibsted.variable} rw`}>{children}</div>;

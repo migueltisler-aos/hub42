@@ -3,11 +3,27 @@
    object-position bzw. mix-blend-mode; next/image legt dafür Wrapper und
    Größen fest, die die Bildführung brechen. */
 
+import Link from "next/link";
 import Anteil from "@/components/neue-ui/Anteil";
+import Bewerbung from "@/components/neue-ui/Bewerbung";
 import Massband from "@/components/neue-ui/Massband";
 import Preistabelle from "@/components/neue-ui/Preistabelle";
 import Regalwand from "@/components/neue-ui/Regalwand";
 import Rundgang from "@/components/neue-ui/Rundgang";
+import { onboardingsFrei } from "@/lib/bewerbung";
+import { ONBOARDINGS_PRO_WOCHE } from "@/lib/bewerbung-model";
+import {
+  BASE_RATE_BESONDERER_WERT,
+  BASE_RATE_PER_CM,
+  MIN_SLOT_MIETE,
+  MIN_SLOT_MIETE_BESONDERER_WERT,
+  MIN_SLOT_MIETE_BY_TRANCHE,
+} from "@/lib/deck-economics";
+import { eur } from "@/lib/neue-ui/regal";
+
+/* Der Onboarding-Zähler kommt aus der DB. Alle 5 Minuten neu, und nach jeder
+   Bewerbung sofort (revalidatePath in app/actions/bewerbung.ts). */
+export const revalidate = 300;
 
 /* Die drei Produkte auf der Verkostungstheke, 1,35-fach vergrößert. */
 const THEKE = [
@@ -26,7 +42,9 @@ const FAKTEN = [
   { v: "Mo–Sa", k: "10–20 Uhr" },
 ];
 
-export default function NeueUiPage() {
+export default async function StartPage() {
+  const frei = await onboardingsFrei();
+
   return (
     <>
       <header className="top">
@@ -38,9 +56,10 @@ export default function NeueUiPage() {
             <a href="#regal">Regal</a>
             <a href="#rundgang">Rundgang</a>
             <a href="#preise">Preise</a>
+            <a href="#bewerben">Bewerben</a>
           </nav>
-          <a className="btn btn--solid" href="#anfragen">
-            Regalfront anfragen
+          <a className="btn btn--solid" href="#bewerben">
+            Jetzt bewerben
           </a>
         </div>
       </header>
@@ -56,7 +75,7 @@ export default function NeueUiPage() {
           <div className="hero__scrim" />
           <div className="hero__say">
             <div className="wrap">
-              <p className="hero__badge">Alexa Berlin · Alexanderplatz</p>
+              <p className="hero__badge">Eröffnung März 2027 · Alexa Berlin · Alexanderplatz</p>
               <h1>Ein Laden aus Beton, Stahl und sechs Marken, die du nicht kennst.</h1>
               <p className="hero__sub">
                 Schwerlastregale statt Ladenbau. Sperrholz statt Hochglanz. Jede Regalfront gehört
@@ -103,7 +122,8 @@ export default function NeueUiPage() {
             <p className="eyebrow">Regalwand A · Schwerlastregal · 3 Ebenen à 84 cm</p>
             <h2>Ein Regal, in dem jede Front einen Preis hat.</h2>
             <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
-              Grundpreis 4,64 € pro Zentimeter und Monat. Wer höher steht, zahlt mehr — Augenhöhe
+              Grundpreis {eur(BASE_RATE_PER_CM)} pro Zentimeter und Monat. Wer höher steht, zahlt
+              mehr — Augenhöhe
               +10 %, garantierte Greifhöhe +20 %. Auf der Traverse steht, wem die Front gehört:
               Marke, QR-Code, Preis. Front antippen, dann rechnet die Karte mit. Die bronzene Front
               hat einen Griff — zieh sie breiter.
@@ -173,10 +193,17 @@ export default function NeueUiPage() {
             <Preistabelle />
 
             <p className="fineprint">
-              Mindestmiete 59 € / Monat je Front · Mindestbreite 5 cm · Konsignation, kein
-              Wareneinkauf
+              * Besonderer Wert: für Handwerk, Herkunft oder eine Mission — nur auf Bewerbung,
+              entschieden im Onboarding. Gleiche Front, {eur(BASE_RATE_BESONDERER_WERT)} statt{" "}
+              {eur(BASE_RATE_PER_CM)} je cm, Mindestmiete {MIN_SLOT_MIETE_BESONDERER_WERT} € statt{" "}
+              {MIN_SLOT_MIETE} €
               <br />
-              Gründungskonditionen bis 60 % Store-Auslastung · ab 60 % +10 % · ab 85 % +20 % · First
+              Mindestmiete {MIN_SLOT_MIETE} € / Monat je Front · Mindestbreite 5 cm · Konsignation,
+              kein Wareneinkauf
+              <br />
+              Gründungskonditionen bis 60 % Store-Auslastung · ab 60 % +10 % (Mindestmiete{" "}
+              {MIN_SLOT_MIETE_BY_TRANCHE.aufbau} €) · ab 85 % +20 % (
+              {MIN_SLOT_MIETE_BY_TRANCHE.warteliste} €) · First
               Mover behalten ihren Einstiegspreis vertraglich für 12 Monate
               <br />7 % Vermittlungsprovision auf den Bruttoverkaufspreis, Zahlungsabwicklung
               inklusive · Traverse-Karte mit QR-Code und monatlicher Verkaufsbericht je Front
@@ -259,24 +286,51 @@ export default function NeueUiPage() {
           </div>
         </section>
 
-        {/* ══ Abschluss ═════════════════════════════════════════ */}
-        <section className="sect dark close" id="anfragen">
+        {/* ══ Bewerbung ════════════════════════════════════════ */}
+        <section className="sect dark close" id="bewerben">
           <div className="wrap">
-            <div className="close__in">
-              <p className="eyebrow">Regalfront anfragen</p>
-              <h2>Sieben Fronts in dieser Wand sind noch frei.</h2>
-              <p className="lede">
-                Ab fünf Zentimetern, ab 59 € im Monat, ohne Listungsgebühr. Wir bringen den Ort, du
-                bringst dein Produkt.
-              </p>
-              <div className="btn-row">
-                <a className="btn btn--lit" href="#regal">
-                  Freie Front wählen
-                </a>
-                <a className="btn btn--dark" href="#preise">
-                  Preise ansehen
-                </a>
+            <div className="close__grid">
+              <div className="close__in">
+                <p className="eyebrow">Regalfront · Bewerbung</p>
+                <h2>Wir kuratieren. Deshalb bewirbst du dich.</h2>
+                <p className="lede">
+                  Ab fünf Zentimetern, ab {MIN_SLOT_MIETE} € im Monat — für Produkte mit besonderem
+                  Wert ab {MIN_SLOT_MIETE_BESONDERER_WERT} €. Ohne Listungsgebühr. Wir holen
+                  jede Woche {ONBOARDINGS_PRO_WOCHE} Marken ins Onboarding — und schauen uns jedes
+                  Produkt an, bevor es ins Regal kommt.
+                </p>
+                <div className="slots" aria-label="Onboarding-Termine diese Woche">
+                  {frei === null ? (
+                    <p className="slots__txt">{ONBOARDINGS_PRO_WOCHE} Onboardings pro Woche</p>
+                  ) : (
+                    <>
+                      <div className="slots__dots" aria-hidden="true">
+                        {Array.from({ length: ONBOARDINGS_PRO_WOCHE }, (_, i) => (
+                          <span key={i} className={i < ONBOARDINGS_PRO_WOCHE - frei ? "is-taken" : ""} />
+                        ))}
+                      </div>
+                      <p className="slots__txt">
+                        {frei > 0 ? (
+                          <>
+                            <strong>
+                              {frei} von {ONBOARDINGS_PRO_WOCHE}
+                            </strong>{" "}
+                            Onboardings diese Woche frei
+                          </>
+                        ) : (
+                          <>Diese Woche ist voll — deine Bewerbung rutscht in die nächste.</>
+                        )}
+                      </p>
+                    </>
+                  )}
+                </div>
+                <p className="close__note">
+                  Eröffnung März 2027. Wer jetzt einsteigt, behält die Gründungskonditionen 12 Monate
+                  lang vertraglich.
+                </p>
               </div>
+
+              <Bewerbung />
             </div>
           </div>
         </section>
@@ -284,19 +338,19 @@ export default function NeueUiPage() {
 
       <footer className="foot">
         <div className="wrap">
-          <strong>Design-Mockup, 11. September 2026.</strong>
+          <nav className="foot__nav" aria-label="Rechtliches und mehr">
+            <Link href="/hersteller">Für Hersteller</Link>
+            <Link href="/deck">Pitch-Deck</Link>
+            <Link href="/kontakt">Kontakt</Link>
+            <Link href="/impressum">Impressum</Link>
+            <Link href="/datenschutz">Datenschutz</Link>
+            <Link href="/agb">AGB</Link>
+          </nav>
+          <strong>Hub42 UG (haftungsbeschränkt) · Eröffnung März 2027 · Alexa Berlin</strong>
           <br />
-          Echt: Produktfotos der sechs gelisteten Marken, Zonen-Preismodell (4,64 €/cm, +10 % /
-          +20 %, 140 € Schaufenster, 59 € Mindestmiete, 5 cm Mindestbreite, 7 % Provision), Traverse
-          15 cm, 50 cm VK-Fläche, Öffnungszeiten, Besucherzahl Alexa. Der Konfigurator rechnet mit
-          genau diesen Werten.
-          <br />
-          Illustrativ: Regalbreiten und Produkthöhen in cm, Belegung der Wand, Grundriss und
-          Stationsmaße, Anzahl und Länge der LEH-Fronts im Anteilsvergleich.
-          <br />
-          Ladenansicht und Regalkonzept sind KI-generierte Konzeptbilder aus dem
-          Hub42-Pitchmaterial — sie tragen ein Generator-Wasserzeichen und sind keine Fotos des
-          fertigen Ladens.
+          Ladenansicht und Regalkonzept sind KI-generierte Konzeptbilder, keine Fotos des fertigen
+          Ladens. Regalbelegung, Grundriss und Stationsmaße sind illustrativ; Preise und Konditionen
+          sind verbindlich wie angegeben.
         </div>
       </footer>
     </>

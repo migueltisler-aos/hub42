@@ -10,8 +10,7 @@ import {
   flaecheM2,
   gesamtBreiteCm,
   MWST_PCT,
-  PREIS_PRO_QM,
-  MINDESTMIETE_MONAT,
+  mietKlasse,
   KUENDIGUNG_VORLAUF_MONATE,
   REGAL_TIEFE_CM,
 } from "@/lib/angebote";
@@ -37,7 +36,9 @@ export default async function AngebotPrintPage({
   const a = await getAngebot(id);
   if (!a) notFound();
 
-  const sum = computeAngebot(a.positionen, a.laufzeit_monate, a.ebenen ?? []);
+  const besonders = a.besonderer_wert ?? false;
+  const { preisProQm, mindestmiete } = mietKlasse(besonders);
+  const sum = computeAngebot(a.positionen, a.laufzeit_monate, a.ebenen ?? [], besonders);
   const ebenen = (a.ebenen ?? []).filter((e) => e.cm > 0);
   const laufende = a.positionen.filter((p) => !p.einmalig);
   const einmalige = a.positionen.filter((p) => p.einmalig);
@@ -153,7 +154,7 @@ export default async function AngebotPrintPage({
               <tr style={{ borderBottom: `1px solid ${LINE}` }}>
                 <td style={{ padding: "10px 8px", color: INK }}>
                   Regalfläche{totalM2 > 0 ? ` · ${fmtM2(totalM2)} (${breite} cm)` : ""}
-                  <span style={{ color: MUTED, fontSize: 12 }}> — {PREIS_PRO_QM.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €/m²</span>
+                  <span style={{ color: MUTED, fontSize: 12 }}> — {preisProQm.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €/m²{besonders ? " (Kondition besonderer Wert)" : ""}</span>
                 </td>
                 <td style={{ padding: "10px 8px", textAlign: "right", color: INK, fontWeight: 600, whiteSpace: "nowrap" }}>{formatEUR(sum.flaechenMonat)}</td>
               </tr>
@@ -221,7 +222,7 @@ export default async function AngebotPrintPage({
         <div style={{ marginTop: 28, fontSize: 12, color: MUTED, lineHeight: 1.7 }}>
           <SectionLabel>Konditionen</SectionLabel>
           Mindestlaufzeit {a.laufzeit_monate} Monate, danach monatlich kündbar mit {KUENDIGUNG_VORLAUF_MONATE} Monat Vorlauf.
-          Flächenpreis {PREIS_PRO_QM.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €/m²/Monat, Mindestmiete {MINDESTMIETE_MONAT} €/Monat,
+          Flächenpreis {preisProQm.toLocaleString("de-DE", { minimumFractionDigits: 2 })} €/m²/Monat, Mindestmiete {mindestmiete} €/Monat{besonders ? " (Kondition für Produkte mit besonderem Wert)" : ""},
           Abrechnung monatlich im Voraus. Verkauf in Kommission (Konsignation gem. § 383 HGB) – du behältst Eigentum und Preishoheit.
           Angebot freibleibend{a.gueltig_bis ? ` bis ${fmtDate(a.gueltig_bis)}` : ""}.
         </div>

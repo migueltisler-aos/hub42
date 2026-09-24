@@ -208,39 +208,44 @@ export async function getUebersicht(zeitraum: Zeitraum): Promise<AnalyticsUebers
   );
 
   // ── Trichter ──────────────────────────────────────────────────────────────
+  // Sequenziell: jede Stufe ist eine Teilmenge der vorherigen, zeitlich
+  // geordnet (siehe View analytics_funnel). Direkt-Anfragen ohne vorheriges
+  // Brand-Interesse fallen hier bewusst raus – die stehen in der KPI-Kachel.
   type FunnelZeile = {
     sessions: number;
-    deck: number;
+    interesse: number;
+    start: number | null;
     hersteller: number;
+    deck: number;
     kontakt: number;
     conversions: number;
+    anfragen: number;
   };
   const f = (funnel.data ?? []) as FunnelZeile[];
   const trichter: TrichterStufe[] = [
     {
       label: "Alle Besuche",
       sessions: summe(f.map((z) => z.sessions)),
-      hinweis: "Sessions im Zeitraum",
+      hinweis: "Sessions mit Seitenaufruf",
     },
     {
-      label: "Hersteller-Seite",
-      sessions: summe(f.map((z) => z.hersteller)),
-      hinweis: "hat /hersteller gesehen",
+      label: "Brand-Interesse",
+      sessions: summe(f.map((z) => z.interesse)),
+      hinweis: `/ ${summe(f.map((z) => z.start ?? 0))} · /hersteller ${summe(
+        f.map((z) => z.hersteller)
+      )} · /deck ${summe(
+        f.map((z) => z.deck)
+      )}`,
     },
     {
-      label: "Deck",
-      sessions: summe(f.map((z) => z.deck)),
-      hinweis: "hat /deck gesehen",
-    },
-    {
-      label: "Kontaktseite",
+      label: "Bewerbung / Kontakt",
       sessions: summe(f.map((z) => z.kontakt)),
-      hinweis: "hat /kontakt erreicht",
+      hinweis: "danach Bewerbung begonnen oder /kontakt erreicht",
     },
     {
-      label: "Anfrage gesendet",
+      label: "Bewerbung / Anfrage gesendet",
       sessions: summe(f.map((z) => z.conversions)),
-      hinweis: "Formular abgeschickt",
+      hinweis: "danach Formular abgeschickt",
     },
   ];
 
@@ -278,7 +283,7 @@ export async function getUebersicht(zeitraum: Zeitraum): Promise<AnalyticsUebers
     // Anfang des Zeitraums den Wert kuenstlich nach unten.
     besucherProTag: Math.round(summe(visitorZeilen.map((z) => z.besucher)) / tageMitDaten),
     avgDauerSek: dauerMessungen ? Math.round(dauerSumme / dauerMessungen / 1000) : 0,
-    conversions: summe(f.map((z) => z.conversions)),
+    conversions: summe(f.map((z) => z.anfragen)),
   };
 
   return {

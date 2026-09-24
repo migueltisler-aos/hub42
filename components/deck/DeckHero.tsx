@@ -1,5 +1,5 @@
 /* Section 1 – Hero / Deck-Cover. Server Component (statisch, drucktauglich).
-   Eröffnung statisch „Oktober 2026", kein CountdownTimer. */
+   Eröffnung statisch „März 2027", kein CountdownTimer. */
 export default function DeckHero() {
   return (
     <section
@@ -23,7 +23,7 @@ export default function DeckHero() {
 
       <div className="relative z-10 text-center px-6 max-w-4xl mx-auto">
         <p className="text-bronze/60 text-xs font-mono tracking-[0.3em] uppercase mb-2">
-          Pre-Launch Deck · Eröffnung Oktober 2026
+          Pre-Launch Deck · Eröffnung März 2027
         </p>
         <p className="text-bronze text-xs font-mono tracking-[0.2em] uppercase mb-10">
           Alexa Berlin · Alexanderplatz

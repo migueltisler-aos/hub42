@@ -184,7 +184,7 @@ export const KOHORTE = {
   nummer: 1,
   name: "Gründungskohorte",
   plaetze: 12,
-  start: "Oktober 2026",
+  start: "März 2027",
   ort: "Hub42 Berlin · Alexanderplatz",
   bewerbungsschluss: "TODO_DATUM",
 } as const;

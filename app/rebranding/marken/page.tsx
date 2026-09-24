@@ -5,12 +5,12 @@ import FFFooter from "@/components/rebranding/FFFooter";
 export const metadata: Metadata = {
   title: "Für Marken, Testkaufhaus Feedback Factory",
   description:
-    "Regal ab 59 Euro im Monat, 4,64 Euro pro Zentimeter, 14 Tage bis ins Regal, Kommission nach Paragraf 383 HGB. Rohdaten statt Bauchgefühl.",
+    "Regal ab 89 Euro im Monat, 7 Euro pro Zentimeter (4,64 Euro für Produkte mit besonderem Wert), 14 Tage bis ins Regal, Kommission nach Paragraf 383 HGB. Rohdaten statt Bauchgefühl.",
 };
 
 const KONDITIONEN = [
-  { wert: "Ab 59 €", label: "pro Monat, kleinste Regalfront (Gründungskonditionen)" },
-  { wert: "4,64 €", label: "pro Zentimeter Regalbreite (Gründungskonditionen)" },
+  { wert: "Ab 89 €", label: "pro Monat, kleinste Regalfront (Gründungskonditionen)" },
+  { wert: "7,00 €", label: "pro Zentimeter Regalbreite (4,64 € für Produkte mit besonderem Wert)" },
   { wert: "14 Tage", label: "von Zusage bis ins Regal" },
   { wert: "3 Monate", label: "Mindestlaufzeit, danach monatlich kündbar" },
   { wert: "7 %", label: "Vermittlungsprovision pro verkauftem Artikel" },

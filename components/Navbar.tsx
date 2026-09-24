@@ -54,7 +54,7 @@ export default function Navbar() {
               <div className="flex items-center gap-2">
                 <span className="w-2 h-2 rounded-full bg-bronze animate-pulse shrink-0" />
                 <span className="text-bronze text-[11px] font-mono tracking-widest uppercase">
-                  Eröffnung Oktober 2026 · Alexa Berlin · Alexanderplatz
+                  Eröffnung März 2027 · Alexa Berlin · Alexanderplatz
                 </span>
               </div>
               <Link

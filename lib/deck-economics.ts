@@ -16,8 +16,14 @@
    ============================================================ */
 
 /* ── Slot-Preismodell (eine Quelle der Wahrheit) ──────────────
-   Grundpreis je cm Regalfront + Zonen-Aufschlag + Tranchen-Aufschlag. */
-export const BASE_RATE_PER_CM = 4.64;
+   Grundpreis je cm Regalfront + Zonen-Aufschlag + Tranchen-Aufschlag.
+
+   Zwei Preisklassen bei gleicher Breite:
+   - Besonderer Wert (nur auf Bewerbung): 4,64 €/cm, Mindestmiete 59 €
+   - Standard: 7,00 €/cm, Mindestmiete 89 € – also 89/59 des Sonderpreises,
+     dieselbe Front kostet 89 € statt 59 €. */
+export const BASE_RATE_BESONDERER_WERT = 4.64;
+export const BASE_RATE_PER_CM = 7.0;
 export const ZONE_SURCHARGE_PCT = { basis: 0, augenhoehe: 10, greifhoehe: 20 } as const;
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
@@ -60,15 +66,28 @@ export const TRANCHE_RATES: Record<Tranche, { basis: number; augenhoehe: number;
 /** Rückwärtskompatibel: RATES = Tranche "first_mover" (die auf der Website standardmäßig gezeigte Rate). */
 export const RATES = TRANCHE_RATES.first_mover;
 
+/** €/cm-Monatsraten für Produkte mit besonderem Wert (Gründungskonditionen, Zonenaufschlag wie Standard). */
+const rateBesonders = (zonePct: number) => round2(BASE_RATE_BESONDERER_WERT * (1 + zonePct / 100));
+export const RATES_BESONDERER_WERT = {
+  basis: rateBesonders(ZONE_SURCHARGE_PCT.basis),
+  augenhoehe: rateBesonders(ZONE_SURCHARGE_PCT.augenhoehe),
+  greifhoehe: rateBesonders(ZONE_SURCHARGE_PCT.greifhoehe),
+};
+
 export const MIN_REGAL_CM = 5;
 
 /** Mindestmiete/Slot je Tranche (steigt mit der Slot-Rate: +10 % / +20 %). */
 export const MIN_SLOT_MIETE_BY_TRANCHE: Record<Tranche, number> = {
-  first_mover: 59,
-  aufbau: 65,
-  warteliste: 70,
+  first_mover: 89,
+  aufbau: 98,
+  warteliste: 107,
 };
 export const MIN_SLOT_MIETE = MIN_SLOT_MIETE_BY_TRANCHE.first_mover;
+
+/** Mindestmiete für Produkte mit besonderem Wert (Handwerk, Herkunft, Mission),
+    zusammen mit RATES_BESONDERER_WERT. Kein Listenpreis: nur auf Bewerbung,
+    Hub42 entscheidet im Onboarding. */
+export const MIN_SLOT_MIETE_BESONDERER_WERT = 59;
 
 /** Fixpreis-Slot Schaufenster / Ladenfront (Außensichtbarkeit) – tranchenunabhängig. */
 export const SCHAUFENSTER_MONAT = 140;

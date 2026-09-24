@@ -18,10 +18,13 @@ import {
   eur,
   istFrei,
   miete,
+  mieteBesonders,
   rate,
   type Front,
   type ZoneKey,
 } from "@/lib/neue-ui/regal";
+import { track } from "@/lib/analytics-client";
+import { FRONT_EVENT, type FrontDetail } from "@/lib/bewerbung-model";
 
 /* QR-Marke auf der Traverse — wie im Regalkonzept */
 function QrMarke() {
@@ -167,6 +170,7 @@ export default function Regalwand() {
     { k: "Zone", v: Z.name + (Z.auf ? ` (+${Z.auf} %)` : "") },
     { k: "Zentimeterpreis", v: eur(rate(sel.zone)) },
     { k: "Miete / Monat", v: eur(monat), sum: true },
+    { k: "Besonderer Wert (Bewerbung)", v: eur(mieteBesonders(gewaehltCm, sel.zone)) },
   ];
   if (!istFrei(gewaehlt)) zeilen.push({ k: "Verkaufspreis", v: "UVP der Marke" });
 
@@ -360,8 +364,25 @@ export default function Regalwand() {
             </p>
 
             <div className="card__foot">
-              <a className="btn btn--solid" href="#anfragen">
-                {istFrei(gewaehlt) ? "Diese Front anfragen" : "Front daneben anfragen"}
+              <a
+                className="btn btn--solid"
+                href="#bewerben"
+                onClick={() => {
+                  /* Eine belegte Front ist kein Wunsch, nur die Zone. */
+                  const detail: FrontDetail = {
+                    zone: sel.zone,
+                    cm: istFrei(gewaehlt) ? gewaehltCm : MIN_CM,
+                  };
+                  window.dispatchEvent(new CustomEvent(FRONT_EVENT, { detail }));
+                  track({
+                    event_type: "interaction",
+                    path: window.location.pathname,
+                    section: "regal",
+                    meta: { zone: sel.zone, cm: detail.cm, frei: istFrei(gewaehlt) },
+                  });
+                }}
+              >
+                {istFrei(gewaehlt) ? "Für diese Front bewerben" : "Für die Front daneben bewerben"}
               </a>
               <span className="card__hint">7 % Provision bei Verkauf</span>
             </div>

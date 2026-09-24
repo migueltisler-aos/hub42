@@ -6,16 +6,31 @@
 // zieht über lib/supabase-admin.ts den Service-Role-Key herein, der nie in
 // ein Browser-Bundle darf. Gleiches Muster wie lib/deck-economics.ts.
 import { SLOTS } from "./slots";
-import { MIN_SLOT_MIETE } from "./deck-economics";
+import {
+  BASE_RATE_BESONDERER_WERT,
+  BASE_RATE_PER_CM,
+  MIN_SLOT_MIETE,
+  MIN_SLOT_MIETE_BESONDERER_WERT,
+} from "./deck-economics";
 export const MWST_PCT = 19;
 
 /* ── Flächenpreis ─────────────────────────────────────────────────
    Miete = belegte Fläche (m²) × Preis/m² – mit Mindestmiete.
    Fläche je Ebene = Breite (cm) × Regaltiefe (60 cm).
-   PREIS_PRO_QM ist die EINE Stellschraube für den m²-Preis. */
-export const PREIS_PRO_QM = 4.64; // €/m²/Monat
+   Zwei Preisklassen wie auf der Website (deck-economics.ts): Standard und
+   "besonderer Wert" (nur auf Bewerbung) – je Angebot per Schalter. */
+export const PREIS_PRO_QM = BASE_RATE_PER_CM; // €/m²/Monat, Standard
+export const PREIS_PRO_QM_BESONDERER_WERT = BASE_RATE_BESONDERER_WERT;
 export const REGAL_TIEFE_CM = 60;
-export const MINDESTMIETE_MONAT = 59; // €/Monat
+export const MINDESTMIETE_MONAT = MIN_SLOT_MIETE; // €/Monat – aus deck-economics, nicht doppelt pflegen
+export const MINDESTMIETE_BESONDERER_WERT = MIN_SLOT_MIETE_BESONDERER_WERT;
+
+/** Preis/m² und Mindestmiete der Preisklasse eines Angebots. */
+export function mietKlasse(besondererWert: boolean): { preisProQm: number; mindestmiete: number } {
+  return besondererWert
+    ? { preisProQm: PREIS_PRO_QM_BESONDERER_WERT, mindestmiete: MINDESTMIETE_BESONDERER_WERT }
+    : { preisProQm: PREIS_PRO_QM, mindestmiete: MINDESTMIETE_MONAT };
+}
 export const MINDESTLAUFZEIT_MONATE = 3; // anpassbar je Angebot
 export const KUENDIGUNG_VORLAUF_MONATE = 1;
 
@@ -41,10 +56,11 @@ export function gesamtBreiteCm(ebenen: Ebene[]): number {
 }
 
 /** Monatliche Flächenmiete: max(Mindestmiete, Fläche × Preis/m²). 0 ohne Fläche. */
-export function flaechenMieteMonat(ebenen: Ebene[]): number {
+export function flaechenMieteMonat(ebenen: Ebene[], besondererWert = false): number {
   const m2 = flaecheM2(ebenen);
   if (m2 <= 0) return 0;
-  return Math.max(MINDESTMIETE_MONAT, Math.round(m2 * PREIS_PRO_QM * 100) / 100);
+  const { preisProQm, mindestmiete } = mietKlasse(besondererWert);
+  return Math.max(mindestmiete, Math.round(m2 * preisProQm * 100) / 100);
 }
 
 // ── Alt-Lagerfläche (Bestückung/Nachschub – nur intern) ──────────
@@ -115,6 +131,8 @@ export interface Angebot {
   gueltig_bis: string | null;
   tasting: boolean;
   tasting_pct: number;
+  /** Preisklasse "besonderer Wert" (4,64 €, min. 59 €) statt Standard. */
+  besonderer_wert: boolean;
   gemietete_breite_cm: number | null;
   max_artikel: number | null;
   nachschub_email: string | null;
@@ -224,9 +242,10 @@ export function positionEinmalig(p: Position): number {
 export function computeAngebot(
   positionen: Position[],
   laufzeitMonate: number,
-  ebenen: Ebene[] = []
+  ebenen: Ebene[] = [],
+  besondererWert = false
 ): AngebotSummary {
-  const flaechenMonat = flaechenMieteMonat(ebenen);
+  const flaechenMonat = flaechenMieteMonat(ebenen, besondererWert);
   const positionenMonat = positionen.reduce((s, p) => s + positionMonatlich(p), 0);
   const monatlichNetto = flaechenMonat + positionenMonat;
   const einmaligNetto = positionen.reduce((s, p) => s + positionEinmalig(p), 0);
@@ -285,6 +304,7 @@ export function parseAngebotForm(formData: FormData): Partial<AngebotInput> {
     gueltig_bis: (formData.get("gueltig_bis") as string) || null,
     tasting: formData.get("tasting") === "on",
     tasting_pct: Math.max(0, Number(formData.get("tasting_pct")) || 10),
+    besonderer_wert: formData.get("besonderer_wert") === "on",
     gemietete_breite_cm: ebenen.length ? gesamtBreiteCm(ebenen) : numOrNull(formData.get("gemietete_breite_cm")),
     max_artikel: numOrNull(formData.get("max_artikel")),
     nachschub_email: (formData.get("nachschub_email") as string) || null,

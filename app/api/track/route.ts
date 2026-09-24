@@ -1,4 +1,4 @@
-import { createHash, randomUUID } from "crypto";
+import { createHash } from "crypto";
 import type { NextRequest } from "next/server";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
 import {
@@ -29,6 +29,35 @@ function istBot(ua: string): boolean {
   if (!ua) return true; // kein User-Agent ist selbst schon ein Signal
   return BOT_MUSTER.test(ua);
 }
+
+/**
+ * Eigener Traffic zählt nicht.
+ *
+ * Erkannt am pipeline_auth-Cookie, das nur auf Geräten liegt, auf denen sich
+ * jemand aus dem Team in /pipeline eingeloggt hat. Der Browser schickt es
+ * ohnehin mit (path "/"); hier wird es nur gelesen, um eine Messung zu
+ * UNTERLASSEN – für öffentliche Besucher existiert es nicht, am
+ * cookiefreien Design ändert sich für sie nichts.
+ */
+function istTeam(request: NextRequest): boolean {
+  const auth = request.cookies.get("pipeline_auth")?.value;
+  const expected = process.env.PIPELINE_PASSWORD;
+  return !!auth && !!expected && auth === expected;
+}
+
+/**
+ * Nur die Produktion misst.
+ *
+ * Preview-Deployments (Links aus vercel.com) und `next dev` schreiben sonst
+ * in dieselbe Supabase-Tabelle wie die Live-Seite – das war der vercel.com-
+ * Traffic im Dashboard.
+ */
+function istProduktion(): boolean {
+  return process.env.VERCEL_ENV === "production";
+}
+
+/** Verweise von der eigenen Domain (auch www ↔ apex) sind keine Herkunft. */
+const EIGENE_HOSTS = /(^|\.)tryhub42\.de$/i;
 
 function geraet(ua: string): string {
   if (/ipad|tablet|playbook|silk/i.test(ua)) return "tablet";
@@ -72,6 +101,9 @@ export async function POST(request: NextRequest) {
   // Messfehler darf nie im Browser sichtbar werden.
   const still = new Response(null, { status: 204 });
 
+  if (!istProduktion()) return still;
+  if (istTeam(request)) return still;
+
   const ua = request.headers.get("user-agent") ?? "";
   if (istBot(ua)) return still;
 
@@ -99,20 +131,6 @@ export async function POST(request: NextRequest) {
 
   const sb = getSupabaseAdmin();
 
-  // ── Session serverseitig ableiten ─────────────────────────────────────────
-  // Kein Client-Zustand nötig und damit kein Zugriff auf den Endgerätespeicher,
-  // der nach § 25 TDDDG einwilligungspflichtig wäre.
-  const seit = new Date(Date.now() - SESSION_FENSTER_MIN * 60_000).toISOString();
-  const { data: letztes } = await sb
-    .from("analytics_events")
-    .select("session_id")
-    .eq("visitor_hash", visitor_hash)
-    .gte("ts", seit)
-    .order("ts", { ascending: false })
-    .limit(1)
-    .maybeSingle();
-  const session_id = letztes?.session_id ?? randomUUID();
-
   // ── Brand-Token auflösen ──────────────────────────────────────────────────
   const link_token = text(payload.link_token, 32);
   let brand_id: string | null = null;
@@ -125,23 +143,31 @@ export async function POST(request: NextRequest) {
     brand_id = link?.brand_id ?? null;
   }
 
-  const { error } = await sb.from("analytics_events").insert({
-    event_type: payload.event_type,
-    path,
-    referrer_host: text(payload.referrer_host, 120),
-    utm_source: text(payload.utm_source, 60),
-    utm_medium: text(payload.utm_medium, 60),
-    utm_campaign: text(payload.utm_campaign, 60),
-    link_token,
-    brand_id,
-    visitor_hash,
-    session_id,
-    device: geraet(ua),
-    country: request.headers.get("x-vercel-ip-country"),
-    duration_ms: zahl(payload.duration_ms, 0, 4 * 60 * 60 * 1000),
-    scroll_pct: zahl(payload.scroll_pct, 0, 100),
-    section: text(payload.section, 40),
-    meta,
+  // ── Session serverseitig ableiten + schreiben ─────────────────────────────
+  // Kein Client-Zustand nötig und damit kein Zugriff auf den Endgerätespeicher,
+  // der nach § 25 TDDDG einwilligungspflichtig wäre.
+  // Suchen und Einfügen laufen in EINER Transaktion unter einem Lock pro
+  // Besucher (supabase/analytics_migration_2_sessions_trichter.sql). Getrennt
+  // hat das beim Deck-Laden, wo Pageview und erste Sektionen gleichzeitig
+  // ankommen, einen Besuch in mehrere Sessions zerlegt.
+  const referrer = text(payload.referrer_host, 120);
+  const { data: session_id, error } = await sb.rpc("analytics_track", {
+    p_event_type: payload.event_type,
+    p_path: path,
+    p_referrer_host: referrer && EIGENE_HOSTS.test(referrer) ? null : referrer,
+    p_utm_source: text(payload.utm_source, 60),
+    p_utm_medium: text(payload.utm_medium, 60),
+    p_utm_campaign: text(payload.utm_campaign, 60),
+    p_link_token: link_token,
+    p_brand_id: brand_id,
+    p_visitor_hash: visitor_hash,
+    p_device: geraet(ua),
+    p_country: request.headers.get("x-vercel-ip-country"),
+    p_duration_ms: zahl(payload.duration_ms, 0, 4 * 60 * 60 * 1000),
+    p_scroll_pct: zahl(payload.scroll_pct, 0, 100),
+    p_section: text(payload.section, 40),
+    p_meta: meta,
+    p_fenster_min: SESSION_FENSTER_MIN,
   });
 
   if (error) {
@@ -150,10 +176,10 @@ export async function POST(request: NextRequest) {
   }
 
   // ── Telegram bei erster Deck-Öffnung einer Brand ──────────────────────────
-  if (brand_id && payload.event_type === "pageview") {
+  if (brand_id && session_id && payload.event_type === "pageview") {
     // Fire-and-forget: ein Telegram-Fehler darf das schon geschriebene Event
     // nicht nachträglich zum Fehlschlag machen.
-    void meldeErsteOeffnung(brand_id, session_id).catch((e) =>
+    void meldeErsteOeffnung(brand_id, session_id as string).catch((e) =>
       console.error("[track] Telegram-Meldung fehlgeschlagen:", e)
     );
   }

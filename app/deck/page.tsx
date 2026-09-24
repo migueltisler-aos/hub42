@@ -17,7 +17,7 @@ import DeckScrollTracker from "@/components/deck/DeckScrollTracker";
 export const metadata: Metadata = {
   title: "Pre-Launch Deck",
   description:
-    "Hub42 Pre-Launch Deck – der kuratierte Entdecker-Store am Alexa Berlin. Eröffnung Oktober 2026.",
+    "Hub42 Pre-Launch Deck – der kuratierte Entdecker-Store am Alexa Berlin. Eröffnung März 2027.",
   robots: { index: false, follow: false },
 };
 
@@ -29,7 +29,7 @@ export default function DeckPage() {
         Hub42 · Pre-Launch Deck
       </div>
       <div className="deck-print-footer" aria-hidden="true">
-        Hub42 UG · Eröffnung Oktober 2026 · Alexa Berlin · tryhub42.de
+        Hub42 UG · Eröffnung März 2027 · Alexa Berlin · tryhub42.de
       </div>
 
       {/* Misst die Lesetiefe über die data-deck-section-Blöcke. Rendert nichts. */}

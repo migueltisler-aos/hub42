@@ -50,7 +50,15 @@ export const NICHT_MESSEN = [
   "/api",
 ] as const;
 
+/**
+ * Präfix für interne UI-Prototypen (/neue-ui, /neue-offer, …). Die Routen sind
+ * öffentlich erreichbar, damit man sie teilen kann, werden aber fast nur vom
+ * Team aufgerufen und verzerren sonst Seiten-Tabelle und Verweildauer.
+ */
+const PROTOTYP_PRAEFIX = "/neue-";
+
 export function pfadWirdGemessen(pathname: string): boolean {
+  if (pathname.startsWith(PROTOTYP_PRAEFIX)) return false;
   return !NICHT_MESSEN.some((p) => pathname === p || pathname.startsWith(`${p}/`));
 }
 

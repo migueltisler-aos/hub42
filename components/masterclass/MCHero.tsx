@@ -28,7 +28,7 @@ export default function MCHero() {
         </p>
 
         <p className="text-bronze/80 text-xs md:text-sm font-mono tracking-wide leading-relaxed max-w-xl mb-10">
-          Regalplatz im ALEXA Berlin · Konsignation nach §383 HGB · ab 59 €/Monat ·
+          Regalplatz im ALEXA Berlin · Konsignation nach §383 HGB · ab 89 €/Monat ·
           7 % Provision statt Marge, kein Abnahmezwang.
         </p>
 
