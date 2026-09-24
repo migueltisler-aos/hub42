@@ -703,8 +703,9 @@
   }
   .foot strong { color: rgba(232,200,138,.82); font-weight: 400; }
   .foot__nav { display: flex; flex-wrap: wrap; gap: 8px 22px; margin-bottom: 16px; }
-  .foot__nav a { color: rgba(237,239,233,.78); text-decoration: none; }
-  .foot__nav a:hover { color: var(--bulb-lite); }
+  .foot__nav a, .foot__btn { color: rgba(237,239,233,.78); text-decoration: none; }
+  .foot__btn { background: none; border: 0; padding: 0; font: inherit; cursor: pointer; }
+  .foot__nav a:hover, .foot__btn:hover { color: var(--bulb-lite); }
 
   /* ── Breiten ───────────────────────────────────────────────── */
 

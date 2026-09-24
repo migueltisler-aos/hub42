@@ -6,6 +6,7 @@
 import Link from "next/link";
 import Anteil from "@/components/neue-ui/Anteil";
 import Bewerbung from "@/components/neue-ui/Bewerbung";
+import { CookieEinstellungenButton } from "@/components/GoogleAnalytics";
 import Massband from "@/components/neue-ui/Massband";
 import Preistabelle from "@/components/neue-ui/Preistabelle";
 import Regalwand from "@/components/neue-ui/Regalwand";
@@ -345,6 +346,7 @@ export default async function StartPage() {
             <Link href="/impressum">Impressum</Link>
             <Link href="/datenschutz">Datenschutz</Link>
             <Link href="/agb">AGB</Link>
+            <CookieEinstellungenButton className="foot__btn" />
           </nav>
           <strong>Hub42 UG (haftungsbeschränkt) · Eröffnung März 2027 · Alexa Berlin</strong>
           <br />
