@@ -47,8 +47,12 @@ const LEER: BewerbungPayload = {
   firma2: "",
 };
 
-export default function Bewerbung() {
-  const [form, setForm] = useState<BewerbungPayload>(LEER);
+/** nurRegal: alte Startseite (/old) ohne Treppe. Einstieg steht fest auf
+    Standardregal, die Fragen dazu entfallen. */
+export default function Bewerbung({ nurRegal = false }: { nurRegal?: boolean }) {
+  const [form, setForm] = useState<BewerbungPayload>(
+    nurRegal ? { ...LEER, einstieg: "standardregal" } : LEER,
+  );
   const [fehler, setFehler] = useState<BewerbungFehler>({});
   const [status, setStatus] = useState<Status>("idle");
   const begonnen = useRef(false);
@@ -191,37 +195,44 @@ export default function Bewerbung() {
           />
         </label>
 
-        <label className={feld("einstieg") + " apply__wide"}>
-          <span>Einstieg *</span>
-          <select
-            value={form.einstieg}
-            onChange={(e) => setze("einstieg", e.target.value as EinstiegKey | "")}
-          >
-            <option value="">Bitte wählen</option>
-            {(Object.keys(EINSTIEGE) as EinstiegKey[]).map((k) => (
-              <option key={k} value={k}>
-                {EINSTIEGE[k]}
-              </option>
-            ))}
-          </select>
-          {fehler.einstieg && <em>{fehler.einstieg}</em>}
-        </label>
+        {!nurRegal && (
+          <>
+            <label className={feld("einstieg") + " apply__wide"}>
+              <span>Einstieg *</span>
+              <select
+                value={form.einstieg}
+                onChange={(e) => setze("einstieg", e.target.value as EinstiegKey | "")}
+              >
+                <option value="">Bitte wählen</option>
+                {(Object.keys(EINSTIEGE) as EinstiegKey[]).map((k) => (
+                  <option key={k} value={k}>
+                    {EINSTIEGE[k]}
+                  </option>
+                ))}
+              </select>
+              {fehler.einstieg && <em>{fehler.einstieg}</em>}
+            </label>
 
-        {janein("stationaerGelistet", "Bist du bereits im stationären Handel gelistet?")}
-        {janein("onlineHandel", "Hast du einen Onlineshop oder verkaufst du auf Marktplätzen?")}
-        {SHOW_BAFA && janein("beratungInteresse", "Interesse an geförderter Beratung?")}
-        {SHOW_BAFA && form.beratungInteresse === true && (
-          <label className="apply__field apply__wide">
-            <span>Sitz deiner Firma (Bundesland)</span>
-            <select value={form.bundesland} onChange={(e) => setze("bundesland", e.target.value)}>
-              <option value="">Bitte wählen</option>
-              {BUNDESLAENDER.map((b) => (
-                <option key={b} value={b}>
-                  {b}
-                </option>
-              ))}
-            </select>
-          </label>
+            {janein("stationaerGelistet", "Bist du bereits im stationären Handel gelistet?")}
+            {janein("onlineHandel", "Hast du einen Onlineshop oder verkaufst du auf Marktplätzen?")}
+            {SHOW_BAFA && janein("beratungInteresse", "Interesse an geförderter Beratung?")}
+            {SHOW_BAFA && form.beratungInteresse === true && (
+              <label className="apply__field apply__wide">
+                <span>Sitz deiner Firma (Bundesland)</span>
+                <select
+                  value={form.bundesland}
+                  onChange={(e) => setze("bundesland", e.target.value)}
+                >
+                  <option value="">Bitte wählen</option>
+                  {BUNDESLAENDER.map((b) => (
+                    <option key={b} value={b}>
+                      {b}
+                    </option>
+                  ))}
+                </select>
+              </label>
+            )}
+          </>
         )}
 
         {regalwahl && (
