@@ -10,10 +10,28 @@ const schibsted = Schibsted_Grotesk({
   display: "swap",
 });
 
+const TITEL = "Hub42 · Der Laden für Neuheiten im Alexa Berlin";
+const TEXT =
+  "Der Laden nur für Neuheiten: eine Treppe vom ersten Test bis zur Listung, echte Kasse statt Umfrage. Miete pro Zentimeter plus 7 % auf den Verkauf. Alexa Berlin, Eröffnung März 2027.";
+
 export const metadata: Metadata = {
-  title: { absolute: "Hub42 – Regalfront im Alexa Berlin, ab 5 cm" },
-  description:
-    "Hub42 im Alexa Berlin: Regalfront nach Zentimetern, Provision erst beim Verkauf. 41.000 Besucher täglich. Eröffnung März 2027 – jetzt bewerben.",
+  title: { absolute: TITEL },
+  description: TEXT,
+  openGraph: {
+    type: "website",
+    locale: "de_DE",
+    url: "https://tryhub42.de",
+    siteName: "Hub42",
+    title: TITEL,
+    description: TEXT,
+    images: [{ url: "/og-image.jpg", width: 1200, height: 630, alt: TITEL }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITEL,
+    description: "Vom ersten Regal bis zur Listung. Miete pro Zentimeter plus 7 % auf den Verkauf.",
+    creator: "@hub42berlin",
+  },
 };
 
 export default function StartLayout({ children }: { children: React.ReactNode }) {

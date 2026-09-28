@@ -1,5 +1,6 @@
-/* Preistabelle: von unten nach oben gelesen – Basis, Greifhöhe, Augenhöhe –
-   plus das pauschal bepreiste Schaufenster. */
+/* Preistabelle: von unten nach oben gelesen (Basis, Greifhöhe, Augenhöhe),
+   plus das pauschal bepreiste Schaufenster. Unter 640 px stapelt sich jede
+   Zeile zur Karte (data-label), damit nichts horizontal scrollt. */
 
 import { ORDER, ZONES, eur, miete, mieteBesonders, rate, rateBesonders } from "@/lib/neue-ui/regal";
 import { SCHAUFENSTER_MONAT } from "@/lib/deck-economics";
@@ -7,7 +8,7 @@ import { SCHAUFENSTER_MONAT } from "@/lib/deck-economics";
 export default function Preistabelle() {
   return (
     <div className="tbl-scroll">
-      <table className="rate">
+      <table className="rate rate--stack">
         <thead>
           <tr>
             <th scope="col">Zone</th>
@@ -27,13 +28,13 @@ export default function Preistabelle() {
                   {Z.pick && <span className="tag">empfohlen</span>}
                   <span>{Z.hint}</span>
                 </th>
-                <td>{Z.hoehe}</td>
-                <td>
+                <td data-label="Höhe">{Z.hoehe}</td>
+                <td data-label="€ / cm / Monat">
                   {eur(rate(z))}
                   {Z.auf ? ` (+${Z.auf} %)` : ""}
                 </td>
-                <td>{eur(miete(20, z))}</td>
-                <td>
+                <td data-label="Front 20 cm">{eur(miete(20, z))}</td>
+                <td data-label="Besonderer Wert*">
                   {eur(rateBesonders(z))} / cm · {eur(mieteBesonders(20, z))}
                 </td>
               </tr>
@@ -43,10 +44,10 @@ export default function Preistabelle() {
             <th scope="row">
               Schaufenster<span>Sichtbar ohne Betreten</span>
             </th>
-            <td>Ladenfront</td>
-            <td>pauschal</td>
-            <td>{eur(SCHAUFENSTER_MONAT)}</td>
-            <td>—</td>
+            <td data-label="Höhe">Ladenfront</td>
+            <td data-label="€ / cm / Monat">pauschal</td>
+            <td data-label="Front 20 cm">{eur(SCHAUFENSTER_MONAT)}</td>
+            <td data-label="Besonderer Wert*">entfällt</td>
           </tr>
         </tbody>
       </table>

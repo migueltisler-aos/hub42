@@ -7,40 +7,64 @@ import ContactForm from "@/components/ContactForm";
 import SlotFeatureTable from "@/components/SlotFeatureTable";
 import CountdownTimer from "@/components/CountdownTimer";
 import TrustBadges from "@/components/TrustBadges";
-import { SLOTS, ANALYTICS_PAKETE } from "@/lib/slots";
-import { RATES } from "@/lib/deck-economics";
+import { SLOTS } from "@/lib/slots";
+import {
+  BAFA_BEMESSUNG_NETTO,
+  BAFA_ZUSCHUSS_PCT,
+  BERATUNG_HINWEISE,
+  BERATUNG_THEMEN,
+  eigenanteil,
+} from "@/lib/beratung";
+import {
+  HUB_MARGIN_PCT,
+  MIN_SLOT_MIETE,
+  REGAL_INKLUSIVE_CM,
+  REGALMIETE_DECKEL_PCT,
+  RATES,
+  STUFE_PREIS,
+} from "@/lib/deck-economics";
+import { SHOW_BAFA } from "@/lib/site-flags";
+import {
+  ALLE_STUFEN,
+  GARANTIE,
+  NACH_JEDER_STUFE,
+  NUR_NEUPRODUKTE,
+  STUFEN,
+  eur0,
+  preisText,
+} from "@/lib/treppe";
 
 export const metadata: Metadata = {
-  title: "Für Hersteller – Miete deinen Platz im Retail",
+  title: "Für Hersteller: vom ersten Regal bis zur Listung",
   description:
-    "Stationärer Handel wie er sein sollte. 7% statt 30–50% Handelsmarge beim LEH, Regalfront ab 5 cm / 89 €/Monat, 3 Monate Mindestlaufzeit. Bewirb dein Produkt, verlinke deinen Shop, gewinne Fans jenseits von TikTok.",
+    "Hub42 ist der Laden für Neuheiten im Alexa Berlin. Fünf Stufen vom ersten Test bis zur Listung, jede Stufe buchbar. Miete pro Zentimeter plus 7 % auf den Verkauf, keine Listungsgebühr.",
 };
 
 const SCHRITTE = [
   {
     nr: "01",
     titel: "Bewerbung",
-    beschreibung: "Kurze Anfrage. Wir schauen ob es passt. 24h Rückmeldung.",
+    beschreibung: "Kurze Bewerbung mit deinem Einstieg: eine Stufe der Treppe oder das Standardregal. Wir schauen, ob es passt.",
   },
   {
     nr: "02",
     titel: "Gespräch",
-    beschreibung: "30 Minuten. Position wählen. Alle Fragen klären.",
+    beschreibung: "30 Minuten. Stufe und Position wählen. Alle Fragen klären.",
   },
   {
     nr: "03",
     titel: "Onboarding",
-    beschreibung: "Ware rein. QR-Code, Traverse-Karte, Creator Playbook. Du drehst ein kurzes Video über deine Marke – wir zeigen es unserem Team damit sie dein Produkt bestmöglich präsentieren.",
+    beschreibung: "Ware rein. QR-Code, Traverse-Karte, Creator Playbook. Du drehst ein kurzes Video über deine Marke. Wir zeigen es unserem Team, damit es dein Produkt bestmöglich präsentiert.",
   },
   {
     nr: "04",
     titel: "Live gehen",
-    beschreibung: "Erster Post. WhatsApp-Ankündigung. Und auf Wunsch: dein eigener Promo-Tag im Store – einmal pro Quartal, freitags oder samstags.",
+    beschreibung: "Dein Produkt steht mit Tagesticker im Regal. Erster Post, WhatsApp-Ankündigung. Auf Wunsch dein eigener Promo-Tag im Store, einmal pro Quartal, freitags oder samstags.",
   },
   {
     nr: "05",
     titel: "Daten & Erlös",
-    beschreibung: "Du behältst den Erlös minus Mietgebühr und 7 % Vermittlungsprovision pro verkauftem Artikel – Zahlungsabwicklung ist darin enthalten. Monatliche Abrechnung. Zahlen die zählen.",
+    beschreibung: "Du behältst den Erlös minus Miete und 7 % Vermittlungsprovision pro verkauftem Artikel, Zahlungsabwicklung inklusive. Nach der Stufe: Standardregal oder eine Stufe höher.",
   },
 ];
 
@@ -55,62 +79,79 @@ const WAS_DU_BEKOMMST = [
   "Dein Regalplatz im Alexa Berlin",
   "Traverse-Karte mit deiner Story + QR-Code",
   "Tageszeit-Tracking & monatlicher Verkaufsbericht",
-  "3 Monate Mindestlaufzeit – danach monatlich kündbar",
-  "1 Karton reicht zum Start – kein Abnahmezwang",
+  "Standardregal: 3 Monate Mindestlaufzeit, danach monatlich kündbar",
+  "1 Karton reicht zum Start, kein Abnahmezwang",
   "Zugang zum Hub42 Creator Playbook",
   "Freitags-Tasting auf Wunsch",
 ];
 
 const FAQ = [
   {
+    frage: "Was ist die Treppe?",
+    antwort: `Fünf Stufen vom ersten Test bis zur Listung: Testen, Beweisen, Discovery Spark, Decision Focus, Premium Powerhouse. Jede Marke kann jede Stufe buchen. Wir empfehlen einen Einstieg, ausgeschlossen ist niemand. ${NACH_JEDER_STUFE}`,
+  },
+  {
+    frage: "Welche Stufe passt zu mir?",
+    antwort:
+      "Junge Startups starten meist mit Stufe 1 Testen. Online-Marken mit Stufe 2 Beweisen. Etablierte Hersteller mit Neuprodukten steigen meist bei Stufe 3 ein und gehen bis Stufe 5, wenn es um die Listung im Einkauf geht.",
+  },
+  {
+    frage: "Was heißt: Die Regalmiete ist nie höher als die Hälfte meines Umsatzes?",
+    antwort: `Das ist die Garantie in Stufe 1 und 2. Zum Festpreis der Stufe kommt die Regalmiete nach Zentimetern. Diese Miete ist gedeckelt auf ${REGALMIETE_DECKEL_PCT} % deines Umsatzes, der Festpreis zählt nicht dazu. Ab Stufe 3 sind ${REGAL_INKLUSIVE_CM} cm Regal im Preis enthalten, jeder weitere cm nach Preisliste.`,
+  },
+  {
+    frage: "Ich bin ein etablierter Hersteller. Darf ich mitmachen?",
+    antwort: `Ja, mit Neuprodukten. ${NUR_NEUPRODUKTE}`,
+  },
+  {
     frage: "Was ist Konsignation?",
     antwort:
-      "Du lieferst deine Ware an Hub42, bleibst aber rechtlich Eigentümer bis zum Verkauf. Du trägst kein Lagerrisiko im klassischen Sinne – die Ware ist immer noch deins.",
+      "Du lieferst deine Ware an Hub42, bleibst aber rechtlich Eigentümer bis zum Verkauf. Du trägst kein Lagerrisiko im klassischen Sinne, die Ware ist immer noch deins.",
   },
   {
     frage: "Was ist die Vermittlungsprovision?",
     antwort:
-      "7 % auf deinen Bruttoverkaufspreis – nicht mehr, nicht weniger. Zahlungsabwicklungskosten sind darin bereits enthalten, wir reichen sie nicht mehr separat durch. Kein versteckter Aufschlag, keine Handelsmarge – nur diese eine, transparente Provision.",
+      "7 % auf deinen Bruttoverkaufspreis, in jeder Stufe und im Standardregal. Zahlungsabwicklungskosten sind darin bereits enthalten, wir reichen sie nicht separat durch. Kein versteckter Aufschlag, keine Handelsmarge, nur diese eine, transparente Provision.",
   },
   {
     frage: "Warum gibt es 3 Regalmiet-Tranchen?",
     antwort:
-      "Der Preis pro cm steigt mit der Store-Auslastung, nicht mit dem Kalender: Gründungskonditionen unter 60 % Auslastung (Basis 7,00 €/cm, Mindestmiete 89 €/Slot), Aufbauphase bei 60–85 % (7,70 €/cm, 98 €/Slot), Warteliste über 85 % (8,40 €/cm, 107 €/Slot). Für Produkte mit besonderem Wert – Handwerk, Herkunft, Mission – gilt auf Bewerbung 4,64 €/cm bei 59 € Mindestmiete. Wer in der Gründungsphase unterschreibt, behält seinen Preis vertraglich für die gesamte Erstlaufzeit (12 Monate) – auch wenn der Store danach in eine höhere Tranche wechselt.",
+      "Der Preis pro cm steigt mit der Store-Auslastung, nicht mit dem Kalender: Gründungskonditionen unter 60 % Auslastung (Basis 7,00 €/cm, Mindestmiete 89 €/Slot), Aufbauphase bei 60–85 % (7,70 €/cm, 98 €/Slot), Warteliste über 85 % (8,40 €/cm, 107 €/Slot). Für Produkte mit besonderem Wert (Handwerk, Herkunft, Mission) gilt auf Bewerbung 4,64 €/cm bei 59 € Mindestmiete. Wer in der Gründungsphase unterschreibt, behält seinen Preis vertraglich für die gesamte Erstlaufzeit von 12 Monaten, auch wenn der Store danach in eine höhere Tranche wechselt.",
   },
   {
     frage: "Wie funktioniert die Abrechnung?",
     antwort:
-      "Monatlich automatisch. Du bekommst eine Aufstellung aller Verkäufe, der abgezogenen Mietgebühr und dein Nettoerlös wird überwiesen.",
+      "Monatlich automatisch. Du bekommst eine Aufstellung aller Verkäufe und der abgezogenen Miete, dein Nettoerlös wird überwiesen.",
   },
   {
-    frage: "Was passiert wenn ich nicht genug verkaufe?",
+    frage: "Was passiert, wenn ich nicht genug verkaufe?",
     antwort:
-      "3 Monate Mindestlaufzeit, danach monatlich kündbar. Unverkaufte Ware wird zurückgesandt – du bleibst bis zum Kassenbon Eigentümer. Kein Abnahmezwang, kein Mindestbestellwert.",
+      "In Stufe 1 und 2 schützt dich die Garantie: Die Regalmiete ist nie höher als die Hälfte deines Umsatzes. Im Standardregal gilt: 3 Monate Mindestlaufzeit, danach monatlich kündbar. Unverkaufte Ware wird zurückgesandt, du bleibst bis zum Kassenbon Eigentümer. Kein Abnahmezwang, kein Mindestbestellwert.",
   },
   {
     frage: "Kann ich meinen Preis selbst festlegen?",
     antwort:
-      "Ja. Vollständige Preishoheit. Du setzt deine eigene UVP – wir nehmen nur 7 % Vermittlungsprovision beim Verkauf, plus die Regalmiete. Keine Handelsmarge im klassischen Sinn, keine Listungsgebühr.",
+      "Ja. Vollständige Preishoheit. Du setzt deine eigene UVP, wir nehmen nur 7 % Vermittlungsprovision beim Verkauf, plus Miete bzw. Festpreis der Stufe. Keine Handelsmarge im klassischen Sinn, keine Listungsgebühr.",
   },
   {
     frage: "Was ist die Mindestlaufzeit?",
     antwort:
-      "3 Monate. Danach monatlich kündbar. Wir glauben, dass du bleiben willst – weil die Zahlen stimmen.",
+      "In der Treppe die Dauer der Stufe, von 8 Wochen bis 6 Monate. Im Standardregal 3 Monate, danach monatlich kündbar. Wir glauben, dass du bleiben willst, weil die Zahlen stimmen.",
   },
   {
     frage: "Wie liefere ich meine Ware an?",
     antwort:
-      "Frei Haus an unsere Adresse – 1 Karton reicht zum Start. Hub42 räumt ein. Wenn Nachschub nötig ist, melden wir uns per WhatsApp. Du kannst auch persönlich vorbeikommen.",
+      "Frei Haus an unsere Adresse, 1 Karton reicht zum Start. Hub42 räumt ein. Wenn Nachschub nötig ist, melden wir uns per WhatsApp. Du kannst auch persönlich vorbeikommen.",
   },
   {
     frage: "Was passiert bei Beschädigung, Diebstahl oder abgelaufenem MHD?",
     antwort:
-      "Deine Ware bleibt bis zum Kassenbon dein Eigentum. Das Hub42-Team prüft regelmäßig Bestände und MHD. Beschädigte oder abgelaufene Ware wird dokumentiert und nach Absprache zurückgesandt oder entsorgt – auf keinen Fall still verkauft.",
+      "Deine Ware bleibt bis zum Kassenbon dein Eigentum. Das Hub42-Team prüft regelmäßig Bestände und MHD. Beschädigte oder abgelaufene Ware wird dokumentiert und nach Absprache zurückgesandt oder entsorgt, auf keinen Fall still verkauft.",
   },
   {
     frage: "Wann und wie werde ich ausgezahlt?",
     antwort:
-      "Monatlich bis zum 10. des Folgemonats per Überweisung. Du bekommst eine vollständige Aufstellung aller Verkäufe, der abgezogenen Gebühren und deines Nettoerlöses – als Beleg für deine Buchhaltung.",
+      "Monatlich bis zum 10. des Folgemonats per Überweisung. Du bekommst eine vollständige Aufstellung aller Verkäufe, der abgezogenen Gebühren und deines Nettoerlöses, als Beleg für deine Buchhaltung.",
   },
 ];
 
@@ -136,39 +177,39 @@ export default function HerstellerPage() {
             className="text-cream text-[clamp(2.5rem,8vw,7rem)] leading-none tracking-widest mb-4"
             style={{ fontFamily: "var(--font-bebas)" }}
           >
-            Wir setzen auf dich.
+            Der Laden für Neuheiten.
             <br />
-            <span className="text-bronze">Du setzt auf uns.</span>
+            <span className="text-bronze">Vom ersten Regal bis zur Listung.</span>
           </h1>
           <p className="text-stone text-base max-w-xl mb-3 leading-relaxed">
-            Dein Produkt. Dein Preis. Deine Daten.
-            Wir bringen den Ort, die Kunden, die Infrastruktur.
-            Und wir verdienen erst wenn du verkaufst.
+            Dein Produkt. Dein Preis. Deine Daten. Echte Kasse statt Umfrage: Jede Neuheit steht
+            mit Tagesticker für eine feste Zeit im Regal. Du steigst auf der Stufe ein, die zu dir
+            passt, und gehst danach ins Standardregal.
           </p>
           <p className="text-bronze text-sm font-mono mb-8">
-            Stationärer Handel wie er sein sollte.
+            Miete pro Zentimeter plus {HUB_MARGIN_PCT} % auf den Verkauf.
           </p>
 
           {/* Facts strip */}
           <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-xs font-mono text-stone border-l-2 border-bronze pl-4">
-            <span>7% statt 30–50% Handelsmarge beim LEH</span>
-            <span>Ab 89 €/Monat</span>
-            <span>3 Monate · dann monatlich kündbar</span>
-            <span>41.000 Berliner täglich</span>
+            <span>{HUB_MARGIN_PCT} % statt 30–50 % Handelsmarge beim LEH</span>
+            <span>Treppe ab {eur0(STUFE_PREIS.testen)} + Miete pro cm</span>
+            <span>Standardregal ab {MIN_SLOT_MIETE} €/Monat</span>
+            <span>41.000 Besucher täglich</span>
           </div>
 
           <div className="flex flex-wrap gap-4 mb-8">
-            <a
-              href="#regalfront-anfragen"
+            <Link
+              href="/#bewerben"
               className="px-8 py-4 bg-bronze text-green-dark font-semibold rounded-sm hover:bg-bronze-light transition-colors text-sm"
             >
-              Regalfläche anfragen →
-            </a>
+              Jetzt bewerben →
+            </Link>
             <a
-              href="#rechner"
+              href="#treppe"
               className="px-8 py-4 border border-stone-dark text-cream hover:border-bronze/40 rounded-sm transition-colors text-sm"
             >
-              Rechner öffnen
+              Die Treppe ansehen
             </a>
           </div>
           <TrustBadges />
@@ -180,12 +221,17 @@ export default function HerstellerPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="border-l-4 border-bronze bg-bronze/5 px-6 py-6 space-y-4">
             <p className="text-cream text-sm leading-relaxed">
-              <span className="text-bronze font-semibold">Deine Kosten:</span> Regalmiete ab 89 €
-              im Monat (Gründungskonditionen), 7 % Vermittlungsprovision je verkauftem Artikel –
-              Zahlungsabwicklung inklusive. Sonst nichts.
+              <span className="text-bronze font-semibold">Deine Kosten:</span> In der Treppe ein
+              Festpreis je Stufe ab {eur0(STUFE_PREIS.testen)} netto. In Stufe 1 und 2 kommt die
+              Regalmiete pro cm dazu, die Miete ist gedeckelt auf {REGALMIETE_DECKEL_PCT} % deines
+              Umsatzes. Ab Stufe 3 sind {REGAL_INKLUSIVE_CM} cm Regal inklusive, jeder weitere cm
+              nach Preisliste. Im Standardregal Miete ab {MIN_SLOT_MIETE} € im Monat
+              (Gründungskonditionen). Überall {HUB_MARGIN_PCT} % Vermittlungsprovision je
+              verkauftem Artikel, Zahlungsabwicklung inklusive. Sonst nichts.
             </p>
             <p className="text-cream text-sm leading-relaxed">
-              <span className="text-bronze font-semibold">Deine Laufzeit:</span> 3 Monate
+              <span className="text-bronze font-semibold">Deine Laufzeit:</span> Jede Stufe hat
+              eine feste Dauer, von 8 Wochen bis 6 Monate. Im Standardregal 3 Monate
               Mindestlaufzeit, danach monatlich kündbar. 14 Tage von der Zusage bis ins Regal.
             </p>
             <p className="text-cream text-sm leading-relaxed">
@@ -195,6 +241,164 @@ export default function HerstellerPage() {
           </div>
         </div>
       </section>
+
+      {/* Die Treppe */}
+      <section id="treppe" className="bg-green-mid py-20 border-b border-stone-dark">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="mb-10">
+            <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
+              Fünf Stufen · vom ersten Test bis zur Listung
+            </p>
+            <h2
+              className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-4"
+              style={{ fontFamily: "var(--font-bebas)" }}
+            >
+              Eine Treppe.
+              <span className="text-bronze"> Du entscheidest, wo du einsteigst.</span>
+            </h2>
+            <p className="text-stone text-sm max-w-2xl leading-relaxed">
+              Jede Marke kann jede Stufe buchen. Die Empfehlung je Stufe ist ein Vorschlag,
+              ausgeschlossen ist niemand. Die Basis jeder Stufe ist das Regal nach Zentimetern, und
+              dorthin geht es danach: ins Standardregal.{" "}
+              <Link href="/#treppe" className="text-bronze hover:text-bronze-light">
+                Interaktiv auf der Startseite →
+              </Link>
+            </p>
+          </div>
+
+          <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+            {STUFEN.map((st) => (
+              <li
+                key={st.key}
+                className="bg-green-dark border border-stone-dark rounded-sm p-5 flex flex-col gap-3"
+                style={{ minHeight: `calc(14rem + ${st.nr} * 1.5rem)` }}
+              >
+                <p className="text-bronze text-xs font-mono tracking-[0.2em] uppercase">
+                  Stufe {st.nr} · {st.dauer}
+                </p>
+                <h3
+                  className="text-cream text-2xl tracking-widest leading-none"
+                  style={{ fontFamily: "var(--font-bebas)" }}
+                >
+                  {st.name}
+                </h3>
+                <p className="text-cream text-sm">{st.frage}</p>
+                <p className="text-bronze text-sm font-mono">{preisText(st)}</p>
+                <p className="text-stone text-xs">Empfohlen für {st.empfohlenFuer}</p>
+                {st.garantie && (
+                  <p className="text-cream text-xs border-l-2 border-bronze pl-3">{GARANTIE}</p>
+                )}
+                <ul className="space-y-1 mt-auto">
+                  {st.neu.map((l) => (
+                    <li key={l} className="flex items-start gap-2 text-xs text-stone">
+                      <span className="text-bronze shrink-0">+</span>
+                      {l}
+                    </li>
+                  ))}
+                </ul>
+                {SHOW_BAFA && st.beratung && (
+                  <a href="#beratung" className="text-bronze text-xs font-mono hover:text-bronze-light">
+                    Beratung dazu kann gefördert werden →
+                  </a>
+                )}
+              </li>
+            ))}
+          </ol>
+
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div>
+              <p className="text-bronze text-xs font-mono tracking-[0.2em] uppercase mb-3">
+                In jeder Stufe
+              </p>
+              <ul className="space-y-1.5">
+                {ALLE_STUFEN.map((l) => (
+                  <li key={l} className="flex items-start gap-2 text-sm text-cream">
+                    <span className="text-bronze shrink-0 mt-0.5">✓</span>
+                    {l}
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div className="space-y-3 text-sm">
+              <p className="text-cream">{NACH_JEDER_STUFE}</p>
+              <p className="text-stone">{NUR_NEUPRODUKTE}</p>
+              <p className="text-stone">
+                Alle Festpreise netto. In Stufe 1 und 2 kommt die Regalmiete nach Zentimetern dazu,
+                die Miete ist gedeckelt auf {REGALMIETE_DECKEL_PCT} % deines Umsatzes. Ab Stufe 3
+                sind {REGAL_INKLUSIVE_CM} cm Regal inklusive, jeder weitere cm nach Preisliste. Auf jede Stufe: + {HUB_MARGIN_PCT} % auf
+                den Verkauf.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Beratung (nur mit SHOW_BAFA) */}
+      {SHOW_BAFA && (
+        <section id="beratung" className="bg-green-dark py-20 border-b border-stone-dark">
+          <div className="max-w-5xl mx-auto px-4 sm:px-6">
+            <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
+              Beratung auf dem Weg in den Handel
+            </p>
+            <h2
+              className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-6"
+              style={{ fontFamily: "var(--font-bebas)" }}
+            >
+              Beratung, die bis zu
+              <span className="text-bronze"> {BAFA_ZUSCHUSS_PCT.neu} % gefördert werden kann.</span>
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
+              <div className="space-y-4">
+                <p className="text-stone text-sm leading-relaxed">
+                  Neben der Treppe gibt es eine 1:1-Beratung. Durchgeführt von Miguel Tisler, 20
+                  Jahre Erfahrung in Handel und Supply Chain.
+                </p>
+                <ul className="space-y-1.5">
+                  {BERATUNG_THEMEN.map((t) => (
+                    <li key={t} className="flex items-start gap-2 text-sm text-cream">
+                      <span className="text-bronze shrink-0 mt-0.5">✓</span>
+                      {t}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="space-y-4">
+                <p className="text-stone text-sm leading-relaxed">
+                  Über das BAFA-Programm „Förderung von Unternehmensberatungen für KMU“ kann die
+                  Beratung bezuschusst werden. Bemessungsgrundlage bis{" "}
+                  {eur0(BAFA_BEMESSUNG_NETTO)} netto pro Beratung. Zuschuss je nach Sitz deiner
+                  Firma: bis zu {BAFA_ZUSCHUSS_PCT.neu} % in den neuen Bundesländern, bis zu{" "}
+                  {BAFA_ZUSCHUSS_PCT.alt} % in den alten Bundesländern und Berlin.
+                </p>
+                <div className="border border-stone-dark text-sm font-mono">
+                  {[
+                    { k: "Beratung netto", v: eur0(BAFA_BEMESSUNG_NETTO) },
+                    {
+                      k: "Sitz in Brandenburg: Eigenanteil",
+                      v: eur0(eigenanteil(BAFA_ZUSCHUSS_PCT.neu)),
+                    },
+                    { k: "Sitz in Berlin: Eigenanteil", v: eur0(eigenanteil(BAFA_ZUSCHUSS_PCT.alt)) },
+                  ].map((r) => (
+                    <div
+                      key={r.k}
+                      className="flex justify-between gap-4 px-4 py-3 border-b border-stone-dark last:border-b-0"
+                    >
+                      <span className="text-stone">{r.k}</span>
+                      <span className="text-cream">{r.v}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+            <ul className="mt-8 space-y-1 text-stone/60 text-xs font-mono">
+              {BERATUNG_HINWEISE.map((h) => (
+                <li key={h}>{h}</li>
+              ))}
+            </ul>
+          </div>
+        </section>
+      )}
+
 
       {/* Vergleichstabelle */}
       <section className="bg-green-mid py-20">
@@ -307,14 +511,14 @@ export default function HerstellerPage() {
                 <span className="text-bronze">unser Geschäftsmodell.</span>
               </h2>
               <p className="text-stone text-base leading-relaxed mb-6 max-w-lg">
-                Wir nehmen 7 % Vermittlungsprovision auf deinen Verkaufspreis – statt 30–50 %
+                Wir nehmen 7 % Vermittlungsprovision auf deinen Verkaufspreis, statt 30–50 %
                 Handelsmarge plus Listungsgebühr wie beim klassischen LEH. Die
-                Zahlungsabwicklung ist darin bereits enthalten. Nicht pro Monat, nicht pauschal —
-                pro Verkauf. Das bedeutet: Wenn du nichts verkaufst, verdienen wir kaum etwas.
+                Zahlungsabwicklung ist darin bereits enthalten. Nicht pro Monat, nicht pauschal,
+                sondern pro Verkauf. Das bedeutet: Wenn du nichts verkaufst, verdienen wir kaum etwas.
                 Wir sind strukturell daran interessiert, dass dein Produkt läuft.
               </p>
               <p className="text-stone text-base leading-relaxed max-w-lg">
-                Kein klassischer Vermieter denkt so. Wir schon — weil wir das Modell so
+                Kein klassischer Vermieter denkt so. Wir schon, weil wir das Modell so
                 gebaut haben. Tasting, Story-Fläche, Creator Playbook, Promo-Tag im Store:
                 das sind keine Extras. Das ist unser Beitrag zu deinem Verkauf.
               </p>
@@ -374,7 +578,7 @@ export default function HerstellerPage() {
               <span className="text-bronze"> wirklich?</span>
             </h2>
             <p className="text-stone text-sm">
-              Vergleiche deinen Erlös bei Rewe vs. Hub42 – auf Basis deiner eigenen Zahlen.
+              Vergleiche deinen Erlös bei Rewe und Hub42, auf Basis deiner eigenen Zahlen.
             </p>
           </div>
           <HerstellerRechner />
@@ -386,20 +590,21 @@ export default function HerstellerPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="mb-12">
             <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
-              Preise
+              Das Standardregal
             </p>
             <h2
               className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-4"
               style={{ fontFamily: "var(--font-bebas)" }}
             >
-              5 Positionen.
-              <span className="text-bronze"> Ein Ziel.</span>
+              Testen, beweisen,
+              <span className="text-bronze"> bleiben.</span>
             </h2>
             <p className="text-stone text-sm max-w-lg mb-10">
-              Du mietest Regalfläche nach cm Breite — so viel oder so wenig wie dein Produkt braucht.
-              Jeder gemietete cm bringt dir automatisch die gleiche Breite als Werbefläche dazu.
-              Die hier gezeigten Preise sind unsere Gründungskonditionen (unter 60 % Store-Auslastung)
-              – First-Mover-Brands behalten diesen Preis vertraglich für die gesamte Erstlaufzeit.
+              Nach jeder Stufe kannst du dauerhaft ins Regal. Du mietest Regalfläche nach cm
+              Breite, so viel oder so wenig wie dein Produkt braucht. Jeder gemietete cm bringt dir
+              automatisch die gleiche Breite als Werbefläche dazu. Die hier gezeigten Preise sind
+              unsere Gründungskonditionen (unter 60 % Store-Auslastung). Wer jetzt einsteigt,
+              behält diesen Preis vertraglich für 12 Monate.
             </p>
 
             {/* Cm-Konzept Visualisierung */}
@@ -498,10 +703,10 @@ export default function HerstellerPage() {
 
               {/* Slot-Miete */}
               <div className="border-l-2 border-stone-dark pl-6 mb-6">
-                <p className="text-cream text-sm font-semibold mb-1">Regalmiete → Fixkosten</p>
+                <p className="text-cream text-sm font-semibold mb-1">Regalmiete und Festpreis → Fixkosten</p>
                 <p className="text-stone text-sm leading-relaxed">
                   Die Miete deckt den Laden: Alexa-Miete, unser Team, Infrastruktur.
-                  Kein Cent davon ist Gewinn – es hält den Store am Laufen.
+                  Kein Cent davon ist Gewinn, sie hält den Store am Laufen.
                 </p>
               </div>
 
@@ -512,72 +717,13 @@ export default function HerstellerPage() {
                 </p>
                 <p className="text-stone text-sm mb-2">auf den Verkaufspreis → unsere Marge</p>
                 <p className="text-stone text-sm leading-relaxed">
-                  Die Vermittlungsprovision ist unsere Gewinnmarge – Zahlungsabwicklung
+                  Die Vermittlungsprovision ist unsere Gewinnmarge. Zahlungsabwicklung
                   ist bereits eingerechnet, kein separater Aufschlag.
                   Wir verdienen erst wenn du verkaufst.
                   Kein Umsatz bei dir = kein Umsatz bei uns.
                 </p>
               </div>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Analytics */}
-      <section className="bg-green-dark py-20 border-t border-stone-dark">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="mb-12">
-            <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
-              Pro Analytics
-            </p>
-            <h2
-              className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-6"
-              style={{ fontFamily: "var(--font-bebas)" }}
-            >
-              Daten die
-              <span className="text-bronze"> wirklich zählen</span>
-            </h2>
-            <p className="text-stone text-sm max-w-2xl leading-relaxed">
-              Über reine Verkaufszahlen hinaus sollen die Marken bei uns noch wissenschaftlich
-              fundierte Erkenntnisse erhalten. Dafür arbeiten wir gerade mit Forschern zusammen,
-              die proprietäre Analysetools, psychologische Zielgruppenanalysen und valide
-              Marktstudien als Grundlage für Produkt-, Marketing- und Retailentscheidungen
-              einbringen.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {ANALYTICS_PAKETE.map((paket) => (
-              <div
-                key={paket.name}
-                className="bg-green-mid border border-stone-dark rounded-sm p-6 hover:border-bronze/30 transition-colors"
-              >
-                <div className="flex items-center justify-between mb-4">
-                  <h3
-                    className="text-cream text-2xl tracking-widest"
-                    style={{ fontFamily: "var(--font-bebas)" }}
-                  >
-                    {paket.name}
-                  </h3>
-                  {paket.inkludiert ? (
-                    <span className="text-[10px] font-mono px-2 py-0.5 bg-bronze/20 text-bronze rounded-sm">
-                      INKLUDIERT
-                    </span>
-                  ) : (
-                    <span className="text-bronze font-mono font-bold">{paket.preis} €/Mo.</span>
-                  )}
-                </div>
-                <p className="text-stone text-sm mb-4">{paket.beschreibung}</p>
-                <ul className="space-y-1.5">
-                  {paket.features.map((f) => (
-                    <li key={f} className="flex items-start gap-2 text-sm text-cream">
-                      <span className="text-bronze shrink-0 mt-0.5">✓</span>
-                      {f}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ))}
           </div>
         </div>
       </section>
@@ -598,7 +744,7 @@ export default function HerstellerPage() {
           </h2>
           <p className="text-stone text-sm max-w-lg mx-auto mb-6">
             Kein freier Platz bedeutet nicht das Ende. Dein Produkt landet in der kurierten
-            Überraschungskiste – ohne Mietgebühr, aber mit echtem Kundenkontakt.
+            Überraschungskiste, ohne Mietgebühr, aber mit echtem Kundenkontakt.
           </p>
           <Link
             href="/kontakt"
@@ -644,26 +790,33 @@ export default function HerstellerPage() {
       </section>
 
       {/* Kontakt / CTA */}
-      <section id="regalfront-anfragen" className="bg-green-mid py-20 border-t border-stone-dark">
+      <section id="kontakt" className="bg-green-mid py-20 border-t border-stone-dark">
         <div className="max-w-2xl mx-auto px-4 sm:px-6">
           {/* Scarcity signal */}
           <div className="flex items-center gap-3 mb-8 px-4 py-3 border border-bronze/30 bg-bronze/5">
             <span className="w-2 h-2 rounded-full bg-bronze animate-pulse shrink-0" />
             <p className="text-bronze text-xs font-mono tracking-[0.15em]">
-              Noch 8 von 12 First-Mover-Slots verfügbar · Preisgarantie bis Eröffnung
+              5 Onboardings pro Woche · Eröffnung März 2027
             </p>
           </div>
 
           <div className="mb-10 text-center">
             <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
-              Jetzt starten
+              Fragen vorab?
             </p>
             <h2
               className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest"
               style={{ fontFamily: "var(--font-bebas)" }}
             >
-              Regalfläche anfragen
+              Schreib uns
             </h2>
+            <p className="text-stone text-sm mt-3">
+              Bewerben für eine Stufe oder das Standardregal geht direkt auf der{" "}
+              <Link href="/#bewerben" className="text-bronze hover:text-bronze-light">
+                Startseite
+              </Link>
+              .
+            </p>
             <div className="flex flex-col items-center gap-1 mt-3">
               <p className="text-stone text-sm">
                 Miguel Tisler · Gründer
@@ -690,10 +843,11 @@ export default function HerstellerPage() {
           {/* Urgency box */}
           <div className="border-l-4 border-bronze bg-bronze/5 px-5 py-4 mb-8">
             <p className="text-cream text-sm font-semibold mb-1">
-              First-Mover-Konditionen: ab 89 €/Monat · Preisgarantie für gesamte Laufzeit
+              Gründungskonditionen: Standardregal ab {MIN_SLOT_MIETE} €/Monat
             </p>
             <p className="text-stone text-xs font-mono">
-              Gültig für Anfragen bis Eröffnung März 2027. Danach reguläre Preise.
+              Gültig bis 60 % Store-Auslastung. Wer jetzt einsteigt, behält den Einstiegspreis
+              vertraglich für 12 Monate.
             </p>
           </div>
 

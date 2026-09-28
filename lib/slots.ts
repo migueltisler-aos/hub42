@@ -43,7 +43,6 @@ export const SLOTS: SlotTier[] = [
       "Garantierte Greifzone = höchste Conversion",
       "QR-Code + Traverse-Karte inklusive",
       "Promo-Tag 1× pro Quartal (Fr/Sa)",
-      "Pro Analytics – 1 Monat gratis",
       "Tasting Bar inklusive",
     ],
     idealFor: "Etablierte Produkte, Food & Drinks, Gifting",

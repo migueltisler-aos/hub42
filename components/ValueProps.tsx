@@ -22,7 +22,7 @@ const VALUES = [
     label: "Deine UVP. Deine Daten.",
     description:
       "Du setzt den Preis. Scan-Rate, Tasting-to-Buy, Wiederbuchung — alles gehört dir.",
-    sub: "Optional: Pro Analytics Dashboard",
+    sub: "Monatlicher Verkaufsbericht inklusive",
     icon: (
       <svg width="32" height="32" viewBox="0 0 32 32" fill="none" aria-hidden="true" className="text-bronze">
         <rect x="4" y="4" width="24" height="24" rx="2" stroke="currentColor" strokeWidth="1.5" />

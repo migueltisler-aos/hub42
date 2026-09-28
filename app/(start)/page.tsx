@@ -5,22 +5,31 @@
 
 import Link from "next/link";
 import Anteil from "@/components/neue-ui/Anteil";
+import BeratungSektion from "@/components/neue-ui/BeratungSektion";
 import Bewerbung from "@/components/neue-ui/Bewerbung";
 import { CookieEinstellungenButton } from "@/components/GoogleAnalytics";
 import Massband from "@/components/neue-ui/Massband";
 import Preistabelle from "@/components/neue-ui/Preistabelle";
 import Regalwand from "@/components/neue-ui/Regalwand";
 import Rundgang from "@/components/neue-ui/Rundgang";
+import SagenTun from "@/components/neue-ui/SagenTun";
+import StufenTabelle from "@/components/neue-ui/StufenTabelle";
+import Treppe from "@/components/neue-ui/Treppe";
 import { onboardingsFrei } from "@/lib/bewerbung";
 import { ONBOARDINGS_PRO_WOCHE } from "@/lib/bewerbung-model";
+import { BAFA_ZUSCHUSS_PCT } from "@/lib/beratung";
 import {
   BASE_RATE_BESONDERER_WERT,
   BASE_RATE_PER_CM,
+  HUB_MARGIN_PCT,
   MIN_SLOT_MIETE,
   MIN_SLOT_MIETE_BESONDERER_WERT,
   MIN_SLOT_MIETE_BY_TRANCHE,
+  REGAL_INKLUSIVE_CM,
 } from "@/lib/deck-economics";
 import { eur } from "@/lib/neue-ui/regal";
+import { SHOW_BAFA, SHOW_PARTNER } from "@/lib/site-flags";
+import { BEISPIEL, eur0 } from "@/lib/treppe";
 
 /* Der Onboarding-Zähler kommt aus der DB. Alle 5 Minuten neu, und nach jeder
    Bewerbung sofort (revalidatePath in app/actions/bewerbung.ts). */
@@ -54,6 +63,7 @@ export default async function StartPage() {
             HUB42
           </a>
           <nav className="top__nav" aria-label="Seitenbereiche">
+            <a href="#treppe">Treppe</a>
             <a href="#regal">Regal</a>
             <a href="#rundgang">Rundgang</a>
             <a href="#preise">Preise</a>
@@ -76,18 +86,24 @@ export default async function StartPage() {
           <div className="hero__scrim" />
           <div className="hero__say">
             <div className="wrap">
-              <p className="hero__badge">Eröffnung März 2027 · Alexa Berlin · Alexanderplatz</p>
-              <h1>Ein Laden aus Beton, Stahl und sechs Marken, die du nicht kennst.</h1>
+              <p className="hero__badge">
+                {SHOW_PARTNER && "Feedback Factory · "}Eröffnung März 2027 · Alexa Berlin ·
+                Alexanderplatz
+              </p>
+              <h1>
+                Der Laden für Neuheiten.{" "}
+                <span className="hero__h1b">Vom ersten Regal bis zur Listung.</span>
+              </h1>
               <p className="hero__sub">
-                Schwerlastregale statt Ladenbau. Sperrholz statt Hochglanz. Jede Regalfront gehört
-                einer Marke, die sonst nirgendwo im Regal steht.
+                Echte Kasse statt Umfrage. Jede Neuheit steht mit Tagesticker für eine feste Zeit im
+                Regal.
               </p>
               <div className="hero__cta">
-                <a className="btn btn--lit" href="#regal">
-                  Ins Regal sehen
+                <a className="btn btn--lit" href="#bewerben">
+                  Jetzt bewerben
                 </a>
-                <a className="btn btn--dark" href="#rundgang">
-                  Rundgang
+                <a className="btn btn--dark" href="#treppe">
+                  Die Treppe ansehen
                 </a>
               </div>
             </div>
@@ -102,6 +118,24 @@ export default async function StartPage() {
             </div>
           ))}
         </div>
+
+        {/* ══ Die Treppe ═════════════════════════════════════════ */}
+        <section className="sect" id="treppe">
+          <div className="wrap">
+            <p className="eyebrow">Fünf Stufen · vom ersten Test bis zur Listung</p>
+            <h2>Eine Treppe. Du entscheidest, wo du einsteigst.</h2>
+            <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
+              Jede Marke kann jede Stufe buchen. Wir empfehlen dir einen Einstieg, ausgeschlossen
+              ist niemand. Die Basis jeder Stufe ist das Regal nach Zentimetern, und dorthin geht
+              es danach: ins Standardregal.
+            </p>
+
+            <Treppe />
+          </div>
+        </section>
+
+        {/* ══ Sagen ist nicht Tun ═══════════════════════════════ */}
+        <SagenTun />
 
         {/* ══ Maßband ═══════════════════════════════════════════ */}
         <section className="sect sect--tight">
@@ -121,13 +155,15 @@ export default async function StartPage() {
         <section className="sect sect--rule sect--deep" id="regal">
           <div className="wrap">
             <p className="eyebrow">Regalwand A · Schwerlastregal · 3 Ebenen à 84 cm</p>
-            <h2>Ein Regal, in dem jede Front einen Preis hat.</h2>
+            <h2>Das Standardregal.</h2>
             <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
+              Testen, beweisen, bleiben. Nach jeder Stufe kannst du dauerhaft ins Regal.
+            </p>
+            <p className="lede" style={{ marginTop: 14, maxWidth: "54ch" }}>
               Grundpreis {eur(BASE_RATE_PER_CM)} pro Zentimeter und Monat. Wer höher steht, zahlt
-              mehr — Augenhöhe
-              +10 %, garantierte Greifhöhe +20 %. Auf der Traverse steht, wem die Front gehört:
-              Marke, QR-Code, Preis. Front antippen, dann rechnet die Karte mit. Die bronzene Front
-              hat einen Griff — zieh sie breiter.
+              mehr: Augenhöhe +10 %, garantierte Greifhöhe +20 %. Auf der Traverse steht, wem die
+              Front gehört: Marke, QR-Code, Preis. Front antippen, dann rechnet die Karte mit. Die
+              bronzene Front hat einen Griff, zieh sie breiter.
             </p>
 
             <Regalwand />
@@ -140,7 +176,7 @@ export default async function StartPage() {
             <p className="eyebrow">Grundriss · Pilotfläche</p>
             <h2>150 m², sieben Stationen, ein Weg.</h2>
             <p className="lede" style={{ marginTop: 20 }}>
-              Von der Glasfront bis zur Kasse sind es 40 Schritte. Station anfassen — sie leuchtet
+              Von der Glasfront bis zur Kasse sind es 40 Schritte. Station anfassen, sie leuchtet
               im Foto und im Grundriss.
             </p>
 
@@ -155,7 +191,7 @@ export default async function StartPage() {
             <h2>Freitags steht der Hersteller daneben.</h2>
             <p className="lede" style={{ marginTop: 20 }}>
               Offene Flasche, offene Tüte, kein Kaufzwang. Wer probiert hat, kommt mit einem Namen
-              zurück — nicht mit einer Kategorie.
+              zurück, nicht mit einer Kategorie.
             </p>
 
             <div className="bar">
@@ -184,34 +220,96 @@ export default async function StartPage() {
         {/* ══ Preise ════════════════════════════════════════════ */}
         <section className="sect sect--rule" id="preise">
           <div className="wrap">
-            <p className="eyebrow">Was eine Front kostet</p>
+            <p className="eyebrow">Was es kostet</p>
             <h2>Miete nach Zentimeter. Provision erst beim Verkauf.</h2>
             <p className="lede" style={{ marginTop: 20, maxWidth: "50ch" }}>
-              Keine Listungsgebühr, keine Handelsmarge. Die Marke behält ihre UVP — Hub42 verdient
-              7 % vom Verkaufspreis.
+              Keine Listungsgebühr, keine Handelsmarge. Die Marke behält ihre UVP, Hub42 verdient{" "}
+              {HUB_MARGIN_PCT} % vom Verkaufspreis. Das gilt in jeder Stufe und im Standardregal.
             </p>
 
-            <Preistabelle />
+            {/* A: Die Treppe */}
+            <div className="priceblock">
+              <p className="priceblock__k">A · Die Treppe</p>
+              <h3>Fünf Stufen mit Festpreis.</h3>
+              <StufenTabelle />
+              <p className="fineprint">
+                Alle Festpreise netto. * In Stufe 1 und 2 kommt die Regalmiete nach Zentimetern aus
+                dem Standardregal dazu, die Miete ist gedeckelt auf {BEISPIEL.deckel} % deines
+                Umsatzes. In Stufe 3 bis 5 sind {REGAL_INKLUSIVE_CM} cm Regal im Preis enthalten,
+                jeder weitere Zentimeter nach der Preisliste des Standardregals.
+              </p>
 
-            <p className="fineprint">
-              * Besonderer Wert: für Handwerk, Herkunft oder eine Mission — nur auf Bewerbung,
-              entschieden im Onboarding. Gleiche Front, {eur(BASE_RATE_BESONDERER_WERT)} statt{" "}
-              {eur(BASE_RATE_PER_CM)} je cm, Mindestmiete {MIN_SLOT_MIETE_BESONDERER_WERT} € statt{" "}
-              {MIN_SLOT_MIETE} €
-              <br />
-              Mindestmiete {MIN_SLOT_MIETE} € / Monat je Front · Mindestbreite 5 cm · Konsignation,
-              kein Wareneinkauf
-              <br />
-              Gründungskonditionen bis 60 % Store-Auslastung · ab 60 % +10 % (Mindestmiete{" "}
-              {MIN_SLOT_MIETE_BY_TRANCHE.aufbau} €) · ab 85 % +20 % (
-              {MIN_SLOT_MIETE_BY_TRANCHE.warteliste} €) · First
-              Mover behalten ihren Einstiegspreis vertraglich für 12 Monate
-              <br />7 % Vermittlungsprovision auf den Bruttoverkaufspreis, Zahlungsabwicklung
-              inklusive · Traverse-Karte mit QR-Code und monatlicher Verkaufsbericht je Front
-              inklusive
-            </p>
+              <div className="calc">
+                <p className="calc__k">Rechenbeispiel</p>
+                <p className="calc__t">
+                  Stufe {BEISPIEL.stufe.nr} {BEISPIEL.stufe.name} mit {BEISPIEL.cm} cm in der
+                  Basiszone
+                </p>
+                <div className="rows">
+                  <div className="row">
+                    <span className="row__k">Festpreis netto</span>
+                    <span className="row__v">{eur0(BEISPIEL.stufe.preis)}</span>
+                  </div>
+                  <div className="row">
+                    <span className="row__k">
+                      Miete {BEISPIEL.monate} × {eur0(BEISPIEL.miete)}
+                    </span>
+                    <span className="row__v">
+                      {eur0(BEISPIEL.monate * BEISPIEL.miete)}, höchstens {BEISPIEL.deckel} % deines
+                      Umsatzes
+                    </span>
+                  </div>
+                  <div className="row">
+                    <span className="row__k">Provision</span>
+                    <span className="row__v">+ {HUB_MARGIN_PCT} % auf verkaufte Ware</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* B: Das Standardregal */}
+            <div className="priceblock">
+              <p className="priceblock__k">B · Das Standardregal</p>
+              <h3>Miete pro Zentimeter und Monat.</h3>
+              <Preistabelle />
+
+              <p className="fineprint">
+                * Besonderer Wert: für Handwerk, Herkunft oder eine Mission, nur auf Bewerbung,
+                entschieden im Onboarding. Gleiche Front, {eur(BASE_RATE_BESONDERER_WERT)} statt{" "}
+                {eur(BASE_RATE_PER_CM)} je cm, Mindestmiete {MIN_SLOT_MIETE_BESONDERER_WERT} € statt{" "}
+                {MIN_SLOT_MIETE} €
+                <br />
+                Mindestmiete {MIN_SLOT_MIETE} € / Monat je Front · Mindestbreite 5 cm · Konsignation,
+                kein Wareneinkauf
+                <br />
+                Gründungskonditionen bis 60 % Store-Auslastung · ab 60 % +10 % (Mindestmiete{" "}
+                {MIN_SLOT_MIETE_BY_TRANCHE.aufbau} €) · ab 85 % +20 % (
+                {MIN_SLOT_MIETE_BY_TRANCHE.warteliste} €) · First
+                Mover behalten ihren Einstiegspreis vertraglich für 12 Monate
+                <br />
+                {HUB_MARGIN_PCT} % Vermittlungsprovision auf den Bruttoverkaufspreis,
+                Zahlungsabwicklung inklusive · Traverse-Karte mit QR-Code und monatlicher
+                Verkaufsbericht je Front inklusive
+              </p>
+            </div>
+
+            {/* C: Beratung */}
+            {SHOW_BAFA && (
+              <div className="priceblock">
+                <p className="priceblock__k">C · Beratung</p>
+                <h3>1:1 auf dem Weg in den Handel.</h3>
+                <p className="priceblock__txt">
+                  Unabhängig von Regal und Treppe buchbar. Kann über das BAFA mit bis zu{" "}
+                  {BAFA_ZUSCHUSS_PCT.neu} % gefördert werden.{" "}
+                  <a href="#beratung">Mehr zur Beratung →</a>
+                </p>
+              </div>
+            )}
           </div>
         </section>
+
+        {/* ══ Beratung (nur mit SHOW_BAFA) ═════════════════════ */}
+        {SHOW_BAFA && <BeratungSektion />}
 
         {/* ══ Anteil ════════════════════════════════════════════ */}
         <section className="sect sect--rule sect--deep">
@@ -219,7 +317,7 @@ export default async function StartPage() {
             <p className="eyebrow">Dieselben 20 Zentimeter</p>
             <h2>Im Supermarkt bist du Nummer 43 von 60.</h2>
             <p className="lede" style={{ marginTop: 20, maxWidth: "50ch" }}>
-              Ein Frühstücksregal im LEH ist zwölf Meter lang. Deine 20 cm darin sind ein Strich —
+              Ein Frühstücksregal im LEH ist zwölf Meter lang. Deine 20 cm darin sind ein Strich,
               falls du überhaupt gelistet wirst. An unserer Wand sind dieselben 20 cm ein
               Dreizehntel.
             </p>
@@ -227,8 +325,8 @@ export default async function StartPage() {
             <Anteil />
 
             <p className="fineprint">
-              Beide Regale in voller Breite gezeigt, die Maßstäbe unterscheiden sich also —
-              verglichen wird der Anteil, nicht die absolute Länge.
+              Beide Regale in voller Breite gezeigt, die Maßstäbe unterscheiden sich also.
+              Verglichen wird der Anteil, nicht die absolute Länge.
             </p>
           </div>
         </section>
@@ -292,13 +390,14 @@ export default async function StartPage() {
           <div className="wrap">
             <div className="close__grid">
               <div className="close__in">
-                <p className="eyebrow">Regalfront · Bewerbung</p>
+                <p className="eyebrow">Treppe und Regal · Bewerbung</p>
                 <h2>Wir kuratieren. Deshalb bewirbst du dich.</h2>
                 <p className="lede">
-                  Ab fünf Zentimetern, ab {MIN_SLOT_MIETE} € im Monat — für Produkte mit besonderem
-                  Wert ab {MIN_SLOT_MIETE_BESONDERER_WERT} €. Ohne Listungsgebühr. Wir holen
-                  jede Woche {ONBOARDINGS_PRO_WOCHE} Marken ins Onboarding — und schauen uns jedes
-                  Produkt an, bevor es ins Regal kommt.
+                  Für jede Stufe der Treppe und fürs Standardregal. Im Regal ab fünf Zentimetern, ab{" "}
+                  {MIN_SLOT_MIETE} € im Monat, für Produkte mit besonderem Wert ab{" "}
+                  {MIN_SLOT_MIETE_BESONDERER_WERT} €. Ohne Listungsgebühr. Wir holen jede Woche{" "}
+                  {ONBOARDINGS_PRO_WOCHE} Marken ins Onboarding und schauen uns jedes Produkt an,
+                  bevor es ins Regal kommt.
                 </p>
                 <div className="slots" aria-label="Onboarding-Termine diese Woche">
                   {frei === null ? (
@@ -319,7 +418,7 @@ export default async function StartPage() {
                             Onboardings diese Woche frei
                           </>
                         ) : (
-                          <>Diese Woche ist voll — deine Bewerbung rutscht in die nächste.</>
+                          <>Diese Woche ist voll. Deine Bewerbung rutscht in die nächste.</>
                         )}
                       </p>
                     </>
@@ -348,7 +447,10 @@ export default async function StartPage() {
             <Link href="/agb">AGB</Link>
             <CookieEinstellungenButton className="foot__btn" />
           </nav>
-          <strong>Hub42 UG (haftungsbeschränkt) · Eröffnung März 2027 · Alexa Berlin</strong>
+          <strong>
+            {SHOW_PARTNER && "Feedback Factory · ein Laden der "}Hub42 UG (haftungsbeschränkt) ·
+            Eröffnung März 2027 · Alexa Berlin
+          </strong>
           <br />
           Ladenansicht und Regalkonzept sind KI-generierte Konzeptbilder, keine Fotos des fertigen
           Ladens. Regalbelegung, Grundriss und Stationsmaße sind illustrativ; Preise und Konditionen

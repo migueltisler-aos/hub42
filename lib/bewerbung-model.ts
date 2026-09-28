@@ -1,9 +1,11 @@
-// Bewerbung um eine Regalfront – geteilte Konstanten und Typen.
+// Bewerbung für eine Stufe der Treppe oder das Standardregal:
+// geteilte Konstanten und Typen.
 //
 // Rein und ohne Datenzugriff, damit das Formular (Client) und die Server
 // Action dieselben Regeln importieren können (vgl. lib/angebote-model.ts).
 
 import type { ZoneKey } from "@/lib/neue-ui/regal";
+import { EINSTIEGE, mitRegalwahl, type EinstiegKey } from "@/lib/treppe";
 
 /** Wie viele Brands wir pro Woche ins Regal holen. */
 export const ONBOARDINGS_PRO_WOCHE = 5;
@@ -18,6 +20,15 @@ export interface BewerbungPayload {
   marke: string;
   produkt: string;
   website: string;
+  /** Pflicht: Stufe der Treppe, Standardregal oder noch offen. */
+  einstieg: EinstiegKey | "";
+  /** Ja/Nein-Fragen; null = nicht beantwortet. */
+  stationaerGelistet: boolean | null;
+  onlineHandel: boolean | null;
+  /** Nur mit SHOW_BAFA gefragt. */
+  beratungInteresse: boolean | null;
+  /** Nur gefragt, wenn beratungInteresse = true. */
+  bundesland: string;
   zone: ZoneKey | "";
   cm: number | null;
   besondererWert: boolean;
@@ -35,7 +46,8 @@ export function pruefeBewerbung(p: BewerbungPayload): BewerbungFehler {
   if (!p.email.match(/^[^\s@]+@[^\s@]+\.[^\s@]+$/)) e.email = "Gültige E-Mail erforderlich";
   if (!p.marke.trim()) e.marke = "Pflichtfeld";
   if (!p.produkt.trim()) e.produkt = "Pflichtfeld";
-  if (p.besondererWert && p.begruendung.trim().length < 20)
+  if (!(p.einstieg in EINSTIEGE)) e.einstieg = "Wähl deinen Einstieg";
+  if (mitRegalwahl(p.einstieg) && p.besondererWert && p.begruendung.trim().length < 20)
     e.begruendung = "Erzähl uns in ein, zwei Sätzen, was dein Produkt besonders macht";
   return e;
 }

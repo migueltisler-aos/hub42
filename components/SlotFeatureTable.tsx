@@ -40,10 +40,6 @@ const FEATURES: FeatureRow[] = [
     basis: false, augenhoehe: false, greifhoehe: true, schaufenster: false,
   },
   {
-    label: "Pro Analytics – 1 Monat gratis",
-    basis: false, augenhoehe: false, greifhoehe: true, schaufenster: false,
-  },
-  {
     label: "Sonderfläche",
     basis: false, augenhoehe: false, greifhoehe: false, schaufenster: "Ladenfront",
   },

@@ -46,7 +46,7 @@ export const ZONES: Record<ZoneKey, Zone> = {
     hoehe: "90–130 cm",
     auf: ZONE_SURCHARGE_PCT.greifhoehe,
     deck: 12,
-    hint: "Garantierte Greifzone — höchste Conversion",
+    hint: "Garantierte Greifzone, höchste Conversion",
     pick: true,
   },
   basis: {

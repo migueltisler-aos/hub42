@@ -134,8 +134,7 @@ export default function AboutPage() {
             : Produktstory, Herkunft, Gründerhintergrund, QR-Code und Tasting-Hinweise. Hub42
             übernimmt Standort, Store-Betrieb, Kasse, Warenpflege, Tasting, Abrechnung und
             Datenreporting. Der Umsatz entsteht nicht aus einer Handelsmarge, sondern aus monatlicher
-            Regalmiete und einer Vermittlungsprovision von 7 % pro verkaufter Einheit,
-            zzgl. optionalem Pro Analytics. So
+            Regalmiete und einer Vermittlungsprovision von 7 % pro verkaufter Einheit. So
             wird stationärer Vertrieb für Hersteller planbar, günstig und datenbasiert — ohne
             Listungsgebühr, ohne Zwischenhändler und ohne Abhängigkeit von Performance-Marketing.
           </p>

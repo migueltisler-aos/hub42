@@ -95,6 +95,27 @@ export const SCHAUFENSTER_MONAT = 140;
 /** Vermittlungsprovision auf den Bruttoverkaufspreis (VK) jedes verkauften Artikels. */
 export const HUB_MARGIN_PCT = 7;
 
+/* ── Die Treppe (Startseite #treppe, #preise, /hersteller) ────
+   Festpreis je Stufe, netto. Stufe 1 und 2: plus Regalmiete nach cm
+   (Tabelle oben), die Miete gedeckelt auf REGALMIETE_DECKEL_PCT des
+   Umsatzes. Stufe 3 bis 5: Regal bis REGAL_INKLUSIVE_CM inklusive, jeder
+   weitere cm nach Preisliste. Auf alle Stufen kommt HUB_MARGIN_PCT auf den
+   Verkauf. */
+export const STUFE_PREIS = {
+  testen: 390,
+  beweisen: 3900,
+  spark: 9800,
+  focus: 24500,
+  powerhouse: 49000,
+} as const;
+
+/** Garantie Stufe 1 und 2: die Regalmiete (nicht der Festpreis) beträgt
+    höchstens diese Prozent vom Umsatz. */
+export const REGALMIETE_DECKEL_PCT = 50;
+
+/** Stufe 3 bis 5: so viel Regalfront steckt im Festpreis. */
+export const REGAL_INKLUSIVE_CM = 15;
+
 export interface Assumptions {
   vk: number; // Verkaufspreis / Artikel
   sales: number; // Sales / Monat

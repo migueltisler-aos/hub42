@@ -28,12 +28,12 @@ const dmMono = DM_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://tryhub42.de"),
   title: {
-    default: "Hub42 – Der Store, den es braucht.",
+    default: "Hub42 · Der Laden für Neuheiten",
     template: "%s | Hub42",
   },
   description:
-    "Hub42 im Alexa Berlin – der kuratierte Geschenke-Store, wo Einkaufen ein Spiel ist. Wo Marken geboren werden.",
-  keywords: ["Hub42", "Alexa Berlin", "Geschenke", "Marken", "Popup Store", "Berlin"],
+    "Hub42 im Alexa Berlin: der Laden nur für Neuheiten. Eine Treppe vom ersten Test bis zur Listung, Miete pro Zentimeter plus 7 % auf den Verkauf.",
+  keywords: ["Hub42", "Alexa Berlin", "Neuheiten", "Marken", "Regalmiete", "Markttest", "Listung", "Berlin"],
   authors: [{ name: "Hub42 UG (haftungsbeschränkt)" }],
   creator: "Hub42 UG (haftungsbeschränkt)",
   openGraph: {
@@ -41,22 +41,22 @@ export const metadata: Metadata = {
     locale: "de_DE",
     url: "https://tryhub42.de",
     siteName: "Hub42",
-    title: "Hub42 – Der Store, den es braucht.",
+    title: "Hub42 · Der Laden für Neuheiten",
     description:
-      "Wo Einkaufen ein Spiel ist. 41.000 Berliner täglich. 7% statt 30–50% Handelsmarge beim LEH.",
+      "Vom ersten Regal bis zur Listung. Echte Kasse statt Umfrage, 41.000 Besucher täglich. Miete pro Zentimeter plus 7 % auf den Verkauf.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "Hub42 – Der Store, den es braucht.",
+        alt: "Hub42 · Der Laden für Neuheiten",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Hub42 – Der Store, den es braucht.",
-    description: "Wo Einkaufen ein Spiel ist. Alexa Berlin.",
+    title: "Hub42 · Der Laden für Neuheiten",
+    description: "Vom ersten Regal bis zur Listung. Miete pro Zentimeter plus 7 % auf den Verkauf.",
     creator: "@hub42berlin",
   },
   robots: {

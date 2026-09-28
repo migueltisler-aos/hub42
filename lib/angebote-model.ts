@@ -170,7 +170,6 @@ export interface AddonOption {
 }
 
 export const ADDONS: AddonOption[] = [
-  { id: "pro-analytics", label: "Pro Analytics", preisMonat: 49 },
   { id: "brand-report", label: "Brand Report (PDF)", preisMonat: 29 },
 ];
 
