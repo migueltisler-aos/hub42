@@ -19,17 +19,16 @@ import {
   HUB_MARGIN_PCT,
   MIN_SLOT_MIETE,
   REGAL_INKLUSIVE_CM,
-  REGALMIETE_DECKEL_PCT,
   RATES,
   STUFE_PREIS,
 } from "@/lib/deck-economics";
 import { SHOW_BAFA } from "@/lib/site-flags";
 import {
   ALLE_STUFEN,
-  GARANTIE,
   NACH_JEDER_STUFE,
   NUR_NEUPRODUKTE,
   STUFEN,
+  ZUSATZ_CM_TEXT,
   eur0,
   preisText,
 } from "@/lib/treppe";
@@ -96,8 +95,8 @@ const FAQ = [
       "Junge Startups starten meist mit Stufe 1 Testen. Online-Marken mit Stufe 2 Beweisen. Etablierte Hersteller mit Neuprodukten steigen meist bei Stufe 3 ein und gehen bis Stufe 5, wenn es um die Listung im Einkauf geht.",
   },
   {
-    frage: "Was heißt: Die Regalmiete ist nie höher als die Hälfte meines Umsatzes?",
-    antwort: `Das ist die Garantie in Stufe 1 und 2. Zum Festpreis der Stufe kommt die Regalmiete nach Zentimetern. Diese Miete ist gedeckelt auf ${REGALMIETE_DECKEL_PCT} % deines Umsatzes, der Festpreis zählt nicht dazu. Ab Stufe 3 sind ${REGAL_INKLUSIVE_CM} cm Regal im Preis enthalten, jeder weitere cm nach Preisliste.`,
+    frage: "Wie viel Regal steckt in einer Stufe?",
+    antwort: `In jeder Stufe ${REGAL_INKLUSIVE_CM} cm, im Festpreis enthalten. ${ZUSATZ_CM_TEXT}`,
   },
   {
     frage: "Ich bin ein etablierter Hersteller. Darf ich mitmachen?",
@@ -126,7 +125,7 @@ const FAQ = [
   {
     frage: "Was passiert, wenn ich nicht genug verkaufe?",
     antwort:
-      "In Stufe 1 und 2 schützt dich die Garantie: Die Regalmiete ist nie höher als die Hälfte deines Umsatzes. Im Standardregal gilt: 3 Monate Mindestlaufzeit, danach monatlich kündbar. Unverkaufte Ware wird zurückgesandt, du bleibst bis zum Kassenbon Eigentümer. Kein Abnahmezwang, kein Mindestbestellwert.",
+      "In der Treppe zahlst du den Festpreis der Stufe, mehr nicht. Im Standardregal gilt: 3 Monate Mindestlaufzeit, danach monatlich kündbar. Unverkaufte Ware wird zurückgesandt, du bleibst bis zum Kassenbon Eigentümer. Kein Abnahmezwang, kein Mindestbestellwert.",
   },
   {
     frage: "Kann ich meinen Preis selbst festlegen?",
@@ -193,7 +192,7 @@ export default function HerstellerPage() {
           {/* Facts strip */}
           <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-xs font-mono text-stone border-l-2 border-bronze pl-4">
             <span>{HUB_MARGIN_PCT} % statt 30–50 % Handelsmarge beim LEH</span>
-            <span>Treppe ab {eur0(STUFE_PREIS.testen)} + Miete pro cm</span>
+            <span>Treppe ab {eur0(STUFE_PREIS.testen)} netto, {REGAL_INKLUSIVE_CM} cm Regal inklusive</span>
             <span>Standardregal ab {MIN_SLOT_MIETE} €/Monat</span>
             <span>41.000 Besucher täglich</span>
           </div>
@@ -222,10 +221,8 @@ export default function HerstellerPage() {
           <div className="border-l-4 border-bronze bg-bronze/5 px-6 py-6 space-y-4">
             <p className="text-cream text-sm leading-relaxed">
               <span className="text-bronze font-semibold">Deine Kosten:</span> In der Treppe ein
-              Festpreis je Stufe ab {eur0(STUFE_PREIS.testen)} netto. In Stufe 1 und 2 kommt die
-              Regalmiete pro cm dazu, die Miete ist gedeckelt auf {REGALMIETE_DECKEL_PCT} % deines
-              Umsatzes. Ab Stufe 3 sind {REGAL_INKLUSIVE_CM} cm Regal inklusive, jeder weitere cm
-              nach Preisliste. Im Standardregal Miete ab {MIN_SLOT_MIETE} € im Monat
+              Festpreis je Stufe ab {eur0(STUFE_PREIS.testen)} netto, {REGAL_INKLUSIVE_CM} cm
+              Regal inklusive. {ZUSATZ_CM_TEXT} Im Standardregal Miete ab {MIN_SLOT_MIETE} € im Monat
               (Gründungskonditionen). Überall {HUB_MARGIN_PCT} % Vermittlungsprovision je
               verkauftem Artikel, Zahlungsabwicklung inklusive. Sonst nichts.
             </p>
@@ -285,9 +282,6 @@ export default function HerstellerPage() {
                 <p className="text-cream text-sm">{st.frage}</p>
                 <p className="text-bronze text-sm font-mono">{preisText(st)}</p>
                 <p className="text-stone text-xs">Empfohlen für {st.empfohlenFuer}</p>
-                {st.garantie && (
-                  <p className="text-cream text-xs border-l-2 border-bronze pl-3">{GARANTIE}</p>
-                )}
                 <ul className="space-y-1 mt-auto">
                   {st.neu.map((l) => (
                     <li key={l} className="flex items-start gap-2 text-xs text-stone">
@@ -323,9 +317,8 @@ export default function HerstellerPage() {
               <p className="text-cream">{NACH_JEDER_STUFE}</p>
               <p className="text-stone">{NUR_NEUPRODUKTE}</p>
               <p className="text-stone">
-                Alle Festpreise netto. In Stufe 1 und 2 kommt die Regalmiete nach Zentimetern dazu,
-                die Miete ist gedeckelt auf {REGALMIETE_DECKEL_PCT} % deines Umsatzes. Ab Stufe 3
-                sind {REGAL_INKLUSIVE_CM} cm Regal inklusive, jeder weitere cm nach Preisliste. Auf jede Stufe: + {HUB_MARGIN_PCT} % auf
+                Alle Festpreise netto. In jeder Stufe sind {REGAL_INKLUSIVE_CM} cm Regal
+                inklusive. {ZUSATZ_CM_TEXT} Auf jede Stufe: + {HUB_MARGIN_PCT} % auf
                 den Verkauf.
               </p>
             </div>

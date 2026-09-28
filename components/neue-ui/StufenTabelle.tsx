@@ -1,7 +1,7 @@
 /* Die fünf Stufen als Preistabelle (#preise, Block A). Unter 640 px stapelt
    sich jede Zeile zur Karte, damit nichts horizontal scrollt. */
 
-import { STUFEN, eur0, regalText } from "@/lib/treppe";
+import { REGAL_TEXT, STUFEN, eur0 } from "@/lib/treppe";
 import { HUB_MARGIN_PCT } from "@/lib/deck-economics";
 
 export default function StufenTabelle() {
@@ -26,10 +26,7 @@ export default function StufenTabelle() {
               </th>
               <td data-label="Dauer">{s.dauer}</td>
               <td data-label="Festpreis netto">{eur0(s.preis)}</td>
-              <td data-label="Regal">
-                {regalText(s)}
-                {s.regalInklusive ? "" : "*"}
-              </td>
+              <td data-label="Regal">{REGAL_TEXT}*</td>
               <td data-label="Empfohlen für">{s.empfohlenFuer}</td>
             </tr>
           ))}

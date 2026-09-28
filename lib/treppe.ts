@@ -9,13 +9,7 @@
    Server Action dieselben Werte importieren.
    ============================================================ */
 
-import {
-  HUB_MARGIN_PCT,
-  REGAL_INKLUSIVE_CM,
-  REGALMIETE_DECKEL_PCT,
-  STUFE_PREIS,
-} from "@/lib/deck-economics";
-import { miete } from "@/lib/neue-ui/regal";
+import { HUB_MARGIN_PCT, RATES, REGAL_INKLUSIVE_CM, STUFE_PREIS } from "@/lib/deck-economics";
 
 export type StufeKey = keyof typeof STUFE_PREIS;
 export type ZielgruppeKey = "gruender" | "online" | "hersteller";
@@ -27,13 +21,9 @@ export interface Stufe {
   /** Die Frage, die die Marke mit dieser Stufe beantwortet. */
   frage: string;
   dauer: string;
-  /** Laufzeit in Monaten, soweit die Regalmiete danach gerechnet wird. */
+  /** Laufzeit in Monaten, wo die Dauer in Monaten angegeben ist (fürs Rechenbeispiel). */
   monate: number | null;
   preis: number;
-  /** Stufe 3 bis 5: Regal bis REGAL_INKLUSIVE_CM steckt im Preis. Sonst kommt die cm-Miete dazu. */
-  regalInklusive: boolean;
-  /** Regalmiete gedeckelt auf REGALMIETE_DECKEL_PCT des Umsatzes. */
-  garantie: boolean;
   empfohlenFuer: string;
   zielgruppen: ZielgruppeKey[];
   /** Was gegenüber der Stufe darunter dazukommt. */
@@ -62,8 +52,6 @@ export const STUFEN: Stufe[] = [
     dauer: "3 Monate",
     monate: 3,
     preis: STUFE_PREIS.testen,
-    regalInklusive: false,
-    garantie: true,
     empfohlenFuer: "junge Startups",
     zielgruppen: ["gruender"],
     neu: [
@@ -83,8 +71,6 @@ export const STUFEN: Stufe[] = [
     dauer: "3 Monate",
     monate: 3,
     preis: STUFE_PREIS.beweisen,
-    regalInklusive: false,
-    garantie: true,
     empfohlenFuer: "Online-Marken, Startups nach Stufe 1",
     zielgruppen: ["online", "gruender"],
     neu: [
@@ -107,8 +93,6 @@ export const STUFEN: Stufe[] = [
     dauer: "8 Wochen",
     monate: null,
     preis: STUFE_PREIS.spark,
-    regalInklusive: true,
-    garantie: false,
     empfohlenFuer: "etablierte Hersteller, Startups nach Stufe 2",
     zielgruppen: ["hersteller", "gruender"],
     neu: [
@@ -128,8 +112,6 @@ export const STUFEN: Stufe[] = [
     dauer: "12 Wochen",
     monate: null,
     preis: STUFE_PREIS.focus,
-    regalInklusive: true,
-    garantie: false,
     empfohlenFuer: "etablierte Hersteller",
     zielgruppen: ["hersteller"],
     neu: [
@@ -153,8 +135,6 @@ export const STUFEN: Stufe[] = [
     dauer: "6 Monate",
     monate: null,
     preis: STUFE_PREIS.powerhouse,
-    regalInklusive: true,
-    garantie: false,
     empfohlenFuer: "etablierte Hersteller, Portfolio",
     zielgruppen: ["hersteller"],
     neu: [
@@ -176,22 +156,20 @@ export const ZIELGRUPPEN: Record<ZielgruppeKey, { label: string; einstieg: Stufe
   hersteller: { label: "Etablierter Hersteller", einstieg: "spark" },
 };
 
-export const GARANTIE = "Deine Regalmiete ist nie höher als die Hälfte deines Umsatzes.";
 export const NACH_JEDER_STUFE =
   "Nach jeder Stufe geht es ins Standardregal oder eine Stufe höher. Die vorherige Stufe wird voll angerechnet.";
 export const NUR_NEUPRODUKTE =
   "Etablierte Hersteller kommen nur mit Neuprodukten, die nirgends flächendeckend gelistet sind.";
 
-/** Was beim Regal in einer Stufe gilt, kurz. */
-export const regalText = (s: Stufe): string =>
-  s.regalInklusive ? `bis ${REGAL_INKLUSIVE_CM} cm inklusive` : "+ Miete pro cm";
+/** Was beim Regal in jeder Stufe gilt, kurz. */
+export const REGAL_TEXT = `bis ${REGAL_INKLUSIVE_CM} cm inklusive`;
+
+/** Zentimeter über REGAL_INKLUSIVE_CM: Zonenpreis, keine Mindestmiete. */
+export const ZUSATZ_CM_TEXT = `Jeder weitere Zentimeter kostet den Zonenpreis des Standardregals, ohne Mindestmiete.`;
 
 /** Preiszeile einer Stufe, überall gleich formuliert. */
-export function preisText(s: Stufe): string {
-  return s.regalInklusive
-    ? `${eur0(s.preis)} netto, Regal ${regalText(s)}, + ${HUB_MARGIN_PCT} % auf Verkauf`
-    : `${eur0(s.preis)} netto + Regalmiete pro cm + ${HUB_MARGIN_PCT} % auf Verkauf`;
-}
+export const preisText = (s: Stufe): string =>
+  `${eur0(s.preis)} netto, Regal ${REGAL_TEXT}, + ${HUB_MARGIN_PCT} % auf Verkauf`;
 
 /** Ganze Euro, deutsch: 3.900 €. */
 export const eur0 = (n: number): string => n.toLocaleString("de-DE") + " €";
@@ -200,14 +178,11 @@ export const eur0 = (n: number): string => n.toLocaleString("de-DE") + " €";
 export const BEISPIEL_CM = 20;
 export const BEISPIEL = (() => {
   const s = STUFEN[0];
-  // Basiszone, Gründungskonditionen, wie im Standardregal
-  return {
-    stufe: s,
-    cm: BEISPIEL_CM,
-    miete: miete(BEISPIEL_CM, "basis"),
-    monate: s.monate ?? 3,
-    deckel: REGALMIETE_DECKEL_PCT,
-  };
+  const zusatzCm = BEISPIEL_CM - REGAL_INKLUSIVE_CM;
+  // Basiszone, Gründungskonditionen, ohne Mindestmiete
+  const zusatzMonat = Math.round(zusatzCm * RATES.basis * 100) / 100;
+  const monate = s.monate ?? 3;
+  return { stufe: s, cm: BEISPIEL_CM, zusatzCm, rate: RATES.basis, zusatzMonat, monate };
 })();
 
 /* ── Bewerbung: Einstieg ──────────────────────────────────── */

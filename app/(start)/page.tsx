@@ -29,7 +29,7 @@ import {
 } from "@/lib/deck-economics";
 import { eur } from "@/lib/neue-ui/regal";
 import { SHOW_BAFA, SHOW_PARTNER } from "@/lib/site-flags";
-import { BEISPIEL, eur0 } from "@/lib/treppe";
+import { BEISPIEL, ZUSATZ_CM_TEXT, eur0 } from "@/lib/treppe";
 
 /* Der Onboarding-Zähler kommt aus der DB. Alle 5 Minuten neu, und nach jeder
    Bewerbung sofort (revalidatePath in app/actions/bewerbung.ts). */
@@ -233,10 +233,8 @@ export default async function StartPage() {
               <h3>Fünf Stufen mit Festpreis.</h3>
               <StufenTabelle />
               <p className="fineprint">
-                Alle Festpreise netto. * In Stufe 1 und 2 kommt die Regalmiete nach Zentimetern aus
-                dem Standardregal dazu, die Miete ist gedeckelt auf {BEISPIEL.deckel} % deines
-                Umsatzes. In Stufe 3 bis 5 sind {REGAL_INKLUSIVE_CM} cm Regal im Preis enthalten,
-                jeder weitere Zentimeter nach der Preisliste des Standardregals.
+                Alle Festpreise netto. * In jeder Stufe sind {REGAL_INKLUSIVE_CM} cm Regal im Preis
+                enthalten. {ZUSATZ_CM_TEXT}
               </p>
 
               <div className="calc">
@@ -251,12 +249,17 @@ export default async function StartPage() {
                     <span className="row__v">{eur0(BEISPIEL.stufe.preis)}</span>
                   </div>
                   <div className="row">
+                    <span className="row__k">Regal {REGAL_INKLUSIVE_CM} cm</span>
+                    <span className="row__v">inklusive</span>
+                  </div>
+                  <div className="row">
                     <span className="row__k">
-                      Miete {BEISPIEL.monate} × {eur0(BEISPIEL.miete)}
+                      Weitere {BEISPIEL.zusatzCm} cm × {eur(BEISPIEL.rate)} × {BEISPIEL.monate}{" "}
+                      Monate
                     </span>
                     <span className="row__v">
-                      {eur0(BEISPIEL.monate * BEISPIEL.miete)}, höchstens {BEISPIEL.deckel} % deines
-                      Umsatzes
+                      {eur0(BEISPIEL.zusatzMonat * BEISPIEL.monate)} ({eur0(BEISPIEL.zusatzMonat)} im
+                      Monat)
                     </span>
                   </div>
                   <div className="row">

@@ -9,7 +9,6 @@ import { SHOW_BAFA } from "@/lib/site-flags";
 import {
   ALLE_STUFEN,
   EINSTIEG_EVENT,
-  GARANTIE,
   NACH_JEDER_STUFE,
   NUR_NEUPRODUKTE,
   STUFEN,
@@ -107,7 +106,6 @@ export default function Treppe() {
           </div>
         </div>
 
-        {s.garantie && <p className="stair__promise">{GARANTIE}</p>}
 
         <div className="stair__lists">
           <div>

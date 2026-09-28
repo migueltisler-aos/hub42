@@ -781,11 +781,6 @@
   .stair__q { color: var(--ink-mid); font-size: 1.02rem; margin-top: 6px; }
   .stair__detail .rows { margin-top: 0; }
   .stair__detail .row { flex-wrap: wrap; }
-  .stair__promise {
-    border-left: 3px solid var(--bulb); padding: 11px 15px;
-    background: color-mix(in oklab, var(--bulb) 10%, transparent);
-    font-family: var(--f-display); font-weight: 500; font-size: 1.02rem; letter-spacing: -0.01em;
-  }
   .stair__lists { display: grid; gap: 20px; }
   .stair__lk {
     font-family: var(--f-mono); font-size: 0.656rem; letter-spacing: 0.14em;
