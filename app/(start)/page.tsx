@@ -431,6 +431,11 @@ export default async function StartPage() {
                   Eröffnung März 2027. Wer jetzt einsteigt, behält die Gründungskonditionen 12 Monate
                   lang vertraglich.
                 </p>
+                <div className="btn-row">
+                  <a className="btn btn--dark" href="/termin" target="_blank" rel="noopener">
+                    Erst sprechen? 30 Min. Termin buchen
+                  </a>
+                </div>
               </div>
 
               <Bewerbung />
