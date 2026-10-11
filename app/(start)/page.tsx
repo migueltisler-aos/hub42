@@ -15,6 +15,7 @@ import Rundgang from "@/components/neue-ui/Rundgang";
 import SagenTun from "@/components/neue-ui/SagenTun";
 import StufenTabelle from "@/components/neue-ui/StufenTabelle";
 import Treppe from "@/components/neue-ui/Treppe";
+import TerminKalender from "@/components/neue-ui/TerminKalender";
 import { onboardingsFrei } from "@/lib/bewerbung";
 import { ONBOARDINGS_PRO_WOCHE } from "@/lib/bewerbung-model";
 import { BAFA_ZUSCHUSS_PCT } from "@/lib/beratung";
@@ -432,9 +433,7 @@ export default async function StartPage() {
                   lang vertraglich.
                 </p>
                 <div className="btn-row">
-                  <a className="btn btn--dark" href="/termin" target="_blank" rel="noopener">
-                    Erst sprechen? 30 Min. Termin buchen
-                  </a>
+                  <TerminKalender mode="dialog" />
                 </div>
               </div>
 

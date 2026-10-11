@@ -7,11 +7,7 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     // Die Regalwand war bis zum Umzug auf / unter /neue-ui geteilt worden.
-    // /termin steht auf dem gedruckten Marken-Handout; Ziel hier änderbar, ohne neu zu drucken.
-    return [
-      { source: "/neue-ui", destination: "/", permanent: true },
-      { source: "/termin", destination: "https://calendly.com/miguel-tryhub42/30min", permanent: false },
-    ];
+    return [{ source: "/neue-ui", destination: "/", permanent: true }];
   },
 };
 

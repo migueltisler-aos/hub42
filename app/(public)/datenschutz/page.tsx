@@ -171,8 +171,36 @@ export default function DatenschutzPage() {
             </p>
           </div>
 
+          <div>
+            <h2 className="text-cream text-lg font-semibold mb-2">10. Terminbuchung über Calendly</h2>
+            <p>
+              Für die Buchung von Gesprächsterminen binden wir den Kalender von Calendly ein,
+              einem Dienst der Calendly LLC, 115 E Main St, Ste A1B, Buford, GA 30518, USA. Der
+              Kalender wird erst geladen, wenn Sie auf „Termin buchen“ bzw. „Freie Termine
+              anzeigen“ klicken. Vorher werden keine Daten an Calendly übertragen. Mit dem Laden
+              erhält Calendly technische Daten wie Ihre IP-Adresse und Browserinformationen; bei
+              einer Buchung zusätzlich die Angaben, die Sie dort eintragen (z.&nbsp;B. Name,
+              E-Mail-Adresse, gewählter Termin).
+            </p>
+            <p className="mt-3">
+              Rechtsgrundlage ist Art. 6 Abs. 1 lit. b DSGVO (Anbahnung eines Vertrags) sowie Ihre
+              durch den Klick erteilte Einwilligung nach Art. 6 Abs. 1 lit. a DSGVO und § 25 Abs. 1
+              TDDDG. Die Übermittlung in die USA stützt sich auf die Zertifizierung von Calendly
+              unter dem EU-US Data Privacy Framework (Art. 45 DSGVO). Weitere Informationen:{" "}
+              <a
+                href="https://calendly.com/privacy"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-bronze hover:underline"
+              >
+                Datenschutzerklärung von Calendly
+              </a>
+              .
+            </p>
+          </div>
+
           <p className="text-stone/60 text-xs font-mono border-t border-stone-dark/30 pt-6">
-            Stand: September 2026
+            Stand: Oktober 2026
           </p>
         </div>
       </div>
