@@ -8,6 +8,7 @@ const LINKS = [
   { href: "/pipeline/analytics", label: "Analytics" },
   { href: "/wareneingang", label: "Wareneingang" },
   { href: "/bestand", label: "Bestand" },
+  { href: "/kasse", label: "Kasse" },
   { href: "/feedback/admin", label: "Feedback-Studio" },
 ];
 
