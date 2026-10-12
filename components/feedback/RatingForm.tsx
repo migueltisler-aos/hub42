@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { HEDONIC_FACES, type QuestionWithSet } from "@/lib/feedback";
+import { HEDONIC_FACES, questionsFor, type QuestionWithSet, type RatingKontext } from "@/lib/feedback";
+import { formatEuro, priceLadder } from "@/lib/price-ladder";
 
 function TapButton({
   selected,
@@ -36,6 +37,65 @@ function TapButton({
   );
 }
 
+/**
+ * Schieberegler für den Event-Modus. Startet in der Mitte, zählt aber erst als
+ * Antwort, wenn er berührt wurde (sonst landet die Mitte ungefragt in den Daten).
+ */
+function Slider({
+  min,
+  max,
+  value,
+  onChange,
+  labelLeft,
+  labelRight,
+  display,
+  start,
+}: {
+  /** Startposition, bevor berührt wurde (Standard: Mitte). */
+  start?: number;
+  min: number;
+  max: number;
+  value: number | null;
+  onChange: (v: number) => void;
+  labelLeft: string;
+  labelRight: string;
+  display?: (v: number) => React.ReactNode;
+}) {
+  const v = value ?? start ?? Math.round((min + max) / 2);
+  const set = (raw: string) => onChange(Number(raw));
+  return (
+    <div>
+      <div className="flex items-center gap-3">
+        <input
+          type="range"
+          min={min}
+          max={max}
+          step={1}
+          value={v}
+          onChange={(e) => set(e.target.value)}
+          onPointerUp={(e) => set((e.target as HTMLInputElement).value)}
+          onKeyUp={(e) => set((e.target as HTMLInputElement).value)}
+          aria-valuetext={value == null ? "noch nicht gewählt" : String(v)}
+          className={`flex-1 h-10 accent-bronze ${value == null ? "opacity-50" : ""}`}
+        />
+        <span
+          className={`min-w-10 text-center tabular-nums ${value == null ? "text-stone-dark" : "text-bronze"}`}
+        >
+          {value == null ? "–" : display ? display(v) : v}
+        </span>
+      </div>
+      <div className="flex justify-between text-stone text-[10px] mt-1 pr-13">
+        <span>{labelLeft}</span>
+        {/* Just-about-right-Skala ("zu wenig … ↔ zu …"): Mitte benennen */}
+        {labelLeft.startsWith("zu ") && labelRight.startsWith("zu ") && (
+          <span className="text-bronze/80">genau richtig</span>
+        )}
+        <span>{labelRight}</span>
+      </div>
+    </div>
+  );
+}
+
 type AnswerValue = number | string | null;
 
 export default function RatingForm({
@@ -45,6 +105,9 @@ export default function RatingForm({
   productStore,
   productShelf,
   productBatch,
+  eventMode = false,
+  price = null,
+  initialKontext = null,
   action,
 }: {
   productId: string;
@@ -53,39 +116,97 @@ export default function RatingForm({
   productStore: string;
   productShelf: string;
   productBatch: string;
+  /** Nur Schieberegler, keine Text- und Preisfelder. */
+  eventMode?: boolean;
+  /** Aktueller Verkaufspreis: im Event-Modus Basis der Preis-Leiter. */
+  price?: number | null;
+  /** Aus dem QR-Code (/t = tasting, /q = kauf). Dann entfällt die Auswahl. */
+  initialKontext?: RatingKontext | null;
   action: (formData: FormData) => void;
 }) {
   const [hedonic, setHedonic] = useState<number | null>(null);
   const [answers, setAnswers] = useState<Record<string, AnswerValue>>({});
 
-  const requiredQuestions = questions.filter((q) => q.type !== "text");
+  // Event-Modus: erst "probiert" oder "gekauft" wählen, danach passende Regler
+  const [kontext, setKontext] = useState<RatingKontext | null>(initialKontext);
+  const [preisIdx, setPreisIdx] = useState<number | null>(null);
+  const leiter = eventMode && price != null && price > 0 ? priceLadder(price) : [];
+  const mitteIdx = leiter.findIndex((p) => Math.round(p * 100) === Math.round((price ?? 0) * 100));
+
+  const visible = questionsFor(questions, eventMode, kontext ?? "tasting");
+  const shown = eventMode ? visible.filter((q) => q.type !== "text") : visible;
+  const requiredQuestions = shown.filter((q) => q.type !== "text");
   const complete =
-    hedonic !== null && requiredQuestions.every((q) => answers[q.id] != null && answers[q.id] !== "");
+    hedonic !== null &&
+    (!eventMode || kontext !== null) &&
+    (leiter.length === 0 || preisIdx !== null) &&
+    requiredQuestions.every((q) => answers[q.id] != null && answers[q.id] !== "");
 
   function setAnswer(questionId: string, value: AnswerValue) {
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
   }
 
-  const showSetHeadingFor = questions.map(
-    (q, i) => Boolean(q.set_name) && q.set_name !== questions[i - 1]?.set_name
+  const showSetHeadingFor = shown.map(
+    (q, i) => Boolean(q.set_name) && q.set_name !== shown[i - 1]?.set_name
   );
 
   return (
     <form action={action} className="space-y-10">
       <input type="hidden" name="product_id" value={productId} />
-      <input type="hidden" name="question_ids" value={questions.map((q) => q.id).join(",")} />
+      <input type="hidden" name="question_ids" value={shown.map((q) => q.id).join(",")} />
       <input type="hidden" name="product_store" value={productStore} />
       <input type="hidden" name="product_shelf" value={productShelf} />
       <input type="hidden" name="product_batch" value={productBatch} />
       <input type="hidden" name="hedonic" value={hedonic ?? ""} />
-      {questions.map((q) => (
+      <input type="hidden" name="kontext" value={kontext ?? ""} />
+      <input type="hidden" name="price_wtp" value={preisIdx != null ? leiter[preisIdx] : ""} />
+
+      {eventMode && !initialKontext && (
+        <fieldset>
+          <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-3">
+            Was hast du gemacht?
+          </legend>
+          <div className="flex gap-2">
+            {(
+              [
+                ["tasting", "🍴 Probiert"],
+                ["kauf", "🛍 Gekauft"],
+              ] as const
+            ).map(([wert, label]) => (
+              <TapButton
+                key={wert}
+                selected={kontext === wert}
+                onClick={() => setKontext(wert)}
+                className="aspect-auto! py-3"
+              >
+                <span className="text-sm font-semibold">{label}</span>
+              </TapButton>
+            ))}
+          </div>
+        </fieldset>
+      )}
+      {shown.map((q) => (
         <input key={q.id} type="hidden" name={`answer_${q.id}`} value={answers[q.id] ?? ""} />
       ))}
 
+      {(!eventMode || kontext !== null) && (
+      <>
       <fieldset>
         <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-3">
           Wie gefällt dir das Produkt insgesamt?
         </legend>
+        {eventMode ? (
+          <Slider
+            min={1}
+            max={9}
+            value={hedonic}
+            onChange={setHedonic}
+            labelLeft="gar nicht"
+            labelRight="extrem gut"
+            display={(v) => <span className="text-2xl">{HEDONIC_FACES[v - 1]}</span>}
+          />
+        ) : (
+        <>
         <div className="flex justify-between gap-1">
           {HEDONIC_FACES.map((face, i) => {
             const v = i + 1;
@@ -100,9 +221,11 @@ export default function RatingForm({
           <span>gefällt mir gar nicht</span>
           <span>gefällt mir extrem gut</span>
         </div>
+        </>
+        )}
       </fieldset>
 
-      {questions.map((q, i) => {
+      {shown.map((q, i) => {
         const showSetHeading = showSetHeadingFor[i];
         const scaleMax = q.scale_max ?? (q.type === "likert" ? 5 : 7);
 
@@ -114,7 +237,23 @@ export default function RatingForm({
               </p>
             )}
 
-            {q.type === "semantic_diff" && (
+            {eventMode && q.type !== "text" && (
+              <fieldset>
+                <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-3">
+                  {q.type === "likert" ? q.prompt : `${q.label_left} ↔ ${q.label_right}`}
+                </legend>
+                <Slider
+                  min={1}
+                  max={scaleMax}
+                  value={(answers[q.id] as number | null) ?? null}
+                  onChange={(v) => setAnswer(q.id, v)}
+                  labelLeft={q.label_left ?? ""}
+                  labelRight={q.label_right ?? ""}
+                />
+              </fieldset>
+            )}
+
+            {!eventMode && q.type === "semantic_diff" && (
               <fieldset>
                 <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-3">
                   {q.label_left} ↔ {q.label_right}
@@ -133,7 +272,7 @@ export default function RatingForm({
               </fieldset>
             )}
 
-            {q.type === "likert" && (
+            {!eventMode && q.type === "likert" && (
               <fieldset>
                 <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-3">
                   {q.prompt}
@@ -170,7 +309,33 @@ export default function RatingForm({
         );
       })}
 
-      {priceEnabled && (
+      </>
+      )}
+
+      {leiter.length > 0 && kontext !== null && (
+        <fieldset>
+          <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-3">
+            Welcher Preis wäre für dich fair?
+          </legend>
+          <Slider
+            min={0}
+            max={leiter.length - 1}
+            value={preisIdx}
+            onChange={setPreisIdx}
+            start={mitteIdx}
+            labelLeft={formatEuro(leiter[0])}
+            labelRight={formatEuro(leiter[leiter.length - 1])}
+            display={(i) => (
+              <span className={`text-xs whitespace-nowrap ${i === mitteIdx ? "text-cream" : ""}`}>
+                {formatEuro(leiter[i])}
+              </span>
+            )}
+          />
+          <p className="text-stone-dark text-[10px] mt-1">Aktuell im Regal: {formatEuro(price!)}</p>
+        </fieldset>
+      )}
+
+      {priceEnabled && !eventMode && (
         <fieldset className="space-y-3">
           <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-1">
             Preiswahrnehmung (in €, optional)
@@ -205,7 +370,11 @@ export default function RatingForm({
             : "bg-stone-dark text-stone cursor-not-allowed"
         }`}
       >
-        {complete ? "Stimme abgeben →" : "Bitte alle Felder ausfüllen"}
+        {complete
+          ? "Stimme abgeben →"
+          : eventMode
+            ? "Bitte jeden Regler einmal bewegen"
+            : "Bitte alle Felder ausfüllen"}
       </motion.button>
     </form>
   );

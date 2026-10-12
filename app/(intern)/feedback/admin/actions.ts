@@ -18,6 +18,7 @@ import {
   deleteProduct,
   deleteQuestion,
   deleteQuestionSet,
+  drawRaffleEntry,
   duplicateQuestionSet,
   findGameToken,
   moveQuestion,
@@ -331,6 +332,46 @@ export async function saveSettings(_prev: ActionState | null, formData: FormData
     await updateSettings(werte);
     revalidatePath(`${STUDIO}/settings`);
     return erfolg("Gespeichert — gilt ab sofort für alle Scouts.");
+  } catch (e) {
+    return fehler(fehlertext(e));
+  }
+}
+
+/* ── Event & Verlosung ──────────────────────────────────────────────────── */
+
+export async function saveEventSettings(_prev: ActionState | null, formData: FormData): Promise<ActionState> {
+  const eventMode = formData.get("event_mode") === "on";
+  const eventName = textOderNull(formData, "event_name");
+  const schwelle = zahl(formData, "raffle_threshold");
+  const fieldErrors: Record<string, string> = {};
+  if (schwelle == null || !Number.isInteger(schwelle) || schwelle < 1) {
+    fieldErrors.raffle_threshold = "Ganze Zahl ab 1.";
+  }
+  if (eventMode && !eventName) fieldErrors.event_name = "Name nötig, an ihm hängen die Lose.";
+  if (Object.keys(fieldErrors).length > 0) {
+    return fehler("Bitte die markierten Felder prüfen.", fieldErrors);
+  }
+
+  try {
+    await updateSettings({ event_mode: eventMode, event_name: eventName, raffle_threshold: schwelle! });
+    revalidatePath(`${STUDIO}/settings`);
+    revalidatePath(`${STUDIO}/verlosung`);
+    return erfolg(eventMode ? "Event-Modus ist an." : "Event-Modus ist aus.");
+  } catch (e) {
+    return fehler(fehlertext(e));
+  }
+}
+
+export async function drawRaffle(_prev: ActionState | null, formData: FormData): Promise<ActionState> {
+  const eventName = text(formData, "event_name");
+  const preis = text(formData, "prize");
+  if (!preis) return fehler("Bitte den Preis angeben.", { prize: "Was wird gerade verlost?" });
+
+  try {
+    const los = await drawRaffleEntry(eventName, preis);
+    revalidatePath(`${STUDIO}/verlosung`);
+    if (!los) return fehler("Keine offenen Lose mehr.");
+    return erfolg(`Gezogen: ${los.code} – ${preis}`);
   } catch (e) {
     return fehler(fehlertext(e));
   }

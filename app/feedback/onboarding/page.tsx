@@ -1,6 +1,6 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { createPanel, setPanelConsent } from "@/lib/feedback";
+import { createPanel, getSettings, setPanelConsent } from "@/lib/feedback";
 import FieldFrame from "@/components/feedback/FieldFrame";
 
 export const dynamic = "force-dynamic";
@@ -30,7 +30,7 @@ async function submitOnboarding(formData: FormData) {
     ageRange: (formData.get("age_range") as string) ?? "",
     gender: (formData.get("gender") as string) ?? "",
     householdSize: (formData.get("household_size") as string) ?? "",
-    shoppingFrequency: (formData.get("shopping_frequency") as string) ?? "",
+    shoppingFrequency: (formData.get("shopping_frequency") as string) || null,
   });
 
   redirect(next);
@@ -42,6 +42,7 @@ export default async function OnboardingPage({
   searchParams: Promise<{ next?: string }>;
 }) {
   const { next } = await searchParams;
+  const { event_mode: eventMode } = await getSettings();
 
   return (
     <FieldFrame>
@@ -121,22 +122,24 @@ export default async function OnboardingPage({
             </select>
           </div>
 
-          <div>
-            <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-1">
-              Wie oft kaufst du in diesem Store ein?
-            </label>
-            <select
-              name="shopping_frequency"
-              required
-              className="w-full bg-green-mid border border-stone-dark text-cream px-3 py-2 text-sm focus:outline-none focus:border-bronze"
-            >
-              <option value="">Bitte wählen</option>
-              <option value="erstes Mal">erstes Mal hier</option>
-              <option value="selten">selten</option>
-              <option value="monatlich">etwa monatlich</option>
-              <option value="wöchentlich">wöchentlich oder öfter</option>
-            </select>
-          </div>
+          {!eventMode && (
+            <div>
+              <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-1">
+                Wie oft kaufst du in diesem Store ein?
+              </label>
+              <select
+                name="shopping_frequency"
+                required
+                className="w-full bg-green-mid border border-stone-dark text-cream px-3 py-2 text-sm focus:outline-none focus:border-bronze"
+              >
+                <option value="">Bitte wählen</option>
+                <option value="erstes Mal">erstes Mal hier</option>
+                <option value="selten">selten</option>
+                <option value="monatlich">etwa monatlich</option>
+                <option value="wöchentlich">wöchentlich oder öfter</option>
+              </select>
+            </div>
+          )}
 
           <label className="flex items-start gap-2 text-stone text-xs leading-relaxed">
             <input type="checkbox" name="consent" required className="accent-bronze mt-0.5" />

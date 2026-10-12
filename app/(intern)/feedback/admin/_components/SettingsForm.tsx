@@ -21,7 +21,8 @@ import {
 } from "@/app/(intern)/_components/ui/form";
 import { Panel } from "@/app/(intern)/_components/ui/surfaces";
 
-type Feld = keyof Settings;
+/** Nur die Zahlen-Schwellen; Event-Einstellungen stehen in EventForm. */
+type Feld = Exclude<keyof Settings, "event_mode" | "event_name" | "raffle_threshold">;
 
 const GRUPPEN: {
   titel: string;

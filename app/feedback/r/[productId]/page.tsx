@@ -7,6 +7,9 @@ import {
   getQuestionsForProduct,
   getRatingForPanelProduct,
   getRatingsTodayCount,
+  getSettings,
+  questionsFor,
+  type RatingKontext,
 } from "@/lib/feedback";
 import RatingForm from "@/components/feedback/RatingForm";
 import FieldFrame from "@/components/feedback/FieldFrame";
@@ -24,7 +27,12 @@ async function submitRatingAction(formData: FormData) {
     redirect(`/feedback/onboarding?next=${encodeURIComponent(`/feedback/r/${productId}`)}`);
   }
 
-  const questions = await getQuestionsForProduct(productId);
+  const settings = await getSettings();
+  const kontextRaw = formData.get("kontext");
+  const kontext: RatingKontext | null =
+    settings.event_mode && (kontextRaw === "tasting" || kontextRaw === "kauf") ? kontextRaw : null;
+  const questions = questionsFor(await getQuestionsForProduct(productId), settings.event_mode, kontext ?? "tasting");
+  const priceWtpRaw = formData.get("price_wtp");
   const answers = questions
     .map((q) => {
       const raw = formData.get(`answer_${q.id}`);
@@ -54,6 +62,8 @@ async function submitRatingAction(formData: FormData) {
       storeContext: (formData.get("product_store") as string) || null,
       shelfContext: (formData.get("product_shelf") as string) || null,
       batchContext: (formData.get("product_batch") as string) || null,
+      kontext,
+      priceWtp: priceWtpRaw ? Number(priceWtpRaw) : null,
     });
   } catch (err) {
     // 23505 = unique_violation — Panel hat dieses Produkt (z.B. durch Doppel-Klick) bereits bewertet
@@ -65,16 +75,22 @@ async function submitRatingAction(formData: FormData) {
 
 export default async function RatingPage({
   params,
+  searchParams,
 }: {
   params: Promise<{ productId: string }>;
+  searchParams: Promise<{ k?: string }>;
 }) {
   const { productId } = await params;
+  const { k } = await searchParams;
+  // aus dem QR-Code: /t = tasting, /q = kauf; ohne Kontext wählt der Scout selbst
+  const initialKontext: RatingKontext | null = k === "tasting" || k === "kauf" ? k : null;
+  const selbst = `/feedback/r/${productId}${initialKontext ? `?k=${initialKontext}` : ""}`;
   const cookieStore = await cookies();
   const panelId = cookieStore.get(PANEL_COOKIE)?.value;
 
   const panel = panelId ? await getPanel(panelId) : null;
   if (!panel || !panel.consent_at) {
-    redirect(`/feedback/onboarding?next=${encodeURIComponent(`/feedback/r/${productId}`)}`);
+    redirect(`/feedback/onboarding?next=${encodeURIComponent(selbst)}`);
   }
 
   const existingRating = panelId ? await getRatingForPanelProduct(panelId, productId) : null;
@@ -82,10 +98,11 @@ export default async function RatingPage({
     redirect(`/feedback/thanks?product=${productId}&hedonic=${existingRating.hedonic}`);
   }
 
-  const [product, ratingsToday, questions] = await Promise.all([
+  const [product, ratingsToday, questions, settings] = await Promise.all([
     getProduct(productId),
     getRatingsTodayCount(),
     getQuestionsForProduct(productId),
+    getSettings(),
   ]);
 
   if (!product) {
@@ -129,13 +146,23 @@ export default async function RatingPage({
           productStore={product.store ?? ""}
           productShelf={product.shelf_code ?? ""}
           productBatch={product.batch ?? ""}
+          eventMode={settings.event_mode}
+          price={product.price ?? null}
+          initialKontext={initialKontext}
           action={submitRatingAction}
         />
 
-        <p className="text-stone-dark text-xs text-center mt-6">
-          Top-Produkte schaffen es in die Auswahl für{" "}
-          <span className="text-bronze">Marke des Monats</span>.
-        </p>
+        {settings.event_mode ? (
+          <p className="text-stone-dark text-xs text-center mt-6">
+            Ab {settings.raffle_threshold} bewerteten Produkten bist du im{" "}
+            <span className="text-bronze">Lostopf</span>.
+          </p>
+        ) : (
+          <p className="text-stone-dark text-xs text-center mt-6">
+            Top-Produkte schaffen es in die Auswahl für{" "}
+            <span className="text-bronze">Marke des Monats</span>.
+          </p>
+        )}
       </div>
     </FieldFrame>
   );

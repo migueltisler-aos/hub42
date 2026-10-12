@@ -4,6 +4,7 @@ import Link from "next/link";
 import {
   HEDONIC_FACES,
   ensureGameTokenForMilestone,
+  ensureRaffleEntry,
   getComparisonData,
   getGameTokensForPanel,
   getPanelProgress,
@@ -69,17 +70,27 @@ export default async function ThanksPage({
 
   const scout = getScoutStatus(progress.count, settings);
 
+  // Event-Modus: Verlosung statt Aquarium-Spiel und ohne Kontakt-Textfelder.
+  const eventMode = settings.event_mode;
+  const eventName = settings.event_name || "Event";
+  const answered = progress.count; // bewertete Produkte
+  const raffle =
+    eventMode && panelId && answered >= settings.raffle_threshold
+      ? await ensureRaffleEntry(panelId, eventName)
+      : null;
+  const raffleEntry = raffle?.entry ?? null;
+
   let newToken = null;
-  if (panelId && progress.count > 0 && progress.count % settings.game_ticket_interval === 0) {
+  if (!eventMode && panelId && progress.count > 0 && progress.count % settings.game_ticket_interval === 0) {
     newToken = await ensureGameTokenForMilestone(panelId, progress.count);
   }
-  const allTokens = panelId ? await getGameTokensForPanel(panelId) : [];
+  const allTokens = panelId && !eventMode ? await getGameTokensForPanel(panelId) : [];
   const pendingTokens = allTokens.filter((t) => !t.redeemed_at);
 
   const showComparison = progress.count === settings.comparison_reveal_threshold;
   const comparison = panelId && showComparison ? await getComparisonData(panelId) : [];
 
-  const celebrate = Boolean(scout.justReached) || Boolean(newToken) || showComparison;
+  const celebrate = Boolean(scout.justReached) || Boolean(newToken) || showComparison || Boolean(raffle?.created);
 
   return (
     <FieldFrame>
@@ -96,7 +107,44 @@ export default async function ThanksPage({
 
         {/* Pro-Produkt-Kontakt-Opt-in — unabhängig vom Scout-Level, jedes Mal neu für das
             gerade bewertete Produkt, aber nur solange noch nicht eingetragen. */}
-        {product && panelId && !alreadyInterested && (
+        {/* Verlosung (Event-Modus): Fortschritt bis zum Los, danach der Los-Code */}
+        {eventMode && panelId && (
+          <div className="ticket-perforation bg-bronze/10 border-2 border-dashed border-bronze p-4 mb-8 text-left">
+            {raffleEntry ? (
+              <>
+                <p className="text-bronze text-sm font-semibold mb-1">🎟 Du bist im Lostopf!</p>
+                <p className="text-stone text-xs mb-3">
+                  Zu gewinnen: Produktpakete unserer Marken und 3 Monate Regalplatz bei Hub42.
+                  Mach einen Screenshot – wird dein Code gezogen, zeigst du ihn am Stand vor.
+                </p>
+                <p className="text-cream text-2xl font-mono tracking-[0.3em] text-center bg-green-dark py-3">
+                  {raffleEntry.code}
+                </p>
+                <p className="text-stone-dark text-[10px] mt-2">
+                  Ein Los pro Person. Kostenlose Teilnahme, kein Kaufzwang. Teilnahmebedingungen am Stand.
+                </p>
+              </>
+            ) : (
+              <>
+                <p className="text-bronze text-sm font-semibold mb-2">
+                  🎟 Noch {settings.raffle_threshold - answered}{" "}
+                  {settings.raffle_threshold - answered === 1 ? "Produkt" : "Produkte"} bis zum Los
+                </p>
+                <div className="h-1.5 bg-green-dark rounded-full overflow-hidden">
+                  <div
+                    className="h-full bg-bronze"
+                    style={{ width: `${Math.min(100, (answered / settings.raffle_threshold) * 100)}%` }}
+                  />
+                </div>
+                <p className="text-stone-dark text-[10px] font-mono mt-1">
+                  {answered} von {settings.raffle_threshold} Produkten · Produktpakete und 3 Monate Regalplatz
+                </p>
+              </>
+            )}
+          </div>
+        )}
+
+        {!eventMode && product && panelId && !alreadyInterested && (
           <form
             action={submitProductInterestAction}
             className="field-card bg-sage-warm p-4 mb-6 text-left space-y-3"
@@ -195,7 +243,7 @@ export default async function ThanksPage({
         </div>
 
         {/* Contact opt-in bei Silber/Gold */}
-        {scout.justReached?.reward && (
+        {!eventMode && scout.justReached?.reward && (
           <form
             action={submitContactOptInAction}
             className="field-card bg-sage-warm p-4 mb-6 text-left space-y-3"

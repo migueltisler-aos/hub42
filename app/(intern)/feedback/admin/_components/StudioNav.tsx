@@ -20,6 +20,7 @@ import {
   Ticket,
   SlidersHorizontal,
   BarChart3,
+  Gift,
 } from "lucide-react";
 
 export interface StudioZaehler {
@@ -41,6 +42,7 @@ export default function StudioNav({ zaehler }: { zaehler: StudioZaehler }) {
     { href: "/feedback/admin/etiketten", label: "Etiketten", icon: Tag, zahl: null },
     { href: "/feedback/admin/settings", label: "Schwellen", icon: SlidersHorizontal, zahl: null },
     { href: "/feedback/admin/redeem", label: "Tickets", icon: Ticket, zahl: zaehler.offeneTickets },
+    { href: "/feedback/admin/verlosung", label: "Verlosung", icon: Gift, zahl: null },
     { href: "/feedback/leads", label: "Leads", icon: Mail, zahl: zaehler.leads },
   ];
 

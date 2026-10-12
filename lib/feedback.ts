@@ -10,6 +10,9 @@ export interface Product {
   shelf_code: string | null;
   batch: string | null;
   price_enabled: boolean;
+  /** Aktueller Verkaufspreis (aus dem SumUp-Export), Basis der Preis-Leiter. */
+  price?: number | null;
+  sumup_item_id?: string | null;
   /** Gesetzt = aus dem Store genommen: taucht bei Scouts nicht mehr auf. */
   archived_at: string | null;
   created_at: string;
@@ -34,7 +37,8 @@ export interface PanelConsentInput {
   ageRange: string;
   gender: string;
   householdSize: string;
-  shoppingFrequency: string;
+  /** Im Event-Modus nicht abgefragt. */
+  shoppingFrequency: string | null;
 }
 
 export interface AnswerInput {
@@ -55,7 +59,13 @@ export interface RatingInput {
   storeContext?: string | null;
   shelfContext?: string | null;
   batchContext?: string | null;
+  /** Event-Modus: probiert am Stand oder gekauft. */
+  kontext?: RatingKontext | null;
+  /** Auf der Preis-Leiter gewählter Preis. */
+  priceWtp?: number | null;
 }
+
+export type RatingKontext = "tasting" | "kauf";
 
 export interface Rating {
   id: string;
@@ -237,6 +247,8 @@ export async function createRating(input: RatingInput): Promise<Rating> {
       store_context: input.storeContext ?? null,
       shelf_context: input.shelfContext ?? null,
       batch_context: input.batchContext ?? null,
+      kontext: input.kontext ?? null,
+      price_wtp: input.priceWtp ?? null,
     })
     .select()
     .single();
@@ -280,8 +292,31 @@ export interface Question {
   created_at: string;
 }
 
+/** Fragenset "Event" (feedback_migration_8_event.sql): steht beim Tasting hinter den Geschmacks-Sets. */
+export const EVENT_QUESTION_SET_ID = "e7e1a000-0000-4000-8000-000000000001";
+
+/**
+ * Welche Fragen ein Scout sieht – gesteuert über feedback_question_sets.kontext.
+ * Laden-Alltag: nur Sets ohne Kontext. Event: Sets ohne Kontext plus die des
+ * gewählten Kontexts (tasting = Geschmack, kauf = schnell). Beim Tasting kommen
+ * die Geschmacks-Sets zuerst, das allgemeine Event-Set zuletzt.
+ */
+export function questionsFor<T extends QuestionWithSet>(
+  questions: T[],
+  eventMode: boolean,
+  kontext: RatingKontext
+): T[] {
+  const sichtbar = questions.filter((q) =>
+    eventMode ? q.set_kontext == null || q.set_kontext === kontext : q.set_kontext == null
+  );
+  const zuletzt = (q: T) => (q.question_set_id === EVENT_QUESTION_SET_ID ? 1 : 0);
+  return [...sichtbar].sort((a, b) => zuletzt(a) - zuletzt(b));
+}
+
 export interface QuestionWithSet extends Question {
   set_name: string;
+  /** tasting / kauf = nur im Event-Modus in diesem Kontext, null = immer. */
+  set_kontext: RatingKontext | null;
 }
 
 export interface QuestionInput {
@@ -595,7 +630,7 @@ export async function getQuestionsForProduct(productId: string): Promise<Questio
   if (setIds.length === 0) return [];
 
   const [{ data: sets, error: setsError }, { data: questions, error: qError }] = await Promise.all([
-    getSupabaseClient().from("feedback_question_sets").select("id, name, created_at").in("id", setIds),
+    getSupabaseClient().from("feedback_question_sets").select("id, name, kontext, created_at").in("id", setIds),
     getSupabaseClient().from("feedback_questions").select("*").in("question_set_id", setIds),
   ]);
   if (setsError) throw setsError;
@@ -606,9 +641,14 @@ export async function getQuestionsForProduct(productId: string): Promise<Questio
   );
   const setOrder = new Map(orderedSets.map((s, i) => [s.id as string, i]));
   const setName = new Map(orderedSets.map((s) => [s.id as string, s.name as string]));
+  const setKontext = new Map(orderedSets.map((s) => [s.id as string, (s.kontext as RatingKontext | null) ?? null]));
 
   return ((questions ?? []) as Question[])
-    .map((q) => ({ ...q, set_name: setName.get(q.question_set_id) ?? "" }))
+    .map((q) => ({
+      ...q,
+      set_name: setName.get(q.question_set_id) ?? "",
+      set_kontext: setKontext.get(q.question_set_id) ?? null,
+    }))
     .sort(
       (a, b) =>
         (setOrder.get(a.question_set_id) ?? 0) - (setOrder.get(b.question_set_id) ?? 0) ||
@@ -808,6 +848,11 @@ export interface Settings {
   scout_gold_threshold: number;
   game_ticket_interval: number;
   comparison_reveal_threshold: number;
+  /** Event-Modus: nur Schieberegler, keine Textfelder/Preis-Eingaben, Verlosung statt Kontakt-Opt-ins. */
+  event_mode: boolean;
+  event_name: string | null;
+  /** Ab so vielen bewerteten Produkten gibt es ein Los. */
+  raffle_threshold: number;
 }
 
 const DEFAULT_SETTINGS: Settings = {
@@ -816,6 +861,9 @@ const DEFAULT_SETTINGS: Settings = {
   scout_gold_threshold: 10,
   game_ticket_interval: 3,
   comparison_reveal_threshold: 10,
+  event_mode: false,
+  event_name: null,
+  raffle_threshold: 10,
 };
 
 export async function getSettings(): Promise<Settings> {
@@ -825,10 +873,10 @@ export async function getSettings(): Promise<Settings> {
     .eq("id", true)
     .maybeSingle();
   if (error || !data) return DEFAULT_SETTINGS;
-  return data as Settings;
+  return { ...DEFAULT_SETTINGS, ...data } as Settings;
 }
 
-export async function updateSettings(input: Settings): Promise<void> {
+export async function updateSettings(input: Partial<Settings>): Promise<void> {
   const { error } = await getSupabaseClient()
     .from("feedback_settings")
     .update({ ...input, updated_at: new Date().toISOString() })
@@ -1110,7 +1158,7 @@ export async function getExportRows(): Promise<{ headers: string[]; rows: string
   const [{ data: ratings, error: ratingsError }, { data: allQuestions, error: qError }] = await Promise.all([
     getSupabaseClient()
       .from("feedback_ratings")
-      .select("*, feedback_products(name, brand), feedback_panels(age_range, gender, household_size, shopping_frequency)")
+      .select("*, feedback_products(name, brand, price), feedback_panels(age_range, gender, household_size, shopping_frequency)")
       .order("scanned_at", { ascending: true }),
     getSupabaseClient().from("feedback_questions").select("*"),
   ]);
@@ -1150,6 +1198,9 @@ export async function getExportRows(): Promise<{ headers: string[]; rows: string
     "store_context",
     "shelf_context",
     "batch_context",
+    "kontext",
+    "price",
+    "price_wtp",
     "hedonic_1_9",
     "price_too_cheap",
     "price_cheap",
@@ -1175,6 +1226,9 @@ export async function getExportRows(): Promise<{ headers: string[]; rows: string
       r.store_context ?? "",
       r.shelf_context ?? "",
       r.batch_context ?? "",
+      r.kontext ?? "",
+      product?.price != null ? String(product.price) : "",
+      r.price_wtp != null ? String(r.price_wtp) : "",
       String(r.hedonic ?? ""),
       r.price_too_cheap != null ? String(r.price_too_cheap) : "",
       r.price_cheap != null ? String(r.price_cheap) : "",
@@ -1201,4 +1255,74 @@ export async function getRecentRedemptions(limit = 20): Promise<GameToken[]> {
     .limit(limit);
   if (error) throw error;
   return (data ?? []) as GameToken[];
+}
+
+// ── Verlosung (Event-Modus) ──────────────────────────────────────────────
+// Ein Los pro Panel und Event, sobald raffle_threshold Produkte bewertet sind.
+
+export interface RaffleEntry {
+  id: string;
+  panel_id: string;
+  event_name: string;
+  code: string;
+  created_at: string;
+  drawn_at: string | null;
+  prize: string | null;
+}
+
+export async function getRaffleEntry(panelId: string, eventName: string): Promise<RaffleEntry | null> {
+  const { data } = await getSupabaseClient()
+    .from("feedback_raffle_entries")
+    .select("*")
+    .eq("panel_id", panelId)
+    .eq("event_name", eventName)
+    .maybeSingle();
+  return (data as RaffleEntry | null) ?? null;
+}
+
+/** `created` = Los ist gerade eben entstanden (für die Feier auf der Dankeseite). */
+export async function ensureRaffleEntry(
+  panelId: string,
+  eventName: string
+): Promise<{ entry: RaffleEntry; created: boolean }> {
+  const existing = await getRaffleEntry(panelId, eventName);
+  if (existing) return { entry: existing, created: false };
+  const { data, error } = await getSupabaseClient()
+    .from("feedback_raffle_entries")
+    .insert({ panel_id: panelId, event_name: eventName, code: generateGameCode() })
+    .select()
+    .single();
+  if (error) {
+    // 23505: parallel angelegt (Doppel-Klick) -> vorhandenes Los zurückgeben
+    const again = await getRaffleEntry(panelId, eventName);
+    if (again) return { entry: again, created: false };
+    throw error;
+  }
+  return { entry: data as RaffleEntry, created: true };
+}
+
+export async function getRaffleEntries(eventName: string): Promise<RaffleEntry[]> {
+  const { data, error } = await getSupabaseClient()
+    .from("feedback_raffle_entries")
+    .select("*")
+    .eq("event_name", eventName)
+    .order("created_at", { ascending: true });
+  if (error) throw error;
+  return (data ?? []) as RaffleEntry[];
+}
+
+/** Zieht ein zufälliges, noch nicht gezogenes Los und vermerkt den Preis. */
+export async function drawRaffleEntry(eventName: string, prize: string): Promise<RaffleEntry | null> {
+  const offen = (await getRaffleEntries(eventName)).filter((e) => !e.drawn_at);
+  if (offen.length === 0) return null;
+  const los = offen[Math.floor(Math.random() * offen.length)];
+  const { data, error } = await getSupabaseClient()
+    .from("feedback_raffle_entries")
+    .update({ drawn_at: new Date().toISOString(), prize })
+    .eq("id", los.id)
+    .is("drawn_at", null)
+    .select()
+    .maybeSingle();
+  if (error) throw error;
+  return data as RaffleEntry | null;
 }
