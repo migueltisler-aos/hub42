@@ -1326,3 +1326,50 @@ export async function drawRaffleEntry(eventName: string, prize: string): Promise
   if (error) throw error;
   return data as RaffleEntry | null;
 }
+
+// ── Live-Zähler (Event) ──────────────────────────────────────────────────
+// Für den Bildschirm am Stand (/feedback/live). Gezählt werden nur Bewertungen
+// mit Kontext (tasting/kauf) – die entstehen ausschließlich im Event-Modus,
+// alte Test-Bewertungen aus dem Ladenalltag bleiben also außen vor.
+
+export interface LiveStats {
+  menschen: number;
+  bewertungen: number;
+  probiert: number;
+  gekauft: number;
+  marken: { brand: string; stimmen: number }[];
+  letzteStimme: string | null;
+}
+
+export async function getLiveStats(): Promise<LiveStats> {
+  const { data, error } = await getSupabaseClient()
+    .from("feedback_ratings")
+    .select("panel_id, kontext, scanned_at, feedback_products(brand)")
+    .not("kontext", "is", null)
+    .order("scanned_at", { ascending: false });
+  if (error) throw error;
+  const rows = (data ?? []) as unknown as {
+    panel_id: string;
+    kontext: RatingKontext;
+    scanned_at: string;
+    feedback_products: { brand: string | null } | { brand: string | null }[] | null;
+  }[];
+
+  const proMarke = new Map<string, number>();
+  for (const r of rows) {
+    const p = Array.isArray(r.feedback_products) ? r.feedback_products[0] : r.feedback_products;
+    const brand = p?.brand || "Weitere";
+    proMarke.set(brand, (proMarke.get(brand) ?? 0) + 1);
+  }
+
+  return {
+    menschen: new Set(rows.map((r) => r.panel_id)).size,
+    bewertungen: rows.length,
+    probiert: rows.filter((r) => r.kontext === "tasting").length,
+    gekauft: rows.filter((r) => r.kontext === "kauf").length,
+    marken: [...proMarke]
+      .map(([brand, stimmen]) => ({ brand, stimmen }))
+      .sort((a, b) => b.stimmen - a.stimmen),
+    letzteStimme: rows[0]?.scanned_at ?? null,
+  };
+}

@@ -7,6 +7,7 @@ import {
   ensureRaffleEntry,
   getComparisonData,
   getGameTokensForPanel,
+  getLiveStats,
   getPanelProgress,
   getProduct,
   getProductsWithPanelStatus,
@@ -74,6 +75,7 @@ export default async function ThanksPage({
   const eventMode = settings.event_mode;
   const eventName = settings.event_name || "Event";
   const answered = progress.count; // bewertete Produkte
+  const live = eventMode ? await getLiveStats() : null;
   const raffle =
     eventMode && panelId && answered >= settings.raffle_threshold
       ? await ensureRaffleEntry(panelId, eventName)
@@ -107,6 +109,14 @@ export default async function ThanksPage({
 
         {/* Pro-Produkt-Kontakt-Opt-in — unabhängig vom Scout-Level, jedes Mal neu für das
             gerade bewertete Produkt, aber nur solange noch nicht eingetragen. */}
+        {live && live.menschen > 0 && (
+          <p className="text-stone text-sm mb-6">
+            Du gehörst zu <span className="text-bronze font-semibold">{live.menschen}</span>{" "}
+            {live.menschen === 1 ? "Mensch, der" : "Menschen, die"} Startups mit ihrer Meinung
+            geholfen {live.menschen === 1 ? "hat" : "haben"}.
+          </p>
+        )}
+
         {/* Verlosung (Event-Modus): Fortschritt bis zum Los, danach der Los-Code */}
         {eventMode && panelId && (
           <div className="ticket-perforation bg-bronze/10 border-2 border-dashed border-bronze p-4 mb-8 text-left">
