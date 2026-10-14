@@ -4,7 +4,6 @@
    Größen fest, die die Bildführung brechen. */
 
 import Link from "next/link";
-import Anteil from "@/components/neue-ui/Anteil";
 import BeratungSektion from "@/components/neue-ui/BeratungSektion";
 import Bewerbung from "@/components/neue-ui/Bewerbung";
 import { CookieEinstellungenButton } from "@/components/GoogleAnalytics";
@@ -13,8 +12,10 @@ import Preistabelle from "@/components/neue-ui/Preistabelle";
 import Regalwand from "@/components/neue-ui/Regalwand";
 import Rundgang from "@/components/neue-ui/Rundgang";
 import SagenTun from "@/components/neue-ui/SagenTun";
+import SektionTracker from "@/components/neue-ui/SektionTracker";
 import StufenTabelle from "@/components/neue-ui/StufenTabelle";
 import Treppe from "@/components/neue-ui/Treppe";
+import TreppeMenue, { TreppeKnopf } from "@/components/neue-ui/TreppeMenue";
 import TerminKalender from "@/components/neue-ui/TerminKalender";
 import { onboardingsFrei } from "@/lib/bewerbung";
 import { ONBOARDINGS_PRO_WOCHE } from "@/lib/bewerbung-model";
@@ -30,7 +31,7 @@ import {
 } from "@/lib/deck-economics";
 import { eur } from "@/lib/neue-ui/regal";
 import { SHOW_BAFA, SHOW_PARTNER } from "@/lib/site-flags";
-import { BEISPIEL, ZUSATZ_CM_TEXT, eur0 } from "@/lib/treppe";
+import { BEISPIEL, STUFEN, ZUSATZ_CM_TEXT, eur0 } from "@/lib/treppe";
 
 /* Der Onboarding-Zähler kommt aus der DB. Alle 5 Minuten neu, und nach jeder
    Bewerbung sofort (revalidatePath in app/actions/bewerbung.ts). */
@@ -49,7 +50,7 @@ const THEKE = [
 const FAKTEN = [
   { v: "41.000", k: "Besucher täglich" },
   { v: "150 m²", k: "Pilotfläche" },
-  { v: "50 cm", k: "VK-Fläche, 60 cm tief" },
+  { v: `ab ${MIN_SLOT_MIETE} €`, k: "Regal im Monat" },
   { v: "Mo–Sa", k: "10–20 Uhr" },
 ];
 
@@ -64,10 +65,10 @@ export default async function StartPage() {
             HUB42
           </a>
           <nav className="top__nav" aria-label="Seitenbereiche">
-            <a href="#treppe">Treppe</a>
             <a href="#regal">Regal</a>
-            <a href="#rundgang">Rundgang</a>
             <a href="#preise">Preise</a>
+            <a href="#rundgang">Rundgang</a>
+            <TreppeKnopf className="top__link">Treppe</TreppeKnopf>
             <a href="#bewerben">Bewerben</a>
           </nav>
           <a className="btn btn--solid" href="#bewerben">
@@ -77,8 +78,9 @@ export default async function StartPage() {
       </header>
 
       <main id="top">
+        <SektionTracker />
         {/* ══ Held: der Laden ═══════════════════════════════════ */}
-        <section className="hero">
+        <section className="hero" data-sektion="hero">
           <img
             className="hero__img"
             src="/konzept/store.png"
@@ -93,18 +95,18 @@ export default async function StartPage() {
               </p>
               <h1>
                 Der Laden für Neuheiten.{" "}
-                <span className="hero__h1b">Vom ersten Regal bis zur Listung.</span>
+                <span className="hero__h1b">Dein Regal am Alexanderplatz.</span>
               </h1>
               <p className="hero__sub">
-                Echte Kasse statt Umfrage. Jede Neuheit steht mit Tagesticker für eine feste Zeit im
-                Regal.
+                Ab {MIN_SLOT_MIETE} € im Monat. Keine Listungsgebühr, du behältst deinen Preis, wir
+                verdienen {HUB_MARGIN_PCT} % nur an dem, was verkauft wird.
               </p>
               <div className="hero__cta">
                 <a className="btn btn--lit" href="#bewerben">
                   Jetzt bewerben
                 </a>
-                <a className="btn btn--dark" href="#treppe">
-                  Die Treppe ansehen
+                <a className="btn btn--dark" href="#preise">
+                  Preise ansehen
                 </a>
               </div>
             </div>
@@ -120,26 +122,8 @@ export default async function StartPage() {
           ))}
         </div>
 
-        {/* ══ Die Treppe ═════════════════════════════════════════ */}
-        <section className="sect" id="treppe">
-          <div className="wrap">
-            <p className="eyebrow">Fünf Stufen · vom ersten Test bis zur Listung</p>
-            <h2>Eine Treppe. Du entscheidest, wo du einsteigst.</h2>
-            <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
-              Jede Marke kann jede Stufe buchen. Wir empfehlen dir einen Einstieg, ausgeschlossen
-              ist niemand. Die Basis jeder Stufe ist das Regal nach Zentimetern, und dorthin geht
-              es danach: ins Standardregal.
-            </p>
-
-            <Treppe />
-          </div>
-        </section>
-
-        {/* ══ Sagen ist nicht Tun ═══════════════════════════════ */}
-        <SagenTun />
-
         {/* ══ Maßband ═══════════════════════════════════════════ */}
-        <section className="sect sect--tight">
+        <section className="sect sect--tight" data-sektion="massband">
           <div className="wrap">
             <p className="eyebrow">Die Einheit des Hauses</p>
             <h2>Wir vermieten Zentimeter.</h2>
@@ -153,12 +137,13 @@ export default async function StartPage() {
         </section>
 
         {/* ══ Das Regal ═════════════════════════════════════════ */}
-        <section className="sect sect--rule sect--deep" id="regal">
+        <section className="sect sect--rule sect--deep" id="regal" data-sektion="regal">
           <div className="wrap">
             <p className="eyebrow">Regalwand A · Schwerlastregal · 3 Ebenen à 84 cm</p>
             <h2>Das Standardregal.</h2>
             <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
-              Testen, beweisen, bleiben. Nach jeder Stufe kannst du dauerhaft ins Regal.
+              Deine Front, dein Preis, dein Name auf der Traverse. Das Store-Team verkauft, du
+              bekommst jeden Monat den Bericht.
             </p>
             <p className="lede" style={{ marginTop: 14, maxWidth: "54ch" }}>
               Grundpreis {eur(BASE_RATE_PER_CM)} pro Zentimeter und Monat. Wer höher steht, zahlt
@@ -171,8 +156,74 @@ export default async function StartPage() {
           </div>
         </section>
 
+        {/* ══ Preise ════════════════════════════════════════════ */}
+        <section className="sect sect--rule" id="preise" data-sektion="preise">
+          <div className="wrap">
+            <p className="eyebrow">Was es kostet</p>
+            <h2>Miete nach Zentimeter. Provision erst beim Verkauf.</h2>
+            <p className="lede" style={{ marginTop: 20, maxWidth: "50ch" }}>
+              Keine Listungsgebühr, keine Handelsmarge. Die Marke behält ihre UVP, Hub42 verdient{" "}
+              {HUB_MARGIN_PCT} % vom Verkaufspreis.
+            </p>
+
+            {/* B: Das Standardregal */}
+            <div className="priceblock">
+              <p className="priceblock__k">B · Das Standardregal</p>
+              <h3>Miete pro Zentimeter und Monat.</h3>
+              <Preistabelle />
+
+              <p className="fineprint">
+                * Besonderer Wert: für Handwerk, Herkunft oder eine Mission, nur auf Bewerbung,
+                entschieden im Onboarding. Gleiche Front, {eur(BASE_RATE_BESONDERER_WERT)} statt{" "}
+                {eur(BASE_RATE_PER_CM)} je cm, Mindestmiete {MIN_SLOT_MIETE_BESONDERER_WERT} € statt{" "}
+                {MIN_SLOT_MIETE} €
+                <br />
+                Mindestmiete {MIN_SLOT_MIETE} € / Monat je Front · Mindestbreite 5 cm · Konsignation,
+                kein Wareneinkauf
+                <br />
+                Gründungskonditionen bis 60 % Store-Auslastung · ab 60 % +10 % (Mindestmiete{" "}
+                {MIN_SLOT_MIETE_BY_TRANCHE.aufbau} €) · ab 85 % +20 % (
+                {MIN_SLOT_MIETE_BY_TRANCHE.warteliste} €) · First
+                Mover behalten ihren Einstiegspreis vertraglich für 12 Monate
+                <br />
+                {HUB_MARGIN_PCT} % Vermittlungsprovision auf den Bruttoverkaufspreis,
+                Zahlungsabwicklung inklusive · Traverse-Karte mit QR-Code und monatlicher
+                Verkaufsbericht je Front inklusive
+              </p>
+            </div>
+
+            {/* Die Treppe klappt als Seitenleiste auf (TreppeMenue) */}
+            <div className="priceblock treppe__teaser">
+              <p className="priceblock__k">Mehr als ein Regal</p>
+              <h3>Du willst wissen, wer kauft und warum?</h3>
+              <p className="priceblock__txt">
+                Die Treppe: fünf Stufen mit Auswertung, Interviews am Regal und Bericht, ab{" "}
+                {eur0(STUFEN[0].preis)} für drei Monate. Für Marken, die mehr wollen als den
+                Abverkauf.
+              </p>
+              <TreppeKnopf>Die Treppe ansehen →</TreppeKnopf>
+            </div>
+
+            {/* C: Beratung */}
+            {SHOW_BAFA && (
+              <div className="priceblock">
+                <p className="priceblock__k">C · Beratung</p>
+                <h3>1:1 auf dem Weg in den Handel.</h3>
+                <p className="priceblock__txt">
+                  Unabhängig von Regal und Treppe buchbar. Kann über das BAFA mit bis zu{" "}
+                  {BAFA_ZUSCHUSS_PCT.neu} % gefördert werden.{" "}
+                  <a href="#beratung">Mehr zur Beratung →</a>
+                </p>
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* ══ Beratung (nur mit SHOW_BAFA) ═════════════════════ */}
+        {SHOW_BAFA && <BeratungSektion />}
+
         {/* ══ Rundgang ══════════════════════════════════════════ */}
-        <section className="sect sect--rule" id="rundgang">
+        <section className="sect sect--rule" id="rundgang" data-sektion="rundgang">
           <div className="wrap">
             <p className="eyebrow">Grundriss · Pilotfläche</p>
             <h2>150 m², sieben Stationen, ein Weg.</h2>
@@ -186,7 +237,7 @@ export default async function StartPage() {
         </section>
 
         {/* ══ Theke ═════════════════════════════════════════════ */}
-        <section className="sect dark">
+        <section className="sect dark" data-sektion="theke">
           <div className="wrap">
             <p className="eyebrow">Verkostung</p>
             <h2>Freitags steht der Hersteller daneben.</h2>
@@ -218,125 +269,8 @@ export default async function StartPage() {
           </div>
         </section>
 
-        {/* ══ Preise ════════════════════════════════════════════ */}
-        <section className="sect sect--rule" id="preise">
-          <div className="wrap">
-            <p className="eyebrow">Was es kostet</p>
-            <h2>Miete nach Zentimeter. Provision erst beim Verkauf.</h2>
-            <p className="lede" style={{ marginTop: 20, maxWidth: "50ch" }}>
-              Keine Listungsgebühr, keine Handelsmarge. Die Marke behält ihre UVP, Hub42 verdient{" "}
-              {HUB_MARGIN_PCT} % vom Verkaufspreis. Das gilt in jeder Stufe und im Standardregal.
-            </p>
-
-            {/* A: Die Treppe */}
-            <div className="priceblock">
-              <p className="priceblock__k">A · Die Treppe</p>
-              <h3>Fünf Stufen mit Festpreis.</h3>
-              <StufenTabelle />
-              <p className="fineprint">
-                Alle Festpreise netto. * In jeder Stufe sind {REGAL_INKLUSIVE_CM} cm Regal im Preis
-                enthalten. {ZUSATZ_CM_TEXT}
-              </p>
-
-              <div className="calc">
-                <p className="calc__k">Rechenbeispiel</p>
-                <p className="calc__t">
-                  Stufe {BEISPIEL.stufe.nr} {BEISPIEL.stufe.name} mit {BEISPIEL.cm} cm in der
-                  Basiszone
-                </p>
-                <div className="rows">
-                  <div className="row">
-                    <span className="row__k">Festpreis netto</span>
-                    <span className="row__v">{eur0(BEISPIEL.stufe.preis)}</span>
-                  </div>
-                  <div className="row">
-                    <span className="row__k">Regal {REGAL_INKLUSIVE_CM} cm</span>
-                    <span className="row__v">inklusive</span>
-                  </div>
-                  <div className="row">
-                    <span className="row__k">
-                      Weitere {BEISPIEL.zusatzCm} cm × {eur(BEISPIEL.rate)} × {BEISPIEL.monate}{" "}
-                      Monate
-                    </span>
-                    <span className="row__v">
-                      {eur0(BEISPIEL.zusatzMonat * BEISPIEL.monate)} ({eur0(BEISPIEL.zusatzMonat)} im
-                      Monat)
-                    </span>
-                  </div>
-                  <div className="row">
-                    <span className="row__k">Provision</span>
-                    <span className="row__v">+ {HUB_MARGIN_PCT} % auf verkaufte Ware</span>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            {/* B: Das Standardregal */}
-            <div className="priceblock">
-              <p className="priceblock__k">B · Das Standardregal</p>
-              <h3>Miete pro Zentimeter und Monat.</h3>
-              <Preistabelle />
-
-              <p className="fineprint">
-                * Besonderer Wert: für Handwerk, Herkunft oder eine Mission, nur auf Bewerbung,
-                entschieden im Onboarding. Gleiche Front, {eur(BASE_RATE_BESONDERER_WERT)} statt{" "}
-                {eur(BASE_RATE_PER_CM)} je cm, Mindestmiete {MIN_SLOT_MIETE_BESONDERER_WERT} € statt{" "}
-                {MIN_SLOT_MIETE} €
-                <br />
-                Mindestmiete {MIN_SLOT_MIETE} € / Monat je Front · Mindestbreite 5 cm · Konsignation,
-                kein Wareneinkauf
-                <br />
-                Gründungskonditionen bis 60 % Store-Auslastung · ab 60 % +10 % (Mindestmiete{" "}
-                {MIN_SLOT_MIETE_BY_TRANCHE.aufbau} €) · ab 85 % +20 % (
-                {MIN_SLOT_MIETE_BY_TRANCHE.warteliste} €) · First
-                Mover behalten ihren Einstiegspreis vertraglich für 12 Monate
-                <br />
-                {HUB_MARGIN_PCT} % Vermittlungsprovision auf den Bruttoverkaufspreis,
-                Zahlungsabwicklung inklusive · Traverse-Karte mit QR-Code und monatlicher
-                Verkaufsbericht je Front inklusive
-              </p>
-            </div>
-
-            {/* C: Beratung */}
-            {SHOW_BAFA && (
-              <div className="priceblock">
-                <p className="priceblock__k">C · Beratung</p>
-                <h3>1:1 auf dem Weg in den Handel.</h3>
-                <p className="priceblock__txt">
-                  Unabhängig von Regal und Treppe buchbar. Kann über das BAFA mit bis zu{" "}
-                  {BAFA_ZUSCHUSS_PCT.neu} % gefördert werden.{" "}
-                  <a href="#beratung">Mehr zur Beratung →</a>
-                </p>
-              </div>
-            )}
-          </div>
-        </section>
-
-        {/* ══ Beratung (nur mit SHOW_BAFA) ═════════════════════ */}
-        {SHOW_BAFA && <BeratungSektion />}
-
-        {/* ══ Anteil ════════════════════════════════════════════ */}
-        <section className="sect sect--rule sect--deep">
-          <div className="wrap">
-            <p className="eyebrow">Dieselben 20 Zentimeter</p>
-            <h2>Im Supermarkt bist du Nummer 43 von 60.</h2>
-            <p className="lede" style={{ marginTop: 20, maxWidth: "50ch" }}>
-              Ein Frühstücksregal im LEH ist zwölf Meter lang. Deine 20 cm darin sind ein Strich,
-              falls du überhaupt gelistet wirst. An unserer Wand sind dieselben 20 cm ein
-              Dreizehntel.
-            </p>
-
-            <Anteil />
-
-            <p className="fineprint">
-              Beide Regale in voller Breite gezeigt, die Maßstäbe unterscheiden sich also.
-              Verglichen wird der Anteil, nicht die absolute Länge.
-            </p>
-          </div>
-        </section>
-
         {/* ══ Herkunft ══════════════════════════════════════════ */}
-        <section className="origin">
+        <section className="origin" data-sektion="herkunft">
           <img
             className="origin__img"
             src="/brands/ikani-vanille.jpg"
@@ -355,7 +289,7 @@ export default async function StartPage() {
         </section>
 
         {/* ══ Erlebnis ══════════════════════════════════════════ */}
-        <section className="sect sect--tight sect--deep">
+        <section className="sect sect--tight sect--deep" data-sektion="erlebnis">
           <div className="wrap">
             <p className="eyebrow">Drei Wege, ein Produkt zu entdecken</p>
             <h2>Was man im Regal nicht sieht.</h2>
@@ -390,14 +324,14 @@ export default async function StartPage() {
         </section>
 
         {/* ══ Bewerbung ════════════════════════════════════════ */}
-        <section className="sect dark close" id="bewerben">
+        <section className="sect dark close" id="bewerben" data-sektion="bewerben">
           <div className="wrap">
             <div className="close__grid">
               <div className="close__in">
-                <p className="eyebrow">Treppe und Regal · Bewerbung</p>
+                <p className="eyebrow">Bewerbung</p>
                 <h2>Wir kuratieren. Deshalb bewirbst du dich.</h2>
                 <p className="lede">
-                  Für jede Stufe der Treppe und fürs Standardregal. Im Regal ab fünf Zentimetern, ab{" "}
+                  Im Regal ab fünf Zentimetern, ab{" "}
                   {MIN_SLOT_MIETE} € im Monat, für Produkte mit besonderem Wert ab{" "}
                   {MIN_SLOT_MIETE_BESONDERER_WERT} €. Ohne Listungsgebühr. Wir holen jede Woche{" "}
                   {ONBOARDINGS_PRO_WOCHE} Marken ins Onboarding und schauen uns jedes Produkt an,
@@ -441,6 +375,64 @@ export default async function StartPage() {
             </div>
           </div>
         </section>
+
+        {/* ══ Die Treppe als Seitenleiste ═════════════════════ */}
+        <TreppeMenue>
+          <p className="eyebrow">Fünf Stufen · vom ersten Test bis zum Portfolio</p>
+          <h2>Eine Treppe. Du entscheidest, wo du einsteigst.</h2>
+          <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
+            Jede Marke kann jede Stufe buchen. Wir empfehlen dir einen Einstieg, ausgeschlossen ist
+            niemand. Die Basis jeder Stufe ist das Regal nach Zentimetern, und dorthin geht es
+            danach: ins Standardregal.
+          </p>
+
+          <Treppe />
+
+          {/* A: Die Treppe */}
+          <div className="priceblock">
+            <p className="priceblock__k">A · Die Treppe</p>
+            <h3>Fünf Stufen mit Festpreis.</h3>
+            <StufenTabelle />
+            <p className="fineprint">
+              Alle Festpreise netto. * In jeder Stufe sind {REGAL_INKLUSIVE_CM} cm Regal im Preis
+              enthalten. {ZUSATZ_CM_TEXT}
+            </p>
+
+            <div className="calc">
+              <p className="calc__k">Rechenbeispiel</p>
+              <p className="calc__t">
+                Stufe {BEISPIEL.stufe.nr} {BEISPIEL.stufe.name} mit {BEISPIEL.cm} cm in der
+                Basiszone
+              </p>
+              <div className="rows">
+                <div className="row">
+                  <span className="row__k">Festpreis netto</span>
+                  <span className="row__v">{eur0(BEISPIEL.stufe.preis)}</span>
+                </div>
+                <div className="row">
+                  <span className="row__k">Regal {REGAL_INKLUSIVE_CM} cm</span>
+                  <span className="row__v">inklusive</span>
+                </div>
+                <div className="row">
+                  <span className="row__k">
+                    Weitere {BEISPIEL.zusatzCm} cm × {eur(BEISPIEL.rate)} × {BEISPIEL.monate}{" "}
+                    Monate
+                  </span>
+                  <span className="row__v">
+                    {eur0(BEISPIEL.zusatzMonat * BEISPIEL.monate)} ({eur0(BEISPIEL.zusatzMonat)} im
+                    Monat)
+                  </span>
+                </div>
+                <div className="row">
+                  <span className="row__k">Provision</span>
+                  <span className="row__v">+ {HUB_MARGIN_PCT} % auf verkaufte Ware</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <SagenTun />
+        </TreppeMenue>
       </main>
 
       <footer className="foot">

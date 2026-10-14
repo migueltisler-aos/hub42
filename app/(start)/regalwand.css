@@ -175,6 +175,8 @@
   .top__nav { display: flex; gap: 26px; margin-left: auto; font-size: 0.875rem; color: var(--ink-mid); }
   .top__nav a { text-decoration: none; }
   .top__nav a:hover { color: var(--ink); }
+  .top__link { font: inherit; color: inherit; background: none; border: 0; padding: 0; cursor: pointer; }
+  .top__link:hover { color: var(--ink); }
   .top .btn { padding: 8px 17px; font-size: 0.813rem; }
 
   /* ── Produktkörper ─────────────────────────────────────────── */
@@ -923,6 +925,21 @@
     font-size: 1.1rem; cursor: pointer; border-radius: 2px;
   }
   .termin__bar button:hover { background: var(--concrete-lite); }
+
+  /* ── Die Treppe als Seitenleiste (TreppeMenue) ──────────────── */
+  .treppe__dlg {
+    width: min(980px, 100vw); max-width: none; height: 100dvh; max-height: none;
+    margin: 0 0 0 auto; padding: 0; border: 0; border-left: 1px solid var(--hair-firm);
+    background: var(--paper); color: var(--ink); overflow: hidden;
+  }
+  .treppe__dlg[open] { display: flex; flex-direction: column; }
+  .treppe__dlg::backdrop { background: rgba(27, 35, 29, .62); backdrop-filter: blur(3px); }
+  .treppe__body {
+    flex: 1; min-height: 0; overflow-y: auto; overscroll-behavior: contain;
+    padding: clamp(28px, 4vw, 48px) clamp(16px, 4vw, 48px) 0;
+  }
+  .treppe__body > .sect { margin: clamp(40px, 5vw, 64px) calc(-1 * clamp(16px, 4vw, 48px)) 0; }
+  .treppe__teaser .btn { margin-top: 18px; }
 
   @media (prefers-reduced-motion: reduce) {
     * { transition-duration: .01ms !important; animation-duration: .01ms !important; }
