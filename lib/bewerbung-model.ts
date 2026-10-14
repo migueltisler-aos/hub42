@@ -4,8 +4,19 @@
 // Rein und ohne Datenzugriff, damit das Formular (Client) und die Server
 // Action dieselben Regeln importieren können (vgl. lib/angebote-model.ts).
 
+import type { AssistentAntworten } from "@/lib/assistent-model";
+import type { KarteAuswahl } from "@/lib/karte-model";
 import type { ZoneKey } from "@/lib/neue-ui/regal";
 import { EINSTIEGE, mitRegalwahl, type EinstiegKey } from "@/lib/treppe";
+
+export type AssistentErgebnis = AssistentAntworten & {
+  schaetzungMonat: number | null;
+  passt: boolean;
+  instagram: string;
+  instagramFreigabe: boolean;
+  /** Zugehörige Zeile in ki_anfragen, falls die KI die Website gelesen hat. */
+  anfrageId: string | null;
+};
 
 /** Wie viele Brands wir pro Woche ins Regal holen. */
 export const ONBOARDINGS_PRO_WOCHE = 5;
@@ -34,6 +45,12 @@ export interface BewerbungPayload {
   besondererWert: boolean;
   begruendung: string;
   nachricht: string;
+  /** Freigabe: Logo, Bilder und Texte der Website für die Regalkarte nutzen. */
+  bildrechte: boolean;
+  /** Entwurf der Regalkarte samt gewähltem Produkt, falls gebaut. */
+  karte: KarteAuswahl | null;
+  /** Antworten aus dem Assistenten samt unserer Schätzung, falls darüber beworben. */
+  assistent: AssistentErgebnis | null;
   /** Honeypot – bleibt bei Menschen leer. */
   firma2: string;
 }

@@ -6,6 +6,7 @@
 import Link from "next/link";
 import BeratungSektion from "@/components/neue-ui/BeratungSektion";
 import Bewerbung from "@/components/neue-ui/Bewerbung";
+import KiAnfrage from "@/components/neue-ui/KiAnfrage";
 import { CookieEinstellungenButton } from "@/components/GoogleAnalytics";
 import Massband from "@/components/neue-ui/Massband";
 import Preistabelle from "@/components/neue-ui/Preistabelle";
@@ -371,7 +372,10 @@ export default async function StartPage() {
                 </div>
               </div>
 
-              <Bewerbung />
+              <div className="close__wege">
+                <KiAnfrage />
+                <Bewerbung />
+              </div>
             </div>
           </div>
         </section>

@@ -44,6 +44,9 @@ const LEER: BewerbungPayload = {
   besondererWert: false,
   begruendung: "",
   nachricht: "",
+  bildrechte: false,
+  karte: null,
+  assistent: null,
   firma2: "",
 };
 
@@ -147,6 +150,9 @@ export default function Bewerbung({ nurRegal = false }: { nurRegal?: boolean }) 
 
   return (
     <form className="apply" onSubmit={absenden} onFocus={beimErstenFokus} noValidate>
+      <p className="apply__kopf">
+        Schnellanfrage <span>1 Minute</span>
+      </p>
       <div className="apply__grid">
         <label className={feld("marke")}>
           <span>Marke *</span>

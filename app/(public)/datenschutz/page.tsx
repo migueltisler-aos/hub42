@@ -50,6 +50,20 @@ export default function DatenschutzPage() {
               und für den Fall von Anschlussfragen bei uns gespeichert. Diese Daten geben
               wir nicht ohne Ihre Einwilligung weiter. Rechtsgrundlage: Art. 6 Abs. 1 lit. b DSGVO.
             </p>
+            {/* ENTWURF – vor dem Livegang rechtlich prüfen lassen. */}
+            <p className="mt-3">
+              <strong>Bewerbung und KI-Anfrage.</strong> Bei einer Bewerbung speichern wir Ihre Angaben
+              (Name, E-Mail, Marke, Produkt, Antworten) zur Prüfung der Bewerbung und zur Kontaktaufnahme.
+              Nutzen Sie die KI-Anfrage, rufen wir mit Ihrer Freigabe die angegebene Website ab und lassen
+              deren öffentliche Inhalte (Texte, Produkte, Impressum) durch einen KI-Dienst der Anthropic PBC,
+              USA, auswerten, um daraus Musterkarten und eine Abverkaufsschätzung zu erstellen. Website,
+              erkannte Angaben, gewählte Produkte und Ihre Antworten speichern wir auch dann, wenn Sie keine
+              Bewerbung abschicken, um uns gegebenenfalls bei Ihrer Marke zu melden. Name und E-Mail
+              speichern wir erst beim Abschicken. Rechtsgrundlagen: Art. 6 Abs. 1 lit. b DSGVO
+              (vorvertragliche Maßnahmen) und Art. 6 Abs. 1 lit. f DSGVO (berechtigtes Interesse an der
+              Ansprache interessierter Marken). Sie können der Speicherung jederzeit per E-Mail
+              widersprechen.
+            </p>
           </div>
 
           <div>

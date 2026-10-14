@@ -2,8 +2,13 @@
 
 import { revalidatePath } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
+import { anfrageAbgeschickt } from "@/lib/ki-anfragen";
 import { pruefeBewerbung, type BewerbungPayload } from "@/lib/bewerbung-model";
 import { BUNDESLAENDER } from "@/lib/beratung";
+import { EIGENTUM, HANDELSREIFE, STARTS, VERTRIEB, ZIELE, klemmeFaktor } from "@/lib/assistent-model";
+import type { AssistentErgebnis } from "@/lib/bewerbung-model";
+import { sichereFarben, type ArtikelTexte, type KarteAuswahl, type KarteProdukt } from "@/lib/karte-model";
+import { HALTUNG_TAGS, KATEGORIEN_KANONISCH } from "@/lib/pipeline-model";
 import { ZONES } from "@/lib/neue-ui/regal";
 import { SHOW_BAFA } from "@/lib/site-flags";
 import { EINSTIEGE, mitRegalwahl, type EinstiegKey } from "@/lib/treppe";
@@ -12,6 +17,85 @@ const janein = (v: boolean | null) => (v === null ? "–" : v ? "ja" : "nein");
 
 /** Telegram erwartet HTML – Nutzereingaben dürfen dort kein Markup erzeugen. */
 const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+
+const url = (s: unknown): string | null =>
+  typeof s === "string" && /^https?:\/\//i.test(s) ? s.slice(0, 600) : null;
+const txt = (s: unknown, max: number): string => (typeof s === "string" ? s.slice(0, max) : "");
+
+/** Die Karte kommt vom Client: nur bekannte Felder, gekürzt, Farben geprüft. */
+function saubereKarte(k: KarteAuswahl | null | undefined): KarteAuswahl | null {
+  if (!k || typeof k !== "object" || !k.entwurf || !k.produkt) return null;
+  const e = k.entwurf;
+  return {
+    entwurf: {
+      marke: txt(e.marke, 60),
+      ort: txt(e.ort, 40),
+      claim: txt(e.claim, 60),
+      story: txt(e.story, 480),
+      fakten: (Array.isArray(e.fakten) ? e.fakten : [])
+        .slice(0, 3)
+        .map((f) => ({ wert: txt(f?.wert, 18), text: txt(f?.text, 60) })),
+      farben: sichereFarben(e.farben ?? {}),
+      logo: url(e.logo),
+      hero: url(e.hero),
+      web: txt(e.web, 80),
+      wer: txt(e.wer, 80),
+      zitat: txt(e.zitat, 180),
+      zitatVon: txt(e.zitatVon, 60),
+    },
+    artikel: sauberArtikel(k.artikel),
+    produkt: sauberesProdukt(k.produkt),
+    weitere: (Array.isArray(k.weitere) ? k.weitere : [])
+      .slice(0, 4)
+      .filter((w) => w && typeof w === "object" && w.produkt)
+      .map((w) => ({ produkt: sauberesProdukt(w.produkt), artikel: sauberArtikel(w.artikel) })),
+  };
+}
+
+function sauberesProdukt(x: KarteProdukt) {
+  return {
+    titel: txt(x.titel, 120),
+    preis: typeof x.preis === "number" && x.preis > 0 && x.preis < 1000 ? Math.round(x.preis * 100) / 100 : null,
+    bild: url(x.bild),
+    url: url(x.url),
+  };
+}
+
+function sauberArtikel(x: ArtikelTexte | null | undefined): ArtikelTexte | null {
+  if (!x || typeof x !== "object") return null;
+  return {
+    head: txt(x.head, 60),
+    why: (Array.isArray(x.why) ? x.why : []).slice(0, 3).map((w) => txt(w, 70)),
+    know: txt(x.know, 260),
+    tip: txt(x.tip, 140),
+    chips: (Array.isArray(x.chips) ? x.chips : []).slice(0, 3).map((c) => txt(c, 30)),
+    preis: x.preis && typeof x.preis === "object" ? { fair: x.preis.fair !== false, grund: txt(x.preis.grund, 160) } : null,
+  };
+}
+
+/** Antworten aus dem Assistenten: nur bekannte Felder, Länge begrenzt. */
+function sauberAssistent(x: AssistentErgebnis | null | undefined) {
+  if (!x || typeof x !== "object") return null;
+  const wahl = <T extends string>(v: unknown, erlaubt: readonly T[]) =>
+    typeof v === "string" && (erlaubt as readonly string[]).includes(v) ? (v as T) : null;
+  return {
+    ziele: (Array.isArray(x.ziele) ? x.ziele : []).filter((z) => z in ZIELE),
+    start: typeof x.start === "string" && x.start in STARTS ? x.start : null,
+    handelsreife: (Array.isArray(x.handelsreife) ? x.handelsreife : []).filter((z) => z in HANDELSREIFE),
+    kategorie: wahl(x.kategorie, KATEGORIEN_KANONISCH),
+    vertrieb: wahl(x.vertrieb, Object.keys(VERTRIEB)),
+    eigentum: wahl(x.eigentum, Object.keys(EIGENTUM)),
+    haltung: (Array.isArray(x.haltung) ? x.haltung : []).filter((h) => (HALTUNG_TAGS as readonly string[]).includes(h)),
+    besonders: txt(x.besonders, 600),
+    cm: typeof x.cm === "number" ? Math.round(x.cm) : null,
+    faktor: typeof x.faktor === "number" ? klemmeFaktor(x.faktor) : null,
+    faktor_grund: txt(x.faktorGrund, 200),
+    schaetzung_monat: typeof x.schaetzungMonat === "number" ? Math.round(x.schaetzungMonat) : null,
+    passt: x.passt === true,
+    instagram: txt(x.instagram, 60).replace(/[^@A-Za-z0-9_.]/g, ""),
+    instagram_freigabe: x.instagramFreigabe === true,
+  };
+}
 
 export async function submitBewerbung(p: BewerbungPayload): Promise<{ ok: boolean }> {
   // Bot im Honeypot: so tun, als wäre alles gut, aber nichts speichern.
@@ -48,8 +132,24 @@ export async function submitBewerbung(p: BewerbungPayload): Promise<{ ok: boolea
     bundesland,
   };
 
+  const karte = saubereKarte(p.karte);
+  const regalkarte = { bildrechte: p.bildrechte === true, karte, assistent: sauberAssistent(p.assistent) };
+
   const db = getSupabaseAdmin().from("bewerbungen");
-  let { error } = await db.insert({ ...basis, ...neu });
+  let { error } = await db.insert({ ...basis, ...neu, ...regalkarte });
+
+  // Migration bewerbungen_karte_migration.sql noch nicht gelaufen: ohne Karte
+  // speichern, das Wichtigste daraus in die Nachricht.
+  if (error?.code === "PGRST204") {
+    console.error("bewerbungen: Karte-Spalten fehlen, Fallback:", error.message);
+    const kartenText = karte
+      ? `Regalkarte: ${karte.produkt.titel}${karte.produkt.preis ? `, ${karte.produkt.preis} €` : ""}, Bildrechte: ${janein(regalkarte.bildrechte)}`
+      : regalkarte.bildrechte
+        ? "Bildrechte: ja"
+        : "";
+    basis.nachricht = [kartenText, basis.nachricht].filter(Boolean).join("\n\n") || null;
+    ({ error } = await db.insert({ ...basis, ...neu }));
+  }
 
   // Migration bewerbungen_treppe_migration.sql noch nicht gelaufen (Spalte
   // fehlt): Bewerbung trotzdem speichern, die neuen Angaben in die Nachricht.
@@ -74,6 +174,9 @@ export async function submitBewerbung(p: BewerbungPayload): Promise<{ ok: boolea
     return { ok: false };
   }
 
+  // KI-Anfrage als abgeschickt markieren (Outreach sieht sonst einen Abbrecher).
+  if (p.assistent?.anfrageId) await anfrageAbgeschickt(p.assistent.anfrageId, null);
+
   // Zähler "x von 5 frei" auf der Startseite sofort nachziehen.
   revalidatePath("/");
 
@@ -97,6 +200,12 @@ export async function submitBewerbung(p: BewerbungPayload): Promise<{ ok: boolea
         ? `<b>Geförderte Beratung:</b> ${janein(beratung)}${bundesland ? ` (${bundesland})` : ""}`
         : "",
       `<b>Front:</b> ${zone ? `${ZONES[zone].name}${cm ? `, ${cm} cm` : ""}` : "–"}`,
+      karte
+        ? `<b>🪧 Regalkarte:</b> ${esc([karte.produkt, ...(karte.weitere ?? []).map((w) => w.produkt)].map((x) => x.titel).join(" · "))}${karte.produkt.preis ? ` · ${karte.produkt.preis.toFixed(2).replace(".", ",")} €` : ""} · Bildrechte ${janein(regalkarte.bildrechte)}`
+        : `<b>Bildrechte:</b> ${janein(regalkarte.bildrechte)}`,
+      regalkarte.assistent
+        ? `<b>🧭 Assistent:</b> ${regalkarte.assistent.passt ? "passt" : "⚠️ passt laut Regeln nicht"} · Ziel: ${regalkarte.assistent.ziele.map((z) => ZIELE[z as keyof typeof ZIELE].label).join(", ") || "–"} · ${regalkarte.assistent.vertrieb ?? "–"} · Schätzung ${regalkarte.assistent.schaetzung_monat ?? "–"} Stk./Monat${regalkarte.assistent.instagram ? ` · Insta ${esc(regalkarte.assistent.instagram)}${regalkarte.assistent.instagram_freigabe ? " (Repost ok)" : ""}` : ""}`
+        : "",
       besondererWert ? `\n<b>⭐ Antrag 59-€-Kondition:</b>\n${esc(p.begruendung)}` : "",
       p.nachricht ? `\n<b>Nachricht:</b>\n${esc(p.nachricht)}` : "",
     ].join("\n");
