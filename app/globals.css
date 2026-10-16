@@ -260,7 +260,7 @@ input[type="range"]::-moz-range-thumb {
 
 /* Bewertungs-Regler (RatingForm): Schiene + Stopp-Punkte zeichnet die Komponente
    darunter, hier nur großes Touch-Feld und großer Daumen (30px = DAUMEN dort).
-   Unberührt: hohler, gestrichelter Daumen, damit klar ist, dass noch nichts gewählt ist. */
+   Unberührt: kein Daumen, nur Schiene + Punkte – sonst wirkt die Startposition schon gewählt. */
 input[type="range"].fb-range {
   height: 44px;
   margin: 0;
@@ -292,14 +292,10 @@ input[type="range"].fb-range::-moz-range-thumb {
   box-shadow: 0 1px 4px rgb(0 0 0 / 0.35);
 }
 input[type="range"].fb-range[data-leer]::-webkit-slider-thumb {
-  background: var(--color-green-dark);
-  border: 2px dashed var(--color-bronze);
-  box-shadow: none;
+  opacity: 0;
 }
 input[type="range"].fb-range[data-leer]::-moz-range-thumb {
-  background: var(--color-green-dark);
-  border: 2px dashed var(--color-bronze);
-  box-shadow: none;
+  opacity: 0;
 }
 
 /* ── Feedback Factory Preview (/rebranding) ──────────────────────────

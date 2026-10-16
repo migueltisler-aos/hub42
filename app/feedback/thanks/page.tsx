@@ -61,12 +61,15 @@ export default async function ThanksPage({
   const panelId = cookieStore.get(PANEL_COOKIE)?.value;
   const backHref = `/feedback/thanks?product=${productId ?? ""}&hedonic=${hedonicParam ?? ""}`;
 
-  const [product, progress, productsWithStatus, settings, alreadyInterested] = await Promise.all([
+  // alles parallel; der Live-Zähler hängt nur am Event-Modus und wartet nicht auf den Rest
+  const settingsPromise = getSettings();
+  const [product, progress, productsWithStatus, settings, alreadyInterested, live] = await Promise.all([
     productId ? getProduct(productId) : null,
     panelId ? getPanelProgress(panelId) : { count: 0, productNames: [] },
     panelId ? getProductsWithPanelStatus(panelId) : [],
-    getSettings(),
+    settingsPromise,
     panelId && productId ? hasProductInterest(panelId, productId) : false,
+    settingsPromise.then((s) => (s.event_mode ? getLiveStats() : null)),
   ]);
 
   const scout = getScoutStatus(progress.count, settings);
@@ -75,7 +78,6 @@ export default async function ThanksPage({
   const eventMode = settings.event_mode;
   const eventName = settings.event_name || "Event";
   const answered = progress.count; // bewertete Produkte
-  const live = eventMode ? await getLiveStats() : null;
   const raffle =
     eventMode && panelId && answered >= settings.raffle_threshold
       ? await ensureRaffleEntry(panelId, eventName)

@@ -27,9 +27,9 @@ async function submitRatingAction(formData: FormData) {
     redirect(`/feedback/onboarding?next=${encodeURIComponent(`/feedback/r/${productId}`)}`);
   }
 
-  const settings = await getSettings();
+  const [settings, alleFragen] = await Promise.all([getSettings(), getQuestionsForProduct(productId)]);
   const kontext = settings.event_mode ? alsKontext(formData.get("kontext")) : null;
-  const questions = questionsFor(await getQuestionsForProduct(productId), settings.event_mode, kontext ?? "tasting");
+  const questions = questionsFor(alleFragen, settings.event_mode, kontext ?? "tasting");
   const priceWtpRaw = formData.get("price_wtp");
   const answers = questions
     .map((q) => {

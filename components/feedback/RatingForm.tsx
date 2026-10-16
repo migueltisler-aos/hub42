@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useFormStatus } from "react-dom";
 import { motion } from "framer-motion";
 import { HEDONIC_FACES, questionsFor, type QuestionWithSet, type RatingKontext } from "@/lib/feedback";
 import { formatEuro, priceLadder } from "@/lib/price-ladder";
@@ -68,6 +69,14 @@ function Slider({
 }) {
   const v = value ?? start ?? Math.round((min + max) / 2);
   const set = (raw: string) => onChange(Number(raw));
+  // Tipp ohne Bewegung (z. B. auf die Mitte, wo der unsichtbare Daumen schon steht) löst kein
+  // onChange aus und auf dem Handy oft auch kein pointerup. Darum zählt jeder Klick über seine Position.
+  const tipp = (e: React.MouseEvent<HTMLInputElement>) => {
+    if (e.detail === 0) return; // Tastatur/Screenreader: keine echte Position, onChange reicht
+    const r = e.currentTarget.getBoundingClientRect();
+    const anteil = (e.clientX - r.left - DAUMEN / 2) / (r.width - DAUMEN);
+    onChange(Math.min(max, Math.max(min, Math.round(min + anteil * (max - min)))));
+  };
   // Just-about-right-Skala ("zu wenig … ↔ zu …"): Mitte hervorheben und benennen
   const jar = labelLeft.startsWith("zu ") && labelRight.startsWith("zu ");
   const mitte = (min + max) / 2;
@@ -105,6 +114,7 @@ function Slider({
             value={v}
             onChange={(e) => set(e.target.value)}
             onPointerUp={(e) => set((e.target as HTMLInputElement).value)}
+            onClick={tipp}
             onKeyUp={(e) => set((e.target as HTMLInputElement).value)}
             aria-valuetext={value == null ? "noch nicht gewählt" : String(v)}
             data-leer={value == null ? "" : undefined}
@@ -433,22 +443,44 @@ export default function RatingForm({
         </fieldset>
       )}
 
-      {/* nicht disabled: ein Tipp bei Lücken springt zur ersten offenen Frage */}
-      <motion.button
-        type="submit"
-        onClick={zurLuecke}
-        aria-disabled={!complete}
-        whileTap={{ scale: 0.97 }}
-        className={`w-full font-semibold py-3 text-sm transition-colors ${
-          complete
+      <AbsendeButton complete={complete} offen={fehlend.length} onClick={zurLuecke} />
+    </form>
+  );
+}
+
+/**
+ * Nicht disabled: ein Tipp bei Lücken springt zur ersten offenen Frage.
+ * Während des Speicherns sofort Rückmeldung, sonst wirkt der Knopf tot.
+ */
+function AbsendeButton({
+  complete,
+  offen,
+  onClick,
+}: {
+  complete: boolean;
+  offen: number;
+  onClick: (e: React.MouseEvent) => void;
+}) {
+  const { pending } = useFormStatus();
+  return (
+    <motion.button
+      type="submit"
+      onClick={(e) => (pending ? e.preventDefault() : onClick(e))}
+      aria-disabled={!complete || pending}
+      whileTap={{ scale: 0.97 }}
+      className={`w-full font-semibold py-3 text-sm transition-colors ${
+        pending
+          ? "bg-bronze/60 text-green-dark animate-pulse"
+          : complete
             ? "bg-bronze text-green-dark hover:bg-bronze-light"
             : "bg-stone-dark text-stone"
-        }`}
-      >
-        {complete
+      }`}
+    >
+      {pending
+        ? "Wird gespeichert …"
+        : complete
           ? "Stimme abgeben →"
-          : `Noch ${fehlend.length} ${fehlend.length === 1 ? "Frage" : "Fragen"} offen – hinspringen`}
-      </motion.button>
-    </form>
+          : `Noch ${offen} ${offen === 1 ? "Frage" : "Fragen"} offen – hinspringen`}
+    </motion.button>
   );
 }
