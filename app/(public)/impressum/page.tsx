@@ -19,7 +19,7 @@ export default function ImpressumPage() {
 
         <div className="space-y-8 text-sm text-stone leading-relaxed">
           <div>
-            <h2 className="text-cream text-lg font-semibold mb-2">Angaben gemäß § 5 TMG</h2>
+            <h2 className="text-cream text-lg font-semibold mb-2">Angaben gemäß § 5 DDG</h2>
             <p>Hub42 UG (haftungsbeschränkt)<br />
             c/o Valuedfriends Innovation GmbH<br />
             Spreeinsel 6<br />
@@ -35,6 +35,11 @@ export default function ImpressumPage() {
           <div>
             <h2 className="text-cream text-lg font-semibold mb-2">Kontakt</h2>
             <p>
+              Telefon:{" "}
+              <a href="tel:+491778795637" className="text-bronze hover:underline">
+                +49 177 8795637
+              </a>
+              <br />
               E-Mail:{" "}
               <a href="mailto:info@tryhub42.de" className="text-bronze hover:underline">
                 info@tryhub42.de
@@ -56,7 +61,7 @@ export default function ImpressumPage() {
           </div>
 
           <div>
-            <h2 className="text-cream text-lg font-semibold mb-2">Verantwortlich für den Inhalt (§ 55 Abs. 2 RStV)</h2>
+            <h2 className="text-cream text-lg font-semibold mb-2">Verantwortlich für den Inhalt (§ 18 Abs. 2 MStV)</h2>
             <p>Miguel Tisler<br />
             c/o Valuedfriends Innovation GmbH<br />
             Spreeinsel 6<br />
@@ -69,7 +74,7 @@ export default function ImpressumPage() {
               Die Inhalte dieser Website wurden mit größtmöglicher Sorgfalt erstellt.
               Für die Richtigkeit, Vollständigkeit und Aktualität der Inhalte können wir
               jedoch keine Gewähr übernehmen. Als Diensteanbieter sind wir gemäß § 7 Abs.
-              1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen
+              1 DDG für eigene Inhalte auf diesen Seiten nach den allgemeinen Gesetzen
               verantwortlich.
             </p>
           </div>
