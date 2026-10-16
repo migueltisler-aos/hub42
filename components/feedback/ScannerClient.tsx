@@ -20,14 +20,24 @@ export default function ScannerClient({ products }: { products: ScannerProduct[]
 
     let scanner: QrScanner | null = null;
     let cancelled = false;
+    let erkannt = false;
 
+    // Volle Navigation statt router.push: /q/<code> und /t/<code> sind Route-Handler mit
+    // Redirect, denen der Client-Router nicht folgt. Pfad übernehmen, damit es auch bei
+    // www/ohne www oder einer Vorschau-Domain auf der aktuellen Domain bleibt.
     function handleDecoded(text: string) {
+      if (erkannt) return; // der Scanner meldet denselben Code mehrfach pro Sekunde
+      let ziel: string | null = null;
       try {
         const url = new URL(text, window.location.origin);
-        router.push(url.pathname + url.search);
+        ziel = url.pathname + url.search;
       } catch {
-        if (text.startsWith("/")) router.push(text);
+        if (text.startsWith("/")) ziel = text;
       }
+      if (!ziel) return;
+      erkannt = true;
+      scanner?.stop();
+      window.location.assign(ziel);
     }
 
     QrScanner.hasCamera()
@@ -54,7 +64,6 @@ export default function ScannerClient({ products }: { products: ScannerProduct[]
       scanner?.stop();
       scanner?.destroy();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
