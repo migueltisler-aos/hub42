@@ -1,4 +1,4 @@
-import { getLiveStats, getSettings } from "@/lib/feedback";
+import { getLiveStats } from "@/lib/feedback";
 import FieldFrame from "@/components/feedback/FieldFrame";
 import LiveCounter from "@/components/feedback/LiveCounter";
 
@@ -9,10 +9,10 @@ export const metadata = { title: "Hub42 Live" };
 // Bildschirm am Event-Stand: wie viele Menschen den Startups mit ihrer Meinung
 // geholfen haben. Öffentlich (keine Einzeldaten, nur Summen), lädt sich selbst neu.
 export default async function LivePage() {
-  const [stats, settings] = await Promise.all([getLiveStats(), getSettings()]);
+  const stats = await getLiveStats();
   return (
     <FieldFrame>
-      <LiveCounter stats={stats} losAb={settings.raffle_threshold} />
+      <LiveCounter stats={stats} />
     </FieldFrame>
   );
 }

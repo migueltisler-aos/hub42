@@ -22,7 +22,7 @@ import {
 import { Panel } from "@/app/(intern)/_components/ui/surfaces";
 
 /** Nur die Zahlen-Schwellen; Event-Einstellungen stehen in EventForm. */
-type Feld = Exclude<keyof Settings, "event_mode" | "event_name" | "raffle_threshold">;
+type Feld = Exclude<keyof Settings, "event_mode">;
 
 const GRUPPEN: {
   titel: string;

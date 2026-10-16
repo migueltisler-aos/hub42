@@ -857,11 +857,8 @@ export interface Settings {
   scout_gold_threshold: number;
   game_ticket_interval: number;
   comparison_reveal_threshold: number;
-  /** Event-Modus: nur Schieberegler, keine Textfelder/Preis-Eingaben, Verlosung statt Kontakt-Opt-ins. */
+  /** Event-Modus: nur Schieberegler, keine Textfelder/Preis-Eingaben, keine Kontakt-Opt-ins. */
   event_mode: boolean;
-  event_name: string | null;
-  /** Ab so vielen bewerteten Produkten gibt es ein Los. */
-  raffle_threshold: number;
 }
 
 const DEFAULT_SETTINGS: Settings = {
@@ -871,8 +868,6 @@ const DEFAULT_SETTINGS: Settings = {
   game_ticket_interval: 3,
   comparison_reveal_threshold: 10,
   event_mode: false,
-  event_name: null,
-  raffle_threshold: 10,
 };
 
 export async function getSettings(): Promise<Settings> {
@@ -1276,76 +1271,6 @@ export async function getRecentRedemptions(limit = 20): Promise<GameToken[]> {
     .limit(limit);
   if (error) throw error;
   return (data ?? []) as GameToken[];
-}
-
-// ── Verlosung (Event-Modus) ──────────────────────────────────────────────
-// Ein Los pro Panel und Event, sobald raffle_threshold Produkte bewertet sind.
-
-export interface RaffleEntry {
-  id: string;
-  panel_id: string;
-  event_name: string;
-  code: string;
-  created_at: string;
-  drawn_at: string | null;
-  prize: string | null;
-}
-
-export async function getRaffleEntry(panelId: string, eventName: string): Promise<RaffleEntry | null> {
-  const { data } = await getSupabaseClient()
-    .from("feedback_raffle_entries")
-    .select("*")
-    .eq("panel_id", panelId)
-    .eq("event_name", eventName)
-    .maybeSingle();
-  return (data as RaffleEntry | null) ?? null;
-}
-
-/** `created` = Los ist gerade eben entstanden (für die Feier auf der Dankeseite). */
-export async function ensureRaffleEntry(
-  panelId: string,
-  eventName: string
-): Promise<{ entry: RaffleEntry; created: boolean }> {
-  const existing = await getRaffleEntry(panelId, eventName);
-  if (existing) return { entry: existing, created: false };
-  const { data, error } = await getSupabaseClient()
-    .from("feedback_raffle_entries")
-    .insert({ panel_id: panelId, event_name: eventName, code: generateGameCode() })
-    .select()
-    .single();
-  if (error) {
-    // 23505: parallel angelegt (Doppel-Klick) -> vorhandenes Los zurückgeben
-    const again = await getRaffleEntry(panelId, eventName);
-    if (again) return { entry: again, created: false };
-    throw error;
-  }
-  return { entry: data as RaffleEntry, created: true };
-}
-
-export async function getRaffleEntries(eventName: string): Promise<RaffleEntry[]> {
-  const { data, error } = await getSupabaseClient()
-    .from("feedback_raffle_entries")
-    .select("*")
-    .eq("event_name", eventName)
-    .order("created_at", { ascending: true });
-  if (error) throw error;
-  return (data ?? []) as RaffleEntry[];
-}
-
-/** Zieht ein zufälliges, noch nicht gezogenes Los und vermerkt den Preis. */
-export async function drawRaffleEntry(eventName: string, prize: string): Promise<RaffleEntry | null> {
-  const offen = (await getRaffleEntries(eventName)).filter((e) => !e.drawn_at);
-  if (offen.length === 0) return null;
-  const los = offen[Math.floor(Math.random() * offen.length)];
-  const { data, error } = await getSupabaseClient()
-    .from("feedback_raffle_entries")
-    .update({ drawn_at: new Date().toISOString(), prize })
-    .eq("id", los.id)
-    .is("drawn_at", null)
-    .select()
-    .maybeSingle();
-  if (error) throw error;
-  return data as RaffleEntry | null;
 }
 
 // ── Live-Zähler (Event) ──────────────────────────────────────────────────

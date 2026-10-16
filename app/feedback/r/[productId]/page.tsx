@@ -152,16 +152,7 @@ export default async function RatingPage({
 
         {settings.event_mode ? (
           <p className="text-stone-dark text-xs text-center mt-6">
-            {settings.raffle_threshold > 0 ? (
-              <>
-                Ab {settings.raffle_threshold} bewerteten Produkten bist du im{" "}
-                <span className="text-bronze">Lostopf</span>.
-              </>
-            ) : (
-              <>
-                Jede Stimme hilft <span className="text-bronze">jungen Marken</span>.
-              </>
-            )}
+            Jede Stimme hilft <span className="text-bronze">jungen Marken</span>.
           </p>
         ) : (
           <p className="text-stone-dark text-xs text-center mt-6">

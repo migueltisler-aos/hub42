@@ -15,7 +15,7 @@ export default async function SettingsPage() {
       lead="Wann ein Scout aufsteigt, wann ein Spiel-Ticket fällt, wann der große Vergleich erscheint. Gilt sofort für alle Scouts, ohne Deploy."
       back={{ href: "/feedback/admin", label: "Produkte" }}
     >
-      <Panel title="Event & Verlosung" nummer="00">
+      <Panel title="Event-Modus" nummer="00">
         <EventForm settings={settings} />
       </Panel>
       <div className="mt-8">

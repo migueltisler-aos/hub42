@@ -4,7 +4,6 @@ import Link from "next/link";
 import {
   HEDONIC_FACES,
   ensureGameTokenForMilestone,
-  ensureRaffleEntry,
   getComparisonData,
   getGameTokensForPanel,
   getLiveStats,
@@ -74,17 +73,8 @@ export default async function ThanksPage({
 
   const scout = getScoutStatus(progress.count, settings);
 
-  // Event-Modus: Verlosung statt Aquarium-Spiel und ohne Kontakt-Textfelder.
+  // Event-Modus: ohne Aquarium-Spiel und ohne Kontakt-Textfelder.
   const eventMode = settings.event_mode;
-  const eventName = settings.event_name || "Event";
-  const answered = progress.count; // bewertete Produkte
-  // Los ab 0 = Event ohne Verlosung
-  const verlosung = eventMode && settings.raffle_threshold > 0;
-  const raffle =
-    verlosung && panelId && answered >= settings.raffle_threshold
-      ? await ensureRaffleEntry(panelId, eventName)
-      : null;
-  const raffleEntry = raffle?.entry ?? null;
 
   let newToken = null;
   if (!eventMode && panelId && progress.count > 0 && progress.count % settings.game_ticket_interval === 0) {
@@ -99,8 +89,7 @@ export default async function ThanksPage({
   const showComparison = progress.count >= settings.comparison_reveal_threshold;
   const comparison = panelId && showComparison ? await getComparisonData(panelId) : [];
 
-  const celebrate =
-    Boolean(scout.justReached) || Boolean(newToken) || comparisonRevealed || Boolean(raffle?.created);
+  const celebrate = Boolean(scout.justReached) || Boolean(newToken) || comparisonRevealed;
 
   return (
     <FieldFrame>
@@ -115,6 +104,14 @@ export default async function ThanksPage({
           {product ? `Danke für ${product.name}!` : "Danke für deine Stimme!"}
         </h1>
 
+        {/* oben, damit am Stand niemand erst scrollen muss */}
+        <Link
+          href="/feedback/scan"
+          className="block w-full bg-bronze text-green-dark font-semibold px-6 py-3 text-sm hover:bg-bronze-light transition-colors mb-8"
+        >
+          Weiteres Produkt scannen →
+        </Link>
+
         {/* Pro-Produkt-Kontakt-Opt-in — unabhängig vom Scout-Level, jedes Mal neu für das
             gerade bewertete Produkt, aber nur solange noch nicht eingetragen. */}
         {live && live.menschen > 0 && (
@@ -125,42 +122,6 @@ export default async function ThanksPage({
           </p>
         )}
 
-        {/* Verlosung (Event-Modus): Fortschritt bis zum Los, danach der Los-Code */}
-        {verlosung && panelId && (
-          <div className="ticket-perforation bg-bronze/10 border-2 border-dashed border-bronze p-4 mb-8 text-left">
-            {raffleEntry ? (
-              <>
-                <p className="text-bronze text-sm font-semibold mb-1">🎟 Du bist im Lostopf!</p>
-                <p className="text-stone text-xs mb-3">
-                  Zu gewinnen: Produktpakete unserer Marken und 3 Monate Regalplatz bei Hub42.
-                  Mach einen Screenshot – wird dein Code gezogen, zeigst du ihn am Stand vor.
-                </p>
-                <p className="text-cream text-2xl font-mono tracking-[0.3em] text-center bg-green-dark py-3">
-                  {raffleEntry.code}
-                </p>
-                <p className="text-stone-dark text-[10px] mt-2">
-                  Ein Los pro Person. Kostenlose Teilnahme, kein Kaufzwang. Teilnahmebedingungen am Stand.
-                </p>
-              </>
-            ) : (
-              <>
-                <p className="text-bronze text-sm font-semibold mb-2">
-                  🎟 Noch {settings.raffle_threshold - answered}{" "}
-                  {settings.raffle_threshold - answered === 1 ? "Produkt" : "Produkte"} bis zum Los
-                </p>
-                <div className="h-1.5 bg-green-dark rounded-full overflow-hidden">
-                  <div
-                    className="h-full bg-bronze"
-                    style={{ width: `${Math.min(100, (answered / settings.raffle_threshold) * 100)}%` }}
-                  />
-                </div>
-                <p className="text-stone-dark text-[10px] font-mono mt-1">
-                  {answered} von {settings.raffle_threshold} Produkten · Produktpakete und 3 Monate Regalplatz
-                </p>
-              </>
-            )}
-          </div>
-        )}
 
         {!eventMode && product && panelId && !alreadyInterested && (
           <form
@@ -373,13 +334,6 @@ export default async function ThanksPage({
             </div>
           </div>
         )}
-
-        <Link
-          href="/feedback/scan"
-          className="inline-block bg-bronze text-green-dark font-semibold px-6 py-3 text-sm hover:bg-bronze-light transition-colors"
-        >
-          Weiteres Produkt scannen →
-        </Link>
 
         <p className="text-stone-dark text-[10px] font-mono mt-8">
           {scout.tiers.map((t) => t.label).join(" · ")}
