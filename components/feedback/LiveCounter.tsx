@@ -8,7 +8,8 @@ import Celebration from "./Celebration";
 
 const NEU_LADEN_MS = 5000;
 
-export default function LiveCounter({ stats }: { stats: LiveStats }) {
+/** losAb = 0: Event ohne Verlosung, dann kein Lostopf-Hinweis. */
+export default function LiveCounter({ stats, losAb }: { stats: LiveStats; losAb: number }) {
   const router = useRouter();
   const vorher = useRef(stats.menschen);
   const [feier, setFeier] = useState(0);
@@ -78,7 +79,7 @@ export default function LiveCounter({ stats }: { stats: LiveStats }) {
       )}
 
       <p className="text-stone-dark text-xs font-mono uppercase tracking-widest mt-12">
-        QR-Code scannen, probieren, Regler schieben – ab 10 Produkten im Lostopf
+        QR-Code scannen, probieren, Regler schieben{losAb > 0 && ` – ab ${losAb} Produkten im Lostopf`}
       </p>
     </div>
   );

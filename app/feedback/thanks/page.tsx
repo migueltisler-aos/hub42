@@ -78,8 +78,10 @@ export default async function ThanksPage({
   const eventMode = settings.event_mode;
   const eventName = settings.event_name || "Event";
   const answered = progress.count; // bewertete Produkte
+  // Los ab 0 = Event ohne Verlosung
+  const verlosung = eventMode && settings.raffle_threshold > 0;
   const raffle =
-    eventMode && panelId && answered >= settings.raffle_threshold
+    verlosung && panelId && answered >= settings.raffle_threshold
       ? await ensureRaffleEntry(panelId, eventName)
       : null;
   const raffleEntry = raffle?.entry ?? null;
@@ -124,7 +126,7 @@ export default async function ThanksPage({
         )}
 
         {/* Verlosung (Event-Modus): Fortschritt bis zum Los, danach der Los-Code */}
-        {eventMode && panelId && (
+        {verlosung && panelId && (
           <div className="ticket-perforation bg-bronze/10 border-2 border-dashed border-bronze p-4 mb-8 text-left">
             {raffleEntry ? (
               <>

@@ -344,10 +344,11 @@ export async function saveEventSettings(_prev: ActionState | null, formData: For
   const eventName = textOderNull(formData, "event_name");
   const schwelle = zahl(formData, "raffle_threshold");
   const fieldErrors: Record<string, string> = {};
-  if (schwelle == null || !Number.isInteger(schwelle) || schwelle < 1) {
-    fieldErrors.raffle_threshold = "Ganze Zahl ab 1.";
+  // 0 = Event ohne Verlosung
+  if (schwelle == null || !Number.isInteger(schwelle) || schwelle < 0) {
+    fieldErrors.raffle_threshold = "Ganze Zahl ab 0 (0 = keine Verlosung).";
   }
-  if (eventMode && !eventName) fieldErrors.event_name = "Name nötig, an ihm hängen die Lose.";
+  if (eventMode && schwelle !== 0 && !eventName) fieldErrors.event_name = "Name nötig, an ihm hängen die Lose.";
   if (Object.keys(fieldErrors).length > 0) {
     return fehler("Bitte die markierten Felder prüfen.", fieldErrors);
   }

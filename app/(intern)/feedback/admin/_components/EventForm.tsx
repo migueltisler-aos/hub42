@@ -30,7 +30,7 @@ export default function EventForm({ settings }: { settings: Settings }) {
         name="event_mode"
         defaultChecked={settings.event_mode}
         label="Event-Modus an"
-        hinweis="Nur Schieberegler, keine Textfelder, Verlosung statt Spiel-Tickets."
+        hinweis="Nur Schieberegler, keine Textfelder, Verlosung (falls „Los ab“ > 0) statt Spiel-Tickets."
       />
       <div className="grid sm:grid-cols-2 gap-4">
         <Field
@@ -51,12 +51,12 @@ export default function EventForm({ settings }: { settings: Settings }) {
           label="Los ab"
           htmlFor="ef-schwelle"
           fehler={f.raffle_threshold}
-          hinweis="Bewertete Produkte pro Scout."
+          hinweis="Bewertete Produkte pro Scout. 0 = keine Verlosung."
         >
           <NumberInput
             id="ef-schwelle"
             name="raffle_threshold"
-            min={1}
+            min={0}
             required
             value={schwelle}
             onChange={(e) => setSchwelle(e.target.value)}

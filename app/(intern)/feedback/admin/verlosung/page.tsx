@@ -23,10 +23,16 @@ export default async function VerlosungPage() {
       lead={`Lostopf „${eventName}“: ${lose.length} Lose, davon ${lose.length - gezogen.length} noch offen. Gewinner zeigen ihren Code auf dem Handy vor.`}
       back={{ href: "/feedback/admin", label: "Produkte" }}
     >
-      {!settings.event_mode && (
+      {!settings.event_mode ? (
         <p className="text-stone text-sm mb-6">
           Der Event-Modus ist aus – neue Lose entstehen erst, wenn er unter Schwellen eingeschaltet ist.
         </p>
+      ) : (
+        settings.raffle_threshold === 0 && (
+          <p className="text-stone text-sm mb-6">
+            Verlosung ist aus („Los ab“ = 0) – es entstehen keine neuen Lose.
+          </p>
+        )
       )}
 
       <Panel title="Ziehen" nummer="01">
