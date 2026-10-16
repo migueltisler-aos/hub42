@@ -946,14 +946,26 @@ export async function getComparisonData(panelId: string): Promise<ComparisonRow[
     hedonic: number;
     product: Product | Product[] | null;
   }[];
+  if (rows.length === 0) return [];
 
-  return Promise.all(
-    rows.map(async (r) => {
-      const product = Array.isArray(r.product) ? r.product[0] : r.product!;
-      const stats = await getProductStats(r.product_id);
-      return { product, myHedonic: r.hedonic, storeMean: stats?.hedonicMean ?? r.hedonic };
-    })
-  );
+  // nur der Hedonic-Mittelwert je Produkt: eine Abfrage statt getProductStats je Produkt
+  const { data: alle, error: alleError } = await getSupabaseClient()
+    .from("feedback_ratings")
+    .select("product_id, hedonic")
+    .in("product_id", rows.map((r) => r.product_id));
+  if (alleError) throw alleError;
+  const proProdukt = new Map<string, number[]>();
+  for (const a of alle ?? []) {
+    const liste = proProdukt.get(a.product_id as string) ?? [];
+    liste.push(a.hedonic as number);
+    proProdukt.set(a.product_id as string, liste);
+  }
+
+  return rows.map((r) => {
+    const product = Array.isArray(r.product) ? r.product[0] : r.product!;
+    const werte = proProdukt.get(r.product_id) ?? [r.hedonic];
+    return { product, myHedonic: r.hedonic, storeMean: mean(werte) };
+  });
 }
 
 export async function submitContactOptIn(

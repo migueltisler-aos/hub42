@@ -91,10 +91,14 @@ export default async function ThanksPage({
   const allTokens = panelId && !eventMode ? await getGameTokensForPanel(panelId) : [];
   const pendingTokens = allTokens.filter((t) => !t.redeemed_at);
 
-  const showComparison = progress.count === settings.comparison_reveal_threshold;
+  // Vergleich erst ab der Schwelle (vorher Anchoring-Gefahr), danach dauerhaft abrufbar:
+  // beim Erreichen offen, später zugeklappt, damit er nicht jede neue Bewertung färbt.
+  const comparisonRevealed = progress.count === settings.comparison_reveal_threshold;
+  const showComparison = progress.count >= settings.comparison_reveal_threshold;
   const comparison = panelId && showComparison ? await getComparisonData(panelId) : [];
 
-  const celebrate = Boolean(scout.justReached) || Boolean(newToken) || showComparison || Boolean(raffle?.created);
+  const celebrate =
+    Boolean(scout.justReached) || Boolean(newToken) || comparisonRevealed || Boolean(raffle?.created);
 
   return (
     <FieldFrame>
@@ -197,11 +201,13 @@ export default async function ThanksPage({
             Bewertungen, nicht sofort pro Produkt: ein Sofort-Vergleich würde spätere
             Bewertungen unbewusst Richtung Store-Durchschnitt ziehen (Anchoring). */}
         {showComparison && comparison.length > 0 && (
-          <div className="field-card bg-sage-warm p-4 mb-6 text-left">
-            <p className="text-green-dark text-sm font-semibold mb-3 text-center">
-              🔍 Dein großer Vergleich ist da! Du vs. alle anderen Scouts:
-            </p>
-            <div className="space-y-2">
+          <details open={comparisonRevealed} className="field-card bg-sage-warm p-4 mb-6 text-left">
+            <summary className="text-green-dark text-sm font-semibold text-center cursor-pointer">
+              {comparisonRevealed
+                ? "🔍 Dein großer Vergleich ist da! Du vs. alle anderen Scouts:"
+                : "🔍 Dein Vergleich: du vs. alle anderen Scouts"}
+            </summary>
+            <div className="space-y-2 mt-3">
               {comparison.map((row) => {
                 const diff = row.myHedonic - row.storeMean;
                 return (
@@ -218,15 +224,26 @@ export default async function ThanksPage({
                 );
               })}
             </div>
-          </div>
+          </details>
         )}
 
-        {/* Scout-Level */}
+        {/* Scout-Level: erreichter Status dauerhaft gut sichtbar, nicht nur im Moment des Erreichens */}
         <div className="field-card bg-green-mid border border-stone-dark p-4 mb-6 text-left">
           <div className="flex items-center justify-between mb-2">
-            <p className="text-stone text-xs font-mono uppercase tracking-widest">
-              {scout.current ? scout.current.label : "Scout in Ausbildung"}
-            </p>
+            {scout.current ? (
+              <p
+                className="text-lg tracking-widest"
+                // bronze-dark ist auf green-mid zu dunkel, darum dort die Haupt-Bronze
+                style={{
+                  fontFamily: "var(--font-bebas)",
+                  color: scout.current.key === "bronze" ? "var(--color-bronze)" : scout.current.colorVar,
+                }}
+              >
+                🏅 {scout.current.label}
+              </p>
+            ) : (
+              <p className="text-stone text-xs font-mono uppercase tracking-widest">Scout in Ausbildung</p>
+            )}
             <p className="text-bronze text-xs font-mono">{scout.count} Bewertungen</p>
           </div>
           {scout.next && (
