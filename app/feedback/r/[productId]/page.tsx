@@ -1,6 +1,7 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import {
+  alsKontext,
   createRating,
   getPanel,
   getProduct,
@@ -9,7 +10,6 @@ import {
   getRatingsTodayCount,
   getSettings,
   questionsFor,
-  type RatingKontext,
 } from "@/lib/feedback";
 import RatingForm from "@/components/feedback/RatingForm";
 import FieldFrame from "@/components/feedback/FieldFrame";
@@ -28,9 +28,7 @@ async function submitRatingAction(formData: FormData) {
   }
 
   const settings = await getSettings();
-  const kontextRaw = formData.get("kontext");
-  const kontext: RatingKontext | null =
-    settings.event_mode && (kontextRaw === "tasting" || kontextRaw === "kauf") ? kontextRaw : null;
+  const kontext = settings.event_mode ? alsKontext(formData.get("kontext")) : null;
   const questions = questionsFor(await getQuestionsForProduct(productId), settings.event_mode, kontext ?? "tasting");
   const priceWtpRaw = formData.get("price_wtp");
   const answers = questions
@@ -82,8 +80,8 @@ export default async function RatingPage({
 }) {
   const { productId } = await params;
   const { k } = await searchParams;
-  // aus dem QR-Code: /t = tasting, /q = kauf; ohne Kontext wählt der Scout selbst
-  const initialKontext: RatingKontext | null = k === "tasting" || k === "kauf" ? k : null;
+  // aus dem QR-Code: /t = tasting, /q = angeschaut; ohne Kontext wählt der Scout selbst
+  const initialKontext = alsKontext(k);
   const selbst = `/feedback/r/${productId}${initialKontext ? `?k=${initialKontext}` : ""}`;
   const cookieStore = await cookies();
   const panelId = cookieStore.get(PANEL_COOKIE)?.value;

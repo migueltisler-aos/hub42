@@ -55,7 +55,7 @@ export default function LiveCounter({ stats }: { stats: LiveStats }) {
       </h1>
 
       <p className="text-stone text-sm sm:text-base font-mono mt-4">
-        {stats.bewertungen} Stimmen · {stats.probiert} probiert · {stats.gekauft} gekauft
+        {stats.bewertungen} Stimmen · {stats.probiert} probiert · {stats.angeschaut} angeschaut
       </p>
 
       {stats.marken.length > 0 && (

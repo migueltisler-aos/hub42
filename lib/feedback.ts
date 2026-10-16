@@ -59,13 +59,22 @@ export interface RatingInput {
   storeContext?: string | null;
   shelfContext?: string | null;
   batchContext?: string | null;
-  /** Event-Modus: probiert am Stand oder gekauft. */
+  /** Event-Modus: probiert am Stand oder am Regal angeschaut. */
   kontext?: RatingKontext | null;
   /** Auf der Preis-Leiter gewählter Preis. */
   priceWtp?: number | null;
 }
 
-export type RatingKontext = "tasting" | "kauf";
+/**
+ * tasting = probiert am Stand (/t), angeschaut = am Regal gescannt (/q).
+ * kauf = Alt-Bewertungen vor dem 16.10.2026 und Reserve für einen späteren Bon-QR;
+ * den Kauf selbst liefert die SumUp-Kasse, darum steht er nicht mehr zur Auswahl.
+ */
+export type RatingKontext = "tasting" | "angeschaut" | "kauf";
+
+export function alsKontext(raw: unknown): RatingKontext | null {
+  return raw === "tasting" || raw === "angeschaut" || raw === "kauf" ? raw : null;
+}
 
 export interface Rating {
   id: string;
@@ -1329,14 +1338,14 @@ export async function drawRaffleEntry(eventName: string, prize: string): Promise
 
 // ── Live-Zähler (Event) ──────────────────────────────────────────────────
 // Für den Bildschirm am Stand (/feedback/live). Gezählt werden nur Bewertungen
-// mit Kontext (tasting/kauf) – die entstehen ausschließlich im Event-Modus,
+// mit Kontext (tasting/angeschaut/kauf) – die entstehen ausschließlich im Event-Modus,
 // alte Test-Bewertungen aus dem Ladenalltag bleiben also außen vor.
 
 export interface LiveStats {
   menschen: number;
   bewertungen: number;
   probiert: number;
-  gekauft: number;
+  angeschaut: number;
   marken: { brand: string; stimmen: number }[];
   letzteStimme: string | null;
 }
@@ -1366,7 +1375,8 @@ export async function getLiveStats(): Promise<LiveStats> {
     menschen: new Set(rows.map((r) => r.panel_id)).size,
     bewertungen: rows.length,
     probiert: rows.filter((r) => r.kontext === "tasting").length,
-    gekauft: rows.filter((r) => r.kontext === "kauf").length,
+    // Alt-Bewertungen "kauf" kamen vom selben Regal-QR (/q)
+    angeschaut: rows.filter((r) => r.kontext === "angeschaut" || r.kontext === "kauf").length,
     marken: [...proMarke]
       .map(([brand, stimmen]) => ({ brand, stimmen }))
       .sort((a, b) => b.stimmen - a.stimmen),

@@ -37,9 +37,14 @@ function TapButton({
   );
 }
 
+/** Daumenbreite in px, muss zu input.fb-range in globals.css passen. */
+const DAUMEN = 30;
+
 /**
  * Schieberegler für den Event-Modus. Startet in der Mitte, zählt aber erst als
  * Antwort, wenn er berührt wurde (sonst landet die Mitte ungefragt in den Daten).
+ * Schiene und Stopp-Punkte werden selbst gezeichnet (auf dem Handy sonst unsichtbar),
+ * das unsichtbare native input liegt darüber und übernimmt Touch und Tastatur.
  */
 function Slider({
   min,
@@ -63,21 +68,49 @@ function Slider({
 }) {
   const v = value ?? start ?? Math.round((min + max) / 2);
   const set = (raw: string) => onChange(Number(raw));
+  // Just-about-right-Skala ("zu wenig … ↔ zu …"): Mitte hervorheben und benennen
+  const jar = labelLeft.startsWith("zu ") && labelRight.startsWith("zu ");
+  const mitte = (min + max) / 2;
+  const stufen = Array.from({ length: max - min + 1 }, (_, i) => min + i);
+  // gleiche Abbildung wie der native Daumen: Mittelpunkt läuft von DAUMEN/2 bis Breite − DAUMEN/2
+  const pos = (s: number) => `calc(${DAUMEN / 2}px + (100% - ${DAUMEN}px) * ${(s - min) / (max - min)})`;
   return (
     <div>
       <div className="flex items-center gap-3">
-        <input
-          type="range"
-          min={min}
-          max={max}
-          step={1}
-          value={v}
-          onChange={(e) => set(e.target.value)}
-          onPointerUp={(e) => set((e.target as HTMLInputElement).value)}
-          onKeyUp={(e) => set((e.target as HTMLInputElement).value)}
-          aria-valuetext={value == null ? "noch nicht gewählt" : String(v)}
-          className={`flex-1 h-10 accent-bronze ${value == null ? "opacity-50" : ""}`}
-        />
+        <div className="relative flex-1 h-11">
+          <div
+            aria-hidden
+            className="absolute top-1/2 h-0.5 -translate-y-1/2 rounded-full bg-stone/60"
+            style={{ left: DAUMEN / 2, right: DAUMEN / 2 }}
+          />
+          {stufen.map((s) => (
+            <span
+              key={s}
+              aria-hidden
+              className={`absolute top-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full ${
+                value != null && s === v
+                  ? "size-3 bg-bronze"
+                  : jar && s === mitte
+                    ? "size-3 bg-bronze/70"
+                    : "size-2 bg-stone"
+              }`}
+              style={{ left: pos(s) }}
+            />
+          ))}
+          <input
+            type="range"
+            min={min}
+            max={max}
+            step={1}
+            value={v}
+            onChange={(e) => set(e.target.value)}
+            onPointerUp={(e) => set((e.target as HTMLInputElement).value)}
+            onKeyUp={(e) => set((e.target as HTMLInputElement).value)}
+            aria-valuetext={value == null ? "noch nicht gewählt" : String(v)}
+            data-leer={value == null ? "" : undefined}
+            className="fb-range absolute inset-x-0 top-1/2 w-full -translate-y-1/2"
+          />
+        </div>
         <span
           className={`min-w-10 text-center tabular-nums ${value == null ? "text-stone-dark" : "text-bronze"}`}
         >
@@ -86,12 +119,26 @@ function Slider({
       </div>
       <div className="flex justify-between text-stone text-[10px] mt-1 pr-13">
         <span>{labelLeft}</span>
-        {/* Just-about-right-Skala ("zu wenig … ↔ zu …"): Mitte benennen */}
-        {labelLeft.startsWith("zu ") && labelRight.startsWith("zu ") && (
-          <span className="text-bronze/80">genau richtig</span>
-        )}
+        {jar && <span className="text-bronze/80">genau richtig</span>}
         <span>{labelRight}</span>
       </div>
+    </div>
+  );
+}
+
+/** Eine Frage im Formular. Nach einem Absende-Versuch mit Lücken wird sie markiert. */
+function Feld({ id, fehlt, children }: { id: string; fehlt: boolean; children: React.ReactNode }) {
+  return (
+    <div
+      id={`feld-${id}`}
+      className={`scroll-mt-24 rounded-sm transition-[outline-color] ${
+        fehlt ? "outline-2 outline-offset-8 outline-bronze/80" : "outline-0 outline-transparent"
+      }`}
+    >
+      {children}
+      {fehlt && (
+        <p className="text-bronze text-[10px] font-mono uppercase tracking-widest mt-2">↑ Fehlt noch</p>
+      )}
     </div>
   );
 }
@@ -120,27 +167,45 @@ export default function RatingForm({
   eventMode?: boolean;
   /** Aktueller Verkaufspreis: im Event-Modus Basis der Preis-Leiter. */
   price?: number | null;
-  /** Aus dem QR-Code (/t = tasting, /q = kauf). Dann entfällt die Auswahl. */
+  /** Aus dem QR-Code (/t = tasting, /q = angeschaut). Dann entfällt die Auswahl. */
   initialKontext?: RatingKontext | null;
   action: (formData: FormData) => void;
 }) {
   const [hedonic, setHedonic] = useState<number | null>(null);
   const [answers, setAnswers] = useState<Record<string, AnswerValue>>({});
 
-  // Event-Modus: erst "probiert" oder "gekauft" wählen, danach passende Regler
+  // Event-Modus: erst "probiert" oder "angeschaut" wählen, danach passende Regler
   const [kontext, setKontext] = useState<RatingKontext | null>(initialKontext);
   const [preisIdx, setPreisIdx] = useState<number | null>(null);
+  // nach dem ersten Absende-Versuch mit Lücken: offene Fragen markieren
+  const [versucht, setVersucht] = useState(false);
   const leiter = eventMode && price != null && price > 0 ? priceLadder(price) : [];
   const mitteIdx = leiter.findIndex((p) => Math.round(p * 100) === Math.round((price ?? 0) * 100));
 
   const visible = questionsFor(questions, eventMode, kontext ?? "tasting");
   const shown = eventMode ? visible.filter((q) => q.type !== "text") : visible;
   const requiredQuestions = shown.filter((q) => q.type !== "text");
-  const complete =
-    hedonic !== null &&
-    (!eventMode || kontext !== null) &&
-    (leiter.length === 0 || preisIdx !== null) &&
-    requiredQuestions.every((q) => answers[q.id] != null && answers[q.id] !== "");
+
+  // offene Pflichtfelder in Anzeige-Reihenfolge (Sprungziel = erstes)
+  const fehlend: string[] = [];
+  if (eventMode && kontext === null) {
+    fehlend.push("kontext");
+  } else {
+    if (hedonic === null) fehlend.push("hedonic");
+    for (const q of requiredQuestions) {
+      if (answers[q.id] == null || answers[q.id] === "") fehlend.push(q.id);
+    }
+    if (leiter.length > 0 && preisIdx === null) fehlend.push("preis");
+  }
+  const complete = fehlend.length === 0;
+  const fehlt = (id: string) => versucht && fehlend.includes(id);
+
+  function zurLuecke(e: React.MouseEvent) {
+    if (complete) return;
+    e.preventDefault();
+    setVersucht(true);
+    document.getElementById(`feld-${fehlend[0]}`)?.scrollIntoView({ behavior: "smooth", block: "center" });
+  }
 
   function setAnswer(questionId: string, value: AnswerValue) {
     setAnswers((prev) => ({ ...prev, [questionId]: value }));
@@ -162,6 +227,7 @@ export default function RatingForm({
       <input type="hidden" name="price_wtp" value={preisIdx != null ? leiter[preisIdx] : ""} />
 
       {eventMode && !initialKontext && (
+        <Feld id="kontext" fehlt={fehlt("kontext")}>
         <fieldset>
           <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-3">
             Was hast du gemacht?
@@ -170,7 +236,7 @@ export default function RatingForm({
             {(
               [
                 ["tasting", "🍴 Probiert"],
-                ["kauf", "🛍 Gekauft"],
+                ["angeschaut", "👀 Angeschaut"],
               ] as const
             ).map(([wert, label]) => (
               <TapButton
@@ -184,6 +250,7 @@ export default function RatingForm({
             ))}
           </div>
         </fieldset>
+        </Feld>
       )}
       {shown.map((q) => (
         <input key={q.id} type="hidden" name={`answer_${q.id}`} value={answers[q.id] ?? ""} />
@@ -191,9 +258,12 @@ export default function RatingForm({
 
       {(!eventMode || kontext !== null) && (
       <>
+      <Feld id="hedonic" fehlt={fehlt("hedonic")}>
       <fieldset>
         <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-3">
-          Wie gefällt dir das Produkt insgesamt?
+          {eventMode && kontext === "angeschaut"
+            ? "Wie spricht dich das Produkt an?"
+            : "Wie gefällt dir das Produkt insgesamt?"}
         </legend>
         {eventMode ? (
           <Slider
@@ -224,13 +294,14 @@ export default function RatingForm({
         </>
         )}
       </fieldset>
+      </Feld>
 
       {shown.map((q, i) => {
         const showSetHeading = showSetHeadingFor[i];
         const scaleMax = q.scale_max ?? (q.type === "likert" ? 5 : 7);
 
         return (
-          <div key={q.id}>
+          <Feld key={q.id} id={q.id} fehlt={fehlt(q.id)}>
             {showSetHeading && (
               <p className="text-bronze/70 text-[10px] font-mono uppercase tracking-widest mb-2">
                 {q.set_name}
@@ -305,7 +376,7 @@ export default function RatingForm({
                 />
               </fieldset>
             )}
-          </div>
+          </Feld>
         );
       })}
 
@@ -313,9 +384,10 @@ export default function RatingForm({
       )}
 
       {leiter.length > 0 && kontext !== null && (
+        <Feld id="preis" fehlt={fehlt("preis")}>
         <fieldset>
           <legend className="text-stone text-xs font-mono uppercase tracking-widest mb-3">
-            Welcher Preis wäre für dich fair?
+            Welchen Preis würdest du im Supermarkt erwarten?
           </legend>
           <Slider
             min={0}
@@ -333,6 +405,7 @@ export default function RatingForm({
           />
           <p className="text-stone-dark text-[10px] mt-1">Aktuell im Regal: {formatEuro(price!)}</p>
         </fieldset>
+        </Feld>
       )}
 
       {priceEnabled && !eventMode && (
@@ -360,21 +433,21 @@ export default function RatingForm({
         </fieldset>
       )}
 
+      {/* nicht disabled: ein Tipp bei Lücken springt zur ersten offenen Frage */}
       <motion.button
         type="submit"
-        disabled={!complete}
-        whileTap={complete ? { scale: 0.97 } : undefined}
+        onClick={zurLuecke}
+        aria-disabled={!complete}
+        whileTap={{ scale: 0.97 }}
         className={`w-full font-semibold py-3 text-sm transition-colors ${
           complete
             ? "bg-bronze text-green-dark hover:bg-bronze-light"
-            : "bg-stone-dark text-stone cursor-not-allowed"
+            : "bg-stone-dark text-stone"
         }`}
       >
         {complete
           ? "Stimme abgeben →"
-          : eventMode
-            ? "Bitte jeden Regler einmal bewegen"
-            : "Bitte alle Felder ausfüllen"}
+          : `Noch ${fehlend.length} ${fehlend.length === 1 ? "Frage" : "Fragen"} offen – hinspringen`}
       </motion.button>
     </form>
   );
