@@ -2,7 +2,8 @@
 
 import { motion } from "framer-motion";
 import { SLOTS } from "@/lib/slots";
-import { RATES, MIN_SLOT_MIETE, SCHAUFENSTER_MONAT } from "@/lib/deck-economics";
+import { PAKETE, SCHAUFENSTER_MONAT, paketMiete } from "@/lib/deck-economics";
+import { eur } from "@/lib/neue-ui/regal";
 
 type CellValue = true | false | string;
 
@@ -45,18 +46,16 @@ const FEATURES: FeatureRow[] = [
   },
 ];
 
-/** Slot-Monatsmiete bei gegebener Breite, inkl. 59-€-Mindestmiete. */
-function monatBei(cm: number, rate: number): number {
-  return Math.round(Math.max(MIN_SLOT_MIETE, cm * rate));
-}
+/** Monatsmiete von Regalplatz M (25 cm) in einer Zone. */
+const mBei = (zone: "basis" | "augenhoehe" | "greifhoehe") => eur(paketMiete(PAKETE.M.cm, zone) ?? 0);
 
 function slotPreis(id: string): { label: string; sub: string; highlight?: boolean } {
   const slot = SLOTS.find((s) => s.id === id);
   if (!slot) return { label: "—", sub: "" };
-  if (slot.ratePerCm != null) {
+  if (slot.zone != null) {
     return {
-      label: `${slot.ratePerCm.toFixed(2).replace(".", ",")} €/cm`,
-      sub: "frei wählbar",
+      label: `ab ${eur(paketMiete(PAKETE.S.cm, slot.zone) ?? 0)}`,
+      sub: "Regalplatz S im Monat",
       highlight: slot.empfohlen,
     };
   }
@@ -139,10 +138,10 @@ export default function SlotFeatureTable() {
         <tfoot>
           <tr>
             <td colSpan={5} className="px-4 py-3 text-stone/40 text-xs font-mono border-t border-stone-dark">
-              Gründungskonditionen (unter 60 % Store-Auslastung) – Beispiel Regalbreite: 20 cm → Basis{" "}
-              {monatBei(20, RATES.basis)} €/Mo · Augenhöhe{" "}
-              {monatBei(20, RATES.augenhoehe)} €/Mo · Greifhöhe garantiert {monatBei(20, RATES.greifhoehe)} €/Mo ·
-              Schaufenster {SCHAUFENSTER_MONAT} €/Mo fix · mind. {MIN_SLOT_MIETE} €/Slot
+              Preise netto, bis 60 % Auslastung des Ladens. Regalplatz M ({PAKETE.M.cm} cm): Basis{" "}
+              {mBei("basis")}/Mo · Augenhöhe {mBei("augenhoehe")}/Mo · Greifhöhe garantiert{" "}
+              {mBei("greifhoehe")}/Mo · Schaufenster {SCHAUFENSTER_MONAT} €/Mo pauschal. Nur für
+              Unternehmer.
             </td>
           </tr>
         </tfoot>
