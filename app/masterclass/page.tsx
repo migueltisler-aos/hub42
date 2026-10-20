@@ -9,7 +9,7 @@ import MCEmpfehlung from "@/components/masterclass/MCEmpfehlung";
 export const metadata: Metadata = {
   title: "Hub42 · Faltin Masterclass",
   description:
-    "Hub42, ein Entdecker-Store im ALEXA Berlin für unabhängige Marken. Konsignation, ab 89 €/Monat Miete plus 7 % auf den Verkauf.",
+    "Hub42, ein Entdecker-Store im ALEXA Berlin für unabhängige Marken. Konsignation, ab 59 €/Monat Miete netto plus 7 % auf den Verkauf.",
   robots: { index: false, follow: false },
 };
 

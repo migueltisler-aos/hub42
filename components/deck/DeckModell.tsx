@@ -63,7 +63,7 @@ const ROWS: Row[] = [
     label: "Einstieg",
     leh: "2.000–50.000 €",
     online: "Shop + Ads laufend",
-    hub42: "ab 89 € / Monat",
+    hub42: "ab 59 € / Monat",
     hi: true,
   },
   {
@@ -116,7 +116,7 @@ export default function DeckModell() {
           {
             n: "01",
             t: "Regalplatz buchen",
-            d: "Du buchst einen Regalplatz – bemessen am Platzbedarf deines Produkts (Breite, €/cm). Ein F&B-Produkt braucht ~5 cm. Die Miete deckt unsere Fixkosten.",
+            d: "Du buchst einen Regalplatz: S mit 13 cm für 59 €, M mit 25 cm für 118 € oder L ab 50 cm für 4,64 € je cm, jeweils im Monat. In S passen rund zwei Gläser. Die Miete deckt unsere Fixkosten.",
           },
           {
             n: "02",
