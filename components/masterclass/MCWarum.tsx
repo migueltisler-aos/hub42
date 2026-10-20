@@ -6,8 +6,8 @@ const REASONS = [
   },
   {
     n: "02",
-    t: "Höhere Wertschöpfung – auch bei kleinen Artikeln",
-    d: "Wer seinen Preis selbst setzt und nur 7 % statt 30–50 % Marge abgibt, behält mehr. Das funktioniert auch bei 15-Euro-Produkten – wie der Rechner unten zeigt.",
+    t: "Dein Preis, auch bei kleinen Artikeln",
+    d: "Wer seinen Preis selbst setzt, behält ihn. Hub42 nimmt Miete plus 7 % je Verkauf, keine Listungsgebühr. Ob sich das bei 15-Euro-Produkten rechnet, zeigt der Rechner unten mit deinen Zahlen.",
   },
   {
     n: "03",

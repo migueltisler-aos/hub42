@@ -250,8 +250,8 @@ export default function RegalbeweisPage() {
 
                 <p className="card__note">
                   Die {PROVISION_PCT} % fallen nur auf tatsächlich verkaufte Artikel an,
-                  Zahlungsabwicklung inklusive. Der LEH nimmt dafür 30–50 % Handelsmarge und setzt
-                  zusätzlich deinen Endpreis fest. Deine UVP bleibt hier deine.
+                  Zahlungsabwicklung inklusive. Keine Listungsgebühr, keine Handelsmarge. Deine UVP
+                  bleibt hier deine.
                 </p>
 
                 <div className="card__foot">

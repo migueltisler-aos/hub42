@@ -50,18 +50,18 @@ export default function MCLoesung() {
         </p>
         <p className="text-stone text-sm leading-relaxed">
           Denk an die kleine Zahnbürsten-Manufaktur aus dem Schwarzwald, die ein
-          wirklich gutes Produkt macht – aber keinen Werbebudget-Apparat hinter
+          wirklich gutes Produkt macht, aber keinen Werbebudget-Apparat hinter
           sich hat. Die verdient einen fairen Marktzugang. Hub42 ist dieser
-          Marktzugang: physisch, kuratiert, mit 7 % transparenter Provision statt
-          30–50 % Handelsmarge.
+          Marktzugang: physisch, kuratiert, mit Regalmiete plus 7 % transparenter
+          Provision je Verkauf.
         </p>
       </div>
 
       {/* Standort-Kontext */}
       <div className="flex flex-col sm:flex-row gap-6">
         {[
-          { label: "ALEXA-Center", value: "41.000", sub: "Besucher/Tag im Center (Standortfrequenz, konservativ)" },
-          { label: "Davon im Store", value: "~600–800", sub: "realistischer Korridor/Tag – die für Marken relevante Zahl" },
+          { label: "ALEXA-Center", value: "15 Mio.", sub: "Besuche im Jahr im ganzen Center (Sonae Sierra, 2020)" },
+          { label: "Davon im Store", value: "~600–800", sub: "Annahme je Tag, noch nicht gemessen" },
           { label: "Modell", value: "§383 HGB", sub: "Konsignation · kein Eigentumsübergang" },
         ].map((s) => (
           <div key={s.label} className="flex-1 bg-green-dark border border-stone-dark/50 p-5">

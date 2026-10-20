@@ -59,7 +59,7 @@ export default function StorePage() {
             <span className="text-bronze">Alexanderplatz.</span>
           </h1>
           <p className="text-stone text-base max-w-lg mb-6">
-            15 Mio. Besucher/Jahr. 41.000 täglich. Warehouse Boutique – Industrial trifft
+            Rund 15 Mio. Besuche im Jahr im ganzen Center. Warehouse Boutique: Industrial trifft
             Premium.
           </p>
           <address className="not-italic text-stone text-sm font-mono">
@@ -187,12 +187,13 @@ export default function StorePage() {
               className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-3"
               style={{ fontFamily: "var(--font-bebas)" }}
             >
-              41.000 Berliner.
+              15 Mio. Besuche.
               <br />
-              <span className="text-bronze">Täglich vorbei.</span>
+              <span className="text-bronze">Im Jahr, im Alexa.</span>
             </h2>
             <p className="text-stone text-sm">
-              Vom Alexa-Eingang bis zum Kauf – so sieht unser Funnel aus.
+              Das zählt das ganze Center (Sonae Sierra, 2020), nicht unser Laden. Ab der Ladentür
+              rechnen wir mit Annahmen.
             </p>
           </div>
           <FunnelVisual />
@@ -209,7 +210,7 @@ export default function StorePage() {
             Dein Produkt hierher?
           </h2>
           <p className="text-stone text-sm mb-8">
-            41.000 Berliner täglich. Regalfront ab 20 cm / 89 €/Monat. 7% statt 30–50% Handelsmarge beim LEH.
+            Im Alexa ab März 2027. Regalfront ab 20 cm / 89 €/Monat plus 7 % nur auf Verkauf.
           </p>
           <Link
             href="/#bewerben"

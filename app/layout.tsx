@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     siteName: "Hub42",
     title: "Hub42 · Der Laden für Neuheiten",
     description:
-      "Vom ersten Regal bis zur Listung. Echte Kasse statt Umfrage, 41.000 Besucher täglich. Miete pro Zentimeter plus 7 % auf den Verkauf.",
+      "Vom ersten Regal bis zur Listung. Echte Kasse statt Umfrage, im Alexa Berlin ab März 2027. Miete pro Zentimeter plus 7 % auf den Verkauf.",
     images: [
       {
         url: "/og-image.jpg",
