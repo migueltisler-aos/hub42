@@ -8,7 +8,7 @@ const PROBLEMS = [
   {
     n: "02",
     t: "Listung kostet Marge & Cash",
-    d: "Wer es schafft, zahlt: 30–50 % Handelsmarge, Listungsgebühren, Werbekostenzuschüsse, Vollpaletten-Risiko. Vom eigenen Preis bleibt wenig – die Kontrolle gibt man komplett ab.",
+    d: "Wer es schafft, zahlt: Handelsspanne, Listungsgebühren, Werbekostenzuschüsse, Vollpaletten-Risiko. Vom eigenen Preis bleibt wenig, und den Endpreis setzt der Händler.",
   },
   {
     n: "03",

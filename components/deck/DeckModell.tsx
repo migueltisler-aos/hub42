@@ -48,7 +48,7 @@ interface Row {
 }
 
 const ROWS: Row[] = [
-  { label: "Handelsmarge", leh: "30–50 %", online: "0 %", hub42: "7 %", hi: true },
+  { label: "Was du abgibst", leh: "Handelsspanne + Listung", online: "Werbung je Kauf", hub42: "Miete + 7 % je Verkauf", hi: true },
   { label: "Preishoheit", leh: false, online: true, hub42: true, hi: true },
   { label: "Eigene Kundendaten", leh: false, online: true, hub42: true, hi: true },
   { label: "Physische Sichtbarkeit", leh: true, online: false, hub42: true },
@@ -56,7 +56,7 @@ const ROWS: Row[] = [
     label: "Reichweite",
     leh: "national – wenn gelistet",
     online: "nur wer dich kennt",
-    hub42: "41.000/Tag am Alexa → ~600–800 im Store",
+    hub42: "Alexa: rund 15 Mio. Besuche/Jahr (Center)",
     hi: true,
   },
   {
@@ -121,7 +121,7 @@ export default function DeckModell() {
           {
             n: "02",
             t: "Wir verkaufen für dich",
-            d: "Pro verkauftem Artikel: 7 % Vermittlungsprovision, Zahlungsabwicklung inklusive. Statt 30–50 % Handelsmarge beim LEH.",
+            d: "Pro verkauftem Artikel: 7 % Vermittlungsprovision, Zahlungsabwicklung inklusive. Keine Listungsgebühr, keine Handelsmarge.",
           },
           {
             n: "03",

@@ -2,8 +2,7 @@
    Zahlen konservativ, Store-Eingang im realistischen Korridor 600–800/Tag. */
 
 const STAGES = [
-  { label: "Alexa-Frequenz", value: "41.000", unit: "Passanten / Tag", w: 100, conv: null },
-  { label: "Store-Eingang", value: "~700", unit: "Besucher / Tag", w: 74, conv: "≈ 1,7 %" },
+  { label: "Store-Eingang", value: "~700", unit: "Besucher / Tag (Annahme)", w: 74, conv: null },
   { label: "In den Regalgang", value: "~300", unit: "/ Tag", w: 52, conv: "≈ 43 %" },
   { label: "Tasting / QR-Scan", value: "~60", unit: "/ Tag", w: 33, conv: "≈ 20 %" },
   { label: "Kauf", value: "~25", unit: "/ Tag", w: 19, conv: "≈ 40 %" },
@@ -20,7 +19,7 @@ export default function FunnelSVG({ className = "" }: { className?: string }) {
     <svg
       viewBox={`0 0 560 ${STAGES.length * ROW_H + 16}`}
       role="img"
-      aria-label="Conversion-Funnel: von 41.000 Alexa-Passanten zu rund 25 Käufen pro Tag"
+      aria-label="Conversion-Funnel, Modellannahme: von rund 700 Ladenbesuchern zu rund 25 Käufen pro Tag"
       className={className}
       style={{ width: "100%", height: "auto" }}
     >

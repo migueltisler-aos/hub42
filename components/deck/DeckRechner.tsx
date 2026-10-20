@@ -452,11 +452,11 @@ export default function DeckRechner() {
         >
           {c.saving > 0 ? (
             <p className="text-cream text-lg md:text-xl leading-snug">
-              Das sind{" "}
+              Im Rechenbeispiel{" "}
               <span className="text-bronze text-3xl align-baseline" style={{ fontFamily: "var(--font-bebas)" }}>
                 {eur(c.saving * a.sales)} mehr pro Monat
               </span>{" "}
-              in deiner Kasse – allein aus den Vertriebskosten, bei {a.sales} Sales.
+              als im eigenen Online-Shop, nur aus den Vertriebskosten, bei {a.sales} Sales. Keine Zusage.
             </p>
           ) : (
             <p className="text-cream/70 text-base">
@@ -469,7 +469,7 @@ export default function DeckRechner() {
         {/* Disclaimer */}
         <p className="text-stone text-xs font-mono leading-relaxed border-t border-stone-dark pt-4">
           Discovery-Käufer, die später im Online-Shop wiederkaufen, sind hier{" "}
-          <span className="text-cream/60">nicht</span> eingerechnet — das ist zusätzlicher Wert.
+          <span className="text-cream/60">nicht</span> eingerechnet, das ist zusätzlicher Wert.
           Alle Werte und Formeln sind oben offengelegt; Defaults bewusst konservativ.
         </p>
       </div>
