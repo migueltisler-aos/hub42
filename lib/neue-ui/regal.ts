@@ -46,7 +46,7 @@ export const ZONES: Record<ZoneKey, Zone> = {
     hoehe: "90–130 cm",
     auf: ZONE_SURCHARGE_PCT.greifhoehe,
     deck: 12,
-    hint: "Garantierte Greifzone, höchste Conversion",
+    hint: "Garantiert auf Greifhöhe, kein Bücken",
     pick: true,
   },
   basis: {
@@ -249,7 +249,7 @@ export const STOPS: Station[] = [
     t: "Schaufenster",
     x: "6%",
     y: "34%",
-    d: "6,5 m Glasfront zum Alexa-Hauptgang. 41.000 Menschen gehen täglich vorbei, 140 € im Monat.",
+    d: "Das Center zählt rund 15 Mio. Besuche im Jahr. 140 € im Monat.",
   },
   {
     id: "tasting",

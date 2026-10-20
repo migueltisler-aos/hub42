@@ -115,11 +115,11 @@ export default function AboutPage() {
           <div className="border-l-4 border-bronze bg-bronze/5 pl-6 py-4">
             <p className="text-stone">
               <strong className="text-bronze">Hub42 schafft den dritten Weg:</strong>{" "}
-              stationäre Retail-Infrastruktur für unabhängige Hersteller, mit nur 7 % transparenter
-              Vermittlungsprovision statt 30–50 % Handelsmarge beim LEH. Marken
+              stationäre Retail-Infrastruktur für unabhängige Hersteller, mit Regalmiete plus 7 %
+              Vermittlungsprovision nur auf verkaufte Artikel, ohne Listungsgebühr. Marken
               mieten Regalbreite in einer hochfrequentierten Mall, behalten Preis- und Datenhoheit
               und verkaufen zu ihrer eigenen UVP. Die Ware bleibt bis zum
-              Verkauf Eigentum des Herstellers; Hub42 betreibt Store, Kasse, Tasting und Analytics —
+              Verkauf Eigentum des Herstellers. Hub42 betreibt Store, Kasse, Tasting und Analytics
               und verdient über Regalmiete und Vermittlungsprovision, nie über eine Handelsmarge.
             </p>
           </div>

@@ -261,7 +261,7 @@ export const OFFEN: OffenerPunkt[] = [
   },
   {
     frage: `Warum zusätzlich ${PROVISION_PCT} %?`,
-    antwort: `Die ${PROVISION_PCT} % Vermittlungsprovision fallen nur auf tatsächlich verkaufte Artikel an und enthalten die komplette Zahlungsabwicklung. Zum Vergleich: der LEH nimmt 30–50 % Handelsmarge und bestimmt zusätzlich deinen Endpreis. Deine UVP bleibt hier deine.`,
+    antwort: `Die ${PROVISION_PCT} % Vermittlungsprovision fallen nur auf tatsächlich verkaufte Artikel an und enthalten die komplette Zahlungsabwicklung. Eine Listungsgebühr gibt es nicht, und deinen Endpreis setzt du selbst. Deine UVP bleibt hier deine.`,
   },
 ];
 
