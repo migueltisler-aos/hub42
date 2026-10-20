@@ -5,12 +5,12 @@ import FFFooter from "@/components/rebranding/FFFooter";
 export const metadata: Metadata = {
   title: "Für Marken, Testkaufhaus Feedback Factory",
   description:
-    "Regal ab 89 Euro im Monat, 7 Euro pro Zentimeter (4,64 Euro für Produkte mit besonderem Wert), 14 Tage bis ins Regal, Kommission nach Paragraf 383 HGB. Rohdaten statt Bauchgefühl.",
+    "Regal ab 59 Euro netto im Monat, 14 Tage bis ins Regal, Kommission nach Paragraf 383 HGB. Rohdaten statt Bauchgefühl.",
 };
 
 const KONDITIONEN = [
-  { wert: "Ab 89 €", label: "pro Monat, kleinste Regalfront (Gründungskonditionen)" },
-  { wert: "7,00 €", label: "pro Zentimeter Regalbreite (4,64 € für Produkte mit besonderem Wert)" },
+  { wert: "Ab 59 €", label: "pro Monat für 13 cm Regalbreite, 118 € für 25 cm" },
+  { wert: "4,64 €", label: "pro Zentimeter und Monat ab 50 cm Regalbreite" },
   { wert: "14 Tage", label: "von Zusage bis ins Regal" },
   { wert: "3 Monate", label: "Mindestlaufzeit, danach monatlich kündbar" },
   { wert: "7 %", label: "Vermittlungsprovision pro verkauftem Artikel" },
@@ -82,9 +82,10 @@ export default function RebrandingMarken() {
               ))}
             </div>
             <p className="text-xs text-black/40 mt-4 max-w-xl">
-              Der Preis pro cm steigt mit der Store-Auslastung, nicht mit dem Kalender: Wer jetzt
-              unterschreibt, sichert sich die Gründungskonditionen vertraglich für die gesamte
-              Erstlaufzeit – unabhängig davon, wie voll das Regal danach wird.
+              Auf Augenhöhe kommen 10 % dazu, auf garantierter Greifhöhe 20 %. Der Preis steigt mit
+              der Auslastung des Ladens, nicht mit dem Kalender: ab 60 % um 10 %, ab 85 % um 20 %.
+              Wer vorher bucht, behält seinen Preis 12 Monate lang, vertraglich. Nur für Unternehmer,
+              Preise netto zzgl. USt.
             </p>
           </div>
         </section>

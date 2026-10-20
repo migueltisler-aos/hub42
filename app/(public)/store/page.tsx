@@ -210,7 +210,7 @@ export default function StorePage() {
             Dein Produkt hierher?
           </h2>
           <p className="text-stone text-sm mb-8">
-            Im Alexa ab März 2027. Regalfront ab 20 cm / 89 €/Monat plus 7 % nur auf Verkauf.
+            Im Alexa ab März 2027. Regalplatz ab 13 cm und 59 €/Monat netto, plus 7 % nur auf Verkauf.
           </p>
           <Link
             href="/#bewerben"

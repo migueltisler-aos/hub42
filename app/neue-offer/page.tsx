@@ -198,7 +198,7 @@ export default function RegalbeweisPage() {
             <div className="card offer">
               <div className="card__prem">
                 <span>
-                  Gründungskonditionen · Kohorte {KOHORTE.nummer}
+                  Kohorte {KOHORTE.nummer}
                 </span>
               </div>
               <div className="card__in">
@@ -378,9 +378,9 @@ export default function RegalbeweisPage() {
             Angebotsstand {KOHORTE.name}, Start {KOHORTE.start}. Preise zzgl. USt.
           </strong>
           <br />
-          Aus dem Preismodell abgeleitet: Grundpreis 7,00 €/cm, Augenhöhe +10 %, Mindestmiete 89 €,
-          Mindestbreite 5 cm, {PROVISION_PCT} % Vermittlungsprovision auf den Bruttoverkaufspreis
-          inkl. Zahlungsabwicklung, Gründungskonditionen bis 60 % Store-Auslastung.
+          Aus dem Preismodell abgeleitet: Regalplatz S ({SLOT_CM} cm) auf Augenhöhe{" "}
+          {eur(MIETE_MONAT)} im Monat, {PROVISION_PCT} % Vermittlungsprovision auf den
+          Bruttoverkaufspreis inkl. Zahlungsabwicklung, Preise bis 60 % Auslastung des Ladens.
           <br />
           Die Einzelwerte im Leistungsverzeichnis sind kalkulierte Vergleichspreise für eine
           separate Beauftragung, keine bereits am Markt abgerechneten Beträge. Der Store eröffnet{" "}
