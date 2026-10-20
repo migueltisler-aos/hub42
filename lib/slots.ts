@@ -1,4 +1,4 @@
-import { RATES, SCHAUFENSTER_MONAT } from "./deck-economics";
+import { RATES, SCHAUFENSTER_MONAT, type ZoneId } from "./deck-economics";
 
 export type SlotColor = "gold" | "silver" | "standard" | "base" | "window";
 
@@ -8,8 +8,10 @@ export interface SlotTier {
   position: string;
   /** Fixed monthly price – set for Schaufenster / Ladenfront */
   kostenMonat?: number;
-  /** Per-cm monthly rate – set for Basis, Augenhöhe, Greifhöhe garantiert */
+  /** Per-cm monthly rate (Regalplatz L) – set for Basis, Augenhöhe, Greifhöhe garantiert */
   ratePerCm?: number;
+  /** Zone for the package prices S, M, L */
+  zone?: ZoneId;
   color: SlotColor;
   empfohlen?: boolean;
   highlights: string[];
@@ -37,6 +39,7 @@ export const SLOTS: SlotTier[] = [
     name: "Greifhöhe garantiert",
     position: "Greifhöhe garantiert (+20 % Aufschlag)",
     ratePerCm: RATES.greifhoehe,
+    zone: "greifhoehe",
     color: "silver",
     empfohlen: true,
     highlights: [
@@ -52,6 +55,7 @@ export const SLOTS: SlotTier[] = [
     name: "Augenhöhe",
     position: "Augenhöhe – starke Sichtbarkeit (+10 %)",
     ratePerCm: RATES.augenhoehe,
+    zone: "augenhoehe",
     color: "standard",
     empfohlen: false,
     highlights: [
@@ -66,6 +70,7 @@ export const SLOTS: SlotTier[] = [
     name: "Basis",
     position: "Grundpreis – Einstiegsebene",
     ratePerCm: RATES.basis,
+    zone: "basis",
     color: "base",
     empfohlen: false,
     highlights: [
@@ -99,7 +104,7 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
     label: "Einstiegskosten",
     messe: "3.000–8.000 € / Event",
     rewe: "2.000–50.000 €",
-    hub42: "ab 89 €/Mo",
+    hub42: "ab 59 €/Mo netto",
     hub42Highlight: true,
   },
   {

@@ -30,7 +30,8 @@ export const EIGENTUM = {
 } as const;
 export type EigentumKey = keyof typeof EIGENTUM;
 
-export const BREITEN = [5, 10, 15, 30] as const;
+/** Die drei buchbaren Regalplätze: S, M und L ab 50 cm. */
+export const BREITEN = [13, 25, 50] as const;
 
 /** Die eine Frage, die keine Website beantwortet: Was willst du erreichen?
     Jedes Ziel zeigt auf die Stufe der Treppe, die genau das liefert. */
@@ -46,7 +47,7 @@ export type ZielKey = keyof typeof ZIELE;
 
 /** Füllfragen, während die KI liest – beide brauchen wir fürs Onboarding. */
 export const STARTS = {
-  eroeffnung: { label: "Zur Eröffnung im März 2027", hint: "Gründungskonditionen 12 Monate gesichert" },
+  eroeffnung: { label: "Zur Eröffnung im März 2027", hint: "Preis 12 Monate vertraglich fest" },
   spaeter: { label: "Später in 2027", hint: "wenn die Ware oder das Budget so weit ist" },
   offen: { label: "Weiß ich noch nicht", hint: "erst mal schauen, was sich rechnet" },
 } as const;
@@ -92,16 +93,6 @@ export interface Regel {
   text: string;
 }
 
-/** Haltungen, die für Handwerk, Herkunft oder Mission sprechen. */
-const BESONDERE_HALTUNG: HaltungTag[] = [
-  "Handmade/Manufaktur",
-  "Regional",
-  "Direkthandel/Fair",
-  "Transparenz-Herkunft",
-  "Sozial/Inklusion",
-  "Upcycling/Zero-Waste",
-  "Familienbetrieb",
-];
 
 export function regeln(a: AssistentAntworten, preis: number | null, urteil: PreisUrteil | null = null) {
   // Unser erster Grundsatz: ins Regal kommt, was überzeugt, nicht wer am
@@ -151,14 +142,8 @@ export function regeln(a: AssistentAntworten, preis: number | null, urteil: Prei
     text: a.haltung.length ? a.haltung.join(" · ") : "Wofür stehst du? Das zeigen wir am Regal.",
   };
 
-  // Besonderer Wert: eine passende Haltung, noch klein, und gesagt, warum.
-  const besondererWert =
-    a.haltung.some((h) => BESONDERE_HALTUNG.includes(h)) &&
-    (a.vertrieb === "nur_shop" || a.vertrieb === "wenige") &&
-    a.besonders.trim().length >= 20;
-
   const passt = [nichtUeberall, fairerPreis].every((r) => r.ok !== false);
-  return { liste: [qualitaet, nichtUeberall, fairerPreis, reife, haltung], passt, besondererWert };
+  return { liste: [qualitaet, nichtUeberall, fairerPreis, reife, haltung], passt };
 }
 
 /* ── Abverkauf ────────────────────────────────────────────────── */
@@ -198,7 +183,7 @@ export interface Schaetzung {
 }
 
 /** vk = Ø-Ladenpreis der gewählten Produkte, anzahl = wie viele es sind. */
-export function schaetzung(a: AssistentAntworten, vk: number, besondererWert: boolean, anzahl = 1): Schaetzung {
+export function schaetzung(a: AssistentAntworten, vk: number, anzahl = 1): Schaetzung {
   const f = klemmeFaktor(a.faktor);
   const mitte = Math.max(1, Math.round(STUECK_PRO_PRODUKT * Math.max(1, anzahl) * f));
   return {
@@ -206,7 +191,7 @@ export function schaetzung(a: AssistentAntworten, vk: number, besondererWert: bo
     umsatzMonat: mitte * vk,
     probiererMonat: Math.round(PROBIERER_PRO_PRODUKT * Math.max(1, anzahl) * f),
     storeBesucherMonat: STORE_BESUCHER_MONAT,
-    rechnung: potenzial({ vk, verkaeufeMonat: mitte, zone: a.zone, cm: a.cm, besondererWert }),
+    rechnung: potenzial({ vk, verkaeufeMonat: mitte, zone: a.zone, cm: a.cm }),
   };
 }
 
@@ -224,6 +209,5 @@ export function empfohlenerEinstieg(a: AssistentAntworten, hatOnlineshop: boolea
   return "testen";
 }
 
-/** Regalmiete für drei Monate, nur nach Zentimetern und Zone. */
-export const mieteDreiMonate = (a: AssistentAntworten, besondererWert: boolean): number =>
-  mieteMonat(a.zone, a.cm, besondererWert) * 3;
+/** Regalmiete für drei Monate, nach Regalplatz und Zone. */
+export const mieteDreiMonate = (a: AssistentAntworten): number => mieteMonat(a.zone, a.cm) * 3;

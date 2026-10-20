@@ -4,7 +4,7 @@
    Die Preise kommen aus lib/deck-economics.ts, damit die neue UI
    nicht zur zweiten Wahrheit neben /deck und /hersteller wird.
    Gezeigt wird durchgehend die Tranche "first_mover"
-   (Gründungskonditionen) – wie auf der übrigen Website.
+   (unter 60 % Auslastung), wie auf der übrigen Website.
 
    Nur hier drin steht, was NICHT aus dem Preismodell folgt:
    Belegung der Wand, Produktmaße in cm, Stationen des Rundgangs.
@@ -12,12 +12,13 @@
    ============================================================ */
 
 import {
+  PAKETE,
   RATES,
-  RATES_BESONDERER_WERT,
-  MIN_SLOT_MIETE_BESONDERER_WERT,
   ZONE_SURCHARGE_PCT,
   MIN_REGAL_CM,
-  MIN_SLOT_MIETE,
+  paketFuer,
+  paketMiete,
+  type Paket,
 } from "@/lib/deck-economics";
 
 export type ZoneKey = "augenhoehe" | "greifhoehe" | "basis";
@@ -63,22 +64,24 @@ export const ORDER: ZoneKey[] = ["augenhoehe", "greifhoehe", "basis"];
 
 export const MIN_CM = MIN_REGAL_CM;
 
-/** Breite, die sich die konfigurierbare Front und ihre Nachbarin teilen. */
-export const CONF_POOL = 32;
+/** Breite, die sich die konfigurierbare Front und ihre Nachbarin teilen:
+    S plus M, der Griff tauscht die beiden. */
+export const CONF_POOL = PAKETE.S.cm + PAKETE.M.cm;
 
-const round2 = (n: number) => Math.round(n * 100) / 100;
-
-/** €/cm und Monat in dieser Zone (Gründungskonditionen). */
+/** €/cm und Monat in dieser Zone, Regalplatz L. */
 export const rate = (zone: ZoneKey): number => RATES[zone];
 
-/** Monatsmiete einer Front – die Mindestmiete greift bei schmalen Fronten. */
-export const miete = (cm: number, zone: ZoneKey): number =>
-  Math.max(MIN_SLOT_MIETE, round2(cm * rate(zone)));
+/** Monatsmiete einer Front nach Regalplatz S, M oder L; null bei Zwischenbreiten. */
+export const miete = (cm: number, zone: ZoneKey): number | null => paketMiete(cm, zone);
 
-/** Dasselbe für Produkte mit besonderem Wert (nur auf Bewerbung). */
-export const rateBesonders = (zone: ZoneKey): number => RATES_BESONDERER_WERT[zone];
-export const mieteBesonders = (cm: number, zone: ZoneKey): number =>
-  Math.max(MIN_SLOT_MIETE_BESONDERER_WERT, round2(cm * rateBesonders(zone)));
+/** Regalplatz einer Breite als Text: „S, 13 cm“, „M, 25 cm“ oder „L, 4,64 € je cm“. */
+export const paketText = (cm: number, zone: ZoneKey): string | null => {
+  const p: Paket | null = paketFuer(cm);
+  if (p === "S") return `S, ${PAKETE.S.cm} cm`;
+  if (p === "M") return `M, ${PAKETE.M.cm} cm`;
+  if (p === "L") return `L, ${eur(rate(zone))} je cm`;
+  return null;
+};
 
 export const eur = (n: number): string =>
   n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + " €";
@@ -124,7 +127,7 @@ export const WALL: Record<ZoneKey, Front[]> = {
       produkt: "Matekaffee",
       kat: "Kaffee",
       herkunft: "Berlin / Paraguay",
-      cm: 18,
+      cm: 21,
       h: 18,
       img: "/brands/tekoha-matekaffee.jpg",
       zoom: 1.28,
@@ -137,15 +140,15 @@ export const WALL: Record<ZoneKey, Front[]> = {
       produkt: "Crunchy Six Spice Granola",
       kat: "Granola",
       herkunft: "Berlin",
-      cm: 22,
+      cm: 25,
       h: 24,
       img: "/brands/berlin-oats-sixspice.png",
       zoom: 1.34,
       dy: "17%",
       note: "320 g Knuspermüsli mit sechs Gewürzen, ohne künstliche Zusätze.",
     },
-    { free: true, cm: 20 },
-    { free: true, cm: 24 },
+    { free: true, cm: 25 },
+    { free: true, cm: 13 },
   ],
   greifhoehe: [
     {
@@ -167,7 +170,7 @@ export const WALL: Record<ZoneKey, Front[]> = {
       produkt: "Crunchy Matcha Granola",
       kat: "Granola",
       herkunft: "Berlin",
-      cm: 22,
+      cm: 16,
       h: 24,
       img: "/brands/berlin-oats-matcha.png",
       zoom: 1.34,
@@ -187,8 +190,8 @@ export const WALL: Record<ZoneKey, Front[]> = {
       dy: "10%",
       note: "180 Kapseln, vegan. Nahrungsergänzung, die sonst nur online zu finden ist.",
     },
-    { free: true, cm: 20, conf: true },
-    { free: true, cm: 12, buddy: true },
+    { free: true, cm: 13, conf: true },
+    { free: true, cm: 25, buddy: true },
   ],
   basis: [
     {
@@ -197,7 +200,7 @@ export const WALL: Record<ZoneKey, Front[]> = {
       produkt: "Bio-Olivenöl Arbequina, 3 l",
       kat: "Feinkost",
       herkunft: "Katalonien / Deutschland",
-      cm: 20,
+      cm: 21,
       h: 25,
       img: "/brands/auteniq-olivenoel.png",
       zoom: 1.12,
@@ -205,10 +208,10 @@ export const WALL: Record<ZoneKey, Front[]> = {
       crop: true,
       note: "Natives Olivenöl extra vom Erzeuger, 3-Liter-Kanister. Venda de proximitat, IFS Food.",
     },
-    { free: true, cm: 24 },
-    { free: true, cm: 28 },
-    /* 12 × 7,00 € = 84 € → Mindestmiete 89 € greift */
-    { free: true, cm: 12 },
+    { free: true, cm: 25 },
+    { free: true, cm: 25 },
+    /* 13 cm: Regalplatz S */
+    { free: true, cm: 13 },
   ],
 };
 

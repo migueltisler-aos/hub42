@@ -10,6 +10,7 @@ import type { AssistentErgebnis } from "@/lib/bewerbung-model";
 import { sichereFarben, type ArtikelTexte, type KarteAuswahl, type KarteProdukt } from "@/lib/karte-model";
 import { HALTUNG_TAGS, KATEGORIEN_KANONISCH } from "@/lib/pipeline-model";
 import { ZONES } from "@/lib/neue-ui/regal";
+import { MAX_REGAL_CM, MIN_REGAL_CM } from "@/lib/deck-economics";
 import { SHOW_BAFA } from "@/lib/site-flags";
 import { EINSTIEGE, mitRegalwahl, type EinstiegKey } from "@/lib/treppe";
 
@@ -103,11 +104,13 @@ export async function submitBewerbung(p: BewerbungPayload): Promise<{ ok: boolea
   if (Object.keys(pruefeBewerbung(p)).length > 0) return { ok: false };
 
   const einstieg = p.einstieg as EinstiegKey; // von pruefeBewerbung garantiert
-  // Stufe 3 bis 5: Regal inklusive, also keine Zone, Breite, Sonderkondition.
+  // Stufe 3 bis 5: Regal inklusive, also keine Zone und keine Breite.
+  // Einen besonderen Wert als Preisklasse gibt es nicht mehr (Mischform
+  // 2026-10-20): die Spalte bleibt für Altdaten, neue Bewerbungen tragen false.
   const regalwahl = mitRegalwahl(einstieg);
-  const besondererWert = regalwahl && p.besondererWert;
   const zone = regalwahl && p.zone && p.zone in ZONES ? p.zone : null;
-  const cm = zone && p.cm && p.cm >= 5 && p.cm <= 84 ? Math.round(p.cm) : null;
+  // Online buchbar: Regalplatz S ab 13 cm bis eine Ebene (84 cm).
+  const cm = zone && p.cm && p.cm >= MIN_REGAL_CM && p.cm <= MAX_REGAL_CM ? Math.round(p.cm) : null;
   const beratung = SHOW_BAFA ? p.beratungInteresse : null;
   const bundesland =
     beratung && (BUNDESLAENDER as readonly string[]).includes(p.bundesland) ? p.bundesland : null;
@@ -120,8 +123,8 @@ export async function submitBewerbung(p: BewerbungPayload): Promise<{ ok: boolea
     website: p.website.trim() || null,
     zone,
     cm,
-    besonderer_wert: besondererWert,
-    begruendung: besondererWert ? p.begruendung.trim() : null,
+    besonderer_wert: false,
+    begruendung: p.begruendung.trim() || null,
     nachricht: p.nachricht.trim() || null,
   };
   const neu = {
@@ -206,7 +209,7 @@ export async function submitBewerbung(p: BewerbungPayload): Promise<{ ok: boolea
       regalkarte.assistent
         ? `<b>🧭 Assistent:</b> ${regalkarte.assistent.passt ? "passt" : "⚠️ passt laut Regeln nicht"} · Ziel: ${regalkarte.assistent.ziele.map((z) => ZIELE[z as keyof typeof ZIELE].label).join(", ") || "–"} · ${regalkarte.assistent.vertrieb ?? "–"} · Schätzung ${regalkarte.assistent.schaetzung_monat ?? "–"} Stk./Monat${regalkarte.assistent.instagram ? ` · Insta ${esc(regalkarte.assistent.instagram)}${regalkarte.assistent.instagram_freigabe ? " (Repost ok)" : ""}` : ""}`
         : "",
-      besondererWert ? `\n<b>⭐ Antrag 59-€-Kondition:</b>\n${esc(p.begruendung)}` : "",
+      p.begruendung.trim() ? `\n<b>Was es besonders macht:</b>\n${esc(p.begruendung.trim())}` : "",
       p.nachricht ? `\n<b>Nachricht:</b>\n${esc(p.nachricht)}` : "",
     ].join("\n");
 

@@ -6,24 +6,22 @@
 // zieht über lib/supabase-admin.ts den Service-Role-Key herein, der nie in
 // ein Browser-Bundle darf. Gleiches Muster wie lib/deck-economics.ts.
 import { SLOTS } from "./slots";
-import {
-  BASE_RATE_BESONDERER_WERT,
-  BASE_RATE_PER_CM,
-  MIN_SLOT_MIETE,
-  MIN_SLOT_MIETE_BESONDERER_WERT,
-} from "./deck-economics";
+import { PAKETE } from "./deck-economics";
 export const MWST_PCT = 19;
 
 /* ── Flächenpreis ─────────────────────────────────────────────────
    Miete = belegte Fläche (m²) × Preis/m² – mit Mindestmiete.
    Fläche je Ebene = Breite (cm) × Regaltiefe (60 cm).
-   Zwei Preisklassen wie auf der Website (deck-economics.ts): Standard und
-   "besonderer Wert" (nur auf Bewerbung) – je Angebot per Schalter. */
-export const PREIS_PRO_QM = BASE_RATE_PER_CM; // €/m²/Monat, Standard
-export const PREIS_PRO_QM_BESONDERER_WERT = BASE_RATE_BESONDERER_WERT;
+   Seit der Preis-Mischform (2026-10-20) gibt es auf der Website nur noch
+   eine Preisklasse: Regalplatz S ab 59 €, L 4,64 € je cm. Der Schalter
+   "besonderer Wert" bleibt für Altangebote in der Datenbank, beide Klassen
+   rechnen jetzt mit denselben Konstanten. Offen: das Angebot rechnet noch
+   nach Fläche statt nach Regalplatz S, M, L (eigene Runde mit dem Head). */
+export const PREIS_PRO_QM = PAKETE.L.preisJeCm; // €/m²/Monat, Standard
+export const PREIS_PRO_QM_BESONDERER_WERT = PAKETE.L.preisJeCm;
 export const REGAL_TIEFE_CM = 60;
-export const MINDESTMIETE_MONAT = MIN_SLOT_MIETE; // €/Monat – aus deck-economics, nicht doppelt pflegen
-export const MINDESTMIETE_BESONDERER_WERT = MIN_SLOT_MIETE_BESONDERER_WERT;
+export const MINDESTMIETE_MONAT = PAKETE.S.preis; // €/Monat – aus deck-economics, nicht doppelt pflegen
+export const MINDESTMIETE_BESONDERER_WERT = PAKETE.S.preis;
 
 /** Preis/m² und Mindestmiete der Preisklasse eines Angebots. */
 export function mietKlasse(besondererWert: boolean): { preisProQm: number; mindestmiete: number } {
@@ -174,8 +172,8 @@ export const ADDONS: AddonOption[] = [
 ];
 
 /**
- * Baut eine Slot-Position. Für €/cm-Slots gilt die Mindestmiete
- * (MIN_SLOT_MIETE) pro Slot – identisch zur /deck-Logik.
+ * Baut eine Slot-Position. Für €/cm-Slots gilt als Untergrenze der Preis
+ * von Regalplatz S (PAKETE.S.preis) pro Slot.
  */
 export function slotPosition(slotId: string, regalCm: number): Position | null {
   const slot = SLOTS.find((s) => s.id === slotId);
@@ -194,7 +192,7 @@ export function slotPosition(slotId: string, regalCm: number): Position | null {
 
   if (slot.ratePerCm != null) {
     const cm = Math.max(1, Math.round(regalCm));
-    const monatlich = Math.max(MIN_SLOT_MIETE, cm * slot.ratePerCm);
+    const monatlich = Math.max(PAKETE.S.preis, cm * slot.ratePerCm);
     return {
       typ: "slot",
       label: `${slot.name}-Slot · ${cm} cm Regalfront (${slot.ratePerCm.toFixed(2)} €/cm)`,

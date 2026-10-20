@@ -9,7 +9,7 @@
    Server Action dieselben Werte importieren.
    ============================================================ */
 
-import { HUB_MARGIN_PCT, RATES, REGAL_INKLUSIVE_CM, STUFE_PREIS } from "@/lib/deck-economics";
+import { HUB_MARGIN_PCT, PAKETE, RATES, REGAL_INKLUSIVE_CM, STUFE_PREIS, ZONE_SURCHARGE_PCT } from "@/lib/deck-economics";
 
 export type StufeKey = keyof typeof STUFE_PREIS;
 export type ZielgruppeKey = "gruender" | "online" | "hersteller";
@@ -164,8 +164,8 @@ export const NUR_NEUPRODUKTE =
 /** Was beim Regal in jeder Stufe gilt, kurz. */
 export const REGAL_TEXT = `bis ${REGAL_INKLUSIVE_CM} cm inklusive`;
 
-/** Zentimeter über REGAL_INKLUSIVE_CM: Zonenpreis, keine Mindestmiete. */
-export const ZUSATZ_CM_TEXT = `Jeder weitere Zentimeter kostet den Zonenpreis des Standardregals, ohne Mindestmiete.`;
+/** Zentimeter über REGAL_INKLUSIVE_CM: Preis je cm aus Regalplatz L plus Zonenzuschlag, ohne Mindestbetrag. */
+export const ZUSATZ_CM_TEXT = `Jeder weitere Zentimeter kostet ${PAKETE.L.preisJeCm.toLocaleString("de-DE", { minimumFractionDigits: 2 })} € im Monat, auf Augenhöhe ${ZONE_SURCHARGE_PCT.augenhoehe} % mehr, auf Greifhöhe ${ZONE_SURCHARGE_PCT.greifhoehe} % mehr, ohne Mindestbetrag.`;
 
 /** Preiszeile einer Stufe, überall gleich formuliert. */
 export const preisText = (s: Stufe): string =>
@@ -179,7 +179,7 @@ export const BEISPIEL_CM = 20;
 export const BEISPIEL = (() => {
   const s = STUFEN[0];
   const zusatzCm = BEISPIEL_CM - REGAL_INKLUSIVE_CM;
-  // Basiszone, Gründungskonditionen, ohne Mindestmiete
+  // Basiszone, ohne Staffel, ohne Mindestbetrag
   const zusatzMonat = Math.round(zusatzCm * RATES.basis * 100) / 100;
   const monate = s.monate ?? 3;
   return { stufe: s, cm: BEISPIEL_CM, zusatzCm, rate: RATES.basis, zusatzMonat, monate };

@@ -7,7 +7,7 @@
 import type { AssistentAntworten } from "@/lib/assistent-model";
 import type { KarteAuswahl } from "@/lib/karte-model";
 import type { ZoneKey } from "@/lib/neue-ui/regal";
-import { EINSTIEGE, mitRegalwahl, type EinstiegKey } from "@/lib/treppe";
+import { EINSTIEGE, type EinstiegKey } from "@/lib/treppe";
 
 export type AssistentErgebnis = AssistentAntworten & {
   schaetzungMonat: number | null;
@@ -64,8 +64,6 @@ export function pruefeBewerbung(p: BewerbungPayload): BewerbungFehler {
   if (!p.marke.trim()) e.marke = "Pflichtfeld";
   if (!p.produkt.trim()) e.produkt = "Pflichtfeld";
   if (!(p.einstieg in EINSTIEGE)) e.einstieg = "Wähl deinen Einstieg";
-  if (mitRegalwahl(p.einstieg) && p.besondererWert && p.begruendung.trim().length < 20)
-    e.begruendung = "Erzähl uns in ein, zwei Sätzen, was dein Produkt besonders macht";
   return e;
 }
 
