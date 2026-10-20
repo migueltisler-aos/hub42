@@ -26,7 +26,7 @@ export const SLOTS: SlotTier[] = [
     empfohlen: false,
     highlights: [
       "Sichtbar von außen – ohne Betreten",
-      "41.000 Passanten täglich",
+      "Alexa-Center: rund 15 Mio. Besuche/Jahr",
       "QR-Code + Traverse-Karte inklusive",
       "Ideal für visuelle Produkte",
     ],
@@ -35,12 +35,12 @@ export const SLOTS: SlotTier[] = [
   {
     id: "greifhoehe",
     name: "Greifhöhe garantiert",
-    position: "Greifzone garantiert – prime conversion (+20 %)",
+    position: "Greifhöhe garantiert (+20 % Aufschlag)",
     ratePerCm: RATES.greifhoehe,
     color: "silver",
     empfohlen: true,
     highlights: [
-      "Garantierte Greifzone = höchste Conversion",
+      "Garantiert auf Greifhöhe, 90 bis 130 cm",
       "QR-Code + Traverse-Karte inklusive",
       "Promo-Tag 1× pro Quartal (Fr/Sa)",
       "Tasting Bar inklusive",
@@ -88,12 +88,12 @@ export interface ComparisonRow {
 
 export const COMPARISON_ROWS: ComparisonRow[] = [
   {
-    label: "Handelsmarge",
-    messe: "0%",
-    rewe: "30–50%",
-    hub42: "7%",
+    label: "Was du abgibst",
+    messe: "Standmiete je Event",
+    rewe: "Handelsspanne + Listung",
+    hub42: "Miete + 7 % je Verkauf",
     hub42Highlight: true,
-    note: "Vermittlungsprovision statt Handelsmarge – du setzt deine eigene UVP",
+    note: "Keine Handelsmarge, keine Listungsgebühr. Du setzt deine eigene UVP.",
   },
   {
     label: "Einstiegskosten",
@@ -108,7 +108,7 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
     rewe: false,
     hub42: true,
     hub42Highlight: true,
-    note: "Du setzt deinen Preis – immer",
+    note: "Du setzt deinen Preis, immer.",
   },
   {
     label: "Kundendaten",
@@ -124,7 +124,7 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
     rewe: "Rücknahmekosten",
     hub42: "Konsignation",
     hub42Highlight: true,
-    note: "Du bleibst Eigentümer – kein Abnahmezwang",
+    note: "Du bleibst Eigentümer, kein Abnahmezwang.",
   },
   {
     label: "Try It / Tasting",

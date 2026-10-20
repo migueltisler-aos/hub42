@@ -191,10 +191,10 @@ export default function HerstellerPage() {
 
           {/* Facts strip */}
           <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-xs font-mono text-stone border-l-2 border-bronze pl-4">
-            <span>{HUB_MARGIN_PCT} % statt 30–50 % Handelsmarge beim LEH</span>
+            <span>{HUB_MARGIN_PCT} % nur auf Verkauf, keine Listungsgebühr</span>
             <span>Treppe ab {eur0(STUFE_PREIS.testen)} netto, {REGAL_INKLUSIVE_CM} cm Regal inklusive</span>
             <span>Standardregal ab {MIN_SLOT_MIETE} €/Monat</span>
-            <span>41.000 Besucher täglich</span>
+            <span>Alexa: rund 15 Mio. Center-Besuche im Jahr</span>
           </div>
 
           <div className="flex flex-wrap gap-4 mb-8">
@@ -504,11 +504,11 @@ export default function HerstellerPage() {
                 <span className="text-bronze">unser Geschäftsmodell.</span>
               </h2>
               <p className="text-stone text-base leading-relaxed mb-6 max-w-lg">
-                Wir nehmen 7 % Vermittlungsprovision auf deinen Verkaufspreis, statt 30–50 %
-                Handelsmarge plus Listungsgebühr wie beim klassischen LEH. Die
-                Zahlungsabwicklung ist darin bereits enthalten. Nicht pro Monat, nicht pauschal,
-                sondern pro Verkauf. Das bedeutet: Wenn du nichts verkaufst, verdienen wir kaum etwas.
-                Wir sind strukturell daran interessiert, dass dein Produkt läuft.
+                Du zahlst Regalmiete und 7 % Vermittlungsprovision auf deinen Verkaufspreis. Keine
+                Listungsgebühr, keine Handelsmarge. Die Zahlungsabwicklung ist in den 7 % bereits
+                enthalten, und sie fallen nur pro Verkauf an. Das bedeutet: Wenn du nichts verkaufst,
+                verdienen wir kaum etwas. Wir sind strukturell daran interessiert, dass dein Produkt
+                läuft.
               </p>
               <p className="text-stone text-base leading-relaxed max-w-lg">
                 Kein klassischer Vermieter denkt so. Wir schon, weil wir das Modell so
@@ -526,7 +526,7 @@ export default function HerstellerPage() {
                 },
                 {
                   label: "Wir bringen",
-                  items: ["Alexa Berlin · 41.000 Besucher täglich", "Store, Kasse, Warenpflege", "Tasting & Story-Fläche am Regal", "Daten & monatliche Abrechnung"],
+                  items: ["Alexa Berlin · rund 15 Mio. Center-Besuche im Jahr", "Store, Kasse, Warenpflege", "Tasting & Story-Fläche am Regal", "Daten & monatliche Abrechnung"],
                 },
                 {
                   label: "Wir verdienen beide wenn",

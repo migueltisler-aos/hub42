@@ -152,7 +152,7 @@ export default function HerstellerRechner() {
         </div>
 
         <div className="bg-green-dark p-6 text-center">
-          <p className="text-cream/40 text-xs font-mono uppercase tracking-widest mb-2">Monatlicher Vorteil</p>
+          <p className="text-cream/40 text-xs font-mono uppercase tracking-widest mb-2">Differenz im Beispiel</p>
           <p
             className="text-4xl font-mono"
             style={{
@@ -241,9 +241,10 @@ export default function HerstellerRechner() {
             {winner === "hub" && (
               <>
                 <span className="text-green-400 font-semibold">
-                  Hub42 bringt dir +{fmt(calc.diff)} € mehr pro Monat als der LEH
+                  Rechenbeispiel: +{fmt(calc.diff)} € pro Monat gegenüber dem LEH
                 </span>
-                {" "}– bei vollem Preis und täglichen Kundendaten.
+                {" "}bei deinen Eingaben. Keine Zusage. Ob du {sales} Stück im Monat verkaufst, zeigt
+                erst das Regal.
               </>
             )}
             {winner === "rewe" && (
@@ -251,13 +252,13 @@ export default function HerstellerRechner() {
                 <span className="text-red-400 font-semibold">
                   Bei diesem Preis und dieser Verkaufsmenge liegt Rewe vorne.
                 </span>
-                {" "}Erhöhe den Preis oder die Verkaufszahl – dann dreht sich das Bild.
+                {" "}Erhöhe den Preis oder die Verkaufszahl, dann dreht sich das Bild.
               </>
             )}
             {winner === "equal" && (
               <>
                 <span className="text-cream/70 font-semibold">Gleichstand.</span>
-                {" "}Jede weitere Einheit geht zu Hub42s Gunsten – plus täglich Kundendaten.
+                {" "}Jede weitere verkaufte Einheit verteilt die Miete auf mehr Stück.
               </>
             )}
           </p>
