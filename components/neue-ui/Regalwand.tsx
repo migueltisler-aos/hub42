@@ -18,8 +18,7 @@ import {
   eur,
   istFrei,
   miete,
-  mieteBesonders,
-  rate,
+  paketText,
   type Front,
   type ZoneKey,
 } from "@/lib/neue-ui/regal";
@@ -57,8 +56,16 @@ const CONF_IDX = WALL.greifhoehe.findIndex((f) => istFrei(f) && f.conf);
 const BUDDY_IDX = WALL.greifhoehe.findIndex((f) => istFrei(f) && f.buddy);
 const CONF_START = WALL.greifhoehe[CONF_IDX].cm;
 
-const klemm = (cm: number) =>
-  Math.max(MIN_CM, Math.min(CONF_POOL - MIN_CM, Math.round(cm)));
+/* Der Griff rastet auf Regalplatz S (13 cm) oder M (25 cm); die Nachbarin
+   bekommt jeweils den anderen. Umschlag in der Mitte. */
+const GROSS = CONF_POOL - MIN_CM;
+const klemm = (cm: number) => (cm >= (MIN_CM + GROSS) / 2 ? GROSS : MIN_CM);
+
+/** Monatsmiete als Text; Zwischenbreiten haben keinen Preis. */
+const preis = (cm: number, zone: ZoneKey) => {
+  const m = miete(cm, zone);
+  return m == null ? "Breite auf Anfrage" : eur(m);
+};
 
 interface Auswahl {
   zone: ZoneKey;
@@ -139,10 +146,9 @@ export default function Regalwand() {
   };
 
   const griffTaste = (ev: React.KeyboardEvent<HTMLSpanElement>) => {
-    const schritt = ev.shiftKey ? 5 : 1;
     let d = 0;
-    if (ev.key === "ArrowRight" || ev.key === "ArrowUp") d = schritt;
-    else if (ev.key === "ArrowLeft" || ev.key === "ArrowDown") d = -schritt;
+    if (ev.key === "ArrowRight" || ev.key === "ArrowUp") d = GROSS;
+    else if (ev.key === "ArrowLeft" || ev.key === "ArrowDown") d = -GROSS;
     else if (ev.key === "Home") {
       ev.preventDefault();
       setConfCm(MIN_CM);
@@ -163,19 +169,18 @@ export default function Regalwand() {
   const gewaehlt = WALL[sel.zone][sel.idx];
   const gewaehltCm = breite(sel.zone, sel.idx, gewaehlt);
   const Z = ZONES[sel.zone];
-  const monat = miete(gewaehltCm, sel.zone);
+  const platz = paketText(gewaehltCm, sel.zone);
 
   const zeilen: { k: string; v: string; sum?: boolean }[] = [
     { k: "Regalfront", v: `${gewaehltCm} cm` },
+    ...(platz ? [{ k: "Regalplatz", v: platz }] : []),
     { k: "Zone", v: Z.name + (Z.auf ? ` (+${Z.auf} %)` : "") },
-    { k: "Zentimeterpreis", v: eur(rate(sel.zone)) },
-    { k: "Miete / Monat", v: eur(monat), sum: true },
-    { k: "Besonderer Wert (Bewerbung)", v: eur(mieteBesonders(gewaehltCm, sel.zone)) },
+    { k: "Miete / Monat", v: preis(gewaehltCm, sel.zone), sum: true },
   ];
   if (!istFrei(gewaehlt)) zeilen.push({ k: "Verkaufspreis", v: "UVP der Marke" });
 
-  const confMonat = miete(confCm, "greifhoehe");
-  const mindestGreift = confMonat > Math.round(confCm * rate("greifhoehe") * 100) / 100;
+  const confMonat = preis(confCm, "greifhoehe");
+  const confPlatz = confCm === MIN_CM ? "S" : "M";
 
   return (
     <>
@@ -186,7 +191,7 @@ export default function Regalwand() {
               <div key={z} className={"zone" + (ZONES[z].pick ? " zone--pick" : "")}>
                 <p className="zone__n">{ZONES[z].name}</p>
                 <p className="zone__h">{ZONES[z].hoehe}</p>
-                <p className="zone__r">{eur(rate(z))} / cm</p>
+                <p className="zone__r">ab {preis(MIN_CM, z)}</p>
               </div>
             ))}
           </div>
@@ -230,8 +235,8 @@ export default function Regalwand() {
                               aria-label={
                                 frei
                                   ? conf
-                                    ? `Deine Regalfront, ${cm} Zentimeter, ${ZONES[zone].name}, ${eur(miete(cm, zone))} im Monat`
-                                    : `Freie Regalfront, ${cm} Zentimeter, ${ZONES[zone].name}, ${eur(miete(cm, zone))} im Monat`
+                                    ? `Deine Regalfront, ${cm} Zentimeter, ${ZONES[zone].name}, ${preis(cm, zone)} im Monat`
+                                    : `Freie Regalfront, ${cm} Zentimeter, ${ZONES[zone].name}, ${preis(cm, zone)} im Monat`
                                   : `${f.marke}, ${f.produkt}, ${cm} Zentimeter Regalfront in ${ZONES[zone].name}`
                               }
                               onClick={() => setSel({ zone, idx: i })}
@@ -270,18 +275,17 @@ export default function Regalwand() {
                                   className="grip"
                                   role="slider"
                                   tabIndex={0}
-                                  aria-label="Breite deiner Regalfront in Zentimetern"
+                                  aria-label="Breite deiner Regalfront: Regalplatz S mit 13 oder M mit 25 Zentimetern"
                                   aria-valuemin={MIN_CM}
                                   aria-valuemax={CONF_POOL - MIN_CM}
                                   aria-valuenow={confCm}
-                                  aria-valuetext={`${confCm} Zentimeter, ${eur(confMonat)} im Monat`}
+                                  aria-valuetext={`Regalplatz ${confPlatz}, ${confCm} Zentimeter, ${confMonat} im Monat`}
                                   onPointerDown={griffZiehen}
                                   onKeyDown={griffTaste}
                                   onClick={(e) => e.stopPropagation()}
                                 />
                                 <span className="readout">
-                                  {confCm} cm · <b>{eur(confMonat)}</b> / Monat
-                                  {mindestGreift && <em>Mindestmiete greift</em>}
+                                  {confCm} cm · Regalplatz {confPlatz} · <b>{confMonat}</b> / Monat
                                 </span>
                               </span>
                             )}
@@ -307,14 +311,20 @@ export default function Regalwand() {
                             <p className="tcard__b">{frei ? (conf ? "Deine Marke" : "frei") : f.marke}</p>
                             <p className="tcard__m">
                               {frei && !conf ? (
-                                <>
-                                  <span>{cm} cm</span>
-                                  <span>{eur(miete(cm, zone))}</span>
-                                </>
+                                /* Regalplatz S ist zu schmal für Breite und Preis
+                                   nebeneinander; die Breite steht auf der Front. */
+                                cm > MIN_CM ? (
+                                  <>
+                                    <span>{cm} cm</span>
+                                    <span>{preis(cm, zone)}</span>
+                                  </>
+                                ) : (
+                                  <span style={{ whiteSpace: "nowrap" }}>{preis(cm, zone)}</span>
+                                )
                               ) : (
                                 <>
                                   <QrMarke />
-                                  <span>{cm} cm</span>
+                                  <span style={{ whiteSpace: "nowrap" }}>{cm} cm</span>
                                 </>
                               )}
                             </p>

@@ -8,12 +8,8 @@
 import { useEffect, useRef, useState } from "react";
 import { submitBewerbung } from "@/app/actions/bewerbung";
 import { track } from "@/lib/analytics-client";
-import {
-  BASE_RATE_BESONDERER_WERT,
-  BASE_RATE_PER_CM,
-  MIN_SLOT_MIETE,
-  MIN_SLOT_MIETE_BESONDERER_WERT,
-} from "@/lib/deck-economics";
+import { MAX_REGAL_CM, PAKETE, paketFuer, type Paket } from "@/lib/deck-economics";
+import MehrAlsEineEbene from "@/components/MehrAlsEineEbene";
 import {
   FRONT_EVENT,
   pruefeBewerbung,
@@ -22,7 +18,7 @@ import {
   type BewerbungPayload,
 } from "@/lib/bewerbung-model";
 import { BUNDESLAENDER } from "@/lib/beratung";
-import { ORDER, ZONES, eur, type ZoneKey } from "@/lib/neue-ui/regal";
+import { ORDER, ZONES, type ZoneKey } from "@/lib/neue-ui/regal";
 import { SHOW_BAFA } from "@/lib/site-flags";
 import { EINSTIEGE, EINSTIEG_EVENT, mitRegalwahl, type EinstiegKey } from "@/lib/treppe";
 
@@ -57,6 +53,12 @@ export default function Bewerbung({ nurRegal = false }: { nurRegal?: boolean }) 
     nurRegal ? { ...LEER, einstieg: "standardregal" } : LEER,
   );
   const [fehler, setFehler] = useState<BewerbungFehler>({});
+  /* Regalplatz L ist eine Auswahl, die Breite ein Freitext dazu: getrennt,
+     damit das Feld beim Tippen (6 auf dem Weg zu 65) nicht verschwindet. */
+  const [lGewaehlt, setLGewaehlt] = useState(false);
+  const [lText, setLText] = useState(String(PAKETE.L.abCm));
+  const lBreite = (t: string) =>
+    Math.min(MAX_REGAL_CM, Math.max(PAKETE.L.abCm, Math.round(Number(t)) || PAKETE.L.abCm));
   const [status, setStatus] = useState<Status>("idle");
   const begonnen = useRef(false);
 
@@ -64,6 +66,8 @@ export default function Bewerbung({ nurRegal = false }: { nurRegal?: boolean }) 
     const uebernehmen = (e: Event) => {
       const { zone, cm } = (e as CustomEvent<FrontDetail>).detail;
       setForm((f) => ({ ...f, zone, cm }));
+      setLGewaehlt(cm >= PAKETE.L.abCm);
+      if (cm >= PAKETE.L.abCm) setLText(String(cm));
     };
     const einsteigen = (e: Event) => {
       const einstieg = (e as CustomEvent<EinstiegKey>).detail;
@@ -258,52 +262,60 @@ export default function Bewerbung({ nurRegal = false }: { nurRegal?: boolean }) 
               </select>
             </label>
             <label className="apply__field">
-              <span>Breite in cm</span>
-              <input
-                type="number"
-                min={5}
-                max={84}
-                value={form.cm ?? ""}
-                onChange={(e) => setze("cm", e.target.value ? Number(e.target.value) : null)}
-                placeholder="ab 5"
-              />
+              <span>Regalplatz</span>
+              <select
+                value={lGewaehlt ? "L" : form.cm == null ? "" : (paketFuer(form.cm) ?? "L")}
+                onChange={(e) => {
+                  const p = e.target.value as Paket | "";
+                  setLGewaehlt(p === "L");
+                  if (!p) return setze("cm", null);
+                  if (p === "L") return setze("cm", lBreite(lText));
+                  setze("cm", PAKETE[p].cm);
+                }}
+              >
+                <option value="">Noch offen</option>
+                <option value="S">S · {PAKETE.S.cm} cm</option>
+                <option value="M">M · {PAKETE.M.cm} cm</option>
+                <option value="L">L · ab {PAKETE.L.abCm} cm</option>
+              </select>
             </label>
+            {lGewaehlt && (
+              <>
+                <label className="apply__field">
+                  <span>Breite in cm</span>
+                  {/* Online buchbar bis eine Ebene (50 bis 84 cm): gespeichert wird
+                      immer der begrenzte Wert, beim Verlassen steht er auch im Feld. */}
+                  <input
+                    type="number"
+                    min={PAKETE.L.abCm}
+                    max={MAX_REGAL_CM}
+                    value={lText}
+                    onChange={(e) => {
+                      setLText(e.target.value);
+                      setze("cm", lBreite(e.target.value));
+                    }}
+                    onBlur={() => setLText(String(lBreite(lText)))}
+                    placeholder={`ab ${PAKETE.L.abCm}`}
+                  />
+                </label>
+                <MehrAlsEineEbene href="/termin" className="as__hint apply__wide" />
+              </>
+            )}
           </>
         )}
       </div>
 
       {regalwahl && (
-        <div className={"apply__special" + (form.besondererWert ? " is-on" : "")}>
-          <label className="apply__check">
-            <input
-              type="checkbox"
-              checked={form.besondererWert}
-              onChange={(e) => setze("besondererWert", e.target.checked)}
-            />
-            <span>
-              <strong>
-                Mein Produkt hat einen besonderen Wert. Ich bewerbe mich für{" "}
-                {eur(BASE_RATE_BESONDERER_WERT)} statt {eur(BASE_RATE_PER_CM)} je cm (ab{" "}
-                {MIN_SLOT_MIETE_BESONDERER_WERT} € statt {MIN_SLOT_MIETE} €).
-              </strong>
-              <br />
-              Für Handwerk, Herkunft oder eine Mission, die man im Supermarkt nicht erzählen kann.
-              Wir entscheiden im Onboarding.
-            </span>
-          </label>
-          {form.besondererWert && (
-            <label className={feld("begruendung")}>
-              <span>Was macht dein Produkt besonders? *</span>
-              <textarea
-                rows={3}
-                value={form.begruendung}
-                onChange={(e) => setze("begruendung", e.target.value)}
-                placeholder="z. B. von Hand abgefüllt in Neukölln, Zutaten direkt vom Kooperativen-Bauern …"
-              />
-              {fehler.begruendung && <em>{fehler.begruendung}</em>}
-            </label>
-          )}
-        </div>
+        <label className={feld("begruendung")}>
+          <span>Was macht dein Produkt besonders?</span>
+          <textarea
+            rows={3}
+            value={form.begruendung}
+            onChange={(e) => setze("begruendung", e.target.value)}
+            placeholder="z. B. von Hand abgefüllt in Neukölln, Zutaten direkt vom Kooperativen-Bauern …"
+          />
+          <small className="as__hint">Hilft uns bei der Aufnahme. Am Preis ändert es nichts.</small>
+        </label>
       )}
 
       <label className="apply__field">

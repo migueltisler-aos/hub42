@@ -35,13 +35,14 @@ import {
   type AssistentAntworten,
 } from "@/lib/assistent-model";
 import {
-  BASE_RATE_BESONDERER_WERT,
   HUB_MARGIN_PCT,
-  MIN_SLOT_MIETE_BESONDERER_WERT,
-  RATES,
-  RATES_BESONDERER_WERT,
+  MAX_REGAL_CM,
+  PAKETE,
   STUFE_PREIS,
+  paketFuer,
+  paketMiete,
 } from "@/lib/deck-economics";
+import MehrAlsEineEbene from "@/components/MehrAlsEineEbene";
 import { FRONT_EVENT, pruefeBewerbung, type FrontDetail } from "@/lib/bewerbung-model";
 import { nurEntwurf, mieteMonat, type ArtikelTexte, type KarteEntwurf, type KarteProdukt } from "@/lib/karte-model";
 
@@ -73,7 +74,7 @@ const START: AssistentAntworten = {
   eigentum: "",
   haltung: [],
   besonders: "",
-  cm: 15,
+  cm: PAKETE.S.cm,
   zone: "basis",
   faktor: 1,
   faktorGrund: "",
@@ -156,7 +157,7 @@ export default function Assistent() {
 
   const preis = produkt?.preis ?? null;
   const r = regeln(a, preis, urteil);
-  const s = preis ? schaetzung(a, preis, r.besondererWert, auswahl.length) : null;
+  const s = preis ? schaetzung(a, preis, auswahl.length) : null;
   const mitte = s?.stueck.mitte;
 
   const setze = <K extends keyof AssistentAntworten>(k: K, v: AssistentAntworten[K]) => setA((x) => ({ ...x, [k]: v }));
@@ -302,8 +303,8 @@ export default function Assistent() {
       bundesland: "",
       zone: regalwahl ? a.zone : ("" as const),
       cm: regalwahl ? a.cm : null,
-      besondererWert: regalwahl && r.besondererWert,
-      begruendung: r.besondererWert ? a.besonders : "",
+      besondererWert: false,
+      begruendung: a.besonders,
       nachricht: kontakt.nachricht,
       bildrechte,
       karte:
@@ -542,31 +543,49 @@ export default function Assistent() {
           <p className="as__sub">
             Erst die Höhe, dann die Breite. Ein Glas oder eine Flasche braucht etwa {CM_JE_PRODUKT} cm Front
             {auswahl.length > 1 ? `, für ${auswahl.length} Produkte also mindestens ${auswahl.length * CM_JE_PRODUKT} cm` : ""}.
+            {" "}In S passen rund zwei, in M rund fünf.
           </p>
           <div className="as__tiles as__tiles--3">
             {ZONEN_AUFSTEIGEND.map((z) => (
               <Kachel
                 key={z}
                 titel={ZONES[z].name}
-                hint={`${ZONES[z].hoehe} · ${ZONES[z].auf ? `+${ZONES[z].auf} %` : "Grundpreis"} · ${eur(r.besondererWert ? RATES_BESONDERER_WERT[z] : RATES[z])} je cm`}
+                hint={`${ZONES[z].hoehe} · ${ZONES[z].auf ? `+${ZONES[z].auf} %` : "ohne Zuschlag"} · S ${eur(paketMiete(PAKETE.S.cm, z) ?? 0)}`}
                 an={a.zone === z}
                 onClick={() => setze("zone", z)}
               />
             ))}
           </div>
           <div className="as__tiles">
-            {BREITEN.map((cm) => (
-              <Kachel
-                key={cm}
-                titel={`${cm} cm`}
-                hint={`${eur(mieteMonat(a.zone, cm, r.besondererWert))} / Monat${r.besondererWert ? ` statt ${eur(mieteMonat(a.zone, cm, false))}` : ""}`}
-                an={a.cm === cm}
-                onClick={() => (setze("cm", cm), weiter())}
-              />
-            ))}
+            {BREITEN.map((cm) => {
+              const istL = cm >= PAKETE.L.abCm;
+              return (
+                <Kachel
+                  key={cm}
+                  titel={istL ? `L · ab ${cm} cm` : `${paketFuer(cm)} · ${cm} cm`}
+                  hint={`${eur(mieteMonat(a.zone, istL && a.cm >= PAKETE.L.abCm ? a.cm : cm))} / Monat`}
+                  an={istL ? a.cm >= PAKETE.L.abCm : a.cm === cm}
+                  /* L bleibt stehen, damit die Breite darunter einstellbar ist. */
+                  onClick={() => (istL ? setze("cm", Math.max(PAKETE.L.abCm, a.cm)) : (setze("cm", cm), weiter()))}
+                />
+              );
+            })}
           </div>
-          {r.besondererWert && (
-            <p className="as__hint">★ Preise mit besonderem Wert, so wie du bisher geantwortet hast. Wir entscheiden im Onboarding.</p>
+          {a.cm >= PAKETE.L.abCm && (
+            <>
+              <label className="apply__field as__wide">
+                <span>Breite Regalplatz L: {a.cm} cm</span>
+                <input
+                  type="range"
+                  min={PAKETE.L.abCm}
+                  max={MAX_REGAL_CM}
+                  step={1}
+                  value={a.cm}
+                  onChange={(e) => setze("cm", Number(e.target.value))}
+                />
+              </label>
+              <MehrAlsEineEbene href="/termin" className="as__hint" />
+            </>
           )}
           <Nav zurueck={zurueck} weiter={weiter} />
         </div>
@@ -649,7 +668,7 @@ export default function Assistent() {
                   </div>
                 </div>
                 <label className="apply__field as__wide">
-                  <span>Was macht dein Produkt besonders? (für {eur(BASE_RATE_BESONDERER_WERT)} je cm)</span>
+                  <span>Was macht dein Produkt besonders?</span>
                   <textarea rows={3} value={a.besonders} onChange={(e) => setze("besonders", e.target.value)} />
                 </label>
               </div>
@@ -669,12 +688,6 @@ export default function Assistent() {
                   </li>
                 ))}
               </ul>
-              {r.besondererWert && (
-                <p className="as__badge">
-                  ★ Du qualifizierst dich voraussichtlich für den besonderen Wert: {eur(RATES_BESONDERER_WERT[a.zone])} statt{" "}
-                  {eur(RATES[a.zone])} je cm, ab {MIN_SLOT_MIETE_BESONDERER_WERT} € im Monat. Wir entscheiden im Onboarding.
-                </p>
-              )}
             </div>
 
             {s && produkt?.preis && (
@@ -737,7 +750,7 @@ export default function Assistent() {
             <div className="as__block">
               <p className="as__h">Kosten und Nutzen</p>
               <div className="as__kn-grid">
-                <KostenNutzen a={a} besondererWert={r.besondererWert} umsatzMonat={s.umsatzMonat} />
+                <KostenNutzen a={a} umsatzMonat={s.umsatzMonat} />
                 <Rechnung
                   produkt={produkt}
                   setProdukt={setProdukt}
@@ -745,7 +758,6 @@ export default function Assistent() {
                   setVerkaeufe={setVerkaeufe}
                   zone={a.zone}
                   cm={a.cm}
-                  besondererWert={r.besondererWert}
                 />
               </div>
               <p className="rk__fine">
@@ -767,9 +779,9 @@ export default function Assistent() {
               <div className="as__opt is-on is-fest">
                 <em className="as__opt-fest">Immer dabei</em>
                 <strong>Standardregal</strong>
-                <b>{eur(mieteMonat(a.zone, a.cm, r.besondererWert))} / Monat</b>
+                <b>{eur(mieteMonat(a.zone, a.cm))} / Monat</b>
                 <span>
-                  {a.cm} cm, {ZONES[a.zone].name}, ab 3 Monaten
+                  Regalplatz {paketFuer(a.cm) ?? "L"}, {a.cm} cm, {ZONES[a.zone].name}, ab 3 Monaten
                 </span>
               </div>
               {OPTIONEN.filter((o) => o.key !== "standardregal").map((o) => {
@@ -930,23 +942,24 @@ function Nav({ zurueck, weiter, weiterAktiv = true }: { zurueck: () => void; wei
 }
 
 /* Drei Monate Regal nach Zentimetern: was es kostet, was zurückkommt. */
-function KostenNutzen(p: { a: AssistentAntworten; besondererWert: boolean; umsatzMonat: number }) {
-  const kosten = mieteDreiMonate(p.a, p.besondererWert);
+function KostenNutzen(p: { a: AssistentAntworten; umsatzMonat: number }) {
+  const kosten = mieteDreiMonate(p.a);
   const umsatz = p.umsatzMonat * 3;
   const provision = umsatz * (HUB_MARGIN_PCT / 100);
   const bleibt = umsatz - provision - kosten;
-  const rate = p.besondererWert ? RATES_BESONDERER_WERT[p.a.zone] : RATES[p.a.zone];
-  const mindest = mieteMonat(p.a.zone, p.a.cm, p.besondererWert) > p.a.cm * rate + 0.01;
+  const platz = paketFuer(p.a.cm) ?? "L";
+  const Z = ZONES[p.a.zone];
   return (
     <div className="as__kn">
       <p className="as__h as__h--klein">
-        3 Monate · {p.a.cm} cm · {ZONES[p.a.zone].name}
+        3 Monate · Regalplatz {platz} · {Z.name}
       </p>
       <dl>
         <dt>Erwarteter Umsatz</dt>
         <dd>{euro0(umsatz)}</dd>
         <dt>
-          Regalmiete ({eur(rate)} je cm{mindest ? ", Mindestmiete" : ""})
+          Regalmiete (Regalplatz {platz}
+          {Z.auf ? `, +${Z.auf} %` : ""})
         </dt>
         <dd>− {euro0(kosten)}</dd>
         <dt>{HUB_MARGIN_PCT} % Provision</dt>

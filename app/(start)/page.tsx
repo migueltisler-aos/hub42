@@ -22,13 +22,12 @@ import { onboardingsFrei } from "@/lib/bewerbung";
 import { ONBOARDINGS_PRO_WOCHE } from "@/lib/bewerbung-model";
 import { BAFA_ZUSCHUSS_PCT } from "@/lib/beratung";
 import {
-  BASE_RATE_BESONDERER_WERT,
-  BASE_RATE_PER_CM,
   HUB_MARGIN_PCT,
-  MIN_SLOT_MIETE,
-  MIN_SLOT_MIETE_BESONDERER_WERT,
-  MIN_SLOT_MIETE_BY_TRANCHE,
+  PAKETE,
   REGAL_INKLUSIVE_CM,
+  SCHAUFENSTER_MONAT,
+  TRANCHE_SURCHARGE_PCT,
+  ZONE_SURCHARGE_PCT,
 } from "@/lib/deck-economics";
 import { eur } from "@/lib/neue-ui/regal";
 import { SHOW_BAFA, SHOW_PARTNER } from "@/lib/site-flags";
@@ -48,9 +47,35 @@ const THEKE = [
     alt: "Berlin Oats Crunchy Six Spice Granola auf der Theke" },
 ];
 
+/* Die drei Regalplätze des Standardregals, Preise auf Basishöhe. */
+const zahl = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 2 });
+const PAKET_KARTEN = [
+  {
+    name: "Regalplatz S",
+    breite: `${PAKETE.S.cm} cm`,
+    preis: `${PAKETE.S.preis} €`,
+    einheit: "im Monat",
+    zeile: "Rund zwei Gläser nebeneinander.",
+  },
+  {
+    name: "Regalplatz M",
+    breite: `${PAKETE.M.cm} cm`,
+    preis: `${PAKETE.M.preis} €`,
+    einheit: "im Monat",
+    zeile: "Rund fünf Gläser nebeneinander.",
+  },
+  {
+    name: "Regalplatz L",
+    breite: `ab ${PAKETE.L.abCm} cm`,
+    preis: eur(PAKETE.L.preisJeCm),
+    einheit: "je cm und Monat",
+    zeile: `Bei ${PAKETE.L.abCm} cm sind das ${zahl(PAKETE.L.abCm * PAKETE.L.preisJeCm)} € im Monat.`,
+  },
+];
+
 const FAKTEN = [
   { v: "rund 15 Mio.", k: "Besuche im Jahr im Alexa, Stand 2020" },
-  { v: `ab ${MIN_SLOT_MIETE} €`, k: "Regalplatz im Monat" },
+  { v: `ab ${PAKETE.S.preis} €`, k: "Regalplatz im Monat, netto" },
   { v: `${HUB_MARGIN_PCT} %`, k: "nur auf das, was verkauft wird" },
   { v: "0 €", k: "Listungsgebühr" },
 ];
@@ -163,8 +188,9 @@ export default async function StartPage() {
             <p className="eyebrow">Die Einheit des Hauses</p>
             <h2>Wir vermieten Zentimeter.</h2>
             <p className="lede" style={{ marginTop: 20 }}>
-              Nicht Listungsplätze, nicht Jahresverträge. Regalfront in Zentimetern, Monat für
-              Monat, ab fünf Zentimetern Breite.
+              Nicht Listungsplätze, nicht Jahresverträge. Regalfront in Zentimetern:{" "}
+              {PAKETE.S.cm}, {PAKETE.M.cm} oder ab {PAKETE.L.abCm}, nach drei Monaten monatlich
+              kündbar.
             </p>
 
             <Massband />
@@ -181,10 +207,12 @@ export default async function StartPage() {
               verkauft, auch Produkte, die man erklären muss. Du bekommst jeden Monat den Bericht.
             </p>
             <p className="lede" style={{ marginTop: 14, maxWidth: "54ch" }}>
-              Grundpreis {eur(BASE_RATE_PER_CM)} pro Zentimeter und Monat. Wer höher steht, zahlt
-              mehr: Augenhöhe +10 %, garantierte Greifhöhe +20 %. Auf der Traverse steht, wem die
-              Front gehört: Marke, QR-Code, Preis. Front antippen, dann rechnet die Karte mit. Die
-              bronzene Front hat einen Griff, zieh sie breiter.
+              Drei Breiten: S mit {PAKETE.S.cm} cm für {PAKETE.S.preis} €, M mit {PAKETE.M.cm} cm
+              für {PAKETE.M.preis} €, L ab {PAKETE.L.abCm} cm für {eur(PAKETE.L.preisJeCm)} je cm,
+              jeweils im Monat. Wer höher steht, zahlt mehr: Augenhöhe +{ZONE_SURCHARGE_PCT.augenhoehe}
+              &nbsp;%, garantierte Greifhöhe +{ZONE_SURCHARGE_PCT.greifhoehe}&nbsp;%. Auf der
+              Traverse steht, wem die Front gehört: Marke, QR-Code, Preis. Front antippen, dann
+              rechnet die Karte mit. Die bronzene Front hat einen Griff, zieh sie von S auf M.
             </p>
 
             <Regalwand />
@@ -195,36 +223,61 @@ export default async function StartPage() {
         <section className="sect sect--rule" id="preise" data-sektion="preise">
           <div className="wrap">
             <p className="eyebrow">Was es kostet</p>
-            <h2>Miete nach Zentimeter. Provision erst beim Verkauf.</h2>
+            <h2>Regalplatz ab {PAKETE.S.preis}&nbsp;€ im Monat. Provision erst beim Verkauf.</h2>
             <p className="lede" style={{ marginTop: 20, maxWidth: "50ch" }}>
-              Keine Listungsgebühr, keine Handelsmarge. Die Marke behält ihre UVP, Hub42 verdient{" "}
-              {HUB_MARGIN_PCT} % vom Verkaufspreis.
+              Du wählst die Breite, unser Store-Team verkauft. Keine Listungsgebühr, keine
+              Handelsmarge: Du behältst deine UVP, Hub42 bekommt {HUB_MARGIN_PCT}&nbsp;% vom
+              Verkaufspreis.
             </p>
 
             {/* B: Das Standardregal */}
             <div className="priceblock">
               <p className="priceblock__k">B · Das Standardregal</p>
-              <h3>Miete pro Zentimeter und Monat.</h3>
+              <h3>Drei Breiten zur Wahl.</h3>
+
+              {/* Gleich gewichtet: kein „beliebt“, kein „empfohlen“. */}
+              <div className="tiles pakete">
+                {PAKET_KARTEN.map((p) => (
+                  <div className="tile paket" key={p.name}>
+                    <p className="tile__k">
+                      {p.name} · {p.breite}
+                    </p>
+                    <p className="paket__preis">{p.preis}</p>
+                    <p className="paket__einheit">{p.einheit}</p>
+                    <p>{p.zeile}</p>
+                  </div>
+                ))}
+              </div>
+
+              <p className="priceblock__txt">
+                Die Preise gelten auf Basishöhe, 50 bis 90 cm über dem Boden. Auf Augenhöhe kommen{" "}
+                {ZONE_SURCHARGE_PCT.augenhoehe}&nbsp;% dazu, auf garantierter Greifhöhe{" "}
+                {ZONE_SURCHARGE_PCT.greifhoehe}&nbsp;%.
+              </p>
+
               <Preistabelle />
 
+              <p className="priceblock__txt">
+                Der Preis steigt mit der Auslastung des Ladens, nicht mit dem Kalender: ab 60&nbsp;% um{" "}
+                {TRANCHE_SURCHARGE_PCT.aufbau}&nbsp;%, ab 85&nbsp;% um {TRANCHE_SURCHARGE_PCT.warteliste}
+                &nbsp;%. Wer vorher bucht, behält seinen Preis 12 Monate lang, vertraglich.
+              </p>
+
               <p className="fineprint">
-                * Besonderer Wert: für Handwerk, Herkunft oder eine Mission, nur auf Bewerbung,
-                entschieden im Onboarding. Gleiche Front, {eur(BASE_RATE_BESONDERER_WERT)} statt{" "}
-                {eur(BASE_RATE_PER_CM)} je cm, Mindestmiete {MIN_SLOT_MIETE_BESONDERER_WERT} € statt{" "}
-                {MIN_SLOT_MIETE} €
+                Immer dabei: {HUB_MARGIN_PCT} % Provision nur auf Verkauftes, Zahlungsabwicklung
+                inklusive. 0 € Listungsgebühr. 3 Monate Mindestlaufzeit, danach monatlich kündbar.
                 <br />
-                Mindestmiete {MIN_SLOT_MIETE} € / Monat je Front · Mindestbreite 5 cm · Konsignation,
-                kein Wareneinkauf
+                In jedem Regalplatz: Verkauf durch unser geschultes Store-Team, auch für Produkte,
+                die man erklären muss; Traverse-Karte mit QR-Code; monatlicher Verkaufsbericht.
+                Konsignation, kein Wareneinkauf.
                 <br />
-                Gründungskonditionen bis 60 % Store-Auslastung · ab 60 % +10 % (Mindestmiete{" "}
-                {MIN_SLOT_MIETE_BY_TRANCHE.aufbau} €) · ab 85 % +20 % (
-                {MIN_SLOT_MIETE_BY_TRANCHE.warteliste} €) · First
-                Mover behalten ihren Einstiegspreis vertraglich für 12 Monate
+                Ins Regal kommt, wer sich bewirbt und überzeugt. Die Bewerbung entscheidet, ob du
+                reinkommst, nicht, was du zahlst.
                 <br />
-                {HUB_MARGIN_PCT} % Vermittlungsprovision auf den Bruttoverkaufspreis,
-                Zahlungsabwicklung inklusive · geschultes Verkaufspersonal, auch für erklärungsbedürftige
-                Produkte, inklusive · Traverse-Karte mit QR-Code und monatlicher
-                Verkaufsbericht je Front inklusive
+                Daneben das Schaufenster: {SCHAUFENSTER_MONAT} € pauschal im Monat, sichtbar, ohne
+                den Laden zu betreten.
+                <br />
+                Nur für Unternehmer. Preise netto zzgl. USt.
               </p>
             </div>
 
@@ -367,11 +420,10 @@ export default async function StartPage() {
                 <p className="eyebrow">Bewerbung</p>
                 <h2>Wir kuratieren. Deshalb bewirbst du dich.</h2>
                 <p className="lede">
-                  Im Regal ab fünf Zentimetern, ab{" "}
-                  {MIN_SLOT_MIETE} € im Monat, für Produkte mit besonderem Wert ab{" "}
-                  {MIN_SLOT_MIETE_BESONDERER_WERT} €. Ohne Listungsgebühr. Wir holen jede Woche{" "}
-                  {ONBOARDINGS_PRO_WOCHE} Marken ins Onboarding und schauen uns jedes Produkt an,
-                  bevor es ins Regal kommt.
+                  Im Regal ab {PAKETE.S.cm} Zentimetern und {PAKETE.S.preis} € im Monat, ohne
+                  Listungsgebühr. Wir holen jede Woche {ONBOARDINGS_PRO_WOCHE} Marken ins Onboarding
+                  und schauen uns jedes Produkt an, bevor es ins Regal kommt. Die Bewerbung
+                  entscheidet, ob du reinkommst, nicht, was du zahlst.
                 </p>
                 <div className="slots" aria-label="Onboarding-Termine diese Woche">
                   {frei === null ? (
@@ -399,8 +451,8 @@ export default async function StartPage() {
                   )}
                 </div>
                 <p className="close__note">
-                  Eröffnung März 2027. Wer jetzt einsteigt, behält die Gründungskonditionen 12 Monate
-                  lang vertraglich.
+                  Eröffnung März 2027. Wer bucht, bevor der Laden zu 60 % ausgelastet ist, behält
+                  seinen Preis 12 Monate lang, vertraglich.
                 </p>
                 <div className="btn-row">
                   <TerminKalender mode="dialog" />
@@ -433,7 +485,8 @@ export default async function StartPage() {
             <h3>Fünf Stufen mit Festpreis.</h3>
             <StufenTabelle />
             <p className="fineprint">
-              Alle Festpreise netto. * In jeder Stufe sind {REGAL_INKLUSIVE_CM} cm Regal im Preis
+              Alle Festpreise netto zzgl. USt., nur für Unternehmer. * In jeder Stufe sind{" "}
+              {REGAL_INKLUSIVE_CM} cm Regal im Preis
               enthalten. {ZUSATZ_CM_TEXT}
             </p>
 
@@ -458,7 +511,7 @@ export default async function StartPage() {
                     Monate
                   </span>
                   <span className="row__v">
-                    {eur0(BEISPIEL.zusatzMonat * BEISPIEL.monate)} ({eur0(BEISPIEL.zusatzMonat)} im
+                    {eur(BEISPIEL.zusatzMonat * BEISPIEL.monate)} ({eur(BEISPIEL.zusatzMonat)} im
                     Monat)
                   </span>
                 </div>

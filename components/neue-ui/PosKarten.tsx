@@ -191,7 +191,6 @@ export function Rechnung(r: {
   setVerkaeufe: (n: number) => void;
   zone: ZoneKey | "";
   cm: number | null;
-  besondererWert: boolean;
 }) {
   const [preisText, setPreisText] = useState("");
   const vk = r.produkt.preis;
@@ -217,7 +216,7 @@ export function Rechnung(r: {
     );
   }
 
-  const x = potenzial({ vk, verkaeufeMonat: r.verkaeufe, zone: r.zone, cm: r.cm, besondererWert: r.besondererWert });
+  const x = potenzial({ vk, verkaeufeMonat: r.verkaeufe, zone: r.zone, cm: r.cm });
   const max = Math.max(x.proStueck.hub, x.proStueck.leh, x.proStueck.online, x.proStueck.amazon, 0.01);
   const balken = [
     { k: "Hub42", v: x.proStueck.hub, hub: true },
