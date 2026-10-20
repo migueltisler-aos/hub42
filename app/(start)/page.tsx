@@ -49,10 +49,10 @@ const THEKE = [
 ];
 
 const FAKTEN = [
-  { v: "41.000", k: "Besucher täglich" },
-  { v: "150 m²", k: "Pilotfläche" },
-  { v: `ab ${MIN_SLOT_MIETE} €`, k: "Regal im Monat" },
-  { v: "Mo–Sa", k: "10–20 Uhr" },
+  { v: "rund 15 Mio.", k: "Besuche im Jahr im Alexa, Stand 2020" },
+  { v: `ab ${MIN_SLOT_MIETE} €`, k: "Regalplatz im Monat" },
+  { v: `${HUB_MARGIN_PCT} %`, k: "nur auf das, was verkauft wird" },
+  { v: "0 €", k: "Listungsgebühr" },
 ];
 
 export default async function StartPage() {
@@ -94,23 +94,23 @@ export default async function StartPage() {
           <div className="hero__say">
             <div className="wrap">
               <p className="hero__badge">
-                {SHOW_PARTNER && "Feedback Factory · "}Eröffnung März 2027 · Alexa Berlin ·
-                Alexanderplatz
+                {SHOW_PARTNER && "Feedback Factory · "}Für Gründer und Hersteller neuer Produkte ·
+                Eröffnung März 2027 · Alexa am Alexanderplatz
               </p>
               <h1>
-                Der Laden für Neuheiten.{" "}
-                <span className="hero__h1b">Dein Regal am Alexanderplatz.</span>
+                Deinen Onlineshop findet nur, wer schon nach dir sucht.{" "}
+                <span className="hero__h1b">Am Alexanderplatz findest du deine ersten{" "}Fans.</span>
               </h1>
               <p className="hero__sub">
-                Ab {MIN_SLOT_MIETE} € im Monat. Keine Listungsgebühr, du behältst deinen Preis, wir
-                verdienen {HUB_MARGIN_PCT} % nur an dem, was verkauft wird.
+                Ab März 2027 steht dein Produkt im Alexa, vor Menschen, die nie nach dir gesucht
+                hätten. Unser Store-Team lässt probieren und erklärt, was nicht aufs Etikett passt.
               </p>
               <div className="hero__cta">
                 <a className="btn btn--lit" href="#bewerben">
-                  Jetzt bewerben
+                  Mit deinem Produkt bewerben
                 </a>
                 <a className="btn btn--dark" href="#preise">
-                  Preise ansehen
+                  Was ein Regalplatz kostet
                 </a>
               </div>
             </div>
@@ -125,6 +125,20 @@ export default async function StartPage() {
             </div>
           ))}
         </div>
+
+        {/* ══ Problem: Sichtbarkeit ════════════════════════════ */}
+        <section className="sect sect--tight" data-sektion="problem" aria-labelledby="problem-h">
+          <div className="wrap">
+            <p className="eyebrow">Shop, Messe, Einkauf</p>
+            <h2 id="problem-h">Sichtbarkeit ist so teuer geworden.</h2>
+            <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
+              Online zahlst du für Anzeigen, damit überhaupt jemand deinen Shop öffnet, oder du gehst
+              auf eine Messe. Drei Tage lang probieren Menschen dein Produkt. Am vierten ist der Stand
+              abgebaut. Und fragt dein Einkäufer beim Neuprodukt, wer es kauft und ob es läuft, hast
+              du Hoffnung statt Zahlen.
+            </p>
+          </div>
+        </section>
 
         {/* ══ Trust: Summit-Gewinn ═════════════════════════════ */}
         <section className="trust" aria-label="Auszeichnung">

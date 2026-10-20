@@ -203,22 +203,35 @@
 
   /* ── Held: der Laden selbst ────────────────────────────────── */
 
-  .hero { position: relative; background: var(--night); }
+  /* Das Bild füllt den Held, der Text bestimmt die Höhe: ist der Kopf höher
+     als die Mindesthöhe, wächst das Bild mit, statt dass der Text oben unter
+     den Header läuft. */
+  .hero {
+    position: relative; background: var(--night);
+    min-height: clamp(360px, 62vh, 620px);
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
   .hero__img {
-    display: block; width: 100%;
-    height: clamp(360px, 62vh, 620px);
+    position: absolute; inset: 0;
+    display: block; width: 100%; height: 100%;
     object-fit: cover; object-position: center 46%;
   }
   .hero__scrim {
     position: absolute; inset: 0;
-    background: linear-gradient(180deg,
-      rgba(27,35,29,.40) 0%, rgba(27,35,29,0) 26%,
-      rgba(27,35,29,.30) 58%, rgba(27,35,29,.90) 100%);
+    /* Der Kopf reicht bis unter die Deckenleuchten: links, wo der Text
+       steht, dunkelt ein zweiter Verlauf ab, rechts bleibt der Laden hell. */
+    background:
+      linear-gradient(90deg,
+        rgba(27,35,29,.80) 0%, rgba(27,35,29,.68) 42%,
+        rgba(27,35,29,.30) 70%, rgba(27,35,29,0) 86%),
+      linear-gradient(180deg,
+        rgba(27,35,29,.40) 0%, rgba(27,35,29,0) 26%,
+        rgba(27,35,29,.30) 58%, rgba(27,35,29,.90) 100%);
     pointer-events: none;
   }
   .hero__say {
-    position: absolute; left: 0; right: 0; bottom: 0;
-    padding: 0 0 clamp(26px, 4vw, 46px);
+    position: relative;
+    padding: clamp(96px, 14vh, 150px) 0 clamp(26px, 4vw, 46px);
   }
   .hero__say .wrap { display: grid; gap: 18px; }
   .hero h1 { color: #F7F5EE; max-width: 20ch; }
@@ -1092,11 +1105,16 @@
     .rate--stack tbody th { padding-bottom: 6px; }
     .rate--stack td { font-size: 0.813rem; }
 
+    /* Faktenleiste zweispaltig: etwas weniger Laufweite, damit drei Wörter
+       wie „Regalplatz im Monat“ in einer Zeile stehen statt ein Wort allein */
+    .fact { padding-left: 18px; padding-right: 18px; }
+    .fact__k { letter-spacing: 0.1em; }
+
     /* Längere Headline: Verlauf früher dunkel, damit sie sich vom Ladenbild löst */
     .hero__scrim {
       background: linear-gradient(180deg,
-        rgba(27,35,29,.40) 0%, rgba(27,35,29,.20) 18%,
-        rgba(27,35,29,.62) 40%, rgba(27,35,29,.92) 100%);
+        rgba(27,35,29,.40) 0, rgba(27,35,29,.50) 64px,
+        rgba(27,35,29,.80) 150px, rgba(27,35,29,.92) 100%);
     }
   }
 
