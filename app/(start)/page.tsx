@@ -62,8 +62,11 @@ export default async function StartPage() {
     <>
       <header className="top">
         <div className="top__in">
-          <a className="mark" href="#top">
+          <a className="mark" href="#top" aria-label="HUB42 – entdecken, erleben, erwerben">
             HUB42
+            <span className="mark__tag" aria-hidden="true">
+              entdecken • erleben • erwerben
+            </span>
           </a>
           <nav className="top__nav" aria-label="Seitenbereiche">
             <a href="#regal">Regal</a>
@@ -123,6 +126,23 @@ export default async function StartPage() {
           ))}
         </div>
 
+        {/* ══ Trust: Summit-Gewinn ═════════════════════════════ */}
+        <section className="trust" aria-label="Auszeichnung">
+          <div className="wrap trust__in">
+            <img
+              className="trust__logo"
+              src="/trust/stiftung-entrepreneurship.png"
+              alt="Stiftung Entrepreneurship"
+              width={190}
+              height={49}
+            />
+            <p className="trust__txt">
+              <strong>Hub42 gewinnt den Proof-of-Concept</strong> beim Entrepreneurship Summit 2026
+              der Stiftung Entrepreneurship, Berlin.
+            </p>
+          </div>
+        </section>
+
         {/* ══ Maßband ═══════════════════════════════════════════ */}
         <section className="sect sect--tight" data-sektion="massband">
           <div className="wrap">
@@ -143,8 +163,8 @@ export default async function StartPage() {
             <p className="eyebrow">Regalwand A · Schwerlastregal · 3 Ebenen à 84 cm</p>
             <h2>Das Standardregal.</h2>
             <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
-              Deine Front, dein Preis, dein Name auf der Traverse. Das Store-Team verkauft, du
-              bekommst jeden Monat den Bericht.
+              Deine Front, dein Preis, dein Name auf der Traverse. Unser geschultes Store-Team
+              verkauft, auch Produkte, die man erklären muss. Du bekommst jeden Monat den Bericht.
             </p>
             <p className="lede" style={{ marginTop: 14, maxWidth: "54ch" }}>
               Grundpreis {eur(BASE_RATE_PER_CM)} pro Zentimeter und Monat. Wer höher steht, zahlt
@@ -188,7 +208,8 @@ export default async function StartPage() {
                 Mover behalten ihren Einstiegspreis vertraglich für 12 Monate
                 <br />
                 {HUB_MARGIN_PCT} % Vermittlungsprovision auf den Bruttoverkaufspreis,
-                Zahlungsabwicklung inklusive · Traverse-Karte mit QR-Code und monatlicher
+                Zahlungsabwicklung inklusive · geschultes Verkaufspersonal, auch für erklärungsbedürftige
+                Produkte, inklusive · Traverse-Karte mit QR-Code und monatlicher
                 Verkaufsbericht je Front inklusive
               </p>
             </div>

@@ -85,8 +85,9 @@ export default function DeckPage() {
               </h2>
               <p className="text-stone text-base leading-relaxed mt-5 max-w-xl">
                 Hub42 ist kein Händler. Du buchst Regalplätze – bemessen am Platzbedarf
-                deines Produkts –, wir verkaufen in deinem Namen gegen 7 % Provision statt
-                Handelsmarge, ohne dein Eigentum anzutasten. Drei Wege in den Markt, eine
+                deines Produkts –, unser geschultes Personal verkauft in deinem Namen, auch
+                erklärungsbedürftige Produkte. Gegen 7 % Provision statt Handelsmarge, ohne dein
+                Eigentum anzutasten. Drei Wege in den Markt, eine
                 ehrliche Gegenüberstellung.
               </p>
             </div>

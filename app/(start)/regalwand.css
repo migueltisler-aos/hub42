@@ -171,6 +171,11 @@
   .mark {
     font-family: var(--f-sign); font-size: 1.6rem; letter-spacing: 0.07em;
     color: var(--steel); text-decoration: none; line-height: 1; padding-top: 3px;
+    display: flex; flex-direction: column;
+  }
+  .mark__tag {
+    font-family: var(--f-mono); font-size: 0.56rem; letter-spacing: 0.08em;
+    color: var(--bulb-ink); margin-top: 3px; white-space: nowrap;
   }
   .top__nav { display: flex; gap: 26px; margin-left: auto; font-size: 0.875rem; color: var(--ink-mid); }
   .top__nav a { text-decoration: none; }
@@ -1029,6 +1034,20 @@
   .level__t { font-family: var(--f-display); font-weight: 500; font-size: 1rem; letter-spacing: -0.012em; line-height: 1.25; }
   .partner { margin-top: 30px; font-family: var(--f-display); font-size: 1.12rem; max-width: 60ch; letter-spacing: -0.012em; }
   .factbar--pilot { margin-top: 18px; border-top: 1px solid var(--hair); }
+
+  /* ── Trust: Summit-Gewinn ──────────────────────────────────── */
+
+  .trust { background: var(--paper); border-bottom: 1px solid var(--hair); }
+  .trust__in {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px;
+    padding-top: 22px; padding-bottom: 22px;
+  }
+  .trust__logo { height: 38px; width: auto; flex: 0 0 auto; }
+  .trust__txt {
+    font-family: var(--f-display); font-size: 1.05rem; letter-spacing: -0.012em;
+    line-height: 1.35; color: var(--ink-mid); max-width: 62ch;
+  }
+  .trust__txt strong { color: var(--ink); font-weight: 600; }
 
   /* ── Preisblöcke ───────────────────────────────────────────── */
 
