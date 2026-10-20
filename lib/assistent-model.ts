@@ -148,10 +148,16 @@ export function regeln(a: AssistentAntworten, preis: number | null, urteil: Prei
 
 /* ── Abverkauf ────────────────────────────────────────────────── */
 
-/** Funnel-Annahme V17 aus dem Businessplan, Anhang E.6/E.7. */
+/** Funnel: Center-Zahl als Rahmen, gerechnet wird ab der Ladentür.
+    Stand Geschäftsführung 2026-10-20: 41.000 Besucher am Tag zählt das
+    Alexa-Center, im Laden rechnet Hub42 mit 400 bis 500 am Tag (Annahme,
+    gerechnet mit dem Mittelwert). Übrige Quoten aus dem Businessplan V17,
+    Anhang E.6/E.7. */
 export const FUNNEL = {
-  besucherTag: 41_000, // Alexa-Besucher pro Tag
-  eintritt: 0.07, // betreten den Store
+  centerTag: 41_000, // Besucher am Tag im Alexa-Center, nicht im Laden
+  ladenTagVon: 400, // Besucher am Tag im Laden, Annahme
+  ladenTagBis: 500,
+  ladenTag: 450, // Mittelwert der Annahme, damit wird gerechnet
   probieren: 0.22, // scannen QR oder probieren
   kaufen: 0.21, // Tasting-to-Buy
   warenkorb: 22, // € je Einkauf
@@ -160,14 +166,14 @@ export const FUNNEL = {
   produkteImLaden: 300, // 80–120 Marken (Anhang E.7) × rund 3 Produkte
 };
 const TAGE = 30;
-export const STORE_BESUCHER_MONAT = FUNNEL.besucherTag * FUNNEL.eintritt * TAGE;
-/** Einkäufe im Monat laut Funnel: 127 am Tag. */
+export const STORE_BESUCHER_MONAT = FUNNEL.ladenTag * TAGE;
+/** Einkäufe im Monat laut Funnel: rund 21 am Tag. */
 export const EINKAEUFE_MONAT = STORE_BESUCHER_MONAT * FUNNEL.probieren * FUNNEL.kaufen;
 /* Verteilt wird je Produkt, nicht je Zentimeter: Kunden greifen zu
    Produkten. Je cm verteilt bekäme eine 10-cm-Marke nur 1/714 aller
    Verkäufe, obwohl der Plan mit rund 70 cm je Marke rechnet – das machte
    kleine Marken künstlich schlecht. Summe bleibt der Plan-Umsatz. */
-/** Verkäufe je Produkt und Monat bei Faktor 1: rund 25. */
+/** Verkäufe je Produkt und Monat bei Faktor 1: rund 4. */
 export const STUECK_PRO_PRODUKT = (EINKAEUFE_MONAT * FUNNEL.artikelJeEinkauf) / FUNNEL.produkteImLaden;
 const PROBIERER_PRO_PRODUKT = (STORE_BESUCHER_MONAT * FUNNEL.probieren) / FUNNEL.produkteImLaden;
 

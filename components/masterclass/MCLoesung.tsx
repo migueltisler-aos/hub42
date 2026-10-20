@@ -61,7 +61,7 @@ export default function MCLoesung() {
       <div className="flex flex-col sm:flex-row gap-6">
         {[
           { label: "ALEXA-Center", value: "15 Mio.", sub: "Besuche im Jahr im ganzen Center (Sonae Sierra, 2020)" },
-          { label: "Davon im Store", value: "~600–800", sub: "Annahme je Tag, noch nicht gemessen" },
+          { label: "Davon im Store", value: "400–500", sub: "Besucher je Tag im Laden (Annahme), noch nicht gemessen" },
           { label: "Modell", value: "§383 HGB", sub: "Konsignation · kein Eigentumsübergang" },
         ].map((s) => (
           <div key={s.label} className="flex-1 bg-green-dark border border-stone-dark/50 p-5">

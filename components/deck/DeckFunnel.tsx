@@ -37,8 +37,8 @@ export default function DeckFunnel() {
         <FunnelSVG />
         <p className="text-stone text-xs font-mono mt-4 pt-3 border-t border-stone-dark leading-relaxed">
           Modellrechnung, keine Messung. Das Alexa zählt rund 15 Mio. Besuche im Jahr (Sonae
-          Sierra, 2020), das ist keine Reichweite von Hub42. Ladeneingang angenommen: 600 bis 800
-          am Tag.
+          Sierra, 2020), das ist keine Reichweite von Hub42. Im Laden rechnen wir mit 400 bis 500
+          Besuchern am Tag (Annahme).
         </p>
       </div>
     </div>

@@ -50,7 +50,7 @@ export default function DeckHero() {
         <div className="grid grid-cols-3 gap-px bg-bronze/15 max-w-xl mx-auto">
           {[
             { num: "März 2027", label: "Eröffnung" },
-            { num: "~700/Tag", label: "Geschenk-Suchende vor deinem Regal" },
+            { num: "400–500/Tag", label: "Besucher im Laden (Annahme)" },
             { num: "14 Tage", label: "Entscheidung statt 18 Mt. LEH" },
           ].map((s) => (
             <div key={s.label} className="bg-green-dark px-3 py-5">

@@ -701,6 +701,7 @@ export default function Assistent() {
                 <ul className="as__facts">
                   <li>
                     <b>{zahl(s.storeBesucherMonat)}</b> Menschen kommen jeden Monat in den Laden
+                    (Annahme: {FUNNEL.ladenTagVon} bis {FUNNEL.ladenTagBis} am Tag)
                   </li>
                   <li>
                     <b>≈ {zahl(s.probiererMonat)}</b>{" "}
@@ -761,8 +762,10 @@ export default function Assistent() {
                 />
               </div>
               <p className="rk__fine">
-                Schätzung, keine Zusage. Basis ist unsere Planung für den Store im Alexa: {zahl(FUNNEL.besucherTag)} Besucher am
-                Tag, {FUNNEL.eintritt * 100} % kommen rein, {FUNNEL.probieren * 100} % probieren oder scannen,{" "}
+                Schätzung, keine Zusage. Das Alexa-Center zählt rund {zahl(FUNNEL.centerTag)} Besucher am Tag, das
+                ist die Zahl des Centers, nicht unseres Ladens. Im Laden rechnen wir mit {FUNNEL.ladenTagVon} bis{" "}
+                {FUNNEL.ladenTagBis} Besuchern am Tag (Annahme, gerechnet mit {FUNNEL.ladenTag}),{" "}
+                {FUNNEL.probieren * 100} % probieren oder scannen,{" "}
                 {FUNNEL.kaufen * 100} % davon kaufen, Ø {FUNNEL.warenkorb} € und {FUNNEL.artikelJeEinkauf} Artikel je Einkauf,
                 verteilt auf rund {FUNNEL.produkteImLaden} Produkte im Laden. Das sind rund {Math.round(STUECK_PRO_PRODUKT)} Verkäufe
                 je Produkt im Monat. Den Faktor für
@@ -970,10 +973,11 @@ function KostenNutzen(p: { a: AssistentAntworten; umsatzMonat: number }) {
       <p className="as__hint">
         {bleibt >= 0
           ? "vor Wareneinsatz. Dazu kommen Daten und Feedback, die du sonst teuer einkaufst."
-          : `vor Wareneinsatz. Dafür bekommst du ${zahl(STORE_BESUCHER_3M)} Ladenbesucher, echtes Kundenfeedback und einen Abverkaufsnachweis für den Handel.`}
+          : `vor Wareneinsatz. Dafür bekommst du rund ${zahl(STORE_BESUCHER_3M)} Ladenbesucher (Annahme), echtes Kundenfeedback und einen Abverkaufsnachweis für den Handel.`}
       </p>
     </div>
   );
 }
 
-const STORE_BESUCHER_3M = FUNNEL.besucherTag * FUNNEL.eintritt * 90;
+/* Ladenbesucher in drei Monaten, aus der Annahme je Tag (nicht aus der Center-Zahl). */
+const STORE_BESUCHER_3M = FUNNEL.ladenTag * 90;
