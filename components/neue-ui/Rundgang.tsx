@@ -99,7 +99,7 @@ export default function Rundgang() {
             <path d="M10 340A60 60 0 0 1 70 400" fill="none" stroke="#A9A296" strokeWidth={1.5} strokeDasharray="4 4" />
 
             <g fontFamily="DM Mono, monospace" fontSize="10" fill="#6F695C" letterSpacing="0.6">
-              <text x="34" y="195" textAnchor="start" transform="rotate(90 34 195)">Schaufenster · 6,5 m</text>
+              <text x="34" y="195" textAnchor="start" transform="rotate(90 34 195)">Schaufenster</text>
               <text x="115" y="276" textAnchor="middle" fill="#4A5449">Verkostung</text>
               <text x="300" y="53" textAnchor="middle">Regalwand B · 7,5 m</text>
               <text x="254" y="232" textAnchor="middle" fill="#4A5449" transform="rotate(-90 254 232)">Gondel A</text>
@@ -121,7 +121,7 @@ export default function Rundgang() {
             </text>
           </svg>
           <div className="plan__cap">
-            <span>≈ 150 m² · 15,0 × 10,0 m · Raster 1 m</span>
+            <span>≈ 95 m² · Raster 1 m</span>
             <span>Zwischennutzung „Alexa mini“</span>
           </div>
         </div>

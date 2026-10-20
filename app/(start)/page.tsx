@@ -262,7 +262,7 @@ export default async function StartPage() {
         <section className="sect sect--rule" id="rundgang" data-sektion="rundgang">
           <div className="wrap">
             <p className="eyebrow">Grundriss · Pilotfläche</p>
-            <h2>150 m², sieben Stationen, ein Weg.</h2>
+            <h2>95 m², sieben Stationen, ein Weg.</h2>
             <p className="lede" style={{ marginTop: 20 }}>
               Von der Glasfront bis zur Kasse sind es 40 Schritte. Station anfassen, sie leuchtet
               im Foto und im Grundriss.
