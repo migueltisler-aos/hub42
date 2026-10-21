@@ -15,7 +15,7 @@ export default function ComparisonTable() {
       <table className="w-full text-sm border-collapse">
         <thead>
           <tr>
-            <th className="text-left p-4 text-stone font-mono text-xs tracking-widest uppercase border-b border-stone-dark min-w-[140px]">
+            <th className="text-left p-4 text-stone font-mono text-xs tracking-widest uppercase border-b border-stone-dark min-w-[300px]">
               Kriterium
             </th>
             <th className="text-left p-4 text-stone font-mono text-xs tracking-widest uppercase border-b border-stone-dark">

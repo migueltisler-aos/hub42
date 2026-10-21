@@ -156,7 +156,7 @@ const FAQ = [
 
 export default function HerstellerPage() {
   return (
-    <>
+    <div className="textfluss">
       {/* Hero */}
       <section className="bg-green-dark pt-32 pb-20 border-b border-stone-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
@@ -178,7 +178,7 @@ export default function HerstellerPage() {
           >
             Der Laden für Neuheiten.
             <br />
-            <span className="text-bronze">Vom ersten Regal bis zur Listung.</span>
+            <span className="text-bronze">Vom ersten Regal bis zur&nbsp;Listung.</span>
           </h1>
           <p className="text-stone text-base max-w-xl mb-3 leading-relaxed">
             Dein Produkt. Dein Preis. Deine Daten. Echte Kasse statt Umfrage: Jede Neuheit steht
@@ -254,7 +254,7 @@ export default function HerstellerPage() {
               style={{ fontFamily: "var(--font-bebas)" }}
             >
               Eine Treppe.
-              <span className="text-bronze"> Du entscheidest, wo du{"\u00A0"}einsteigst.</span>
+              <span className="text-bronze"> Du&nbsp;entscheidest, wo du{"\u00A0"}einsteigst.</span>
             </h2>
             <p className="text-stone text-sm max-w-2xl leading-relaxed">
               Jede Marke kann jede Stufe buchen. Die Empfehlung je Stufe ist ein Vorschlag,
@@ -270,14 +270,14 @@ export default function HerstellerPage() {
             {STUFEN.map((st) => (
               <li
                 key={st.key}
-                className="bg-green-dark border border-stone-dark rounded-sm p-5 flex flex-col gap-3"
+                className="@container bg-green-dark border border-stone-dark rounded-sm p-5 flex flex-col gap-3"
                 style={{ minHeight: `calc(14rem + ${st.nr} * 1.5rem)` }}
               >
                 <p className="text-bronze text-xs font-mono tracking-[0.2em] uppercase">
                   Stufe {st.nr} · {st.dauer}
                 </p>
                 <h3
-                  className="text-cream text-2xl tracking-widest leading-none"
+                  className="text-cream text-[min(1.5rem,11cqi)] whitespace-nowrap tracking-widest leading-none"
                   style={{ fontFamily: "var(--font-bebas)" }}
                 >
                   {st.name}
@@ -468,7 +468,7 @@ export default function HerstellerPage() {
             </h2>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-5 gap-8">
             {SCHRITTE.map((s) => (
               <div key={s.nr} className="flex flex-col gap-3">
                 <span
@@ -504,7 +504,7 @@ export default function HerstellerPage() {
               >
                 Dein Erfolg ist
                 <br />
-                <span className="text-bronze">unser Geschäftsmodell.</span>
+                <span className="text-bronze">unser&nbsp;Geschäftsmodell.</span>
               </h2>
               <p className="text-stone text-base leading-relaxed mb-6 max-w-lg">
                 Du zahlst Regalmiete und 7 % Vermittlungsprovision auf deinen Verkaufspreis. Keine
@@ -586,8 +586,8 @@ export default function HerstellerPage() {
               className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-4"
               style={{ fontFamily: "var(--font-bebas)" }}
             >
-              Testen, beweisen,
-              <span className="text-bronze"> bleiben.</span>
+              Testen,&nbsp;beweisen,
+              <span className="text-bronze">{"\u00A0"}bleiben.</span>
             </h2>
             <p className="text-stone text-sm max-w-lg mb-10">
               Nach jeder Stufe kannst du dauerhaft ins Regal. Du buchst eine Regalfront: S mit{" "}
@@ -613,7 +613,7 @@ export default function HerstellerPage() {
                 {/* Ad surface */}
                 <div className="border border-bronze/50 bg-bronze/10 px-4 py-3 text-center mb-0">
                   <p className="text-bronze text-xs font-mono font-semibold">WERBEFLÄCHE</p>
-                  <p className="text-stone/60 text-[10px] font-mono mt-0.5">Traverse-Karte · 15 cm hoch · deine Story + QR-Code</p>
+                  <p className="text-stone/60 text-[10px] font-mono mt-0.5">Traverse-Karte · 15 cm hoch · deine Story&nbsp;+&nbsp;QR-Code</p>
                 </div>
 
                 {/* Shelf surface */}
@@ -860,6 +860,6 @@ export default function HerstellerPage() {
           </div>
         </div>
       </section>
-    </>
+    </div>
   );
 }

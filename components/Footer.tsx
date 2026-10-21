@@ -105,7 +105,7 @@ export default function Footer() {
         </div>
 
         <div className="mt-10 pt-6 border-t border-stone-dark flex flex-col sm:flex-row justify-between items-start sm:items-center gap-2">
-          <p className="text-stone text-xs">© 2026 Hub42 UG (haftungsbeschränkt) · Alle Rechte vorbehalten</p>
+          <p className="text-stone text-xs">© 2026 Hub42 UG (haftungsbeschränkt) · Alle Rechte&nbsp;vorbehalten</p>
           <p className="text-stone text-xs font-mono">Eröffnung März 2027 · Alexa Berlin</p>
         </div>
       </div>
