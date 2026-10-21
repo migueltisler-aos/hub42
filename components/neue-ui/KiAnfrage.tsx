@@ -21,12 +21,13 @@ export default function KiAnfrage() {
     <>
       <div className="ki">
         <p className="ki__kicker">KI-Anfrage · 2 Minuten</p>
-        <p className="ki__h">Sieh vorher, was dein Produkt bei uns verkauft.</p>
+        <p className="ki__h">Sieh vorher, ab wie vielen Verkäufen sich deine Regalfront selbst bezahlt.</p>
         <ul className="ki__list">
+          <li>Menschen im Laden je Monat und was dich deine Regalfront je 1.000 davon kostet</li>
+          <li>Geschätzte Verkäufe im Monat, als Spanne statt einer festen Zahl</li>
+          <li>Deine Rechnung mit Miete und 7 % Provision, im Monat und am Tag</li>
           <li>Deine Herstellerkarte und Artikelkarte, gebaut aus deiner Website</li>
-          <li>Geschätzter Abverkauf, Kosten und Nutzen nach Zentimetern</li>
-          <li>Vergleich mit Supermarkt, Amazon und deinem Onlineshop</li>
-          <li>Sofort-Check: Passt du zu unseren Regeln?</li>
+          <li>Sofort-Check: Passt du zu unseren&nbsp;Regeln?</li>
         </ul>
         <button type="button" className="btn btn--lit" onClick={oeffnen}>
           KI-Anfrage starten

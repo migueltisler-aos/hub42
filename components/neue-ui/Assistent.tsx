@@ -369,8 +369,9 @@ export default function Assistent() {
         <div className="as__step">
           <p className="as__q">Wo finden wir deine Marke?</p>
           <p className="as__sub">
-            Wir lesen Logo, Farben und Produkte und bauen dir daraus deine Regalkarte. Dauert 2 Minuten,
-            am Ende siehst du, was dein Produkt bei uns verkaufen kann.
+            Wir lesen Logo, Farben und Produkte und bauen dir daraus deine Regalkarte. Dauert 2 Minuten.
+            Am Ende siehst du deine geschätzten Verkäufe und ab wann sich deine Regalfront selbst
+            bezahlt.
           </p>
           <label className="apply__field">
             <span>Shop oder Website</span>
