@@ -112,8 +112,7 @@ export const HUB_MARGIN_PCT = 7;
    Zonenzuschlag), ohne Mindestbetrag. Auf alle Stufen kommt HUB_MARGIN_PCT auf
    den Verkauf. */
 export const STUFE_PREIS = {
-  testen: 390,
-  beweisen: 3900,
+  beweisen: 2500,
   spark: 9800,
   focus: 24500,
   powerhouse: 49000,

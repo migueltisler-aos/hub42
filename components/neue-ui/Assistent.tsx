@@ -89,20 +89,14 @@ const ZONEN_AUFSTEIGEND: ZoneKey[] = ["basis", "augenhoehe", "greifhoehe"];
 const OPTIONEN: { key: EinstiegKey; name: string; preis: string; text: string }[] = [
   { key: "standardregal", name: "Standardregal", preis: "", text: "" },
   {
-    key: "testen",
-    name: "Stufe 1 Testen",
-    preis: `${STUFE_PREIS.testen.toLocaleString("de-DE")} € für 3 Monate`,
-    text: "15 cm inklusive. Verkauft sich das überhaupt?",
-  },
-  {
     key: "beweisen",
-    name: "Stufe 2 Beweisen",
+    name: "Stufe 1 Beweisen",
     preis: `${STUFE_PREIS.beweisen.toLocaleString("de-DE")} € für 3 Monate`,
     text: "Mit Tastings und Käuferprofil. Wer kauft, und warum?",
   },
   {
     key: "studie",
-    name: "Stufe 3 bis 5 Studie",
+    name: "Stufe 2 bis 4 Studie",
     preis: `ab ${STUFE_PREIS.spark.toLocaleString("de-DE")} €`,
     text: "Antworten für deinen Einkauf: Preis, Zielgruppe, Listung.",
   },
@@ -111,11 +105,10 @@ const OPTIONEN: { key: EinstiegKey; name: string; preis: string; text: string }[
 const euro0 = (n: number) => Math.round(n).toLocaleString("de-DE") + " €";
 const zahl = (n: number) => Math.round(n).toLocaleString("de-DE");
 
-/** Welche Stufe zu welchem Einstieg gehört (Studie = Stufe 3, Discovery Spark). */
+/** Welche Stufe zu welchem Einstieg gehört (Studie = Stufe 2, Discovery Spark). */
 const STUFE_ZU: Partial<Record<EinstiegKey, (typeof STUFEN)[number]>> = {
-  testen: STUFEN[0],
-  beweisen: STUFEN[1],
-  studie: STUFEN[2],
+  beweisen: STUFEN[0],
+  studie: STUFEN[1],
 };
 
 export default function Assistent() {

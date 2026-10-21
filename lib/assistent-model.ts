@@ -38,8 +38,7 @@ export const BREITEN = [13, 25, 50] as const;
     Jedes Ziel zeigt auf die Stufe der Treppe, die genau das liefert. */
 export const ZIELE = {
   sichtbarkeit: { label: "Sichtbar werden", hint: "Menschen sollen meine Marke im Laden entdecken", einstieg: "standardregal" },
-  testen: { label: "Testen, ob es sich verkauft", hint: "echter Abverkauf statt Bauchgefühl", einstieg: "testen" },
-  retail_ready: { label: "Retail ready werden", hint: "EAN, Etikett, Kalkulation, Lieferfähigkeit prüfen", einstieg: "testen" },
+  testen: { label: "Testen, ob es sich verkauft", hint: "echter Abverkauf statt Bauchgefühl", einstieg: "standardregal" },
   beweis: { label: "Abverkauf beweisen", hint: "Zahlen für Händler, Investoren, Marktplätze", einstieg: "beweisen" },
   verstehen: { label: "Verstehen, wer kauft", hint: "Zielgruppe, Preis, Packung", einstieg: "studie" },
   listung: { label: "Listung im Handel vorbereiten", hint: "den Einkauf mit Daten überzeugen", einstieg: "studie" },
@@ -127,7 +126,7 @@ export function regeln(a: AssistentAntworten, preis: number | null, urteil: Prei
         ? "Sobald wir dein Produkt kennen, schauen wir auf Preis und Leistung."
         : "Preis und Leistung schauen wir uns im Onboarding gemeinsam an.",
   };
-  // Handelsreife bremst nie aus: Was fehlt, ist genau das, was Stufe 1 prüft.
+  // Handelsreife bremst nie aus: Was fehlt, sprechen wir im Onboarding an.
   const fehlt = (Object.keys(HANDELSREIFE) as ReifeKey[]).filter((k) => !a.handelsreife.includes(k));
   const reife: Regel = {
     label: "Handelsreife",
@@ -135,7 +134,7 @@ export function regeln(a: AssistentAntworten, preis: number | null, urteil: Prei
     text:
       fehlt.length === 0
         ? "Barcode, Etikett, Rechnung, Nachlieferung: du bist retail ready."
-        : `Fehlt noch: ${fehlt.map((k) => HANDELSREIFE[k]).join(", ")}. Genau das prüft der Handelsreife-Check in Stufe 1.`,
+        : `Fehlt noch: ${fehlt.map((k) => HANDELSREIFE[k]).join(", ")}. Das sprechen wir im Onboarding an.`,
   };
   const haltung: Regel = {
     label: "Haltung erkennbar",
@@ -265,12 +264,12 @@ export function rechnung(a: AssistentAntworten, vk: number, s: Schaetzung): Rech
 /** Die höchste Stufe, die eines der Ziele braucht. Ohne Ziel wie bisher aus dem Vertrieb. */
 export function empfohlenerEinstieg(a: AssistentAntworten, hatOnlineshop: boolean): EinstiegKey {
   if (a.vertrieb === "leh_breit" || a.eigentum === "konzern") return "studie";
-  const rang: EinstiegKey[] = ["standardregal", "testen", "beweisen", "studie"];
+  const rang: EinstiegKey[] = ["standardregal", "beweisen", "studie"];
   if (a.ziele.length) {
     return a.ziele.map((z) => ZIELE[z].einstieg as EinstiegKey).sort((x, y) => rang.indexOf(y) - rang.indexOf(x))[0];
   }
   if (a.vertrieb === "fachhandel") return "studie";
   if (a.vertrieb === "nur_shop" && hatOnlineshop) return "beweisen";
-  return "testen";
+  return "standardregal";
 }
 

@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     template: "%s | Hub42",
   },
   description:
-    "Hub42 im Alexa Berlin: der Laden nur für Neuheiten. Eine Treppe vom ersten Test bis zur Listung, Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf.",
+    "Hub42 im Alexa Berlin: der Laden nur für Neuheiten. Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf, dazu vier Stufen bis zur Listung.",
   keywords: ["Hub42", "Alexa Berlin", "Neuheiten", "Marken", "Regalmiete", "Markttest", "Listung", "Berlin"],
   authors: [{ name: "Hub42 UG (haftungsbeschränkt)" }],
   creator: "Hub42 UG (haftungsbeschränkt)",

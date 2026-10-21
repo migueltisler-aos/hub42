@@ -39,7 +39,7 @@ import {
 export const metadata: Metadata = {
   title: "Für Hersteller: vom ersten Regal bis zur Listung",
   description:
-    "Hub42 ist der Laden für Neuheiten im Alexa Berlin. Fünf Stufen vom ersten Test bis zur Listung, jede Stufe buchbar. Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf, keine Listungsgebühr.",
+    "Hub42 ist der Laden für Neuheiten im Alexa Berlin. Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf, keine Listungsgebühr. Dazu vier Stufen bis zur Listung, jede einzeln buchbar.",
 };
 
 const SCHRITTE = [
@@ -51,7 +51,7 @@ const SCHRITTE = [
   {
     nr: "02",
     titel: "Gespräch",
-    beschreibung: "30 Minuten. Stufe und Position wählen. Alle Fragen klären.",
+    beschreibung: "30 Minuten. Regalfront oder Stufe wählen, Position festlegen. Alle Fragen klären.",
   },
   {
     nr: "03",
@@ -90,12 +90,11 @@ const WAS_DU_BEKOMMST = [
 const FAQ = [
   {
     frage: "Was ist die Treppe?",
-    antwort: `Fünf Stufen vom ersten Test bis zur Listung: Testen, Beweisen, Discovery Spark, Decision Focus, Premium Powerhouse. Jede Marke kann jede Stufe buchen. Wir empfehlen einen Einstieg, ausgeschlossen ist niemand. ${NACH_JEDER_STUFE}`,
+    antwort: `Vier Stufen vom ersten Beweis bis zur Listung: Beweisen, Discovery Spark, Decision Focus, Premium Powerhouse. Jede Marke kann jede Stufe buchen. Wir empfehlen einen Einstieg, ausgeschlossen ist niemand. ${NACH_JEDER_STUFE}`,
   },
   {
     frage: "Welche Stufe passt zu mir?",
-    antwort:
-      "Junge Startups starten meist mit Stufe 1 Testen. Online-Marken mit Stufe 2 Beweisen. Etablierte Hersteller mit Neuprodukten steigen meist bei Stufe 3 ein und gehen bis Stufe 5, wenn es um die Listung im Einkauf geht.",
+    antwort: `Junge Startups starten mit der Regalfront S: ${PAKETE.S.cm} cm für ${PAKETE.S.preis} € netto im Monat. In die Treppe kommst du, wenn deine ersten Monatsberichte da sind. Online-Marken steigen meist mit Stufe 1 Beweisen ein. Etablierte Hersteller mit Neuprodukten beginnen meist bei Stufe 2 und gehen bis Stufe 4, wenn es um die Listung im Einkauf geht.`,
   },
   {
     frage: "Wie viel Regal steckt in einer Stufe?",
@@ -184,8 +183,8 @@ export default function HerstellerPage() {
           </h1>
           <p className="text-stone text-base max-w-xl mb-3 leading-relaxed">
             Dein Produkt. Dein Preis. Deine Daten. Echte Kasse statt Umfrage: Jede Neuheit steht
-            mit Tagesticker für eine feste Zeit im Regal. Du steigst auf der Stufe ein, die zu dir
-            passt, und gehst danach ins Standardregal.
+            mit Tagesticker für eine feste Zeit im Regal. Du startest mit einer Regalfront oder auf
+            der Stufe, die zu dir passt, und bleibst danach im Standardregal.
           </p>
           <p className="text-bronze text-sm font-mono mb-8">
             Regalfront ab {PAKETE.S.preis} € im Monat plus {HUB_MARGIN_PCT} % auf den Verkauf.
@@ -194,7 +193,7 @@ export default function HerstellerPage() {
           {/* Facts strip */}
           <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-xs font-mono text-stone border-l-2 border-bronze pl-4">
             <span>{HUB_MARGIN_PCT} % nur auf Verkauf, keine Listungsgebühr</span>
-            <span>Treppe ab {eur0(STUFE_PREIS.testen)} netto, {REGAL_INKLUSIVE_CM} cm Regal inklusive</span>
+            <span>Treppe ab {eur0(STUFE_PREIS.beweisen)} netto, {REGAL_INKLUSIVE_CM} cm Regalfront inklusive</span>
             <span>Standardregal ab {PAKETE.S.preis} €/Monat netto</span>
             <span>Alexa: rund 15 Mio. Center-Besuche im Jahr</span>
           </div>
@@ -223,8 +222,8 @@ export default function HerstellerPage() {
           <div className="border-l-4 border-bronze bg-bronze/5 px-6 py-6 space-y-4">
             <p className="text-cream text-sm leading-relaxed">
               <span className="text-bronze font-semibold">Deine Kosten:</span> In der Treppe ein
-              Festpreis je Stufe ab {eur0(STUFE_PREIS.testen)} netto, {REGAL_INKLUSIVE_CM} cm
-              Regal inklusive. {ZUSATZ_CM_TEXT} Im Standardregal eine Regalfront: S mit{" "}
+              Festpreis je Stufe ab {eur0(STUFE_PREIS.beweisen)} netto, {REGAL_INKLUSIVE_CM} cm
+              Regalfront inklusive. {ZUSATZ_CM_TEXT} Im Standardregal eine Regalfront: S mit{" "}
               {PAKETE.S.cm} cm für {PAKETE.S.preis} €, M mit {PAKETE.M.cm} cm für {PAKETE.M.preis} €,
               L ab {PAKETE.L.abCm} cm für {eur(PAKETE.L.preisJeCm)} je cm, jeweils im Monat, mit
               denselben Zuschlägen nach Höhe. Überall {HUB_MARGIN_PCT} % Vermittlungsprovision je
@@ -249,14 +248,14 @@ export default function HerstellerPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="mb-10">
             <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
-              Fünf Stufen · vom ersten Test bis zur Listung
+              Vier Stufen · vom ersten Beweis bis zur Listung
             </p>
             <h2
               className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-4"
               style={{ fontFamily: "var(--font-bebas)" }}
             >
               Eine Treppe.
-              <span className="text-bronze"> Du entscheidest, wo du einsteigst.</span>
+              <span className="text-bronze"> Du entscheidest, wo du{"\u00A0"}einsteigst.</span>
             </h2>
             <p className="text-stone text-sm max-w-2xl leading-relaxed">
               Jede Marke kann jede Stufe buchen. Die Empfehlung je Stufe ist ein Vorschlag,
@@ -268,7 +267,7 @@ export default function HerstellerPage() {
             </p>
           </div>
 
-          <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+          <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
             {STUFEN.map((st) => (
               <li
                 key={st.key}
@@ -320,7 +319,7 @@ export default function HerstellerPage() {
             </div>
             <div className="space-y-3 text-sm">
               <p className="text-cream">{NACH_JEDER_STUFE}</p>
-              <p className="text-stone">{NUR_NEUPRODUKTE}</p>
+              <p className="text-stone text-pretty">{NUR_NEUPRODUKTE}</p>
               <p className="text-stone">
                 Alle Festpreise netto. In jeder Stufe sind {REGAL_INKLUSIVE_CM} cm Regal
                 inklusive. {ZUSATZ_CM_TEXT} Auf jede Stufe: + {HUB_MARGIN_PCT} % auf

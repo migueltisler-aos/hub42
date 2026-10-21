@@ -104,7 +104,7 @@ export async function submitBewerbung(p: BewerbungPayload): Promise<{ ok: boolea
   if (Object.keys(pruefeBewerbung(p)).length > 0) return { ok: false };
 
   const einstieg = p.einstieg as EinstiegKey; // von pruefeBewerbung garantiert
-  // Stufe 3 bis 5: Regal inklusive, also keine Zone und keine Breite.
+  // Stufe 2 bis 4: Regal inklusive, also keine Zone und keine Breite.
   // Einen besonderen Wert als Preisklasse gibt es nicht mehr (Mischform
   // 2026-10-20): die Spalte bleibt für Altdaten, neue Bewerbungen tragen false.
   const regalwahl = mitRegalwahl(einstieg);

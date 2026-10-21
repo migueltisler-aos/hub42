@@ -1,4 +1,4 @@
-/* Die fünf Stufen als Preistabelle (#preise, Block A). Unter 640 px stapelt
+/* Die vier Stufen als Preistabelle (#preise, Block A). Unter 640 px stapelt
    sich jede Zeile zur Karte, damit nichts horizontal scrollt. */
 
 import { REGAL_TEXT, STUFEN, eur0 } from "@/lib/treppe";
