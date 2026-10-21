@@ -242,8 +242,8 @@ export default async function StartPage() {
               für {PAKETE.M.preis} €, L ab {PAKETE.L.abCm} cm für {eur(PAKETE.L.preisJeCm)} je cm,
               jeweils im Monat. Wer höher steht, zahlt mehr: Augenhöhe +{ZONE_SURCHARGE_PCT.augenhoehe}
               &nbsp;%, garantierte Greifhöhe +{ZONE_SURCHARGE_PCT.greifhoehe}&nbsp;%. Auf der
-              Traverse steht deine Werbung: Marke, eine Zeile zu deinem Produkt, QR-Code. Front
-              antippen, dann
+              Traverse steht deine Werbung: Marke, eine Zeile zu deinem Produkt, dazu ein weißes
+              Preisschild mit QR-Code, über das Käufer dein Produkt bewerten. Front antippen, dann
               rechnet die Karte mit. Die bronzene Front hat einen Griff, zieh sie von S auf M.
             </p>
 

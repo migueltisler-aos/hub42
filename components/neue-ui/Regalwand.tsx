@@ -303,9 +303,20 @@ export default function Regalwand() {
                         return (
                           <div
                             key={`${zone}-t-${i}`}
-                            className={"tcard" + (frei && !conf ? " tcard--free" : "")}
+                            className={
+                              "tcard" + (frei && !conf ? " tcard--free" : "") + (cm <= MIN_CM ? " tcard--s" : "")
+                            }
                             style={{ "--cm": cm } as React.CSSProperties}
                           >
+                            {/* Weißes Preisschild oben rechts (4 × 4 cm auf der 15 cm hohen
+                                Traverse), mit QR-Code zur Bewertung. Die Mockup-Daten haben
+                                keine Verkaufspreise: dann steht dort „Preis“, nie ein
+                                erfundener Betrag. */}
+                            <span className="schild" aria-hidden="true">
+                              <span className="schild__preis">{frei ? "Dein Preis" : "Preis"}</span>
+                              <QrMarke />
+                              <span className="schild__k">Bewerten</span>
+                            </span>
                             {/* Traverse-Karte: die Werbung der Marke, so breit wie
                                 ihre Front. Werbezeile nur aus den Mockup-Daten
                                 (Produkt), bei S zu schmal: dann Name und QR. */}
@@ -317,11 +328,6 @@ export default function Regalwand() {
                               {frei ? (conf ? "Deine Marke" : "Deine Werbung") : f.marke}
                             </p>
                             {!frei && cm > MIN_CM && <p className="tcard__w">{f.produkt}</p>}
-                            {(!frei || conf) && (
-                              <p className="tcard__m">
-                                <QrMarke />
-                              </p>
-                            )}
                           </div>
                         );
                       })}
@@ -363,7 +369,7 @@ export default function Regalwand() {
 
             <p className="card__note">
               {istFrei(gewaehlt)
-                ? "Frei ab sofort. Konsignation: Du lieferst die Ware, wir verkaufen sie und rechnen monatlich ab. Traverse-Karte mit deiner Werbung und QR-Code inklusive."
+                ? "Frei ab sofort. Konsignation: Du lieferst die Ware, wir verkaufen sie und rechnen monatlich ab. Traverse-Karte mit deiner Werbung, Preisschild und QR-Code zur Bewertung inklusive."
                 : gewaehlt.note}
             </p>
 

@@ -419,6 +419,34 @@
     color: var(--ink-mid); font-variant-numeric: tabular-nums;
   }
   .tcard--free .tcard__b { color: var(--bulb-ink); }
+  /* Weißes Preisschild oben rechts: 4 × 4 cm auf der 15 cm hohen Traverse,
+     mindestens 36 px, damit Preis, QR und „Bewerten“ lesbar bleiben. */
+  .tcard { position: relative; --schild: max(calc(4 * var(--pxcm)), 36px); }
+  .schild {
+    position: absolute; top: 4px; right: 4px; width: var(--schild); height: var(--schild);
+    background: #FFFFFF; box-shadow: 0 0 0 1px rgba(30,36,29,.14), 0 1px 2px rgba(30,36,29,.12);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+    overflow: hidden;
+  }
+  .schild svg { width: 12px; height: 12px; }
+  .schild__preis {
+    font-family: var(--f-body); font-weight: 600; font-size: 6.5px; line-height: 1;
+    color: var(--ink); white-space: nowrap;
+  }
+  .schild__k {
+    font-family: var(--f-mono); font-size: 5px; line-height: 1; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--ink-mid); white-space: nowrap;
+  }
+  /* Name und Werbezeile lassen dem Schild Platz */
+  .tcard__b, .tcard__w { padding-right: calc(var(--schild) + 2px); }
+  /* Schmale S-Karte: Name unten über die ganze Breite, das Schild bleibt oben */
+  .tcard--s { justify-content: flex-end; }
+  .tcard--s .tcard__b { padding-right: 0; }
+  @media (max-width: 900px) {
+    .tcard { --schild: 33px; }
+    .schild__k { display: none; }
+    .schild svg { width: 11px; height: 11px; }
+  }
   /* Markenname bleibt beisammen: auf schmalen Karten sinkt die Schrift
      (Breite der Karte durch Zeichenzahl --n), Untergrenze 8.5px, danach
      Auslassung; der volle Name steht im title und in der Karte. */
