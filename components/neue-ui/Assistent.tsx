@@ -53,7 +53,7 @@ const fertig = (t: ArtikelTexte | null | "laedt") => (t === "laedt" ? null : t);
 import { ZONES, eur, type ZoneKey } from "@/lib/neue-ui/regal";
 import { HALTUNG_TAGS, KATEGORIEN_KANONISCH, type HaltungTag } from "@/lib/pipeline-model";
 import { ALLE_STUFEN, EINSTIEGE, EINSTIEG_EVENT, STUFEN, mitRegalwahl, type EinstiegKey } from "@/lib/treppe";
-import { ArtikelKarte, HerstellerKarte, Rechnung, Zoombar } from "./PosKarten";
+import { ArtikelKarte, HerstellerKarte, Zoombar } from "./PosKarten";
 
 const SCHRITTE = ["website", "ziel", "start", "reife", "produkt", "regal", "ergebnis", "kontakt"] as const;
 const FRAGEN = 6; // alles vor dem Ergebnis
@@ -131,7 +131,6 @@ export default function Assistent() {
   const [warteIdx, setWarteIdx] = useState(0);
   const [anfrageId, setAnfrageId] = useState<string | null>(null);
   const [eigenes, setEigenes] = useState({ titel: "", preis: "" });
-  const [verkaeufe, setVerkaeufe] = useState(20);
   const [kontakt, setKontakt] = useState({ instagram: "", instaFreigabe: true, name: "", email: "", marke: "", einstieg: "" as EinstiegKey | "", nachricht: "", firma2: "" });
   const [einstiegVonTreppe, setEinstiegVonTreppe] = useState(false);
   const [fehler, setFehler] = useState<Record<string, string>>({});
@@ -150,7 +149,6 @@ export default function Assistent() {
         url: auswahl[0].url,
       }
     : null;
-  const setProdukt = (x: KarteProdukt) => setAuswahl((l) => (l.length ? [{ ...l[0], preis: x.preis }, ...l.slice(1)] : [x]));
   const artikelVon = (x: KarteProdukt) => artikelJe[x.titel] ?? null;
   // Preisurteil: ein unfaires Produkt zählt, sonst das erste.
   const urteile = auswahl
@@ -181,8 +179,6 @@ export default function Assistent() {
         schaetzungMonat: mitte ?? null,
       }).catch(() => {});
     }
-    // Regler im Ergebnis startet bei unserer Schätzung.
-    if (ziel === "ergebnis" && mitte) setVerkaeufe(Math.min(120, Math.max(5, Math.round(mitte / 5) * 5)));
     track({ event_type: "interaction", path: window.location.pathname, section: `assistent:${ziel}` });
     // Auf kleinen Bildschirmen wieder an den Anfang des Assistenten.
     requestAnimationFrame(() => {
@@ -734,15 +730,6 @@ export default function Assistent() {
                 <Abverkauf a={a} s={s} />
                 <RechnungBlock a={a} s={s} r={rw} />
               </div>
-              <Rechnung
-                produkt={produkt}
-                setProdukt={setProdukt}
-                verkaeufe={verkaeufe}
-                setVerkaeufe={setVerkaeufe}
-                zone={a.zone}
-                cm={a.cm}
-                ohneVergleich
-              />
               <p className="rk__fine">
                 Schätzung, keine Zusage. Das Alexa-Center zählt rund {zahl(FUNNEL.centerTag)} Besucher am Tag, das
                 ist die Zahl des Centers, nicht unseres Ladens. Im Laden rechnen wir mit {FUNNEL.ladenTagVon} bis{" "}
