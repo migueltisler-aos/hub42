@@ -65,21 +65,23 @@ export const ORDER: ZoneKey[] = ["augenhoehe", "greifhoehe", "basis"];
 export const MIN_CM = MIN_REGAL_CM;
 
 /** Breite, die sich die konfigurierbare Front und ihre Nachbarin teilen:
-    S plus M, der Griff tauscht die beiden. */
-export const CONF_POOL = PAKETE.S.cm + PAKETE.M.cm;
+    die ganze Ebene. Die Front rastet auf S oder M (CONF_MAX), die Nachbarin
+    bekommt den Rest als L. */
+export const CONF_POOL = 84;
+export const CONF_MAX = PAKETE.M.cm;
 
-/** €/cm und Monat in dieser Zone, Regalplatz L. */
+/** €/cm und Monat in dieser Zone, Regalfront L. */
 export const rate = (zone: ZoneKey): number => RATES[zone];
 
-/** Monatsmiete einer Front nach Regalplatz S, M oder L; null bei Zwischenbreiten. */
+/** Monatsmiete einer Front nach Regalfront S, M oder L; null bei Zwischenbreiten. */
 export const miete = (cm: number, zone: ZoneKey): number | null => paketMiete(cm, zone);
 
-/** Regalplatz einer Breite als Text: „S, 13 cm“, „M, 25 cm“ oder „L, 4,64 € je cm“. */
-export const paketText = (cm: number, zone: ZoneKey): string | null => {
+/** Regalfront einer Breite als Text: „S, 13 cm“, „M, 25 cm“ oder „L, 58 cm“. */
+export const paketText = (cm: number): string | null => {
   const p: Paket | null = paketFuer(cm);
   if (p === "S") return `S, ${PAKETE.S.cm} cm`;
   if (p === "M") return `M, ${PAKETE.M.cm} cm`;
-  if (p === "L") return `L, ${eur(rate(zone))} je cm`;
+  if (p === "L") return `L, ${cm} cm`;
   return null;
 };
 
@@ -120,6 +122,9 @@ export const istFrei = (f: Front): f is FreieFront => f.free === true;
 
 /** Belegung der Regalwand A: drei Ebenen à 84 cm. */
 export const WALL: Record<ZoneKey, Front[]> = {
+  /* Jede Front hat eine buchbare Breite: S 13, M 25 oder L ab 50 cm. Eine
+     Ebene (84 cm) geht mit S und M allein nicht auf, deshalb trägt jede
+     Ebene eine L-Front. */
   augenhoehe: [
     {
       id: "tekoha",
@@ -127,7 +132,7 @@ export const WALL: Record<ZoneKey, Front[]> = {
       produkt: "Matekaffee",
       kat: "Kaffee",
       herkunft: "Berlin / Paraguay",
-      cm: 21,
+      cm: 13,
       h: 18,
       img: "/brands/tekoha-matekaffee.jpg",
       zoom: 1.28,
@@ -140,24 +145,28 @@ export const WALL: Record<ZoneKey, Front[]> = {
       produkt: "Crunchy Six Spice Granola",
       kat: "Granola",
       herkunft: "Berlin",
-      cm: 25,
+      cm: 13,
       h: 24,
       img: "/brands/berlin-oats-sixspice.png",
       zoom: 1.34,
       dy: "17%",
       note: "320 g Knuspermüsli mit sechs Gewürzen, ohne künstliche Zusätze.",
     },
-    { free: true, cm: 25 },
-    { free: true, cm: 13 },
+    { free: true, cm: 58 },
   ],
   greifhoehe: [
+    /* Deine Front rastet auf S oder M, die Nachbarin ist L (71 oder 59 cm). */
+    { free: true, cm: 13, conf: true },
+    { free: true, cm: 71, buddy: true },
+  ],
+  basis: [
     {
       id: "crazy",
       marke: "Crazy Bastard Sauce",
       produkt: "7 Pot Tropical",
       kat: "Hot Sauce",
       herkunft: "Berlin Neukölln",
-      cm: 14,
+      cm: 13,
       h: 17,
       img: "/brands/crazy-bastard-7pot.png",
       zoom: 1.42,
@@ -165,42 +174,25 @@ export const WALL: Record<ZoneKey, Front[]> = {
       note: "Seit 2013 in Neukölln handgemacht, rund 1.200 Flaschen am Tag. Geröstete Chilis, kein Zuckerzusatz.",
     },
     {
-      id: "matcha",
-      marke: "Berlin Oats",
-      produkt: "Crunchy Matcha Granola",
-      kat: "Granola",
-      herkunft: "Berlin",
-      cm: 16,
-      h: 24,
-      img: "/brands/berlin-oats-matcha.png",
-      zoom: 1.34,
-      dy: "19%",
-      note: "Knuspermüsli mit Matcha-Grüntee. Die Sorte, die an der Theke am häufigsten leer wird.",
-    },
-    {
       id: "green",
       marke: "Green Naturals",
       produkt: "Ashwagandha 2.500 mg",
       kat: "Supplements",
       herkunft: "Deutschland",
-      cm: 16,
+      cm: 13,
       h: 19,
       img: "/brands/green-naturals-ashwagandha.png",
       zoom: 1.36,
       dy: "10%",
       note: "180 Kapseln, vegan. Nahrungsergänzung, die sonst nur online zu finden ist.",
     },
-    { free: true, cm: 13, conf: true },
-    { free: true, cm: 25, buddy: true },
-  ],
-  basis: [
     {
       id: "auteniq",
       marke: "auteniQ",
       produkt: "Bio-Olivenöl Arbequina, 3 l",
       kat: "Feinkost",
       herkunft: "Katalonien / Deutschland",
-      cm: 21,
+      cm: 58,
       h: 25,
       img: "/brands/auteniq-olivenoel.png",
       zoom: 1.12,
@@ -208,10 +200,6 @@ export const WALL: Record<ZoneKey, Front[]> = {
       crop: true,
       note: "Natives Olivenöl extra vom Erzeuger, 3-Liter-Kanister. Venda de proximitat, IFS Food.",
     },
-    { free: true, cm: 25 },
-    { free: true, cm: 25 },
-    /* 13 cm: Regalplatz S */
-    { free: true, cm: 13 },
   ],
 };
 

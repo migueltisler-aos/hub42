@@ -10,6 +10,7 @@
 
 import { Fragment, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
+  CONF_MAX,
   CONF_POOL,
   MIN_CM,
   ORDER,
@@ -56,9 +57,9 @@ const CONF_IDX = WALL.greifhoehe.findIndex((f) => istFrei(f) && f.conf);
 const BUDDY_IDX = WALL.greifhoehe.findIndex((f) => istFrei(f) && f.buddy);
 const CONF_START = WALL.greifhoehe[CONF_IDX].cm;
 
-/* Der Griff rastet auf Regalplatz S (13 cm) oder M (25 cm); die Nachbarin
-   bekommt jeweils den anderen. Umschlag in der Mitte. */
-const GROSS = CONF_POOL - MIN_CM;
+/* Der Griff rastet auf Regalfront S (13 cm) oder M (25 cm); die Nachbarin
+   bekommt den Rest der Ebene als L. Umschlag in der Mitte. */
+const GROSS = CONF_MAX;
 const klemm = (cm: number) => (cm >= (MIN_CM + GROSS) / 2 ? GROSS : MIN_CM);
 
 /** Monatsmiete als Text; Zwischenbreiten haben keinen Preis. */
@@ -156,7 +157,7 @@ export default function Regalwand() {
       return;
     } else if (ev.key === "End") {
       ev.preventDefault();
-      setConfCm(CONF_POOL - MIN_CM);
+      setConfCm(CONF_MAX);
       setSel({ zone: "greifhoehe", idx: CONF_IDX });
       return;
     } else return;
@@ -169,11 +170,11 @@ export default function Regalwand() {
   const gewaehlt = WALL[sel.zone][sel.idx];
   const gewaehltCm = breite(sel.zone, sel.idx, gewaehlt);
   const Z = ZONES[sel.zone];
-  const platz = paketText(gewaehltCm, sel.zone);
+  const platz = paketText(gewaehltCm);
 
+  /* Karte, Breite und Preis aus derselben Quelle: Regalfront nach Paket. */
   const zeilen: { k: string; v: string; sum?: boolean }[] = [
-    { k: "Regalfront", v: `${gewaehltCm} cm` },
-    ...(platz ? [{ k: "Regalplatz", v: platz }] : []),
+    { k: "Regalfront", v: platz ?? `${gewaehltCm} cm` },
     { k: "Zone", v: Z.name + (Z.auf ? ` (+${Z.auf} %)` : "") },
     { k: "Miete / Monat", v: preis(gewaehltCm, sel.zone), sum: true },
   ];
@@ -275,17 +276,17 @@ export default function Regalwand() {
                                   className="grip"
                                   role="slider"
                                   tabIndex={0}
-                                  aria-label="Breite deiner Regalfront: Regalplatz S mit 13 oder M mit 25 Zentimetern"
+                                  aria-label="Breite deiner Regalfront: Regalfront S mit 13 oder M mit 25 Zentimetern"
                                   aria-valuemin={MIN_CM}
-                                  aria-valuemax={CONF_POOL - MIN_CM}
+                                  aria-valuemax={CONF_MAX}
                                   aria-valuenow={confCm}
-                                  aria-valuetext={`Regalplatz ${confPlatz}, ${confCm} Zentimeter, ${confMonat} im Monat`}
+                                  aria-valuetext={`Regalfront ${confPlatz}, ${confCm} Zentimeter, ${confMonat} im Monat`}
                                   onPointerDown={griffZiehen}
                                   onKeyDown={griffTaste}
                                   onClick={(e) => e.stopPropagation()}
                                 />
                                 <span className="readout">
-                                  {confCm} cm · Regalplatz {confPlatz} · <b>{confMonat}</b> / Monat
+                                  {confCm} cm · Regalfront {confPlatz} · <b>{confMonat}</b> / Monat
                                 </span>
                               </span>
                             )}
@@ -311,7 +312,7 @@ export default function Regalwand() {
                             <p className="tcard__b">{frei ? (conf ? "Deine Marke" : "frei") : f.marke}</p>
                             <p className="tcard__m">
                               {frei && !conf ? (
-                                /* Regalplatz S ist zu schmal für Breite und Preis
+                                /* Regalfront S ist zu schmal für Breite und Preis
                                    nebeneinander; die Breite steht auf der Front. */
                                 cm > MIN_CM ? (
                                   <>

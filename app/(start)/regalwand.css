@@ -482,8 +482,10 @@
   .grip:hover::before, .grip:focus-visible::before { height: 70px; background: #5E3E10; }
 
   .readout {
+    /* Die Griff-Front steht ganz links in der Ebene: die Anzeige läuft nach
+       rechts über die Nachbarin, der Pfeil zeigt auf den Griff. */
     position: absolute; left: 0; bottom: calc(21 * var(--pxcm) + 11px);
-    transform: translateX(-50%);
+    transform: translateX(-16px);
     background: var(--steel); color: #F2F2EA;
     padding: 6px 11px 7px; border-radius: 2px;
     font-family: var(--f-mono); font-size: 0.719rem; line-height: 1.35;
@@ -491,7 +493,7 @@
     z-index: 4; pointer-events: none;
   }
   .readout::after {
-    content: ""; position: absolute; left: 50%; top: 100%; transform: translateX(-50%);
+    content: ""; position: absolute; left: 16px; top: 100%; transform: translateX(-50%);
     border: 5px solid transparent; border-top-color: var(--steel);
   }
   .readout b { color: var(--bulb-lite); font-weight: 400; }
@@ -672,7 +674,7 @@
   .tile__pic { margin-top: auto; background: var(--concrete-lite); border: 1px solid var(--hair); aspect-ratio: 4/3; overflow: hidden; }
   .tile__pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
-  /* Regalplätze S, M, L im Preisblock: gleich gewichtet, Preis wie die Faktenleiste */
+  /* Regalfronten S, M, L im Preisblock: gleich gewichtet, Preis wie die Faktenleiste */
   .pakete { margin-top: 22px; }
   .paket { background: var(--concrete); gap: 6px; }
   .paket .paket__preis {
@@ -1123,7 +1125,7 @@
     .rate--stack td { font-size: 0.813rem; }
 
     /* Faktenleiste zweispaltig: etwas weniger Laufweite, damit drei Wörter
-       wie „Regalplatz im Monat“ in einer Zeile stehen statt ein Wort allein */
+       wie „Regalfront im Monat“ in einer Zeile stehen statt ein Wort allein */
     .fact { padding-left: 18px; padding-right: 18px; }
     .fact__k { letter-spacing: 0.1em; }
 
