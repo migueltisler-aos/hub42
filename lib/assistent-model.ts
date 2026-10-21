@@ -6,6 +6,7 @@
 // nur aus den Antworten der Marke statt aus recherchierten Feldern. Die
 // Abverkaufsbasis ist der Funnel aus dem Businessplan (Anhang E.6/E.7).
 
+import { HUB_MARGIN_PCT } from "@/lib/deck-economics";
 import { mieteMonat, potenzial, type Potenzial } from "@/lib/karte-model";
 import type { PreisUrteil } from "@/lib/karte-model";
 import type { ZoneKey } from "@/lib/neue-ui/regal";
@@ -165,15 +166,17 @@ export const FUNNEL = {
   artikelJeEinkauf: 2, // 22 € Warenkorb bei rund 11 € Ø-Preis
   produkteImLaden: 300, // 80–120 Marken (Anhang E.7) × rund 3 Produkte
 };
-const TAGE = 30;
-export const STORE_BESUCHER_MONAT = FUNNEL.ladenTag * TAGE;
-/** Einkäufe im Monat laut Funnel: rund 21 am Tag. */
+/** Verkaufstage im Monat, eine Basis für Sichtbarkeit, Abverkauf und
+    Rechnung (Geschäftsführung 2026-10-21, Annahme). */
+export const VERKAUFSTAGE = 25;
+export const STORE_BESUCHER_MONAT = FUNNEL.ladenTag * VERKAUFSTAGE;
+/** Einkäufe im Monat laut Funnel: rund 21 am Verkaufstag. */
 export const EINKAEUFE_MONAT = STORE_BESUCHER_MONAT * FUNNEL.probieren * FUNNEL.kaufen;
 /* Verteilt wird je Produkt, nicht je Zentimeter: Kunden greifen zu
    Produkten. Je cm verteilt bekäme eine 10-cm-Marke nur 1/714 aller
    Verkäufe, obwohl der Plan mit rund 70 cm je Marke rechnet – das machte
    kleine Marken künstlich schlecht. Summe bleibt der Plan-Umsatz. */
-/** Verkäufe je Produkt und Monat bei Faktor 1: rund 4. */
+/** Verkäufe je Produkt und Monat bei Faktor 1: rund 3,5. */
 export const STUECK_PRO_PRODUKT = (EINKAEUFE_MONAT * FUNNEL.artikelJeEinkauf) / FUNNEL.produkteImLaden;
 const PROBIERER_PRO_PRODUKT = (STORE_BESUCHER_MONAT * FUNNEL.probieren) / FUNNEL.produkteImLaden;
 
@@ -201,6 +204,62 @@ export function schaetzung(a: AssistentAntworten, vk: number, anzahl = 1): Schae
   };
 }
 
+/* ── Rechnung: ab wann sich der Regalplatz selbst bezahlt ────────
+   Gerechnet netto: Ladenpreis ohne Umsatzsteuer, minus 7 % Provision auf
+   den Bruttopreis (so rechnet die Provision im Vertrag und in karte-model).
+   Die Miete ist netto. Umsatzsteuer vereinfacht nach Kategorie
+   (Geschäftsführung 2026-10-21); hier ändern, wenn der Steuerberater es
+   anders sieht. Unbekannte Kategorie: Regelsatz. */
+export const UST_REGELSATZ_PCT = 19;
+export const UST_PCT_NACH_KATEGORIE: Record<KategorieKanonisch, number> = {
+  Food: 7,
+  Drinks: 19,
+  Beauty: 19,
+  Lifestyle: 19,
+  Home: 19,
+  Sonstiges: 19,
+};
+
+export const ustPct = (kategorie: KategorieKanonisch | ""): number =>
+  kategorie ? (UST_PCT_NACH_KATEGORIE[kategorie] ?? UST_REGELSATZ_PCT) : UST_REGELSATZ_PCT;
+
+/** Was der Marke je Verkauf netto bleibt, vor Wareneinsatz. */
+export const nettoJeVerkauf = (vk: number, kategorie: KategorieKanonisch | ""): number =>
+  vk / (1 + ustPct(kategorie) / 100) - vk * (HUB_MARGIN_PCT / 100);
+
+export interface Rechnung {
+  besucherMonat: number;
+  miete: number;
+  kostenJe1000: number;
+  /** Verkäufe im Monat, ab denen der Erlös nach Provision die Miete deckt. */
+  schwelle: number;
+  /** schwelle je Verkaufstag, auf eine Nachkommastelle, aus der gerundeten Monatszahl. */
+  schwelleTag: number;
+  anteilMin: number;
+  anteilMax: number;
+  /** Lage der Schätzung zur Schwelle. */
+  fall: "darunter" | "dazwischen" | "darueber";
+}
+
+export function rechnung(a: AssistentAntworten, vk: number, s: Schaetzung): Rechnung {
+  const miete = mieteMonat(a.zone, a.cm);
+  const netto = nettoJeVerkauf(vk, a.kategorie);
+  const schwelle = netto > 0 ? Math.ceil(miete / netto) : Infinity;
+  const schwelleTag = Math.round((schwelle / VERKAUFSTAGE) * 10) / 10;
+  const anteil = (n: number) => (miete > 0 ? Math.round(((n * netto) / miete) * 100) : 0);
+  const { tief, hoch } = s.stueck;
+  return {
+    besucherMonat: STORE_BESUCHER_MONAT,
+    miete,
+    kostenJe1000: miete > 0 ? (miete / STORE_BESUCHER_MONAT) * 1000 : 0,
+    schwelle,
+    schwelleTag,
+    anteilMin: anteil(tief),
+    anteilMax: anteil(hoch),
+    fall: hoch < schwelle ? "darunter" : tief < schwelle ? "dazwischen" : "darueber",
+  };
+}
+
 /* ── Einstieg ─────────────────────────────────────────────────── */
 
 /** Die höchste Stufe, die eines der Ziele braucht. Ohne Ziel wie bisher aus dem Vertrieb. */
@@ -215,5 +274,3 @@ export function empfohlenerEinstieg(a: AssistentAntworten, hatOnlineshop: boolea
   return "testen";
 }
 
-/** Regalmiete für drei Monate, nach Regalplatz und Zone. */
-export const mieteDreiMonate = (a: AssistentAntworten): number => mieteMonat(a.zone, a.cm) * 3;

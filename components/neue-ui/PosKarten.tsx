@@ -191,6 +191,8 @@ export function Rechnung(r: {
   setVerkaeufe: (n: number) => void;
   zone: ZoneKey | "";
   cm: number | null;
+  /** Im Assistenten-Ergebnis: ohne „+… € im Jahr“ und ohne „mehr als im Supermarkt“. */
+  ohneVergleich?: boolean;
 }) {
   const [preisText, setPreisText] = useState("");
   const vk = r.produkt.preis;
@@ -239,7 +241,7 @@ export function Rechnung(r: {
 
   return (
     <div className="rk-calc">
-      {haupt ? (
+      {r.ohneVergleich ? null : haupt ? (
         <p className="rk-calc__h">
           <span className="rk-calc__big">+{euro0(haupt.v)}</span>
           im Jahr mehr als {haupt.k}, bei {r.verkaeufe} Verkäufen im Monat.

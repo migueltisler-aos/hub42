@@ -770,6 +770,9 @@
   .as__q { font-family: var(--f-display); font-size: clamp(1.35rem, 2.6vw, 1.75rem); line-height: 1.15; color: #F7F5EE; }
   .as__sub { font-size: 0.875rem; line-height: 1.5; color: rgba(237,239,233,.68); }
   .as__hint { font-size: 0.75rem; line-height: 1.5; color: rgba(237,239,233,.52); }
+  /* Ergebnis, Block Rechnung: der Kernsatz und die Beträge im Fließtext */
+  .as__kern { font-size: 1.05rem; line-height: 1.4; font-weight: 500; color: #F7F5EE; }
+  .as__sub b { color: #F7F5EE; font-weight: 500; }
   .as__nav { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center; }
   .as__nav .btn:disabled { opacity: .45; cursor: not-allowed; }
   .as__tiles { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
@@ -798,6 +801,7 @@
   .as__zahl small { font-family: var(--f-body); font-size: 0.938rem; color: rgba(237,239,233,.72); letter-spacing: 0; }
   .as__facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 0.875rem; color: rgba(237,239,233,.72); }
   .as__facts b { color: #F7F5EE; font-weight: 500; }
+  .as__facts li { text-wrap: pretty; }
   .as__laden { display: flex; gap: 10px; align-items: center; font-size: 0.875rem; color: rgba(237,239,233,.72); }
   .as__kn { display: grid; gap: 10px; padding: 14px 16px; background: rgba(255,255,255,.04); border: 1px solid rgba(232,200,138,.16); }
   .as__kn dl { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; margin: 0; font-size: 0.875rem; color: rgba(237,239,233,.72); }

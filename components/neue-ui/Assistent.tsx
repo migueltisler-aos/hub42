@@ -28,11 +28,14 @@ import {
   type ZielKey,
   STUECK_PRO_PRODUKT,
   VERTRIEB,
+  VERKAUFSTAGE,
   empfohlenerEinstieg,
-  mieteDreiMonate,
+  rechnung as rechnen,
   regeln,
   schaetzung,
   type AssistentAntworten,
+  type Rechnung as RechnungWerte,
+  type Schaetzung,
 } from "@/lib/assistent-model";
 import {
   HUB_MARGIN_PCT,
@@ -158,6 +161,7 @@ export default function Assistent() {
   const preis = produkt?.preis ?? null;
   const r = regeln(a, preis, urteil);
   const s = preis ? schaetzung(a, preis, auswahl.length) : null;
+  const rw = s && preis ? rechnen(a, preis, s) : null;
   const mitte = s?.stueck.mitte;
 
   const setze = <K extends keyof AssistentAntworten>(k: K, v: AssistentAntworten[K]) => setA((x) => ({ ...x, [k]: v }));
@@ -690,30 +694,7 @@ export default function Assistent() {
               </ul>
             </div>
 
-            {s && produkt?.preis && (
-              <div className="as__erg-col">
-                <p className="as__h">Was dein Produkt bei uns verkaufen kann</p>
-                <p className="as__zahl">
-                  {s.stueck.tief}–{s.stueck.hoch}
-                  <small> Verkäufe im Monat</small>
-                </p>
-                {a.faktorGrund && <p className="as__sub">{a.faktorGrund}</p>}
-                <ul className="as__facts">
-                  <li>
-                    <b>{zahl(s.storeBesucherMonat)}</b> Menschen kommen jeden Monat in den Laden
-                    (Annahme: {FUNNEL.ladenTagVon} bis {FUNNEL.ladenTagBis} am Tag)
-                  </li>
-                  <li>
-                    <b>≈ {zahl(s.probiererMonat)}</b>{" "}
-                    {a.kategorie === "Food" || a.kategorie === "Drinks" ? "probieren oder scannen" : "scannen oder nehmen"} dein
-                    Produkt in die Hand
-                  </li>
-                  <li>
-                    <b>≈ {euro0(s.umsatzMonat)}</b> Umsatz im Monat auf {a.cm} cm, {ZONES[a.zone].name}
-                  </li>
-                </ul>
-              </div>
-            )}
+            {s && rw && <Sichtbarkeit r={rw} />}
           </div>
 
           {karte && produkt && (
@@ -747,24 +728,26 @@ export default function Assistent() {
             </p>
           )}
 
-          {s && produkt?.preis && (
+          {s && rw && produkt?.preis && (
             <div className="as__block">
-              <p className="as__h">Kosten und Nutzen</p>
               <div className="as__kn-grid">
-                <KostenNutzen a={a} umsatzMonat={s.umsatzMonat} />
-                <Rechnung
-                  produkt={produkt}
-                  setProdukt={setProdukt}
-                  verkaeufe={verkaeufe}
-                  setVerkaeufe={setVerkaeufe}
-                  zone={a.zone}
-                  cm={a.cm}
-                />
+                <Abverkauf a={a} s={s} />
+                <RechnungBlock a={a} s={s} r={rw} />
               </div>
+              <Rechnung
+                produkt={produkt}
+                setProdukt={setProdukt}
+                verkaeufe={verkaeufe}
+                setVerkaeufe={setVerkaeufe}
+                zone={a.zone}
+                cm={a.cm}
+                ohneVergleich
+              />
               <p className="rk__fine">
                 Schätzung, keine Zusage. Das Alexa-Center zählt rund {zahl(FUNNEL.centerTag)} Besucher am Tag, das
                 ist die Zahl des Centers, nicht unseres Ladens. Im Laden rechnen wir mit {FUNNEL.ladenTagVon} bis{" "}
-                {FUNNEL.ladenTagBis} Besuchern am Tag (Annahme, gerechnet mit {FUNNEL.ladenTag}),{" "}
+                {FUNNEL.ladenTagBis} Besuchern am Tag (Annahme, gerechnet mit {FUNNEL.ladenTag}) an {VERKAUFSTAGE}{" "}
+                Verkaufstagen im Monat (Annahme),{" "}
                 {FUNNEL.probieren * 100} % probieren oder scannen,{" "}
                 {FUNNEL.kaufen * 100} % davon kaufen, Ø {FUNNEL.warenkorb} € und {FUNNEL.artikelJeEinkauf} Artikel je Einkauf,
                 verteilt auf rund {FUNNEL.produkteImLaden} Produkte im Laden. Das sind rund {Math.round(STUECK_PRO_PRODUKT)} Verkäufe
@@ -944,40 +927,90 @@ function Nav({ zurueck, weiter, weiterAktiv = true }: { zurueck: () => void; wei
   );
 }
 
-/* Drei Monate Regal nach Zentimetern: was es kostet, was zurückkommt. */
-function KostenNutzen(p: { a: AssistentAntworten; umsatzMonat: number }) {
-  const kosten = mieteDreiMonate(p.a);
-  const umsatz = p.umsatzMonat * 3;
-  const provision = umsatz * (HUB_MARGIN_PCT / 100);
-  const bleibt = umsatz - provision - kosten;
-  const platz = paketFuer(p.a.cm) ?? "L";
-  const Z = ZONES[p.a.zone];
+/* ── Ergebnis in drei Blöcken: Sichtbarkeit, Abverkauf, Rechnung ──
+   Texte aus copy/assistent-ergebnis.md, Zahlen aus lib/assistent-model.ts. */
+
+const tag1 = (n: number) => n.toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+function Sichtbarkeit({ r }: { r: RechnungWerte }) {
   return (
-    <div className="as__kn">
-      <p className="as__h as__h--klein">
-        3 Monate · Regalplatz {platz} · {Z.name}
+    <div className="as__erg-col">
+      <p className="as__h">Sichtbarkeit</p>
+      <p className="as__zahl">
+        {zahl(r.besucherMonat)}
+        <small> Menschen im Laden je Monat (Annahme)</small>
       </p>
-      <dl>
-        <dt>Erwarteter Umsatz</dt>
-        <dd>{euro0(umsatz)}</dd>
-        <dt>
-          Regalmiete (Regalplatz {platz}
-          {Z.auf ? `, +${Z.auf} %` : ""})
-        </dt>
-        <dd>− {euro0(kosten)}</dd>
-        <dt>{HUB_MARGIN_PCT} % Provision</dt>
-        <dd>− {euro0(provision)}</dd>
-        <dt className="as__kn-sum">{bleibt >= 0 ? "Bleibt dir" : "Dein Einsatz"}</dt>
-        <dd className="as__kn-sum">{euro0(Math.abs(bleibt))}</dd>
-      </dl>
+      <ul className="as__facts">
+        <li>
+          <b>{eur(r.kostenJe1000)}</b> kostet dich dein Regalplatz je 1.000 Ladenbesucher.
+        </li>
+        <li>
+          Online zahlst du für Einblendungen auf einem Bildschirm. Hier zahlst du für Menschen, die im Laden stehen.
+        </li>
+      </ul>
       <p className="as__hint">
-        {bleibt >= 0
-          ? "vor Wareneinsatz. Dazu kommen Daten und Feedback, die du sonst teuer einkaufst."
-          : `vor Wareneinsatz. Dafür bekommst du rund ${zahl(STORE_BESUCHER_3M)} Ladenbesucher (Annahme), echtes Kundenfeedback und einen Abverkaufsnachweis für den Handel.`}
+        Annahme: {FUNNEL.ladenTagVon} bis {FUNNEL.ladenTagBis} Besucher am Tag im Laden, gerechnet mit {FUNNEL.ladenTag} an{" "}
+        {VERKAUFSTAGE} Verkaufstagen. Wie viele davon an deinem Regal stehen bleiben, wissen wir erst, wenn der Laden offen
+        ist.
       </p>
     </div>
   );
 }
 
-/* Ladenbesucher in drei Monaten, aus der Annahme je Tag (nicht aus der Center-Zahl). */
-const STORE_BESUCHER_3M = FUNNEL.ladenTag * 90;
+function Abverkauf({ a, s }: { a: AssistentAntworten; s: Schaetzung }) {
+  return (
+    <div className="as__erg-col">
+      <p className="as__h">Abverkauf</p>
+      <p className="as__zahl">
+        {s.stueck.tief} bis {s.stueck.hoch}
+        <small> Verkäufe im Monat (Schätzung)</small>
+      </p>
+      {a.faktorGrund && <p className="as__sub">{a.faktorGrund}</p>}
+      <ul className="as__facts">
+        <li>
+          <b>≈ {zahl(s.probiererMonat)}</b>{" "}
+          {a.kategorie === "Food" || a.kategorie === "Drinks" ? "probieren oder scannen" : "scannen oder nehmen"} dein
+          Produkt in die Hand
+        </li>
+        <li>
+          <b>Rund {euro0(s.umsatzMonat)}</b> Umsatz im Monat zu deinem Ladenpreis, wenn die mittlere Schätzung eintrifft.
+        </li>
+      </ul>
+      <p className="as__hint">Schätzung, keine Zusage. Echte Zahlen gibt es ab April 2027 im Monatsbericht.</p>
+    </div>
+  );
+}
+
+function RechnungBlock({ a, s, r }: { a: AssistentAntworten; s: Schaetzung; r: RechnungWerte }) {
+  const platz = paketFuer(a.cm) ?? "L";
+  const Z = ZONES[a.zone];
+  const { tief, hoch } = s.stueck;
+  return (
+    <div className="as__kn">
+      <p className="as__h">Rechnung</p>
+      <p className="as__sub">
+        Regalplatz {platz} · {Z.name}: <b>{eur(r.miete)}</b> im Monat, netto
+      </p>
+      <p className="as__kern">
+        {r.schwelleTag < 1
+          ? "Weniger als ein Verkauf am Tag, und dein Regalplatz bezahlt sich selbst."
+          : `Dein Regalplatz bezahlt sich ab ${tag1(r.schwelleTag)} Verkäufen am Tag selbst.`}
+      </p>
+      <p className="as__sub">
+        Ab {r.schwelle} Verkäufen im Monat deckt dein Umsatz nach {HUB_MARGIN_PCT} % Provision die Miete. Das sind{" "}
+        {tag1(r.schwelleTag)} am Tag.
+      </p>
+      <p className="as__sub">
+        {r.fall === "darunter"
+          ? `Deine geschätzten ${tief} bis ${hoch} Verkäufe holen ${r.anteilMin} bis ${r.anteilMax} % der Miete zurück. Den Rest zahlst du für die Sichtbarkeit.`
+          : r.fall === "dazwischen"
+            ? `Trifft die obere Schätzung ein, deckt dein Umsatz die Miete. Trifft die untere ein, holst du ${r.anteilMin} % der Miete zurück.`
+            : `Schon die vorsichtige Schätzung deckt die Miete: ${r.anteilMin} bis ${r.anteilMax} %. Was darüber liegt, bleibt dir.`}
+      </p>
+      <p className="as__hint">
+        Gerechnet mit deinem Ladenpreis ohne Umsatzsteuer, vor Wareneinsatz. {VERKAUFSTAGE} Verkaufstage im Monat
+        (Annahme). Mindestlaufzeit 3 Monate, danach monatlich kündbar.
+      </p>
+    </div>
+  );
+}
