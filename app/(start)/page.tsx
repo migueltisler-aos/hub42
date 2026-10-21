@@ -508,7 +508,8 @@ export default async function StartPage() {
                 </p>
                 <div className="slots" aria-label="Onboarding-Termine diese Woche">
                   {frei === null ? (
-                    <p className="slots__txt">{ONBOARDINGS_PRO_WOCHE} Onboardings pro Woche</p>
+                    /* Zählung fehlgeschlagen: nie eine erfundene Zahl, nur der feste Satz. */
+                    <p className="slots__txt">Wir holen jede Woche {ONBOARDINGS_PRO_WOCHE} Marken ins Onboarding.</p>
                   ) : (
                     <>
                       <div className="slots__dots" aria-hidden="true">
@@ -525,7 +526,7 @@ export default async function StartPage() {
                             Onboardings diese Woche frei
                           </>
                         ) : (
-                          <>Diese Woche ist voll. Deine Bewerbung rutscht in die nächste.</>
+                          <>Diese Woche sind alle Onboardings vergeben. Bewirb dich für die nächste Woche.</>
                         )}
                       </p>
                     </>
