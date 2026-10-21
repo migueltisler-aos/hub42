@@ -8,7 +8,7 @@ const CHANNELS = [
   {
     n: "02",
     t: "Retail – Rewe, Edeka, Aldi & Co.",
-    d: "Der Handel diktiert Platzierung, Preis und Lieferkonditionen. Dazu eine Listungsgebühr, 30–50 % Handelsmarge und Vorlaufzeiten von 6–18 Monaten. Wer es hineinschafft, gibt fast alles ab.",
+    d: "Der Handel diktiert Platzierung, Preis und Lieferkonditionen. Dazu eine Listungsgebühr, die Handelsspanne und Vorlaufzeiten von 6–18 Monaten. Wer es hineinschafft, gibt fast alles ab.",
     tag: "Teuer. Kontrollverlust. Massig.",
   },
   {

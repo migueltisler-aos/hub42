@@ -7,7 +7,12 @@ const nextConfig: NextConfig = {
   },
   async redirects() {
     // Die Regalwand war bis zum Umzug auf / unter /neue-ui geteilt worden.
-    return [{ source: "/neue-ui", destination: "/", permanent: true }];
+    // /old war die alte Startseite mit dem alten Preismodell (bis 2026-10-20);
+    // vorübergehend (307), damit die Route bei Bedarf wieder frei ist.
+    return [
+      { source: "/neue-ui", destination: "/", permanent: true },
+      { source: "/old", destination: "/", permanent: false },
+    ];
   },
 };
 

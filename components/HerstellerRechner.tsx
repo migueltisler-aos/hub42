@@ -1,16 +1,30 @@
 ﻿"use client";
 
 import { useState, useMemo } from "react";
-import { RATES, SCHAUFENSTER_MONAT, HUB_MARGIN_PCT } from "@/lib/deck-economics";
+import {
+  MAX_REGAL_CM,
+  PAKETE,
+  SCHAUFENSTER_MONAT,
+  HUB_MARGIN_PCT,
+  paketMiete,
+  type Paket,
+} from "@/lib/deck-economics";
+import MehrAlsEineEbene from "@/components/MehrAlsEineEbene";
 
 const POSITIONEN = [
-  { id: "basis",        label: "Basis",                ratePerCm: RATES.basis,      fixedMonat: null               },
-  { id: "augenhoehe",   label: "Augenhöhe",            ratePerCm: RATES.augenhoehe, fixedMonat: null               },
-  { id: "greifhoehe",   label: "Greifhöhe garantiert", ratePerCm: RATES.greifhoehe, fixedMonat: null               },
-  { id: "schaufenster", label: "Schaufenster",         ratePerCm: null,             fixedMonat: SCHAUFENSTER_MONAT  },
+  { id: "basis",        label: "Basis",                fixedMonat: null               },
+  { id: "augenhoehe",   label: "Augenhöhe",            fixedMonat: null               },
+  { id: "greifhoehe",   label: "Greifhöhe garantiert", fixedMonat: null               },
+  { id: "schaufenster", label: "Schaufenster",         fixedMonat: SCHAUFENSTER_MONAT  },
 ] as const;
 
 type PositionId = (typeof POSITIONEN)[number]["id"];
+
+const PLAETZE: { id: Paket; label: string }[] = [
+  { id: "S", label: `S · ${PAKETE.S.cm} cm` },
+  { id: "M", label: `M · ${PAKETE.M.cm} cm` },
+  { id: "L", label: `L · ab ${PAKETE.L.abCm} cm` },
+];
 
 function fmt(n: number): string {
   return n.toLocaleString("de-DE", { minimumFractionDigits: 2, maximumFractionDigits: 2 });
@@ -66,8 +80,11 @@ export default function HerstellerRechner() {
   const [marge,    setMarge]    = useState(38);
   const [listung,  setListung]  = useState(2);
   const [sales,    setSales]    = useState(50);
-  const [cm,       setCm]       = useState(20);
+  // Startwert: Regalfront M auf Augenhöhe (129,80 €), L beginnt bei 50 cm.
+  const [platz,    setPlatz]    = useState<Paket>("M");
+  const [lCm,      setLCm]      = useState<number>(PAKETE.L.abCm);
   const [activePos, setActivePos] = useState<PositionId>("augenhoehe");
+  const cm = platz === "L" ? lCm : PAKETE[platz].cm;
 
   const calc = useMemo(() => {
     const pos          = POSITIONEN.find((p) => p.id === activePos)!;
@@ -75,7 +92,8 @@ export default function HerstellerRechner() {
     const reweUnit     = uvp - reweMargeEur - listung;
     const reweMonthly  = reweUnit * sales;
     const hubMargeEur  = uvp * (HUB_MARGIN_PCT / 100);
-    const regalkosten  = pos.fixedMonat != null ? pos.fixedMonat : cm * (pos.ratePerCm ?? 0);
+    const regalkosten  =
+      pos.id === "schaufenster" ? pos.fixedMonat : (paketMiete(cm, pos.id) ?? 0);
     const regalkostenPerUnit = regalkosten / sales;
     const hubUnit      = uvp - regalkostenPerUnit - hubMargeEur;
     const hubMonthly   = hubUnit * sales;
@@ -116,19 +134,47 @@ export default function HerstellerRechner() {
               >
                 <span className="block text-[11px] font-semibold">{pos.label}</span>
                 <span className="block mt-0.5 opacity-70">
-                  {pos.ratePerCm != null
-                    ? `${pos.ratePerCm.toFixed(2).replace(".", ",")} €/cm`
-                    : `${pos.fixedMonat} €/Mo fix`}
+                  {pos.id === "schaufenster"
+                    ? `${pos.fixedMonat} €/Mo fix`
+                    : `ab ${fmt(paketMiete(PAKETE.S.cm, pos.id) ?? 0)} €`}
                 </span>
               </button>
             ))}
           </div>
         </div>
 
-        {/* cm slider only for per-cm positions */}
-        {POSITIONEN.find((p) => p.id === activePos)?.ratePerCm != null && (
-          <Slider label="Regalfront (cm)" value={cm} min={5} max={270} step={1}
-            display={`${cm} cm`} onChange={setCm} />
+        {/* Regalfront S, M oder L; die Breite nur bei L, bis eine Ebene */}
+        {activePos !== "schaufenster" && (
+          <div>
+            <p className="text-cream/60 text-xs font-mono uppercase tracking-widest mb-3">Regalfront</p>
+            <div className="grid grid-cols-3 gap-2">
+              {PLAETZE.map((p) => (
+                <button
+                  key={p.id}
+                  onClick={() => setPlatz(p.id)}
+                  aria-pressed={platz === p.id}
+                  className={`py-3 px-3 text-xs font-mono tracking-wide border transition-colors text-center ${
+                    platz === p.id
+                      ? "bg-bronze text-green-dark border-bronze font-semibold"
+                      : "bg-transparent text-cream/50 border-cream/20 hover:border-bronze/50 hover:text-cream/80"
+                  }`}
+                >
+                  <span className="block text-[11px] font-semibold">{p.label}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+        )}
+        {activePos !== "schaufenster" && platz === "L" && (
+          <div className="space-y-3">
+            <Slider label="Breite Regalfront L (cm)" value={lCm} min={PAKETE.L.abCm} max={MAX_REGAL_CM} step={1}
+              display={`${lCm} cm`} onChange={setLCm} />
+            <MehrAlsEineEbene
+              href="#kontakt"
+              className="text-cream/60 text-xs font-mono"
+              linkClassName="text-bronze underline underline-offset-2"
+            />
+          </div>
         )}
       </div>
 
@@ -152,7 +198,7 @@ export default function HerstellerRechner() {
         </div>
 
         <div className="bg-green-dark p-6 text-center">
-          <p className="text-cream/40 text-xs font-mono uppercase tracking-widest mb-2">Monatlicher Vorteil</p>
+          <p className="text-cream/40 text-xs font-mono uppercase tracking-widest mb-2">Differenz im Beispiel</p>
           <p
             className="text-4xl font-mono"
             style={{
@@ -205,6 +251,7 @@ export default function HerstellerRechner() {
             {[
               { label: "Endkundenpreis",      value: `${fmt(uvp)} €` },
               { label: `Vermittlungsprovision (${HUB_MARGIN_PCT}%)`, value: `– ${fmt(calc.hubMargeEur)} €` },
+              { label: "Regalmiete / Monat", value: `${fmt(calc.regalkosten)} €` },
               { label: "Slot-Kosten/Stk.", value: `– ${fmt(calc.regalkostenPerUnit)} €` },
               { label: "Erlös / Einheit",      value: `${fmt(calc.hubUnit)} €`, highlight: true },
               { label: "Kundendaten",          value: "Monatlich inkl." },
@@ -241,9 +288,10 @@ export default function HerstellerRechner() {
             {winner === "hub" && (
               <>
                 <span className="text-green-400 font-semibold">
-                  Hub42 bringt dir +{fmt(calc.diff)} € mehr pro Monat als der LEH
+                  Rechenbeispiel: +{fmt(calc.diff)} € pro Monat gegenüber dem LEH
                 </span>
-                {" "}– bei vollem Preis und täglichen Kundendaten.
+                {" "}bei deinen Eingaben. Keine Zusage. Ob du {sales} Stück im Monat verkaufst, zeigt
+                erst das Regal.
               </>
             )}
             {winner === "rewe" && (
@@ -251,13 +299,13 @@ export default function HerstellerRechner() {
                 <span className="text-red-400 font-semibold">
                   Bei diesem Preis und dieser Verkaufsmenge liegt Rewe vorne.
                 </span>
-                {" "}Erhöhe den Preis oder die Verkaufszahl – dann dreht sich das Bild.
+                {" "}Erhöhe den Preis oder die Verkaufszahl, dann dreht sich das Bild.
               </>
             )}
             {winner === "equal" && (
               <>
                 <span className="text-cream/70 font-semibold">Gleichstand.</span>
-                {" "}Jede weitere Einheit geht zu Hub42s Gunsten – plus täglich Kundendaten.
+                {" "}Jede weitere verkaufte Einheit verteilt die Miete auf mehr Stück.
               </>
             )}
           </p>

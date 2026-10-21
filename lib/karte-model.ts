@@ -10,10 +10,8 @@ import {
   DEFAULTS,
   HUB_MARGIN_PCT,
   MIN_REGAL_CM,
-  MIN_SLOT_MIETE,
-  MIN_SLOT_MIETE_BESONDERER_WERT,
-  RATES,
-  RATES_BESONDERER_WERT,
+  PAKETE,
+  paketMiete,
   compute,
   netLEH,
 } from "@/lib/deck-economics";
@@ -145,7 +143,6 @@ export interface PotenzialEingabe {
   verkaeufeMonat: number;
   zone: ZoneKey | "";
   cm: number | null;
-  besondererWert: boolean;
 }
 
 export interface Potenzial {
@@ -175,16 +172,17 @@ export function netAmazon(vk: number, n: number): number {
   return vk - vk * (pct / 100) - AMAZON.fba - AMAZON.kontoMonat / Math.max(1, n);
 }
 
-export function mieteMonat(zone: ZoneKey | "", cm: number | null, besondererWert: boolean) {
+/** Monatsmiete nach Regalfront S, M oder L. Eine Zwischenbreite von 26 bis
+    49 cm (etwa aus einem alten Entwurf) rechnet mit L ab 50 cm, dem nächsten
+    buchbaren Platz; Eingaben sind ohnehin auf 13, 25 und ab 50 cm begrenzt. */
+export function mieteMonat(zone: ZoneKey | "", cm: number | null): number {
   const z: ZoneKey = zone || "basis";
   const breite = Math.max(MIN_REGAL_CM, cm ?? MIN_REGAL_CM);
-  return besondererWert
-    ? Math.max(MIN_SLOT_MIETE_BESONDERER_WERT, breite * RATES_BESONDERER_WERT[z])
-    : Math.max(MIN_SLOT_MIETE, breite * RATES[z]);
+  return paketMiete(breite, z) ?? paketMiete(PAKETE.L.abCm, z) ?? 0;
 }
 
 export function potenzial(e: PotenzialEingabe): Potenzial {
-  const miete = mieteMonat(e.zone, e.cm, e.besondererWert);
+  const miete = mieteMonat(e.zone, e.cm);
   const n = Math.max(1, e.verkaeufeMonat);
   const provision = e.vk * (HUB_MARGIN_PCT / 100);
   const hub = e.vk - provision - miete / n;

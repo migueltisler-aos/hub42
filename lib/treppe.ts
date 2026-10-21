@@ -1,5 +1,5 @@
 /* ============================================================
-   Die Treppe: fünf Stufen vom ersten Test bis zur Listung.
+   Die Treppe: vier Stufen vom ersten Beweis bis zur Listung.
 
    Eine Quelle für die Startseite (#treppe, #preise, Formular) und
    /hersteller. Preise kommen aus lib/deck-economics.ts, hier steht
@@ -9,10 +9,18 @@
    Server Action dieselben Werte importieren.
    ============================================================ */
 
-import { HUB_MARGIN_PCT, RATES, REGAL_INKLUSIVE_CM, STUFE_PREIS } from "@/lib/deck-economics";
+import { HUB_MARGIN_PCT, PAKETE, RATES, REGAL_INKLUSIVE_CM, STUFE_PREIS, ZONE_SURCHARGE_PCT } from "@/lib/deck-economics";
 
 export type StufeKey = keyof typeof STUFE_PREIS;
 export type ZielgruppeKey = "gruender" | "online" | "hersteller";
+
+/** Einstieg je Zielgruppe. Junge Startups starten mit der Regalfront S,
+    nicht in der Treppe: dann ist einstieg null und der Hinweis erklärt es. */
+export interface Zielgruppe {
+  label: string;
+  einstieg: StufeKey | null;
+  hinweis?: string;
+}
 
 export interface Stufe {
   key: StufeKey;
@@ -34,7 +42,7 @@ export interface Stufe {
 
 /** Steckt in jeder Stufe. */
 export const ALLE_STUFEN: string[] = [
-  "Regalplatz mit Tagesticker",
+  "Regalfront mit Tagesticker",
   "Verkauf durch das Store-Team auf Kommission",
   "QR-Feedback am Regal",
   "Kategorie-Benchmark gegen den Hausdurchschnitt",
@@ -45,33 +53,14 @@ export const ALLE_STUFEN: string[] = [
    nur, was dazukommt. */
 export const STUFEN: Stufe[] = [
   {
-    key: "testen",
-    nr: 1,
-    name: "Testen",
-    frage: "Verkauft sich das überhaupt?",
-    dauer: "3 Monate",
-    monate: 3,
-    preis: STUFE_PREIS.testen,
-    empfohlenFuer: "junge Startups",
-    zielgruppen: ["gruender"],
-    neu: [
-      "1 Produkt",
-      "Abverkaufs-Dashboard",
-      "Handelsreife-Check: EAN, LMIV, Kalkulation, Lieferfähigkeit",
-      "Fotos „im Handel erhältlich“",
-      "Kurzbericht",
-    ],
-    beratung: false,
-  },
-  {
     key: "beweisen",
-    nr: 2,
+    nr: 1,
     name: "Beweisen",
     frage: "Wer kauft im Laden, und warum?",
     dauer: "3 Monate",
     monate: 3,
     preis: STUFE_PREIS.beweisen,
-    empfohlenFuer: "Online-Marken, Startups nach Stufe 1",
+    empfohlenFuer: "Online-Marken, Startups nach ihrer ersten Regalfront",
     zielgruppen: ["online", "gruender"],
     neu: [
       "3 Tasting-Samstage mit mehreren Marken",
@@ -87,13 +76,13 @@ export const STUFEN: Stufe[] = [
   },
   {
     key: "spark",
-    nr: 3,
+    nr: 2,
     name: "Discovery Spark",
     frage: "Was muss ich ändern?",
     dauer: "8 Wochen",
     monate: null,
     preis: STUFE_PREIS.spark,
-    empfohlenFuer: "etablierte Hersteller, Startups nach Stufe 2",
+    empfohlenFuer: "etablierte Hersteller, Startups nach Stufe 1",
     zielgruppen: ["hersteller", "gruender"],
     neu: [
       "1 Produkt",
@@ -106,7 +95,7 @@ export const STUFEN: Stufe[] = [
   },
   {
     key: "focus",
-    nr: 4,
+    nr: 3,
     name: "Decision Focus",
     frage: "Welcher Preis, welche Zielgruppe?",
     dauer: "12 Wochen",
@@ -129,7 +118,7 @@ export const STUFEN: Stufe[] = [
   },
   {
     key: "powerhouse",
-    nr: 5,
+    nr: 4,
     name: "Premium Powerhouse",
     frage: "Wie überzeuge ich den Einkauf?",
     dauer: "6 Monate",
@@ -150,8 +139,12 @@ export const STUFEN: Stufe[] = [
   },
 ];
 
-export const ZIELGRUPPEN: Record<ZielgruppeKey, { label: string; einstieg: StufeKey }> = {
-  gruender: { label: "Gründer", einstieg: "testen" },
+export const ZIELGRUPPEN: Record<ZielgruppeKey, Zielgruppe> = {
+  gruender: {
+    label: "Gründer",
+    einstieg: null,
+    hinweis: `Für junge Startups ist der Einstieg die Regalfront S, ab ${PAKETE.S.preis} € netto im Monat. In die Treppe kommst du, wenn deine ersten Monatsberichte da sind.`,
+  },
   online: { label: "Online-Marke", einstieg: "beweisen" },
   hersteller: { label: "Etablierter Hersteller", einstieg: "spark" },
 };
@@ -162,24 +155,24 @@ export const NUR_NEUPRODUKTE =
   "Etablierte Hersteller kommen nur mit Neuprodukten, die nirgends flächendeckend gelistet sind.";
 
 /** Was beim Regal in jeder Stufe gilt, kurz. */
-export const REGAL_TEXT = `bis ${REGAL_INKLUSIVE_CM} cm inklusive`;
+export const REGAL_TEXT = `bis ${REGAL_INKLUSIVE_CM}\u00A0cm inklusive`;
 
-/** Zentimeter über REGAL_INKLUSIVE_CM: Zonenpreis, keine Mindestmiete. */
-export const ZUSATZ_CM_TEXT = `Jeder weitere Zentimeter kostet den Zonenpreis des Standardregals, ohne Mindestmiete.`;
+/** Zentimeter über REGAL_INKLUSIVE_CM: Preis je cm aus Regalfront L plus Zonenzuschlag, ohne Mindestbetrag. */
+export const ZUSATZ_CM_TEXT = `Jeder weitere Zentimeter kostet ${PAKETE.L.preisJeCm.toLocaleString("de-DE", { minimumFractionDigits: 2 })} € im Monat, auf Augenhöhe ${ZONE_SURCHARGE_PCT.augenhoehe} % mehr, auf Greifhöhe ${ZONE_SURCHARGE_PCT.greifhoehe} % mehr, ohne Mindestbetrag.`;
 
 /** Preiszeile einer Stufe, überall gleich formuliert. */
 export const preisText = (s: Stufe): string =>
-  `${eur0(s.preis)} netto, Regal ${REGAL_TEXT}, + ${HUB_MARGIN_PCT} % auf Verkauf`;
+  `${eur0(s.preis)} netto, Regal ${REGAL_TEXT}, +\u00A0${HUB_MARGIN_PCT}\u00A0% auf\u00A0Verkauf`;
 
-/** Ganze Euro, deutsch: 3.900 €. */
+/** Ganze Euro, deutsch: 2.500 €. */
 export const eur0 = (n: number): string => n.toLocaleString("de-DE") + " €";
 
-/* ── Rechenbeispiel Stufe 1 ───────────────────────────────── */
+/* ── Rechenbeispiel Stufe 1 Beweisen ──────────────────────── */
 export const BEISPIEL_CM = 20;
 export const BEISPIEL = (() => {
   const s = STUFEN[0];
   const zusatzCm = BEISPIEL_CM - REGAL_INKLUSIVE_CM;
-  // Basiszone, Gründungskonditionen, ohne Mindestmiete
+  // Basiszone, ohne Staffel, ohne Mindestbetrag
   const zusatzMonat = Math.round(zusatzCm * RATES.basis * 100) / 100;
   const monate = s.monate ?? 3;
   return { stufe: s, cm: BEISPIEL_CM, zusatzCm, rate: RATES.basis, zusatzMonat, monate };
@@ -187,19 +180,18 @@ export const BEISPIEL = (() => {
 
 /* ── Bewerbung: Einstieg ──────────────────────────────────── */
 export const EINSTIEGE = {
-  testen: "Stufe 1 Testen",
-  beweisen: "Stufe 2 Beweisen",
-  studie: "Stufe 3 bis 5 Studie",
+  beweisen: "Stufe 1 Beweisen",
+  studie: "Stufe 2 bis 4 Studie",
   standardregal: "Standardregal",
   offen: "Noch offen",
 } as const;
 export type EinstiegKey = keyof typeof EINSTIEGE;
 
-/** Bei Stufe 3 bis 5 steckt das Regal im Preis: keine Zone, keine Breite. */
+/** Bei Stufe 2 bis 4 steckt das Regal im Preis: keine Zone, keine Breite. */
 export const mitRegalwahl = (e: EinstiegKey | ""): boolean => e !== "studie";
 
 export const einstiegFuerStufe = (k: StufeKey): EinstiegKey =>
-  k === "testen" || k === "beweisen" ? k : "studie";
+  k === "beweisen" ? k : "studie";
 
 /** Treppe → Formular: "Diese Stufe anfragen" belegt den Einstieg vor. */
 export const EINSTIEG_EVENT = "hub42:einstieg";

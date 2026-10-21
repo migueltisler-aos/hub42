@@ -60,7 +60,7 @@ export default function RebrandingHome() {
               </p>
             </div>
             <div className="flex flex-wrap gap-x-8 gap-y-2 mt-10 text-xs font-mono border-l-2 border-black pl-4">
-              <span>41.000 Besucher täglich</span>
+              <span>Rund 15 Mio. Besuche im Jahr im Alexa</span>
               <span>Alexa Berlin, Alexanderplatz</span>
               <span>Mo bis Sa, 10 bis 20 Uhr</span>
             </div>
@@ -81,8 +81,8 @@ export default function RebrandingHome() {
             </h2>
             <p className="max-w-xl text-base leading-relaxed mb-10">
               Jede Marke im Regal ist unabhängig, hat einen echten Gründer dahinter und einen
-              Preis, den sie selbst setzt. Kein Konzern, kein Listungsgeld, keine Handelsmarge –
-              nur 7 % transparente Vermittlungsprovision beim Verkauf.
+              Preis, den sie selbst setzt. Kein Konzern, kein Listungsgeld, keine Handelsmarge. Die
+              Marke zahlt Regalmiete und 7 % Provision beim Verkauf.
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-px bg-black/10 border border-black/10 max-w-3xl">
               {MARKEN.map((name) => (

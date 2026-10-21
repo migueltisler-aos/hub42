@@ -4,13 +4,24 @@ import { useState, useMemo, useRef } from "react";
 import { track } from "@/lib/analytics-client";
 import {
   DEFAULTS,
+  MAX_REGAL_CM,
+  PAKETE,
   TRANCHE_RATES,
   TRANCHE_INFO,
-  MIN_REGAL_CM,
   compute,
+  paketFuer,
+  paketMiete,
   type Assumptions,
+  type Paket,
   type Tranche,
 } from "@/lib/deck-economics";
+import MehrAlsEineEbene from "@/components/MehrAlsEineEbene";
+
+const PLAETZE: { id: Paket; label: string }[] = [
+  { id: "S", label: `S · ${PAKETE.S.cm} cm` },
+  { id: "M", label: `M · ${PAKETE.M.cm} cm` },
+  { id: "L", label: `L · ab ${PAKETE.L.abCm} cm` },
+];
 
 const TIERS = [
   { id: "basis", label: "Basis" },
@@ -182,7 +193,7 @@ export default function DeckRechner() {
   const selectTier = (id: TierId) => {
     meldeBenutzung();
     setTier(id);
-    setA((prev) => ({ ...prev, ratePerCm: TRANCHE_RATES[prev.tranche][id] }));
+    setA((prev) => ({ ...prev, zone: id, ratePerCm: TRANCHE_RATES[prev.tranche][id] }));
   };
   const selectTranche = (id: Tranche) => {
     meldeBenutzung();
@@ -266,7 +277,7 @@ export default function DeckRechner() {
             </p>
             <div className="grid grid-cols-3 gap-2">
               {TIERS.map((t) => {
-                const rate = TRANCHE_RATES[a.tranche][t.id];
+                const ab = paketMiete(PAKETE.S.cm, t.id, a.tranche) ?? 0;
                 return (
                   <button
                     key={t.id}
@@ -280,9 +291,7 @@ export default function DeckRechner() {
                     }`}
                   >
                     <span className="block text-[11px] font-semibold">{t.label}</span>
-                    <span className="block mt-0.5 opacity-80">
-                      {rate.toFixed(2).replace(".", ",")} €/cm
-                    </span>
+                    <span className="block mt-0.5 opacity-80">ab {fmt(ab)} €</span>
                   </button>
                 );
               })}
@@ -292,7 +301,7 @@ export default function DeckRechner() {
           {/* Tranche-Toggle */}
           <div>
             <p className="text-cream/60 text-xs font-mono uppercase tracking-widest mb-3">
-              Einstiegsphase
+              Auslastung des Ladens
             </p>
             <div className="grid grid-cols-3 gap-2">
               {TRANCHES.map((t) => (
@@ -314,15 +323,51 @@ export default function DeckRechner() {
             </div>
           </div>
 
-          <Lever
-            label="Slot-Breite"
-            value={a.regalCm}
-            min={MIN_REGAL_CM}
-            max={100}
-            step={1}
-            unit="cm"
-            onChange={(v) => set("regalCm", Math.max(MIN_REGAL_CM, v))}
-          />
+          {/* Regalfront S, M oder L; die Breite nur bei L, bis eine Ebene */}
+          <div>
+            <p className="text-cream/60 text-xs font-mono uppercase tracking-widest mb-3">
+              Regalfront
+            </p>
+            <div className="grid grid-cols-3 gap-2">
+              {PLAETZE.map((p) => {
+                const an = (paketFuer(a.regalCm) ?? "L") === p.id;
+                return (
+                  <button
+                    key={p.id}
+                    type="button"
+                    onClick={() => set("regalCm", p.id === "L" ? Math.max(PAKETE.L.abCm, a.regalCm) : PAKETE[p.id].cm)}
+                    aria-pressed={an}
+                    className={`py-3 px-2 text-xs font-mono tracking-wide border transition-colors text-center ${
+                      an
+                        ? "bg-bronze text-green-dark border-bronze font-semibold"
+                        : "bg-transparent text-cream/50 border-cream/20 hover:border-bronze/50 hover:text-cream/80"
+                    }`}
+                  >
+                    <span className="block text-[11px] font-semibold">{p.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {a.regalCm >= PAKETE.L.abCm && (
+            <div className="space-y-3">
+              <Lever
+                label="Breite Regalfront L"
+                value={a.regalCm}
+                min={PAKETE.L.abCm}
+                max={MAX_REGAL_CM}
+                step={1}
+                unit="cm"
+                onChange={(v) => set("regalCm", Math.min(MAX_REGAL_CM, Math.max(PAKETE.L.abCm, v)))}
+              />
+              <MehrAlsEineEbene
+                href="mailto:info@tryhub42.de"
+                className="text-cream/60 text-xs font-mono"
+                linkClassName="text-bronze underline underline-offset-2"
+              />
+            </div>
+          )}
 
           {/* Detail-Toggle */}
           <div className="pt-2 border-t border-cream/10">
@@ -339,10 +384,11 @@ export default function DeckRechner() {
             {showDetail && (
               <div className="mt-6 space-y-6">
                 <p className="text-cream/45 text-xs leading-relaxed">
-                  Jede Zeile ist editierbar. Du buchst einen Regalplatz – die Miete rechnet sich
-                  aus dem{" "}
-                  <span className="text-cream/70">Platzbedarf deines Produkts (Breite cm) × Rate (€/cm)</span>,
-                  nicht pauschal.
+                  Jede Zeile ist editierbar. Du buchst eine Regalfront:{" "}
+                  <span className="text-cream/70">
+                    S {PAKETE.S.preis} €, M {PAKETE.M.preis} €, L {fmt(PAKETE.L.preisJeCm)} € je cm
+                  </span>
+                  , jeweils im Monat, plus Zuschlag nach Höhe und Auslastung.
                 </p>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-px bg-cream/10">
@@ -382,9 +428,9 @@ export default function DeckRechner() {
                     <BreakRow label="Slot-Miete anteilig" sub={`${eur(c.slotMonthly)}/Mo ÷ ${a.sales} Sales`} value={c.slotPerSale} />
                     <BreakRow label="Summe / Sale" value={c.hubPerSale} strong />
                     <div className="mt-4 pt-3 border-t border-cream/10 space-y-1">
-                      <BreakRow label="Platzbedarf (Breite)" sub="F&B-Produkt ≈ 5 cm" value={a.regalCm} editable step={1} unit="cm" money={false} onChange={(v) => set("regalCm", v)} />
+                      <BreakRow label="Regalfront" sub={`S ${PAKETE.S.cm} cm · M ${PAKETE.M.cm} cm · L ab ${PAKETE.L.abCm} cm`} value={a.regalCm} unit="cm" money={false} />
                       <BreakRow
-                        label="Rate"
+                        label="Preis je cm (nur L)"
                         sub={`${TRANCHE_INFO[a.tranche].label}: Basis ${fmt(TRANCHE_RATES[a.tranche].basis)} · Augenhöhe ${fmt(TRANCHE_RATES[a.tranche].augenhoehe)} · Greifhöhe ${fmt(TRANCHE_RATES[a.tranche].greifhoehe)}`}
                         value={a.ratePerCm}
                         editable
@@ -452,11 +498,11 @@ export default function DeckRechner() {
         >
           {c.saving > 0 ? (
             <p className="text-cream text-lg md:text-xl leading-snug">
-              Das sind{" "}
+              Im Rechenbeispiel{" "}
               <span className="text-bronze text-3xl align-baseline" style={{ fontFamily: "var(--font-bebas)" }}>
                 {eur(c.saving * a.sales)} mehr pro Monat
               </span>{" "}
-              in deiner Kasse – allein aus den Vertriebskosten, bei {a.sales} Sales.
+              als im eigenen Online-Shop, nur aus den Vertriebskosten, bei {a.sales} Sales. Keine Zusage.
             </p>
           ) : (
             <p className="text-cream/70 text-base">
@@ -469,7 +515,7 @@ export default function DeckRechner() {
         {/* Disclaimer */}
         <p className="text-stone text-xs font-mono leading-relaxed border-t border-stone-dark pt-4">
           Discovery-Käufer, die später im Online-Shop wiederkaufen, sind hier{" "}
-          <span className="text-cream/60">nicht</span> eingerechnet — das ist zusätzlicher Wert.
+          <span className="text-cream/60">nicht</span> eingerechnet, das ist zusätzlicher Wert.
           Alle Werte und Formeln sind oben offengelegt; Defaults bewusst konservativ.
         </p>
       </div>

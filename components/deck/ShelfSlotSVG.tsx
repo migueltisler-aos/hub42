@@ -3,10 +3,12 @@
    darunter 5 Ebenen nach Preisklasse (Greifhöhe garantiert = Top-Tier),
    unterste Ebene = Nachschub / Verkaufsstauraum. Inline-SVG, feste Farben. */
 
-import { RATES } from "@/lib/deck-economics";
+import { PAKETE, paketMiete, type ZoneId } from "@/lib/deck-economics";
 
-const rateStr = (r: number) => `${r.toFixed(2).replace(".", ",")} €/cm`;
-const exStr = (r: number) => `20 cm: ${Math.round(20 * r)} €/Mo`;
+const geld = (n: number | null) => `${(n ?? 0).toFixed(2).replace(".", ",")} €`;
+/* Je Ebene: Regalfront S als Einstieg, M als Beispiel. */
+const rateStr = (z: ZoneId) => `ab ${geld(paketMiete(PAKETE.S.cm, z))}`;
+const exStr = (z: ZoneId) => `${PAKETE.M.cm} cm: ${geld(paketMiete(PAKETE.M.cm, z))}/Mo`;
 
 const C = {
   line: "#C8964A", // bronze
@@ -31,14 +33,14 @@ const LEVELS: Level[] = [
   { name: "Stauraum", rate: null, tag: "Reserve / Überbestand", restock: true },
   {
     name: "Greifhöhe",
-    rate: rateStr(RATES.greifhoehe),
-    example: exStr(RATES.greifhoehe),
+    rate: rateStr("greifhoehe"),
+    example: exStr("greifhoehe"),
     tag: "Greifzone garantiert",
-    hint: "30–80 % mehr Conversion",
+    hint: "90 bis 130 cm",
     highlight: true,
   },
-  { name: "Augenhöhe", rate: rateStr(RATES.augenhoehe), example: exStr(RATES.augenhoehe) },
-  { name: "Basis", rate: rateStr(RATES.basis), example: exStr(RATES.basis) },
+  { name: "Augenhöhe", rate: rateStr("augenhoehe"), example: exStr("augenhoehe") },
+  { name: "Basis", rate: rateStr("basis"), example: exStr("basis") },
   { name: "Nachschub", rate: null, tag: "Verkaufsstauraum · 60 cm Tiefe", restock: true },
 ];
 

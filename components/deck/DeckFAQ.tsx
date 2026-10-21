@@ -4,7 +4,7 @@ const FAQ = [
   {
     n: "01",
     q: "Mindestlaufzeit?",
-    a: "3 Monate, danach monatlich kündbar. Längere Bindung möglich (6 oder 12 Monate) – mit Slot-Rabatt bis 10 % und mehr Event-Spielraum.",
+    a: "3 Monate, danach monatlich kündbar. Wer bucht, bevor der Laden zu 60 % ausgelastet ist, behält seinen Preis 12 Monate lang, vertraglich.",
   },
   {
     n: "02",

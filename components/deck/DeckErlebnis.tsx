@@ -86,8 +86,8 @@ export default function DeckErlebnis() {
           Deine Breite, volle Höhe: <span className="text-cream/70">15 cm Werbefläche</span> für
           deine Story, <span className="text-cream/70">4×4 cm Preisauszeichnung</span>{" "}
           oben rechts. Oben &amp; unten <span className="text-cream/70">Stauraum / Nachschub</span> (Verkaufsstauraum
-          60 cm Tiefe), dazwischen drei Verkaufs-Ebenen nach Preisklasse –{" "}
-          <span className="text-cream/70">Greifzone garantiert = höchste Conversion</span>. Plus ein eigener Event-Tag pro
+          60 cm Tiefe), dazwischen drei Verkaufs-Ebenen nach Preisklasse. Gegen 20 % Aufschlag{" "}
+          <span className="text-cream/70">garantiert auf Greifhöhe</span>. Plus ein eigener Event-Tag pro
           Quartal.
         </p>
       </div>

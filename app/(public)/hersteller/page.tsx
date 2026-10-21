@@ -17,11 +17,14 @@ import {
 } from "@/lib/beratung";
 import {
   HUB_MARGIN_PCT,
-  MIN_SLOT_MIETE,
+  PAKETE,
   REGAL_INKLUSIVE_CM,
   RATES,
   STUFE_PREIS,
+  TRANCHE_SURCHARGE_PCT,
+  ZONE_SURCHARGE_PCT,
 } from "@/lib/deck-economics";
+import { eur } from "@/lib/neue-ui/regal";
 import { SHOW_BAFA } from "@/lib/site-flags";
 import {
   ALLE_STUFEN,
@@ -36,7 +39,7 @@ import {
 export const metadata: Metadata = {
   title: "Für Hersteller: vom ersten Regal bis zur Listung",
   description:
-    "Hub42 ist der Laden für Neuheiten im Alexa Berlin. Fünf Stufen vom ersten Test bis zur Listung, jede Stufe buchbar. Miete pro Zentimeter plus 7 % auf den Verkauf, keine Listungsgebühr.",
+    "Hub42 ist der Laden für Neuheiten im Alexa Berlin. Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf, keine Listungsgebühr. Dazu vier Stufen bis zur Listung, jede einzeln buchbar.",
 };
 
 const SCHRITTE = [
@@ -48,7 +51,7 @@ const SCHRITTE = [
   {
     nr: "02",
     titel: "Gespräch",
-    beschreibung: "30 Minuten. Stufe und Position wählen. Alle Fragen klären.",
+    beschreibung: "30 Minuten. Regalfront oder Stufe wählen, Position festlegen. Alle Fragen klären.",
   },
   {
     nr: "03",
@@ -75,7 +78,7 @@ const WEN_WIR_SUCHEN = [
 ];
 
 const WAS_DU_BEKOMMST = [
-  "Dein Regalplatz im Alexa Berlin",
+  "Deine Regalfront im Alexa Berlin",
   "Traverse-Karte mit deiner Story + QR-Code",
   "Tageszeit-Tracking & monatlicher Verkaufsbericht",
   "Standardregal: 3 Monate Mindestlaufzeit, danach monatlich kündbar",
@@ -87,12 +90,11 @@ const WAS_DU_BEKOMMST = [
 const FAQ = [
   {
     frage: "Was ist die Treppe?",
-    antwort: `Fünf Stufen vom ersten Test bis zur Listung: Testen, Beweisen, Discovery Spark, Decision Focus, Premium Powerhouse. Jede Marke kann jede Stufe buchen. Wir empfehlen einen Einstieg, ausgeschlossen ist niemand. ${NACH_JEDER_STUFE}`,
+    antwort: `Vier Stufen vom ersten Beweis bis zur Listung: Beweisen, Discovery Spark, Decision Focus, Premium Powerhouse. Jede Marke kann jede Stufe buchen. Wir empfehlen einen Einstieg, ausgeschlossen ist niemand. ${NACH_JEDER_STUFE}`,
   },
   {
     frage: "Welche Stufe passt zu mir?",
-    antwort:
-      "Junge Startups starten meist mit Stufe 1 Testen. Online-Marken mit Stufe 2 Beweisen. Etablierte Hersteller mit Neuprodukten steigen meist bei Stufe 3 ein und gehen bis Stufe 5, wenn es um die Listung im Einkauf geht.",
+    antwort: `Junge Startups starten mit der Regalfront S: ${PAKETE.S.cm} cm für ${PAKETE.S.preis} € netto im Monat. In die Treppe kommst du, wenn deine ersten Monatsberichte da sind. Online-Marken steigen meist mit Stufe 1 Beweisen ein. Etablierte Hersteller mit Neuprodukten beginnen meist bei Stufe 2 und gehen bis Stufe 4, wenn es um die Listung im Einkauf geht.`,
   },
   {
     frage: "Wie viel Regal steckt in einer Stufe?",
@@ -113,9 +115,8 @@ const FAQ = [
       "7 % auf deinen Bruttoverkaufspreis, in jeder Stufe und im Standardregal. Zahlungsabwicklungskosten sind darin bereits enthalten, wir reichen sie nicht separat durch. Kein versteckter Aufschlag, keine Handelsmarge, nur diese eine, transparente Provision.",
   },
   {
-    frage: "Warum gibt es 3 Regalmiet-Tranchen?",
-    antwort:
-      "Der Preis pro cm steigt mit der Store-Auslastung, nicht mit dem Kalender: Gründungskonditionen unter 60 % Auslastung (Basis 7,00 €/cm, Mindestmiete 89 €/Slot), Aufbauphase bei 60–85 % (7,70 €/cm, 98 €/Slot), Warteliste über 85 % (8,40 €/cm, 107 €/Slot). Für Produkte mit besonderem Wert (Handwerk, Herkunft, Mission) gilt auf Bewerbung 4,64 €/cm bei 59 € Mindestmiete. Wer in der Gründungsphase unterschreibt, behält seinen Preis vertraglich für die gesamte Erstlaufzeit von 12 Monaten, auch wenn der Store danach in eine höhere Tranche wechselt.",
+    frage: "Steigt der Preis, wenn der Laden voll wird?",
+    antwort: `Ja, mit der Auslastung des Ladens, nicht mit dem Kalender. Bis 60 % gelten die Preise oben: Regalfront S ${PAKETE.S.preis} €, M ${PAKETE.M.preis} €, L ${eur(PAKETE.L.preisJeCm)} je cm, jeweils im Monat und netto. Ab 60 % kommen ${TRANCHE_SURCHARGE_PCT.aufbau} % dazu, ab 85 % ${TRANCHE_SURCHARGE_PCT.warteliste} %. Wer vorher bucht, behält seinen Preis 12 Monate lang, vertraglich. Unabhängig davon zahlst du auf Augenhöhe ${ZONE_SURCHARGE_PCT.augenhoehe} % mehr, auf garantierter Greifhöhe ${ZONE_SURCHARGE_PCT.greifhoehe} %.`,
   },
   {
     frage: "Wie funktioniert die Abrechnung?",
@@ -182,19 +183,19 @@ export default function HerstellerPage() {
           </h1>
           <p className="text-stone text-base max-w-xl mb-3 leading-relaxed">
             Dein Produkt. Dein Preis. Deine Daten. Echte Kasse statt Umfrage: Jede Neuheit steht
-            mit Tagesticker für eine feste Zeit im Regal. Du steigst auf der Stufe ein, die zu dir
-            passt, und gehst danach ins Standardregal.
+            mit Tagesticker für eine feste Zeit im Regal. Du startest mit einer Regalfront oder auf
+            der Stufe, die zu dir passt, und bleibst danach im Standardregal.
           </p>
           <p className="text-bronze text-sm font-mono mb-8">
-            Miete pro Zentimeter plus {HUB_MARGIN_PCT} % auf den Verkauf.
+            Regalfront ab {PAKETE.S.preis} € im Monat plus {HUB_MARGIN_PCT} % auf den Verkauf.
           </p>
 
           {/* Facts strip */}
           <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-xs font-mono text-stone border-l-2 border-bronze pl-4">
-            <span>{HUB_MARGIN_PCT} % statt 30–50 % Handelsmarge beim LEH</span>
-            <span>Treppe ab {eur0(STUFE_PREIS.testen)} netto, {REGAL_INKLUSIVE_CM} cm Regal inklusive</span>
-            <span>Standardregal ab {MIN_SLOT_MIETE} €/Monat</span>
-            <span>41.000 Besucher täglich</span>
+            <span>{HUB_MARGIN_PCT} % nur auf Verkauf, keine Listungsgebühr</span>
+            <span>Treppe ab {eur0(STUFE_PREIS.beweisen)} netto, {REGAL_INKLUSIVE_CM} cm Regalfront inklusive</span>
+            <span>Standardregal ab {PAKETE.S.preis} €/Monat netto</span>
+            <span>Alexa: rund 15 Mio. Center-Besuche im Jahr</span>
           </div>
 
           <div className="flex flex-wrap gap-4 mb-8">
@@ -221,10 +222,13 @@ export default function HerstellerPage() {
           <div className="border-l-4 border-bronze bg-bronze/5 px-6 py-6 space-y-4">
             <p className="text-cream text-sm leading-relaxed">
               <span className="text-bronze font-semibold">Deine Kosten:</span> In der Treppe ein
-              Festpreis je Stufe ab {eur0(STUFE_PREIS.testen)} netto, {REGAL_INKLUSIVE_CM} cm
-              Regal inklusive. {ZUSATZ_CM_TEXT} Im Standardregal Miete ab {MIN_SLOT_MIETE} € im Monat
-              (Gründungskonditionen). Überall {HUB_MARGIN_PCT} % Vermittlungsprovision je
-              verkauftem Artikel, Zahlungsabwicklung inklusive. Sonst nichts.
+              Festpreis je Stufe ab {eur0(STUFE_PREIS.beweisen)} netto, {REGAL_INKLUSIVE_CM} cm
+              Regalfront inklusive. {ZUSATZ_CM_TEXT} Im Standardregal eine Regalfront: S mit{" "}
+              {PAKETE.S.cm} cm für {PAKETE.S.preis} €, M mit {PAKETE.M.cm} cm für {PAKETE.M.preis} €,
+              L ab {PAKETE.L.abCm} cm für {eur(PAKETE.L.preisJeCm)} je cm, jeweils im Monat, mit
+              denselben Zuschlägen nach Höhe. Überall {HUB_MARGIN_PCT} % Vermittlungsprovision je
+              verkauftem Artikel, Zahlungsabwicklung inklusive. Sonst nichts. Nur für Unternehmer,
+              alle Preise netto zzgl. USt.
             </p>
             <p className="text-cream text-sm leading-relaxed">
               <span className="text-bronze font-semibold">Deine Laufzeit:</span> Jede Stufe hat
@@ -244,14 +248,14 @@ export default function HerstellerPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="mb-10">
             <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
-              Fünf Stufen · vom ersten Test bis zur Listung
+              Vier Stufen · vom ersten Beweis bis zur Listung
             </p>
             <h2
               className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-4"
               style={{ fontFamily: "var(--font-bebas)" }}
             >
               Eine Treppe.
-              <span className="text-bronze"> Du entscheidest, wo du einsteigst.</span>
+              <span className="text-bronze"> Du entscheidest, wo du{"\u00A0"}einsteigst.</span>
             </h2>
             <p className="text-stone text-sm max-w-2xl leading-relaxed">
               Jede Marke kann jede Stufe buchen. Die Empfehlung je Stufe ist ein Vorschlag,
@@ -263,7 +267,7 @@ export default function HerstellerPage() {
             </p>
           </div>
 
-          <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4 items-end">
+          <ol className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 items-end">
             {STUFEN.map((st) => (
               <li
                 key={st.key}
@@ -315,7 +319,7 @@ export default function HerstellerPage() {
             </div>
             <div className="space-y-3 text-sm">
               <p className="text-cream">{NACH_JEDER_STUFE}</p>
-              <p className="text-stone">{NUR_NEUPRODUKTE}</p>
+              <p className="text-stone text-pretty">{NUR_NEUPRODUKTE}</p>
               <p className="text-stone">
                 Alle Festpreise netto. In jeder Stufe sind {REGAL_INKLUSIVE_CM} cm Regal
                 inklusive. {ZUSATZ_CM_TEXT} Auf jede Stufe: + {HUB_MARGIN_PCT} % auf
@@ -504,11 +508,11 @@ export default function HerstellerPage() {
                 <span className="text-bronze">unser Geschäftsmodell.</span>
               </h2>
               <p className="text-stone text-base leading-relaxed mb-6 max-w-lg">
-                Wir nehmen 7 % Vermittlungsprovision auf deinen Verkaufspreis, statt 30–50 %
-                Handelsmarge plus Listungsgebühr wie beim klassischen LEH. Die
-                Zahlungsabwicklung ist darin bereits enthalten. Nicht pro Monat, nicht pauschal,
-                sondern pro Verkauf. Das bedeutet: Wenn du nichts verkaufst, verdienen wir kaum etwas.
-                Wir sind strukturell daran interessiert, dass dein Produkt läuft.
+                Du zahlst Regalmiete und 7 % Vermittlungsprovision auf deinen Verkaufspreis. Keine
+                Listungsgebühr, keine Handelsmarge. Die Zahlungsabwicklung ist in den 7 % bereits
+                enthalten, und sie fallen nur pro Verkauf an. Das bedeutet: Wenn du nichts verkaufst,
+                verdienen wir kaum etwas. Wir sind strukturell daran interessiert, dass dein Produkt
+                läuft.
               </p>
               <p className="text-stone text-base leading-relaxed max-w-lg">
                 Kein klassischer Vermieter denkt so. Wir schon, weil wir das Modell so
@@ -526,7 +530,7 @@ export default function HerstellerPage() {
                 },
                 {
                   label: "Wir bringen",
-                  items: ["Alexa Berlin · 41.000 Besucher täglich", "Store, Kasse, Warenpflege", "Tasting & Story-Fläche am Regal", "Daten & monatliche Abrechnung"],
+                  items: ["Alexa Berlin · rund 15 Mio. Center-Besuche im Jahr", "Store, Kasse, Warenpflege", "Tasting & Story-Fläche am Regal", "Daten & monatliche Abrechnung"],
                 },
                 {
                   label: "Wir verdienen beide wenn",
@@ -593,11 +597,11 @@ export default function HerstellerPage() {
               <span className="text-bronze"> bleiben.</span>
             </h2>
             <p className="text-stone text-sm max-w-lg mb-10">
-              Nach jeder Stufe kannst du dauerhaft ins Regal. Du mietest Regalfläche nach cm
-              Breite, so viel oder so wenig wie dein Produkt braucht. Jeder gemietete cm bringt dir
-              automatisch die gleiche Breite als Werbefläche dazu. Die hier gezeigten Preise sind
-              unsere Gründungskonditionen (unter 60 % Store-Auslastung). Wer jetzt einsteigt,
-              behält diesen Preis vertraglich für 12 Monate.
+              Nach jeder Stufe kannst du dauerhaft ins Regal. Du buchst eine Regalfront: S mit{" "}
+              {PAKETE.S.cm} cm, M mit {PAKETE.M.cm} cm oder L ab {PAKETE.L.abCm} cm, dort zahlst du
+              je Zentimeter. Über deiner Front steht dieselbe Breite als Werbefläche. Die Preise
+              gelten, bis der Laden zu 60 % ausgelastet ist. Wer vorher bucht, behält seinen Preis 12
+              Monate lang, vertraglich.
             </p>
 
             {/* Cm-Konzept Visualisierung */}
@@ -609,7 +613,7 @@ export default function HerstellerPage() {
                 {/* Width indicator */}
                 <div className="flex items-center gap-2 mb-1">
                   <div className="flex-1 h-px bg-stone-dark" />
-                  <span className="text-stone text-xs font-mono whitespace-nowrap">z. B. 30 cm</span>
+                  <span className="text-stone text-xs font-mono whitespace-nowrap">z. B. 50 cm</span>
                   <div className="flex-1 h-px bg-stone-dark" />
                 </div>
 
@@ -634,8 +638,9 @@ export default function HerstellerPage() {
               </div>
 
               <p className="text-stone/50 text-xs font-mono mt-4">
-                Miete 30 cm → Augenhöhe: 30 × {RATES.augenhoehe.toFixed(2).replace(".", ",")} € ={" "}
-                <span className="text-stone">{Math.round(30 * RATES.augenhoehe)} €/Monat</span>
+                Regalfront L, {PAKETE.L.abCm} cm auf Augenhöhe: {PAKETE.L.abCm} ×{" "}
+                {eur(RATES.augenhoehe)} ={" "}
+                <span className="text-stone">{eur(PAKETE.L.abCm * RATES.augenhoehe)}/Monat</span>
               </p>
             </div>
           </div>
@@ -836,11 +841,11 @@ export default function HerstellerPage() {
           {/* Urgency box */}
           <div className="border-l-4 border-bronze bg-bronze/5 px-5 py-4 mb-8">
             <p className="text-cream text-sm font-semibold mb-1">
-              Gründungskonditionen: Standardregal ab {MIN_SLOT_MIETE} €/Monat
+              Standardregal ab {PAKETE.S.preis} € im Monat, netto
             </p>
             <p className="text-stone text-xs font-mono">
-              Gültig bis 60 % Store-Auslastung. Wer jetzt einsteigt, behält den Einstiegspreis
-              vertraglich für 12 Monate.
+              Der Preis gilt, bis der Laden zu 60 % ausgelastet ist. Wer vorher bucht, behält ihn 12
+              Monate lang, vertraglich.
             </p>
           </div>
 

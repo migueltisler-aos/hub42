@@ -34,11 +34,14 @@ export default function DeckHero() {
           style={{ fontFamily: "var(--font-bebas)" }}
         >
           HUB42
+          <span className="block text-cream/80 text-[clamp(0.85rem,2.2vw,1.35rem)] font-mono tracking-[0.25em] mt-3 normal-case">
+            entdecken • erleben • erwerben
+          </span>
         </h1>
 
         <p className="text-cream text-xl md:text-2xl leading-snug max-w-2xl mx-auto mb-10">
           Der kuratierte Entdecker-Store, in dem unabhängige Marken{" "}
-          <span className="text-bronze">Regalplätze mieten statt Marge zu verlieren</span> —
+          <span className="text-bronze">Regalfronten mieten statt Marge zu verlieren</span> —
           mit voller Preishoheit, echten Abverkaufsdaten und einem Erlebnis, das man nicht
           online bekommt.
         </p>
@@ -46,8 +49,8 @@ export default function DeckHero() {
         {/* Eckdaten */}
         <div className="grid grid-cols-3 gap-px bg-bronze/15 max-w-xl mx-auto">
           {[
-            { num: "Okt 2026", label: "Eröffnung" },
-            { num: "~700/Tag", label: "Geschenk-Suchende vor deinem Regal" },
+            { num: "März 2027", label: "Eröffnung" },
+            { num: "400–500/Tag", label: "Besucher im Laden (Annahme)" },
             { num: "14 Tage", label: "Entscheidung statt 18 Mt. LEH" },
           ].map((s) => (
             <div key={s.label} className="bg-green-dark px-3 py-5">
@@ -62,6 +65,22 @@ export default function DeckHero() {
         <p className="text-bronze/60 text-base italic tracking-wide mt-10">
           Logistik statt Handel. Deine UVP. Deine Daten.
         </p>
+
+        <div className="mt-10 flex flex-wrap items-center justify-center gap-x-5 gap-y-3">
+          {/* eslint-disable-next-line @next/next/no-img-element -- kleines Fremdlogo, feste Größe */}
+          <img
+            src="/trust/stiftung-entrepreneurship.png"
+            alt="Stiftung Entrepreneurship"
+            width={190}
+            height={49}
+            className="h-10 w-auto rounded bg-cream px-3 py-1.5"
+          />
+          <p className="text-stone text-sm leading-snug text-left max-w-xs">
+            <strong className="text-cream">Gewinner Proof-of-Concept</strong>
+            <br />
+            Entrepreneurship Summit 2026
+          </p>
+        </div>
       </div>
     </section>
   );

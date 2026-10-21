@@ -20,7 +20,7 @@ export const BERATUNG_THEMEN = [
 export const BERATUNG_HINWEISE = [
   "Der Förderantrag muss vor Beginn der Beratung gestellt werden.",
   "Unternehmen, die jünger als ein Jahr sind, brauchen vorher ein Informationsgespräch bei einem Regionalpartner.",
-  "Die Beratung ist unabhängig von Regalplatz und Treppe buchbar und wird separat vertraglich vereinbart.",
+  "Die Beratung ist unabhängig von Regalfront und Treppe buchbar und wird separat vertraglich vereinbart.",
   "Über die Förderung entscheidet das BAFA.",
 ];
 

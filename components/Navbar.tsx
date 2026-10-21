@@ -106,7 +106,7 @@ export default function Navbar() {
               href="/hersteller#slot-anfragen"
               className="inline-flex items-center px-5 py-2 bg-bronze text-green-dark text-sm font-semibold tracking-wide rounded-sm hover:bg-bronze-light transition-colors"
             >
-              Regalplatz anfragen
+              Regalfront anfragen
             </Link>
           </div>
 
@@ -144,7 +144,7 @@ export default function Navbar() {
               href="/hersteller#slot-anfragen"
               className="mt-4 inline-flex justify-center items-center px-5 py-3 bg-bronze text-green-dark text-sm font-semibold tracking-wide rounded-sm"
             >
-              Regalplatz anfragen
+              Regalfront anfragen
             </Link>
           </nav>
         </div>

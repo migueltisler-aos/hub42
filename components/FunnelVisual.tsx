@@ -14,19 +14,17 @@ interface Step {
 }
 
 const STEPS_KONSERVATIV: Step[] = [
-  { label: "Alexa-Besucher",    value: "41.000", sub: "täglich",    width: "100%" },
-  { label: "Store-Eingang",     value: "~820",   sub: "täglich",    width: "40%",  conversion: "2%" },
-  { label: "Regalgang",         value: "~330",   sub: "täglich",    width: "16%",  conversion: "40%" },
-  { label: "QR-Scan / Tasting", value: "~50",    sub: "täglich",    width: "6%",   conversion: "15%" },
-  { label: "Kauf",              value: "~20",    sub: "täglich",    width: "2.5%", conversion: "40%" },
+  { label: "Store-Eingang",     value: "~400",   sub: "täglich, Annahme", width: "40%" },
+  { label: "Regalgang",         value: "~160",   sub: "täglich",    width: "16%",  conversion: "40%" },
+  { label: "QR-Scan / Tasting", value: "~25",    sub: "täglich",    width: "6%",   conversion: "15%" },
+  { label: "Kauf",              value: "~10",    sub: "täglich",    width: "2.5%", conversion: "40%" },
 ];
 
 const STEPS_OPTIMISTISCH: Step[] = [
-  { label: "Alexa-Besucher",    value: "41.000", sub: "täglich",    width: "100%" },
-  { label: "Store-Eingang",     value: "~2.050", sub: "täglich",    width: "60%",  conversion: "5%" },
-  { label: "Regalgang",         value: "~820",   sub: "täglich",    width: "24%",  conversion: "40%" },
-  { label: "QR-Scan / Tasting", value: "~120",   sub: "täglich",    width: "9%",   conversion: "15%" },
-  { label: "Kauf",              value: "~50",    sub: "täglich",    width: "3.5%", conversion: "40%" },
+  { label: "Store-Eingang",     value: "~500",   sub: "täglich, Annahme", width: "60%" },
+  { label: "Regalgang",         value: "~200",   sub: "täglich",    width: "24%",  conversion: "40%" },
+  { label: "QR-Scan / Tasting", value: "~30",    sub: "täglich",    width: "9%",   conversion: "15%" },
+  { label: "Kauf",              value: "~12",    sub: "täglich",    width: "3.5%", conversion: "40%" },
 ];
 
 export default function FunnelVisual() {
@@ -104,7 +102,8 @@ export default function FunnelVisual() {
 
       {/* Disclaimer */}
       <p className="text-stone text-xs font-mono mt-6 pt-4 border-t border-stone-dark leading-relaxed">
-        Modellrechnung.{" "}
+        Modellrechnung ab der Ladentür, keine Messung. Im Laden rechnen wir mit 400 bis 500
+        Besuchern am Tag (Annahme).{" "}
         <span className="text-cream/50">Konservativ</span> = kein aktives Personal, kein Tasting-Einsatz.{" "}
         <span className="text-bronze/70">Optimistisch</span> = Tasting-Bar aktiv besetzt, Schaufenster zieht Laufkundschaft.
         QR/Tasting-Conversion 15% in beiden Szenarien.

@@ -1,7 +1,7 @@
 "use client";
 
 /* Die Treppe als Seitenleiste: Die Startseite zeigt vorne nur Regal und
-   Preis, die fünf Stufen klappen auf Wunsch von rechts herein.
+   Preis, die vier Stufen klappen auf Wunsch von rechts herein.
 
    Eine Leiste, beliebig viele Auslöser: <TreppeKnopf> schickt TREPPE_EVENT,
    die Leiste hört darauf. Auch /#treppe (Links von /hersteller und /termin)
@@ -62,7 +62,7 @@ export default function TreppeMenue({ children }: { children: React.ReactNode })
       ref={dlg}
       id="treppe"
       className="treppe__dlg"
-      aria-label="Die Treppe: fünf Stufen vom ersten Test bis zum Portfolio"
+      aria-label="Die Treppe: vier Stufen vom ersten Beweis bis zum Portfolio"
       onClose={() => {
         // #treppe aus der Adresse nehmen, sonst öffnet ein Reload die Leiste erneut.
         if (window.location.hash === "#treppe") {
@@ -74,7 +74,7 @@ export default function TreppeMenue({ children }: { children: React.ReactNode })
       }}
     >
       <div className="termin__bar">
-        <span>Die Treppe · fünf Stufen</span>
+        <span>Die Treppe · vier Stufen</span>
         <button type="button" onClick={() => dlg.current?.close()} aria-label="Schließen">
           ✕
         </button>

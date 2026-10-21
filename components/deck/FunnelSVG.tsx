@@ -1,12 +1,12 @@
 /* Section 7 – Conversion-Funnel als inline SVG (drucktauglich).
-   Zahlen konservativ, Store-Eingang im realistischen Korridor 600–800/Tag. */
+   Ab der Ladentür, Annahme 400 bis 500 Besucher am Tag (gerechnet mit 450,
+   Stand Geschäftsführung 2026-10-20); die Quoten darunter wie bisher. */
 
 const STAGES = [
-  { label: "Alexa-Frequenz", value: "41.000", unit: "Passanten / Tag", w: 100, conv: null },
-  { label: "Store-Eingang", value: "~700", unit: "Besucher / Tag", w: 74, conv: "≈ 1,7 %" },
-  { label: "In den Regalgang", value: "~300", unit: "/ Tag", w: 52, conv: "≈ 43 %" },
-  { label: "Tasting / QR-Scan", value: "~60", unit: "/ Tag", w: 33, conv: "≈ 20 %" },
-  { label: "Kauf", value: "~25", unit: "/ Tag", w: 19, conv: "≈ 40 %" },
+  { label: "Store-Eingang", value: "400–500", unit: "Besucher / Tag (Annahme)", w: 74, conv: null },
+  { label: "In den Regalgang", value: "~195", unit: "/ Tag", w: 52, conv: "≈ 43 %" },
+  { label: "Tasting / QR-Scan", value: "~40", unit: "/ Tag", w: 33, conv: "≈ 20 %" },
+  { label: "Kauf", value: "~15", unit: "/ Tag", w: 19, conv: "≈ 40 %" },
 ];
 
 const C = { line: "#C8964A", cream: "#F9F5EE", stone: "#B0A494", green: "#2A4A3C", soft: "#7A6E62" };
@@ -20,7 +20,7 @@ export default function FunnelSVG({ className = "" }: { className?: string }) {
     <svg
       viewBox={`0 0 560 ${STAGES.length * ROW_H + 16}`}
       role="img"
-      aria-label="Conversion-Funnel: von 41.000 Alexa-Passanten zu rund 25 Käufen pro Tag"
+      aria-label="Conversion-Funnel, Modellannahme: von 400 bis 500 Ladenbesuchern zu rund 15 Käufen pro Tag"
       className={className}
       style={{ width: "100%", height: "auto" }}
     >

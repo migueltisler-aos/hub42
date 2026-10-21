@@ -6,8 +6,7 @@ export default function DeckStandort() {
       <div>
         <div className="space-y-4 text-stone text-base leading-relaxed mb-8 max-w-md">
           <p>
-            Das Alexa am Alexanderplatz ist einer der frequenzstärksten Standorte Berlins –
-            Touristen, Pendler und Locals an sieben Tagen.
+            Das Alexa liegt am Alexanderplatz: Touristen, Pendler und Locals an sieben Tagen.
           </p>
           <p>
             Genau hier funktioniert Entdeckung: Laufkundschaft mit Zeit, Geschenk-Mindset und
@@ -21,7 +20,7 @@ export default function DeckStandort() {
 
         <div className="grid grid-cols-3 gap-6">
           {[
-            { num: "41.000", label: "Frequenz / Tag" },
+            { num: "15 Mio.", label: "Center-Besuche / Jahr" },
             { num: "Mo–Sa", label: "10–20 Uhr" },
             { num: "Alexa", label: "Alexanderplatz" },
           ].map((s) => (

@@ -379,7 +379,7 @@ async function texte(q: {
     model: "claude-opus-5-5",
     max_tokens: 4000,
     output_config: { effort: "low", format: { type: "json_schema", schema: SCHEMA } },
-    system: `Du schreibst für Hub42, einen Laden in Berlin, der Regalplätze an junge Marken vermietet, den Entwurf einer Regalkarte (A5) für eine Marke. Quelle ist ausschließlich der Text ihrer eigenen Website, den du bekommst.
+    system: `Du schreibst für Hub42, einen Laden in Berlin, der Regalfronten an junge Marken vermietet, den Entwurf einer Regalkarte (A5) für eine Marke. Quelle ist ausschließlich der Text ihrer eigenen Website, den du bekommst.
 
 Regeln:
 - Nur Fakten, die im Quelltext stehen. Nichts erfinden, nicht schätzen, keine Superlative ohne Beleg. Lieber zwei Fakten als ein ausgedachter.

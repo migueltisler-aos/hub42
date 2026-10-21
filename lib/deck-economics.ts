@@ -16,14 +16,18 @@
    ============================================================ */
 
 /* ── Slot-Preismodell (eine Quelle der Wahrheit) ──────────────
-   Grundpreis je cm Regalfront + Zonen-Aufschlag + Tranchen-Aufschlag.
+   Drei Regalfronten: S und M fest, L je cm. Zonenzuschlag und Staffel
+   kommen auf alle drei (Preiskonzept Mischform, 2026-10-20). */
+export const PAKETE = {
+  S: { cm: 13, preis: 59 },
+  M: { cm: 25, preis: 118 },
+  L: { abCm: 50, preisJeCm: 4.64 },
+} as const;
+export type Paket = keyof typeof PAKETE;
 
-   Zwei Preisklassen bei gleicher Breite:
-   - Besonderer Wert (nur auf Bewerbung): 4,64 €/cm, Mindestmiete 59 €
-   - Standard: 7,00 €/cm, Mindestmiete 89 € – also 89/59 des Sonderpreises,
-     dieselbe Front kostet 89 € statt 59 €. */
-export const BASE_RATE_BESONDERER_WERT = 4.64;
-export const BASE_RATE_PER_CM = 7.0;
+/** Online buchbar bis zu einer Ebene (84 cm); breiter nur auf Anfrage. */
+export const MAX_REGAL_CM = 84;
+
 export const ZONE_SURCHARGE_PCT = { basis: 0, augenhoehe: 10, greifhoehe: 20 } as const;
 
 const round2 = (n: number) => Math.round(n * 100) / 100;
@@ -35,13 +39,14 @@ export const TRANCHE_SURCHARGE_PCT = { first_mover: 0, aufbau: 10, warteliste: 2
 export type Tranche = keyof typeof TRANCHE_SURCHARGE_PCT;
 
 export const TRANCHE_INFO: Record<Tranche, { label: string; auslastung: string }> = {
-  first_mover: { label: "Gründungskonditionen", auslastung: "< 60 % Auslastung" },
-  aufbau: { label: "Aufbauphase", auslastung: "60–85 % Auslastung" },
-  warteliste: { label: "Warteliste", auslastung: "> 85 % Auslastung" },
+  first_mover: { label: "Unter 60 % Auslastung", auslastung: "Preise wie gelistet" },
+  aufbau: { label: "Ab 60 % Auslastung", auslastung: "+10 %" },
+  warteliste: { label: "Ab 85 % Auslastung", auslastung: "+20 %" },
 };
 
+/** Preis je cm in der Regalfront L, mit Zonen- und Staffelzuschlag, auf Cent. */
 function rateFor(zonePct: number, tranchePct: number): number {
-  return round2(BASE_RATE_PER_CM * (1 + zonePct / 100) * (1 + tranchePct / 100));
+  return round2(PAKETE.L.preisJeCm * (1 + zonePct / 100) * (1 + tranchePct / 100));
 }
 
 /** €/cm-Monatsraten je Zone × Tranche. */
@@ -63,31 +68,37 @@ export const TRANCHE_RATES: Record<Tranche, { basis: number; augenhoehe: number;
   },
 };
 
-/** Rückwärtskompatibel: RATES = Tranche "first_mover" (die auf der Website standardmäßig gezeigte Rate). */
+/** RATES = Tranche "first_mover": Preis je cm in der Regalfront L (die auf der Website gezeigte Rate). */
 export const RATES = TRANCHE_RATES.first_mover;
 
-/** €/cm-Monatsraten für Produkte mit besonderem Wert (Gründungskonditionen, Zonenaufschlag wie Standard). */
-const rateBesonders = (zonePct: number) => round2(BASE_RATE_BESONDERER_WERT * (1 + zonePct / 100));
-export const RATES_BESONDERER_WERT = {
-  basis: rateBesonders(ZONE_SURCHARGE_PCT.basis),
-  augenhoehe: rateBesonders(ZONE_SURCHARGE_PCT.augenhoehe),
-  greifhoehe: rateBesonders(ZONE_SURCHARGE_PCT.greifhoehe),
-};
+export type ZoneId = keyof typeof ZONE_SURCHARGE_PCT;
 
-export const MIN_REGAL_CM = 5;
+/** Kleinste Regalfront ist S. */
+export const MIN_REGAL_CM = PAKETE.S.cm;
 
-/** Mindestmiete/Slot je Tranche (steigt mit der Slot-Rate: +10 % / +20 %). */
-export const MIN_SLOT_MIETE_BY_TRANCHE: Record<Tranche, number> = {
-  first_mover: 89,
-  aufbau: 98,
-  warteliste: 107,
-};
-export const MIN_SLOT_MIETE = MIN_SLOT_MIETE_BY_TRANCHE.first_mover;
+/** Welche Regalfront zu einer Breite gehört. Bis 13 cm S, 14 bis 25 cm M
+    (das nächstgrößere Paket), 26 bis 49 cm keiner (Zwischenbreite, offen),
+    ab 50 cm L. */
+export function paketFuer(cm: number): Paket | null {
+  if (cm <= PAKETE.S.cm) return "S";
+  if (cm <= PAKETE.M.cm) return "M";
+  if (cm < PAKETE.L.abCm) return null;
+  return "L";
+}
 
-/** Mindestmiete für Produkte mit besonderem Wert (Handwerk, Herkunft, Mission),
-    zusammen mit RATES_BESONDERER_WERT. Kein Listenpreis: nur auf Bewerbung,
-    Hub42 entscheidet im Onboarding. */
-export const MIN_SLOT_MIETE_BESONDERER_WERT = 59;
+/** Monatsmiete einer Regalfront: S und M Paketpreis × Zone × Staffel auf
+    Cent, L Breite × Satz je cm der Tranche. null für Zwischenbreiten. */
+export function paketMiete(cm: number, zone: ZoneId, tranche: Tranche = "first_mover"): number | null {
+  const p = paketFuer(cm);
+  if (!p) return null;
+  if (p === "L") return round2(cm * TRANCHE_RATES[tranche][zone]);
+  return round2(
+    PAKETE[p].preis * (1 + ZONE_SURCHARGE_PCT[zone] / 100) * (1 + TRANCHE_SURCHARGE_PCT[tranche] / 100),
+  );
+}
+
+/** Die drei buchbaren Breiten als Auswahl: S, M und L ab 50 cm. */
+export const PAKET_CM: Record<Paket, number> = { S: PAKETE.S.cm, M: PAKETE.M.cm, L: PAKETE.L.abCm };
 
 /** Fixpreis-Slot Schaufenster / Ladenfront (Außensichtbarkeit) – tranchenunabhängig. */
 export const SCHAUFENSTER_MONAT = 140;
@@ -97,12 +108,11 @@ export const HUB_MARGIN_PCT = 7;
 
 /* ── Die Treppe (Startseite #treppe, #preise, /hersteller) ────
    Festpreis je Stufe, netto. In jeder Stufe steckt Regal bis
-   REGAL_INKLUSIVE_CM, jeder weitere cm kostet den Zonenpreis aus der
-   Tabelle oben, ohne Mindestmiete. Auf alle Stufen kommt HUB_MARGIN_PCT auf
+   REGAL_INKLUSIVE_CM, jeder weitere cm kostet RATES[zone] (4,64 € plus
+   Zonenzuschlag), ohne Mindestbetrag. Auf alle Stufen kommt HUB_MARGIN_PCT auf
    den Verkauf. */
 export const STUFE_PREIS = {
-  testen: 390,
-  beweisen: 3900,
+  beweisen: 2500,
   spark: 9800,
   focus: 24500,
   powerhouse: 49000,
@@ -127,9 +137,10 @@ export interface Assumptions {
   shopMonthly: number; // Shopify-Abo (Plattformgebühr, fix/Monat)
   // Hub42
   hubMarginPct: number; // Vermittlungsprovision in % vom VK (ersetzt Checkout-Fee + Kartengebühr)
-  regalCm: number; // Regalfront in cm
-  ratePerCm: number; // Slot-Rate €/cm/Monat
-  tranche: Tranche; // Auslastungstranche (bestimmt Slot-Rate + Mindestmiete)
+  regalCm: number; // Regalfront in cm: 13 (S), 25 (M) oder ab 50 (L)
+  zone: ZoneId; // Höhe im Regal (Zonenzuschlag)
+  ratePerCm: number; // Satz €/cm/Monat, nur für Regalfront L gelesen
+  tranche: Tranche; // Auslastungstranche (Staffelzuschlag)
 }
 
 export const DEFAULTS: Assumptions = {
@@ -146,7 +157,8 @@ export const DEFAULTS: Assumptions = {
   onlinePayFix: 0.25,
   shopMonthly: 36, // Shopify Basic ~36 €/Monat
   hubMarginPct: HUB_MARGIN_PCT,
-  regalCm: 5, // ein einzelnes F&B-Produkt belegt ~5 cm Front
+  regalCm: 13, // Regalfront S, Platz für rund zwei Gläser
+  zone: "basis",
   ratePerCm: RATES.basis,
   tranche: "first_mover",
 };
@@ -174,8 +186,12 @@ export function compute(a: Assumptions): Result {
 
   // Hub42 hat keinen Wareneingang/Stück – nur Vermittlungsprovision + Slot-Anteil
   const hubMargin = a.vk * (a.hubMarginPct / 100);
-  const minSlot = MIN_SLOT_MIETE_BY_TRANCHE[a.tranche];
-  const slotMonthly = Math.max(minSlot, a.regalCm * a.ratePerCm);
+  // S und M: Paketpreis; L: Breite × Satz je cm (editierbar über ratePerCm)
+  const paket = paketFuer(a.regalCm);
+  const slotMonthly =
+    paket === "L"
+      ? round2(a.regalCm * a.ratePerCm)
+      : (paketMiete(a.regalCm, a.zone, a.tranche) ?? round2(a.regalCm * a.ratePerCm));
   const slotPerSale = a.sales > 0 ? slotMonthly / a.sales : Infinity;
   const hubPerSale = hubMargin + slotPerSale;
 

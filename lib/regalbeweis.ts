@@ -19,12 +19,12 @@
    Diese drei sind unten einzeln markiert.
    ============================================================ */
 
-import { RATES, MIN_SLOT_MIETE, HUB_MARGIN_PCT } from "./deck-economics";
+import { HUB_MARGIN_PCT, PAKETE, paketMiete } from "./deck-economics";
 
 /* ── Zuschnitt des Pakets ─────────────────────────────────── */
 
-/** Regalfront im Paket. 15 cm entspricht rund 3 Facings eines üblichen F&B-Produkts. */
-export const SLOT_CM = 15;
+/** Regalfront im Paket: Regalfront S (13 cm), Platz für rund zwei Gläser. */
+export const SLOT_CM = PAKETE.S.cm;
 
 /** Laufzeit in Tagen. 90 Tage = ein voller Quartalszyklus inklusive Wiederkaufsfenster. */
 export const LAUFZEIT_TAGE = 90;
@@ -34,11 +34,8 @@ export const LAUFZEIT_MONATE = 3;
     wenn das Produkt auch tatsächlich gesehen wurde. */
 export const PAKET_ZONE = "augenhoehe" as const;
 
-/** Tatsächliche Monatsmiete dieser Fläche nach dem reguären Tarifmodell. */
-export const MIETE_MONAT = Math.max(
-  MIN_SLOT_MIETE,
-  Math.round(SLOT_CM * RATES.augenhoehe * 100) / 100,
-);
+/** Tatsächliche Monatsmiete dieser Fläche nach dem regulären Tarifmodell (Regalfront S, Augenhöhe). */
+export const MIETE_MONAT = paketMiete(SLOT_CM, PAKET_ZONE) ?? 0;
 
 /** Mietanteil über die Paketlaufzeit – Position 1 im Wertstack, direkt aus dem Tarif. */
 export const MIETE_LAUFZEIT = Math.round(MIETE_MONAT * LAUFZEIT_MONATE);
@@ -229,7 +226,7 @@ export const ANKER: AnkerZeile[] = [
    und wir sparen uns Erstgespräche, die ohnehin scheitern. */
 export const NICHT_FUER: string[] = [
   "Marken ohne EAN und ohne LMIV-konforme Kennzeichnung. Das ist Voraussetzung, keine Formalie.",
-  `Wer ausschließlich Fläche mieten und den Rest selbst machen will – dafür gibt es den regulären Slot ab ${MIN_SLOT_MIETE} €/Monat.`,
+  `Wer ausschließlich Fläche mieten und den Rest selbst machen will: Dafür gibt es die Regalfront ab ${PAKETE.S.preis} € im Monat.`,
   "Wer in 90 Tagen kurzfristigen Umsatz sucht. Das hier produziert einen Beweis, keinen Umsatzsprung.",
   "Wer nicht liefern kann, wenn es läuft. Nachschub innerhalb von sieben Tagen ist Teil des Vertrags.",
 ];
@@ -247,7 +244,7 @@ export interface OffenerPunkt {
 export const OFFEN: OffenerPunkt[] = [
   {
     frage: "Es gibt noch keine Abverkaufszahlen aus dem Hub42.",
-    antwort: `Richtig. Der Store eröffnet ${KOHORTE.start}. Genau deshalb heißt Kohorte 1 Gründungskohorte und zahlt Gründungskonditionen: ihr geht das Risiko mit, dafür bekommt ihr Preis-Lock, Augenhöhe und die Ergebnis-Garantie. Wer erst Referenzen sehen will, wartet auf Kohorte 2 und zahlt dann den Tranchenpreis.`,
+    antwort: `Richtig. Der Store eröffnet ${KOHORTE.start}. Genau deshalb heißt Kohorte 1 Gründungskohorte: Ihr geht das Risiko mit, dafür bekommt ihr Preis-Lock, Augenhöhe und die Ergebnis-Garantie. Wer erst Referenzen sehen will, wartet auf Kohorte 2 und zahlt dann den Preis, der bei seiner Buchung gilt.`,
   },
   {
     frage: `Was passiert nach den ${LAUFZEIT_TAGE} Tagen?`,
@@ -261,7 +258,7 @@ export const OFFEN: OffenerPunkt[] = [
   },
   {
     frage: `Warum zusätzlich ${PROVISION_PCT} %?`,
-    antwort: `Die ${PROVISION_PCT} % Vermittlungsprovision fallen nur auf tatsächlich verkaufte Artikel an und enthalten die komplette Zahlungsabwicklung. Zum Vergleich: der LEH nimmt 30–50 % Handelsmarge und bestimmt zusätzlich deinen Endpreis. Deine UVP bleibt hier deine.`,
+    antwort: `Die ${PROVISION_PCT} % Vermittlungsprovision fallen nur auf tatsächlich verkaufte Artikel an und enthalten die komplette Zahlungsabwicklung. Eine Listungsgebühr gibt es nicht, und deinen Endpreis setzt du selbst. Deine UVP bleibt hier deine.`,
   },
 ];
 

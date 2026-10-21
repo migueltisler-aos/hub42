@@ -1,4 +1,4 @@
-import { RATES, SCHAUFENSTER_MONAT } from "./deck-economics";
+import { RATES, SCHAUFENSTER_MONAT, type ZoneId } from "./deck-economics";
 
 export type SlotColor = "gold" | "silver" | "standard" | "base" | "window";
 
@@ -8,8 +8,10 @@ export interface SlotTier {
   position: string;
   /** Fixed monthly price – set for Schaufenster / Ladenfront */
   kostenMonat?: number;
-  /** Per-cm monthly rate – set for Basis, Augenhöhe, Greifhöhe garantiert */
+  /** Per-cm monthly rate (Regalfront L) – set for Basis, Augenhöhe, Greifhöhe garantiert */
   ratePerCm?: number;
+  /** Zone for the package prices S, M, L */
+  zone?: ZoneId;
   color: SlotColor;
   empfohlen?: boolean;
   highlights: string[];
@@ -26,7 +28,7 @@ export const SLOTS: SlotTier[] = [
     empfohlen: false,
     highlights: [
       "Sichtbar von außen – ohne Betreten",
-      "41.000 Passanten täglich",
+      "Alexa-Center: rund 15 Mio. Besuche/Jahr",
       "QR-Code + Traverse-Karte inklusive",
       "Ideal für visuelle Produkte",
     ],
@@ -35,12 +37,13 @@ export const SLOTS: SlotTier[] = [
   {
     id: "greifhoehe",
     name: "Greifhöhe garantiert",
-    position: "Greifzone garantiert – prime conversion (+20 %)",
+    position: "Greifhöhe garantiert (+20 % Aufschlag)",
     ratePerCm: RATES.greifhoehe,
+    zone: "greifhoehe",
     color: "silver",
     empfohlen: true,
     highlights: [
-      "Garantierte Greifzone = höchste Conversion",
+      "Garantiert auf Greifhöhe, 90 bis 130 cm",
       "QR-Code + Traverse-Karte inklusive",
       "Promo-Tag 1× pro Quartal (Fr/Sa)",
       "Tasting Bar inklusive",
@@ -52,6 +55,7 @@ export const SLOTS: SlotTier[] = [
     name: "Augenhöhe",
     position: "Augenhöhe – starke Sichtbarkeit (+10 %)",
     ratePerCm: RATES.augenhoehe,
+    zone: "augenhoehe",
     color: "standard",
     empfohlen: false,
     highlights: [
@@ -66,6 +70,7 @@ export const SLOTS: SlotTier[] = [
     name: "Basis",
     position: "Grundpreis – Einstiegsebene",
     ratePerCm: RATES.basis,
+    zone: "basis",
     color: "base",
     empfohlen: false,
     highlights: [
@@ -88,18 +93,18 @@ export interface ComparisonRow {
 
 export const COMPARISON_ROWS: ComparisonRow[] = [
   {
-    label: "Handelsmarge",
-    messe: "0%",
-    rewe: "30–50%",
-    hub42: "7%",
+    label: "Was du abgibst",
+    messe: "Standmiete je Event",
+    rewe: "Handelsspanne + Listung",
+    hub42: "Miete + 7 % je Verkauf",
     hub42Highlight: true,
-    note: "Vermittlungsprovision statt Handelsmarge – du setzt deine eigene UVP",
+    note: "Keine Handelsmarge, keine Listungsgebühr. Du setzt deine eigene UVP.",
   },
   {
     label: "Einstiegskosten",
     messe: "3.000–8.000 € / Event",
     rewe: "2.000–50.000 €",
-    hub42: "ab 89 €/Mo",
+    hub42: "ab 59 €/Mo netto",
     hub42Highlight: true,
   },
   {
@@ -108,7 +113,7 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
     rewe: false,
     hub42: true,
     hub42Highlight: true,
-    note: "Du setzt deinen Preis – immer",
+    note: "Du setzt deinen Preis, immer.",
   },
   {
     label: "Kundendaten",
@@ -124,7 +129,7 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
     rewe: "Rücknahmekosten",
     hub42: "Konsignation",
     hub42Highlight: true,
-    note: "Du bleibst Eigentümer – kein Abnahmezwang",
+    note: "Du bleibst Eigentümer, kein Abnahmezwang.",
   },
   {
     label: "Try It / Tasting",

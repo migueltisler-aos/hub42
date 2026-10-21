@@ -1,7 +1,8 @@
 "use client";
 
-/* Die Treppe: fünf Stufen, jede klickbar. Der Umschalter "Ich bin …" hebt
-   die empfohlene Einstiegsstufe hervor, sperrt aber nichts. "Diese Stufe
+/* Die Treppe: vier Stufen, jede klickbar. Der Umschalter "Ich bin …" hebt
+   die empfohlene Einstiegsstufe hervor, sperrt aber nichts; für Gründer
+   zeigt er statt einer Stufe den Hinweis auf die Regalfront S. "Diese Stufe
    anfragen" belegt im Formular den Einstieg vor (Event EINSTIEG_EVENT). */
 
 import { useState } from "react";
@@ -22,7 +23,7 @@ import {
 
 export default function Treppe() {
   const [gruppe, setGruppe] = useState<ZielgruppeKey | null>(null);
-  const [aktiv, setAktiv] = useState<StufeKey>("testen");
+  const [aktiv, setAktiv] = useState<StufeKey>("beweisen");
 
   const einstieg = gruppe ? ZIELGRUPPEN[gruppe].einstieg : null;
   const i = STUFEN.findIndex((s) => s.key === aktiv);
@@ -32,7 +33,8 @@ export default function Treppe() {
   function waehleGruppe(g: ZielgruppeKey) {
     const neu = gruppe === g ? null : g;
     setGruppe(neu);
-    if (neu) setAktiv(ZIELGRUPPEN[neu].einstieg);
+    const ziel = neu ? ZIELGRUPPEN[neu].einstieg : null;
+    if (ziel) setAktiv(ziel);
   }
 
   function anfragen() {
@@ -57,10 +59,13 @@ export default function Treppe() {
         ))}
       </div>
 
-      <ol className="stair__steps" aria-label="Die fünf Stufen">
+      {gruppe && ZIELGRUPPEN[gruppe].hinweis && <p className="stair__hinweis">{ZIELGRUPPEN[gruppe].hinweis}</p>}
+
+      <ol className="stair__steps" aria-label="Die vier Stufen">
         {STUFEN.map((st) => {
           const istEinstieg = einstieg === st.key;
-          const passt = !!gruppe && !istEinstieg && st.zielgruppen.includes(gruppe);
+          /* Ohne Einstiegsstufe (Gründer) wird keine Stufe hervorgehoben. */
+          const passt = !!gruppe && !!einstieg && !istEinstieg && st.zielgruppen.includes(gruppe);
           return (
             <li key={st.key} style={{ "--n": st.nr } as React.CSSProperties}>
               <button

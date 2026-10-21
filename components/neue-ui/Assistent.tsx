@@ -28,20 +28,24 @@ import {
   type ZielKey,
   STUECK_PRO_PRODUKT,
   VERTRIEB,
+  VERKAUFSTAGE,
   empfohlenerEinstieg,
-  mieteDreiMonate,
+  rechnung as rechnen,
   regeln,
   schaetzung,
   type AssistentAntworten,
+  type Rechnung as RechnungWerte,
+  type Schaetzung,
 } from "@/lib/assistent-model";
 import {
-  BASE_RATE_BESONDERER_WERT,
   HUB_MARGIN_PCT,
-  MIN_SLOT_MIETE_BESONDERER_WERT,
-  RATES,
-  RATES_BESONDERER_WERT,
+  MAX_REGAL_CM,
+  PAKETE,
   STUFE_PREIS,
+  paketFuer,
+  paketMiete,
 } from "@/lib/deck-economics";
+import MehrAlsEineEbene from "@/components/MehrAlsEineEbene";
 import { FRONT_EVENT, pruefeBewerbung, type FrontDetail } from "@/lib/bewerbung-model";
 import { nurEntwurf, mieteMonat, type ArtikelTexte, type KarteEntwurf, type KarteProdukt } from "@/lib/karte-model";
 
@@ -49,7 +53,7 @@ const fertig = (t: ArtikelTexte | null | "laedt") => (t === "laedt" ? null : t);
 import { ZONES, eur, type ZoneKey } from "@/lib/neue-ui/regal";
 import { HALTUNG_TAGS, KATEGORIEN_KANONISCH, type HaltungTag } from "@/lib/pipeline-model";
 import { ALLE_STUFEN, EINSTIEGE, EINSTIEG_EVENT, STUFEN, mitRegalwahl, type EinstiegKey } from "@/lib/treppe";
-import { ArtikelKarte, HerstellerKarte, Rechnung, Zoombar } from "./PosKarten";
+import { ArtikelKarte, HerstellerKarte, Zoombar } from "./PosKarten";
 
 const SCHRITTE = ["website", "ziel", "start", "reife", "produkt", "regal", "ergebnis", "kontakt"] as const;
 const FRAGEN = 6; // alles vor dem Ergebnis
@@ -73,7 +77,7 @@ const START: AssistentAntworten = {
   eigentum: "",
   haltung: [],
   besonders: "",
-  cm: 15,
+  cm: PAKETE.S.cm,
   zone: "basis",
   faktor: 1,
   faktorGrund: "",
@@ -85,20 +89,14 @@ const ZONEN_AUFSTEIGEND: ZoneKey[] = ["basis", "augenhoehe", "greifhoehe"];
 const OPTIONEN: { key: EinstiegKey; name: string; preis: string; text: string }[] = [
   { key: "standardregal", name: "Standardregal", preis: "", text: "" },
   {
-    key: "testen",
-    name: "Stufe 1 Testen",
-    preis: `${STUFE_PREIS.testen.toLocaleString("de-DE")} € für 3 Monate`,
-    text: "15 cm inklusive. Verkauft sich das überhaupt?",
-  },
-  {
     key: "beweisen",
-    name: "Stufe 2 Beweisen",
+    name: "Stufe 1 Beweisen",
     preis: `${STUFE_PREIS.beweisen.toLocaleString("de-DE")} € für 3 Monate`,
     text: "Mit Tastings und Käuferprofil. Wer kauft, und warum?",
   },
   {
     key: "studie",
-    name: "Stufe 3 bis 5 Studie",
+    name: "Stufe 2 bis 4 Studie",
     preis: `ab ${STUFE_PREIS.spark.toLocaleString("de-DE")} €`,
     text: "Antworten für deinen Einkauf: Preis, Zielgruppe, Listung.",
   },
@@ -107,11 +105,10 @@ const OPTIONEN: { key: EinstiegKey; name: string; preis: string; text: string }[
 const euro0 = (n: number) => Math.round(n).toLocaleString("de-DE") + " €";
 const zahl = (n: number) => Math.round(n).toLocaleString("de-DE");
 
-/** Welche Stufe zu welchem Einstieg gehört (Studie = Stufe 3, Discovery Spark). */
+/** Welche Stufe zu welchem Einstieg gehört (Studie = Stufe 2, Discovery Spark). */
 const STUFE_ZU: Partial<Record<EinstiegKey, (typeof STUFEN)[number]>> = {
-  testen: STUFEN[0],
-  beweisen: STUFEN[1],
-  studie: STUFEN[2],
+  beweisen: STUFEN[0],
+  studie: STUFEN[1],
 };
 
 export default function Assistent() {
@@ -127,7 +124,6 @@ export default function Assistent() {
   const [warteIdx, setWarteIdx] = useState(0);
   const [anfrageId, setAnfrageId] = useState<string | null>(null);
   const [eigenes, setEigenes] = useState({ titel: "", preis: "" });
-  const [verkaeufe, setVerkaeufe] = useState(20);
   const [kontakt, setKontakt] = useState({ instagram: "", instaFreigabe: true, name: "", email: "", marke: "", einstieg: "" as EinstiegKey | "", nachricht: "", firma2: "" });
   const [einstiegVonTreppe, setEinstiegVonTreppe] = useState(false);
   const [fehler, setFehler] = useState<Record<string, string>>({});
@@ -146,7 +142,6 @@ export default function Assistent() {
         url: auswahl[0].url,
       }
     : null;
-  const setProdukt = (x: KarteProdukt) => setAuswahl((l) => (l.length ? [{ ...l[0], preis: x.preis }, ...l.slice(1)] : [x]));
   const artikelVon = (x: KarteProdukt) => artikelJe[x.titel] ?? null;
   // Preisurteil: ein unfaires Produkt zählt, sonst das erste.
   const urteile = auswahl
@@ -156,7 +151,8 @@ export default function Assistent() {
 
   const preis = produkt?.preis ?? null;
   const r = regeln(a, preis, urteil);
-  const s = preis ? schaetzung(a, preis, r.besondererWert, auswahl.length) : null;
+  const s = preis ? schaetzung(a, preis, auswahl.length) : null;
+  const rw = s && preis ? rechnen(a, preis, s) : null;
   const mitte = s?.stueck.mitte;
 
   const setze = <K extends keyof AssistentAntworten>(k: K, v: AssistentAntworten[K]) => setA((x) => ({ ...x, [k]: v }));
@@ -176,8 +172,6 @@ export default function Assistent() {
         schaetzungMonat: mitte ?? null,
       }).catch(() => {});
     }
-    // Regler im Ergebnis startet bei unserer Schätzung.
-    if (ziel === "ergebnis" && mitte) setVerkaeufe(Math.min(120, Math.max(5, Math.round(mitte / 5) * 5)));
     track({ event_type: "interaction", path: window.location.pathname, section: `assistent:${ziel}` });
     // Auf kleinen Bildschirmen wieder an den Anfang des Assistenten.
     requestAnimationFrame(() => {
@@ -302,8 +296,8 @@ export default function Assistent() {
       bundesland: "",
       zone: regalwahl ? a.zone : ("" as const),
       cm: regalwahl ? a.cm : null,
-      besondererWert: regalwahl && r.besondererWert,
-      begruendung: r.besondererWert ? a.besonders : "",
+      besondererWert: false,
+      begruendung: a.besonders,
       nachricht: kontakt.nachricht,
       bildrechte,
       karte:
@@ -386,7 +380,7 @@ export default function Assistent() {
             <input type="checkbox" checked={bildrechte} onChange={(e) => setBildrechte(e.target.checked)} />
             <span>
               <strong>Hub42 darf Logo, Produktbilder und Texte meiner Website nutzen</strong> – für meine
-              Regalkarte und meinen Regalplatz. Ich sehe alles vorher und kann es ändern. Website, erkannte Angaben und
+              Regalkarte und meine Regalfront. Ich sehe alles vorher und kann es ändern. Website, erkannte Angaben und
               Karte speichern wir auch ohne Bewerbung, um uns ggf. bei dir zu melden; Name und E-Mail erst beim Abschicken.
             </span>
           </label>
@@ -542,31 +536,49 @@ export default function Assistent() {
           <p className="as__sub">
             Erst die Höhe, dann die Breite. Ein Glas oder eine Flasche braucht etwa {CM_JE_PRODUKT} cm Front
             {auswahl.length > 1 ? `, für ${auswahl.length} Produkte also mindestens ${auswahl.length * CM_JE_PRODUKT} cm` : ""}.
+            {" "}In S passen rund zwei, in M rund fünf.
           </p>
           <div className="as__tiles as__tiles--3">
             {ZONEN_AUFSTEIGEND.map((z) => (
               <Kachel
                 key={z}
                 titel={ZONES[z].name}
-                hint={`${ZONES[z].hoehe} · ${ZONES[z].auf ? `+${ZONES[z].auf} %` : "Grundpreis"} · ${eur(r.besondererWert ? RATES_BESONDERER_WERT[z] : RATES[z])} je cm`}
+                hint={`${ZONES[z].hoehe} · ${ZONES[z].auf ? `+${ZONES[z].auf} %` : "ohne Zuschlag"} · S ${eur(paketMiete(PAKETE.S.cm, z) ?? 0)}`}
                 an={a.zone === z}
                 onClick={() => setze("zone", z)}
               />
             ))}
           </div>
           <div className="as__tiles">
-            {BREITEN.map((cm) => (
-              <Kachel
-                key={cm}
-                titel={`${cm} cm`}
-                hint={`${eur(mieteMonat(a.zone, cm, r.besondererWert))} / Monat${r.besondererWert ? ` statt ${eur(mieteMonat(a.zone, cm, false))}` : ""}`}
-                an={a.cm === cm}
-                onClick={() => (setze("cm", cm), weiter())}
-              />
-            ))}
+            {BREITEN.map((cm) => {
+              const istL = cm >= PAKETE.L.abCm;
+              return (
+                <Kachel
+                  key={cm}
+                  titel={istL ? `L · ab ${cm} cm` : `${paketFuer(cm)} · ${cm} cm`}
+                  hint={`${eur(mieteMonat(a.zone, istL && a.cm >= PAKETE.L.abCm ? a.cm : cm))} / Monat`}
+                  an={istL ? a.cm >= PAKETE.L.abCm : a.cm === cm}
+                  /* L bleibt stehen, damit die Breite darunter einstellbar ist. */
+                  onClick={() => (istL ? setze("cm", Math.max(PAKETE.L.abCm, a.cm)) : (setze("cm", cm), weiter()))}
+                />
+              );
+            })}
           </div>
-          {r.besondererWert && (
-            <p className="as__hint">★ Preise mit besonderem Wert, so wie du bisher geantwortet hast. Wir entscheiden im Onboarding.</p>
+          {a.cm >= PAKETE.L.abCm && (
+            <>
+              <label className="apply__field as__wide">
+                <span>Breite Regalfront L: {a.cm} cm</span>
+                <input
+                  type="range"
+                  min={PAKETE.L.abCm}
+                  max={MAX_REGAL_CM}
+                  step={1}
+                  value={a.cm}
+                  onChange={(e) => setze("cm", Number(e.target.value))}
+                />
+              </label>
+              <MehrAlsEineEbene href="/termin" className="as__hint" />
+            </>
           )}
           <Nav zurueck={zurueck} weiter={weiter} />
         </div>
@@ -649,7 +661,7 @@ export default function Assistent() {
                   </div>
                 </div>
                 <label className="apply__field as__wide">
-                  <span>Was macht dein Produkt besonders? (für {eur(BASE_RATE_BESONDERER_WERT)} je cm)</span>
+                  <span>Was macht dein Produkt besonders?</span>
                   <textarea rows={3} value={a.besonders} onChange={(e) => setze("besonders", e.target.value)} />
                 </label>
               </div>
@@ -669,37 +681,9 @@ export default function Assistent() {
                   </li>
                 ))}
               </ul>
-              {r.besondererWert && (
-                <p className="as__badge">
-                  ★ Du qualifizierst dich voraussichtlich für den besonderen Wert: {eur(RATES_BESONDERER_WERT[a.zone])} statt{" "}
-                  {eur(RATES[a.zone])} je cm, ab {MIN_SLOT_MIETE_BESONDERER_WERT} € im Monat. Wir entscheiden im Onboarding.
-                </p>
-              )}
             </div>
 
-            {s && produkt?.preis && (
-              <div className="as__erg-col">
-                <p className="as__h">Was dein Produkt bei uns verkaufen kann</p>
-                <p className="as__zahl">
-                  {s.stueck.tief}–{s.stueck.hoch}
-                  <small> Verkäufe im Monat</small>
-                </p>
-                {a.faktorGrund && <p className="as__sub">{a.faktorGrund}</p>}
-                <ul className="as__facts">
-                  <li>
-                    <b>{zahl(s.storeBesucherMonat)}</b> Menschen kommen jeden Monat in den Laden
-                  </li>
-                  <li>
-                    <b>≈ {zahl(s.probiererMonat)}</b>{" "}
-                    {a.kategorie === "Food" || a.kategorie === "Drinks" ? "probieren oder scannen" : "scannen oder nehmen"} dein
-                    Produkt in die Hand
-                  </li>
-                  <li>
-                    <b>≈ {euro0(s.umsatzMonat)}</b> Umsatz im Monat auf {a.cm} cm, {ZONES[a.zone].name}
-                  </li>
-                </ul>
-              </div>
-            )}
+            {s && rw && <Sichtbarkeit r={rw} />}
           </div>
 
           {karte && produkt && (
@@ -733,24 +717,18 @@ export default function Assistent() {
             </p>
           )}
 
-          {s && produkt?.preis && (
+          {s && rw && produkt?.preis && (
             <div className="as__block">
-              <p className="as__h">Kosten und Nutzen</p>
               <div className="as__kn-grid">
-                <KostenNutzen a={a} besondererWert={r.besondererWert} umsatzMonat={s.umsatzMonat} />
-                <Rechnung
-                  produkt={produkt}
-                  setProdukt={setProdukt}
-                  verkaeufe={verkaeufe}
-                  setVerkaeufe={setVerkaeufe}
-                  zone={a.zone}
-                  cm={a.cm}
-                  besondererWert={r.besondererWert}
-                />
+                <Abverkauf a={a} s={s} />
+                <RechnungBlock a={a} s={s} r={rw} />
               </div>
               <p className="rk__fine">
-                Schätzung, keine Zusage. Basis ist unsere Planung für den Store im Alexa: {zahl(FUNNEL.besucherTag)} Besucher am
-                Tag, {FUNNEL.eintritt * 100} % kommen rein, {FUNNEL.probieren * 100} % probieren oder scannen,{" "}
+                Schätzung, keine Zusage. Das Alexa-Center zählt rund {zahl(FUNNEL.centerTag)} Besucher am Tag, das
+                ist die Zahl des Centers, nicht unseres Ladens. Im Laden rechnen wir mit {FUNNEL.ladenTagVon} bis{" "}
+                {FUNNEL.ladenTagBis} Besuchern am Tag (Annahme, gerechnet mit {FUNNEL.ladenTag}) an {VERKAUFSTAGE}{" "}
+                Verkaufstagen im Monat (Annahme),{" "}
+                {FUNNEL.probieren * 100} % probieren oder scannen,{" "}
                 {FUNNEL.kaufen * 100} % davon kaufen, Ø {FUNNEL.warenkorb} € und {FUNNEL.artikelJeEinkauf} Artikel je Einkauf,
                 verteilt auf rund {FUNNEL.produkteImLaden} Produkte im Laden. Das sind rund {Math.round(STUECK_PRO_PRODUKT)} Verkäufe
                 je Produkt im Monat. Den Faktor für
@@ -767,9 +745,9 @@ export default function Assistent() {
               <div className="as__opt is-on is-fest">
                 <em className="as__opt-fest">Immer dabei</em>
                 <strong>Standardregal</strong>
-                <b>{eur(mieteMonat(a.zone, a.cm, r.besondererWert))} / Monat</b>
+                <b>{eur(mieteMonat(a.zone, a.cm))} / Monat</b>
                 <span>
-                  {a.cm} cm, {ZONES[a.zone].name}, ab 3 Monaten
+                  Regalfront {paketFuer(a.cm) ?? "L"}, {a.cm} cm, {ZONES[a.zone].name}, ab 3 Monaten
                 </span>
               </div>
               {OPTIONEN.filter((o) => o.key !== "standardregal").map((o) => {
@@ -929,38 +907,90 @@ function Nav({ zurueck, weiter, weiterAktiv = true }: { zurueck: () => void; wei
   );
 }
 
-/* Drei Monate Regal nach Zentimetern: was es kostet, was zurückkommt. */
-function KostenNutzen(p: { a: AssistentAntworten; besondererWert: boolean; umsatzMonat: number }) {
-  const kosten = mieteDreiMonate(p.a, p.besondererWert);
-  const umsatz = p.umsatzMonat * 3;
-  const provision = umsatz * (HUB_MARGIN_PCT / 100);
-  const bleibt = umsatz - provision - kosten;
-  const rate = p.besondererWert ? RATES_BESONDERER_WERT[p.a.zone] : RATES[p.a.zone];
-  const mindest = mieteMonat(p.a.zone, p.a.cm, p.besondererWert) > p.a.cm * rate + 0.01;
+/* ── Ergebnis in drei Blöcken: Sichtbarkeit, Abverkauf, Rechnung ──
+   Texte aus copy/assistent-ergebnis.md, Zahlen aus lib/assistent-model.ts. */
+
+const tag1 = (n: number) => n.toLocaleString("de-DE", { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+
+function Sichtbarkeit({ r }: { r: RechnungWerte }) {
   return (
-    <div className="as__kn">
-      <p className="as__h as__h--klein">
-        3 Monate · {p.a.cm} cm · {ZONES[p.a.zone].name}
+    <div className="as__erg-col">
+      <p className="as__h">Sichtbarkeit</p>
+      <p className="as__zahl">
+        {zahl(r.besucherMonat)}
+        <small> Menschen im Laden je Monat (Annahme)</small>
       </p>
-      <dl>
-        <dt>Erwarteter Umsatz</dt>
-        <dd>{euro0(umsatz)}</dd>
-        <dt>
-          Regalmiete ({eur(rate)} je cm{mindest ? ", Mindestmiete" : ""})
-        </dt>
-        <dd>− {euro0(kosten)}</dd>
-        <dt>{HUB_MARGIN_PCT} % Provision</dt>
-        <dd>− {euro0(provision)}</dd>
-        <dt className="as__kn-sum">{bleibt >= 0 ? "Bleibt dir" : "Dein Einsatz"}</dt>
-        <dd className="as__kn-sum">{euro0(Math.abs(bleibt))}</dd>
-      </dl>
+      <ul className="as__facts">
+        <li>
+          <b>{eur(r.kostenJe1000)}</b> kostet dich deine Regalfront je 1.000 Ladenbesucher.
+        </li>
+        <li>
+          Online zahlst du für Einblendungen auf einem Bildschirm. Hier zahlst du für Menschen, die im Laden stehen.
+        </li>
+      </ul>
       <p className="as__hint">
-        {bleibt >= 0
-          ? "vor Wareneinsatz. Dazu kommen Daten und Feedback, die du sonst teuer einkaufst."
-          : `vor Wareneinsatz. Dafür bekommst du ${zahl(STORE_BESUCHER_3M)} Ladenbesucher, echtes Kundenfeedback und einen Abverkaufsnachweis für den Handel.`}
+        Annahme: {FUNNEL.ladenTagVon} bis {FUNNEL.ladenTagBis} Besucher am Tag im Laden, gerechnet mit {FUNNEL.ladenTag} an{" "}
+        {VERKAUFSTAGE} Verkaufstagen. Wie viele davon an deinem Regal stehen bleiben, wissen wir erst, wenn der Laden offen
+        ist.
       </p>
     </div>
   );
 }
 
-const STORE_BESUCHER_3M = FUNNEL.besucherTag * FUNNEL.eintritt * 90;
+function Abverkauf({ a, s }: { a: AssistentAntworten; s: Schaetzung }) {
+  return (
+    <div className="as__erg-col">
+      <p className="as__h">Abverkauf</p>
+      <p className="as__zahl">
+        {s.stueck.tief} bis {s.stueck.hoch}
+        <small> Verkäufe im Monat (Schätzung)</small>
+      </p>
+      {a.faktorGrund && <p className="as__sub">{a.faktorGrund}</p>}
+      <ul className="as__facts">
+        <li>
+          <b>≈ {zahl(s.probiererMonat)}</b>{" "}
+          {a.kategorie === "Food" || a.kategorie === "Drinks" ? "probieren oder scannen" : "scannen oder nehmen"} dein
+          Produkt in die Hand
+        </li>
+        <li>
+          <b>Rund {euro0(s.umsatzMonat)}</b> Umsatz im Monat zu deinem Ladenpreis, wenn die mittlere Schätzung eintrifft.
+        </li>
+      </ul>
+      <p className="as__hint">Schätzung, keine Zusage. Echte Zahlen gibt es ab April 2027 im Monatsbericht.</p>
+    </div>
+  );
+}
+
+function RechnungBlock({ a, s, r }: { a: AssistentAntworten; s: Schaetzung; r: RechnungWerte }) {
+  const platz = paketFuer(a.cm) ?? "L";
+  const Z = ZONES[a.zone];
+  const { tief, hoch } = s.stueck;
+  return (
+    <div className="as__kn">
+      <p className="as__h">Rechnung</p>
+      <p className="as__sub">
+        Regalfront {platz} · {Z.name}: <b>{eur(r.miete)}</b> im Monat, netto
+      </p>
+      <p className="as__kern">
+        {r.schwelleTag < 1
+          ? "Weniger als ein Verkauf am Tag, und deine Regalfront bezahlt sich selbst."
+          : `Deine Regalfront bezahlt sich ab ${tag1(r.schwelleTag)} Verkäufen am Tag selbst.`}
+      </p>
+      <p className="as__sub">
+        Ab {r.schwelle} Verkäufen im Monat deckt dein Umsatz nach {HUB_MARGIN_PCT} % Provision die Miete. Das sind{" "}
+        {tag1(r.schwelleTag)} am Tag.
+      </p>
+      <p className="as__sub">
+        {r.fall === "darunter"
+          ? `Deine geschätzten ${tief} bis ${hoch} Verkäufe holen ${r.anteilMin} bis ${r.anteilMax} % der Miete zurück. Den Rest zahlst du für die Sichtbarkeit.`
+          : r.fall === "dazwischen"
+            ? `Trifft die obere Schätzung ein, deckt dein Umsatz die Miete. Trifft die untere ein, holst du ${r.anteilMin} % der Miete zurück.`
+            : `Schon die vorsichtige Schätzung deckt die Miete: ${r.anteilMin} bis ${r.anteilMax} %. Was darüber liegt, bleibt dir.`}
+      </p>
+      <p className="as__hint">
+        Gerechnet mit deinem Ladenpreis ohne Umsatzsteuer, vor Wareneinsatz. {VERKAUFSTAGE} Verkaufstage im Monat
+        (Annahme). Mindestlaufzeit 3 Monate, danach monatlich kündbar.
+      </p>
+    </div>
+  );
+}

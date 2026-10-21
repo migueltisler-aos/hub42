@@ -22,13 +22,10 @@ import { onboardingsFrei } from "@/lib/bewerbung";
 import { ONBOARDINGS_PRO_WOCHE } from "@/lib/bewerbung-model";
 import { BAFA_ZUSCHUSS_PCT } from "@/lib/beratung";
 import {
-  BASE_RATE_BESONDERER_WERT,
-  BASE_RATE_PER_CM,
   HUB_MARGIN_PCT,
-  MIN_SLOT_MIETE,
-  MIN_SLOT_MIETE_BESONDERER_WERT,
-  MIN_SLOT_MIETE_BY_TRANCHE,
+  PAKETE,
   REGAL_INKLUSIVE_CM,
+  ZONE_SURCHARGE_PCT,
 } from "@/lib/deck-economics";
 import { eur } from "@/lib/neue-ui/regal";
 import { SHOW_BAFA, SHOW_PARTNER } from "@/lib/site-flags";
@@ -48,11 +45,69 @@ const THEKE = [
     alt: "Berlin Oats Crunchy Six Spice Granola auf der Theke" },
 ];
 
+/* Die drei Regalfronten des Standardregals, Preise auf Basishöhe. */
+const zahl = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 2 });
+const PAKET_KARTEN = [
+  {
+    name: "Regalfront S",
+    breite: `${PAKETE.S.cm} cm`,
+    preis: `${PAKETE.S.preis} €`,
+    einheit: "im Monat",
+    zeile: "Rund zwei Gläser nebeneinander.",
+  },
+  {
+    name: "Regalfront M",
+    breite: `${PAKETE.M.cm} cm`,
+    preis: `${PAKETE.M.preis} €`,
+    einheit: "im Monat",
+    zeile: "Rund fünf Gläser nebeneinander.",
+  },
+  {
+    name: "Regalfront L",
+    breite: `ab ${PAKETE.L.abCm} cm`,
+    preis: eur(PAKETE.L.preisJeCm),
+    einheit: "je cm und Monat",
+    zeile: `Bei ${PAKETE.L.abCm} cm sind das ${zahl(PAKETE.L.abCm * PAKETE.L.preisJeCm)} € im Monat.`,
+  },
+];
+
+/* Abschnitt „Deine Verkaufsdaten“: was der Monatsbericht je Regalfront zeigt,
+   und ein Beispiel aus dem ersten Verkauf (PoC 17./18.10.2026, ohne Markennamen). */
+const DATENPUNKTE = [
+  {
+    t: "Stück und Umsatz je Front",
+    d: "Du siehst jeden Monat in Stück und Euro, ob deine Regalfront sich selbst bezahlt.",
+  },
+  {
+    t: "Alter und Geschlecht der Käufer",
+    d: "Du siehst, ob an der Kasse die Menschen stehen, für die du dein Produkt gemacht hast.",
+  },
+  {
+    t: "Gemeinsame Körbe",
+    d: "Du siehst, wie oft dein Produkt zusammen mit anderen Marken gekauft wird, ein Hinweis für Bundles und gemeinsame Aktionen.",
+  },
+  {
+    t: "QR-Feedback am Regal",
+    d: "Wer am Regal den Code scannt, bewertet dein Produkt, und du liest die Antworten neben deinen Verkäufen.",
+  },
+  {
+    t: "Vergleich mit dem Haus",
+    d: "Du siehst dich neben dem Durchschnitt deiner Kategorie im Laden und weißt, ob ein schwacher Monat an dir lag oder am ganzen Haus.",
+  },
+];
+
+const BERICHT_ZAHLEN = [
+  { v: "968,95 €", k: "Umsatz brutto, alle\u00A0Marken" },
+  { v: "96", k: "Artikel verkauft" },
+  { v: "8", k: "Marken mit Verkäufen" },
+  { v: "18,23 €", k: "Ø Kartenbon, 45\u00A0Bons" },
+];
+
 const FAKTEN = [
-  { v: "41.000", k: "Besucher täglich" },
-  { v: "150 m²", k: "Pilotfläche" },
-  { v: `ab ${MIN_SLOT_MIETE} €`, k: "Regal im Monat" },
-  { v: "Mo–Sa", k: "10–20 Uhr" },
+  { v: "rund 15 Mio.", k: "Besuche im Jahr im Alexa, Stand 2026" },
+  { v: `ab ${PAKETE.S.preis} €`, k: "Regalfront im Monat, netto" },
+  { v: `${HUB_MARGIN_PCT} %`, k: "nur auf das, was verkauft wird" },
+  { v: "0 €", k: "Listungsgebühr" },
 ];
 
 export default async function StartPage() {
@@ -62,11 +117,15 @@ export default async function StartPage() {
     <>
       <header className="top">
         <div className="top__in">
-          <a className="mark" href="#top">
+          <a className="mark" href="#top" aria-label="HUB42 – entdecken, erleben, erwerben">
             HUB42
+            <span className="mark__tag" aria-hidden="true">
+              entdecken • erleben • erwerben
+            </span>
           </a>
           <nav className="top__nav" aria-label="Seitenbereiche">
             <a href="#regal">Regal</a>
+            <a href="#daten" className="top__nav-weit">Daten</a>
             <a href="#preise">Preise</a>
             <a href="#rundgang">Rundgang</a>
             <TreppeKnopf className="top__link">Treppe</TreppeKnopf>
@@ -91,23 +150,23 @@ export default async function StartPage() {
           <div className="hero__say">
             <div className="wrap">
               <p className="hero__badge">
-                {SHOW_PARTNER && "Feedback Factory · "}Eröffnung März 2027 · Alexa Berlin ·
-                Alexanderplatz
+                {SHOW_PARTNER && "Feedback Factory · "}Für Gründer und Hersteller neuer Produkte ·
+                Eröffnung März 2027 · Alexa am Alexanderplatz
               </p>
               <h1>
-                Der Laden für Neuheiten.{" "}
-                <span className="hero__h1b">Dein Regal am Alexanderplatz.</span>
+                Deinen Onlineshop findet nur, wer schon nach dir sucht.{" "}
+                <span className="hero__h1b">Am Alexanderplatz finden dich alle{"\u00A0"}anderen.</span>
               </h1>
               <p className="hero__sub">
-                Ab {MIN_SLOT_MIETE} € im Monat. Keine Listungsgebühr, du behältst deinen Preis, wir
-                verdienen {HUB_MARGIN_PCT} % nur an dem, was verkauft wird.
+                Ab März 2027 steht dein Produkt im Alexa, vor Menschen, die nie nach dir gesucht
+                hätten. Unser Store-Team lässt probieren und erklärt, was nicht aufs Etikett passt.
               </p>
               <div className="hero__cta">
                 <a className="btn btn--lit" href="#bewerben">
-                  Jetzt bewerben
+                  Mit deinem Produkt bewerben
                 </a>
                 <a className="btn btn--dark" href="#preise">
-                  Preise ansehen
+                  Was eine Regalfront kostet
                 </a>
               </div>
             </div>
@@ -123,14 +182,46 @@ export default async function StartPage() {
           ))}
         </div>
 
+        {/* ══ Problem: Sichtbarkeit ════════════════════════════ */}
+        <section className="sect sect--tight" data-sektion="problem" aria-labelledby="problem-h">
+          <div className="wrap">
+            <p className="eyebrow">Shop, Messe, Einkauf</p>
+            <h2 id="problem-h">Sichtbarkeit ist so teuer geworden.</h2>
+            <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
+              Online zahlst du für Anzeigen, damit überhaupt jemand deinen Shop öffnet, oder du gehst
+              auf eine Messe. Drei Tage lang probieren Menschen dein Produkt. Am vierten ist der Stand
+              abgebaut. Und fragt dein Einkäufer beim Neuprodukt, wer es kauft und ob es läuft, hast
+              du Hoffnung statt Zahlen.
+            </p>
+          </div>
+        </section>
+
+        {/* ══ Trust: Summit-Gewinn ═════════════════════════════ */}
+        <section className="trust" aria-label="Auszeichnung">
+          <div className="wrap trust__in">
+            <img
+              className="trust__logo"
+              src="/trust/stiftung-entrepreneurship.png"
+              alt="Stiftung Entrepreneurship"
+              width={190}
+              height={49}
+            />
+            <p className="trust__txt">
+              <strong>Hub42 gewinnt den Proof-of-Concept</strong> beim Entrepreneurship Summit 2026
+              der Stiftung Entrepreneurship, Berlin.
+            </p>
+          </div>
+        </section>
+
         {/* ══ Maßband ═══════════════════════════════════════════ */}
         <section className="sect sect--tight" data-sektion="massband">
           <div className="wrap">
             <p className="eyebrow">Die Einheit des Hauses</p>
             <h2>Wir vermieten Zentimeter.</h2>
             <p className="lede" style={{ marginTop: 20 }}>
-              Nicht Listungsplätze, nicht Jahresverträge. Regalfront in Zentimetern, Monat für
-              Monat, ab fünf Zentimetern Breite.
+              Nicht Listungsplätze, nicht Jahresverträge. Regalfront in Zentimetern:{" "}
+              {PAKETE.S.cm}, {PAKETE.M.cm} oder ab {PAKETE.L.abCm}, nach drei Monaten monatlich
+              kündbar.
             </p>
 
             <Massband />
@@ -143,17 +234,91 @@ export default async function StartPage() {
             <p className="eyebrow">Regalwand A · Schwerlastregal · 3 Ebenen à 84 cm</p>
             <h2>Das Standardregal.</h2>
             <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
-              Deine Front, dein Preis, dein Name auf der Traverse. Das Store-Team verkauft, du
-              bekommst jeden Monat den Bericht.
+              Deine Front, dein Preis, dein Name auf der Traverse. Unser geschultes Store-Team
+              verkauft, auch Produkte, die man erklären muss. Du bekommst jeden Monat den Bericht.
             </p>
             <p className="lede" style={{ marginTop: 14, maxWidth: "54ch" }}>
-              Grundpreis {eur(BASE_RATE_PER_CM)} pro Zentimeter und Monat. Wer höher steht, zahlt
-              mehr: Augenhöhe +10 %, garantierte Greifhöhe +20 %. Auf der Traverse steht, wem die
-              Front gehört: Marke, QR-Code, Preis. Front antippen, dann rechnet die Karte mit. Die
-              bronzene Front hat einen Griff, zieh sie breiter.
+              Drei Breiten: S mit {PAKETE.S.cm} cm für {PAKETE.S.preis} €, M mit {PAKETE.M.cm} cm
+              für {PAKETE.M.preis} €, L ab {PAKETE.L.abCm} cm für {eur(PAKETE.L.preisJeCm)} je cm,
+              jeweils im Monat. Wer höher steht, zahlt mehr: Augenhöhe +{ZONE_SURCHARGE_PCT.augenhoehe}
+              &nbsp;%, garantierte Greifhöhe +{ZONE_SURCHARGE_PCT.greifhoehe}&nbsp;%. Auf der
+              Traverse steht deine Werbung: Marke, eine Zeile zu deinem Produkt, dazu ein weißes
+              Preisschild mit QR-Code, über das Käufer dein Produkt bewerten. Front antippen, dann
+              rechnet die Karte mit. Die bronzene Front hat einen Griff, zieh sie von S auf M.
             </p>
 
             <Regalwand />
+          </div>
+        </section>
+
+        {/* ══ Deine Verkaufsdaten ═══════════════════════════════ */}
+        <section className="sect sect--rule" id="daten" data-sektion="daten" aria-labelledby="daten-h">
+          <div className="wrap">
+            <p className="eyebrow">Deine Verkaufsdaten</p>
+            <h2 id="daten-h">Wer kauft dein Produkt, ohne nach dir zu suchen?</h2>
+            <p className="lede" style={{ marginTop: 20, maxWidth: "58ch" }}>
+              Jeden Monat bekommst du aus unserer Ladenkasse, was deine Regalfront verkauft hat, wie
+              alt deine Käufer sind und was sonst in ihrem Korb lag. Das sind die Zahlen für das
+              Gespräch mit einem Einkäufer, für deinen Investor und für deine
+              nächste&nbsp;Preisentscheidung.
+            </p>
+
+            <div className="daten__grid">
+              <ul className="daten__punkte">
+                {DATENPUNKTE.map((d) => (
+                  <li key={d.t}>
+                    <b>{d.t}</b>
+                    <span>{d.d}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div>
+                <figure className="bericht">
+                  <figcaption className="bericht__kopf">
+                    <span className="bericht__k">So sieht dein Bericht aus</span>
+                    <span className="bericht__kennz">
+                      Beispiel: Auswertung unseres ersten Verkaufs am 17. und 18. Oktober 2026, zwei
+                      Verkaufstage, vor der Eröffnung im Alexa.
+                    </span>
+                  </figcaption>
+                  <dl className="bericht__zahlen">
+                    {BERICHT_ZAHLEN.map((z) => (
+                      <div key={z.k}>
+                        <dt className="bericht__l">{z.k}</dt>
+                        <dd className="bericht__v">{z.v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <p className="bericht__befund">
+                    Die Mitte kauft: 40- bis 59-Jährige stellen 52 % der Käufer, in Berlin sind es
+                    30 % der Einwohner ab&nbsp;15.
+                  </p>
+                  <p className="bericht__vorbehalt">
+                    Noch kein Urteil. Das sind zwei Verkaufstage und 27 Altersangaben, ein einzelner
+                    Käufer verschiebt einen Anteil um rund 4 Prozentpunkte.
+                  </p>
+                </figure>
+                <p className="priceblock__txt">
+                  Dein Bericht zeigt dieselben Zahlen für deine Marke, daneben den Durchschnitt deiner
+                  Kategorie. Den ersten vollständigen Monatsbericht bekommst du ab April 2027.
+                </p>
+              </div>
+            </div>
+
+            <p className="daten__einkaeufer">
+              Fragt dich ein Einkäufer, wer dein Produkt kauft, schlägst du den Bericht auf, statt zu
+              schätzen.
+            </p>
+            <div className="hero__cta" style={{ marginTop: 22 }}>
+              <a className="btn btn--solid" href="#bewerben">
+                Mit deinem Produkt bewerben
+              </a>
+            </div>
+            <p className="fineprint">
+              Alter und Geschlecht werden an der Kasse erfasst, bei Kartenzahlung und nicht bei jedem
+              Bon. Im Bericht stehen nur Summen: Du siehst Altersgruppen, keine Namen.
+            </p>
           </div>
         </section>
 
@@ -161,36 +326,41 @@ export default async function StartPage() {
         <section className="sect sect--rule" id="preise" data-sektion="preise">
           <div className="wrap">
             <p className="eyebrow">Was es kostet</p>
-            <h2>Miete nach Zentimeter. Provision erst beim Verkauf.</h2>
+            <h2>Regalfront ab {PAKETE.S.preis}&nbsp;€ im Monat. Provision erst beim Verkauf.</h2>
             <p className="lede" style={{ marginTop: 20, maxWidth: "50ch" }}>
-              Keine Listungsgebühr, keine Handelsmarge. Die Marke behält ihre UVP, Hub42 verdient{" "}
-              {HUB_MARGIN_PCT} % vom Verkaufspreis.
+              Du wählst die Breite, unser Store-Team verkauft. Keine Listungsgebühr, keine
+              Handelsmarge: Du behältst deine UVP, Hub42 bekommt {HUB_MARGIN_PCT}&nbsp;% vom
+              Verkaufspreis.
             </p>
 
             {/* B: Das Standardregal */}
             <div className="priceblock">
               <p className="priceblock__k">B · Das Standardregal</p>
-              <h3>Miete pro Zentimeter und Monat.</h3>
+              <h3>Drei Breiten zur Wahl.</h3>
+
+              {/* Gleich gewichtet: kein „beliebt“, kein „empfohlen“. */}
+              <div className="tiles pakete">
+                {PAKET_KARTEN.map((p) => (
+                  <div className="tile paket" key={p.name}>
+                    <p className="tile__k">
+                      {p.name} · {p.breite}
+                    </p>
+                    <p className="paket__preis">{p.preis}</p>
+                    <p className="paket__einheit">{p.einheit}</p>
+                    <p>{p.zeile}</p>
+                  </div>
+                ))}
+              </div>
+
+              <p className="priceblock__txt">
+                Die Preise gelten auf Basishöhe, 50 bis 90 cm über dem Boden. Auf Augenhöhe kommen{" "}
+                {ZONE_SURCHARGE_PCT.augenhoehe}&nbsp;% dazu, auf garantierter Greifhöhe{" "}
+                {ZONE_SURCHARGE_PCT.greifhoehe}&nbsp;%.
+              </p>
+
               <Preistabelle />
 
-              <p className="fineprint">
-                * Besonderer Wert: für Handwerk, Herkunft oder eine Mission, nur auf Bewerbung,
-                entschieden im Onboarding. Gleiche Front, {eur(BASE_RATE_BESONDERER_WERT)} statt{" "}
-                {eur(BASE_RATE_PER_CM)} je cm, Mindestmiete {MIN_SLOT_MIETE_BESONDERER_WERT} € statt{" "}
-                {MIN_SLOT_MIETE} €
-                <br />
-                Mindestmiete {MIN_SLOT_MIETE} € / Monat je Front · Mindestbreite 5 cm · Konsignation,
-                kein Wareneinkauf
-                <br />
-                Gründungskonditionen bis 60 % Store-Auslastung · ab 60 % +10 % (Mindestmiete{" "}
-                {MIN_SLOT_MIETE_BY_TRANCHE.aufbau} €) · ab 85 % +20 % (
-                {MIN_SLOT_MIETE_BY_TRANCHE.warteliste} €) · First
-                Mover behalten ihren Einstiegspreis vertraglich für 12 Monate
-                <br />
-                {HUB_MARGIN_PCT} % Vermittlungsprovision auf den Bruttoverkaufspreis,
-                Zahlungsabwicklung inklusive · Traverse-Karte mit QR-Code und monatlicher
-                Verkaufsbericht je Front inklusive
-              </p>
+              <p className="fineprint">Nur für Unternehmer. Preise netto zzgl. USt.</p>
             </div>
 
             {/* Die Treppe klappt als Seitenleiste auf (TreppeMenue) */}
@@ -198,8 +368,8 @@ export default async function StartPage() {
               <p className="priceblock__k">Mehr als ein Regal</p>
               <h3>Du willst wissen, wer kauft und warum?</h3>
               <p className="priceblock__txt">
-                Die Treppe: fünf Stufen mit Auswertung, Interviews am Regal und Bericht, ab{" "}
-                {eur0(STUFEN[0].preis)} für drei Monate. Für Marken, die mehr wollen als den
+                Die Treppe: vier Stufen mit Auswertung, Interviews am Regal und Bericht, ab{" "}
+                {eur0(STUFEN[0].preis)} netto für drei Monate. Für Marken, die mehr wollen als den
                 Abverkauf.
               </p>
               <TreppeKnopf>Die Treppe ansehen →</TreppeKnopf>
@@ -227,7 +397,7 @@ export default async function StartPage() {
         <section className="sect sect--rule" id="rundgang" data-sektion="rundgang">
           <div className="wrap">
             <p className="eyebrow">Grundriss · Pilotfläche</p>
-            <h2>150 m², sieben Stationen, ein Weg.</h2>
+            <h2>95 m², sieben Stationen, ein Weg.</h2>
             <p className="lede" style={{ marginTop: 20 }}>
               Von der Glasfront bis zur Kasse sind es 40 Schritte. Station anfassen, sie leuchtet
               im Foto und im Grundriss.
@@ -332,15 +502,15 @@ export default async function StartPage() {
                 <p className="eyebrow">Bewerbung</p>
                 <h2>Wir kuratieren. Deshalb bewirbst du dich.</h2>
                 <p className="lede">
-                  Im Regal ab fünf Zentimetern, ab{" "}
-                  {MIN_SLOT_MIETE} € im Monat, für Produkte mit besonderem Wert ab{" "}
-                  {MIN_SLOT_MIETE_BESONDERER_WERT} €. Ohne Listungsgebühr. Wir holen jede Woche{" "}
-                  {ONBOARDINGS_PRO_WOCHE} Marken ins Onboarding und schauen uns jedes Produkt an,
-                  bevor es ins Regal kommt.
+                  Im Regal ab {PAKETE.S.cm} Zentimetern und {PAKETE.S.preis} € im Monat, ohne
+                  Listungsgebühr. Wir holen jede Woche {ONBOARDINGS_PRO_WOCHE} Marken ins Onboarding
+                  und schauen uns jedes Produkt an, bevor es ins Regal kommt. Die Bewerbung
+                  entscheidet, ob du reinkommst, nicht, was du zahlst.
                 </p>
                 <div className="slots" aria-label="Onboarding-Termine diese Woche">
                   {frei === null ? (
-                    <p className="slots__txt">{ONBOARDINGS_PRO_WOCHE} Onboardings pro Woche</p>
+                    /* Zählung fehlgeschlagen: nie eine erfundene Zahl, nur der feste Satz. */
+                    <p className="slots__txt">Wir holen jede Woche {ONBOARDINGS_PRO_WOCHE} Marken ins Onboarding.</p>
                   ) : (
                     <>
                       <div className="slots__dots" aria-hidden="true">
@@ -357,15 +527,15 @@ export default async function StartPage() {
                             Onboardings diese Woche frei
                           </>
                         ) : (
-                          <>Diese Woche ist voll. Deine Bewerbung rutscht in die nächste.</>
+                          <>Diese Woche sind alle Onboardings vergeben. Bewirb dich für die nächste Woche.</>
                         )}
                       </p>
                     </>
                   )}
                 </div>
                 <p className="close__note">
-                  Eröffnung März 2027. Wer jetzt einsteigt, behält die Gründungskonditionen 12 Monate
-                  lang vertraglich.
+                  Eröffnung März 2027. Wer bucht, bevor der Laden zu 60 % ausgelastet ist, behält
+                  seinen Preis 12 Monate lang, vertraglich.
                 </p>
                 <div className="btn-row">
                   <TerminKalender mode="dialog" />
@@ -382,7 +552,7 @@ export default async function StartPage() {
 
         {/* ══ Die Treppe als Seitenleiste ═════════════════════ */}
         <TreppeMenue>
-          <p className="eyebrow">Fünf Stufen · vom ersten Test bis zum Portfolio</p>
+          <p className="eyebrow">Vier Stufen · vom ersten Beweis bis zum Portfolio</p>
           <h2>Eine Treppe. Du entscheidest, wo du einsteigst.</h2>
           <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
             Jede Marke kann jede Stufe buchen. Wir empfehlen dir einen Einstieg, ausgeschlossen ist
@@ -395,10 +565,11 @@ export default async function StartPage() {
           {/* A: Die Treppe */}
           <div className="priceblock">
             <p className="priceblock__k">A · Die Treppe</p>
-            <h3>Fünf Stufen mit Festpreis.</h3>
+            <h3>Vier Stufen mit Festpreis.</h3>
             <StufenTabelle />
             <p className="fineprint">
-              Alle Festpreise netto. * In jeder Stufe sind {REGAL_INKLUSIVE_CM} cm Regal im Preis
+              Alle Festpreise netto zzgl. USt., nur für Unternehmer. * In jeder Stufe sind{" "}
+              {REGAL_INKLUSIVE_CM} cm Regal im Preis
               enthalten. {ZUSATZ_CM_TEXT}
             </p>
 
@@ -423,7 +594,7 @@ export default async function StartPage() {
                     Monate
                   </span>
                   <span className="row__v">
-                    {eur0(BEISPIEL.zusatzMonat * BEISPIEL.monate)} ({eur0(BEISPIEL.zusatzMonat)} im
+                    {eur(BEISPIEL.zusatzMonat * BEISPIEL.monate)} ({eur(BEISPIEL.zusatzMonat)} im
                     Monat)
                   </span>
                 </div>

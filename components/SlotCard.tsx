@@ -3,6 +3,8 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import type { SlotTier } from "@/lib/slots";
+import { PAKETE, RATES, paketMiete } from "@/lib/deck-economics";
+import { eur } from "@/lib/neue-ui/regal";
 
 interface SlotCardProps {
   slot: SlotTier;
@@ -40,16 +42,18 @@ export default function SlotCard({ slot, index = 0 }: SlotCardProps) {
       </h3>
 
       {/* Price */}
-      {slot.ratePerCm != null ? (
+      {slot.zone != null ? (
         <div className="mb-6">
           <div className="mb-1">
             <span className="text-bronze text-4xl font-bold font-mono">
-              {slot.ratePerCm.toFixed(2).replace(".", ",")} €
+              ab {eur(paketMiete(PAKETE.S.cm, slot.zone) ?? 0)}
             </span>
-            <span className="text-stone text-sm ml-1">/cm · Monat</span>
+            <span className="text-stone text-sm ml-1">/Monat</span>
           </div>
+          <p className="text-stone text-xs font-mono">Regalfront S, {PAKETE.S.cm} cm</p>
           <p className="text-stone text-xs font-mono">
-            Fläche frei wählbar
+            M, {PAKETE.M.cm} cm: {eur(paketMiete(PAKETE.M.cm, slot.zone) ?? 0)} · L ab {PAKETE.L.abCm} cm:{" "}
+            {eur(RATES[slot.zone])} je cm
           </p>
         </div>
       ) : (

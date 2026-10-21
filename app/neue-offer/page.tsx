@@ -198,7 +198,7 @@ export default function RegalbeweisPage() {
             <div className="card offer">
               <div className="card__prem">
                 <span>
-                  Gründungskonditionen · Kohorte {KOHORTE.nummer}
+                  Kohorte {KOHORTE.nummer}
                 </span>
               </div>
               <div className="card__in">
@@ -250,8 +250,8 @@ export default function RegalbeweisPage() {
 
                 <p className="card__note">
                   Die {PROVISION_PCT} % fallen nur auf tatsächlich verkaufte Artikel an,
-                  Zahlungsabwicklung inklusive. Der LEH nimmt dafür 30–50 % Handelsmarge und setzt
-                  zusätzlich deinen Endpreis fest. Deine UVP bleibt hier deine.
+                  Zahlungsabwicklung inklusive. Keine Listungsgebühr, keine Handelsmarge. Deine UVP
+                  bleibt hier deine.
                 </p>
 
                 <div className="card__foot">
@@ -378,9 +378,9 @@ export default function RegalbeweisPage() {
             Angebotsstand {KOHORTE.name}, Start {KOHORTE.start}. Preise zzgl. USt.
           </strong>
           <br />
-          Aus dem Preismodell abgeleitet: Grundpreis 7,00 €/cm, Augenhöhe +10 %, Mindestmiete 89 €,
-          Mindestbreite 5 cm, {PROVISION_PCT} % Vermittlungsprovision auf den Bruttoverkaufspreis
-          inkl. Zahlungsabwicklung, Gründungskonditionen bis 60 % Store-Auslastung.
+          Aus dem Preismodell abgeleitet: Regalfront S ({SLOT_CM} cm) auf Augenhöhe{" "}
+          {eur(MIETE_MONAT)} im Monat, {PROVISION_PCT} % Vermittlungsprovision auf den
+          Bruttoverkaufspreis inkl. Zahlungsabwicklung, Preise bis 60 % Auslastung des Ladens.
           <br />
           Die Einzelwerte im Leistungsverzeichnis sind kalkulierte Vergleichspreise für eine
           separate Beauftragung, keine bereits am Markt abgerechneten Beträge. Der Store eröffnet{" "}

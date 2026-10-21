@@ -84,9 +84,10 @@ export default function DeckPage() {
                 <span className="text-bronze">Du behältst alles, was zählt.</span>
               </h2>
               <p className="text-stone text-base leading-relaxed mt-5 max-w-xl">
-                Hub42 ist kein Händler. Du buchst Regalplätze – bemessen am Platzbedarf
-                deines Produkts –, wir verkaufen in deinem Namen gegen 7 % Provision statt
-                Handelsmarge, ohne dein Eigentum anzutasten. Drei Wege in den Markt, eine
+                Hub42 ist kein Händler. Du buchst Regalfronten – bemessen am Platzbedarf
+                deines Produkts –, unser geschultes Personal verkauft in deinem Namen, auch
+                erklärungsbedürftige Produkte. Gegen 7 % Provision statt Handelsmarge, ohne dein
+                Eigentum anzutasten. Drei Wege in den Markt, eine
                 ehrliche Gegenüberstellung.
               </p>
             </div>
@@ -165,7 +166,7 @@ export default function DeckPage() {
                 className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest"
                 style={{ fontFamily: "var(--font-bebas)" }}
               >
-                Mehr als ein Regalplatz.
+                Mehr als eine Regalfront.
                 <br />
                 <span className="text-bronze">Eine Bühne für deine Marke.</span>
               </h2>

@@ -93,7 +93,7 @@
   h1 { font-size: clamp(2.3rem, 5.6vw, 4.6rem); }
   h2 { font-size: clamp(1.9rem, 4.2vw, 3.4rem); }
   h3 { font-size: clamp(1.1rem, 1.6vw, 1.45rem); letter-spacing: -0.018em; }
-  p  { margin: 0; }
+  p  { margin: 0; text-wrap: pretty; }
   a  { color: inherit; }
 
   :focus-visible { outline: 2px solid var(--bulb-ink); outline-offset: 3px; border-radius: 2px; }
@@ -171,6 +171,11 @@
   .mark {
     font-family: var(--f-sign); font-size: 1.6rem; letter-spacing: 0.07em;
     color: var(--steel); text-decoration: none; line-height: 1; padding-top: 3px;
+    display: flex; flex-direction: column;
+  }
+  .mark__tag {
+    font-family: var(--f-mono); font-size: 0.56rem; letter-spacing: 0.08em;
+    color: var(--bulb-ink); margin-top: 3px; white-space: nowrap;
   }
   .top__nav { display: flex; gap: 26px; margin-left: auto; font-size: 0.875rem; color: var(--ink-mid); }
   .top__nav a { text-decoration: none; }
@@ -198,22 +203,35 @@
 
   /* ── Held: der Laden selbst ────────────────────────────────── */
 
-  .hero { position: relative; background: var(--night); }
+  /* Das Bild füllt den Held, der Text bestimmt die Höhe: ist der Kopf höher
+     als die Mindesthöhe, wächst das Bild mit, statt dass der Text oben unter
+     den Header läuft. */
+  .hero {
+    position: relative; background: var(--night);
+    min-height: clamp(360px, 62vh, 620px);
+    display: flex; flex-direction: column; justify-content: flex-end;
+  }
   .hero__img {
-    display: block; width: 100%;
-    height: clamp(360px, 62vh, 620px);
+    position: absolute; inset: 0;
+    display: block; width: 100%; height: 100%;
     object-fit: cover; object-position: center 46%;
   }
   .hero__scrim {
     position: absolute; inset: 0;
-    background: linear-gradient(180deg,
-      rgba(27,35,29,.40) 0%, rgba(27,35,29,0) 26%,
-      rgba(27,35,29,.30) 58%, rgba(27,35,29,.90) 100%);
+    /* Der Kopf reicht bis unter die Deckenleuchten: links, wo der Text
+       steht, dunkelt ein zweiter Verlauf ab, rechts bleibt der Laden hell. */
+    background:
+      linear-gradient(90deg,
+        rgba(27,35,29,.80) 0%, rgba(27,35,29,.68) 42%,
+        rgba(27,35,29,.30) 70%, rgba(27,35,29,0) 86%),
+      linear-gradient(180deg,
+        rgba(27,35,29,.40) 0%, rgba(27,35,29,0) 26%,
+        rgba(27,35,29,.30) 58%, rgba(27,35,29,.90) 100%);
     pointer-events: none;
   }
   .hero__say {
-    position: absolute; left: 0; right: 0; bottom: 0;
-    padding: 0 0 clamp(26px, 4vw, 46px);
+    position: relative;
+    padding: clamp(96px, 14vh, 150px) 0 clamp(26px, 4vw, 46px);
   }
   .hero__say .wrap { display: grid; gap: 18px; }
   .hero h1 { color: #F7F5EE; max-width: 20ch; }
@@ -401,6 +419,52 @@
     color: var(--ink-mid); font-variant-numeric: tabular-nums;
   }
   .tcard--free .tcard__b { color: var(--bulb-ink); }
+  /* Weißes Preisschild oben rechts: 4 × 4 cm auf der 15 cm hohen Traverse,
+     mindestens 36 px, damit Preis, QR und „Bewerten“ lesbar bleiben. */
+  .tcard { position: relative; --schild: max(calc(4 * var(--pxcm)), 36px); }
+  .schild {
+    position: absolute; top: 4px; right: 4px; width: var(--schild); height: var(--schild);
+    background: #FFFFFF; box-shadow: 0 0 0 1px rgba(30,36,29,.14), 0 1px 2px rgba(30,36,29,.12);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+    overflow: hidden;
+  }
+  .schild svg { width: 12px; height: 12px; }
+  .schild__preis {
+    font-family: var(--f-body); font-weight: 600; font-size: 6.5px; line-height: 1;
+    color: var(--ink); white-space: nowrap;
+  }
+  .schild__k {
+    font-family: var(--f-mono); font-size: 5px; line-height: 1; letter-spacing: 0.04em;
+    text-transform: uppercase; color: var(--ink-mid); white-space: nowrap;
+  }
+  /* Name und Werbezeile lassen dem Schild Platz */
+  .tcard__b, .tcard__w { padding-right: calc(var(--schild) + 2px); }
+  /* Schmale S-Karte: Name unten über die ganze Breite, das Schild bleibt oben */
+  .tcard--s { justify-content: flex-end; }
+  .tcard--s .tcard__b { padding-right: 0; }
+  @media (max-width: 900px) {
+    .tcard { --schild: 33px; }
+    .schild__k { display: none; }
+    .schild svg { width: 11px; height: 11px; }
+  }
+  /* Markenname bleibt beisammen: auf schmalen Karten sinkt die Schrift
+     (Breite der Karte durch Zeichenzahl --n), Untergrenze 8.5px, danach
+     Auslassung; der volle Name steht im title und in der Karte. */
+  .tcard__b {
+    font-size: clamp(8.5px, calc((var(--cm) * var(--pxcm) - 12px) / (var(--n, 10) * 0.56)), 0.688rem);
+  }
+  /* Schmale S-Front unter 900 px: nur der Preis, „Deine Front“ steht auf der Traverse */
+  @media (max-width: 900px) { .front--conf.front--s .front__free-lbl b { display: none; } }
+  /* Werbezeile der Marke auf der Traverse, höchstens zwei Zeilen */
+  .tcard__w {
+    font-size: 0.625rem; line-height: 1.25; color: var(--ink-mid); margin-top: 2px;
+    text-wrap: balance; overflow: hidden;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+  }
+  .tcard__m:has(svg:only-child) { justify-content: flex-start; margin-top: auto; }
+  /* Freie Front: Status, Preis, Breite untereinander */
+  .front__free-lbl > span, .front__free-lbl > b { display: block; }
+  .front__free-lbl .front__preis { color: var(--ink); letter-spacing: 0.02em; white-space: nowrap; margin-top: 2px; font-variant-numeric: normal; }
   .tcard svg { flex: 0 0 auto; display: block; }
 
   /* Eine Regalfront */
@@ -419,6 +483,21 @@
     transition: opacity .22s ease, transform .22s ease;
   }
   .front:hover .good__img, .front[aria-pressed="true"] .good__img { --lift: -7px; }
+  /* Produktbilder an der Wand: einheitliche Höchsthöhe (21 cm wie die freien
+     Fronten), unten bündig, nie breiter als das Produkt hoch ist; auf breiten
+     Fronten mittig mit Luft statt gestreckt. Kein Zoom und kein Beschnitt,
+     damit nichts über die Front hinausläuft. */
+  .front:not(.front--free) .front__body {
+    height: calc(min(var(--h), 21) * var(--pxcm));
+    width: min(100%, calc(min(var(--h), 21) * var(--pxcm)));
+  }
+  .front:not(.front--free) .good__img { transform: translateY(var(--lift, 0px)); }
+  /* Beschnittene Bilder (Produkt mit Siegeln daneben): Rahmen nur so breit wie
+     das Produkt, die Siegel rechts fallen weg. */
+  .front:not(.front--free) .front__body:has(.good__img--crop) {
+    width: min(100%, calc(min(var(--h), 21) * var(--pxcm) * 0.66));
+  }
+  .front:not(.front--free) .good__img--crop { object-position: 0% bottom; }
   .front:hover .front__body::after, .front[aria-pressed="true"] .front__body::after { opacity: .5; transform: scaleX(.86); }
 
   .front--free .front__body {
@@ -464,8 +543,10 @@
   .grip:hover::before, .grip:focus-visible::before { height: 70px; background: #5E3E10; }
 
   .readout {
+    /* Die Griff-Front steht ganz links in der Ebene: die Anzeige läuft nach
+       rechts über die Nachbarin, der Pfeil zeigt auf den Griff. */
     position: absolute; left: 0; bottom: calc(21 * var(--pxcm) + 11px);
-    transform: translateX(-50%);
+    transform: translateX(-16px);
     background: var(--steel); color: #F2F2EA;
     padding: 6px 11px 7px; border-radius: 2px;
     font-family: var(--f-mono); font-size: 0.719rem; line-height: 1.35;
@@ -473,7 +554,7 @@
     z-index: 4; pointer-events: none;
   }
   .readout::after {
-    content: ""; position: absolute; left: 50%; top: 100%; transform: translateX(-50%);
+    content: ""; position: absolute; left: 16px; top: 100%; transform: translateX(-50%);
     border: 5px solid transparent; border-top-color: var(--steel);
   }
   .readout b { color: var(--bulb-lite); font-weight: 400; }
@@ -654,6 +735,55 @@
   .tile__pic { margin-top: auto; background: var(--concrete-lite); border: 1px solid var(--hair); aspect-ratio: 4/3; overflow: hidden; }
   .tile__pic img { display: block; width: 100%; height: 100%; object-fit: cover; }
 
+  /* Deine Verkaufsdaten: Datenpunkte links, Beispielbericht rechts */
+  .daten__grid { display: grid; gap: clamp(32px, 4vw, 56px); margin-top: clamp(32px, 4vw, 48px); }
+  .daten__punkte { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--hair-firm); }
+  .daten__punkte li { display: grid; gap: 5px; padding: 18px 0; border-bottom: 1px solid var(--hair); }
+  .daten__punkte b {
+    font-family: var(--f-display); font-weight: 500; font-size: clamp(1.1rem, 1.5vw, 1.3rem);
+    letter-spacing: -0.015em; color: var(--ink); text-wrap: balance;
+  }
+  .daten__punkte span { font-size: 0.938rem; line-height: 1.55; color: var(--ink-mid); text-wrap: pretty; }
+  .bericht { margin: 0; background: var(--steel); color: #EDEFE9; padding: clamp(22px, 3vw, 34px); display: grid; gap: 20px; }
+  .bericht__kopf { display: grid; gap: 8px; }
+  .bericht__k {
+    font-family: var(--f-mono); font-size: 0.688rem; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--bulb-lite);
+  }
+  .bericht__kennz { font-size: 0.875rem; line-height: 1.5; color: rgba(237,239,233,.74); text-wrap: pretty; }
+  .bericht__zahlen {
+    display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; margin: 0;
+    background: rgba(237,239,233,.16); border-block: 1px solid rgba(237,239,233,.16);
+  }
+  .bericht__zahlen > div { display: flex; flex-direction: column-reverse; justify-content: flex-end; gap: 8px; background: var(--steel); padding: 16px 12px 16px 0; }
+  .bericht__zahlen > div:nth-child(even) { padding-left: 16px; }
+  .bericht__v {
+    margin: 0; font-family: var(--f-display); font-weight: 500; font-size: clamp(1.6rem, 2.6vw, 2.15rem);
+    letter-spacing: -0.025em; line-height: 1; color: #F7F5EE;
+  }
+  .bericht__l { font-family: var(--f-mono); font-size: 0.656rem; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(237,239,233,.66); }
+  .bericht__befund, .bericht__vorbehalt { font-size: clamp(1rem, 1.3vw, 1.125rem); line-height: 1.5; text-wrap: pretty; }
+  .bericht__befund { color: #F7F5EE; font-weight: 500; border-left: 3px solid var(--bulb); padding-left: 14px; }
+  .bericht__vorbehalt { color: rgba(237,239,233,.86); padding-left: 17px; }
+  .daten__einkaeufer {
+    margin-top: clamp(32px, 4vw, 48px); max-width: 46ch;
+    font-family: var(--f-display); font-size: clamp(1.3rem, 2.2vw, 1.75rem); line-height: 1.3;
+    letter-spacing: -0.02em; color: var(--ink); text-wrap: balance;
+  }
+
+  /* Regalfronten S, M, L im Preisblock: gleich gewichtet, Preis wie die Faktenleiste */
+  .pakete { margin-top: 22px; }
+  .paket { background: var(--concrete); gap: 6px; }
+  .paket .paket__preis {
+    font-family: var(--f-display); font-size: clamp(1.9rem, 3vw, 2.5rem); font-weight: 500;
+    letter-spacing: -0.025em; line-height: 1; color: var(--ink); margin-top: 6px;
+  }
+  .paket .paket__einheit {
+    font-family: var(--f-mono); font-size: 0.688rem; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--ink-mute);
+  }
+  .paket p:last-child { margin-top: 6px; }
+
   /* ── Abschluss ─────────────────────────────────────────────── */
 
   .close__in { display: grid; gap: 24px; max-width: 36ch; }
@@ -739,6 +869,9 @@
   .as__q { font-family: var(--f-display); font-size: clamp(1.35rem, 2.6vw, 1.75rem); line-height: 1.15; color: #F7F5EE; }
   .as__sub { font-size: 0.875rem; line-height: 1.5; color: rgba(237,239,233,.68); }
   .as__hint { font-size: 0.75rem; line-height: 1.5; color: rgba(237,239,233,.52); }
+  /* Ergebnis, Block Rechnung: der Kernsatz und die Beträge im Fließtext */
+  .as__kern { font-size: 1.05rem; line-height: 1.4; font-weight: 500; color: #F7F5EE; }
+  .as__sub b { color: #F7F5EE; font-weight: 500; }
   .as__nav { display: flex; flex-wrap: wrap; gap: 14px 20px; align-items: center; }
   .as__nav .btn:disabled { opacity: .45; cursor: not-allowed; }
   .as__tiles { display: grid; grid-template-columns: repeat(2, minmax(0,1fr)); gap: 10px; }
@@ -767,6 +900,7 @@
   .as__zahl small { font-family: var(--f-body); font-size: 0.938rem; color: rgba(237,239,233,.72); letter-spacing: 0; }
   .as__facts { list-style: none; margin: 0; padding: 0; display: grid; gap: 6px; font-size: 0.875rem; color: rgba(237,239,233,.72); }
   .as__facts b { color: #F7F5EE; font-weight: 500; }
+  .as__facts li { text-wrap: pretty; }
   .as__laden { display: flex; gap: 10px; align-items: center; font-size: 0.875rem; color: rgba(237,239,233,.72); }
   .as__kn { display: grid; gap: 10px; padding: 14px 16px; background: rgba(255,255,255,.04); border: 1px solid rgba(232,200,138,.16); }
   .as__kn dl { display: grid; grid-template-columns: 1fr auto; gap: 6px 16px; margin: 0; font-size: 0.875rem; color: rgba(237,239,233,.72); }
@@ -941,13 +1075,15 @@
 
 
   /* ── Die Treppe ────────────────────────────────────────────── */
-  /* Schmal: fünf Zeilen, links eine Trittstufe, die mit jeder Stufe breiter
-     wird (die Treppe im Profil). Ab 720 px: fünf Spalten, die Stufen steigen
+  /* Schmal: vier Zeilen, links eine Trittstufe, die mit jeder Stufe breiter
+     wird (die Treppe im Profil). Ab 720 px: vier Spalten, die Stufen steigen
      nach rechts. Beides ohne horizontales Scrollen. */
 
   .stair { display: grid; gap: 22px; margin-top: clamp(34px, 4vw, 52px); }
 
   .stair__who { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  /* Hinweis statt Einstiegsstufe (Gründer: Regalfront S) */
+  .stair__hinweis { margin-top: 12px; max-width: 60ch; font-size: 0.938rem; line-height: 1.5; color: var(--ink-mid); }
   .stair__who-k {
     font-family: var(--f-mono); font-size: 0.656rem; letter-spacing: 0.16em;
     text-transform: uppercase; color: var(--ink-mute); margin-right: 4px;
@@ -1030,6 +1166,20 @@
   .partner { margin-top: 30px; font-family: var(--f-display); font-size: 1.12rem; max-width: 60ch; letter-spacing: -0.012em; }
   .factbar--pilot { margin-top: 18px; border-top: 1px solid var(--hair); }
 
+  /* ── Trust: Summit-Gewinn ──────────────────────────────────── */
+
+  .trust { background: var(--paper); border-bottom: 1px solid var(--hair); }
+  .trust__in {
+    display: flex; flex-wrap: wrap; align-items: center; gap: 14px 28px;
+    padding-top: 22px; padding-bottom: 22px;
+  }
+  .trust__logo { height: 38px; width: auto; flex: 0 0 auto; }
+  .trust__txt {
+    font-family: var(--f-display); font-size: 1.05rem; letter-spacing: -0.012em;
+    line-height: 1.35; color: var(--ink-mid); max-width: 62ch;
+  }
+  .trust__txt strong { color: var(--ink); font-weight: 600; }
+
   /* ── Preisblöcke ───────────────────────────────────────────── */
 
   .priceblock { margin-top: clamp(40px, 5vw, 64px); padding-top: 26px; border-top: 1px solid var(--hair-firm); }
@@ -1073,11 +1223,16 @@
     .rate--stack tbody th { padding-bottom: 6px; }
     .rate--stack td { font-size: 0.813rem; }
 
+    /* Faktenleiste zweispaltig: etwas weniger Laufweite, damit drei Wörter
+       wie „Regalfront im Monat“ in einer Zeile stehen statt ein Wort allein */
+    .fact { padding-left: 18px; padding-right: 18px; }
+    .fact__k { letter-spacing: 0.1em; }
+
     /* Längere Headline: Verlauf früher dunkel, damit sie sich vom Ladenbild löst */
     .hero__scrim {
       background: linear-gradient(180deg,
-        rgba(27,35,29,.40) 0%, rgba(27,35,29,.20) 18%,
-        rgba(27,35,29,.62) 40%, rgba(27,35,29,.92) 100%);
+        rgba(27,35,29,.40) 0, rgba(27,35,29,.50) 64px,
+        rgba(27,35,29,.80) 150px, rgba(27,35,29,.92) 100%);
     }
   }
 
@@ -1100,7 +1255,7 @@
 
     /* Treppe steigt nach rechts: Trittstufe unten, Text darüber */
     .stair__steps {
-      grid-template-columns: repeat(5, minmax(0, 1fr)); align-items: end; gap: 4px;
+      grid-template-columns: repeat(4, minmax(0, 1fr)); align-items: end; gap: 4px;
       border-top: 0; border-bottom: 2px solid var(--steel);
     }
     .stair__steps li { align-self: end; }
@@ -1116,12 +1271,21 @@
     .advice { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
   }
   @media (min-width: 940px) { .tour { grid-template-columns: 1.32fr 1fr; } }
+  @media (min-width: 940px) { .daten__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: start; } }
   @media (min-width: 1060px) {
     .close__grid { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }
     .wall { grid-template-columns: minmax(0,auto) minmax(280px,336px); }
     .card { position: sticky; top: 90px; }
   }
   @media (max-width: 640px) { .top__nav { display: none; } }
+  /* „Daten“ passt erst ab 960 px ohne Überlauf in die Kopfzeile. */
+  @media (max-width: 959px) { .top__nav .top__nav-weit { display: none; } }
+  /* Bericht schmal: Labels enger, damit „Marken mit Verkäufen“ nicht zerfällt */
+  @media (max-width: 640px) {
+    .bericht__l { letter-spacing: 0.04em; }
+    .bericht__zahlen > div { padding-right: 8px; }
+    .bericht__zahlen > div:nth-child(even) { padding-left: 12px; }
+  }
 
   /* ── Terminbuchung (Calendly-iframe, TerminKalender.tsx) ─────── */
 

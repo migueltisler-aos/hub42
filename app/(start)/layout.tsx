@@ -12,7 +12,7 @@ const schibsted = Schibsted_Grotesk({
 
 const TITEL = "Hub42 · Der Laden für Neuheiten im Alexa Berlin";
 const TEXT =
-  "Der Laden nur für Neuheiten: eine Treppe vom ersten Test bis zur Listung, echte Kasse statt Umfrage. Miete pro Zentimeter plus 7 % auf den Verkauf. Alexa Berlin, Eröffnung März 2027.";
+  "Der Laden nur für Neuheiten: Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf, echte Kasse statt Umfrage, vier Stufen bis zur Listung. Alexa Berlin, Eröffnung März 2027.";
 
 export const metadata: Metadata = {
   title: { absolute: TITEL },
@@ -29,7 +29,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: TITEL,
-    description: "Vom ersten Regal bis zur Listung. Miete pro Zentimeter plus 7 % auf den Verkauf.",
+    description: "Vom ersten Regal bis zur Listung. Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf.",
     creator: "@hub42berlin",
   },
 };
