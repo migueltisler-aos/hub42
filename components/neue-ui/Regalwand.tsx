@@ -363,7 +363,7 @@ export default function Regalwand() {
 
             <p className="card__note">
               {istFrei(gewaehlt)
-                ? "Frei ab sofort. Konsignation: Du lieferst die Ware, wir verkaufen sie und rechnen monatlich ab. Traverse-Karte mit QR-Code und Preis inklusive."
+                ? "Frei ab sofort. Konsignation: Du lieferst die Ware, wir verkaufen sie und rechnen monatlich ab. Traverse-Karte mit deiner Werbung und QR-Code inklusive."
                 : gewaehlt.note}
             </p>
 

@@ -455,6 +455,21 @@
     transition: opacity .22s ease, transform .22s ease;
   }
   .front:hover .good__img, .front[aria-pressed="true"] .good__img { --lift: -7px; }
+  /* Produktbilder an der Wand: einheitliche Höchsthöhe (21 cm wie die freien
+     Fronten), unten bündig, nie breiter als das Produkt hoch ist; auf breiten
+     Fronten mittig mit Luft statt gestreckt. Kein Zoom und kein Beschnitt,
+     damit nichts über die Front hinausläuft. */
+  .front:not(.front--free) .front__body {
+    height: calc(min(var(--h), 21) * var(--pxcm));
+    width: min(100%, calc(min(var(--h), 21) * var(--pxcm)));
+  }
+  .front:not(.front--free) .good__img { transform: translateY(var(--lift, 0px)); }
+  /* Beschnittene Bilder (Produkt mit Siegeln daneben): Rahmen nur so breit wie
+     das Produkt, die Siegel rechts fallen weg. */
+  .front:not(.front--free) .front__body:has(.good__img--crop) {
+    width: min(100%, calc(min(var(--h), 21) * var(--pxcm) * 0.66));
+  }
+  .front:not(.front--free) .good__img--crop { object-position: 0% bottom; }
   .front:hover .front__body::after, .front[aria-pressed="true"] .front__body::after { opacity: .5; transform: scaleX(.86); }
 
   .front--free .front__body {
