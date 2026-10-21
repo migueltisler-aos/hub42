@@ -247,7 +247,8 @@ export default async function StartPage() {
               der Stiftung Entrepreneurship, Berlin.
               <span className="trust__beleg">
                 Unser Pop-up beim Summit, zwei Verkaufstage am 17. und 18. Oktober 2026: 968,95 € Umsatz
-                brutto, 96 Artikel, 8 Marken mit Verkäufen, Ø Kartenbon 18,23&nbsp;€.
+                brutto, 96 Artikel, 8 Marken mit Verkäufen, Ø Kartenbon 18,23&nbsp;€. Jede dieser
+                acht Marken bekam danach ihre eigene Auswertung.
               </span>
             </p>
           </div>

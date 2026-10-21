@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import ComparisonTable from "@/components/ComparisonTable";
-import HerstellerRechner from "@/components/HerstellerRechner";
 import SlotCard from "@/components/SlotCard";
 import ContactForm from "@/components/ContactForm";
 import SlotFeatureTable from "@/components/SlotFeatureTable";
@@ -561,24 +560,18 @@ export default function HerstellerPage() {
       </section>
 
       {/* Rechner */}
-      <section id="rechner" className="bg-green-mid py-20 border-t border-stone-dark">
+      {/* Der Kalkulator Rewe gegen Hub42 ist entfernt (Geschäftsführung, 2026-10-21);
+          die Komponente HerstellerRechner bleibt im Repo, wird aber nicht gerendert.
+          Die Rechnung macht die KI-Anfrage auf der Startseite. */}
+      <section id="rechner" className="bg-green-mid py-12 border-t border-stone-dark">
         <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <div className="mb-10">
-            <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
-              Kalkulator
-            </p>
-            <h2
-              className="text-cream text-[clamp(2rem,5vw,4rem)] leading-none tracking-widest mb-2"
-              style={{ fontFamily: "var(--font-bebas)" }}
-            >
-              Was verdienst du
-              <span className="text-bronze"> wirklich?</span>
-            </h2>
-            <p className="text-stone text-sm">
-              Vergleiche deinen Erlös bei Rewe und Hub42, auf Basis deiner eigenen Zahlen.
-            </p>
-          </div>
-          <HerstellerRechner />
+          <p className="text-cream text-base leading-relaxed text-pretty">
+            Was deine Regalfront bei deinem Produkt bringt, rechnet dir die{" "}
+            <Link href="/#bewerben" className="text-bronze underline underline-offset-4 hover:text-cream">
+              KI-Anfrage
+            </Link>{" "}
+            in zwei Minuten aus.
+          </p>
         </div>
       </section>
 
