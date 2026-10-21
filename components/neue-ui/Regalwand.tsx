@@ -369,7 +369,7 @@ export default function Regalwand() {
 
             <p className="card__note">
               {istFrei(gewaehlt)
-                ? "Frei ab sofort. Konsignation: Du lieferst die Ware, wir verkaufen sie und rechnen monatlich ab. Traverse-Karte mit deiner Werbung, Preisschild und QR-Code zur Bewertung inklusive."
+                ? "Beispiel einer freien Front. Konsignation: Du lieferst die Ware, wir verkaufen sie und rechnen monatlich ab. Traverse-Karte mit deiner Werbung, Preisschild und QR-Code zur Bewertung inklusive."
                 : gewaehlt.note}
             </p>
 
@@ -378,7 +378,8 @@ export default function Regalwand() {
                 className="btn btn--solid"
                 href="#bewerben"
                 onClick={() => {
-                  /* Eine belegte Front ist kein Wunsch, nur die Zone. */
+                  /* Vorgemerkt werden nur Zone und Größe (S, M, L), keine konkrete
+                     Front: die Wand ist ein Beispiel. Bei belegten Fronten nur die Zone. */
                   const detail: FrontDetail = {
                     zone: sel.zone,
                     cm: istFrei(gewaehlt) ? gewaehltCm : MIN_CM,
@@ -392,10 +393,14 @@ export default function Regalwand() {
                   });
                 }}
               >
-                {istFrei(gewaehlt) ? "Für diese Front bewerben" : "Für die Front daneben bewerben"}
+                Mit deinem Produkt bewerben
               </a>
               <span className="card__hint">7 % Provision bei Verkauf</span>
             </div>
+            <p className="card__beispiel">
+              Die Wand zeigt ein Beispiel. Welche Front du bekommst, legen wir im Onboarding gemeinsam
+              fest.
+            </p>
           </div>
         </aside>
       </div>

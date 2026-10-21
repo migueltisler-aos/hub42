@@ -594,6 +594,8 @@
   .row--sum .row__v { color: var(--bulb-ink); font-weight: 500; }
   .card__foot { margin-top: 16px; display: flex; flex-wrap: wrap; align-items: center; gap: 12px; }
   .card__hint { font-family: var(--f-mono); font-size: 0.656rem; color: var(--ink-mute); }
+  /* Hinweis unter dem Knopf, in Lesegröße: die Wand ist ein Beispiel */
+  .card__beispiel { margin-top: 14px; font-size: 0.875rem; line-height: 1.5; color: var(--ink-mid); text-wrap: pretty; }
 
   /* ── Rundgang ──────────────────────────────────────────────── */
 
