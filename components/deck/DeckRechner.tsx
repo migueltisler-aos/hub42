@@ -323,10 +323,10 @@ export default function DeckRechner() {
             </div>
           </div>
 
-          {/* Regalplatz S, M oder L; die Breite nur bei L, bis eine Ebene */}
+          {/* Regalfront S, M oder L; die Breite nur bei L, bis eine Ebene */}
           <div>
             <p className="text-cream/60 text-xs font-mono uppercase tracking-widest mb-3">
-              Regalplatz
+              Regalfront
             </p>
             <div className="grid grid-cols-3 gap-2">
               {PLAETZE.map((p) => {
@@ -353,7 +353,7 @@ export default function DeckRechner() {
           {a.regalCm >= PAKETE.L.abCm && (
             <div className="space-y-3">
               <Lever
-                label="Breite Regalplatz L"
+                label="Breite Regalfront L"
                 value={a.regalCm}
                 min={PAKETE.L.abCm}
                 max={MAX_REGAL_CM}
@@ -384,7 +384,7 @@ export default function DeckRechner() {
             {showDetail && (
               <div className="mt-6 space-y-6">
                 <p className="text-cream/45 text-xs leading-relaxed">
-                  Jede Zeile ist editierbar. Du buchst einen Regalplatz:{" "}
+                  Jede Zeile ist editierbar. Du buchst eine Regalfront:{" "}
                   <span className="text-cream/70">
                     S {PAKETE.S.preis} €, M {PAKETE.M.preis} €, L {fmt(PAKETE.L.preisJeCm)} € je cm
                   </span>
@@ -428,7 +428,7 @@ export default function DeckRechner() {
                     <BreakRow label="Slot-Miete anteilig" sub={`${eur(c.slotMonthly)}/Mo ÷ ${a.sales} Sales`} value={c.slotPerSale} />
                     <BreakRow label="Summe / Sale" value={c.hubPerSale} strong />
                     <div className="mt-4 pt-3 border-t border-cream/10 space-y-1">
-                      <BreakRow label="Regalplatz" sub={`S ${PAKETE.S.cm} cm · M ${PAKETE.M.cm} cm · L ab ${PAKETE.L.abCm} cm`} value={a.regalCm} unit="cm" money={false} />
+                      <BreakRow label="Regalfront" sub={`S ${PAKETE.S.cm} cm · M ${PAKETE.M.cm} cm · L ab ${PAKETE.L.abCm} cm`} value={a.regalCm} unit="cm" money={false} />
                       <BreakRow
                         label="Preis je cm (nur L)"
                         sub={`${TRANCHE_INFO[a.tranche].label}: Basis ${fmt(TRANCHE_RATES[a.tranche].basis)} · Augenhöhe ${fmt(TRANCHE_RATES[a.tranche].augenhoehe)} · Greifhöhe ${fmt(TRANCHE_RATES[a.tranche].greifhoehe)}`}

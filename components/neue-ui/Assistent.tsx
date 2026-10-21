@@ -387,7 +387,7 @@ export default function Assistent() {
             <input type="checkbox" checked={bildrechte} onChange={(e) => setBildrechte(e.target.checked)} />
             <span>
               <strong>Hub42 darf Logo, Produktbilder und Texte meiner Website nutzen</strong> – für meine
-              Regalkarte und meinen Regalplatz. Ich sehe alles vorher und kann es ändern. Website, erkannte Angaben und
+              Regalkarte und meine Regalfront. Ich sehe alles vorher und kann es ändern. Website, erkannte Angaben und
               Karte speichern wir auch ohne Bewerbung, um uns ggf. bei dir zu melden; Name und E-Mail erst beim Abschicken.
             </span>
           </label>
@@ -574,7 +574,7 @@ export default function Assistent() {
           {a.cm >= PAKETE.L.abCm && (
             <>
               <label className="apply__field as__wide">
-                <span>Breite Regalplatz L: {a.cm} cm</span>
+                <span>Breite Regalfront L: {a.cm} cm</span>
                 <input
                   type="range"
                   min={PAKETE.L.abCm}
@@ -754,7 +754,7 @@ export default function Assistent() {
                 <strong>Standardregal</strong>
                 <b>{eur(mieteMonat(a.zone, a.cm))} / Monat</b>
                 <span>
-                  Regalplatz {paketFuer(a.cm) ?? "L"}, {a.cm} cm, {ZONES[a.zone].name}, ab 3 Monaten
+                  Regalfront {paketFuer(a.cm) ?? "L"}, {a.cm} cm, {ZONES[a.zone].name}, ab 3 Monaten
                 </span>
               </div>
               {OPTIONEN.filter((o) => o.key !== "standardregal").map((o) => {
@@ -929,7 +929,7 @@ function Sichtbarkeit({ r }: { r: RechnungWerte }) {
       </p>
       <ul className="as__facts">
         <li>
-          <b>{eur(r.kostenJe1000)}</b> kostet dich dein Regalplatz je 1.000 Ladenbesucher.
+          <b>{eur(r.kostenJe1000)}</b> kostet dich deine Regalfront je 1.000 Ladenbesucher.
         </li>
         <li>
           Online zahlst du für Einblendungen auf einem Bildschirm. Hier zahlst du für Menschen, die im Laden stehen.
@@ -976,12 +976,12 @@ function RechnungBlock({ a, s, r }: { a: AssistentAntworten; s: Schaetzung; r: R
     <div className="as__kn">
       <p className="as__h">Rechnung</p>
       <p className="as__sub">
-        Regalplatz {platz} · {Z.name}: <b>{eur(r.miete)}</b> im Monat, netto
+        Regalfront {platz} · {Z.name}: <b>{eur(r.miete)}</b> im Monat, netto
       </p>
       <p className="as__kern">
         {r.schwelleTag < 1
-          ? "Weniger als ein Verkauf am Tag, und dein Regalplatz bezahlt sich selbst."
-          : `Dein Regalplatz bezahlt sich ab ${tag1(r.schwelleTag)} Verkäufen am Tag selbst.`}
+          ? "Weniger als ein Verkauf am Tag, und deine Regalfront bezahlt sich selbst."
+          : `Deine Regalfront bezahlt sich ab ${tag1(r.schwelleTag)} Verkäufen am Tag selbst.`}
       </p>
       <p className="as__sub">
         Ab {r.schwelle} Verkäufen im Monat deckt dein Umsatz nach {HUB_MARGIN_PCT} % Provision die Miete. Das sind{" "}

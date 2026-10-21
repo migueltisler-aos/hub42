@@ -115,8 +115,8 @@ export default function DeckModell() {
         {[
           {
             n: "01",
-            t: "Regalplatz buchen",
-            d: "Du buchst einen Regalplatz: S mit 13 cm für 59 €, M mit 25 cm für 118 € oder L ab 50 cm für 4,64 € je cm, jeweils im Monat. In S passen rund zwei Gläser. Die Miete deckt unsere Fixkosten.",
+            t: "Regalfront buchen",
+            d: "Du buchst eine Regalfront: S mit 13 cm für 59 €, M mit 25 cm für 118 € oder L ab 50 cm für 4,64 € je cm, jeweils im Monat. In S passen rund zwei Gläser. Die Miete deckt unsere Fixkosten.",
           },
           {
             n: "02",

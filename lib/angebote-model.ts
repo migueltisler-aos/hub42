@@ -13,10 +13,10 @@ export const MWST_PCT = 19;
    Miete = belegte Fläche (m²) × Preis/m² – mit Mindestmiete.
    Fläche je Ebene = Breite (cm) × Regaltiefe (60 cm).
    Seit der Preis-Mischform (2026-10-20) gibt es auf der Website nur noch
-   eine Preisklasse: Regalplatz S ab 59 €, L 4,64 € je cm. Der Schalter
+   eine Preisklasse: Regalfront S ab 59 €, L 4,64 € je cm. Der Schalter
    "besonderer Wert" bleibt für Altangebote in der Datenbank, beide Klassen
    rechnen jetzt mit denselben Konstanten. Offen: das Angebot rechnet noch
-   nach Fläche statt nach Regalplatz S, M, L (eigene Runde mit dem Head). */
+   nach Fläche statt nach Regalfront S, M, L (eigene Runde mit dem Head). */
 export const PREIS_PRO_QM = PAKETE.L.preisJeCm; // €/m²/Monat, Standard
 export const PREIS_PRO_QM_BESONDERER_WERT = PAKETE.L.preisJeCm;
 export const REGAL_TIEFE_CM = 60;
@@ -173,7 +173,7 @@ export const ADDONS: AddonOption[] = [
 
 /**
  * Baut eine Slot-Position. Für €/cm-Slots gilt als Untergrenze der Preis
- * von Regalplatz S (PAKETE.S.preis) pro Slot.
+ * von Regalfront S (PAKETE.S.preis) pro Slot.
  */
 export function slotPosition(slotId: string, regalCm: number): Position | null {
   const slot = SLOTS.find((s) => s.id === slotId);

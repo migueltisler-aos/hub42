@@ -25,8 +25,6 @@ import {
   HUB_MARGIN_PCT,
   PAKETE,
   REGAL_INKLUSIVE_CM,
-  SCHAUFENSTER_MONAT,
-  TRANCHE_SURCHARGE_PCT,
   ZONE_SURCHARGE_PCT,
 } from "@/lib/deck-economics";
 import { eur } from "@/lib/neue-ui/regal";
@@ -47,25 +45,25 @@ const THEKE = [
     alt: "Berlin Oats Crunchy Six Spice Granola auf der Theke" },
 ];
 
-/* Die drei Regalplätze des Standardregals, Preise auf Basishöhe. */
+/* Die drei Regalfronten des Standardregals, Preise auf Basishöhe. */
 const zahl = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 2 });
 const PAKET_KARTEN = [
   {
-    name: "Regalplatz S",
+    name: "Regalfront S",
     breite: `${PAKETE.S.cm} cm`,
     preis: `${PAKETE.S.preis} €`,
     einheit: "im Monat",
     zeile: "Rund zwei Gläser nebeneinander.",
   },
   {
-    name: "Regalplatz M",
+    name: "Regalfront M",
     breite: `${PAKETE.M.cm} cm`,
     preis: `${PAKETE.M.preis} €`,
     einheit: "im Monat",
     zeile: "Rund fünf Gläser nebeneinander.",
   },
   {
-    name: "Regalplatz L",
+    name: "Regalfront L",
     breite: `ab ${PAKETE.L.abCm} cm`,
     preis: eur(PAKETE.L.preisJeCm),
     einheit: "je cm und Monat",
@@ -74,8 +72,8 @@ const PAKET_KARTEN = [
 ];
 
 const FAKTEN = [
-  { v: "rund 15 Mio.", k: "Besuche im Jahr im Alexa, Stand 2020" },
-  { v: `ab ${PAKETE.S.preis} €`, k: "Regalplatz im Monat, netto" },
+  { v: "rund 15 Mio.", k: "Besuche im Jahr im Alexa, Stand 2026" },
+  { v: `ab ${PAKETE.S.preis} €`, k: "Regalfront im Monat, netto" },
   { v: `${HUB_MARGIN_PCT} %`, k: "nur auf das, was verkauft wird" },
   { v: "0 €", k: "Listungsgebühr" },
 ];
@@ -135,7 +133,7 @@ export default async function StartPage() {
                   Mit deinem Produkt bewerben
                 </a>
                 <a className="btn btn--dark" href="#preise">
-                  Was ein Regalplatz kostet
+                  Was eine Regalfront kostet
                 </a>
               </div>
             </div>
@@ -223,7 +221,7 @@ export default async function StartPage() {
         <section className="sect sect--rule" id="preise" data-sektion="preise">
           <div className="wrap">
             <p className="eyebrow">Was es kostet</p>
-            <h2>Regalplatz ab {PAKETE.S.preis}&nbsp;€ im Monat. Provision erst beim Verkauf.</h2>
+            <h2>Regalfront ab {PAKETE.S.preis}&nbsp;€ im Monat. Provision erst beim Verkauf.</h2>
             <p className="lede" style={{ marginTop: 20, maxWidth: "50ch" }}>
               Du wählst die Breite, unser Store-Team verkauft. Keine Listungsgebühr, keine
               Handelsmarge: Du behältst deine UVP, Hub42 bekommt {HUB_MARGIN_PCT}&nbsp;% vom
@@ -257,28 +255,7 @@ export default async function StartPage() {
 
               <Preistabelle />
 
-              <p className="priceblock__txt">
-                Der Preis steigt mit der Auslastung des Ladens, nicht mit dem Kalender: ab 60&nbsp;% um{" "}
-                {TRANCHE_SURCHARGE_PCT.aufbau}&nbsp;%, ab 85&nbsp;% um {TRANCHE_SURCHARGE_PCT.warteliste}
-                &nbsp;%. Wer vorher bucht, behält seinen Preis 12 Monate lang, vertraglich.
-              </p>
-
-              <p className="fineprint">
-                Immer dabei: {HUB_MARGIN_PCT} % Provision nur auf Verkauftes, Zahlungsabwicklung
-                inklusive. 0 € Listungsgebühr. 3 Monate Mindestlaufzeit, danach monatlich kündbar.
-                <br />
-                In jedem Regalplatz: Verkauf durch unser geschultes Store-Team, auch für Produkte,
-                die man erklären muss; Traverse-Karte mit QR-Code; monatlicher Verkaufsbericht.
-                Konsignation, kein Wareneinkauf.
-                <br />
-                Ins Regal kommt, wer sich bewirbt und überzeugt. Die Bewerbung entscheidet, ob du
-                reinkommst, nicht, was du zahlst.
-                <br />
-                Daneben das Schaufenster: {SCHAUFENSTER_MONAT} € pauschal im Monat, sichtbar, ohne
-                den Laden zu betreten.
-                <br />
-                Nur für Unternehmer. Preise netto zzgl. USt.
-              </p>
+              <p className="fineprint">Nur für Unternehmer. Preise netto zzgl. USt.</p>
             </div>
 
             {/* Die Treppe klappt als Seitenleiste auf (TreppeMenue) */}

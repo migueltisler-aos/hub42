@@ -41,7 +41,7 @@ export default function DeckHero() {
 
         <p className="text-cream text-xl md:text-2xl leading-snug max-w-2xl mx-auto mb-10">
           Der kuratierte Entdecker-Store, in dem unabhängige Marken{" "}
-          <span className="text-bronze">Regalplätze mieten statt Marge zu verlieren</span> —
+          <span className="text-bronze">Regalfronten mieten statt Marge zu verlieren</span> —
           mit voller Preishoheit, echten Abverkaufsdaten und einem Erlebnis, das man nicht
           online bekommt.
         </p>

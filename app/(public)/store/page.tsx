@@ -192,7 +192,7 @@ export default function StorePage() {
               <span className="text-bronze">Im Jahr, im Alexa.</span>
             </h2>
             <p className="text-stone text-sm">
-              Das zählt das ganze Center (Sonae Sierra, 2020), nicht unser Laden. Ab der Ladentür
+              Das zählt das ganze Center (Angabe Center, 41.000 am Tag), nicht unser Laden. Ab der Ladentür
               rechnen wir mit Annahmen.
             </p>
           </div>
@@ -210,7 +210,7 @@ export default function StorePage() {
             Dein Produkt hierher?
           </h2>
           <p className="text-stone text-sm mb-8">
-            Im Alexa ab März 2027. Regalplatz ab 13 cm und 59 €/Monat netto, plus 7 % nur auf Verkauf.
+            Im Alexa ab März 2027. Regalfront ab 13 cm und 59 €/Monat netto, plus 7 % nur auf Verkauf.
           </p>
           <Link
             href="/#bewerben"

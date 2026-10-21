@@ -60,7 +60,7 @@ export default function MCLoesung() {
       {/* Standort-Kontext */}
       <div className="flex flex-col sm:flex-row gap-6">
         {[
-          { label: "ALEXA-Center", value: "15 Mio.", sub: "Besuche im Jahr im ganzen Center (Sonae Sierra, 2020)" },
+          { label: "ALEXA-Center", value: "15 Mio.", sub: "Besuche im Jahr im ganzen Center (Angabe Center, 41.000 am Tag)" },
           { label: "Davon im Store", value: "400–500", sub: "Besucher je Tag im Laden (Annahme), noch nicht gemessen" },
           { label: "Modell", value: "§383 HGB", sub: "Konsignation · kein Eigentumsübergang" },
         ].map((s) => (

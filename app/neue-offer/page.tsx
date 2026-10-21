@@ -378,7 +378,7 @@ export default function RegalbeweisPage() {
             Angebotsstand {KOHORTE.name}, Start {KOHORTE.start}. Preise zzgl. USt.
           </strong>
           <br />
-          Aus dem Preismodell abgeleitet: Regalplatz S ({SLOT_CM} cm) auf Augenhöhe{" "}
+          Aus dem Preismodell abgeleitet: Regalfront S ({SLOT_CM} cm) auf Augenhöhe{" "}
           {eur(MIETE_MONAT)} im Monat, {PROVISION_PCT} % Vermittlungsprovision auf den
           Bruttoverkaufspreis inkl. Zahlungsabwicklung, Preise bis 60 % Auslastung des Ladens.
           <br />

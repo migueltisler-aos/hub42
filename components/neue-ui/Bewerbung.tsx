@@ -53,7 +53,7 @@ export default function Bewerbung({ nurRegal = false }: { nurRegal?: boolean }) 
     nurRegal ? { ...LEER, einstieg: "standardregal" } : LEER,
   );
   const [fehler, setFehler] = useState<BewerbungFehler>({});
-  /* Regalplatz L ist eine Auswahl, die Breite ein Freitext dazu: getrennt,
+  /* Regalfront L ist eine Auswahl, die Breite ein Freitext dazu: getrennt,
      damit das Feld beim Tippen (6 auf dem Weg zu 65) nicht verschwindet. */
   const [lGewaehlt, setLGewaehlt] = useState(false);
   const [lText, setLText] = useState(String(PAKETE.L.abCm));
@@ -262,7 +262,7 @@ export default function Bewerbung({ nurRegal = false }: { nurRegal?: boolean }) 
               </select>
             </label>
             <label className="apply__field">
-              <span>Regalplatz</span>
+              <span>Regalfront</span>
               <select
                 value={lGewaehlt ? "L" : form.cm == null ? "" : (paketFuer(form.cm) ?? "L")}
                 onChange={(e) => {

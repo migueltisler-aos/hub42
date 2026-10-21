@@ -16,7 +16,7 @@
    ============================================================ */
 
 /* ── Slot-Preismodell (eine Quelle der Wahrheit) ──────────────
-   Drei Regalplätze: S und M fest, L je cm. Zonenzuschlag und Staffel
+   Drei Regalfronten: S und M fest, L je cm. Zonenzuschlag und Staffel
    kommen auf alle drei (Preiskonzept Mischform, 2026-10-20). */
 export const PAKETE = {
   S: { cm: 13, preis: 59 },
@@ -44,7 +44,7 @@ export const TRANCHE_INFO: Record<Tranche, { label: string; auslastung: string }
   warteliste: { label: "Ab 85 % Auslastung", auslastung: "+20 %" },
 };
 
-/** Preis je cm im Regalplatz L, mit Zonen- und Staffelzuschlag, auf Cent. */
+/** Preis je cm in der Regalfront L, mit Zonen- und Staffelzuschlag, auf Cent. */
 function rateFor(zonePct: number, tranchePct: number): number {
   return round2(PAKETE.L.preisJeCm * (1 + zonePct / 100) * (1 + tranchePct / 100));
 }
@@ -68,15 +68,15 @@ export const TRANCHE_RATES: Record<Tranche, { basis: number; augenhoehe: number;
   },
 };
 
-/** RATES = Tranche "first_mover": Preis je cm im Regalplatz L (die auf der Website gezeigte Rate). */
+/** RATES = Tranche "first_mover": Preis je cm in der Regalfront L (die auf der Website gezeigte Rate). */
 export const RATES = TRANCHE_RATES.first_mover;
 
 export type ZoneId = keyof typeof ZONE_SURCHARGE_PCT;
 
-/** Kleinster Regalplatz ist S. */
+/** Kleinste Regalfront ist S. */
 export const MIN_REGAL_CM = PAKETE.S.cm;
 
-/** Welcher Regalplatz zu einer Breite gehört. Bis 13 cm S, 14 bis 25 cm M
+/** Welche Regalfront zu einer Breite gehört. Bis 13 cm S, 14 bis 25 cm M
     (das nächstgrößere Paket), 26 bis 49 cm keiner (Zwischenbreite, offen),
     ab 50 cm L. */
 export function paketFuer(cm: number): Paket | null {
@@ -86,7 +86,7 @@ export function paketFuer(cm: number): Paket | null {
   return "L";
 }
 
-/** Monatsmiete eines Regalplatzes: S und M Paketpreis × Zone × Staffel auf
+/** Monatsmiete einer Regalfront: S und M Paketpreis × Zone × Staffel auf
     Cent, L Breite × Satz je cm der Tranche. null für Zwischenbreiten. */
 export function paketMiete(cm: number, zone: ZoneId, tranche: Tranche = "first_mover"): number | null {
   const p = paketFuer(cm);
@@ -140,7 +140,7 @@ export interface Assumptions {
   hubMarginPct: number; // Vermittlungsprovision in % vom VK (ersetzt Checkout-Fee + Kartengebühr)
   regalCm: number; // Regalfront in cm: 13 (S), 25 (M) oder ab 50 (L)
   zone: ZoneId; // Höhe im Regal (Zonenzuschlag)
-  ratePerCm: number; // Satz €/cm/Monat, nur für Regalplatz L gelesen
+  ratePerCm: number; // Satz €/cm/Monat, nur für Regalfront L gelesen
   tranche: Tranche; // Auslastungstranche (Staffelzuschlag)
 }
 
@@ -158,7 +158,7 @@ export const DEFAULTS: Assumptions = {
   onlinePayFix: 0.25,
   shopMonthly: 36, // Shopify Basic ~36 €/Monat
   hubMarginPct: HUB_MARGIN_PCT,
-  regalCm: 13, // Regalplatz S, Platz für rund zwei Gläser
+  regalCm: 13, // Regalfront S, Platz für rund zwei Gläser
   zone: "basis",
   ratePerCm: RATES.basis,
   tranche: "first_mover",

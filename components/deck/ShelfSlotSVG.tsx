@@ -6,7 +6,7 @@
 import { PAKETE, paketMiete, type ZoneId } from "@/lib/deck-economics";
 
 const geld = (n: number | null) => `${(n ?? 0).toFixed(2).replace(".", ",")} €`;
-/* Je Ebene: Regalplatz S als Einstieg, M als Beispiel. */
+/* Je Ebene: Regalfront S als Einstieg, M als Beispiel. */
 const rateStr = (z: ZoneId) => `ab ${geld(paketMiete(PAKETE.S.cm, z))}`;
 const exStr = (z: ZoneId) => `${PAKETE.M.cm} cm: ${geld(paketMiete(PAKETE.M.cm, z))}/Mo`;
 

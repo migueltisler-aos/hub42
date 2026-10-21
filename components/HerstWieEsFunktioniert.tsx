@@ -7,7 +7,7 @@ const SCHRITTE = [
   {
     num: "01",
     titel: "Slot buchen",
-    copy: "Regalplatz ab 59 €/Monat. Kein Listingvertrag, keine Vorauszahlung auf Kommission.",
+    copy: "Regalfront ab 59 €/Monat. Kein Listingvertrag, keine Vorauszahlung auf Kommission.",
     icon: (
       <svg width="28" height="28" viewBox="0 0 28 28" fill="none" aria-hidden="true" className="text-bronze">
         <rect x="4" y="6" width="20" height="16" rx="2" stroke="currentColor" strokeWidth="1.5" />
@@ -115,7 +115,7 @@ export default function HerstWieEsFunktioniert() {
             href="/hersteller"
             className="inline-flex items-center justify-center px-8 py-4 bg-bronze text-green-dark font-semibold text-sm tracking-wide hover:bg-bronze-light transition-colors rounded-sm"
           >
-            Regalplatz anfragen →
+            Regalfront anfragen →
           </Link>
           <Link
             href="/hersteller"

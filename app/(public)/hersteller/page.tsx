@@ -39,7 +39,7 @@ import {
 export const metadata: Metadata = {
   title: "Für Hersteller: vom ersten Regal bis zur Listung",
   description:
-    "Hub42 ist der Laden für Neuheiten im Alexa Berlin. Fünf Stufen vom ersten Test bis zur Listung, jede Stufe buchbar. Regalplatz ab 59 € netto im Monat plus 7 % auf den Verkauf, keine Listungsgebühr.",
+    "Hub42 ist der Laden für Neuheiten im Alexa Berlin. Fünf Stufen vom ersten Test bis zur Listung, jede Stufe buchbar. Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf, keine Listungsgebühr.",
 };
 
 const SCHRITTE = [
@@ -78,7 +78,7 @@ const WEN_WIR_SUCHEN = [
 ];
 
 const WAS_DU_BEKOMMST = [
-  "Dein Regalplatz im Alexa Berlin",
+  "Deine Regalfront im Alexa Berlin",
   "Traverse-Karte mit deiner Story + QR-Code",
   "Tageszeit-Tracking & monatlicher Verkaufsbericht",
   "Standardregal: 3 Monate Mindestlaufzeit, danach monatlich kündbar",
@@ -117,7 +117,7 @@ const FAQ = [
   },
   {
     frage: "Steigt der Preis, wenn der Laden voll wird?",
-    antwort: `Ja, mit der Auslastung des Ladens, nicht mit dem Kalender. Bis 60 % gelten die Preise oben: Regalplatz S ${PAKETE.S.preis} €, M ${PAKETE.M.preis} €, L ${eur(PAKETE.L.preisJeCm)} je cm, jeweils im Monat und netto. Ab 60 % kommen ${TRANCHE_SURCHARGE_PCT.aufbau} % dazu, ab 85 % ${TRANCHE_SURCHARGE_PCT.warteliste} %. Wer vorher bucht, behält seinen Preis 12 Monate lang, vertraglich. Unabhängig davon zahlst du auf Augenhöhe ${ZONE_SURCHARGE_PCT.augenhoehe} % mehr, auf garantierter Greifhöhe ${ZONE_SURCHARGE_PCT.greifhoehe} %.`,
+    antwort: `Ja, mit der Auslastung des Ladens, nicht mit dem Kalender. Bis 60 % gelten die Preise oben: Regalfront S ${PAKETE.S.preis} €, M ${PAKETE.M.preis} €, L ${eur(PAKETE.L.preisJeCm)} je cm, jeweils im Monat und netto. Ab 60 % kommen ${TRANCHE_SURCHARGE_PCT.aufbau} % dazu, ab 85 % ${TRANCHE_SURCHARGE_PCT.warteliste} %. Wer vorher bucht, behält seinen Preis 12 Monate lang, vertraglich. Unabhängig davon zahlst du auf Augenhöhe ${ZONE_SURCHARGE_PCT.augenhoehe} % mehr, auf garantierter Greifhöhe ${ZONE_SURCHARGE_PCT.greifhoehe} %.`,
   },
   {
     frage: "Wie funktioniert die Abrechnung?",
@@ -188,7 +188,7 @@ export default function HerstellerPage() {
             passt, und gehst danach ins Standardregal.
           </p>
           <p className="text-bronze text-sm font-mono mb-8">
-            Regalplatz ab {PAKETE.S.preis} € im Monat plus {HUB_MARGIN_PCT} % auf den Verkauf.
+            Regalfront ab {PAKETE.S.preis} € im Monat plus {HUB_MARGIN_PCT} % auf den Verkauf.
           </p>
 
           {/* Facts strip */}
@@ -224,7 +224,7 @@ export default function HerstellerPage() {
             <p className="text-cream text-sm leading-relaxed">
               <span className="text-bronze font-semibold">Deine Kosten:</span> In der Treppe ein
               Festpreis je Stufe ab {eur0(STUFE_PREIS.testen)} netto, {REGAL_INKLUSIVE_CM} cm
-              Regal inklusive. {ZUSATZ_CM_TEXT} Im Standardregal ein Regalplatz: S mit{" "}
+              Regal inklusive. {ZUSATZ_CM_TEXT} Im Standardregal eine Regalfront: S mit{" "}
               {PAKETE.S.cm} cm für {PAKETE.S.preis} €, M mit {PAKETE.M.cm} cm für {PAKETE.M.preis} €,
               L ab {PAKETE.L.abCm} cm für {eur(PAKETE.L.preisJeCm)} je cm, jeweils im Monat, mit
               denselben Zuschlägen nach Höhe. Überall {HUB_MARGIN_PCT} % Vermittlungsprovision je
@@ -598,7 +598,7 @@ export default function HerstellerPage() {
               <span className="text-bronze"> bleiben.</span>
             </h2>
             <p className="text-stone text-sm max-w-lg mb-10">
-              Nach jeder Stufe kannst du dauerhaft ins Regal. Du buchst einen Regalplatz: S mit{" "}
+              Nach jeder Stufe kannst du dauerhaft ins Regal. Du buchst eine Regalfront: S mit{" "}
               {PAKETE.S.cm} cm, M mit {PAKETE.M.cm} cm oder L ab {PAKETE.L.abCm} cm, dort zahlst du
               je Zentimeter. Über deiner Front steht dieselbe Breite als Werbefläche. Die Preise
               gelten, bis der Laden zu 60 % ausgelastet ist. Wer vorher bucht, behält seinen Preis 12
@@ -639,7 +639,7 @@ export default function HerstellerPage() {
               </div>
 
               <p className="text-stone/50 text-xs font-mono mt-4">
-                Regalplatz L, {PAKETE.L.abCm} cm auf Augenhöhe: {PAKETE.L.abCm} ×{" "}
+                Regalfront L, {PAKETE.L.abCm} cm auf Augenhöhe: {PAKETE.L.abCm} ×{" "}
                 {eur(RATES.augenhoehe)} ={" "}
                 <span className="text-stone">{eur(PAKETE.L.abCm * RATES.augenhoehe)}/Monat</span>
               </p>

@@ -109,7 +109,7 @@ export async function submitBewerbung(p: BewerbungPayload): Promise<{ ok: boolea
   // 2026-10-20): die Spalte bleibt für Altdaten, neue Bewerbungen tragen false.
   const regalwahl = mitRegalwahl(einstieg);
   const zone = regalwahl && p.zone && p.zone in ZONES ? p.zone : null;
-  // Online buchbar: Regalplatz S ab 13 cm bis eine Ebene (84 cm).
+  // Online buchbar: Regalfront S ab 13 cm bis eine Ebene (84 cm).
   const cm = zone && p.cm && p.cm >= MIN_REGAL_CM && p.cm <= MAX_REGAL_CM ? Math.round(p.cm) : null;
   const beratung = SHOW_BAFA ? p.beratungInteresse : null;
   const bundesland =

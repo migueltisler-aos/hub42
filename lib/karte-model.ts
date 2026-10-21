@@ -172,7 +172,7 @@ export function netAmazon(vk: number, n: number): number {
   return vk - vk * (pct / 100) - AMAZON.fba - AMAZON.kontoMonat / Math.max(1, n);
 }
 
-/** Monatsmiete nach Regalplatz S, M oder L. Eine Zwischenbreite von 26 bis
+/** Monatsmiete nach Regalfront S, M oder L. Eine Zwischenbreite von 26 bis
     49 cm (etwa aus einem alten Entwurf) rechnet mit L ab 50 cm, dem nächsten
     buchbaren Platz; Eingaben sind ohnehin auf 13, 25 und ab 50 cm begrenzt. */
 export function mieteMonat(zone: ZoneKey | "", cm: number | null): number {

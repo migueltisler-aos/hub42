@@ -80,7 +80,7 @@ export default function HerstellerRechner() {
   const [marge,    setMarge]    = useState(38);
   const [listung,  setListung]  = useState(2);
   const [sales,    setSales]    = useState(50);
-  // Startwert: Regalplatz M auf Augenhöhe (129,80 €), L beginnt bei 50 cm.
+  // Startwert: Regalfront M auf Augenhöhe (129,80 €), L beginnt bei 50 cm.
   const [platz,    setPlatz]    = useState<Paket>("M");
   const [lCm,      setLCm]      = useState<number>(PAKETE.L.abCm);
   const [activePos, setActivePos] = useState<PositionId>("augenhoehe");
@@ -143,10 +143,10 @@ export default function HerstellerRechner() {
           </div>
         </div>
 
-        {/* Regalplatz S, M oder L; die Breite nur bei L, bis eine Ebene */}
+        {/* Regalfront S, M oder L; die Breite nur bei L, bis eine Ebene */}
         {activePos !== "schaufenster" && (
           <div>
-            <p className="text-cream/60 text-xs font-mono uppercase tracking-widest mb-3">Regalplatz</p>
+            <p className="text-cream/60 text-xs font-mono uppercase tracking-widest mb-3">Regalfront</p>
             <div className="grid grid-cols-3 gap-2">
               {PLAETZE.map((p) => (
                 <button
@@ -167,7 +167,7 @@ export default function HerstellerRechner() {
         )}
         {activePos !== "schaufenster" && platz === "L" && (
           <div className="space-y-3">
-            <Slider label="Breite Regalplatz L (cm)" value={lCm} min={PAKETE.L.abCm} max={MAX_REGAL_CM} step={1}
+            <Slider label="Breite Regalfront L (cm)" value={lCm} min={PAKETE.L.abCm} max={MAX_REGAL_CM} step={1}
               display={`${lCm} cm`} onChange={setLCm} />
             <MehrAlsEineEbene
               href="#kontakt"

@@ -62,7 +62,7 @@ export default function MasterclassPage() {
               <span className="text-bronze">Infrastruktur statt Handel.</span>
             </h2>
             <p className="text-stone text-base leading-relaxed mt-5 max-w-xl">
-              Hub42 ist kein Händler. Wir stellen Regalplatz, Kasse, Personal und Daten.
+              Hub42 ist kein Händler. Wir stellen Regalfronten, Kasse, Personal und Daten.
               Die Marke bleibt Eigentümerin – bis zum Verkauf. Kein Abnahmezwang,
               keine Handelsmarge – nur 7 % Vermittlungsprovision –, keine Preishoheit,
               die wir übernehmen. Kurz: Hub42 ist die

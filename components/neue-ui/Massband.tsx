@@ -71,7 +71,7 @@ export default function Massband() {
         </div>
 
         <p className="lineup__sum">
-          {warenCm} cm Ware · {HERO.length} Marken · Regalplatz ab {PAKETE.S.preis} € im Monat
+          {warenCm} cm Ware · {HERO.length} Marken · Regalfront ab {PAKETE.S.preis} € im Monat
         </p>
       </div>
     </div>

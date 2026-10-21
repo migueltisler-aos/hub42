@@ -50,7 +50,7 @@ export default function SlotCard({ slot, index = 0 }: SlotCardProps) {
             </span>
             <span className="text-stone text-sm ml-1">/Monat</span>
           </div>
-          <p className="text-stone text-xs font-mono">Regalplatz S, {PAKETE.S.cm} cm</p>
+          <p className="text-stone text-xs font-mono">Regalfront S, {PAKETE.S.cm} cm</p>
           <p className="text-stone text-xs font-mono">
             M, {PAKETE.M.cm} cm: {eur(paketMiete(PAKETE.M.cm, slot.zone) ?? 0)} · L ab {PAKETE.L.abCm} cm:{" "}
             {eur(RATES[slot.zone])} je cm

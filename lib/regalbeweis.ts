@@ -23,7 +23,7 @@ import { HUB_MARGIN_PCT, PAKETE, paketMiete } from "./deck-economics";
 
 /* ── Zuschnitt des Pakets ─────────────────────────────────── */
 
-/** Regalfront im Paket: Regalplatz S (13 cm), Platz für rund zwei Gläser. */
+/** Regalfront im Paket: Regalfront S (13 cm), Platz für rund zwei Gläser. */
 export const SLOT_CM = PAKETE.S.cm;
 
 /** Laufzeit in Tagen. 90 Tage = ein voller Quartalszyklus inklusive Wiederkaufsfenster. */
@@ -34,7 +34,7 @@ export const LAUFZEIT_MONATE = 3;
     wenn das Produkt auch tatsächlich gesehen wurde. */
 export const PAKET_ZONE = "augenhoehe" as const;
 
-/** Tatsächliche Monatsmiete dieser Fläche nach dem regulären Tarifmodell (Regalplatz S, Augenhöhe). */
+/** Tatsächliche Monatsmiete dieser Fläche nach dem regulären Tarifmodell (Regalfront S, Augenhöhe). */
 export const MIETE_MONAT = paketMiete(SLOT_CM, PAKET_ZONE) ?? 0;
 
 /** Mietanteil über die Paketlaufzeit – Position 1 im Wertstack, direkt aus dem Tarif. */
@@ -226,7 +226,7 @@ export const ANKER: AnkerZeile[] = [
    und wir sparen uns Erstgespräche, die ohnehin scheitern. */
 export const NICHT_FUER: string[] = [
   "Marken ohne EAN und ohne LMIV-konforme Kennzeichnung. Das ist Voraussetzung, keine Formalie.",
-  `Wer ausschließlich Fläche mieten und den Rest selbst machen will: Dafür gibt es den Regalplatz ab ${PAKETE.S.preis} € im Monat.`,
+  `Wer ausschließlich Fläche mieten und den Rest selbst machen will: Dafür gibt es die Regalfront ab ${PAKETE.S.preis} € im Monat.`,
   "Wer in 90 Tagen kurzfristigen Umsatz sucht. Das hier produziert einen Beweis, keinen Umsatzsprung.",
   "Wer nicht liefern kann, wenn es läuft. Nachschub innerhalb von sieben Tagen ist Teil des Vertrags.",
 ];

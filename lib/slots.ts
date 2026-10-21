@@ -8,7 +8,7 @@ export interface SlotTier {
   position: string;
   /** Fixed monthly price – set for Schaufenster / Ladenfront */
   kostenMonat?: number;
-  /** Per-cm monthly rate (Regalplatz L) – set for Basis, Augenhöhe, Greifhöhe garantiert */
+  /** Per-cm monthly rate (Regalfront L) – set for Basis, Augenhöhe, Greifhöhe garantiert */
   ratePerCm?: number;
   /** Zone for the package prices S, M, L */
   zone?: ZoneId;

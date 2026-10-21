@@ -31,7 +31,7 @@ export const EIGENTUM = {
 } as const;
 export type EigentumKey = keyof typeof EIGENTUM;
 
-/** Die drei buchbaren Regalplätze: S, M und L ab 50 cm. */
+/** Die drei buchbaren Regalfronten: S, M und L ab 50 cm. */
 export const BREITEN = [13, 25, 50] as const;
 
 /** Die eine Frage, die keine Website beantwortet: Was willst du erreichen?
@@ -204,7 +204,7 @@ export function schaetzung(a: AssistentAntworten, vk: number, anzahl = 1): Schae
   };
 }
 
-/* ── Rechnung: ab wann sich der Regalplatz selbst bezahlt ────────
+/* ── Rechnung: ab wann sich die Regalfront selbst bezahlt ────────
    Gerechnet netto: Ladenpreis ohne Umsatzsteuer, minus 7 % Provision auf
    den Bruttopreis (so rechnet die Provision im Vertrag und in karte-model).
    Die Miete ist netto. Umsatzsteuer vereinfacht nach Kategorie

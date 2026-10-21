@@ -17,7 +17,7 @@ interface FeatureRow {
 
 const FEATURES: FeatureRow[] = [
   {
-    label: "Regalplatz im Alexa Berlin",
+    label: "Regalfront im Alexa Berlin",
     basis: true, augenhoehe: true, greifhoehe: true, schaufenster: true,
   },
   {
@@ -46,7 +46,7 @@ const FEATURES: FeatureRow[] = [
   },
 ];
 
-/** Monatsmiete von Regalplatz M (25 cm) in einer Zone. */
+/** Monatsmiete von Regalfront M (25 cm) in einer Zone. */
 const mBei = (zone: "basis" | "augenhoehe" | "greifhoehe") => eur(paketMiete(PAKETE.M.cm, zone) ?? 0);
 
 function slotPreis(id: string): { label: string; sub: string; highlight?: boolean } {
@@ -55,7 +55,7 @@ function slotPreis(id: string): { label: string; sub: string; highlight?: boolea
   if (slot.zone != null) {
     return {
       label: `ab ${eur(paketMiete(PAKETE.S.cm, slot.zone) ?? 0)}`,
-      sub: "Regalplatz S im Monat",
+      sub: "Regalfront S im Monat",
       highlight: slot.empfohlen,
     };
   }
@@ -138,7 +138,7 @@ export default function SlotFeatureTable() {
         <tfoot>
           <tr>
             <td colSpan={5} className="px-4 py-3 text-stone/40 text-xs font-mono border-t border-stone-dark">
-              Preise netto, bis 60 % Auslastung des Ladens. Regalplatz M ({PAKETE.M.cm} cm): Basis{" "}
+              Preise netto, bis 60 % Auslastung des Ladens. Regalfront M ({PAKETE.M.cm} cm): Basis{" "}
               {mBei("basis")}/Mo · Augenhöhe {mBei("augenhoehe")}/Mo · Greifhöhe garantiert{" "}
               {mBei("greifhoehe")}/Mo · Schaufenster {SCHAUFENSTER_MONAT} €/Mo pauschal. Nur für
               Unternehmer.

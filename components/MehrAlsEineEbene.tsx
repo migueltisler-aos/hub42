@@ -1,5 +1,5 @@
-/* Online buchbar ist ein Regalplatz bis zu einer Ebene (MAX_REGAL_CM).
-   Ab Regalplatz L steht dieser Hinweis unter der Eingabe, mit dem Link auf
+/* Online buchbar ist eine Regalfront bis zu einer Ebene (MAX_REGAL_CM).
+   Ab Regalfront L steht dieser Hinweis unter der Eingabe, mit dem Link auf
    den Termin oder Kontakt, den die jeweilige Seite schon hat. */
 
 import { MAX_REGAL_CM } from "@/lib/deck-economics";

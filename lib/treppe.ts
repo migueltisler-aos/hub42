@@ -34,7 +34,7 @@ export interface Stufe {
 
 /** Steckt in jeder Stufe. */
 export const ALLE_STUFEN: string[] = [
-  "Regalplatz mit Tagesticker",
+  "Regalfront mit Tagesticker",
   "Verkauf durch das Store-Team auf Kommission",
   "QR-Feedback am Regal",
   "Kategorie-Benchmark gegen den Hausdurchschnitt",
@@ -164,7 +164,7 @@ export const NUR_NEUPRODUKTE =
 /** Was beim Regal in jeder Stufe gilt, kurz. */
 export const REGAL_TEXT = `bis ${REGAL_INKLUSIVE_CM} cm inklusive`;
 
-/** Zentimeter über REGAL_INKLUSIVE_CM: Preis je cm aus Regalplatz L plus Zonenzuschlag, ohne Mindestbetrag. */
+/** Zentimeter über REGAL_INKLUSIVE_CM: Preis je cm aus Regalfront L plus Zonenzuschlag, ohne Mindestbetrag. */
 export const ZUSATZ_CM_TEXT = `Jeder weitere Zentimeter kostet ${PAKETE.L.preisJeCm.toLocaleString("de-DE", { minimumFractionDigits: 2 })} € im Monat, auf Augenhöhe ${ZONE_SURCHARGE_PCT.augenhoehe} % mehr, auf Greifhöhe ${ZONE_SURCHARGE_PCT.greifhoehe} % mehr, ohne Mindestbetrag.`;
 
 /** Preiszeile einer Stufe, überall gleich formuliert. */
