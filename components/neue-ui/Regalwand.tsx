@@ -224,7 +224,10 @@ export default function Regalwand() {
                               type="button"
                               ref={conf ? confRef : undefined}
                               className={
-                                "front" + (frei ? " front--free" : "") + (conf ? " front--conf" : "")
+                                "front" +
+                                (frei ? " front--free" : "") +
+                                (conf ? " front--conf" : "") +
+                                (cm <= MIN_CM ? " front--s" : "")
                               }
                               style={
                                 {
@@ -245,19 +248,13 @@ export default function Regalwand() {
                             >
                               <span className="front__body">
                                 {frei ? (
+                                  /* Breite und Preis stehen auf der freien Front; bei S
+                                     passt nur der Preis, die Breite steht im Aria-Label
+                                     und in der Karte. */
                                   <span className="front__free-lbl">
-                                    {conf ? (
-                                      <>
-                                        <b>Deine Front</b>
-                                        {cm} cm
-                                      </>
-                                    ) : (
-                                      <>
-                                        frei
-                                        <br />
-                                        {cm} cm
-                                      </>
-                                    )}
+                                    {conf ? <b>Deine Front</b> : <span>frei</span>}
+                                    <span className="front__preis">{preis(cm, zone)}</span>
+                                    {cm > MIN_CM && <span>{cm} cm</span>}
                                   </span>
                                 ) : (
                                   <img
@@ -309,26 +306,22 @@ export default function Regalwand() {
                             className={"tcard" + (frei && !conf ? " tcard--free" : "")}
                             style={{ "--cm": cm } as React.CSSProperties}
                           >
-                            <p className="tcard__b">{frei ? (conf ? "Deine Marke" : "frei") : f.marke}</p>
-                            <p className="tcard__m">
-                              {frei && !conf ? (
-                                /* Regalfront S ist zu schmal für Breite und Preis
-                                   nebeneinander; die Breite steht auf der Front. */
-                                cm > MIN_CM ? (
-                                  <>
-                                    <span>{cm} cm</span>
-                                    <span>{preis(cm, zone)}</span>
-                                  </>
-                                ) : (
-                                  <span style={{ whiteSpace: "nowrap" }}>{preis(cm, zone)}</span>
-                                )
-                              ) : (
-                                <>
-                                  <QrMarke />
-                                  <span style={{ whiteSpace: "nowrap" }}>{cm} cm</span>
-                                </>
-                              )}
+                            {/* Traverse-Karte: die Werbung der Marke, so breit wie
+                                ihre Front. Werbezeile nur aus den Mockup-Daten
+                                (Produkt), bei S zu schmal: dann Name und QR. */}
+                            <p
+                              className="tcard__b"
+                              title={frei ? undefined : f.marke}
+                              style={{ "--n": (frei ? (conf ? "Deine Marke" : "Deine Werbung") : f.marke).length } as React.CSSProperties}
+                            >
+                              {frei ? (conf ? "Deine Marke" : "Deine Werbung") : f.marke}
                             </p>
+                            {!frei && cm > MIN_CM && <p className="tcard__w">{f.produkt}</p>}
+                            {(!frei || conf) && (
+                              <p className="tcard__m">
+                                <QrMarke />
+                              </p>
+                            )}
                           </div>
                         );
                       })}
