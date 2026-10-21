@@ -26,8 +26,10 @@ import {
   PAKETE,
   REGAL_INKLUSIVE_CM,
   ZONE_SURCHARGE_PCT,
+  paketMiete,
 } from "@/lib/deck-economics";
 import { eur } from "@/lib/neue-ui/regal";
+import { nettoJeVerkauf, ustPct } from "@/lib/assistent-model";
 import { SHOW_BAFA, SHOW_PARTNER } from "@/lib/site-flags";
 import { BEISPIEL, STUFEN, ZUSATZ_CM_TEXT, eur0 } from "@/lib/treppe";
 
@@ -47,6 +49,14 @@ const THEKE = [
 
 /* Die drei Regalfronten des Standardregals, Preise auf Basishöhe. */
 const zahl = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 2 });
+/* Ab wie vielen Verkäufen sich eine Regalfront selbst bezahlt: Beispiel
+   8,90-€-Produkt (Lebensmittel), netto nach USt und Provision, wie im
+   Assistenten (nettoJeVerkauf), auf Basishöhe. Ergibt 8, 16 und 31. */
+const SCHWELLE_VK = 8.9;
+const SCHWELLE_NETTO = nettoJeVerkauf(SCHWELLE_VK, "Food");
+const schwelle = (miete: number | null) => Math.ceil((miete ?? 0) / SCHWELLE_NETTO);
+const SCHWELLE_ZUSATZ = `(Beispiel ${SCHWELLE_VK.toLocaleString("de-DE", { minimumFractionDigits: 2 })}\u2011€\u2011Produkt,\u00A0Annahme)`;
+
 const PAKET_KARTEN = [
   {
     name: "Regalfront S",
@@ -54,6 +64,7 @@ const PAKET_KARTEN = [
     preis: `${PAKETE.S.preis} €`,
     einheit: "im Monat",
     zeile: "Rund zwei Gläser nebeneinander.",
+    schwelle: `Ab ${schwelle(paketMiete(PAKETE.S.cm, "basis"))} Verkäufen im Monat bezahlt sich deine Regalfront selbst ${SCHWELLE_ZUSATZ}.`,
   },
   {
     name: "Regalfront M",
@@ -61,6 +72,7 @@ const PAKET_KARTEN = [
     preis: `${PAKETE.M.preis} €`,
     einheit: "im Monat",
     zeile: "Rund fünf Gläser nebeneinander.",
+    schwelle: `Ab ${schwelle(paketMiete(PAKETE.M.cm, "basis"))} Verkäufen im Monat bezahlt sich deine Regalfront selbst ${SCHWELLE_ZUSATZ}.`,
   },
   {
     name: "Regalfront L",
@@ -68,11 +80,12 @@ const PAKET_KARTEN = [
     preis: eur(PAKETE.L.preisJeCm),
     einheit: "je cm und Monat",
     zeile: `Bei ${PAKETE.L.abCm} cm sind das ${zahl(PAKETE.L.abCm * PAKETE.L.preisJeCm)} € im Monat.`,
+    schwelle: `Bei ${PAKETE.L.abCm} cm bezahlt sich deine Regalfront ab ${schwelle(paketMiete(PAKETE.L.abCm, "basis"))} Verkäufen im Monat selbst ${SCHWELLE_ZUSATZ}.`,
   },
 ];
 
 /* Abschnitt „Deine Verkaufsdaten“: was der Monatsbericht je Regalfront zeigt,
-   und ein Beispiel aus dem ersten Verkauf (PoC 17./18.10.2026, ohne Markennamen). */
+   und ein Muster des Monatsberichts, ohne Zahlen. */
 const DATENPUNKTE = [
   {
     t: "Stück und Umsatz je Front",
@@ -96,11 +109,34 @@ const DATENPUNKTE = [
   },
 ];
 
-const BERICHT_ZAHLEN = [
-  { v: "968,95 €", k: "Umsatz brutto, alle\u00A0Marken" },
-  { v: "96", k: "Artikel verkauft" },
-  { v: "8", k: "Marken mit Verkäufen" },
-  { v: "18,23 €", k: "Ø Kartenbon, 45\u00A0Bons" },
+/* Felder des Musters: Beschriftung und Mini-Erklärung, ohne Werte. Die
+   Balken daneben sind leere Platzhalter in fester Länge, keine Daten. */
+const BERICHT_FELDER = [
+  {
+    l: "Stück und Umsatz deiner Front",
+    d: "Wie viele Stück du im Monat verkauft hast und was sie an der Kasse gebracht haben.",
+    balken: [72, 54, 86, 40],
+  },
+  {
+    l: "Käufer nach Altersgruppe und\u00A0Geschlecht",
+    d: "In welchen Altersgruppen deine Käufer liegen und wie sich die Geschlechter verteilen.",
+    balken: [34, 62, 80, 46, 22],
+  },
+  {
+    l: "Gemeinsame Körbe",
+    d: "Welche anderen Marken mit deinem Produkt im selben Einkauf lagen, und wie oft.",
+    balken: [58, 44, 30],
+  },
+  {
+    l: "Bewertungen am Regal",
+    d: "Was Kunden über den QR-Code auf dem Preisschild zu deinem Produkt sagen.",
+    balken: [66, 50],
+  },
+  {
+    l: "Schnitt deiner Kategorie",
+    d: "Wie sich deine Kategorie im selben Monat im ganzen Laden verkauft hat, als Vergleich zu deinen Zahlen.",
+    balken: [70, 70],
+  },
 ];
 
 const FAKTEN = [
@@ -209,6 +245,10 @@ export default async function StartPage() {
             <p className="trust__txt">
               <strong>Hub42 gewinnt den Proof-of-Concept</strong> beim Entrepreneurship Summit 2026
               der Stiftung Entrepreneurship, Berlin.
+              <span className="trust__beleg">
+                Unser Pop-up beim Summit, zwei Verkaufstage am 17. und 18. Oktober 2026: 968,95 € Umsatz
+                brutto, 96 Artikel, 8 Marken mit Verkäufen, Ø Kartenbon 18,23&nbsp;€.
+              </span>
             </p>
           </div>
         </section>
@@ -257,10 +297,10 @@ export default async function StartPage() {
             <p className="eyebrow">Deine Verkaufsdaten</p>
             <h2 id="daten-h">Wer kauft dein Produkt, ohne nach dir zu suchen?</h2>
             <p className="lede" style={{ marginTop: 20, maxWidth: "58ch" }}>
-              Jeden Monat bekommst du aus unserer Ladenkasse, was deine Regalfront verkauft hat, wie
-              alt deine Käufer sind und was sonst in ihrem Korb lag. Das sind die Zahlen für das
-              Gespräch mit einem Einkäufer, für deinen Investor und für deine
-              nächste&nbsp;Preisentscheidung.
+              Ab März 2027 zählt unsere Ladenkasse im Alexa für dich mit: was deine Regalfront
+              verkauft, wie alt deine Käufer sind und was sonst in ihrem Korb liegt. Daraus bekommst
+              du jeden Monat deinen Bericht, für das Gespräch mit einem Einkäufer, für deinen Investor
+              und für deine nächste&nbsp;Preisentscheidung.
             </p>
 
             <div className="daten__grid">
@@ -277,32 +317,23 @@ export default async function StartPage() {
                 <figure className="bericht">
                   <figcaption className="bericht__kopf">
                     <span className="bericht__k">So sieht dein Bericht aus</span>
-                    <span className="bericht__kennz">
-                      Beispiel: Auswertung unseres ersten Verkaufs am 17. und 18. Oktober 2026, zwei
-                      Verkaufstage, vor der Eröffnung im Alexa.
-                    </span>
+                    <span className="bericht__kennz">Muster: So ist dein Monatsbericht aufgebaut.</span>
                   </figcaption>
-                  <dl className="bericht__zahlen">
-                    {BERICHT_ZAHLEN.map((z) => (
-                      <div key={z.k}>
-                        <dt className="bericht__l">{z.k}</dt>
-                        <dd className="bericht__v">{z.v}</dd>
+                  <dl className="muster">
+                    {BERICHT_FELDER.map((f) => (
+                      <div key={f.l} className="muster__feld">
+                        <dt className="bericht__l">{f.l}</dt>
+                        <dd className="muster__d">{f.d}</dd>
+                        <dd className="muster__balken" aria-hidden="true">
+                          {f.balken.map((b, i) => (
+                            <i key={i} style={{ width: `${b}%` }} />
+                          ))}
+                        </dd>
                       </div>
                     ))}
                   </dl>
-                  <p className="bericht__befund">
-                    Die Mitte kauft: 40- bis 59-Jährige stellen 52 % der Käufer, in Berlin sind es
-                    30 % der Einwohner ab&nbsp;15.
-                  </p>
-                  <p className="bericht__vorbehalt">
-                    Noch kein Urteil. Das sind zwei Verkaufstage und 27 Altersangaben, ein einzelner
-                    Käufer verschiebt einen Anteil um rund 4 Prozentpunkte.
-                  </p>
                 </figure>
-                <p className="priceblock__txt">
-                  Dein Bericht zeigt dieselben Zahlen für deine Marke, daneben den Durchschnitt deiner
-                  Kategorie. Den ersten vollständigen Monatsbericht bekommst du ab April 2027.
-                </p>
+                <p className="priceblock__txt">Den ersten vollständigen Monatsbericht bekommst du ab April 2027.</p>
               </div>
             </div>
 
@@ -348,9 +379,17 @@ export default async function StartPage() {
                     <p className="paket__preis">{p.preis}</p>
                     <p className="paket__einheit">{p.einheit}</p>
                     <p>{p.zeile}</p>
+                    <p className="paket__schwelle">{p.schwelle}</p>
                   </div>
                 ))}
               </div>
+
+              <p className="priceblock__txt">
+                So gerechnet: Ein Produkt für {eur(SCHWELLE_VK)} im Laden, Lebensmittel mit{" "}
+                {ustPct("Food")}&nbsp;% Umsatzsteuer. Nach Umsatzsteuer und {HUB_MARGIN_PCT}&nbsp;%
+                Provision bleiben dir je Verkauf {eur(SCHWELLE_NETTO)}, vor Wareneinsatz. Gerechnet auf
+                Basishöhe, keine Zusage.
+              </p>
 
               <p className="priceblock__txt">
                 Die Preise gelten auf Basishöhe, 50 bis 90 cm über dem Boden. Auf Augenhöhe kommen{" "}
