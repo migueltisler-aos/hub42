@@ -71,6 +71,38 @@ const PAKET_KARTEN = [
   },
 ];
 
+/* Abschnitt „Deine Verkaufsdaten“: was der Monatsbericht je Regalfront zeigt,
+   und ein Beispiel aus dem ersten Verkauf (PoC 17./18.10.2026, ohne Markennamen). */
+const DATENPUNKTE = [
+  {
+    t: "Stück und Umsatz je Front",
+    d: "Du siehst jeden Monat in Stück und Euro, ob deine Regalfront sich selbst bezahlt.",
+  },
+  {
+    t: "Alter und Geschlecht der Käufer",
+    d: "Du siehst, ob an der Kasse die Menschen stehen, für die du dein Produkt gemacht hast.",
+  },
+  {
+    t: "Gemeinsame Körbe",
+    d: "Du siehst, wie oft dein Produkt zusammen mit anderen Marken gekauft wird, ein Hinweis für Bundles und gemeinsame Aktionen.",
+  },
+  {
+    t: "QR-Feedback am Regal",
+    d: "Wer am Regal den Code scannt, bewertet dein Produkt, und du liest die Antworten neben deinen Verkäufen.",
+  },
+  {
+    t: "Vergleich mit dem Haus",
+    d: "Du siehst dich neben dem Durchschnitt deiner Kategorie im Laden und weißt, ob ein schwacher Monat an dir lag oder am ganzen Haus.",
+  },
+];
+
+const BERICHT_ZAHLEN = [
+  { v: "968,95 €", k: "Umsatz brutto, alle\u00A0Marken" },
+  { v: "96", k: "Artikel verkauft" },
+  { v: "8", k: "Marken mit Verkäufen" },
+  { v: "18,23 €", k: "Ø Kartenbon, 45\u00A0Bons" },
+];
+
 const FAKTEN = [
   { v: "rund 15 Mio.", k: "Besuche im Jahr im Alexa, Stand 2026" },
   { v: `ab ${PAKETE.S.preis} €`, k: "Regalfront im Monat, netto" },
@@ -93,6 +125,7 @@ export default async function StartPage() {
           </a>
           <nav className="top__nav" aria-label="Seitenbereiche">
             <a href="#regal">Regal</a>
+            <a href="#daten" className="top__nav-weit">Daten</a>
             <a href="#preise">Preise</a>
             <a href="#rundgang">Rundgang</a>
             <TreppeKnopf className="top__link">Treppe</TreppeKnopf>
@@ -122,7 +155,7 @@ export default async function StartPage() {
               </p>
               <h1>
                 Deinen Onlineshop findet nur, wer schon nach dir sucht.{" "}
-                <span className="hero__h1b">Am Alexanderplatz findest du deine ersten{" "}Fans.</span>
+                <span className="hero__h1b">Am Alexanderplatz finden dich alle{"\u00A0"}anderen.</span>
               </h1>
               <p className="hero__sub">
                 Ab März 2027 steht dein Produkt im Alexa, vor Menschen, die nie nach dir gesucht
@@ -217,6 +250,77 @@ export default async function StartPage() {
           </div>
         </section>
 
+        {/* ══ Deine Verkaufsdaten ═══════════════════════════════ */}
+        <section className="sect sect--rule" id="daten" data-sektion="daten" aria-labelledby="daten-h">
+          <div className="wrap">
+            <p className="eyebrow">Deine Verkaufsdaten</p>
+            <h2 id="daten-h">Wer kauft dein Produkt, ohne nach dir zu suchen?</h2>
+            <p className="lede" style={{ marginTop: 20, maxWidth: "58ch" }}>
+              Jeden Monat bekommst du aus unserer Ladenkasse, was deine Regalfront verkauft hat, wie
+              alt deine Käufer sind und was sonst in ihrem Korb lag. Das sind die Zahlen für das
+              Gespräch mit einem Einkäufer, für deinen Investor und für deine
+              nächste&nbsp;Preisentscheidung.
+            </p>
+
+            <div className="daten__grid">
+              <ul className="daten__punkte">
+                {DATENPUNKTE.map((d) => (
+                  <li key={d.t}>
+                    <b>{d.t}</b>
+                    <span>{d.d}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div>
+                <figure className="bericht">
+                  <figcaption className="bericht__kopf">
+                    <span className="bericht__k">So sieht dein Bericht aus</span>
+                    <span className="bericht__kennz">
+                      Beispiel: Auswertung unseres ersten Verkaufs am 17. und 18. Oktober 2026, zwei
+                      Verkaufstage, vor der Eröffnung im Alexa.
+                    </span>
+                  </figcaption>
+                  <dl className="bericht__zahlen">
+                    {BERICHT_ZAHLEN.map((z) => (
+                      <div key={z.k}>
+                        <dt className="bericht__l">{z.k}</dt>
+                        <dd className="bericht__v">{z.v}</dd>
+                      </div>
+                    ))}
+                  </dl>
+                  <p className="bericht__befund">
+                    Die Mitte kauft: 40- bis 59-Jährige stellen 52 % der Käufer, in Berlin sind es
+                    30 % der Einwohner ab&nbsp;15.
+                  </p>
+                  <p className="bericht__vorbehalt">
+                    Noch kein Urteil. Das sind zwei Verkaufstage und 27 Altersangaben, ein einzelner
+                    Käufer verschiebt einen Anteil um rund 4 Prozentpunkte.
+                  </p>
+                </figure>
+                <p className="priceblock__txt">
+                  Dein Bericht zeigt dieselben Zahlen für deine Marke, daneben den Durchschnitt deiner
+                  Kategorie. Den ersten vollständigen Monatsbericht bekommst du ab April 2027.
+                </p>
+              </div>
+            </div>
+
+            <p className="daten__einkaeufer">
+              Fragt dich ein Einkäufer, wer dein Produkt kauft, schlägst du den Bericht auf, statt zu
+              schätzen.
+            </p>
+            <div className="hero__cta" style={{ marginTop: 22 }}>
+              <a className="btn btn--solid" href="#bewerben">
+                Mit deinem Produkt bewerben
+              </a>
+            </div>
+            <p className="fineprint">
+              Alter und Geschlecht werden an der Kasse erfasst, bei Kartenzahlung und nicht bei jedem
+              Bon. Im Bericht stehen nur Summen: Du siehst Altersgruppen, keine Namen.
+            </p>
+          </div>
+        </section>
+
         {/* ══ Preise ════════════════════════════════════════════ */}
         <section className="sect sect--rule" id="preise" data-sektion="preise">
           <div className="wrap">
@@ -263,8 +367,8 @@ export default async function StartPage() {
               <p className="priceblock__k">Mehr als ein Regal</p>
               <h3>Du willst wissen, wer kauft und warum?</h3>
               <p className="priceblock__txt">
-                Die Treppe: fünf Stufen mit Auswertung, Interviews am Regal und Bericht, ab{" "}
-                {eur0(STUFEN[0].preis)} für drei Monate. Für Marken, die mehr wollen als den
+                Die Treppe: vier Stufen mit Auswertung, Interviews am Regal und Bericht, ab{" "}
+                {eur0(STUFEN[0].preis)} netto für drei Monate. Für Marken, die mehr wollen als den
                 Abverkauf.
               </p>
               <TreppeKnopf>Die Treppe ansehen →</TreppeKnopf>
@@ -446,7 +550,7 @@ export default async function StartPage() {
 
         {/* ══ Die Treppe als Seitenleiste ═════════════════════ */}
         <TreppeMenue>
-          <p className="eyebrow">Fünf Stufen · vom ersten Test bis zum Portfolio</p>
+          <p className="eyebrow">Vier Stufen · vom ersten Beweis bis zum Portfolio</p>
           <h2>Eine Treppe. Du entscheidest, wo du einsteigst.</h2>
           <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
             Jede Marke kann jede Stufe buchen. Wir empfehlen dir einen Einstieg, ausgeschlossen ist
@@ -459,7 +563,7 @@ export default async function StartPage() {
           {/* A: Die Treppe */}
           <div className="priceblock">
             <p className="priceblock__k">A · Die Treppe</p>
-            <h3>Fünf Stufen mit Festpreis.</h3>
+            <h3>Vier Stufen mit Festpreis.</h3>
             <StufenTabelle />
             <p className="fineprint">
               Alle Festpreise netto zzgl. USt., nur für Unternehmer. * In jeder Stufe sind{" "}
