@@ -97,7 +97,7 @@ export const STUFEN: Stufe[] = [
     key: "focus",
     nr: 3,
     name: "Decision Focus",
-    frage: "Welcher Preis, welche Zielgruppe?",
+    frage: "Welcher Preis, welche\u00A0Zielgruppe?",
     dauer: "12 Wochen",
     monate: null,
     preis: STUFE_PREIS.focus,

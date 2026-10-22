@@ -129,7 +129,7 @@ export const COMPARISON_ROWS: ComparisonRow[] = [
     rewe: "Rücknahmekosten",
     hub42: "Konsignation",
     hub42Highlight: true,
-    note: "Du bleibst Eigentümer, kein Abnahmezwang.",
+    note: "Du bleibst Eigentümer, kein\u00A0Abnahmezwang.",
   },
   {
     label: "Try It / Tasting",

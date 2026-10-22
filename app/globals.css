@@ -370,3 +370,20 @@ input[type="range"].fb-range[data-leer]::-moz-range-thumb {
   background: var(--color-ff-turquoise);
   border-color: var(--color-ff-turquoise);
 }
+
+/* Kein Wort allein in einer Zeile (/hersteller): Überschriften ausbalanciert,
+   Fließtext ohne Einzelwort am Absatzende. */
+.textfluss h1,
+.textfluss h2,
+.textfluss h3 {
+  text-wrap: balance;
+}
+.textfluss p,
+.textfluss li,
+.textfluss dd {
+  text-wrap: pretty;
+}
+/* Lange Wörter in schmalen Karten (z. B. Zahlungsabwicklung) trennen statt allein stehen lassen */
+.textfluss p {
+  hyphens: auto;
+}
