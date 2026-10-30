@@ -55,6 +55,9 @@ Outbound-Logik aus dem Skill `revops`, auf das Testkaufhaus übersetzt. Die Spal
 | Partner | Immobilieneigentümer, Institutionen | Store-Konzept und Betrieb | Miguel |
 | ohne | – | – | Miguel |
 
+Miguel und Oliver sind Founder: Sie sehen alles und bekommen keine eigene Zuteilung über das Routing.
+Was Oliver betreut, setzt die Hand.
+
 **Outreach schiebt die Stufe** (Trigger `crm_stufe_aus_outreach` auf `outreach_status`):
 gesendet → In Sequenz, Antwort im Gmail-Webhook → Antwort, Bounce → Gesperrt.
 Einordnen (Interesse oder Verloren) bleibt Handarbeit.
@@ -97,7 +100,6 @@ Dazu ⌘K für Suche und Schnellaktionen (Notiz, Aufgabe, Stufe).
 
 ## Offene Fragen
 
-- Welche Rolle hat Oliver?
 - Segment Partner: eigene Projekt-Vorlage (Konzept, Fläche, Ausbau, Eröffnung, Betrieb) statt der Regal-Meilensteine.
 - Gehören Bewerbungen (`bewerbungen`) als Einstieg in die Stufe „Antwort“ oder „Interesse“?
 - Der Webhook erkennt Antworten nur vom Absender `pipeline_brands.email`. Antwortet jemand anderes aus der Marke, fehlt der Treffer; später gegen `crm_kontakte` abgleichen.
