@@ -9,25 +9,21 @@ import { BRANDS, KATEGORIEN } from "@/lib/brands";
 const BLIND_BOXES = [
   {
     name: "Entdeckerbox S",
-    preis: "25 €",
     kategorie: "Überraschung",
     beschreibung: "3 kuratierte Produkte. Nur die Kategorie bekannt.",
   },
   {
     name: "Entdeckerbox M",
-    preis: "39 €",
     kategorie: "Überraschung",
     beschreibung: "5 Produkte. Thematisch kuratiert. Nichts aus dem Supermarkt.",
   },
   {
     name: "Berliner Box",
-    preis: "45 €",
     kategorie: "Berlin Special",
     beschreibung: "Ausschließlich Berliner Marken. Stadtgefühl inklusive.",
   },
   {
     name: "Saisonbox",
-    preis: "49 €",
     kategorie: "Saisonal",
     beschreibung: "Wechselnde Zusammenstellung. Sommer, Winter, Feiertage.",
   },
