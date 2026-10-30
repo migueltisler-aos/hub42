@@ -24,7 +24,7 @@ begin
   if not exists (select 1 from pg_constraint where conname = 'pipeline_brands_segment_chk') then
     alter table pipeline_brands
       add constraint pipeline_brands_segment_chk
-      check (segment is null or segment in ('Startup', 'Enterprise'));
+      check (segment is null or segment in ('Startup', 'Enterprise', 'Partner'));
   end if;
   if not exists (select 1 from pg_constraint where conname = 'pipeline_brands_verlust_grund_chk') then
     alter table pipeline_brands
@@ -90,6 +90,55 @@ drop trigger if exists pipeline_brands_stufe_seit on pipeline_brands;
 create trigger pipeline_brands_stufe_seit
   before update of stufe on pipeline_brands
   for each row execute function crm_stufe_seit();
+
+-- Outreach schiebt die Stufe: gesendet → In Sequenz, Antwort → Antwort,
+-- Bounce → Gesperrt. outreach_status setzen send-step und der Gmail-Webhook.
+create or replace function crm_stufe_aus_outreach()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if new.outreach_status is not distinct from old.outreach_status then
+    return new;
+  end if;
+  if new.outreach_status = 'contacted' and new.stufe = 'Recherche' then
+    new.stufe = 'In Sequenz';
+  elsif new.outreach_status = 'replied' and new.stufe in ('Recherche', 'In Sequenz') then
+    new.stufe = 'Antwort';
+  elsif new.outreach_status = 'bounced' and new.stufe in ('Recherche', 'In Sequenz') then
+    new.stufe = 'Gesperrt';
+  end if;
+  return new;
+end $$;
+
+drop trigger if exists pipeline_brands_stufe_aus_outreach on pipeline_brands;
+create trigger pipeline_brands_stufe_aus_outreach
+  before update of outreach_status on pipeline_brands
+  for each row execute function crm_stufe_aus_outreach();
+
+-- Routing: ohne Besitzer entscheidet das Segment.
+-- Startup → Ralf, Enterprise → Anke (BIFI), Partner und ohne Segment → Miguel.
+create or replace function crm_routing()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if coalesce(btrim(new.zugewiesen), '') = '' then
+    new.zugewiesen = case new.segment
+      when 'Startup'    then 'Ralf'
+      when 'Enterprise' then 'Anke'
+      else 'Miguel'
+    end;
+  end if;
+  return new;
+end $$;
+
+drop trigger if exists pipeline_brands_routing on pipeline_brands;
+create trigger pipeline_brands_routing
+  before insert or update of segment, zugewiesen on pipeline_brands
+  for each row execute function crm_routing();
 
 create index if not exists pipeline_brands_stufe_idx   on pipeline_brands (stufe);
 create index if not exists pipeline_brands_segment_idx on pipeline_brands (segment);

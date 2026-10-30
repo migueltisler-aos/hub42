@@ -46,8 +46,18 @@ Outbound-Logik aus dem Skill `revops`, auf das Testkaufhaus übersetzt. Die Spal
 - Angebot ohne Aktivität seit 14 Tagen → „stockt“.
 - Jede Stufe außer Kunde, Später, Verloren, Gesperrt ohne offene Aufgabe → „hängt“.
 
-**Routing:** Startup → Ralf, Enterprise → Miguel (bzw. BIFI). Ohne Segment → Miguel als Fallback.
-Offen: stimmt das so, und wo steht Oliver?
+**Segmente und Routing** (Trigger `crm_routing`, greift nur ohne Besitzer):
+
+| Segment | Wer | Was | Besitzer |
+| --- | --- | --- | --- |
+| Startup | D2C-Marken | Regalplatz im Testkaufhaus | Ralf |
+| Enterprise | größere Hersteller | Marktforschung mit BIFI (Feedback Factory) | Anke (BIFI), im selben Tool |
+| Partner | Immobilieneigentümer, Institutionen | Store-Konzept und Betrieb | Miguel |
+| ohne | – | – | Miguel |
+
+**Outreach schiebt die Stufe** (Trigger `crm_stufe_aus_outreach` auf `outreach_status`):
+gesendet → In Sequenz, Antwort im Gmail-Webhook → Antwort, Bounce → Gesperrt.
+Einordnen (Interesse oder Verloren) bleibt Handarbeit.
 
 ## Projekt nach dem Ja
 
@@ -87,7 +97,10 @@ Dazu ⌘K für Suche und Schnellaktionen (Notiz, Aufgabe, Stufe).
 
 ## Offene Fragen
 
-- Routing: Wer betreut welches Segment, und welche Rolle hat Oliver?
-- Läuft BIFI-Enterprise-Vertrieb im selben Tool oder getrennt?
+- Welche Rolle hat Oliver?
+- Segment Partner: eigene Projekt-Vorlage (Konzept, Fläche, Ausbau, Eröffnung, Betrieb) statt der Regal-Meilensteine.
 - Gehören Bewerbungen (`bewerbungen`) als Einstieg in die Stufe „Antwort“ oder „Interesse“?
-- Sollen Gmail-Antworten (`gmail-watch`) die Stufe automatisch auf „Antwort“ setzen? Vorschlag: ja, Einordnung bleibt Handarbeit.
+- Der Webhook erkennt Antworten nur vom Absender `pipeline_brands.email`. Antwortet jemand anderes aus der Marke, fehlt der Treffer; später gegen `crm_kontakte` abgleichen.
+- `outreach_status` und `email_events` haben keine Migrationsdatei im Repo: vor dem Run Spalten in der DB prüfen.
+
+Entschieden 30.10.2026: Anke (BIFI) arbeitet im selben Tool, Gmail-Antworten setzen die Stufe automatisch.
