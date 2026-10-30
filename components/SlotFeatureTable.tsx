@@ -2,8 +2,6 @@
 
 import { motion } from "framer-motion";
 import { SLOTS } from "@/lib/slots";
-import { PAKETE, SCHAUFENSTER_MONAT, paketMiete } from "@/lib/deck-economics";
-import { eur } from "@/lib/neue-ui/regal";
 
 type CellValue = true | false | string;
 
@@ -46,26 +44,6 @@ const FEATURES: FeatureRow[] = [
   },
 ];
 
-/** Monatsmiete von Regalfront M (25 cm) in einer Zone. */
-const mBei = (zone: "basis" | "augenhoehe" | "greifhoehe") => eur(paketMiete(PAKETE.M.cm, zone) ?? 0);
-
-function slotPreis(id: string): { label: string; sub: string; highlight?: boolean } {
-  const slot = SLOTS.find((s) => s.id === id);
-  if (!slot) return { label: "—", sub: "" };
-  if (slot.zone != null) {
-    return {
-      label: `ab ${eur(paketMiete(PAKETE.S.cm, slot.zone) ?? 0)}`,
-      sub: "Regalfront S im Monat",
-      highlight: slot.empfohlen,
-    };
-  }
-  return {
-    label: `${slot.kostenMonat} €/Mo`,
-    sub: "Fixpreis",
-    highlight: false,
-  };
-}
-
 const TIERS = [
   { key: "basis",        slotId: "basis",        label: "Basis" },
   { key: "augenhoehe",   slotId: "augenhoehe",   label: "Augenhöhe" },
@@ -100,25 +78,18 @@ export default function SlotFeatureTable() {
             <th className="text-left p-4 text-stone font-mono text-xs tracking-widest uppercase border-b border-stone-dark min-w-[180px]">
               Feature
             </th>
-            {TIERS.map((t) => {
-              const p = slotPreis(t.slotId);
-              return (
-                <th
-                  key={t.key}
-                  className={`text-center p-4 font-mono text-xs tracking-widest uppercase border-b min-w-[110px] ${
-                    p.highlight
-                      ? "text-bronze border-bronze/40"
-                      : "text-stone border-stone-dark"
-                  }`}
-                >
-                  <span className="block">{t.label}</span>
-                  <span className={`block text-sm font-semibold mt-0.5 ${p.highlight ? "text-bronze" : "text-cream"}`}>
-                    {p.label}
-                  </span>
-                  <span className="block text-[10px] font-normal text-stone/50 mt-0.5">{p.sub}</span>
-                </th>
-              );
-            })}
+            {/* Seit 2026-10-30 ohne Preise im Kopf; hervorgehoben bleibt die
+                empfohlene Position (Greifhöhe garantiert). */}
+            {TIERS.map((t) => (
+              <th
+                key={t.key}
+                className={`text-center p-4 font-mono text-xs tracking-widest uppercase border-b min-w-[110px] ${
+                  SLOTS.find((sl) => sl.id === t.slotId)?.empfohlen ? "text-bronze border-bronze/40" : "text-stone border-stone-dark"
+                }`}
+              >
+                {t.label}
+              </th>
+            ))}
           </tr>
         </thead>
         <tbody>
@@ -135,16 +106,6 @@ export default function SlotFeatureTable() {
             </tr>
           ))}
         </tbody>
-        <tfoot>
-          <tr>
-            <td colSpan={5} className="px-4 py-3 text-stone/40 text-xs font-mono border-t border-stone-dark">
-              Preise netto, bis 60 % Auslastung des Ladens. Regalfront M ({PAKETE.M.cm} cm): Basis{" "}
-              {mBei("basis")}/Mo · Augenhöhe {mBei("augenhoehe")}/Mo · Greifhöhe garantiert{" "}
-              {mBei("greifhoehe")}/Mo · Schaufenster {SCHAUFENSTER_MONAT} €/Mo pauschal. Nur für
-              Unternehmer.
-            </td>
-          </tr>
-        </tfoot>
       </table>
     </motion.div>
   );
