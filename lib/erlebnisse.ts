@@ -26,7 +26,6 @@ export const ERLEBNISSE: Erlebnis[] = [
     kurzBeschreibung: "Versiegelt. Überraschend. Unwiderstehlich.",
     vollBeschreibung:
       "Nur die Kategorie ist bekannt – was drin ist erfährst du zuhause. Entdeckerbox S · M · Berliner Box · Saisonbox.",
-    kosten: "25–49 €",
     highlight: "Nur Kategorie bekannt – alles andere Überraschung.",
   },
   {

@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 const UGC = [
   { icon: "📸", titel: "Packtisch Foto-Spot", beschreibung: "Für den perfekten Unboxing-Moment." },
   { icon: "🏷️", titel: '"Entdeckt bei Hub42" Sticker', beschreibung: "Auf jede Tüte." },
-  { icon: "💛", titel: "5 € Rabatt", beschreibung: "Für Posts mit @hub42berlin und @alexaberlin." },
+  { icon: "💛", titel: "Rabatt fürs Posten", beschreibung: "Für Posts mit @hub42berlin und @alexaberlin." },
   { icon: "🗳️", titel: "Marke des Monats Voting", beschreibung: "Die Community entscheidet." },
 ];
 
