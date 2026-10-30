@@ -1,9 +1,10 @@
 ﻿"use client";
 
 import { motion } from "framer-motion";
-import { COMPARISON_ROWS } from "@/lib/slots";
+import { COMPARISON_ROWS, type ComparisonRow } from "@/lib/slots";
 
-export default function ComparisonTable() {
+/** zeilen: optional eine Auswahl, z. B. ohne Preiszeilen auf /hersteller. */
+export default function ComparisonTable({ zeilen = COMPARISON_ROWS }: { zeilen?: ComparisonRow[] }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 24 }}
@@ -30,7 +31,7 @@ export default function ComparisonTable() {
           </tr>
         </thead>
         <tbody>
-          {COMPARISON_ROWS.map((row, i) => (
+          {zeilen.map((row, i) => (
             <tr
               key={row.label}
               className={`border-b border-stone-dark/50 ${i % 2 === 0 ? "" : "bg-green-mid/40"}`}
