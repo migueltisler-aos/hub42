@@ -194,17 +194,66 @@ export default async function StartPage() {
           ))}
         </div>
 
-        {/* ══ Problem: Sichtbarkeit ════════════════════════════ */}
-        <section className="sect sect--tight" data-sektion="problem" aria-labelledby="problem-h">
-          <div className="wrap">
-            <p className="eyebrow">Shop, Messe, Einkauf</p>
-            <h2 id="problem-h">Sichtbarkeit ist so teuer geworden.</h2>
-            <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
-              Online zahlst du für Anzeigen, damit überhaupt jemand deinen Shop öffnet, oder du gehst
-              auf eine Messe. Drei Tage lang probieren Menschen dein Produkt. Am vierten ist der Stand
-              abgebaut. Und fragt dein Einkäufer beim Neuprodukt, wer es kauft und ob es läuft, hast
-              du Hoffnung statt Zahlen.
-            </p>
+        {/* ══ Warum? Was? Wie? ══════════════════════════════════
+            Text des Teams, abgenommen 2026-10-30 (copy-v1, Block „Startseite“),
+            wortgleich. Ersetzt „Sichtbarkeit ist so teuer geworden“; der Schlüssel
+            data-sektion="problem" bleibt, damit die Lesetiefe vergleichbar bleibt. */}
+        <section className="sect sect--tight" data-sektion="problem">
+          <div className="wrap warum">
+            <div className="warum__col">
+              <h2 id="warum-h">Warum?</h2>
+              <p className="lede warum__lede">
+                Unsere Motivation: Sichtbarkeit und Kaufbarkeit im Laden für Marken, die online
+                schwer neue Käufer erreichen. Kaufbarkeit heißt, dass die Kundschaft ein Produkt
+                leicht, reibungslos und immer wieder kaufen kann.
+              </p>
+              <div className="warum__text">
+                <p>
+                  Unabhängige Marken und Direct-to-Consumer-Hersteller (D2C) stehen zwischen zwei
+                  Systemen, die beide gegen sie arbeiten.
+                </p>
+                <p>
+                  Im klassischen Handel entscheiden hohe Listungsgebühren und Handelsmargen,
+                  Mindestmengen und die Verhandlungsmacht großer Konzerne darüber, was ins Regal
+                  kommt. Dort landet nicht das bessere Produkt, sondern das mit dem größeren Budget.
+                </p>
+                <p>
+                  Online war lange der Ausweg. Inzwischen ist der Kanal teuer und schwer planbar:
+                  Steigende Akquisekosten (CAC) bei Meta, Google und Amazon und dazu die Retouren
+                  fressen die Marge auf. Aus dem Margendruck des Handels wurde ein Werbedruck im Netz.
+                </p>
+                <p className="warum__ziel">
+                  Wir wollen unabhängigen Marken aus dem Netz schnell eine echte Bühne im Laden geben,
+                  in hochfrequentierten Lagen wie dem Alexa am Alexanderplatz. Flexibel und ohne die
+                  harten Konditionen des klassischen Handels.
+                </p>
+              </div>
+            </div>
+
+            <div className="warum__col warum__col--was">
+              <h2 id="was-h">Was? Wie?</h2>
+              <h3 className="warum__h3">
+                Hub42: Stationäre Retail-Infrastruktur und Schaufenster für unabhängige Hersteller
+              </h3>
+              <div className="warum__text">
+                <p>
+                  Wir entwickeln, bauen und betreiben neue Ladengeschäfte. Als Betreiber oder
+                  Umsetzungspartner übernehmen wir Planung, Einrichtung, Sortiment und Organisation
+                  stationärer Handelsformate. Dabei verbinden wir Verkauf, Markenerlebnis und das
+                  Ausprobieren neuer Produkte.
+                </p>
+                <p>
+                  Mit dem Berliner Institut für Innovationsforschung (BIFI) bringen wir stationären
+                  Handel und wissenschaftliche Marktforschung in einem gemeinsamen Konzept zusammen.
+                  Das BIFI verantwortet die wissenschaftliche Leitung, die Methodik und den Bericht.
+                  Erprobt ist die Methodik im Pilot 2018 des BIFI. Das erste gemeinsame Format ist das
+                  Testkaufhaus im Alexa Berlin, Eröffnung am 28.03.2027 (
+                  <TestkaufhausLink className="tk-link" />
+                  ). Diese Verbindung aus echtem Laden und wissenschaftlicher Begleitung bietet weder
+                  ein reiner Onlineshop noch ein Pop-up-Store.
+                </p>
+              </div>
+            </div>
           </div>
         </section>
 
