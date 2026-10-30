@@ -8,7 +8,6 @@
    sowohl die Zentimeter-Geometrie als auch das Blending brechen. */
 
 import { HERO, GAP_CM } from "@/lib/neue-ui/regal";
-import { PAKETE } from "@/lib/deck-economics";
 
 export default function Massband() {
   const warenCm = HERO.reduce((s, p) => s + p.cm, 0);
@@ -71,7 +70,7 @@ export default function Massband() {
         </div>
 
         <p className="lineup__sum">
-          {warenCm} cm Ware · {HERO.length} Marken · Regalfront ab {PAKETE.S.preis} € im Monat
+          {warenCm} cm Ware · {HERO.length} Marken
         </p>
       </div>
     </div>
