@@ -2,9 +2,11 @@
 
 import { motion } from "framer-motion";
 
+/* Seit 2026-10-30 ohne Preis: Kundenpreise stehen nicht mehr auf tryhub42.de.
+   preis bleibt optional, falls eine Box ihn wieder zeigen soll. */
 interface BlindBoxCardProps {
   name: string;
-  preis: string;
+  preis?: string;
   kategorie: string;
   beschreibung: string;
   index?: number;
@@ -53,8 +55,8 @@ export default function BlindBoxCard({
         >
           {name}
         </h3>
-        <p className="text-stone text-sm mb-3">{beschreibung}</p>
-        <p className="text-bronze font-mono font-bold">{preis}</p>
+        <p className="text-stone text-sm">{beschreibung}</p>
+        {preis && <p className="text-bronze font-mono font-bold mt-3">{preis}</p>}
       </div>
     </motion.div>
   );
