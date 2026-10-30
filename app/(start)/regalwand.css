@@ -1243,6 +1243,10 @@
     text-decoration-thickness: 1px; text-underline-offset: 0.18em;
   }
   .tk-link:hover { text-decoration-thickness: 2px; }
+  /* Knöpfe zu testkaufhaus.de: Primärknopf der Seite (.btn--solid, Stahl auf
+     Beton), unter dem BIFI-Absatz und im Block „Drei Breiten zur Wahl“. */
+  .warum__cta { margin-top: 6px; }
+  .priceblock__btn { margin-top: 18px; }
   .dark .tk-link { color: var(--bulb-lite); text-decoration-color: currentColor; }
   .dark .tk-link:hover { color: #F7F5EE; }
   .rate__note { font-family: var(--f-mono); font-size: 0.719rem; color: var(--ink-mid); margin-top: 12px; }

@@ -16,6 +16,7 @@ import Treppe from "@/components/neue-ui/Treppe";
 import TreppeMenue, { TreppeKnopf } from "@/components/neue-ui/TreppeMenue";
 import TerminKalender from "@/components/neue-ui/TerminKalender";
 import PreiseAufTestkaufhaus, { TestkaufhausLink } from "@/components/TestkaufhausLink";
+import { PREISE_SATZ } from "@/lib/testkaufhaus";
 import { onboardingsFrei } from "@/lib/bewerbung";
 import { ONBOARDINGS_PRO_WOCHE } from "@/lib/bewerbung-model";
 import { BAFA_ZUSCHUSS_PCT } from "@/lib/beratung";
@@ -253,6 +254,11 @@ export default async function StartPage() {
                   ein reiner Onlineshop noch ein Pop-up-Store.
                 </p>
               </div>
+              <div className="warum__cta">
+                <TestkaufhausLink className="btn btn--solid" ort="start-was-wie">
+                  Zum Testkaufhaus <span aria-hidden="true">→</span>
+                </TestkaufhausLink>
+              </div>
             </div>
           </div>
         </section>
@@ -403,9 +409,10 @@ export default async function StartPage() {
 
             <div className="priceblock">
               <p className="priceblock__k">Was es kostet</p>
-              <h3>
-                <PreiseAufTestkaufhaus linkClassName="tk-link" />
-              </h3>
+              <h3>{PREISE_SATZ}</h3>
+              <TestkaufhausLink className="btn btn--solid priceblock__btn" ort="start-preise">
+                Preise auf testkaufhaus.de <span aria-hidden="true">→</span>
+              </TestkaufhausLink>
             </div>
 
             {/* Die Treppe klappt als Seitenleiste auf (TreppeMenue) */}
