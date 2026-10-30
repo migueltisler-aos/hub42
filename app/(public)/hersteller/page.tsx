@@ -14,31 +14,27 @@ import {
   BERATUNG_THEMEN,
   eigenanteil,
 } from "@/lib/beratung";
-import {
-  HUB_MARGIN_PCT,
-  PAKETE,
-  REGAL_INKLUSIVE_CM,
-  RATES,
-  STUFE_PREIS,
-  TRANCHE_SURCHARGE_PCT,
-  ZONE_SURCHARGE_PCT,
-} from "@/lib/deck-economics";
-import { eur } from "@/lib/neue-ui/regal";
+import { PAKETE, REGAL_INKLUSIVE_CM } from "@/lib/deck-economics";
+import { COMPARISON_ROWS } from "@/lib/slots";
 import { SHOW_BAFA } from "@/lib/site-flags";
-import {
-  ALLE_STUFEN,
-  NACH_JEDER_STUFE,
-  NUR_NEUPRODUKTE,
-  STUFEN,
-  ZUSATZ_CM_TEXT,
-  eur0,
-  preisText,
-} from "@/lib/treppe";
+import { ALLE_STUFEN, NACH_JEDER_STUFE, NUR_NEUPRODUKTE, STUFEN, eur0 } from "@/lib/treppe";
+import PreiseAufTestkaufhaus from "@/components/TestkaufhausLink";
+
+/* Preise und Pakete stehen seit 2026-10-30 nur auf testkaufhaus.de. Der
+   Verweis steht dort, wo vorher die Preise den Weg erklärt haben. */
+const LINK = "text-bronze-light underline underline-offset-4 hover:text-bronze-warm";
+
+/* Direktvergleich ohne die beiden Preiszeilen („Was du abgibst“ mit der
+   Provision, „Einstiegskosten“ mit Euro-Beträgen). Die Daten in lib/slots
+   bleiben unverändert. */
+const VERGLEICH_OHNE_PREISE = COMPARISON_ROWS.filter(
+  (r) => r.label !== "Was du abgibst" && r.label !== "Einstiegskosten",
+);
 
 export const metadata: Metadata = {
   title: "Für Hersteller: vom ersten Regal bis zur Listung",
   description:
-    "Hub42 ist der Laden für Neuheiten im Alexa Berlin. Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf, keine Listungsgebühr. Dazu vier Stufen bis zur Listung, jede einzeln buchbar.",
+    "Hub42 ist der Laden für Neuheiten im Alexa Berlin. Regalfront ab 13 cm, keine Listungsgebühr. Dazu vier Stufen bis zur Listung, jede einzeln buchbar.",
 };
 
 const SCHRITTE = [
@@ -65,7 +61,7 @@ const SCHRITTE = [
   {
     nr: "05",
     titel: "Daten & Erlös",
-    beschreibung: "Du behältst den Erlös minus Miete und 7 % Vermittlungsprovision pro verkauftem Artikel, Zahlungsabwicklung inklusive. Nach der Stufe: Standardregal oder eine Stufe höher.",
+    beschreibung: "Monatliche Abrechnung aller Verkäufe und dein Verkaufsbericht. Nach der Stufe: Standardregal oder eine Stufe höher.",
   },
 ];
 
@@ -93,11 +89,16 @@ const FAQ = [
   },
   {
     frage: "Welche Stufe passt zu mir?",
-    antwort: `Junge Startups starten mit der Regalfront S: ${PAKETE.S.cm} cm für ${PAKETE.S.preis} € netto im Monat. In die Treppe kommst du, wenn deine ersten Monatsberichte da sind. Online-Marken steigen meist mit Stufe 1 Beweisen ein. Etablierte Hersteller mit Neuprodukten beginnen meist bei Stufe 2 und gehen bis Stufe 4, wenn es um die Listung im Einkauf geht.`,
+    antwort: `Junge Startups starten mit der Regalfront S mit ${PAKETE.S.cm} cm. In die Treppe kommst du, wenn deine ersten Monatsberichte da sind. Online-Marken steigen meist mit Stufe 1 Beweisen ein. Etablierte Hersteller mit Neuprodukten beginnen meist bei Stufe 2 und gehen bis Stufe 4, wenn es um die Listung im Einkauf geht.`,
   },
   {
     frage: "Wie viel Regal steckt in einer Stufe?",
-    antwort: `In jeder Stufe ${REGAL_INKLUSIVE_CM} cm, im Festpreis enthalten. ${ZUSATZ_CM_TEXT}`,
+    antwort: (
+      <>
+        In jeder Stufe {REGAL_INKLUSIVE_CM} cm Regalfront, breiter geht auch.{" "}
+        <PreiseAufTestkaufhaus linkClassName={LINK} />
+      </>
+    ),
   },
   {
     frage: "Ich bin ein etablierter Hersteller. Darf ich mitmachen?",
@@ -107,15 +108,6 @@ const FAQ = [
     frage: "Was ist Konsignation?",
     antwort:
       "Du lieferst deine Ware an Hub42, bleibst aber rechtlich Eigentümer bis zum Verkauf. Du trägst kein Lagerrisiko im klassischen Sinne, die Ware ist immer noch deins.",
-  },
-  {
-    frage: "Was ist die Vermittlungsprovision?",
-    antwort:
-      "7 % auf deinen Bruttoverkaufspreis, in jeder Stufe und im Standardregal. Zahlungsabwicklungskosten sind darin bereits enthalten, wir reichen sie nicht separat durch. Kein versteckter Aufschlag, keine Handelsmarge, nur diese eine, transparente Provision.",
-  },
-  {
-    frage: "Steigt der Preis, wenn der Laden voll wird?",
-    antwort: `Ja, mit der Auslastung des Ladens, nicht mit dem Kalender. Bis 60 % gelten die Preise oben: Regalfront S ${PAKETE.S.preis} €, M ${PAKETE.M.preis} €, L ${eur(PAKETE.L.preisJeCm)} je cm, jeweils im Monat und netto. Ab 60 % kommen ${TRANCHE_SURCHARGE_PCT.aufbau} % dazu, ab 85 % ${TRANCHE_SURCHARGE_PCT.warteliste} %. Wer vorher bucht, behält seinen Preis 12 Monate lang, vertraglich. Unabhängig davon zahlst du auf Augenhöhe ${ZONE_SURCHARGE_PCT.augenhoehe} % mehr, auf garantierter Greifhöhe ${ZONE_SURCHARGE_PCT.greifhoehe} %.`,
   },
   {
     frage: "Wie funktioniert die Abrechnung?",
@@ -130,7 +122,7 @@ const FAQ = [
   {
     frage: "Kann ich meinen Preis selbst festlegen?",
     antwort:
-      "Ja. Vollständige Preishoheit. Du setzt deine eigene UVP, wir nehmen nur 7 % Vermittlungsprovision beim Verkauf, plus Miete bzw. Festpreis der Stufe. Keine Handelsmarge im klassischen Sinn, keine Listungsgebühr.",
+      "Ja. Vollständige Preishoheit. Du setzt deine eigene UVP. Keine Handelsmarge im klassischen Sinn, keine Listungsgebühr.",
   },
   {
     frage: "Was ist die Mindestlaufzeit?",
@@ -185,15 +177,15 @@ export default function HerstellerPage() {
             mit Tagesticker für eine feste Zeit im Regal. Du startest mit einer Regalfront oder auf
             der Stufe, die zu dir passt, und bleibst danach im Standardregal.
           </p>
-          <p className="text-bronze text-sm font-mono mb-8">
-            Regalfront ab {PAKETE.S.preis} € im Monat plus {HUB_MARGIN_PCT} % auf den Verkauf.
+          <p className="text-cream text-sm font-mono mb-8">
+            <PreiseAufTestkaufhaus linkClassName={LINK} />
           </p>
 
           {/* Facts strip */}
           <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-xs font-mono text-stone border-l-2 border-bronze pl-4">
-            <span>{HUB_MARGIN_PCT} % nur auf Verkauf, keine Listungsgebühr</span>
-            <span>Treppe ab {eur0(STUFE_PREIS.beweisen)} netto, {REGAL_INKLUSIVE_CM} cm Regalfront inklusive</span>
-            <span>Standardregal ab {PAKETE.S.preis} €/Monat netto</span>
+            <span>Keine Listungsgebühr</span>
+            <span>Treppe mit {REGAL_INKLUSIVE_CM} cm Regalfront inklusive</span>
+            <span>Standardregal ab {PAKETE.S.cm} cm</span>
             <span>Alexa: rund 15 Mio. Center-Besuche im Jahr</span>
           </div>
 
@@ -220,14 +212,10 @@ export default function HerstellerPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="border-l-4 border-bronze bg-bronze/5 px-6 py-6 space-y-4">
             <p className="text-cream text-sm leading-relaxed">
-              <span className="text-bronze font-semibold">Deine Kosten:</span> In der Treppe ein
-              Festpreis je Stufe ab {eur0(STUFE_PREIS.beweisen)} netto, {REGAL_INKLUSIVE_CM} cm
-              Regalfront inklusive. {ZUSATZ_CM_TEXT} Im Standardregal eine Regalfront: S mit{" "}
-              {PAKETE.S.cm} cm für {PAKETE.S.preis} €, M mit {PAKETE.M.cm} cm für {PAKETE.M.preis} €,
-              L ab {PAKETE.L.abCm} cm für {eur(PAKETE.L.preisJeCm)} je cm, jeweils im Monat, mit
-              denselben Zuschlägen nach Höhe. Überall {HUB_MARGIN_PCT} % Vermittlungsprovision je
-              verkauftem Artikel, Zahlungsabwicklung inklusive. Sonst nichts. Nur für Unternehmer,
-              alle Preise netto zzgl. USt.
+              <span className="text-bronze font-semibold">Deine Kosten:</span>{" "}
+              <PreiseAufTestkaufhaus linkClassName={LINK} /> In der Treppe sind {REGAL_INKLUSIVE_CM}{" "}
+              cm Regalfront inklusive. Im Standardregal buchst du eine Regalfront: S mit{" "}
+              {PAKETE.S.cm} cm, M mit {PAKETE.M.cm} cm oder L ab {PAKETE.L.abCm} cm.
             </p>
             <p className="text-cream text-sm leading-relaxed">
               <span className="text-bronze font-semibold">Deine Laufzeit:</span> Jede Stufe hat
@@ -283,7 +271,6 @@ export default function HerstellerPage() {
                   {st.name}
                 </h3>
                 <p className="text-cream text-sm">{st.frage}</p>
-                <p className="text-bronze text-sm font-mono">{preisText(st)}</p>
                 <p className="text-stone text-xs">Empfohlen für {st.empfohlenFuer}</p>
                 <ul className="space-y-1 mt-auto">
                   {st.neu.map((l) => (
@@ -319,10 +306,9 @@ export default function HerstellerPage() {
             <div className="space-y-3 text-sm">
               <p className="text-cream">{NACH_JEDER_STUFE}</p>
               <p className="text-stone text-pretty">{NUR_NEUPRODUKTE}</p>
-              <p className="text-stone">
-                Alle Festpreise netto. In jeder Stufe sind {REGAL_INKLUSIVE_CM} cm Regal
-                inklusive. {ZUSATZ_CM_TEXT} Auf jede Stufe: + {HUB_MARGIN_PCT} % auf
-                den Verkauf.
+              <p className="text-cream">
+                In jeder Stufe sind {REGAL_INKLUSIVE_CM} cm Regal inklusive.{" "}
+                <PreiseAufTestkaufhaus linkClassName="text-white underline underline-offset-4 hover:text-bronze-warm" />
               </p>
             </div>
           </div>
@@ -410,7 +396,7 @@ export default function HerstellerPage() {
               Rewe vs. Hub42
             </h2>
           </div>
-          <ComparisonTable />
+          <ComparisonTable zeilen={VERGLEICH_OHNE_PREISE} />
         </div>
       </section>
 
@@ -507,11 +493,8 @@ export default function HerstellerPage() {
                 <span className="text-bronze">unser&nbsp;Geschäftsmodell.</span>
               </h2>
               <p className="text-stone text-base leading-relaxed mb-6 max-w-lg">
-                Du zahlst Regalmiete und 7 % Vermittlungsprovision auf deinen Verkaufspreis. Keine
-                Listungsgebühr, keine Handelsmarge. Die Zahlungsabwicklung ist in den 7 % bereits
-                enthalten, und sie fallen nur pro Verkauf an. Das bedeutet: Wenn du nichts verkaufst,
-                verdienen wir kaum etwas. Wir sind strukturell daran interessiert, dass dein Produkt
-                läuft.
+                Keine Listungsgebühr, keine Handelsmarge. Wir sind strukturell daran interessiert,
+                dass dein Produkt läuft.
               </p>
               <p className="text-stone text-base leading-relaxed max-w-lg">
                 Kein klassischer Vermieter denkt so. Wir schon, weil wir das Modell so
@@ -562,18 +545,9 @@ export default function HerstellerPage() {
       {/* Rechner */}
       {/* Der Kalkulator Rewe gegen Hub42 ist entfernt (Geschäftsführung, 2026-10-21);
           die Komponente HerstellerRechner bleibt im Repo, wird aber nicht gerendert.
-          Die Rechnung macht die KI-Anfrage auf der Startseite. */}
-      <section id="rechner" className="bg-green-mid py-12 border-t border-stone-dark">
-        <div className="max-w-5xl mx-auto px-4 sm:px-6">
-          <p className="text-cream text-base leading-relaxed text-pretty">
-            Was deine Regalfront bei deinem Produkt bringt, rechnet dir die{" "}
-            <Link href="/#bewerben" className="text-bronze underline underline-offset-4 hover:text-cream">
-              KI-Anfrage
-            </Link>{" "}
-            in zwei Minuten aus.
-          </p>
-        </div>
-      </section>
+          Der Verweis auf die KI-Anfrage ist seit 2026-10-30 ebenfalls weg: Sie
+          rechnete Miete und Provision vor und ist auf der Startseite nicht mehr
+          eingebunden. Preise stehen nur auf testkaufhaus.de. */}
 
       {/* Regalfront-Positionen */}
       <section className="bg-green-dark py-20 border-t border-stone-dark">
@@ -591,10 +565,8 @@ export default function HerstellerPage() {
             </h2>
             <p className="text-stone text-sm max-w-lg mb-10">
               Nach jeder Stufe kannst du dauerhaft ins Regal. Du buchst eine Regalfront: S mit{" "}
-              {PAKETE.S.cm} cm, M mit {PAKETE.M.cm} cm oder L ab {PAKETE.L.abCm} cm, dort zahlst du
-              je Zentimeter. Über deiner Front steht dieselbe Breite als Werbefläche. Die Preise
-              gelten, bis der Laden zu 60 % ausgelastet ist. Wer vorher bucht, behält seinen Preis 12
-              Monate lang, vertraglich.
+              {PAKETE.S.cm} cm, M mit {PAKETE.M.cm} cm oder L ab {PAKETE.L.abCm} cm. Über deiner
+              Front steht dieselbe Breite als Werbefläche.
             </p>
 
             {/* Cm-Konzept Visualisierung */}
@@ -629,12 +601,6 @@ export default function HerstellerPage() {
                   <div className="w-px flex-1 bg-stone-dark" style={{ minHeight: 24 }} />
                 </div>
               </div>
-
-              <p className="text-stone/50 text-xs font-mono mt-4">
-                Regalfront L, {PAKETE.L.abCm} cm auf Augenhöhe: {PAKETE.L.abCm} ×{" "}
-                {eur(RATES.augenhoehe)} ={" "}
-                <span className="text-stone">{eur(PAKETE.L.abCm * RATES.augenhoehe)}/Monat</span>
-              </p>
             </div>
           </div>
 
@@ -653,10 +619,11 @@ export default function HerstellerPage() {
         </div>
       </section>
 
-      {/* Was du bekommst + Checkout */}
+      {/* Was du bekommst. Die Spalte „So verdient Hub42“ (Miete und Provision)
+          ist seit 2026-10-30 entfernt; die Liste läuft dafür zweispaltig. */}
       <section className="bg-green-mid py-20 border-t border-stone-dark">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+          <div>
             {/* Was du bekommst */}
             <div>
               <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
@@ -669,7 +636,7 @@ export default function HerstellerPage() {
                 Was du
                 <span className="text-bronze"> bekommst</span>
               </h2>
-              <ul className="space-y-3">
+              <ul className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-3">
                 {WAS_DU_BEKOMMST.map((item) => (
                   <li key={item} className="flex items-start gap-3 text-cream text-sm">
                     <span className="text-bronze shrink-0 mt-0.5">✓</span>
@@ -677,43 +644,6 @@ export default function HerstellerPage() {
                   </li>
                 ))}
               </ul>
-            </div>
-
-            {/* Checkout-Gebühr + Transparenz */}
-            <div>
-              <p className="text-bronze text-xs font-mono tracking-[0.3em] uppercase mb-3">
-                Transparenz
-              </p>
-              <h2
-                className="text-cream text-[clamp(2rem,4vw,3rem)] leading-none tracking-widest mb-8"
-                style={{ fontFamily: "var(--font-bebas)" }}
-              >
-                So verdient
-                <span className="text-bronze"> Hub42</span>
-              </h2>
-
-              {/* Slot-Miete */}
-              <div className="border-l-2 border-stone-dark pl-6 mb-6">
-                <p className="text-cream text-sm font-semibold mb-1">Regalmiete und Festpreis → Fixkosten</p>
-                <p className="text-stone text-sm leading-relaxed">
-                  Die Miete deckt den Laden: Alexa-Miete, unser Team, Infrastruktur.
-                  Kein Cent davon ist Gewinn, sie hält den Store am Laufen.
-                </p>
-              </div>
-
-              {/* Vermittlungsprovision */}
-              <div className="border-l-2 border-bronze pl-6">
-                <p className="text-bronze text-4xl mb-1" style={{ fontFamily: "var(--font-bebas)" }}>
-                  7 %
-                </p>
-                <p className="text-stone text-sm mb-2">auf den Verkaufspreis → unsere Marge</p>
-                <p className="text-stone text-sm leading-relaxed">
-                  Die Vermittlungsprovision ist unsere Gewinnmarge. Zahlungsabwicklung
-                  ist bereits eingerechnet, kein separater Aufschlag.
-                  Wir verdienen erst wenn du verkaufst.
-                  Kein Umsatz bei dir = kein Umsatz bei uns.
-                </p>
-              </div>
             </div>
           </div>
         </div>
@@ -833,12 +763,8 @@ export default function HerstellerPage() {
 
           {/* Urgency box */}
           <div className="border-l-4 border-bronze bg-bronze/5 px-5 py-4 mb-8">
-            <p className="text-cream text-sm font-semibold mb-1">
-              Standardregal ab {PAKETE.S.preis} € im Monat, netto
-            </p>
-            <p className="text-stone text-xs font-mono">
-              Der Preis gilt, bis der Laden zu 60 % ausgelastet ist. Wer vorher bucht, behält ihn 12
-              Monate lang, vertraglich.
+            <p className="text-cream text-sm font-semibold">
+              <PreiseAufTestkaufhaus linkClassName="text-white underline underline-offset-4 hover:text-bronze-warm" />
             </p>
           </div>
 
