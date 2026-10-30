@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import PreiseAufTestkaufhaus from "@/components/TestkaufhausLink";
 
 export const metadata: Metadata = {
   title: "Über uns – Warum Hub42",
@@ -115,12 +116,11 @@ export default function AboutPage() {
           <div className="border-l-4 border-bronze bg-bronze/5 pl-6 py-4">
             <p className="text-stone">
               <strong className="text-bronze">Hub42 schafft den dritten Weg:</strong>{" "}
-              stationäre Retail-Infrastruktur für unabhängige Hersteller, mit Regalmiete plus 7 %
-              Vermittlungsprovision nur auf verkaufte Artikel, ohne Listungsgebühr. Marken
+              stationäre Retail-Infrastruktur für unabhängige Hersteller, ohne Listungsgebühr. Marken
               mieten Regalbreite in einer hochfrequentierten Mall, behalten Preis- und Datenhoheit
               und verkaufen zu ihrer eigenen UVP. Die Ware bleibt bis zum
               Verkauf Eigentum des Herstellers. Hub42 betreibt Store, Kasse, Tasting und Analytics
-              und verdient über Regalmiete und Vermittlungsprovision, nie über eine Handelsmarge.
+              und verdient nie über eine Handelsmarge.
             </p>
           </div>
 
@@ -133,8 +133,8 @@ export default function AboutPage() {
             </strong>
             : Produktstory, Herkunft, Gründerhintergrund, QR-Code und Tasting-Hinweise. Hub42
             übernimmt Standort, Store-Betrieb, Kasse, Warenpflege, Tasting, Abrechnung und
-            Datenreporting. Der Umsatz entsteht nicht aus einer Handelsmarge, sondern aus monatlicher
-            Regalmiete und einer Vermittlungsprovision von 7 % pro verkaufter Einheit. So
+            Datenreporting. Der Umsatz entsteht nicht aus einer Handelsmarge.{" "}
+            <PreiseAufTestkaufhaus linkClassName="text-white underline underline-offset-4 hover:text-bronze-warm" /> So
             wird stationärer Vertrieb für Hersteller planbar, günstig und datenbasiert — ohne
             Listungsgebühr, ohne Zwischenhändler und ohne Abhängigkeit von Performance-Marketing.
           </p>
