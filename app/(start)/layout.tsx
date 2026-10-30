@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Schibsted_Grotesk } from "next/font/google";
 import "./regalwand.css";
+import TestkaufhausLeiste from "@/components/TestkaufhausLeiste";
 
 /* Die Display-Schrift der Regalwand. DM Sans, DM Mono und Bebas liegen schon
    global als next/font-Variablen an <html>. */
@@ -37,5 +38,12 @@ export const metadata: Metadata = {
 export default function StartLayout({ children }: { children: React.ReactNode }) {
   /* Alles hängt unter .rw – das kapselt die generischen Klassennamen des
      Mockups gegen den Rest der Site ab (siehe regalwand.css). */
-  return <div className={`${schibsted.variable} rw`}>{children}</div>;
+  /* Die Testkaufhaus-Leiste steht vor .rw im Fluss: sie scrollt weg, die
+     sticky Kopfzeile (.top, top: 0) rückt nach, ohne zu springen. */
+  return (
+    <>
+      <TestkaufhausLeiste spiegel="start" />
+      <div className={`${schibsted.variable} rw`}>{children}</div>
+    </>
+  );
 }
