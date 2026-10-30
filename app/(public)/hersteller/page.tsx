@@ -18,7 +18,8 @@ import { PAKETE, REGAL_INKLUSIVE_CM } from "@/lib/deck-economics";
 import { COMPARISON_ROWS } from "@/lib/slots";
 import { SHOW_BAFA } from "@/lib/site-flags";
 import { ALLE_STUFEN, NACH_JEDER_STUFE, NUR_NEUPRODUKTE, STUFEN, eur0 } from "@/lib/treppe";
-import PreiseAufTestkaufhaus from "@/components/TestkaufhausLink";
+import PreiseAufTestkaufhaus, { PreisVerweisPublic, TestkaufhausLink } from "@/components/TestkaufhausLink";
+import { PREISE_SATZ, TK_KNOPF_PUBLIC } from "@/lib/testkaufhaus";
 
 /* Preise und Pakete stehen seit 2026-10-30 nur auf testkaufhaus.de. Der
    Verweis steht dort, wo vorher die Preise den Weg erklärt haben. */
@@ -177,9 +178,7 @@ export default function HerstellerPage() {
             mit Tagesticker für eine feste Zeit im Regal. Du startest mit einer Regalfront oder auf
             der Stufe, die zu dir passt, und bleibst danach im Standardregal.
           </p>
-          <p className="text-cream text-sm font-mono mb-8">
-            <PreiseAufTestkaufhaus linkClassName={LINK} />
-          </p>
+          <PreisVerweisPublic ort="hersteller-hero" className="mb-8 max-w-2xl" />
 
           {/* Facts strip */}
           <div className="flex flex-wrap gap-x-6 gap-y-2 mb-8 text-xs font-mono text-stone border-l-2 border-bronze pl-4">
@@ -212,8 +211,8 @@ export default function HerstellerPage() {
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
           <div className="border-l-4 border-bronze bg-bronze/5 px-6 py-6 space-y-4">
             <p className="text-cream text-sm leading-relaxed">
-              <span className="text-bronze font-semibold">Deine Kosten:</span>{" "}
-              <PreiseAufTestkaufhaus linkClassName={LINK} /> In der Treppe sind {REGAL_INKLUSIVE_CM}{" "}
+              <span className="text-bronze font-semibold">Deine Kosten:</span> {PREISE_SATZ} In der
+              Treppe sind {REGAL_INKLUSIVE_CM}{" "}
               cm Regalfront inklusive. Im Standardregal buchst du eine Regalfront: S mit{" "}
               {PAKETE.S.cm} cm, M mit {PAKETE.M.cm} cm oder L ab {PAKETE.L.abCm} cm.
             </p>
@@ -226,6 +225,9 @@ export default function HerstellerPage() {
               Deine Ware bleibt bis zum Verkauf dein Eigentum. Wir verkaufen als Kommissionär
               nach §383 HGB.
             </p>
+            <TestkaufhausLink className={TK_KNOPF_PUBLIC} ort="hersteller-kosten">
+              Preise auf testkaufhaus.de <span aria-hidden="true">→</span>
+            </TestkaufhausLink>
           </div>
         </div>
       </section>
@@ -762,11 +764,7 @@ export default function HerstellerPage() {
           </div>
 
           {/* Urgency box */}
-          <div className="border-l-4 border-bronze bg-bronze/5 px-5 py-4 mb-8">
-            <p className="text-cream text-sm font-semibold">
-              <PreiseAufTestkaufhaus linkClassName="text-white underline underline-offset-4 hover:text-bronze-warm" />
-            </p>
-          </div>
+          <PreisVerweisPublic ort="hersteller-anfrage" grund="mittel" className="mb-8" />
 
           <ContactForm />
 
