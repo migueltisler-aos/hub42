@@ -32,7 +32,7 @@ export const metadata: Metadata = {
     template: "%s | Hub42",
   },
   description:
-    "Hub42 im Alexa Berlin: der Laden nur für Neuheiten. Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf, dazu vier Stufen bis zur Listung.",
+    "Hub42 im Alexa Berlin: der Laden nur für Neuheiten. Echte Kasse statt Umfrage, dazu vier Stufen bis zur Listung.",
   keywords: ["Hub42", "Alexa Berlin", "Neuheiten", "Marken", "Regalmiete", "Markttest", "Listung", "Berlin"],
   authors: [{ name: "Hub42 UG (haftungsbeschränkt)" }],
   creator: "Hub42 UG (haftungsbeschränkt)",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
     siteName: "Hub42",
     title: "Hub42 · Der Laden für Neuheiten",
     description:
-      "Vom ersten Regal bis zur Listung. Echte Kasse statt Umfrage, im Alexa Berlin ab März 2027. Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf.",
+      "Vom ersten Regal bis zur Listung. Echte Kasse statt Umfrage, im Alexa Berlin ab März 2027.",
     images: [
       {
         url: "/og-image.jpg",
@@ -56,7 +56,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "Hub42 · Der Laden für Neuheiten",
-    description: "Vom ersten Regal bis zur Listung. Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf.",
+    description: "Vom ersten Regal bis zur Listung. Echte Kasse statt Umfrage, im Alexa Berlin.",
     creator: "@hub42berlin",
   },
   robots: {
