@@ -6,32 +6,22 @@
 import Link from "next/link";
 import BeratungSektion from "@/components/neue-ui/BeratungSektion";
 import Bewerbung from "@/components/neue-ui/Bewerbung";
-import KiAnfrage from "@/components/neue-ui/KiAnfrage";
 import { CookieEinstellungenButton } from "@/components/GoogleAnalytics";
 import Massband from "@/components/neue-ui/Massband";
-import Preistabelle from "@/components/neue-ui/Preistabelle";
 import Regalwand from "@/components/neue-ui/Regalwand";
 import Rundgang from "@/components/neue-ui/Rundgang";
 import SagenTun from "@/components/neue-ui/SagenTun";
 import SektionTracker from "@/components/neue-ui/SektionTracker";
-import StufenTabelle from "@/components/neue-ui/StufenTabelle";
 import Treppe from "@/components/neue-ui/Treppe";
 import TreppeMenue, { TreppeKnopf } from "@/components/neue-ui/TreppeMenue";
 import TerminKalender from "@/components/neue-ui/TerminKalender";
+import PreiseAufTestkaufhaus, { TestkaufhausLink } from "@/components/TestkaufhausLink";
+import { PREISE_SATZ } from "@/lib/testkaufhaus";
 import { onboardingsFrei } from "@/lib/bewerbung";
 import { ONBOARDINGS_PRO_WOCHE } from "@/lib/bewerbung-model";
 import { BAFA_ZUSCHUSS_PCT } from "@/lib/beratung";
-import {
-  HUB_MARGIN_PCT,
-  PAKETE,
-  REGAL_INKLUSIVE_CM,
-  ZONE_SURCHARGE_PCT,
-  paketMiete,
-} from "@/lib/deck-economics";
-import { eur } from "@/lib/neue-ui/regal";
-import { nettoJeVerkauf, ustPct } from "@/lib/assistent-model";
+import { PAKETE } from "@/lib/deck-economics";
 import { SHOW_BAFA, SHOW_PARTNER } from "@/lib/site-flags";
-import { BEISPIEL, STUFEN, ZUSATZ_CM_TEXT, eur0 } from "@/lib/treppe";
 
 /* Der Onboarding-Zähler kommt aus der DB. Alle 5 Minuten neu, und nach jeder
    Bewerbung sofort (revalidatePath in app/actions/bewerbung.ts). */
@@ -47,40 +37,23 @@ const THEKE = [
     alt: "Berlin Oats Crunchy Six Spice Granola auf der Theke" },
 ];
 
-/* Die drei Regalfronten des Standardregals, Preise auf Basishöhe. */
-const zahl = (n: number) => n.toLocaleString("de-DE", { maximumFractionDigits: 2 });
-/* Ab wie vielen Verkäufen sich eine Regalfront selbst bezahlt: Beispiel
-   8,90-€-Produkt (Lebensmittel), netto nach USt und Provision, wie im
-   Assistenten (nettoJeVerkauf), auf Basishöhe. Ergibt 8, 16 und 31. */
-const SCHWELLE_VK = 8.9;
-const SCHWELLE_NETTO = nettoJeVerkauf(SCHWELLE_VK, "Food");
-const schwelle = (miete: number | null) => Math.ceil((miete ?? 0) / SCHWELLE_NETTO);
-const SCHWELLE_ZUSATZ = `(Beispiel ${SCHWELLE_VK.toLocaleString("de-DE", { minimumFractionDigits: 2 })}\u2011€\u2011Produkt,\u00A0Annahme)`;
-
+/* Die drei Regalfronten des Standardregals. Preise stehen seit 2026-10-30
+   nur auf testkaufhaus.de; die Karten zeigen die Breite. */
 const PAKET_KARTEN = [
   {
     name: "Regalfront S",
     breite: `${PAKETE.S.cm} cm`,
-    preis: `${PAKETE.S.preis} €`,
-    einheit: "im Monat",
     zeile: "Rund zwei Gläser nebeneinander.",
-    schwelle: `Ab ${schwelle(paketMiete(PAKETE.S.cm, "basis"))} Verkäufen im Monat bezahlt sich deine Regalfront selbst ${SCHWELLE_ZUSATZ}.`,
   },
   {
     name: "Regalfront M",
     breite: `${PAKETE.M.cm} cm`,
-    preis: `${PAKETE.M.preis} €`,
-    einheit: "im Monat",
     zeile: "Rund fünf Gläser nebeneinander.",
-    schwelle: `Ab ${schwelle(paketMiete(PAKETE.M.cm, "basis"))} Verkäufen im Monat bezahlt sich deine Regalfront selbst ${SCHWELLE_ZUSATZ}.`,
   },
   {
     name: "Regalfront L",
     breite: `ab ${PAKETE.L.abCm} cm`,
-    preis: eur(PAKETE.L.preisJeCm),
-    einheit: "je cm und Monat",
-    zeile: `Bei ${PAKETE.L.abCm} cm sind das ${zahl(PAKETE.L.abCm * PAKETE.L.preisJeCm)} € im Monat.`,
-    schwelle: `Bei ${PAKETE.L.abCm} cm bezahlt sich deine Regalfront ab ${schwelle(paketMiete(PAKETE.L.abCm, "basis"))} Verkäufen im Monat selbst ${SCHWELLE_ZUSATZ}.`,
+    zeile: "Breiter nach Bedarf, je Zentimeter.",
   },
 ];
 
@@ -139,11 +112,13 @@ const BERICHT_FELDER = [
   },
 ];
 
+/* Faktenleiste ohne Preise: nur Angaben, die weiter unten auf der Seite
+   stehen (Maßband, Rundgang, Bewerbung). */
 const FAKTEN = [
   { v: "rund 15 Mio.", k: "Besuche im Jahr im Alexa, Stand 2026" },
-  { v: `ab ${PAKETE.S.preis} €`, k: "Regalfront im Monat, netto" },
-  { v: `${HUB_MARGIN_PCT} %`, k: "nur auf das, was verkauft wird" },
-  { v: "0 €", k: "Listungsgebühr" },
+  { v: `ab ${PAKETE.S.cm} cm`, k: "Regalfront, nach drei Monaten monatlich kündbar" },
+  { v: "95 m²", k: "Laden mit sieben Stationen" },
+  { v: `${ONBOARDINGS_PRO_WOCHE}`, k: "Marken je Woche ins Onboarding" },
 ];
 
 export default async function StartPage() {
@@ -162,7 +137,9 @@ export default async function StartPage() {
           <nav className="top__nav" aria-label="Seitenbereiche">
             <a href="#regal">Regal</a>
             <a href="#daten" className="top__nav-weit">Daten</a>
-            <a href="#preise">Preise</a>
+            <TestkaufhausLink>
+              Preise <span aria-hidden="true">↗</span>
+            </TestkaufhausLink>
             <a href="#rundgang">Rundgang</a>
             <TreppeKnopf className="top__link">Treppe</TreppeKnopf>
             <a href="#bewerben">Bewerben</a>
@@ -202,7 +179,7 @@ export default async function StartPage() {
                   Mit deinem Produkt bewerben
                 </a>
                 <a className="btn btn--dark" href="#preise">
-                  Was eine Regalfront kostet
+                  Die drei Regalfronten
                 </a>
               </div>
             </div>
@@ -218,17 +195,71 @@ export default async function StartPage() {
           ))}
         </div>
 
-        {/* ══ Problem: Sichtbarkeit ════════════════════════════ */}
-        <section className="sect sect--tight" data-sektion="problem" aria-labelledby="problem-h">
-          <div className="wrap">
-            <p className="eyebrow">Shop, Messe, Einkauf</p>
-            <h2 id="problem-h">Sichtbarkeit ist so teuer geworden.</h2>
-            <p className="lede" style={{ marginTop: 20, maxWidth: "54ch" }}>
-              Online zahlst du für Anzeigen, damit überhaupt jemand deinen Shop öffnet, oder du gehst
-              auf eine Messe. Drei Tage lang probieren Menschen dein Produkt. Am vierten ist der Stand
-              abgebaut. Und fragt dein Einkäufer beim Neuprodukt, wer es kauft und ob es läuft, hast
-              du Hoffnung statt Zahlen.
-            </p>
+        {/* ══ Warum? Was? Wie? ══════════════════════════════════
+            Text des Teams, abgenommen 2026-10-30 (copy-v1, Block „Startseite“),
+            wortgleich. Ersetzt „Sichtbarkeit ist so teuer geworden“; der Schlüssel
+            data-sektion="problem" bleibt, damit die Lesetiefe vergleichbar bleibt. */}
+        <section className="sect sect--tight" data-sektion="problem">
+          <div className="wrap warum">
+            <div className="warum__col">
+              <h2 id="warum-h">Warum?</h2>
+              <p className="lede warum__lede">
+                Unsere Motivation: Sichtbarkeit und Kaufbarkeit im Laden für Marken, die online
+                schwer neue Käufer erreichen. Kaufbarkeit heißt, dass die Kundschaft ein Produkt
+                leicht, reibungslos und immer wieder kaufen kann.
+              </p>
+              <div className="warum__text">
+                <p>
+                  Unabhängige Marken und Direct-to-Consumer-Hersteller (D2C) stehen zwischen zwei
+                  Systemen, die beide gegen sie arbeiten.
+                </p>
+                <p>
+                  Im klassischen Handel entscheiden hohe Listungsgebühren und Handelsmargen,
+                  Mindestmengen und die Verhandlungsmacht großer Konzerne darüber, was ins Regal
+                  kommt. Dort landet nicht das bessere Produkt, sondern das mit dem größeren Budget.
+                </p>
+                <p>
+                  Online war lange der Ausweg. Inzwischen ist der Kanal teuer und schwer planbar:
+                  Steigende Akquisekosten (CAC) bei Meta, Google und Amazon und dazu die Retouren
+                  fressen die Marge auf. Aus dem Margendruck des Handels wurde ein Werbedruck im Netz.
+                </p>
+                <p className="warum__ziel">
+                  Wir wollen unabhängigen Marken aus dem Netz schnell eine echte Bühne im Laden geben,
+                  in hochfrequentierten Lagen wie dem Alexa am Alexanderplatz. Flexibel und ohne die
+                  harten Konditionen des klassischen Handels.
+                </p>
+              </div>
+            </div>
+
+            <div className="warum__col warum__col--was">
+              <h2 id="was-h">Was? Wie?</h2>
+              <h3 className="warum__h3">
+                Hub42: Stationäre Retail-Infrastruktur und Schaufenster für unabhängige Hersteller
+              </h3>
+              <div className="warum__text">
+                <p>
+                  Wir entwickeln, bauen und betreiben neue Ladengeschäfte. Als Betreiber oder
+                  Umsetzungspartner übernehmen wir Planung, Einrichtung, Sortiment und Organisation
+                  stationärer Handelsformate. Dabei verbinden wir Verkauf, Markenerlebnis und das
+                  Ausprobieren neuer Produkte.
+                </p>
+                <p>
+                  Mit dem Berliner Institut für Innovationsforschung (BIFI) bringen wir stationären
+                  Handel und wissenschaftliche Marktforschung in einem gemeinsamen Konzept zusammen.
+                  Das BIFI verantwortet die wissenschaftliche Leitung, die Methodik und den Bericht.
+                  Erprobt ist die Methodik im Pilot 2018 des BIFI. Das erste gemeinsame Format ist das
+                  Testkaufhaus im Alexa Berlin, Eröffnung am 28.03.2027 (
+                  <TestkaufhausLink className="tk-link" />
+                  ). Diese Verbindung aus echtem Laden und wissenschaftlicher Begleitung bietet weder
+                  ein reiner Onlineshop noch ein Pop-up-Store.
+                </p>
+              </div>
+              <div className="warum__cta">
+                <TestkaufhausLink className="btn btn--solid" ort="start-was-wie">
+                  Zum Testkaufhaus <span aria-hidden="true">→</span>
+                </TestkaufhausLink>
+              </div>
+            </div>
           </div>
         </section>
 
@@ -279,13 +310,11 @@ export default async function StartPage() {
               verkauft, auch Produkte, die man erklären muss. Du bekommst jeden Monat den Bericht.
             </p>
             <p className="lede" style={{ marginTop: 14, maxWidth: "54ch" }}>
-              Drei Breiten: S mit {PAKETE.S.cm} cm für {PAKETE.S.preis} €, M mit {PAKETE.M.cm} cm
-              für {PAKETE.M.preis} €, L ab {PAKETE.L.abCm} cm für {eur(PAKETE.L.preisJeCm)} je cm,
-              jeweils im Monat. Wer höher steht, zahlt mehr: Augenhöhe +{ZONE_SURCHARGE_PCT.augenhoehe}
-              &nbsp;%, garantierte Greifhöhe +{ZONE_SURCHARGE_PCT.greifhoehe}&nbsp;%. Auf der
-              Traverse steht deine Werbung: Marke, eine Zeile zu deinem Produkt, dazu ein weißes
-              Preisschild mit QR-Code, über das Käufer dein Produkt bewerten. Front antippen, dann
-              rechnet die Karte mit. Die bronzene Front hat einen Griff, zieh sie von S auf M.
+              Drei Breiten: S mit {PAKETE.S.cm} cm, M mit {PAKETE.M.cm} cm, L ab {PAKETE.L.abCm} cm.
+              Auf der Traverse steht deine Werbung: Marke, eine Zeile zu deinem Produkt, dazu ein
+              weißes Preisschild mit QR-Code, über das Käufer dein Produkt bewerten. Front antippen,
+              dann zeigt die Karte Breite und Zone. Die bronzene Front hat einen Griff, zieh sie von
+              S auf M.
             </p>
 
             <Regalwand />
@@ -354,53 +383,36 @@ export default async function StartPage() {
           </div>
         </section>
 
-        {/* ══ Preise ════════════════════════════════════════════ */}
+        {/* ══ Regalfronten ═════════════════════════════════════
+            Bis 2026-10-30 der Preisblock. Preise und Pakete stehen jetzt nur
+            auf testkaufhaus.de; die Anker #preise und data-sektion bleiben,
+            damit Links und Auswertung weiter greifen. */}
         <section className="sect sect--rule" id="preise" data-sektion="preise">
           <div className="wrap">
-            <p className="eyebrow">Was es kostet</p>
-            <h2>Regalfront ab {PAKETE.S.preis}&nbsp;€ im Monat. Provision erst beim Verkauf.</h2>
+            <p className="eyebrow">Das Standardregal</p>
+            <h2>Drei Breiten zur Wahl.</h2>
             <p className="lede" style={{ marginTop: 20, maxWidth: "50ch" }}>
               Du wählst die Breite, unser Store-Team verkauft. Keine Listungsgebühr, keine
-              Handelsmarge: Du behältst deine UVP, Hub42 bekommt {HUB_MARGIN_PCT}&nbsp;% vom
-              Verkaufspreis.
+              Handelsmarge: Du behältst deine UVP.
             </p>
 
-            {/* B: Das Standardregal */}
+            {/* Gleich gewichtet: kein „beliebt“, kein „empfohlen“. */}
+            <div className="tiles pakete">
+              {PAKET_KARTEN.map((p) => (
+                <div className="tile paket" key={p.name}>
+                  <p className="tile__k">{p.name}</p>
+                  <p className="paket__breite">{p.breite}</p>
+                  <p>{p.zeile}</p>
+                </div>
+              ))}
+            </div>
+
             <div className="priceblock">
-              <p className="priceblock__k">B · Das Standardregal</p>
-              <h3>Drei Breiten zur Wahl.</h3>
-
-              {/* Gleich gewichtet: kein „beliebt“, kein „empfohlen“. */}
-              <div className="tiles pakete">
-                {PAKET_KARTEN.map((p) => (
-                  <div className="tile paket" key={p.name}>
-                    <p className="tile__k">
-                      {p.name} · {p.breite}
-                    </p>
-                    <p className="paket__preis">{p.preis}</p>
-                    <p className="paket__einheit">{p.einheit}</p>
-                    <p>{p.zeile}</p>
-                    <p className="paket__schwelle">{p.schwelle}</p>
-                  </div>
-                ))}
-              </div>
-
-              <p className="priceblock__txt">
-                So gerechnet: Ein Produkt für {eur(SCHWELLE_VK)} im Laden, Lebensmittel mit{" "}
-                {ustPct("Food")}&nbsp;% Umsatzsteuer. Nach Umsatzsteuer und {HUB_MARGIN_PCT}&nbsp;%
-                Provision bleiben dir je Verkauf {eur(SCHWELLE_NETTO)}, vor Wareneinsatz. Gerechnet auf
-                Basishöhe, keine Zusage.
-              </p>
-
-              <p className="priceblock__txt">
-                Die Preise gelten auf Basishöhe, 50 bis 90 cm über dem Boden. Auf Augenhöhe kommen{" "}
-                {ZONE_SURCHARGE_PCT.augenhoehe}&nbsp;% dazu, auf garantierter Greifhöhe{" "}
-                {ZONE_SURCHARGE_PCT.greifhoehe}&nbsp;%.
-              </p>
-
-              <Preistabelle />
-
-              <p className="fineprint">Nur für Unternehmer. Preise netto zzgl. USt.</p>
+              <p className="priceblock__k">Was es kostet</p>
+              <h3>{PREISE_SATZ}</h3>
+              <TestkaufhausLink className="btn btn--solid priceblock__btn" ort="start-preise">
+                Preise auf testkaufhaus.de <span aria-hidden="true">→</span>
+              </TestkaufhausLink>
             </div>
 
             {/* Die Treppe klappt als Seitenleiste auf (TreppeMenue) */}
@@ -408,9 +420,8 @@ export default async function StartPage() {
               <p className="priceblock__k">Mehr als ein Regal</p>
               <h3>Du willst wissen, wer kauft und warum?</h3>
               <p className="priceblock__txt">
-                Die Treppe: vier Stufen mit Auswertung, Interviews am Regal und Bericht, ab{" "}
-                {eur0(STUFEN[0].preis)} netto für drei Monate. Für Marken, die mehr wollen als den
-                Abverkauf.
+                Die Treppe: vier Stufen mit Auswertung, Interviews am Regal und Bericht. Für Marken,
+                die mehr wollen als den Abverkauf.
               </p>
               <TreppeKnopf>Die Treppe ansehen →</TreppeKnopf>
             </div>
@@ -507,7 +518,7 @@ export default async function StartPage() {
 
             <div className="tiles">
               <div className="tile">
-                <p className="tile__k">Blind Box · 25–49 €</p>
+                <p className="tile__k">Blind Box</p>
                 <h3>Nur die Kategorie steht drauf.</h3>
                 <p>
                   Versiegelt mitnehmen, zuhause öffnen. Entdeckerbox S und M, Berliner Box,
@@ -542,8 +553,7 @@ export default async function StartPage() {
                 <p className="eyebrow">Bewerbung</p>
                 <h2>Wir kuratieren. Deshalb bewirbst du dich.</h2>
                 <p className="lede">
-                  Im Regal ab {PAKETE.S.cm} Zentimetern und {PAKETE.S.preis} € im Monat, ohne
-                  Listungsgebühr. Wir holen jede Woche {ONBOARDINGS_PRO_WOCHE} Marken ins Onboarding
+                  Im Regal ab {PAKETE.S.cm} Zentimetern, ohne Listungsgebühr. Wir holen jede Woche {ONBOARDINGS_PRO_WOCHE} Marken ins Onboarding
                   und schauen uns jedes Produkt an, bevor es ins Regal kommt. Die Bewerbung
                   entscheidet, ob du reinkommst, nicht, was du zahlst.
                 </p>
@@ -574,16 +584,17 @@ export default async function StartPage() {
                   )}
                 </div>
                 <p className="close__note">
-                  Eröffnung März 2027. Wer bucht, bevor der Laden zu 60 % ausgelastet ist, behält
-                  seinen Preis 12 Monate lang, vertraglich.
+                  Eröffnung März 2027. <PreiseAufTestkaufhaus linkClassName="tk-link" />
                 </p>
                 <div className="btn-row">
                   <TerminKalender mode="dialog" />
                 </div>
               </div>
 
+              {/* Die KI-Anfrage rechnete Miete und Provision vor; sie ist seit
+                  2026-10-30 nicht mehr eingebunden (Preise nur auf testkaufhaus.de).
+                  Die Komponente bleibt im Repo. */}
               <div className="close__wege">
-                <KiAnfrage />
                 <Bewerbung />
               </div>
             </div>
@@ -602,48 +613,11 @@ export default async function StartPage() {
 
           <Treppe />
 
-          {/* A: Die Treppe */}
           <div className="priceblock">
-            <p className="priceblock__k">A · Die Treppe</p>
-            <h3>Vier Stufen mit Festpreis.</h3>
-            <StufenTabelle />
-            <p className="fineprint">
-              Alle Festpreise netto zzgl. USt., nur für Unternehmer. * In jeder Stufe sind{" "}
-              {REGAL_INKLUSIVE_CM} cm Regal im Preis
-              enthalten. {ZUSATZ_CM_TEXT}
+            <p className="priceblock__k">Was es kostet</p>
+            <p className="priceblock__txt">
+              <PreiseAufTestkaufhaus linkClassName="tk-link" />
             </p>
-
-            <div className="calc">
-              <p className="calc__k">Rechenbeispiel</p>
-              <p className="calc__t">
-                Stufe {BEISPIEL.stufe.nr} {BEISPIEL.stufe.name} mit {BEISPIEL.cm} cm in der
-                Basiszone
-              </p>
-              <div className="rows">
-                <div className="row">
-                  <span className="row__k">Festpreis netto</span>
-                  <span className="row__v">{eur0(BEISPIEL.stufe.preis)}</span>
-                </div>
-                <div className="row">
-                  <span className="row__k">Regal {REGAL_INKLUSIVE_CM} cm</span>
-                  <span className="row__v">inklusive</span>
-                </div>
-                <div className="row">
-                  <span className="row__k">
-                    Weitere {BEISPIEL.zusatzCm} cm × {eur(BEISPIEL.rate)} × {BEISPIEL.monate}{" "}
-                    Monate
-                  </span>
-                  <span className="row__v">
-                    {eur(BEISPIEL.zusatzMonat * BEISPIEL.monate)} ({eur(BEISPIEL.zusatzMonat)} im
-                    Monat)
-                  </span>
-                </div>
-                <div className="row">
-                  <span className="row__k">Provision</span>
-                  <span className="row__v">+ {HUB_MARGIN_PCT} % auf verkaufte Ware</span>
-                </div>
-              </div>
-            </div>
           </div>
 
           <SagenTun />
@@ -667,8 +641,7 @@ export default async function StartPage() {
           </strong>
           <br />
           Ladenansicht und Regalkonzept sind KI-generierte Konzeptbilder, keine Fotos des fertigen
-          Ladens. Regalbelegung, Grundriss und Stationsmaße sind illustrativ; Preise und Konditionen
-          sind verbindlich wie angegeben.
+          Ladens. Regalbelegung, Grundriss und Stationsmaße sind illustrativ.
         </div>
       </footer>
     </>

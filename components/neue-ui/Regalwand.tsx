@@ -1,7 +1,8 @@
 "use client";
 
 /* Die Regalwand: drei Ebenen à 84 cm, jede Front anklickbar, eine Front
-   am Ziehgriff breiter zu ziehen. Die Karteikarte rechts rechnet mit. */
+   am Ziehgriff breiter zu ziehen. Die Karteikarte rechts zeigt Breite und
+   Zone. Preise stehen seit 2026-10-30 nur auf testkaufhaus.de. */
 
 /* eslint-disable @next/next/no-img-element --
    Produktfotos liegen per mix-blend-mode: multiply auf dem Sperrholz und
@@ -16,15 +17,14 @@ import {
   ORDER,
   WALL,
   ZONES,
-  eur,
   istFrei,
-  miete,
   paketText,
   type Front,
   type ZoneKey,
 } from "@/lib/neue-ui/regal";
 import { track } from "@/lib/analytics-client";
 import { FRONT_EVENT, type FrontDetail } from "@/lib/bewerbung-model";
+import { TestkaufhausLink } from "@/components/TestkaufhausLink";
 
 /* QR-Marke auf der Traverse — wie im Regalkonzept */
 function QrMarke() {
@@ -61,12 +61,6 @@ const CONF_START = WALL.greifhoehe[CONF_IDX].cm;
    bekommt den Rest der Ebene als L. Umschlag in der Mitte. */
 const GROSS = CONF_MAX;
 const klemm = (cm: number) => (cm >= (MIN_CM + GROSS) / 2 ? GROSS : MIN_CM);
-
-/** Monatsmiete als Text; Zwischenbreiten haben keinen Preis. */
-const preis = (cm: number, zone: ZoneKey) => {
-  const m = miete(cm, zone);
-  return m == null ? "Breite auf Anfrage" : eur(m);
-};
 
 interface Auswahl {
   zone: ZoneKey;
@@ -172,15 +166,13 @@ export default function Regalwand() {
   const Z = ZONES[sel.zone];
   const platz = paketText(gewaehltCm);
 
-  /* Karte, Breite und Preis aus derselben Quelle: Regalfront nach Paket. */
+  /* Karte und Breite aus derselben Quelle: Regalfront nach Paket. */
   const zeilen: { k: string; v: string; sum?: boolean }[] = [
     { k: "Regalfront", v: platz ?? `${gewaehltCm} cm` },
-    { k: "Zone", v: Z.name + (Z.auf ? ` (+${Z.auf} %)` : "") },
-    { k: "Miete / Monat", v: preis(gewaehltCm, sel.zone), sum: true },
+    { k: "Zone", v: Z.name, sum: true },
   ];
   if (!istFrei(gewaehlt)) zeilen.push({ k: "Verkaufspreis", v: "UVP der Marke" });
 
-  const confMonat = preis(confCm, "greifhoehe");
   const confPlatz = confCm === MIN_CM ? "S" : "M";
 
   return (
@@ -192,7 +184,6 @@ export default function Regalwand() {
               <div key={z} className={"zone" + (ZONES[z].pick ? " zone--pick" : "")}>
                 <p className="zone__n">{ZONES[z].name}</p>
                 <p className="zone__h">{ZONES[z].hoehe}</p>
-                <p className="zone__r">ab {preis(MIN_CM, z)}</p>
               </div>
             ))}
           </div>
@@ -239,8 +230,8 @@ export default function Regalwand() {
                               aria-label={
                                 frei
                                   ? conf
-                                    ? `Deine Regalfront, ${cm} Zentimeter, ${ZONES[zone].name}, ${preis(cm, zone)} im Monat`
-                                    : `Freie Regalfront, ${cm} Zentimeter, ${ZONES[zone].name}, ${preis(cm, zone)} im Monat`
+                                    ? `Deine Regalfront, ${cm} Zentimeter, ${ZONES[zone].name}`
+                                    : `Freie Regalfront, ${cm} Zentimeter, ${ZONES[zone].name}`
                                   : `${f.marke}, ${f.produkt}, ${cm} Zentimeter Regalfront in ${ZONES[zone].name}`
                               }
                               onClick={() => setSel({ zone, idx: i })}
@@ -248,13 +239,11 @@ export default function Regalwand() {
                             >
                               <span className="front__body">
                                 {frei ? (
-                                  /* Breite und Preis stehen auf der freien Front; bei S
-                                     passt nur der Preis, die Breite steht im Aria-Label
-                                     und in der Karte. */
+                                  /* Die Breite steht auf der freien Front, in der Zeile,
+                                     in der bis 2026-10-30 der Preis stand. */
                                   <span className="front__free-lbl">
                                     {conf ? <b>Deine Front</b> : <span>frei</span>}
-                                    <span className="front__preis">{preis(cm, zone)}</span>
-                                    {cm > MIN_CM && <span>{cm} cm</span>}
+                                    <span className="front__preis">{cm} cm</span>
                                   </span>
                                 ) : (
                                   <img
@@ -277,13 +266,13 @@ export default function Regalwand() {
                                   aria-valuemin={MIN_CM}
                                   aria-valuemax={CONF_MAX}
                                   aria-valuenow={confCm}
-                                  aria-valuetext={`Regalfront ${confPlatz}, ${confCm} Zentimeter, ${confMonat} im Monat`}
+                                  aria-valuetext={`Regalfront ${confPlatz}, ${confCm} Zentimeter`}
                                   onPointerDown={griffZiehen}
                                   onKeyDown={griffTaste}
                                   onClick={(e) => e.stopPropagation()}
                                 />
                                 <span className="readout">
-                                  {confCm} cm · Regalfront {confPlatz} · <b>{confMonat}</b> / Monat
+                                  {confCm} cm · Regalfront <b>{confPlatz}</b>
                                 </span>
                               </span>
                             )}
@@ -395,7 +384,9 @@ export default function Regalwand() {
               >
                 Mit deinem Produkt bewerben
               </a>
-              <span className="card__hint">7 % Provision bei Verkauf</span>
+              <span className="card__hint">
+                Preise auf <TestkaufhausLink className="underline underline-offset-2" />
+              </span>
             </div>
             <p className="card__beispiel">
               Die Wand zeigt ein Beispiel. Welche Front du bekommst, legen wir im Onboarding gemeinsam

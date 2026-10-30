@@ -15,8 +15,6 @@ import {
   STUFEN,
   ZIELGRUPPEN,
   einstiegFuerStufe,
-  eur0,
-  preisText,
   type StufeKey,
   type ZielgruppeKey,
 } from "@/lib/treppe";
@@ -79,9 +77,7 @@ export default function Treppe() {
                 <span className="stair__txt">
                   <span className="stair__nr">Stufe {st.nr}</span>
                   <span className="stair__name">{st.name}</span>
-                  <span className="stair__meta">
-                    {st.dauer} · {eur0(st.preis)}
-                  </span>
+                  <span className="stair__meta">{st.dauer}</span>
                   {istEinstieg && <span className="stair__rec">Dein Einstieg</span>}
                   {passt && <span className="stair__rec stair__rec--soft">Passt auch</span>}
                 </span>
@@ -101,10 +97,6 @@ export default function Treppe() {
         </div>
 
         <div className="rows">
-          <div className="row">
-            <span className="row__k">Preis</span>
-            <span className="row__v">{preisText(s)}</span>
-          </div>
           <div className="row">
             <span className="row__k">Empfohlen für</span>
             <span className="row__v">{s.empfohlenFuer}</span>

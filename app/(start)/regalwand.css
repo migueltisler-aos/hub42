@@ -789,9 +789,26 @@
     letter-spacing: -0.02em; color: var(--ink); text-wrap: balance;
   }
 
-  /* Regalfronten S, M, L im Preisblock: gleich gewichtet, Preis wie die Faktenleiste */
+  /* Warum? Was? Wie?: Text des Teams in zwei Spalten, schmal gestapelt.
+     Fließtext in --ink-mid (5:1 auf Beton), der Zielsatz in --ink mit
+     Bronze nur als Linie, wie .bericht__befund. */
+  .warum { display: grid; gap: clamp(40px, 5vw, 64px); }
+  .warum__col { display: grid; align-content: start; gap: 20px; }
+  .warum__col--was { border-top: 1px solid var(--hair-firm); padding-top: clamp(32px, 4vw, 40px); }
+  .warum__lede { max-width: 46ch; }
+  .warum__h3 { max-width: 30ch; color: var(--ink); }
+  .warum__text { display: grid; gap: 14px; max-width: 60ch; }
+  .warum__text p { font-size: 1rem; line-height: 1.65; color: var(--ink-mid); }
+  .warum__text .warum__ziel {
+    margin-top: 6px; color: var(--ink); font-weight: 500;
+    border-left: 3px solid var(--bulb); padding-left: 14px;
+  }
+
+  /* Regalfronten S, M, L: gleich gewichtet, die Breite groß wie die Faktenleiste.
+     Seit 2026-10-30 ohne Preis (paket__breite); paket__preis bleibt für alte Stände. */
   .pakete { margin-top: 22px; }
   .paket { background: var(--concrete); gap: 6px; }
+  .paket .paket__breite,
   .paket .paket__preis {
     font-family: var(--f-display); font-size: clamp(1.9rem, 3vw, 2.5rem); font-weight: 500;
     letter-spacing: -0.025em; line-height: 1; color: var(--ink); margin-top: 6px;
@@ -1218,6 +1235,20 @@
   .priceblock .tbl-scroll { margin-top: 22px; }
   .priceblock__txt { margin-top: 12px; color: var(--ink-mid); max-width: 60ch; }
   .priceblock__txt a { color: var(--bulb-ink); }
+  /* Verweis auf testkaufhaus.de (seit 2026-10-30 stehen die Preise dort) */
+  /* Schrift in --ink (10:1 auf Beton), Bronze nur im Unterstrich: --bulb-ink
+     als Schriftfarbe käme auf Beton nur auf 4,07:1. */
+  .tk-link {
+    color: var(--ink); text-decoration: underline; text-decoration-color: var(--bulb-ink);
+    text-decoration-thickness: 1px; text-underline-offset: 0.18em;
+  }
+  .tk-link:hover { text-decoration-thickness: 2px; }
+  /* Knöpfe zu testkaufhaus.de: Primärknopf der Seite (.btn--solid, Stahl auf
+     Beton), unter dem BIFI-Absatz und im Block „Drei Breiten zur Wahl“. */
+  .warum__cta { margin-top: 6px; }
+  .priceblock__btn { margin-top: 18px; }
+  .dark .tk-link { color: var(--bulb-lite); text-decoration-color: currentColor; }
+  .dark .tk-link:hover { color: #F7F5EE; }
   .rate__note { font-family: var(--f-mono); font-size: 0.719rem; color: var(--ink-mid); margin-top: 12px; }
   .calc { margin-top: 26px; background: var(--paper); border: 1px solid rgba(30,36,29,.18); padding: 20px 22px; max-width: 640px; }
   .calc__k { font-family: var(--f-mono); font-size: 0.625rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--bulb-ink); }
@@ -1299,6 +1330,10 @@
     .advice { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
   }
   @media (min-width: 940px) { .tour { grid-template-columns: 1.32fr 1fr; } }
+  @media (min-width: 940px) {
+    .warum { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); }
+    .warum__col--was { border-top: 0; padding-top: 0; border-left: 1px solid var(--hair-firm); padding-left: clamp(32px, 4vw, 56px); }
+  }
   @media (min-width: 940px) { .daten__grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr); align-items: start; } }
   @media (min-width: 1060px) {
     .close__grid { grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr); }

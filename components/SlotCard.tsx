@@ -3,14 +3,14 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import type { SlotTier } from "@/lib/slots";
-import { PAKETE, RATES, paketMiete } from "@/lib/deck-economics";
-import { eur } from "@/lib/neue-ui/regal";
 
 interface SlotCardProps {
   slot: SlotTier;
   index?: number;
 }
 
+/* Seit 2026-10-30 ohne Preisblock: Preise und Pakete stehen nur auf
+   testkaufhaus.de (Verweis auf /hersteller). */
 export default function SlotCard({ slot, index = 0 }: SlotCardProps) {
   return (
     <motion.div
@@ -35,42 +35,11 @@ export default function SlotCard({ slot, index = 0 }: SlotCardProps) {
 
       {/* Name */}
       <h3
-        className="text-cream text-[min(1.875rem,10cqi)] whitespace-nowrap tracking-wider mb-1"
+        className="text-cream text-[min(1.875rem,10cqi)] whitespace-nowrap tracking-wider mb-5"
         style={{ fontFamily: "var(--font-bebas)" }}
       >
         {slot.name}
       </h3>
-
-      {/* Price */}
-      {slot.zone != null ? (
-        <div className="mb-6">
-          {/* Preis bleibt in einer Zeile: nowrap, Schrift wächst mit der Kartenbreite
-              (1 Spalte unter 640 px, 4 Spalten ab 1024 px). „/Monat“ steht darunter. */}
-          <div className="mb-1">
-            <span className="block whitespace-nowrap text-bronze text-[clamp(1.5rem,2.2vw,2.25rem)] leading-tight font-bold font-mono">
-              ab {eur(paketMiete(PAKETE.S.cm, slot.zone) ?? 0)}
-            </span>
-            <span className="text-stone text-sm">/Monat</span>
-          </div>
-          <p className="text-stone text-xs font-mono">Regalfront S, {PAKETE.S.cm} cm</p>
-          <p className="text-stone text-xs font-mono">
-            M, {PAKETE.M.cm} cm: {eur(paketMiete(PAKETE.M.cm, slot.zone) ?? 0)} · L ab {PAKETE.L.abCm} cm:{" "}
-            {eur(RATES[slot.zone])} je cm
-          </p>
-        </div>
-      ) : (
-        <div className="mb-6">
-          <div className="mb-1">
-            <span className="text-bronze text-4xl font-bold font-mono">
-              {slot.kostenMonat} €
-            </span>
-            <span className="text-stone text-sm ml-1">/Monat</span>
-          </div>
-          <p className="text-stone text-xs font-mono">
-            Fixpreis · Position&nbsp;inklusive
-          </p>
-        </div>
-      )}
 
       {/* Divider */}
       <div className="w-full h-px bg-stone-dark mb-6" />

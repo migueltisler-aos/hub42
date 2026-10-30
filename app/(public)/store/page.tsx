@@ -1,6 +1,8 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
 import FunnelVisual from "@/components/FunnelVisual";
+import { TestkaufhausLink } from "@/components/TestkaufhausLink";
+import { PREISE_SATZ, TK_KNOPF_PUBLIC } from "@/lib/testkaufhaus";
 
 export const metadata: Metadata = {
   title: "Der Store – Alexa Berlin",
@@ -210,14 +212,19 @@ export default function StorePage() {
             Dein Produkt hierher?
           </h2>
           <p className="text-stone text-sm mb-8">
-            Im Alexa ab März 2027. Regalfront ab 13 cm und 59 €/Monat netto, plus 7 % nur auf Verkauf.
+            Im Alexa ab März 2027. Regalfront ab 13 cm. {PREISE_SATZ}
           </p>
-          <Link
-            href="/#bewerben"
-            className="inline-block px-10 py-4 bg-bronze text-green-dark font-semibold rounded-sm hover:bg-[#9A7548] transition-colors text-sm"
-          >
-            Jetzt bewerben →
-          </Link>
+          <div className="flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/#bewerben"
+              className="inline-block px-10 py-4 bg-bronze text-green-dark font-semibold rounded-sm hover:bg-[#9A7548] transition-colors text-sm"
+            >
+              Jetzt bewerben →
+            </Link>
+            <TestkaufhausLink className={`${TK_KNOPF_PUBLIC} py-4`} ort="store-cta">
+              Preise auf testkaufhaus.de <span aria-hidden="true">→</span>
+            </TestkaufhausLink>
+          </div>
         </div>
       </section>
     </>

@@ -240,7 +240,7 @@ export const STOPS: Station[] = [
     t: "Schaufenster",
     x: "6%",
     y: "34%",
-    d: "Das Center zählt rund 15 Mio. Besuche im Jahr. 140 € im Monat.",
+    d: "Das Center zählt rund 15 Mio. Besuche im Jahr.",
   },
   {
     id: "tasting",

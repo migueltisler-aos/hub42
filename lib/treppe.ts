@@ -143,7 +143,7 @@ export const ZIELGRUPPEN: Record<ZielgruppeKey, Zielgruppe> = {
   gruender: {
     label: "Gründer",
     einstieg: null,
-    hinweis: `Für junge Startups ist der Einstieg die Regalfront S, ab ${PAKETE.S.preis} € netto im Monat. In die Treppe kommst du, wenn deine ersten Monatsberichte da sind.`,
+    hinweis: `Für junge Startups ist der Einstieg die Regalfront S mit ${PAKETE.S.cm} cm. In die Treppe kommst du, wenn deine ersten Monatsberichte da sind.`,
   },
   online: { label: "Online-Marke", einstieg: "beweisen" },
   hersteller: { label: "Etablierter Hersteller", einstieg: "spark" },

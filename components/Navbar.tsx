@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { Menu, X } from "lucide-react";
+import TestkaufhausLeiste from "@/components/TestkaufhausLeiste";
 
 const NAV_LINKS = [
   { href: "/neue-offer", label: "Regalbeweis 90" },
@@ -46,6 +47,9 @@ export default function Navbar() {
       }`}
       role="banner"
     >
+      {/* Leiste zu testkaufhaus.de, 44 px fest; PublicLayout plant die Höhe ein */}
+      <TestkaufhausLeiste />
+
       {/* Announcement bar – Ort & Datum, auf jeder Seite außer /hersteller (dort bereits im Hero) */}
       {!isHersteller && (
         <div className="bg-bronze/10 border-b border-bronze/20">

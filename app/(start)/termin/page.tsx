@@ -4,6 +4,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import TerminKalender from "@/components/neue-ui/TerminKalender";
+import { TestkaufhausLink } from "@/components/TestkaufhausLink";
 
 export const metadata: Metadata = {
   title: { absolute: "Termin buchen · Hub42" },
@@ -21,7 +22,9 @@ export default function TerminPage() {
           </Link>
           <nav className="top__nav" aria-label="Seitenbereiche">
             <Link href="/#treppe">Treppe</Link>
-            <Link href="/#preise">Preise</Link>
+            <TestkaufhausLink>
+              Preise <span aria-hidden="true">↗</span>
+            </TestkaufhausLink>
           </nav>
           <Link className="btn btn--solid" href="/#bewerben">
             Jetzt bewerben

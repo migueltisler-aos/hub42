@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Schibsted_Grotesk } from "next/font/google";
 import "./regalwand.css";
+import TestkaufhausLeiste from "@/components/TestkaufhausLeiste";
 
 /* Die Display-Schrift der Regalwand. DM Sans, DM Mono und Bebas liegen schon
    global als next/font-Variablen an <html>. */
@@ -12,7 +13,7 @@ const schibsted = Schibsted_Grotesk({
 
 const TITEL = "Hub42 · Der Laden für Neuheiten im Alexa Berlin";
 const TEXT =
-  "Der Laden nur für Neuheiten: Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf, echte Kasse statt Umfrage, vier Stufen bis zur Listung. Alexa Berlin, Eröffnung März 2027.";
+  "Der Laden nur für Neuheiten: echte Kasse statt Umfrage, vier Stufen bis zur Listung. Alexa Berlin, Eröffnung März 2027.";
 
 export const metadata: Metadata = {
   title: { absolute: TITEL },
@@ -29,7 +30,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: TITEL,
-    description: "Vom ersten Regal bis zur Listung. Regalfront ab 59 € netto im Monat plus 7 % auf den Verkauf.",
+    description: "Vom ersten Regal bis zur Listung. Echte Kasse statt Umfrage, im Alexa Berlin.",
     creator: "@hub42berlin",
   },
 };
@@ -37,5 +38,12 @@ export const metadata: Metadata = {
 export default function StartLayout({ children }: { children: React.ReactNode }) {
   /* Alles hängt unter .rw – das kapselt die generischen Klassennamen des
      Mockups gegen den Rest der Site ab (siehe regalwand.css). */
-  return <div className={`${schibsted.variable} rw`}>{children}</div>;
+  /* Die Testkaufhaus-Leiste steht vor .rw im Fluss: sie scrollt weg, die
+     sticky Kopfzeile (.top, top: 0) rückt nach, ohne zu springen. */
+  return (
+    <>
+      <TestkaufhausLeiste spiegel="start" />
+      <div className={`${schibsted.variable} rw`}>{children}</div>
+    </>
+  );
 }
