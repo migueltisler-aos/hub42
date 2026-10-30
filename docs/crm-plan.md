@@ -101,8 +101,14 @@ Dazu ⌘K für Suche und Schnellaktionen (Notiz, Aufgabe, Stufe).
 ## Offene Fragen
 
 - Segment Partner: eigene Projekt-Vorlage (Konzept, Fläche, Ausbau, Eröffnung, Betrieb) statt der Regal-Meilensteine.
-- Gehören Bewerbungen (`bewerbungen`) als Einstieg in die Stufe „Antwort“ oder „Interesse“?
 - Der Webhook erkennt Antworten nur vom Absender `pipeline_brands.email`. Antwortet jemand anderes aus der Marke, fehlt der Treffer; später gegen `crm_kontakte` abgleichen.
-- `outreach_status` und `email_events` haben keine Migrationsdatei im Repo: vor dem Run Spalten in der DB prüfen.
 
 Entschieden 30.10.2026: Anke (BIFI) arbeitet im selben Tool, Gmail-Antworten setzen die Stufe automatisch.
+
+Entschieden 31.10.2026: Bewerbungen laufen in die Pipeline. Treffer über Website, Mail oder Name, sonst
+neue Marke mit `gefunden_via = Bewerbung`, Stufe Interesse, Aufgabe „Bewerbung prüfen“ für denselben Tag.
+Einstieg `studie` → Segment Enterprise, sonst Startup. Alt-Status `Inaktiv` → Verloren,
+`typ = Partner` → Segment Partner.
+
+Datenstand 31.10.2026: 341 Marken (256 Neu, 44 Kontaktiert, 16 Inaktiv, 10 Später, Rest einstellig),
+5 Bewerbungen (alle neu), 4 Angebote, 35 offene „nächste Aktion“, `email_events` noch leer.

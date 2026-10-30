@@ -58,10 +58,12 @@ update pipeline_brands set
     when 'Onboarded'   then 'Kunde'
     when 'Später'      then 'Später'
     when 'Abgelehnt'   then 'Verloren'
+    when 'Inaktiv'     then 'Verloren'  -- „Inaktiv schalten“, Kommentar steht in feedback
     else 'Recherche'
   end,
   stufe_seit    = coalesce(datum_letzte_aktion::timestamptz, created_at),
-  verlust_grund = case when status = 'Abgelehnt' then 'Sonstiges' end,
+  verlust_grund = case when status in ('Abgelehnt', 'Inaktiv') then 'Sonstiges' end,
+  segment       = case when typ = 'Partner' then 'Partner' end,
   wiedervorlage = case when status = 'Später'
                        then coalesce(datum_naechste_aktion, current_date + 30) end
 where stufe is null;
@@ -314,6 +316,97 @@ create trigger pipeline_angebote_projekt
   after update of status on pipeline_angebote
   for each row execute function crm_projekt_aus_angebot();
 
+-- ── Bewerbungen als Einstieg ────────────────────────────────────────────────
+-- Jede Bewerbung landet in der Pipeline: Treffer über website_key, Mail oder
+-- Markenname, sonst neue Marke. Stufe Interesse, Aufgabe „Bewerbung prüfen“
+-- für heute beim Besitzer. Weiter fortgeschrittene Marken behalten ihre Stufe.
+alter table bewerbungen
+  add column if not exists brand_id uuid references pipeline_brands(id) on delete set null;
+create index if not exists bewerbungen_brand_id_idx on bewerbungen (brand_id);
+
+create or replace function crm_bewerbung_zu_brand(bw public.bewerbungen)
+returns uuid
+language plpgsql
+set search_path = ''
+as $$
+declare
+  b_id  uuid;
+  b_key text := nullif(regexp_replace(
+                  regexp_replace(lower(btrim(coalesce(bw.website, ''))), '^https?://(www\.)?', ''),
+                  '/$', ''), '');
+  b_wer text;
+begin
+  select id into b_id from public.pipeline_brands
+  where (b_key is not null and website_key = b_key)
+     or lower(email) = lower(bw.email)
+     or lower(btrim(name)) = lower(btrim(bw.marke))
+  order by (website_key = b_key) desc nulls last
+  limit 1;
+
+  if b_id is null then
+    insert into public.pipeline_brands
+      (name, website, website_key, email, ansprechpartner, produkt, gefunden_via, stufe, segment)
+    values
+      (bw.marke, bw.website, b_key, bw.email, bw.name, bw.produkt, 'Bewerbung', 'Interesse',
+       case when bw.einstieg = 'studie' then 'Enterprise' else 'Startup' end)
+    returning id into b_id;
+  else
+    update public.pipeline_brands
+    set stufe = 'Interesse', verlust_grund = null, wiedervorlage = null
+    where id = b_id
+      and stufe in ('Recherche', 'In Sequenz', 'Antwort', 'Später', 'Verloren', 'Gesperrt');
+  end if;
+
+  insert into public.crm_kontakte (brand_id, name, email, ist_haupt)
+  select b_id, bw.name, bw.email,
+         not exists (select 1 from public.crm_kontakte where brand_id = b_id and ist_haupt)
+  where not exists (select 1 from public.crm_kontakte
+                    where brand_id = b_id and lower(email) = lower(bw.email));
+
+  insert into public.crm_aktivitaeten (brand_id, typ, titel, inhalt, wann)
+  values (b_id, 'System', 'Bewerbung eingegangen: ' || bw.produkt,
+          concat_ws(' · ', bw.einstieg, bw.zone, bw.cm || ' cm', bw.nachricht), bw.created_at);
+
+  -- Aufgabe nur für offene Bewerbungen
+  if bw.status = 'neu' then
+    select zugewiesen into b_wer from public.pipeline_brands where id = b_id;
+    insert into public.crm_aufgaben (brand_id, titel, faellig_am, wer, created_by)
+    values (b_id, 'Bewerbung prüfen und antworten', bw.created_at::date, b_wer, 'bewerbung');
+  end if;
+
+  return b_id;
+end $$;
+
+create or replace function crm_bewerbung_einordnen()
+returns trigger
+language plpgsql
+set search_path = ''
+as $$
+begin
+  if new.brand_id is null then
+    new.brand_id = public.crm_bewerbung_zu_brand(new);
+  end if;
+  return new;
+end $$;
+
+drop trigger if exists bewerbungen_einordnen on bewerbungen;
+create trigger bewerbungen_einordnen
+  before insert on bewerbungen
+  for each row execute function crm_bewerbung_einordnen();
+
+-- Backfill: bestehende Bewerbungen durch denselben Weg. Danach Stufe nach
+-- altem Bewerbungsstatus, nur wo die Marke gerade erst auf Interesse kam.
+update bewerbungen set brand_id = crm_bewerbung_zu_brand(bewerbungen)
+where brand_id is null;
+
+update pipeline_brands b set stufe = 'Kunde'
+from bewerbungen w
+where w.brand_id = b.id and w.status in ('angenommen', 'onboarding') and b.stufe = 'Interesse';
+
+update pipeline_brands b set stufe = 'Verloren', verlust_grund = 'Sonstiges'
+from bewerbungen w
+where w.brand_id = b.id and w.status = 'abgelehnt' and b.stufe = 'Interesse';
+
 -- ── Zeitleiste ──────────────────────────────────────────────────────────────
 -- Eine Liste je Marke über alle Quellen. security_invoker, sonst unterläuft
 -- die View den RLS-Lockdown (siehe Nachtrag in rls_lockdown_migration.sql).
@@ -328,8 +421,15 @@ union all
   from pipeline_angebote g where g.brand_id is not null
 union all
   select w.brand_id, w.eingegangen_am, 'Wareneingang', 'Sendung eingegangen', w.dhl_tracking_nr, w.eingegangen_von, 'wareneingang_sendungen', w.id
-  from wareneingang_sendungen w where w.brand_id is not null;
--- email_events fehlt noch: Spalten im Repo nicht dokumentiert, vor dem Run in der DB prüfen.
+  from wareneingang_sendungen w where w.brand_id is not null
+union all
+  select e.brand_id, e.created_at, 'Outreach',
+         case e.type when 'sent' then 'Outreach-Mail ' || coalesce(e.step::text, '') || ' raus'
+                     when 'reply' then 'Antwort eingegangen'
+                     when 'bounce' then 'Bounce'
+                     else e.type end,
+         e.raw ->> 'subject', null, 'email_events', e.id
+  from email_events e where e.brand_id is not null;
 
 -- ── RLS ─────────────────────────────────────────────────────────────────────
 alter table crm_kontakte     enable row level security;
