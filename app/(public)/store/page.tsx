@@ -1,6 +1,7 @@
 ﻿import type { Metadata } from "next";
 import Link from "next/link";
 import FunnelVisual from "@/components/FunnelVisual";
+import PreiseAufTestkaufhaus from "@/components/TestkaufhausLink";
 
 export const metadata: Metadata = {
   title: "Der Store – Alexa Berlin",
@@ -210,7 +211,8 @@ export default function StorePage() {
             Dein Produkt hierher?
           </h2>
           <p className="text-stone text-sm mb-8">
-            Im Alexa ab März 2027. Regalfront ab 13 cm und 59 €/Monat netto, plus 7 % nur auf Verkauf.
+            Im Alexa ab März 2027. Regalfront ab 13 cm.{" "}
+            <PreiseAufTestkaufhaus linkClassName="text-bronze-light underline underline-offset-4 hover:text-bronze-warm" />
           </p>
           <Link
             href="/#bewerben"
