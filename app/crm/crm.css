@@ -90,3 +90,100 @@
   .wahl__knopf { color: var(--tinte-leise); background: transparent; }
   .wahl__knopf[aria-pressed="true"] { background: var(--stahl); color: var(--papier); }
 }
+
+/* ── Griff 2 · Regalboden ────────────────────────────────────────
+   Jede Gruppe steht auf einem Regalboden: Papierfläche, Haarlinien
+   zwischen den Zeilen, unten 4 px Stahlkante wie die Traverse im Laden.
+   1440 px: links Aufgaben (7 Teile), rechts Regeln und Meilensteine
+   (5 Teile). Schmal eine Spalte in der Reihenfolge des DOM, und die ist
+   die Priorität: Überfällig, Heute, SLA, Meilensteine, Demnächst. */
+.crm {
+  .crm-inhalt { padding-top: 28px; padding-bottom: 56px; }
+
+  .heute__kopf {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 16px 24px; flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .heute__zeile { margin-top: 6px; }
+
+  .heute__raster { display: grid; gap: 20px; align-items: start; }
+  .heute__haupt, .heute__seite { display: grid; gap: 20px; }
+
+  @media (min-width: 960px) {
+    .heute__raster {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      grid-template-areas: "haupt seite" "unten seite";
+      grid-template-rows: auto 1fr;
+      column-gap: 24px;
+    }
+    .heute__haupt { grid-area: haupt; }
+    .heute__seite { grid-area: seite; }
+    .heute__unten { grid-area: unten; }
+    .heute__raster--leer { grid-template-areas: none; grid-template-rows: none; }
+  }
+
+  .regal {
+    border: 1px solid var(--linie);
+    border-bottom: 4px solid var(--stahl);
+    border-radius: 2px 2px 0 0;
+    padding: 16px 0 4px;
+  }
+  .regal h2 { padding: 0 20px 10px; }
+  .regal__leer { padding: 10px 20px 14px; }
+
+  .regal__liste > li + li { border-top: 1px solid var(--linie); }
+
+  .zeile {
+    display: flex; align-items: center; gap: 12px;
+    padding-right: 20px;
+  }
+  .zeile__griff {
+    flex: 1 1 auto; min-width: 0;
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 11px 0 11px 20px;
+  }
+  .zeile__text { display: grid; gap: 2px; min-width: 0; }
+  .zeile__titel { font-weight: 500; text-wrap: pretty; }
+  .zeile__meta { font-size: 14px; text-wrap: pretty; }
+  /* Ein Name bleibt beisammen (Rule kein-wort-allein) */
+  .name { white-space: nowrap; }
+  .zeile__datum, .zeile__status { flex: 0 0 auto; white-space: nowrap; }
+
+  /* Platz der Checkbox, damit Titel aller Gruppen auf einer Flucht stehen */
+  .zeile__marke {
+    flex: 0 0 20px; height: 20px; position: relative;
+  }
+  .zeile__marke::after {
+    content: ""; position: absolute; left: 7px; top: 7px;
+    width: 6px; height: 6px; background: var(--tinte-leise);
+  }
+
+  .regal--leer { padding: 22px 20px 20px; }
+  .leer__satz { font-size: 18px; font-weight: 500; text-wrap: balance; }
+  .leer__weiter { margin-top: 6px; }
+
+  @media (max-width: 640px) {
+    .crm-inhalt { padding-top: 20px; }
+    .regal h2 { padding: 0 16px 8px; }
+    .regal__leer { padding: 10px 16px 14px; }
+    .zeile { padding-right: 16px; }
+    .zeile__griff { padding-left: 16px; }
+  }
+}
+
+/* Griff 2, Fortsetzung: die Personenwahl als Leiste mit festen Fächern */
+.crm {
+  .wahl {
+    display: flex; gap: 2px; padding: 2px;
+    border: 1px solid var(--linie-fest); border-radius: 2px;
+  }
+  .wahl__knopf {
+    font: 500 14px/1 var(--f-text);
+    height: 34px; padding: 0 14px;
+    border: 0; border-radius: 1px; cursor: pointer;
+  }
+  @media (max-width: 640px) {
+    .wahl { width: 100%; }
+    .wahl__knopf { flex: 1 1 0; height: 40px; padding: 0 4px; }
+  }
+}

@@ -18,6 +18,12 @@ const WAHL: Wer[] = [...PERSONEN, "Alle"];
 
 const tage = (n: number) => (n === 1 ? "Tag" : "Tage");
 
+/* Rule kein-wort-allein: die letzten beiden Wörter hängen zusammen, sobald
+   ein Satz drei Wörter oder mehr hat. Der Wortlaut bleibt, nur das
+   Leerzeichen wird geschützt. */
+const NBSP = String.fromCharCode(0xa0);
+const klebe = (s: string) => (s.trim().split(/\s+/).length >= 3 ? s.replace(/ (\S+)$/, `${NBSP}$1`) : s);
+
 /** „heute“, „morgen“ oder „Di 03.11.“ */
 function wann(iso: string) {
   const t = tageSeit(iso);
@@ -57,9 +63,9 @@ export default function HeuteAnsicht({ start }: { start: Wer }) {
             <Check strokeWidth={3} />
           </span>
           <span className="zeile__text">
-            <span className="zeile__titel">{a.titel}</span>
+            <span className="zeile__titel">{klebe(a.titel)}</span>
             <span className="zeile__meta">
-              <span className="name">{a.brand.name}</span> <span className="stufe">{a.brand.stufe}</span>
+              <span className="name">{a.brand.name}</span>{NBSP}<span className="stufe">{a.brand.stufe}</span>
               {alle && <span className="person"> · {a.verantwortlich}</span>}
             </span>
           </span>
@@ -84,11 +90,14 @@ export default function HeuteAnsicht({ start }: { start: Wer }) {
           <span className="zeile__marke" aria-hidden="true" />
           <span className="zeile__text">
             <span className="zeile__titel">
-              <span className="name">{s.brand.name}</span> <span className="stufe">{s.brand.stufe}</span>
-              {wort && <span className="wort"> {wort}</span>}
+              <span className="name">{s.brand.name}</span>{" "}
+              <span className="stufe">
+                {s.brand.stufe}
+                {wort && <span className="wort">{NBSP}{wort}</span>}
+              </span>
             </span>
             <span className="zeile__meta">
-              {SLA_TEXT[s.art]}
+              {klebe(SLA_TEXT[s.art])}
               {alle && <span className="person"> · {s.besitzer}</span>}
             </span>
           </span>
@@ -107,7 +116,7 @@ export default function HeuteAnsicht({ start }: { start: Wer }) {
       <span className="zeile__griff">
         <span className="zeile__marke" aria-hidden="true" />
         <span className="zeile__text">
-          <span className="zeile__titel">{m.titel}</span>
+          <span className="zeile__titel">{klebe(m.titel)}</span>
           <span className="zeile__meta">
             <span className="name">{m.projekt}</span>
             {alle && <span className="person"> · {m.verantwortlich}</span>}
