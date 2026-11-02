@@ -246,3 +246,16 @@
     .satz--h2 { font-size: 26px; }
   }
 }
+
+/* ── Griff 4 · Glühlicht nur für "muss heute weg" ────────────────
+   Gefüllt sind nur die Etiketten überfälliger Aufgaben und der beiden
+   SLA-Arten, die der Plan rot nennt. Die Marke hat kein Rot: rot heißt
+   hier Licht über dem Etikett, dazu oberste Position in der Gruppe.
+   Tinte auf der Platte 7,3:1 (gerechnet), Kante gegen Papier 4,1:1. */
+.crm {
+  .zeit[data-art="voll"] {
+    background: var(--licht);
+    border-color: var(--licht-kante);
+    color: var(--tinte);
+  }
+}
