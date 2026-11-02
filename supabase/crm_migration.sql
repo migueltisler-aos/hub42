@@ -89,8 +89,11 @@ begin
 end $$;
 
 drop trigger if exists pipeline_brands_stufe_seit on pipeline_brands;
+-- Ohne Spaltenliste: `update of stufe` feuert nicht, wenn ein anderer
+-- BEFORE-Trigger (crm_stufe_aus_outreach) die Stufe setzt. Alphabetisch läuft
+-- dieser Trigger nach stufe_aus_outreach und sieht dessen Ergebnis.
 create trigger pipeline_brands_stufe_seit
-  before update of stufe on pipeline_brands
+  before update on pipeline_brands
   for each row execute function crm_stufe_seit();
 
 -- Outreach schiebt die Stufe: gesendet → In Sequenz, Antwort → Antwort,
@@ -202,8 +205,9 @@ end $$;
 
 drop trigger if exists pipeline_brands_stufe_protokoll on pipeline_brands;
 create trigger pipeline_brands_stufe_protokoll
-  after update of stufe on pipeline_brands
-  for each row execute function crm_stufe_protokoll();
+  after update on pipeline_brands
+  for each row when (old.stufe is distinct from new.stufe)
+  execute function crm_stufe_protokoll();
 
 -- ── Aufgaben ────────────────────────────────────────────────────────────────
 create table if not exists crm_aufgaben (
