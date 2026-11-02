@@ -58,3 +58,35 @@
     .crm-spiegel { padding: 0 16px; }
   }
 }
+
+/* ── Griff 1 · Papier und Stahl ──────────────────────────────────
+   Karton als Seite, Papier als Regalboden, Flaschengrün als Stahl und
+   als Tinte. Die leiseste Tinte ist --tinte-leise: auf Papier 9,0:1,
+   auf Karton 7,8:1 (gerechnet, gemessen im Bericht). */
+.crm {
+  background: var(--karton);
+  color: var(--tinte);
+
+  .crm-kopf { background: var(--stahl); color: var(--papier); }
+  .crm-kopf__in { height: 52px; display: flex; align-items: center; gap: 14px; }
+  .crm-kopf__marke { display: block; color: var(--papier); border-radius: 1px; }
+  /* Die Platte ist hell, die Schrift ausgespart: durch sie scheint der Stahl */
+  .crm-kopf__logo { display: block; height: 26px; width: auto; }
+  .crm-kopf__bereich {
+    font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--licht-warm);
+    padding-left: 14px; border-left: 1px solid rgba(249, 245, 238, 0.28);
+    line-height: 26px;
+  }
+
+  .heute__zeile { color: var(--tinte-leise); }
+  .regal { background: var(--papier); }
+  .zeile__titel { color: var(--tinte); }
+  .zeile__meta, .regal__leer, .zeile__datum, .zeile__status, .leer__weiter { color: var(--tinte-leise); }
+  .stufe, .wort, .zeile__datum, .zeile__status, .heute__zeile {
+    font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.04em;
+  }
+
+  .wahl__knopf { color: var(--tinte-leise); background: transparent; }
+  .wahl__knopf[aria-pressed="true"] { background: var(--stahl); color: var(--papier); }
+}
