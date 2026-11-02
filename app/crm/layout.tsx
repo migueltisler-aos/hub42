@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Etikettmarke from "./_components/Etikettmarke";
+import CrmNav from "./_components/CrmNav";
 import "./crm.css";
 
 export const metadata: Metadata = {
@@ -19,6 +20,7 @@ export default function CrmLayout({ children }: { children: React.ReactNode }) {
             <Etikettmarke className="crm-kopf__logo" />
           </Link>
           <span className="crm-kopf__bereich">CRM</span>
+          <CrmNav />
         </div>
       </header>
       <main className="crm-spiegel crm-inhalt">{children}</main>

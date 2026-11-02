@@ -346,6 +346,29 @@
   }
 }
 
+/* Werkzeug-Leiste im Kopf: Papier auf Stahl (12,6:1), aktiv mit Bronze-
+   Unterstrich (licht-warm auf Stahl 8,5:1). Schmal scrollt die Leiste. */
+.crm {
+  .crm-nav {
+    display: flex; gap: 2px; margin-left: auto;
+    overflow-x: auto; scrollbar-width: none; min-width: 0;
+  }
+  .crm-nav__link {
+    font: 500 14px/1 var(--f-text); color: var(--papier);
+    padding: 8px 10px; border-bottom: 2px solid transparent;
+    text-decoration: none; white-space: nowrap;
+    transition: border-color 120ms ease-out;
+  }
+  .crm-nav__link[aria-current="page"] { border-bottom-color: var(--licht-warm); }
+  @media (hover: hover) and (pointer: fine) {
+    .crm-nav__link:not([aria-current="page"]):hover { border-bottom-color: rgba(249, 245, 238, 0.5); }
+  }
+  @media (max-width: 640px) {
+    .crm-kopf__bereich { display: none; }
+    .crm-nav__link { padding: 8px 8px; }
+  }
+}
+
 /* Anmelden: ein Regalboden mit zwei Feldern, Knopf in Stahl wie die
    gewählte Person. Tinte auf Papier 12,6:1, Rahmen in der leisen Tinte. */
 .crm {
