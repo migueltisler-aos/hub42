@@ -14,6 +14,7 @@ const PIPELINE_GESCHUETZT = [
   "/feedback/leads",
   "/feedback/admin",
   "/admin",
+  "/crm",
 ];
 
 export function proxy(request: NextRequest) {
@@ -48,5 +49,6 @@ export const config = {
     "/feedback/leads/:path*",
     "/feedback/admin/:path*",
     "/admin/:path*",
+    "/crm/:path*",
   ],
 };
