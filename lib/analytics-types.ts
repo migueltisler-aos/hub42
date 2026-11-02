@@ -47,6 +47,7 @@ export const NICHT_MESSEN = [
   "/feedback/admin",
   "/feedback/leads",
   "/admin",
+  "/crm",
   "/api",
 ] as const;
 
