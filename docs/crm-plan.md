@@ -1,6 +1,6 @@
 # CRM und Projekte: Grundgerüst
 
-Stand 30.10.2026 · Branch `feat/crm-grundgeruest` · Migrationsentwurf `supabase/crm_migration.sql` (noch nicht ausgeführt)
+Stand 30.10.2026 · Branch `feat/crm-grundgeruest` · Migration `supabase/crm_migration.sql` auf Produktion ausgeführt am 02.11.2026
 
 ## Ziel
 
