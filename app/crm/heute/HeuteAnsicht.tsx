@@ -1,0 +1,270 @@
+"use client";
+
+import { useState } from "react";
+import { Check } from "lucide-react";
+import { HEUTE, SLA_TEXT, type Aufgabe, type MeilensteinFaellig, type SlaVerstoss } from "./fixture";
+import {
+  PERSONEN,
+  SLA_ROT,
+  SLA_WORT,
+  kurzDatum,
+  lageFuer,
+  langDatum,
+  tageSeit,
+  type Wer,
+} from "./logik";
+
+const WAHL: Wer[] = [...PERSONEN, "Alle"];
+
+const tage = (n: number) => (n === 1 ? "Tag" : "Tage");
+
+/** „heute“, „morgen“ oder „Di 03.11.“ */
+function wann(iso: string) {
+  const t = tageSeit(iso);
+  if (t === 0) return "heute";
+  if (t === -1) return "morgen";
+  return kurzDatum(iso);
+}
+
+export default function HeuteAnsicht({ start }: { start: Wer }) {
+  const [wer, setWer] = useState<Wer>(start);
+  const [erledigt, setErledigt] = useState<Record<string, boolean>>({});
+  const lage = lageFuer(wer, erledigt);
+  const alle = wer === "Alle";
+
+  const fertig = (a: Aufgabe) => erledigt[a.id] ?? a.erledigt;
+  const offen = (liste: Aufgabe[]) => liste.filter((a) => !fertig(a)).length;
+  const umschalten = (a: Aufgabe) => setErledigt((e) => ({ ...e, [a.id]: !fertig(a) }));
+
+  function waehlen(w: Wer) {
+    setWer(w);
+    window.history.replaceState(null, "", `?wer=${encodeURIComponent(w)}`);
+  }
+
+  const nOffenUeber = offen(lage.ueberfaellig);
+  const nOffenHeute = offen(lage.heute);
+  const nichtsFaellig =
+    lage.ueberfaellig.length + lage.heute.length + lage.sla.length + lage.meilensteine.length === 0;
+
+  const zeileAufgabe = (a: Aufgabe, rechts: "zeit" | "datum" | "nichts") => {
+    const done = fertig(a);
+    const t = tageSeit(a.faellig);
+    return (
+      <li key={a.id} className="zeile" data-erledigt={done || undefined}>
+        <label className="zeile__griff">
+          <input type="checkbox" className="haken" checked={done} onChange={() => umschalten(a)} />
+          <span className="haken__bild" aria-hidden="true">
+            <Check strokeWidth={3} />
+          </span>
+          <span className="zeile__text">
+            <span className="zeile__titel">{a.titel}</span>
+            <span className="zeile__meta">
+              <span className="name">{a.brand.name}</span> <span className="stufe">{a.brand.stufe}</span>
+              {alle && <span className="person"> · {a.verantwortlich}</span>}
+            </span>
+          </span>
+        </label>
+        {done ? (
+          <span className="zeile__status">erledigt</span>
+        ) : rechts === "zeit" ? (
+          <Zeit n={t} art="voll" text={`seit ${t} ${t === 1 ? "Tag" : "Tagen"} überfällig`} />
+        ) : rechts === "datum" ? (
+          <span className="zeile__datum">{wann(a.faellig)}</span>
+        ) : null}
+      </li>
+    );
+  };
+
+  const zeileSla = (s: SlaVerstoss) => {
+    const rot = SLA_ROT.includes(s.art);
+    const wort = SLA_WORT[s.art];
+    return (
+      <li key={s.id} className="zeile zeile--ohne-haken">
+        <span className="zeile__griff">
+          <span className="zeile__marke" aria-hidden="true" />
+          <span className="zeile__text">
+            <span className="zeile__titel">
+              <span className="name">{s.brand.name}</span> <span className="stufe">{s.brand.stufe}</span>
+              {wort && <span className="wort"> {wort}</span>}
+            </span>
+            <span className="zeile__meta">
+              {SLA_TEXT[s.art]}
+              {alle && <span className="person"> · {s.besitzer}</span>}
+            </span>
+          </span>
+        </span>
+        <Zeit
+          n={s.seit_tagen}
+          art={rot ? "voll" : "umriss"}
+          text={`seit ${s.seit_tagen} ${s.seit_tagen === 1 ? "Tag" : "Tagen"}`}
+        />
+      </li>
+    );
+  };
+
+  const zeileMeilenstein = (m: MeilensteinFaellig) => (
+    <li key={m.id} className="zeile zeile--ohne-haken">
+      <span className="zeile__griff">
+        <span className="zeile__marke" aria-hidden="true" />
+        <span className="zeile__text">
+          <span className="zeile__titel">{m.titel}</span>
+          <span className="zeile__meta">
+            <span className="name">{m.projekt}</span>
+            {alle && <span className="person"> · {m.verantwortlich}</span>}
+          </span>
+        </span>
+      </span>
+      <span className="zeile__datum">{wann(m.faellig)}</span>
+    </li>
+  );
+
+  const demnaechst = (
+    <Regal id="demnaechst" titel="Demnächst" zahl={lage.demnaechst.length} leise>
+      {lage.demnaechst.length ? (
+        <ul className="regal__liste">{lage.demnaechst.map((a) => zeileAufgabe(a, "datum"))}</ul>
+      ) : (
+        <p className="regal__leer">Nichts in den nächsten Tagen.</p>
+      )}
+    </Regal>
+  );
+
+  const naechste = lage.demnaechst[0];
+
+  return (
+    <div className="heute">
+      <div className="heute__kopf">
+        <div>
+          <h1 className="satz satz--h1">
+            Heute
+            <sup className="satz__zahl">
+              <span className="sr-only">, </span>
+              {kurzDatum(HEUTE)}
+            </sup>
+          </h1>
+          <p className="heute__zeile">
+            <span className="sr-only">{langDatum(HEUTE)}. </span>
+            {nichtsFaellig ? (
+              "nichts fällig"
+            ) : (
+              <>
+                {nOffenUeber}&nbsp;überfällig · {nOffenHeute}&nbsp;heute&nbsp;offen · {lage.sla.length}&nbsp;SLA-Verstöße
+              </>
+            )}
+          </p>
+        </div>
+
+        <div className="wahl" role="group" aria-label="Aufgaben von">
+          {WAHL.map((w) => (
+            <button
+              key={w}
+              type="button"
+              className="wahl__knopf"
+              aria-pressed={wer === w}
+              onClick={() => waehlen(w)}
+            >
+              {w}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {nichtsFaellig ? (
+        <div className="heute__raster heute__raster--leer">
+          <section className="regal regal--leer" aria-labelledby="leer-titel">
+            <p id="leer-titel" className="leer__satz">
+              Für&nbsp;{wer} ist heute nichts&nbsp;fällig.
+            </p>
+            {naechste && (
+              <p className="leer__weiter">
+                Nächste Aufgabe {wann(naechste.faellig)}: {naechste.titel},{" "}
+                <span className="name">{naechste.brand.name}</span>
+              </p>
+            )}
+          </section>
+          {demnaechst}
+        </div>
+      ) : (
+        <div className="heute__raster">
+          <div className="heute__haupt">
+            <Regal id="ueberfaellig" titel="Überfällig" zahl={nOffenUeber}>
+              {lage.ueberfaellig.length ? (
+                <ul className="regal__liste">{lage.ueberfaellig.map((a) => zeileAufgabe(a, "zeit"))}</ul>
+              ) : (
+                <p className="regal__leer">Nichts überfällig.</p>
+              )}
+            </Regal>
+            <Regal id="heute" titel="Heute" zahl={nOffenHeute}>
+              {lage.heute.length ? (
+                <ul className="regal__liste">{lage.heute.map((a) => zeileAufgabe(a, "nichts"))}</ul>
+              ) : (
+                <p className="regal__leer">Heute ist nichts fällig.</p>
+              )}
+            </Regal>
+          </div>
+
+          <div className="heute__seite">
+            <Regal id="sla" titel="SLA-Verstöße" zahl={lage.sla.length}>
+              {lage.sla.length ? (
+                <ul className="regal__liste">{lage.sla.map(zeileSla)}</ul>
+              ) : (
+                <p className="regal__leer">Keine SLA-Verstöße.</p>
+              )}
+            </Regal>
+            <Regal id="meilensteine" titel="Meilensteine" zahl={lage.meilensteine.length}>
+              {lage.meilensteine.length ? (
+                <ul className="regal__liste">{lage.meilensteine.map(zeileMeilenstein)}</ul>
+              ) : (
+                <p className="regal__leer">Keine Meilensteine fällig.</p>
+              )}
+            </Regal>
+          </div>
+
+          <div className="heute__unten">{demnaechst}</div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function Regal({
+  id,
+  titel,
+  zahl,
+  leise,
+  children,
+}: {
+  id: string;
+  titel: string;
+  zahl: number;
+  leise?: boolean;
+  children: React.ReactNode;
+}) {
+  return (
+    <section className="regal" data-leise={leise || undefined} aria-labelledby={`${id}-titel`}>
+      <h2 id={`${id}-titel`} className="satz satz--h2">
+        {titel}
+        <sup className="satz__zahl">
+          <span className="sr-only">, </span>
+          {zahl}
+          <span className="sr-only"> offen</span>
+        </sup>
+      </h2>
+      {children}
+    </section>
+  );
+}
+
+/** Zeit-Etikett: die Zahl groß, die Einheit hochgestellt mit Cent-Strich. */
+function Zeit({ n, art, text }: { n: number; art: "voll" | "umriss"; text: string }) {
+  return (
+    <span className="zeit" data-art={art}>
+      <span className="sr-only">{text}</span>
+      <span className="zeit__n" aria-hidden="true">
+        {n}
+      </span>
+      <span className="zeit__e" aria-hidden="true">
+        {tage(n)}
+      </span>
+    </span>
+  );
+}

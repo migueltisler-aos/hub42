@@ -1,0 +1,60 @@
+/* ══════════════════════════════════════════════════════════════
+   CRM Testkaufhaus · Team warm (Design-Challenge 261102, Runde 1)
+
+   Alles hängt unter .crm: Route-CSS bleibt nach einer Client-Navigation
+   im Dokument, ungekapselte Klassen wirkten sonst auf anderen Seiten.
+
+   Tokens: jeder Wert ist ein Hex aus app/globals.css (@theme) oder aus der
+   Startseite (app/(start)/regalwand.css), hier nur unter Namen aus dem
+   Laden abgelegt. globals.css bleibt unberührt.
+   ══════════════════════════════════════════════════════════════ */
+
+.crm {
+  /* Papier: Karton als Seite, helles Papier als Regalboden */
+  --karton:  #EDE5D8;   /* @theme --color-cream-warm */
+  --papier:  #F9F5EE;   /* @theme --color-cream */
+
+  /* Regalstahl: Flaschengrün als Fläche und als Tinte */
+  --stahl:        #1A3228;   /* @theme --color-green-muted */
+  --tinte:        #1A3228;   /* @theme --color-green-muted */
+  --tinte-leise:  #2A4A3C;   /* @theme --color-green-dark, leiseste Tinte */
+
+  /* Glühlicht */
+  --licht:        #DEB870;   /* @theme --color-bronze-light */
+  --licht-kante:  #9A7030;   /* @theme --color-bronze-dark */
+  --licht-warm:   #E8C88A;   /* @theme --color-bronze-warm, Signal auf Stahl */
+
+  --linie:        rgba(26, 50, 40, 0.14);   /* --stahl, 14 % */
+  --linie-fest:   rgba(26, 50, 40, 0.30);   /* --stahl, 30 % */
+
+  --f-titel: var(--font-bebas), "Arial Narrow", Impact, sans-serif;
+  --f-text:  var(--font-dm-sans), "Helvetica Neue", Arial, sans-serif;
+  --f-mono:  var(--font-dm-mono), ui-monospace, Menlo, monospace;
+
+  --spiegel: 1180px;   /* Satzspiegel der Startseite (.top__in) */
+
+  /* Der Root-Body ist eine grüne Flex-Spalte: ohne flex/min-height
+     bliebe unter der Seite ein grüner Streifen stehen. */
+  flex: 1 0 auto;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  font-family: var(--f-text);
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+
+  * { box-sizing: border-box; }
+  h1, h2, p, ul { margin: 0; padding: 0; }
+  ul { list-style: none; }
+  p { text-wrap: pretty; }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  .crm-spiegel { max-width: var(--spiegel); margin: 0 auto; padding: 0 28px; }
+  @media (max-width: 640px) {
+    .crm-spiegel { padding: 0 16px; }
+  }
+}
