@@ -1,0 +1,358 @@
+/* ══════════════════════════════════════════════════════════════
+   CRM Testkaufhaus · Team warm (Design-Challenge 261102, Runde 1)
+
+   Alles hängt unter .crm: Route-CSS bleibt nach einer Client-Navigation
+   im Dokument, ungekapselte Klassen wirkten sonst auf anderen Seiten.
+
+   Tokens: jeder Wert ist ein Hex aus app/globals.css (@theme) oder aus der
+   Startseite (app/(start)/regalwand.css), hier nur unter Namen aus dem
+   Laden abgelegt. globals.css bleibt unberührt.
+   ══════════════════════════════════════════════════════════════ */
+
+.crm {
+  /* Papier: Karton als Seite, helles Papier als Regalboden */
+  --karton:  #EDE5D8;   /* @theme --color-cream-warm */
+  --papier:  #F9F5EE;   /* @theme --color-cream */
+
+  /* Regalstahl: Flaschengrün als Fläche und als Tinte */
+  --stahl:        #1A3228;   /* @theme --color-green-muted */
+  --tinte:        #1A3228;   /* @theme --color-green-muted */
+  --tinte-leise:  #2A4A3C;   /* @theme --color-green-dark, leiseste Tinte */
+
+  /* Glühlicht */
+  --licht:        #DEB870;   /* @theme --color-bronze-light */
+  --licht-kante:  #9A7030;   /* @theme --color-bronze-dark */
+  --licht-warm:   #E8C88A;   /* @theme --color-bronze-warm, Signal auf Stahl */
+
+  --linie:        rgba(26, 50, 40, 0.14);   /* --stahl, 14 % */
+  --linie-fest:   rgba(26, 50, 40, 0.30);   /* --stahl, 30 % */
+
+  --f-titel: var(--font-bebas), "Arial Narrow", Impact, sans-serif;
+  --f-text:  var(--font-dm-sans), "Helvetica Neue", Arial, sans-serif;
+  --f-mono:  var(--font-dm-mono), ui-monospace, Menlo, monospace;
+
+  --spiegel: 1180px;   /* Satzspiegel der Startseite (.top__in) */
+
+  /* Der Root-Body ist eine grüne Flex-Spalte: ohne flex/min-height
+     bliebe unter der Seite ein grüner Streifen stehen. */
+  flex: 1 0 auto;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  font-family: var(--f-text);
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+
+  * { box-sizing: border-box; }
+  h1, h2, p, ul { margin: 0; padding: 0; }
+  ul { list-style: none; }
+  p { text-wrap: pretty; }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  .crm-spiegel { max-width: var(--spiegel); margin: 0 auto; padding: 0 28px; }
+  @media (max-width: 640px) {
+    .crm-spiegel { padding: 0 16px; }
+  }
+}
+
+/* ── Griff 1 · Papier und Stahl ──────────────────────────────────
+   Karton als Seite, Papier als Regalboden, Flaschengrün als Stahl und
+   als Tinte. Die leiseste Tinte ist --tinte-leise: auf Papier 9,0:1,
+   auf Karton 7,8:1 (gerechnet, gemessen im Bericht). */
+.crm {
+  background: var(--karton);
+  color: var(--tinte);
+
+  .crm-kopf { background: var(--stahl); color: var(--papier); }
+  .crm-kopf__in { height: 52px; display: flex; align-items: center; gap: 14px; }
+  .crm-kopf__marke { display: block; color: var(--papier); border-radius: 1px; }
+  /* Die Platte ist hell, die Schrift ausgespart: durch sie scheint der Stahl */
+  .crm-kopf__logo { display: block; height: 26px; width: auto; }
+  .crm-kopf__bereich {
+    font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--licht-warm);
+    padding-left: 14px; border-left: 1px solid rgba(249, 245, 238, 0.28);
+    line-height: 26px;
+  }
+
+  .heute__zeile { color: var(--tinte-leise); }
+  .regal { background: var(--papier); }
+  .zeile__titel { color: var(--tinte); }
+  .zeile__meta, .regal__leer, .zeile__datum, .zeile__status, .leer__weiter { color: var(--tinte-leise); }
+  .stufe, .wort, .zeile__datum, .zeile__status, .heute__zeile {
+    font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.04em;
+  }
+
+  .wahl__knopf { color: var(--tinte-leise); background: transparent; }
+  .wahl__knopf[aria-pressed="true"] { background: var(--stahl); color: var(--papier); }
+}
+
+/* ── Griff 2 · Regalboden ────────────────────────────────────────
+   Jede Gruppe steht auf einem Regalboden: Papierfläche, Haarlinien
+   zwischen den Zeilen, unten 4 px Stahlkante wie die Traverse im Laden.
+   1440 px: links Aufgaben (7 Teile), rechts Regeln und Meilensteine
+   (5 Teile). Schmal eine Spalte in der Reihenfolge des DOM, und die ist
+   die Priorität: Überfällig, Heute, SLA, Meilensteine, Demnächst. */
+.crm {
+  .crm-inhalt { padding-top: 28px; padding-bottom: 56px; }
+
+  .heute__kopf {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 16px 24px; flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .heute__zeile { margin-top: 6px; }
+
+  .heute__raster { display: grid; gap: 20px; align-items: start; }
+  .heute__haupt, .heute__seite { display: grid; gap: 20px; }
+
+  @media (min-width: 960px) {
+    .heute__raster {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      grid-template-areas: "haupt seite" "unten seite";
+      grid-template-rows: auto 1fr;
+      column-gap: 24px;
+    }
+    .heute__haupt { grid-area: haupt; }
+    .heute__seite { grid-area: seite; }
+    .heute__unten { grid-area: unten; }
+    .heute__raster--leer { grid-template-areas: none; grid-template-rows: none; }
+  }
+
+  .regal {
+    border: 1px solid var(--linie);
+    border-bottom: 4px solid var(--stahl);
+    border-radius: 2px 2px 0 0;
+    padding: 16px 0 4px;
+  }
+  .regal h2 { padding: 0 20px 10px; }
+  .regal__leer { padding: 10px 20px 14px; }
+
+  .regal__liste > li + li { border-top: 1px solid var(--linie); }
+
+  .zeile {
+    display: flex; align-items: center; gap: 12px;
+    padding-right: 20px;
+  }
+  .zeile__griff {
+    flex: 1 1 auto; min-width: 0;
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 11px 0 11px 20px;
+  }
+  .zeile__text { display: grid; gap: 2px; min-width: 0; }
+  .zeile__titel { font-weight: 500; text-wrap: pretty; }
+  .zeile__meta { font-size: 14px; text-wrap: pretty; }
+  /* Ein Name bleibt beisammen (Rule kein-wort-allein) */
+  .name { white-space: nowrap; }
+  .zeile__datum, .zeile__status { flex: 0 0 auto; white-space: nowrap; }
+
+  /* Platz der Checkbox, damit Titel aller Gruppen auf einer Flucht stehen */
+  .zeile__marke {
+    flex: 0 0 20px; height: 20px; position: relative;
+  }
+  .zeile__marke::after {
+    content: ""; position: absolute; left: 7px; top: 7px;
+    width: 6px; height: 6px; background: var(--tinte-leise);
+  }
+
+  .regal--leer { padding: 22px 20px 20px; }
+  .leer__satz { font-size: 18px; font-weight: 500; text-wrap: balance; }
+  .leer__weiter { margin-top: 6px; }
+
+  @media (max-width: 640px) {
+    .crm-inhalt { padding-top: 20px; }
+    .regal h2 { padding: 0 16px 8px; }
+    .regal__leer { padding: 10px 16px 14px; }
+    .zeile { padding-right: 16px; }
+    .zeile__griff { padding-left: 16px; }
+  }
+}
+
+/* Griff 2, Fortsetzung: die Personenwahl als Leiste mit festen Fächern */
+.crm {
+  .wahl {
+    display: flex; gap: 2px; padding: 2px;
+    border: 1px solid var(--linie-fest); border-radius: 2px;
+  }
+  .wahl__knopf {
+    font: 500 14px/1 var(--f-text);
+    height: 34px; padding: 0 14px;
+    border: 0; border-radius: 1px; cursor: pointer;
+  }
+  @media (max-width: 640px) {
+    .wahl { width: 100%; }
+    .wahl__knopf { flex: 1 1 0; height: 40px; padding: 0 4px; }
+  }
+}
+
+/* ── Griff 3 · Etikett-Satz ──────────────────────────────────────
+   Gesetzt wie das Logo: groß das Wort (TEST), hochgestellt auf halber
+   Versalhöhe und oben bündig die Zahl (KAUFHAUS), darunter der
+   Cent-Strich in der Stärke eines Stamms (Logo: 0,25 × Versalhöhe der
+   kleinen Zeile). Bebas nur in h1 und h2. Die mono Zeile unter der H1
+   ist die Grundpreiszeile. */
+.crm {
+  .satz {
+    font-family: var(--f-titel); font-weight: 400;
+    line-height: 1; letter-spacing: 0.02em;
+    color: var(--tinte);
+    text-wrap: balance;
+    text-transform: uppercase;      /* Bebas setzt ß als Versal-ß, das wie B liest; uppercase macht SS */
+  }
+  .satz--h1 { font-size: 56px; }
+  .satz--h2 { font-size: 30px; }
+
+  .satz__zahl {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 0.5em;               /* Versalhöhe 0,5 × Wort, wie KAUFHAUS zu TEST */
+    line-height: 1;
+    letter-spacing: 0.04em;
+    margin-left: 0.12em;
+    margin-top: 0.6em;              /* Oberkante bündig mit der Versalhöhe des Worts, per CDP gemessen */
+    padding-bottom: 0.06em;
+    border-bottom: max(1.5px, 0.175em) solid currentColor;   /* Cent-Strich */
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Zeit-Etikett in der Zeile: die Zahl wie der Euro, die Einheit wie die Cent */
+  .zeit {
+    flex: 0 0 auto;
+    display: inline-flex; align-items: flex-start; gap: 3px;
+    min-width: 58px; justify-content: center;
+    padding: 5px 8px 6px;
+    border: 1px solid var(--tinte-leise);
+    border-radius: 0;               /* Etikettenkarton, gerade geschnitten */
+    color: var(--tinte);
+  }
+  .zeit__n {
+    font: 600 20px/1 var(--f-text);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .zeit__e {
+    font: 500 10px/1 var(--f-mono);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-top: 2px;
+    padding-bottom: 1px;
+    border-bottom: 1.5px solid currentColor;   /* Cent-Strich */
+  }
+
+  @media (max-width: 640px) {
+    .satz--h1 { font-size: 44px; }
+    .satz--h2 { font-size: 26px; }
+  }
+}
+
+/* ── Griff 4 · Glühlicht nur für "muss heute weg" ────────────────
+   Gefüllt sind nur die Etiketten überfälliger Aufgaben und der beiden
+   SLA-Arten, die der Plan rot nennt. Die Marke hat kein Rot: rot heißt
+   hier Licht über dem Etikett, dazu oberste Position in der Gruppe.
+   Tinte auf der Platte 7,3:1 (gerechnet). Die Kante ist Stahl statt
+   Bronze-dunkel: #9A7030 hielt gegen Papier nur 4,08:1, #1A3228 hält 12,9:1. */
+.crm {
+  .zeit[data-art="voll"] {
+    background: var(--licht);
+    border-color: var(--stahl);
+    color: var(--tinte);
+  }
+}
+
+/* Besitzer-Etikett in der Ansicht „Alle“: vorn in der Metazeile,
+   Tinte auf Papier wie jede Zeile, Rahmen in der leisen Tinte. */
+.crm {
+  .person {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 0 6px;
+    border: 1px solid var(--tinte-leise);
+    border-radius: 2px;
+    font-family: var(--f-text);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    color: var(--tinte);
+    background: var(--papier);
+    white-space: nowrap;
+  }
+  /* Etikett und Marke brechen nie auseinander, sonst steht bei 390 px
+     der Name allein in einer Zeile (Rule kein-wort-allein). */
+  .paar { white-space: nowrap; }
+  /* Mit Etikett darf der Name nach dem ersten Wort brechen, sonst wird
+     die Zeile bei 390 px breiter als der Schirm. */
+  .name--mit-person { white-space: normal; }
+}
+
+/* ── Griff 5 · Zustände ohne Sprung ──────────────────────────────
+   Hover tönt die Fläche, Fokus zeigt einen 2-px-Ring in Stahl, erledigt
+   streicht den Titel und schreibt "erledigt" an den Platz des Etiketts.
+   Keine Bewegung außer Farbe (120 ms) und dem Haken (160 ms, nur
+   opacity und scale ab 0,8, nie ab 0). Kein transform auf Hover. */
+.crm {
+  /* Die native Checkbox bleibt das Bedienelement, nur unsichtbar;
+     das Bild daneben zeigt ihren Zustand. */
+  .zeile__griff { position: relative; }
+  label.zeile__griff { cursor: pointer; }
+  .haken {
+    position: absolute; left: 20px; top: 12px;
+    width: 20px; height: 20px; margin: 0; opacity: 0;
+  }
+  .haken__bild {
+    flex: 0 0 20px; height: 20px; margin-top: 1px;
+    display: grid; place-items: center;
+    background: var(--papier);
+    border: 1.5px solid var(--tinte-leise);
+    border-radius: 2px;
+    color: var(--papier);
+    transition: background-color 120ms ease-out, border-color 120ms ease-out;
+  }
+  .haken__bild svg {
+    width: 14px; height: 14px;
+    opacity: 0; transform: scale(0.8);
+    transition: opacity 120ms ease-out, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .haken:checked + .haken__bild { background: var(--stahl); border-color: var(--stahl); }
+  .haken:checked + .haken__bild svg { opacity: 1; transform: none; }
+
+  .zeile__marke { margin-top: 1px; }
+
+  [data-erledigt] .zeile__titel {
+    color: var(--tinte-leise);
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+  }
+
+  /* Fokus: immer sichtbar per Tastatur, nie per Maus */
+  :focus-visible { outline: 2px solid var(--stahl); outline-offset: 2px; }
+  .haken:focus-visible { outline: none; }
+  .haken:focus-visible + .haken__bild { outline: 2px solid var(--stahl); outline-offset: 2px; }
+  .crm-kopf :focus-visible { outline-color: var(--licht-warm); outline-offset: 4px; }
+
+  .zeile, .wahl__knopf { transition: background-color 120ms ease-out, color 120ms ease-out; }
+
+  @media (hover: hover) and (pointer: fine) {
+    .zeile:has(label.zeile__griff:hover) {
+      background: color-mix(in oklab, var(--karton) 55%, var(--papier));
+    }
+    label.zeile__griff:hover .haken:not(:checked) + .haken__bild { border-color: var(--stahl); }
+    .wahl__knopf:not([aria-pressed="true"]):hover { background: var(--papier); color: var(--tinte); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .zeile, .wahl__knopf, .haken__bild, .haken__bild svg { transition: none; }
+  }
+}
+
+/* Griff 2, Nachtrag: schmal gibt es keine rechte Datumsspalte, das Datum
+   steht in der Metazeile. Sonst bliebe bei 390 px ein Wort allein
+   ("Fläche" vor "Bahnhofsviertel besichtigen"). */
+.crm {
+  .zeile__datum--innen { display: none; }
+  @media (max-width: 640px) {
+    .zeile__datum--innen { display: inline; }
+    .zeile__datum--rechts { display: none; }
+  }
+}
