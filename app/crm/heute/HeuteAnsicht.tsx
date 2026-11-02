@@ -1,8 +1,15 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { Check } from "lucide-react";
-import { HEUTE, SLA_TEXT, type Aufgabe, type MeilensteinFaellig, type SlaVerstoss } from "./fixture";
+import {
+  SLA_TEXT,
+  type Aufgabe,
+  type HeuteDaten,
+  type MeilensteinFaellig,
+  type SlaVerstoss,
+} from "@/lib/crm-heute-model";
+import { aufgabeErledigt } from "./actions";
 import {
   PERSONEN,
   SLA_ROT,
@@ -24,23 +31,34 @@ const tage = (n: number) => (n === 1 ? "Tag" : "Tage");
 const NBSP = String.fromCharCode(0xa0);
 const klebe = (s: string) => (s.trim().split(/\s+/).length >= 3 ? s.replace(/ (\S+)$/, `${NBSP}$1`) : s);
 
-/** „heute“, „morgen“ oder „Di 03.11.“ */
-function wann(iso: string) {
-  const t = tageSeit(iso);
-  if (t === 0) return "heute";
-  if (t === -1) return "morgen";
-  return kurzDatum(iso);
-}
-
-export default function HeuteAnsicht({ start }: { start: Wer }) {
+export default function HeuteAnsicht({ start, daten }: { start: Wer; daten: HeuteDaten }) {
+  const HEUTE = daten.heute;
   const [wer, setWer] = useState<Wer>(start);
+  // Haken wirken sofort; schlägt das Speichern fehl, springt der Haken zurück.
   const [erledigt, setErledigt] = useState<Record<string, boolean>>({});
-  const lage = lageFuer(wer, erledigt);
+  const [, starte] = useTransition();
+  const lage = lageFuer(daten, wer, erledigt);
   const alle = wer === "Alle";
+
+  /** „heute“, „morgen“, „Di 03.11.“ oder „ohne Datum“ */
+  const wann = (iso: string | null) => {
+    if (iso === null) return "ohne Datum";
+    const t = tageSeit(iso, HEUTE);
+    if (t === 0) return "heute";
+    if (t === -1) return "morgen";
+    return kurzDatum(iso);
+  };
 
   const fertig = (a: Aufgabe) => erledigt[a.id] ?? a.erledigt;
   const offen = (liste: Aufgabe[]) => liste.filter((a) => !fertig(a)).length;
-  const umschalten = (a: Aufgabe) => setErledigt((e) => ({ ...e, [a.id]: !fertig(a) }));
+  const umschalten = (a: Aufgabe) => {
+    const neu = !fertig(a);
+    setErledigt((e) => ({ ...e, [a.id]: neu }));
+    starte(async () => {
+      const { ok } = await aufgabeErledigt(a.id, neu);
+      if (!ok) setErledigt((e) => ({ ...e, [a.id]: !neu }));
+    });
+  };
 
   function waehlen(w: Wer) {
     setWer(w);
@@ -54,7 +72,7 @@ export default function HeuteAnsicht({ start }: { start: Wer }) {
 
   const zeileAufgabe = (a: Aufgabe, rechts: "zeit" | "datum" | "nichts") => {
     const done = fertig(a);
-    const t = tageSeit(a.faellig);
+    const t = a.faellig === null ? 0 : tageSeit(a.faellig, HEUTE);
     return (
       <li key={a.id} className="zeile" data-erledigt={done || undefined}>
         <label className="zeile__griff">
@@ -67,7 +85,7 @@ export default function HeuteAnsicht({ start }: { start: Wer }) {
             <span className="zeile__meta">
               <Name text={a.brand.name} person={alle ? a.verantwortlich : undefined} />
               {NBSP}<span className="stufe">{a.brand.stufe}</span>
-              {rechts === "datum" && <InnenDatum iso={a.faellig} />}
+              {rechts === "datum" && <InnenDatum text={wann(a.faellig)} />}
             </span>
           </span>
         </label>
@@ -120,7 +138,7 @@ export default function HeuteAnsicht({ start }: { start: Wer }) {
           <span className="zeile__titel">{klebe(m.titel)}</span>
           <span className="zeile__meta">
             <Name text={m.projekt} person={alle ? m.verantwortlich : undefined} />
-            <InnenDatum iso={m.faellig} />
+            <InnenDatum text={wann(m.faellig)} />
           </span>
         </span>
       </span>
@@ -266,11 +284,11 @@ function Regal({
 
 /** Datum in der Metazeile: nur schmal sichtbar, dort gibt es keine rechte Spalte
     (CSS schaltet per display, also liest ein Screenreader nur eine Fassung). */
-function InnenDatum({ iso }: { iso: string }) {
+function InnenDatum({ text }: { text: string }) {
   return (
     <span className="zeile__datum zeile__datum--innen">
       {" · "}
-      {wann(iso)}
+      {text}
     </span>
   );
 }

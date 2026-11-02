@@ -1,16 +1,20 @@
 import type { Metadata } from "next";
+import { cookies } from "next/headers";
+import { ladeHeute } from "@/lib/crm-heute";
+import { personAus } from "@/lib/crm-heute-model";
 import HeuteAnsicht from "./HeuteAnsicht";
 import { werAus } from "./logik";
 
 export const metadata: Metadata = { title: "Heute" };
 
-/* Startscreen des CRM. Daten kommen in dieser Runde nur aus fixture.ts;
-   ?wer=Anke|Miguel|Oliver|Alle wählt die Person, ohne Parameter gilt ICH. */
+/* Startscreen des CRM. Ohne ?wer= gilt die Person aus dem Login-Cookie,
+   ?wer=Ralf|Anke|Miguel|Oliver|Alle wählt eine andere Ansicht. */
 export default async function HeutePage({
   searchParams,
 }: {
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
-  const { wer } = await searchParams;
-  return <HeuteAnsicht start={werAus(wer)} />;
+  const [{ wer }, cookieStore, daten] = await Promise.all([searchParams, cookies(), ladeHeute()]);
+  const ich = personAus(cookieStore.get("pipeline_user")?.value);
+  return <HeuteAnsicht start={werAus(wer, ich)} daten={daten} />;
 }
