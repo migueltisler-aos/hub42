@@ -67,6 +67,7 @@ export default function HeuteAnsicht({ start }: { start: Wer }) {
             <span className="zeile__meta">
               <span className="name">{a.brand.name}</span>{NBSP}<span className="stufe">{a.brand.stufe}</span>
               {alle && <span className="person"> · {a.verantwortlich}</span>}
+              {rechts === "datum" && <InnenDatum iso={a.faellig} />}
             </span>
           </span>
         </label>
@@ -75,7 +76,7 @@ export default function HeuteAnsicht({ start }: { start: Wer }) {
         ) : rechts === "zeit" ? (
           <Zeit n={t} art="voll" text={`seit ${t} ${t === 1 ? "Tag" : "Tagen"} überfällig`} />
         ) : rechts === "datum" ? (
-          <span className="zeile__datum">{wann(a.faellig)}</span>
+          <span className="zeile__datum zeile__datum--rechts">{wann(a.faellig)}</span>
         ) : null}
       </li>
     );
@@ -120,10 +121,11 @@ export default function HeuteAnsicht({ start }: { start: Wer }) {
           <span className="zeile__meta">
             <span className="name">{m.projekt}</span>
             {alle && <span className="person"> · {m.verantwortlich}</span>}
+            <InnenDatum iso={m.faellig} />
           </span>
         </span>
       </span>
-      <span className="zeile__datum">{wann(m.faellig)}</span>
+      <span className="zeile__datum zeile__datum--rechts">{wann(m.faellig)}</span>
     </li>
   );
 
@@ -181,7 +183,7 @@ export default function HeuteAnsicht({ start }: { start: Wer }) {
         <div className="heute__raster heute__raster--leer">
           <section className="regal regal--leer" aria-labelledby="leer-titel">
             <p id="leer-titel" className="leer__satz">
-              Für&nbsp;{wer} ist heute nichts&nbsp;fällig.
+              {`Für${NBSP}${wer} ist heute nichts${NBSP}fällig.`}
             </p>
             {naechste && (
               <p className="leer__weiter">
@@ -260,6 +262,17 @@ function Regal({
       </h2>
       {children}
     </section>
+  );
+}
+
+/** Datum in der Metazeile: nur schmal sichtbar, dort gibt es keine rechte Spalte
+    (CSS schaltet per display, also liest ein Screenreader nur eine Fassung). */
+function InnenDatum({ iso }: { iso: string }) {
+  return (
+    <span className="zeile__datum zeile__datum--innen">
+      {" · "}
+      {wann(iso)}
+    </span>
   );
 }
 

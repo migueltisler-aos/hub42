@@ -319,3 +319,14 @@
     .zeile, .wahl__knopf, .haken__bild, .haken__bild svg { transition: none; }
   }
 }
+
+/* Griff 2, Nachtrag: schmal gibt es keine rechte Datumsspalte, das Datum
+   steht in der Metazeile. Sonst bliebe bei 390 px ein Wort allein
+   ("Fläche" vor "Bahnhofsviertel besichtigen"). */
+.crm {
+  .zeile__datum--innen { display: none; }
+  @media (max-width: 640px) {
+    .zeile__datum--innen { display: inline; }
+    .zeile__datum--rechts { display: none; }
+  }
+}
