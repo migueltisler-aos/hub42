@@ -259,3 +259,63 @@
     color: var(--tinte);
   }
 }
+
+/* ── Griff 5 · Zustände ohne Sprung ──────────────────────────────
+   Hover tönt die Fläche, Fokus zeigt einen 2-px-Ring in Stahl, erledigt
+   streicht den Titel und schreibt "erledigt" an den Platz des Etiketts.
+   Keine Bewegung außer Farbe (120 ms) und dem Haken (160 ms, nur
+   opacity und scale ab 0,8, nie ab 0). Kein transform auf Hover. */
+.crm {
+  /* Die native Checkbox bleibt das Bedienelement, nur unsichtbar;
+     das Bild daneben zeigt ihren Zustand. */
+  .zeile__griff { position: relative; }
+  label.zeile__griff { cursor: pointer; }
+  .haken {
+    position: absolute; left: 20px; top: 12px;
+    width: 20px; height: 20px; margin: 0; opacity: 0;
+  }
+  .haken__bild {
+    flex: 0 0 20px; height: 20px; margin-top: 1px;
+    display: grid; place-items: center;
+    background: var(--papier);
+    border: 1.5px solid var(--tinte-leise);
+    border-radius: 2px;
+    color: var(--papier);
+    transition: background-color 120ms ease-out, border-color 120ms ease-out;
+  }
+  .haken__bild svg {
+    width: 14px; height: 14px;
+    opacity: 0; transform: scale(0.8);
+    transition: opacity 120ms ease-out, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .haken:checked + .haken__bild { background: var(--stahl); border-color: var(--stahl); }
+  .haken:checked + .haken__bild svg { opacity: 1; transform: none; }
+
+  .zeile__marke { margin-top: 1px; }
+
+  [data-erledigt] .zeile__titel {
+    color: var(--tinte-leise);
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+  }
+
+  /* Fokus: immer sichtbar per Tastatur, nie per Maus */
+  :focus-visible { outline: 2px solid var(--stahl); outline-offset: 2px; }
+  .haken:focus-visible { outline: none; }
+  .haken:focus-visible + .haken__bild { outline: 2px solid var(--stahl); outline-offset: 2px; }
+  .crm-kopf :focus-visible { outline-color: var(--licht-warm); outline-offset: 4px; }
+
+  .zeile, .wahl__knopf { transition: background-color 120ms ease-out, color 120ms ease-out; }
+
+  @media (hover: hover) and (pointer: fine) {
+    .zeile:has(label.zeile__griff:hover) {
+      background: color-mix(in oklab, var(--karton) 55%, var(--papier));
+    }
+    label.zeile__griff:hover .haken:not(:checked) + .haken__bild { border-color: var(--stahl); }
+    .wahl__knopf:not([aria-pressed="true"]):hover { background: var(--papier); color: var(--tinte); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .zeile, .wahl__knopf, .haken__bild, .haken__bild svg { transition: none; }
+  }
+}
