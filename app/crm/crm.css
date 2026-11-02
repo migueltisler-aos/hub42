@@ -187,3 +187,62 @@
     .wahl__knopf { flex: 1 1 0; height: 40px; padding: 0 4px; }
   }
 }
+
+/* ── Griff 3 · Etikett-Satz ──────────────────────────────────────
+   Gesetzt wie das Logo: groß das Wort (TEST), hochgestellt auf halber
+   Versalhöhe und oben bündig die Zahl (KAUFHAUS), darunter der
+   Cent-Strich in der Stärke eines Stamms (Logo: 0,25 × Versalhöhe der
+   kleinen Zeile). Bebas nur in h1 und h2. Die mono Zeile unter der H1
+   ist die Grundpreiszeile. */
+.crm {
+  .satz {
+    font-family: var(--f-titel); font-weight: 400;
+    line-height: 1; letter-spacing: 0.02em;
+    color: var(--tinte);
+    text-wrap: balance;
+    text-transform: uppercase;      /* Bebas setzt ß als Versal-ß, das wie B liest; uppercase macht SS */
+  }
+  .satz--h1 { font-size: 56px; }
+  .satz--h2 { font-size: 30px; }
+
+  .satz__zahl {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 0.5em;               /* Versalhöhe 0,5 × Wort, wie KAUFHAUS zu TEST */
+    line-height: 1;
+    letter-spacing: 0.04em;
+    margin-left: 0.12em;
+    margin-top: 0.6em;              /* Oberkante bündig mit der Versalhöhe des Worts, per CDP gemessen */
+    padding-bottom: 0.06em;
+    border-bottom: max(1.5px, 0.175em) solid currentColor;   /* Cent-Strich */
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Zeit-Etikett in der Zeile: die Zahl wie der Euro, die Einheit wie die Cent */
+  .zeit {
+    flex: 0 0 auto;
+    display: inline-flex; align-items: flex-start; gap: 3px;
+    min-width: 58px; justify-content: center;
+    padding: 5px 8px 6px;
+    border: 1px solid var(--tinte-leise);
+    border-radius: 0;               /* Etikettenkarton, gerade geschnitten */
+    color: var(--tinte);
+  }
+  .zeit__n {
+    font: 600 20px/1 var(--f-text);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .zeit__e {
+    font: 500 10px/1 var(--f-mono);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-top: 2px;
+    padding-bottom: 1px;
+    border-bottom: 1.5px solid currentColor;   /* Cent-Strich */
+  }
+
+  @media (max-width: 640px) {
+    .satz--h1 { font-size: 44px; }
+    .satz--h2 { font-size: 26px; }
+  }
+}
