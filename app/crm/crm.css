@@ -346,6 +346,35 @@
   }
 }
 
+/* Anmelden: ein Regalboden mit zwei Feldern, Knopf in Stahl wie die
+   gewählte Person. Tinte auf Papier 12,6:1, Rahmen in der leisen Tinte. */
+.crm {
+  .anmelden { max-width: 380px; margin: 32px auto 0; padding: 20px 0 24px; }
+  .anmelden h1 { padding: 0 24px 12px; }
+  .anmelden__form { display: grid; gap: 16px; padding: 0 24px; }
+  .anmelden__feld { display: grid; gap: 6px; }
+  .anmelden__label {
+    font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--tinte-leise);
+  }
+  .anmelden__eingabe {
+    font: 400 15px/1.2 var(--f-text); color: var(--tinte);
+    height: 42px; padding: 0 12px;
+    background: var(--papier); border: 1px solid var(--tinte-leise); border-radius: 2px;
+  }
+  .anmelden__eingabe:focus-visible { outline: 2px solid var(--stahl); outline-offset: 2px; }
+  .anmelden__fehler { color: var(--tinte); font-weight: 500; }
+  .anmelden__knopf {
+    font: 600 15px/1 var(--f-text); height: 44px; margin-top: 4px;
+    color: var(--papier); background: var(--stahl);
+    border: 0; border-radius: 2px; cursor: pointer;
+    transition: background-color 120ms ease-out;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .anmelden__knopf:hover { background: var(--tinte-leise); }
+  }
+}
+
 /* Griff 2, Nachtrag: schmal gibt es keine rechte Datumsspalte, das Datum
    steht in der Metazeile. Sonst bliebe bei 390 px ein Wort allein
    ("Fläche" vor "Bahnhofsviertel besichtigen"). */
