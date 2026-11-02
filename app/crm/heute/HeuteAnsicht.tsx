@@ -65,8 +65,8 @@ export default function HeuteAnsicht({ start }: { start: Wer }) {
           <span className="zeile__text">
             <span className="zeile__titel">{klebe(a.titel)}</span>
             <span className="zeile__meta">
-              <span className="name">{a.brand.name}</span>{NBSP}<span className="stufe">{a.brand.stufe}</span>
-              {alle && <span className="person"> · {a.verantwortlich}</span>}
+              <Name text={a.brand.name} person={alle ? a.verantwortlich : undefined} />
+              {NBSP}<span className="stufe">{a.brand.stufe}</span>
               {rechts === "datum" && <InnenDatum iso={a.faellig} />}
             </span>
           </span>
@@ -98,8 +98,8 @@ export default function HeuteAnsicht({ start }: { start: Wer }) {
               </span>
             </span>
             <span className="zeile__meta">
+              {alle && <Person name={s.besitzer} />}
               {klebe(SLA_TEXT[s.art])}
-              {alle && <span className="person"> · {s.besitzer}</span>}
             </span>
           </span>
         </span>
@@ -119,8 +119,7 @@ export default function HeuteAnsicht({ start }: { start: Wer }) {
         <span className="zeile__text">
           <span className="zeile__titel">{klebe(m.titel)}</span>
           <span className="zeile__meta">
-            <span className="name">{m.projekt}</span>
-            {alle && <span className="person"> · {m.verantwortlich}</span>}
+            <Name text={m.projekt} person={alle ? m.verantwortlich : undefined} />
             <InnenDatum iso={m.faellig} />
           </span>
         </span>
@@ -272,6 +271,32 @@ function InnenDatum({ iso }: { iso: string }) {
     <span className="zeile__datum zeile__datum--innen">
       {" · "}
       {wann(iso)}
+    </span>
+  );
+}
+
+/** Besitzer in der Ansicht „Alle“: ein kleines Etikett vorn in der Metazeile. */
+function Person({ name }: { name: string }) {
+  return (
+    <>
+      <span className="person">{name}</span>
+      <span className="sr-only">: </span>
+    </>
+  );
+}
+
+/** Markenname, in „Alle“ mit Besitzer-Etikett davor. Das Etikett hängt am
+    ersten Wort, damit es nie allein in einer Zeile steht. */
+function Name({ text, person }: { text: string; person?: string }) {
+  if (!person) return <span className="name">{text}</span>;
+  const [erstes, ...rest] = text.split(" ");
+  return (
+    <span className="name name--mit-person">
+      <span className="paar">
+        <Person name={person} />
+        {erstes}
+      </span>
+      {rest.length > 0 && ` ${rest.join(NBSP)}`}
     </span>
   );
 }

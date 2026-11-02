@@ -251,13 +251,39 @@
    Gefüllt sind nur die Etiketten überfälliger Aufgaben und der beiden
    SLA-Arten, die der Plan rot nennt. Die Marke hat kein Rot: rot heißt
    hier Licht über dem Etikett, dazu oberste Position in der Gruppe.
-   Tinte auf der Platte 7,3:1 (gerechnet), Kante gegen Papier 4,1:1. */
+   Tinte auf der Platte 7,3:1 (gerechnet). Die Kante ist Stahl statt
+   Bronze-dunkel: #9A7030 hielt gegen Papier nur 4,08:1, #1A3228 hält 12,9:1. */
 .crm {
   .zeit[data-art="voll"] {
     background: var(--licht);
-    border-color: var(--licht-kante);
+    border-color: var(--stahl);
     color: var(--tinte);
   }
+}
+
+/* Besitzer-Etikett in der Ansicht „Alle“: vorn in der Metazeile,
+   Tinte auf Papier wie jede Zeile, Rahmen in der leisen Tinte. */
+.crm {
+  .person {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 0 6px;
+    border: 1px solid var(--tinte-leise);
+    border-radius: 2px;
+    font-family: var(--f-text);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    color: var(--tinte);
+    background: var(--papier);
+    white-space: nowrap;
+  }
+  /* Etikett und Marke brechen nie auseinander, sonst steht bei 390 px
+     der Name allein in einer Zeile (Rule kein-wort-allein). */
+  .paar { white-space: nowrap; }
+  /* Mit Etikett darf der Name nach dem ersten Wort brechen, sonst wird
+     die Zeile bei 390 px breiter als der Schirm. */
+  .name--mit-person { white-space: normal; }
 }
 
 /* ── Griff 5 · Zustände ohne Sprung ──────────────────────────────
