@@ -1,0 +1,560 @@
+/* ══════════════════════════════════════════════════════════════
+   CRM Testkaufhaus · Team warm (Design-Challenge 261102, Runde 1)
+
+   Alles hängt unter .crm: Route-CSS bleibt nach einer Client-Navigation
+   im Dokument, ungekapselte Klassen wirkten sonst auf anderen Seiten.
+
+   Tokens: Testkaufhaus, aus c:\feedback\strategie\brand-identity\brand-design\
+   design-tokens.md (Decks 26.10.2026), nicht die Hub42-Farben aus
+   app/globals.css. Die Namen aus dem Laden bleiben, die Werte sind neu.
+   ══════════════════════════════════════════════════════════════ */
+
+.crm {
+  /* Fläche: helle Bühne als Seite, Weiß als Regalboden (Karte) */
+  --karton:  #EEF2EF;   /* --hell */
+  --papier:  #FFFFFF;   /* --weiss */
+
+  /* Dunkel als Kopf, Kante und Tinte */
+  --stahl:        #101313;   /* --dunkel */
+  --tinte:        #101313;   /* --dunkel, 16,5:1 auf --hell */
+  --tinte-leise:  #245A54;   /* --gruen-tief, 7,0:1 auf --hell, 7,9:1 auf Weiß */
+
+  /* Signal: Mint als Fläche, nie als Schrift auf Hell */
+  --licht:        #66F2DF;   /* --akzent, --dunkel darauf 13,6:1 */
+  --licht-kante:  #101313;
+  --licht-warm:   #66F2DF;   /* --akzent auf --dunkel 13,6:1 */
+
+  --linie:        rgba(16, 19, 19, 0.12);   /* --dunkel, 12 % */
+  --linie-fest:   rgba(16, 19, 19, 0.28);   /* --dunkel, 28 % */
+
+  --f-titel: var(--font-archivo-narrow), "Arial Narrow", sans-serif;   /* --charakter */
+  --f-text:  Arial, "Helvetica Neue", sans-serif;                       /* --beschriftung */
+  --f-mono:  var(--font-plex-mono), "Courier New", monospace;           /* --mono */
+
+  --spiegel: 1180px;   /* Satzspiegel der Startseite (.top__in) */
+
+  /* Der Root-Body ist eine grüne Flex-Spalte: ohne flex/min-height
+     bliebe unter der Seite ein grüner Streifen stehen. */
+  flex: 1 0 auto;
+  min-height: 100dvh;
+  box-sizing: border-box;
+  font-family: var(--f-text);
+  font-size: 15px;
+  line-height: 1.45;
+  -webkit-text-size-adjust: 100%;
+
+  * { box-sizing: border-box; }
+  h1, h2, p, ul { margin: 0; padding: 0; }
+  ul { list-style: none; }
+  p { text-wrap: pretty; }
+
+  .sr-only {
+    position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+    overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  }
+
+  .crm-spiegel { max-width: var(--spiegel); margin: 0 auto; padding: 0 28px; }
+  @media (max-width: 640px) {
+    .crm-spiegel { padding: 0 16px; }
+  }
+}
+
+/* ── Griff 1 · Papier und Stahl ──────────────────────────────────
+   Karton als Seite, Papier als Regalboden, Flaschengrün als Stahl und
+   als Tinte. Die leiseste Tinte ist --tinte-leise: auf Papier 9,0:1,
+   auf Karton 7,8:1 (gerechnet, gemessen im Bericht). */
+.crm {
+  background: var(--karton);
+  color: var(--tinte);
+
+  .crm-kopf { background: var(--stahl); color: var(--papier); }
+  .crm-kopf__in { height: 52px; display: flex; align-items: center; gap: 14px; }
+  /* Platte #EEF2EF auf #101313 wie im Logo-Entscheid, Mint gehört dort dem Akzent */
+  .crm-kopf__marke { display: block; color: var(--karton); border-radius: 1px; }
+  /* Die Platte ist hell, die Schrift ausgespart: durch sie scheint der Stahl */
+  .crm-kopf__logo { display: block; height: 26px; width: auto; }
+  .crm-kopf__bereich {
+    font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--licht-warm);
+    padding-left: 14px; border-left: 1px solid rgba(238, 242, 239, 0.28);
+    line-height: 26px;
+  }
+
+  .heute__zeile { color: var(--tinte-leise); }
+  .regal { background: var(--papier); }
+  .zeile__titel { color: var(--tinte); }
+  .zeile__meta, .regal__leer, .zeile__datum, .zeile__status, .leer__weiter { color: var(--tinte-leise); }
+  .stufe, .wort, .zeile__datum, .zeile__status, .heute__zeile {
+    font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.04em;
+  }
+
+  .wahl__knopf { color: var(--tinte-leise); background: transparent; }
+  .wahl__knopf[aria-pressed="true"] { background: var(--stahl); color: var(--papier); }
+}
+
+/* ── Griff 2 · Regalboden ────────────────────────────────────────
+   Jede Gruppe steht auf einem Regalboden: Papierfläche, Haarlinien
+   zwischen den Zeilen, unten 4 px Stahlkante wie die Traverse im Laden.
+   1440 px: links Aufgaben (7 Teile), rechts Regeln und Meilensteine
+   (5 Teile). Schmal eine Spalte in der Reihenfolge des DOM, und die ist
+   die Priorität: Überfällig, Heute, SLA, Meilensteine, Demnächst. */
+.crm {
+  .crm-inhalt { padding-top: 28px; padding-bottom: 56px; }
+
+  .heute__kopf {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 16px 24px; flex-wrap: wrap; margin-bottom: 24px;
+  }
+  .heute__zeile { margin-top: 6px; }
+
+  /* minmax(0, 1fr): ohne feste Spalte wächst das Raster mit dem längsten Namen über den Schirm */
+  .heute__raster { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
+  .heute__haupt, .heute__seite { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
+
+  @media (min-width: 960px) {
+    .heute__raster {
+      grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+      grid-template-areas: "haupt seite" "unten seite";
+      grid-template-rows: auto 1fr;
+      column-gap: 24px;
+    }
+    .heute__haupt { grid-area: haupt; }
+    .heute__seite { grid-area: seite; }
+    .heute__unten { grid-area: unten; }
+    .heute__raster--leer { grid-template-areas: none; grid-template-rows: none; }
+  }
+
+  .regal {
+    border: 1px solid var(--linie);
+    border-bottom: 4px solid var(--stahl);
+    border-radius: 2px 2px 0 0;
+    padding: 16px 0 4px;
+  }
+  .regal h2 { padding: 0 20px 10px; }
+  .regal__leer { padding: 10px 20px 14px; }
+
+  .regal__liste > li + li { border-top: 1px solid var(--linie); }
+
+  .zeile {
+    display: flex; align-items: center; gap: 12px;
+    padding-right: 20px;
+  }
+  .zeile__griff {
+    flex: 1 1 auto; min-width: 0;
+    display: flex; align-items: flex-start; gap: 12px;
+    padding: 11px 0 11px 20px;
+  }
+  .zeile__text { display: grid; gap: 2px; min-width: 0; }
+  .zeile__titel { font-weight: 500; text-wrap: pretty; }
+  .zeile__meta { font-size: 14px; text-wrap: pretty; }
+  /* Echte Markennamen sind bis zu 30 Zeichen lang („… (haftungsbeschränkt)“):
+     ein Name darf brechen, sonst läuft die Zeile aus ihrer Spalte. */
+  .name { overflow-wrap: anywhere; }
+  .zeile__datum, .zeile__status { flex: 0 0 auto; white-space: nowrap; }
+
+  /* Platz der Checkbox, damit Titel aller Gruppen auf einer Flucht stehen */
+  .zeile__marke {
+    flex: 0 0 20px; height: 20px; position: relative;
+  }
+  .zeile__marke::after {
+    content: ""; position: absolute; left: 7px; top: 7px;
+    width: 6px; height: 6px; background: var(--tinte-leise);
+  }
+
+  .regal--leer { padding: 22px 20px 20px; }
+  .leer__satz { font-size: 18px; font-weight: 500; text-wrap: balance; }
+  .leer__weiter { margin-top: 6px; }
+
+  @media (max-width: 640px) {
+    .crm-inhalt { padding-top: 20px; }
+    .regal h2 { padding: 0 16px 8px; }
+    .regal__leer { padding: 10px 16px 14px; }
+    .zeile { padding-right: 16px; }
+    .zeile__griff { padding-left: 16px; }
+  }
+}
+
+/* Griff 2, Fortsetzung: die Personenwahl als Leiste mit festen Fächern */
+.crm {
+  .wahl {
+    display: flex; gap: 2px; padding: 2px;
+    border: 1px solid var(--linie-fest); border-radius: 2px;
+  }
+  .wahl__knopf {
+    font: 500 14px/1 var(--f-text);
+    height: 34px; padding: 0 14px;
+    border: 0; border-radius: 1px; cursor: pointer;
+  }
+  @media (max-width: 640px) {
+    .wahl { width: 100%; }
+    .wahl__knopf { flex: 1 1 0; height: 40px; padding: 0 4px; }
+  }
+}
+
+/* ── Griff 3 · Etikett-Satz ──────────────────────────────────────
+   Gesetzt wie das Logo: groß das Wort (TEST), hochgestellt auf halber
+   Versalhöhe und oben bündig die Zahl (KAUFHAUS), darunter der
+   Cent-Strich in der Stärke eines Stamms (Logo: 0,25 × Versalhöhe der
+   kleinen Zeile). Bebas nur in h1 und h2. Die mono Zeile unter der H1
+   ist die Grundpreiszeile. */
+.crm {
+  .satz {
+    font-family: var(--f-titel); font-weight: 400;
+    line-height: 1; letter-spacing: 0.02em;
+    color: var(--tinte);
+    text-wrap: balance;
+    text-transform: uppercase;      /* Bebas setzt ß als Versal-ß, das wie B liest; uppercase macht SS */
+  }
+  .satz--h1 { font-size: 56px; }
+  .satz--h2 { font-size: 30px; }
+
+  .satz__zahl {
+    display: inline-block;
+    vertical-align: top;
+    font-size: 0.5em;               /* Versalhöhe 0,5 × Wort, wie KAUFHAUS zu TEST */
+    line-height: 1;
+    letter-spacing: 0.04em;
+    margin-left: 0.12em;
+    margin-top: 0.6em;              /* Oberkante bündig mit der Versalhöhe des Worts, per CDP gemessen */
+    padding-bottom: 0.06em;
+    border-bottom: max(1.5px, 0.175em) solid currentColor;   /* Cent-Strich */
+    font-variant-numeric: tabular-nums;
+  }
+
+  /* Zeit-Etikett in der Zeile: die Zahl wie der Euro, die Einheit wie die Cent */
+  .zeit {
+    flex: 0 0 auto;
+    display: inline-flex; align-items: flex-start; gap: 3px;
+    min-width: 58px; justify-content: center;
+    padding: 5px 8px 6px;
+    border: 1px solid var(--tinte-leise);
+    border-radius: 0;               /* Etikettenkarton, gerade geschnitten */
+    color: var(--tinte);
+  }
+  .zeit__n {
+    font: 600 20px/1 var(--f-text);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+  }
+  .zeit__e {
+    font: 500 10px/1 var(--f-mono);
+    letter-spacing: 0.06em; text-transform: uppercase;
+    margin-top: 2px;
+    padding-bottom: 1px;
+    border-bottom: 1.5px solid currentColor;   /* Cent-Strich */
+  }
+
+  @media (max-width: 640px) {
+    .satz--h1 { font-size: 44px; }
+    .satz--h2 { font-size: 26px; }
+  }
+}
+
+/* ── Griff 4 · Glühlicht nur für "muss heute weg" ────────────────
+   Gefüllt sind nur die Etiketten überfälliger Aufgaben und der beiden
+   SLA-Arten, die der Plan rot nennt. Die Marke hat kein Rot: rot heißt
+   hier Licht über dem Etikett, dazu oberste Position in der Gruppe.
+   Tinte auf der Platte 7,3:1 (gerechnet). Die Kante ist Stahl statt
+   Bronze-dunkel: #9A7030 hielt gegen Papier nur 4,08:1, #1A3228 hält 12,9:1. */
+.crm {
+  .zeit[data-art="voll"] {
+    background: var(--licht);
+    border-color: var(--stahl);
+    color: var(--tinte);
+  }
+}
+
+/* Besitzer-Etikett in der Ansicht „Alle“: vorn in der Metazeile,
+   Tinte auf Papier wie jede Zeile, Rahmen in der leisen Tinte. */
+.crm {
+  .person {
+    display: inline-block;
+    margin-right: 8px;
+    padding: 0 6px;
+    border: 1px solid var(--tinte-leise);
+    border-radius: 2px;
+    font-family: var(--f-text);
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 18px;
+    color: var(--tinte);
+    background: var(--papier);
+    white-space: nowrap;
+  }
+  /* Etikett und Marke brechen nie auseinander, sonst steht bei 390 px
+     der Name allein in einer Zeile (Rule kein-wort-allein). */
+  .paar { white-space: nowrap; }
+  /* Mit Etikett darf der Name nach dem ersten Wort brechen, sonst wird
+     die Zeile bei 390 px breiter als der Schirm. */
+  .name--mit-person { white-space: normal; }
+}
+
+/* ── Griff 5 · Zustände ohne Sprung ──────────────────────────────
+   Hover tönt die Fläche, Fokus zeigt einen 2-px-Ring in Stahl, erledigt
+   streicht den Titel und schreibt "erledigt" an den Platz des Etiketts.
+   Keine Bewegung außer Farbe (120 ms) und dem Haken (160 ms, nur
+   opacity und scale ab 0,8, nie ab 0). Kein transform auf Hover. */
+.crm {
+  /* Die native Checkbox bleibt das Bedienelement, nur unsichtbar;
+     das Bild daneben zeigt ihren Zustand. */
+  .zeile__griff { position: relative; }
+  label.zeile__griff { cursor: pointer; }
+  .haken {
+    position: absolute; left: 20px; top: 12px;
+    width: 20px; height: 20px; margin: 0; opacity: 0;
+  }
+  .haken__bild {
+    flex: 0 0 20px; height: 20px; margin-top: 1px;
+    display: grid; place-items: center;
+    background: var(--papier);
+    border: 1.5px solid var(--tinte-leise);
+    border-radius: 2px;
+    color: var(--papier);
+    transition: background-color 120ms ease-out, border-color 120ms ease-out;
+  }
+  .haken__bild svg {
+    width: 14px; height: 14px;
+    opacity: 0; transform: scale(0.8);
+    transition: opacity 120ms ease-out, transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .haken:checked + .haken__bild { background: var(--stahl); border-color: var(--stahl); }
+  .haken:checked + .haken__bild svg { opacity: 1; transform: none; }
+
+  .zeile__marke { margin-top: 1px; }
+
+  [data-erledigt] .zeile__titel {
+    color: var(--tinte-leise);
+    text-decoration: line-through;
+    text-decoration-thickness: 1.5px;
+  }
+
+  /* Fokus: immer sichtbar per Tastatur, nie per Maus */
+  :focus-visible { outline: 2px solid var(--stahl); outline-offset: 2px; }
+  .haken:focus-visible { outline: none; }
+  .haken:focus-visible + .haken__bild { outline: 2px solid var(--stahl); outline-offset: 2px; }
+  .crm-kopf :focus-visible { outline-color: var(--licht-warm); outline-offset: 4px; }
+
+  .zeile, .wahl__knopf { transition: background-color 120ms ease-out, color 120ms ease-out; }
+
+  @media (hover: hover) and (pointer: fine) {
+    .zeile:has(label.zeile__griff:hover) {
+      background: color-mix(in oklab, var(--karton) 55%, var(--papier));
+    }
+    label.zeile__griff:hover .haken:not(:checked) + .haken__bild { border-color: var(--stahl); }
+    .wahl__knopf:not([aria-pressed="true"]):hover { background: var(--papier); color: var(--tinte); }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .zeile, .wahl__knopf, .haken__bild, .haken__bild svg { transition: none; }
+  }
+}
+
+/* Werkzeug-Leiste im Kopf: Papier auf Stahl (12,6:1), aktiv mit Bronze-
+   Unterstrich (licht-warm auf Stahl 8,5:1). Schmal scrollt die Leiste. */
+.crm {
+  .crm-nav {
+    display: flex; gap: 2px; margin-left: auto;
+    overflow-x: auto; scrollbar-width: none; min-width: 0;
+  }
+  .crm-nav__link {
+    font: 500 14px/1 var(--f-text); color: var(--papier);
+    padding: 8px 10px; border-bottom: 2px solid transparent;
+    text-decoration: none; white-space: nowrap;
+    transition: border-color 120ms ease-out;
+  }
+  .crm-nav__link[aria-current="page"] { border-bottom-color: var(--licht-warm); }
+  @media (hover: hover) and (pointer: fine) {
+    .crm-nav__link:not([aria-current="page"]):hover { border-bottom-color: rgba(238, 242, 239, 0.5); }
+  }
+  @media (max-width: 640px) {
+    .crm-kopf__bereich { display: none; }
+    .crm-nav__link { padding: 8px 8px; }
+  }
+}
+
+/* Aufgaben anlegen und ändern: Knopf im Kopf, Stift in jeder Zeile,
+   Formular als eigener Regalboden oder an Stelle der Zeile. */
+.crm {
+  .heute__aktionen { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+  .knopf {
+    display: inline-flex; align-items: center; gap: 6px;
+    font: 600 14px/1 var(--f-text); height: 38px; padding: 0 14px;
+    color: var(--tinte); background: var(--papier);
+    border: 1px solid var(--tinte); border-radius: 2px; cursor: pointer;
+    transition: background-color 120ms ease-out, color 120ms ease-out;
+  }
+  .knopf svg { width: 16px; height: 16px; }
+  .knopf--voll { color: var(--papier); background: var(--stahl); border-color: var(--stahl); }
+  .knopf:disabled { cursor: default; opacity: 0.6; }
+  @media (hover: hover) and (pointer: fine) {
+    .knopf:not(.knopf--voll):not(:disabled):hover { background: var(--karton); }
+    .knopf--voll:not(:disabled):hover { background: var(--tinte-leise); border-color: var(--tinte-leise); }
+  }
+
+  .zeile__aendern {
+    flex: 0 0 32px; height: 32px; display: grid; place-items: center;
+    color: var(--tinte-leise); background: transparent;
+    border: 1px solid transparent; border-radius: 2px; cursor: pointer;
+  }
+  .zeile__aendern svg { width: 16px; height: 16px; }
+  @media (hover: hover) and (pointer: fine) {
+    .zeile__aendern:hover { border-color: var(--linie-fest); color: var(--tinte); }
+  }
+
+  .regal--formular { padding: 16px 20px 20px; margin-bottom: 20px; }
+  .zeile--formular { display: block; padding: 14px 20px 18px; background: var(--karton); }
+
+  .formular { display: grid; gap: 12px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .formular__feld { display: grid; gap: 4px; min-width: 0; }
+  .formular__feld--breit, .formular__fehler, .formular__knoepfe { grid-column: 1 / -1; }
+  .formular__label {
+    font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--tinte-leise);
+  }
+  .formular__eingabe {
+    font: 400 15px/1.2 var(--f-text); color: var(--tinte);
+    height: 40px; padding: 0 10px; min-width: 0; width: 100%;
+    background: var(--papier); border: 1px solid var(--tinte-leise); border-radius: 2px;
+  }
+  .formular__fehler { color: var(--tinte); font-weight: 600; }
+  .formular__knoepfe { display: flex; gap: 8px; }
+
+  @media (max-width: 640px) {
+    .heute__aktionen { width: 100%; }
+    .heute__aktionen .knopf--voll { width: 100%; justify-content: center; height: 44px; }
+    .formular { grid-template-columns: minmax(0, 1fr); }
+    .regal--formular { padding: 14px 16px 16px; }
+    .zeile--formular { padding: 12px 16px 16px; }
+  }
+}
+
+/* Aufgaben: eine Spalte, Datum rechts; überfällig in der Tinte, nicht in Mint
+   (Mint ist auf Weiß nie Schrift, 1,4:1). */
+.crm {
+  .aufgaben__spalte { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; max-width: 820px; }
+  .zeile__datum--signal { color: var(--tinte); font-weight: 600; }
+}
+
+/* Pipeline · Zusagen: drei Zahlen, dann die Stufen als Balken. Der Balken
+   ist Fläche, die Zahl daneben trägt die Information. */
+.crm {
+  .trichter { padding: 16px 20px 18px; margin-bottom: 20px; }
+  .trichter h2 { padding: 0 0 12px; }
+  .trichter__zahlen { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin: 0 0 18px; }
+  .trichter__zahl { border: 1px solid var(--linie); border-radius: 2px; padding: 10px 12px; }
+  .trichter__zahl dt {
+    font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--tinte-leise);
+  }
+  .trichter__zahl dd { margin: 4px 0 0; font: 700 34px/1 var(--f-titel); color: var(--tinte); }
+  .trichter__zahl dd.trichter__klein, .trichter__klein {
+    margin: 6px 0 0; font: 400 12px/1.35 var(--f-mono); color: var(--tinte-leise);
+  }
+  .trichter__zahl--signal dd.trichter__klein { color: var(--tinte); }
+  .trichter__ziel { display: grid; gap: 6px; margin: 0 0 18px; }
+  .trichter__balken--ziel { height: 12px; }
+  .trichter__balken--ziel span { background: var(--stahl); }
+  .trichter__zahl--signal { background: var(--licht); border-color: var(--stahl); }
+  .trichter__zahl--signal dt { color: var(--tinte); }
+  .trichter__stufen { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
+  .trichter__stufe {
+    display: grid; grid-template-columns: 110px minmax(0, 1fr) 48px; align-items: center; gap: 12px;
+  }
+  .trichter__name { font-size: 14px; }
+  .trichter__balken { height: 10px; background: var(--karton); border-radius: 1px; overflow: hidden; }
+  .trichter__balken span { display: block; height: 100%; background: var(--tinte-leise); }
+  .trichter__anzahl { font-family: var(--f-mono); font-size: 13px; text-align: right; }
+  .trichter__rest { margin-top: 10px; font-family: var(--f-mono); font-size: 12px; color: var(--tinte-leise); }
+
+  @media (max-width: 640px) {
+    .trichter { padding: 14px 16px 16px; }
+    .trichter__zahlen { grid-template-columns: minmax(0, 1fr); }
+    .trichter__stufe { grid-template-columns: 92px minmax(0, 1fr) 40px; gap: 8px; }
+  }
+}
+
+/* Pipeline · Kunden: eine Karte je Kunde mit Zugesagt, Meilensteinen, Updates. */
+.crm {
+  .kunden { margin-bottom: 32px; }
+  .kunden__titel { margin-bottom: 14px; }
+  .kunden__raster { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 420px), 1fr)); gap: 20px; }
+  .kunde { padding: 16px 20px 18px; display: grid; gap: 14px; align-content: start; }
+  .kunde__name { margin: 0; font: 700 24px/1.1 var(--f-titel); text-transform: uppercase; overflow-wrap: anywhere; }
+  .kunde__meta { margin-top: 6px; font-size: 14px; color: var(--tinte-leise); }
+  .kunde__block { display: grid; gap: 6px; border-top: 1px solid var(--linie); padding-top: 12px; }
+  .kunde__label {
+    margin: 0; font-family: var(--f-mono); font-size: 12px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinte-leise);
+  }
+  .kunde__angebot { font-size: 14px; }
+  .kunde__zusagen { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .kunde__zusagen li { border-left: 3px solid var(--stahl); padding-left: 10px; }
+  .kunde__produkt { font-weight: 600; }
+  .kunde__fakten { margin-top: 2px; font-family: var(--f-mono); font-size: 12px; color: var(--tinte-leise); }
+  .kunde__leer { font-size: 14px; color: var(--tinte-leise); }
+  .kunde__liste { margin: 0; padding-left: 18px; font-size: 14px; display: grid; gap: 2px; }
+  .kunde__liste--meilensteine { padding-left: 0; list-style: none; }
+  .kunde__liste--meilensteine li {
+    display: grid; grid-template-columns: 18px minmax(0, 1fr) auto; gap: 8px; align-items: center;
+  }
+  .kunde__haken {
+    width: 16px; height: 16px; display: grid; place-items: center;
+    border: 1.5px solid var(--tinte-leise); border-radius: 2px;
+  }
+  .kunde__haken svg { width: 12px; height: 12px; }
+  [data-erledigt] > .kunde__haken { background: var(--stahl); border-color: var(--stahl); color: var(--papier); }
+  [data-erledigt] > span:nth-child(2) { color: var(--tinte-leise); text-decoration: line-through; }
+  [data-faellig] > .kunde__datum { background: var(--licht); color: var(--tinte); padding: 0 4px; }
+  .kunde__datum { font-family: var(--f-mono); font-size: 12px; color: var(--tinte-leise); white-space: nowrap; }
+  .kunde__form { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px; align-items: end; }
+  .kunde__eingabe { height: auto; min-height: 44px; padding: 8px 10px; resize: vertical; }
+  .kunde__updates { margin: 4px 0 0; padding: 0; list-style: none; display: grid; gap: 10px; }
+  .kunde__updates li { border-left: 3px solid var(--licht); padding-left: 10px; }
+  .kunde__update-text { font-size: 14px; white-space: pre-line; overflow-wrap: anywhere; }
+  .kunde__update-meta { margin-top: 2px; font-family: var(--f-mono); font-size: 12px; color: var(--tinte-leise); }
+
+  @media (max-width: 640px) {
+    .kunde { padding: 14px 16px 16px; }
+    .kunde__form { grid-template-columns: minmax(0, 1fr); }
+  }
+}
+
+/* Anmelden: ein Regalboden mit zwei Feldern, Knopf in Stahl wie die
+   gewählte Person. Tinte auf Papier 12,6:1, Rahmen in der leisen Tinte. */
+.crm {
+  .anmelden { max-width: 380px; margin: 32px auto 0; padding: 20px 0 24px; }
+  .anmelden h1 { padding: 0 24px 12px; }
+  .anmelden__form { display: grid; gap: 16px; padding: 0 24px; }
+  .anmelden__feld { display: grid; gap: 6px; }
+  .anmelden__label {
+    font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--tinte-leise);
+  }
+  .anmelden__eingabe {
+    font: 400 15px/1.2 var(--f-text); color: var(--tinte);
+    height: 42px; padding: 0 12px;
+    background: var(--papier); border: 1px solid var(--tinte-leise); border-radius: 2px;
+  }
+  .anmelden__eingabe:focus-visible { outline: 2px solid var(--stahl); outline-offset: 2px; }
+  .anmelden__fehler { color: var(--tinte); font-weight: 500; }
+  .anmelden__knopf {
+    font: 600 15px/1 var(--f-text); height: 44px; margin-top: 4px;
+    color: var(--papier); background: var(--stahl);
+    border: 0; border-radius: 2px; cursor: pointer;
+    transition: background-color 120ms ease-out;
+  }
+  @media (hover: hover) and (pointer: fine) {
+    .anmelden__knopf:hover { background: var(--tinte-leise); }
+  }
+}
+
+/* Griff 2, Nachtrag: schmal gibt es keine rechte Datumsspalte, das Datum
+   steht in der Metazeile. Sonst bliebe bei 390 px ein Wort allein
+   ("Fläche" vor "Bahnhofsviertel besichtigen"). */
+.crm {
+  .zeile__datum--innen { display: none; }
+  @media (max-width: 640px) {
+    .zeile__datum--innen { display: inline; }
+    .zeile__datum--rechts { display: none; }
+  }
+}

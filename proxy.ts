@@ -1,8 +1,9 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-// Muss synchron zu config.matcher am Dateiende bleiben – der Matcher entscheidet,
-// ob proxy() überhaupt läuft, diese Liste, ob dann das Passwort geprüft wird.
+// PIPELINE_GESCHUETZT entscheidet, wo das Passwort geprüft wird. Der Matcher
+// am Dateiende lässt proxy() auf jeder Seite laufen, weil die CRM-Adresse
+// (CRM_HOSTS) jeden Pfad abfangen muss.
 // Bewusst /feedback/admin und nicht /feedback: der In-Store-QR-Flow
 // (/feedback/scan, /feedback/r/*, /feedback/onboarding, /feedback/thanks)
 // muss öffentlich bleiben.
@@ -14,39 +15,43 @@ const PIPELINE_GESCHUETZT = [
   "/feedback/leads",
   "/feedback/admin",
   "/admin",
+  "/crm",
 ];
 
+/** Unter diesen Adressen läuft nur das CRM des Testkaufhaus. */
+const CRM_HOSTS = ["crm.testkaufhaus.de"];
+
+const OFFEN = ["/pipeline/login", "/crm/login"];
+
+const passt = (pathname: string, pfad: string) => pathname === pfad || pathname.startsWith(`${pfad}/`);
+
 export function proxy(request: NextRequest) {
-  const { pathname } = request.nextUrl;
+  const { pathname, search } = request.nextUrl;
+  const host = request.headers.get("host")?.split(":")[0] ?? "";
 
-  if (PIPELINE_GESCHUETZT.some((pfad) => pathname === pfad || pathname.startsWith(`${pfad}/`))) {
-    if (pathname === "/pipeline/login") {
-      return NextResponse.next();
-    }
+  // CRM-Adresse: alles außerhalb von /crm führt nach Heute. Die Hub42-Seiten
+  // sind dort nicht zu sehen.
+  if (CRM_HOSTS.includes(host) && !passt(pathname, "/crm")) {
+    return NextResponse.redirect(new URL("/crm/aufgaben", request.url));
+  }
 
-    const auth = request.cookies.get("pipeline_auth")?.value;
-    const expected = process.env.PIPELINE_PASSWORD;
-
-    if (!auth || auth !== expected) {
-      const loginUrl = new URL("/pipeline/login", request.url);
-      loginUrl.searchParams.set("from", pathname);
-      return NextResponse.redirect(loginUrl);
-    }
-
+  if (!PIPELINE_GESCHUETZT.some((pfad) => passt(pathname, pfad)) || OFFEN.includes(pathname)) {
     return NextResponse.next();
   }
 
-  return NextResponse.next();
+  const auth = request.cookies.get("pipeline_auth")?.value;
+  if (auth && auth === process.env.PIPELINE_PASSWORD) {
+    return NextResponse.next();
+  }
+
+  // Das CRM hat einen eigenen Login im Testkaufhaus-Look, der Rest den der Pipeline.
+  const login = passt(pathname, "/crm") ? "/crm/login" : "/pipeline/login";
+  const loginUrl = new URL(login, request.url);
+  loginUrl.searchParams.set("from", pathname + search);
+  return NextResponse.redirect(loginUrl);
 }
 
 export const config = {
-  matcher: [
-    "/pipeline/:path*",
-    "/wareneingang/:path*",
-    "/bestand/:path*",
-    "/kasse/:path*",
-    "/feedback/leads/:path*",
-    "/feedback/admin/:path*",
-    "/admin/:path*",
-  ],
+  // Alles außer Next-Interna, API und Dateien mit Endung (Bilder, Fonts, robots.txt).
+  matcher: ["/((?!_next/|api/|.*\\.[a-zA-Z0-9]+$).*)"],
 };
