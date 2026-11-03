@@ -66,15 +66,32 @@ export type AufgabenDaten = { heute: string; aufgaben: AllgemeineAufgabe[] };
 
 export const TRICHTER_STUFEN: Stufe[] = ["Recherche", "In Sequenz", "Antwort", "Interesse", "Gespräch", "Angebot", "Kunde"];
 
+/** Ziel aus FeFa_Stand, Reiter Cockpit-Ziele (Stand 2026-11-03). */
+export const ZIEL = { jahrSoll: 40_000, frist: "2027-03-28", wocheSoll: 1_559 } as const;
+
 export type Trichter = {
   stufen: { stufe: Stufe; anzahl: number }[];
   spaeter: number;
   verloren: number;
-  /** Neue Kunden: Stufe Kunde seit Wochen- bzw. Monatsbeginn. */
-  zusagenWoche: number;
-  zusagenMonat: number;
+  /** Gebuchte Zusagen (crm_zusagen, ohne storniert). */
+  zusagen: { anzahl: number; vertragswert: number; monat: number; regalCm: number };
+  /** Vertragswert der Zusagen, gebucht seit Wochen- bzw. Monatsbeginn. */
+  wertWoche: number;
+  wertMonat: number;
   /** Angebote mit Status Versendet oder Angefragt. */
   offeneAngebote: number;
+};
+
+export type Zusage = {
+  id: string;
+  produkt: string;
+  klasse: string | null;
+  regalCm: number | null;
+  laufzeitMonate: number | null;
+  monatNetto: number | null;
+  vertragswert: number | null;
+  gebuchtAm: string | null;
+  status: string;
 };
 
 export type Kunde = {
@@ -83,6 +100,8 @@ export type Kunde = {
   segment: Segment;
   besitzer: Person;
   kundeSeit: string | null;
+  /** Gebuchte Regalplätze aus crm_zusagen. */
+  zusagen: Zusage[];
   /** Was wir zugesagt haben: aus dem angenommenen oder letzten Angebot. */
   angebot: {
     nr: string;

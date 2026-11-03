@@ -6,6 +6,8 @@ import type { Kunde } from "@/lib/crm-heute-model";
 import { updateTeilen } from "../actions";
 import { kurzDatum } from "../logik";
 
+const EURO = new Intl.NumberFormat("de-DE", { style: "currency", currency: "EUR" });
+
 const ZEIT = new Intl.DateTimeFormat("de-DE", {
   day: "2-digit",
   month: "2-digit",
@@ -79,6 +81,30 @@ function KundenKarte({ kunde, heute }: { kunde: Kunde; heute: string }) {
 
       <div className="kunde__block">
         <h4 className="kunde__label">Zugesagt</h4>
+        {kunde.zusagen.length > 0 && (
+          <ul className="kunde__zusagen">
+            {kunde.zusagen.map((z) => (
+              <li key={z.id}>
+                <p className="kunde__produkt">
+                  {z.produkt}
+                  {z.klasse && <span className="stufe"> {z.klasse}</span>}
+                </p>
+                <p className="kunde__fakten">
+                  {[
+                    z.regalCm !== null && `${z.regalCm} cm`,
+                    z.laufzeitMonate !== null && `${z.laufzeitMonate} Monate`,
+                    z.monatNetto !== null && `${EURO.format(z.monatNetto)} / Monat`,
+                    z.vertragswert !== null && `${EURO.format(z.vertragswert)} gesamt`,
+                    z.gebuchtAm && `gebucht ${kurzDatum(z.gebuchtAm)}`,
+                    z.status !== "gebucht" && z.status,
+                  ]
+                    .filter(Boolean)
+                    .join(" · ")}
+                </p>
+              </li>
+            ))}
+          </ul>
+        )}
         {a ? (
           <>
             <p className="kunde__angebot">
@@ -94,7 +120,7 @@ function KundenKarte({ kunde, heute }: { kunde: Kunde; heute: string }) {
             )}
           </>
         ) : (
-          <p className="kunde__leer">Kein Angebot hinterlegt.</p>
+          kunde.zusagen.length === 0 && <p className="kunde__leer">Keine Zusage und kein Angebot hinterlegt.</p>
         )}
       </div>
 

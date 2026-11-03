@@ -447,6 +447,13 @@
     font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.04em; color: var(--tinte-leise);
   }
   .trichter__zahl dd { margin: 4px 0 0; font: 700 34px/1 var(--f-titel); color: var(--tinte); }
+  .trichter__zahl dd.trichter__klein, .trichter__klein {
+    margin: 6px 0 0; font: 400 12px/1.35 var(--f-mono); color: var(--tinte-leise);
+  }
+  .trichter__zahl--signal dd.trichter__klein { color: var(--tinte); }
+  .trichter__ziel { display: grid; gap: 6px; margin: 0 0 18px; }
+  .trichter__balken--ziel { height: 12px; }
+  .trichter__balken--ziel span { background: var(--stahl); }
   .trichter__zahl--signal { background: var(--licht); border-color: var(--stahl); }
   .trichter__zahl--signal dt { color: var(--tinte); }
   .trichter__stufen { display: grid; gap: 6px; margin: 0; padding: 0; list-style: none; }
@@ -480,6 +487,10 @@
     letter-spacing: 0.08em; text-transform: uppercase; color: var(--tinte-leise);
   }
   .kunde__angebot { font-size: 14px; }
+  .kunde__zusagen { margin: 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+  .kunde__zusagen li { border-left: 3px solid var(--stahl); padding-left: 10px; }
+  .kunde__produkt { font-weight: 600; }
+  .kunde__fakten { margin-top: 2px; font-family: var(--f-mono); font-size: 12px; color: var(--tinte-leise); }
   .kunde__leer { font-size: 14px; color: var(--tinte-leise); }
   .kunde__liste { margin: 0; padding-left: 18px; font-size: 14px; display: grid; gap: 2px; }
   .kunde__liste--meilensteine { padding-left: 0; list-style: none; }

@@ -65,14 +65,45 @@ export async function ladePipeline(): Promise<PipelineDaten> {
   const woche = wochenbeginn(heute);
   const monat = `${heute.slice(0, 8)}01`;
 
-  const [marken, angebote] = await Promise.all([
+  const [marken, angebote, zusagenRoh] = await Promise.all([
     db.from("pipeline_brands").select("id, name, stufe, segment, zugewiesen, stufe_seit"),
     db
       .from("pipeline_angebote")
       .select("id, brand_id, angebot_nr, status, start_datum, laufzeit_monate, gemietete_breite_cm, tasting, positionen, angenommen_am, created_at"),
+    db
+      .from("crm_zusagen")
+      .select("id, brand_id, produkt, klasse, regal_cm, laufzeit_monate, monat_netto, vertragswert_netto, gebucht_am, status")
+      .neq("status", "storniert")
+      .order("gebucht_am", { ascending: false }),
   ]);
   fehler(marken);
   fehler(angebote);
+  fehler(zusagenRoh);
+
+  type ZusageZeile = {
+    id: string; brand_id: string; produkt: string; klasse: string | null; regal_cm: number | null;
+    laufzeit_monate: number | null; monat_netto: string | number | null; vertragswert_netto: string | number | null;
+    gebucht_am: string | null; status: string;
+  };
+  // numeric kommt aus PostgREST als Zahl oder Text, je nach Größe.
+  const zahl = (v: string | number | null) => (v === null ? null : Number(v));
+  const zusagenListe = ((zusagenRoh.data ?? []) as ZusageZeile[]).map((z) => ({
+    brandId: z.brand_id,
+    zusage: {
+      id: z.id,
+      produkt: z.produkt,
+      klasse: z.klasse,
+      regalCm: z.regal_cm,
+      laufzeitMonate: z.laufzeit_monate,
+      monatNetto: zahl(z.monat_netto),
+      vertragswert: zahl(z.vertragswert_netto),
+      gebuchtAm: z.gebucht_am,
+      status: z.status,
+    },
+  }));
+  const summe = (liste: typeof zusagenListe, f: (z: (typeof zusagenListe)[number]["zusage"]) => number | null) =>
+    liste.reduce((s, z) => s + (f(z.zusage) ?? 0), 0);
+  const seit = (tag: string) => zusagenListe.filter((z) => (z.zusage.gebuchtAm ?? "") >= tag);
 
   type Marke = { id: string; name: string; stufe: Stufe; segment: Segment; zugewiesen: string | null; stufe_seit: string | null };
   const alle = (marken.data ?? []) as Marke[];
@@ -91,8 +122,14 @@ export async function ladePipeline(): Promise<PipelineDaten> {
     stufen: TRICHTER_STUFEN.map((stufe) => ({ stufe, anzahl: zaehle(stufe) })),
     spaeter: zaehle("Später"),
     verloren: zaehle("Verloren"),
-    zusagenWoche: kundenZeilen.filter((b) => (kundeSeit(b) ?? "") >= woche).length,
-    zusagenMonat: kundenZeilen.filter((b) => (kundeSeit(b) ?? "") >= monat).length,
+    zusagen: {
+      anzahl: zusagenListe.length,
+      vertragswert: summe(zusagenListe, (z) => z.vertragswert),
+      monat: summe(zusagenListe, (z) => z.monatNetto),
+      regalCm: summe(zusagenListe, (z) => z.regalCm),
+    },
+    wertWoche: summe(seit(woche), (z) => z.vertragswert),
+    wertMonat: summe(seit(monat), (z) => z.vertragswert),
     offeneAngebote: angebotListe.filter((a) => a.status === "Versendet" || a.status === "Angefragt").length,
   };
 
@@ -135,6 +172,7 @@ export async function ladePipeline(): Promise<PipelineDaten> {
         segment: b.segment,
         besitzer: personAus(b.zugewiesen),
         kundeSeit: kundeSeit(b),
+        zusagen: zusagenListe.filter((z) => z.brandId === b.id).map((z) => z.zusage),
         angebot: a
           ? {
               nr: a.angebot_nr,
@@ -150,7 +188,11 @@ export async function ladePipeline(): Promise<PipelineDaten> {
         updates,
       };
     })
-    .sort((x, y) => (y.kundeSeit ?? "").localeCompare(x.kundeSeit ?? ""));
+    // Größter Vertragswert zuerst, bei Gleichstand der jüngste Kunde.
+    .sort((x, y) => {
+      const wert = (k: Kunde) => k.zusagen.reduce((s, z) => s + (z.vertragswert ?? 0), 0);
+      return wert(y) - wert(x) || (y.kundeSeit ?? "").localeCompare(x.kundeSeit ?? "");
+    });
 
   return { trichter, kunden };
 }
