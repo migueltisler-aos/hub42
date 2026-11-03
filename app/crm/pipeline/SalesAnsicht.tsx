@@ -10,8 +10,8 @@ import {
   type Person as PersonName,
   type SlaVerstoss,
 } from "@/lib/crm-heute-model";
-import { aufgabeErledigt } from "./actions";
-import AufgabeFormular from "./AufgabeFormular";
+import { aufgabeErledigt } from "../actions";
+import AufgabeFormular from "../_components/AufgabeFormular";
 import {
   PERSONEN,
   SLA_ROT,
@@ -21,7 +21,7 @@ import {
   langDatum,
   tageSeit,
   type Wer,
-} from "./logik";
+} from "../logik";
 
 const WAHL: Wer[] = [...PERSONEN, "Alle"];
 
@@ -33,7 +33,20 @@ const tage = (n: number) => (n === 1 ? "Tag" : "Tage");
 const NBSP = String.fromCharCode(0xa0);
 const klebe = (s: string) => (s.trim().split(/\s+/).length >= 3 ? s.replace(/ (\S+)$/, `${NBSP}$1`) : s);
 
-export default function HeuteAnsicht({ start, ich, daten }: { start: Wer; ich: PersonName; daten: HeuteDaten }) {
+/** Pipeline-Dashboard: Trichter (`oben`), Sales-Aufgaben mit SLA, Kundenliste (`unten`). */
+export default function SalesAnsicht({
+  start,
+  ich,
+  daten,
+  oben,
+  unten,
+}: {
+  start: Wer;
+  ich: PersonName;
+  daten: HeuteDaten;
+  oben?: React.ReactNode;
+  unten?: React.ReactNode;
+}) {
   const HEUTE = daten.heute;
   const [wer, setWer] = useState<Wer>(start);
   // Höchstens ein Formular offen: neu anlegen oder genau eine Aufgabe ändern.
@@ -198,7 +211,7 @@ export default function HeuteAnsicht({ start, ich, daten }: { start: Wer; ich: P
       <div className="heute__kopf">
         <div>
           <h1 className="satz satz--h1">
-            Aufgaben
+            Pipeline
             <sup className="satz__zahl">
               <span className="sr-only">, </span>
               {kurzDatum(HEUTE)}
@@ -240,12 +253,14 @@ export default function HeuteAnsicht({ start, ich, daten }: { start: Wer; ich: P
             }}
           >
             <Plus aria-hidden="true" />
-            Neue Aufgabe
+            Sales-Aufgabe
           </button>
         </div>
       </div>
 
-      {neu && <section className="regal regal--formular" aria-label="Neue Aufgabe">{formular()}</section>}
+      {oben}
+
+      {neu && <section className="regal regal--formular" aria-label="Neue Sales-Aufgabe">{formular()}</section>}
 
       {nichtsFaellig ? (
         <div className="heute__raster heute__raster--leer">
@@ -301,6 +316,8 @@ export default function HeuteAnsicht({ start, ich, daten }: { start: Wer; ich: P
           <div className="heute__unten">{demnaechst}</div>
         </div>
       )}
+
+      {unten}
     </div>
   );
 }

@@ -1,10 +1,21 @@
 "use client";
 
 import { useId, useState, useTransition } from "react";
-import { PERSONEN, type Aufgabe, type Person } from "@/lib/crm-heute-model";
-import { aufgabeAendern, aufgabeAnlegen } from "./actions";
+import { BEREICHE, PERSONEN, type Bereich, type Person } from "@/lib/crm-heute-model";
+import { aufgabeAendern, aufgabeAnlegen } from "../actions";
 
-/** Anlegen (ohne `aufgabe`) oder Ändern einer Aufgabe: Titel, Marke, Frist, Person. */
+/** Was das Formular von einer bestehenden Aufgabe braucht. */
+export type Vorlage = {
+  id: string;
+  titel: string;
+  faellig: string | null;
+  verantwortlich: Person;
+  brand?: { name: string };
+  bereich?: Bereich | null;
+};
+
+/** Anlegen (ohne `aufgabe`) oder Ändern. `marken` gesetzt: Sales-Aufgabe mit
+    Marke; sonst allgemeine Aufgabe mit Bereich. */
 export default function AufgabeFormular({
   aufgabe,
   marken,
@@ -12,15 +23,17 @@ export default function AufgabeFormular({
   ich,
   fertig,
 }: {
-  aufgabe?: Aufgabe;
-  marken: { id: string; name: string }[];
+  aufgabe?: Vorlage;
+  marken?: { id: string; name: string }[];
   heute: string;
   ich: Person;
   fertig: () => void;
 }) {
   const id = useId();
+  const mitMarke = marken !== undefined;
   const [titel, setTitel] = useState(aufgabe?.titel ?? "");
-  const [marke, setMarke] = useState(aufgabe?.brand.name ?? "");
+  const [marke, setMarke] = useState(aufgabe?.brand?.name ?? "");
+  const [bereich, setBereich] = useState<Bereich | "">(aufgabe?.bereich ?? "");
   const [frist, setFrist] = useState(aufgabe ? (aufgabe.faellig ?? "") : heute);
   const [wer, setWer] = useState<Person>(aufgabe?.verantwortlich ?? ich);
   const [fehler, setFehler] = useState<string | null>(null);
@@ -28,13 +41,17 @@ export default function AufgabeFormular({
 
   function speichern(e: React.FormEvent) {
     e.preventDefault();
-    // Die Liste zeigt Namen, gespeichert wird die id der genau passenden Marke.
-    const treffer = marken.find((m) => m.name.toLowerCase() === marke.trim().toLowerCase());
-    if (!treffer) {
-      setFehler("Marke aus der Liste wählen.");
-      return;
+    let brandId: string | null = null;
+    if (mitMarke) {
+      // Die Liste zeigt Namen, gespeichert wird die id der genau passenden Marke.
+      const treffer = marken.find((m) => m.name.toLowerCase() === marke.trim().toLowerCase());
+      if (!treffer) {
+        setFehler("Marke aus der Liste wählen.");
+        return;
+      }
+      brandId = treffer.id;
     }
-    const eingabe = { titel, brandId: treffer.id, faellig: frist || null, wer };
+    const eingabe = { titel, brandId, bereich: mitMarke ? null : bereich || null, faellig: frist || null, wer };
     starte(async () => {
       const r = aufgabe ? await aufgabeAendern(aufgabe.id, eingabe) : await aufgabeAnlegen(eingabe);
       if (r.ok) fertig();
@@ -53,26 +70,40 @@ export default function AufgabeFormular({
           required
           maxLength={200}
           autoFocus
-          placeholder="Was ist zu tun?"
+          placeholder={mitMarke ? "Was ist zu tun?" : "z. B. Umsatzsteuer abgeben"}
         />
       </label>
-      <label className="formular__feld">
-        <span className="formular__label">Marke</span>
-        <input
-          className="formular__eingabe"
-          value={marke}
-          onChange={(e) => setMarke(e.target.value)}
-          list={`${id}-marken`}
-          required
-          autoComplete="off"
-          placeholder="Name tippen"
-        />
-        <datalist id={`${id}-marken`}>
-          {marken.map((m) => (
-            <option key={m.id} value={m.name} />
-          ))}
-        </datalist>
-      </label>
+      {mitMarke ? (
+        <label className="formular__feld">
+          <span className="formular__label">Marke</span>
+          <input
+            className="formular__eingabe"
+            value={marke}
+            onChange={(e) => setMarke(e.target.value)}
+            list={`${id}-marken`}
+            required
+            autoComplete="off"
+            placeholder="Name tippen"
+          />
+          <datalist id={`${id}-marken`}>
+            {marken.map((m) => (
+              <option key={m.id} value={m.name} />
+            ))}
+          </datalist>
+        </label>
+      ) : (
+        <label className="formular__feld">
+          <span className="formular__label">Bereich</span>
+          <select className="formular__eingabe" value={bereich} onChange={(e) => setBereich(e.target.value as Bereich | "")}>
+            <option value="">ohne</option>
+            {BEREICHE.map((b) => (
+              <option key={b} value={b}>
+                {b}
+              </option>
+            ))}
+          </select>
+        </label>
+      )}
       <label className="formular__feld">
         <span className="formular__label">Frist</span>
         <input className="formular__eingabe" type="date" value={frist} onChange={(e) => setFrist(e.target.value)} />

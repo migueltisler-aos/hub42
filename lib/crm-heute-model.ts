@@ -46,6 +46,59 @@ export type HeuteDaten = {
   marken: { id: string; name: string }[];
 };
 
+/* ── Allgemeine Aufgaben: ohne Marke, mit Bereich ─────────────────────── */
+
+export const BEREICHE = ["Vertrieb", "Marketing", "Finanzen", "Betrieb", "Sonstiges"] as const;
+export type Bereich = (typeof BEREICHE)[number];
+
+export type AllgemeineAufgabe = {
+  id: string;
+  titel: string;
+  faellig: string | null;
+  verantwortlich: Person;
+  erledigt: boolean;
+  bereich: Bereich | null;
+};
+
+export type AufgabenDaten = { heute: string; aufgaben: AllgemeineAufgabe[] };
+
+/* ── Pipeline-Dashboard: Trichter und Kunden ──────────────────────────── */
+
+export const TRICHTER_STUFEN: Stufe[] = ["Recherche", "In Sequenz", "Antwort", "Interesse", "Gespräch", "Angebot", "Kunde"];
+
+export type Trichter = {
+  stufen: { stufe: Stufe; anzahl: number }[];
+  spaeter: number;
+  verloren: number;
+  /** Neue Kunden: Stufe Kunde seit Wochen- bzw. Monatsbeginn. */
+  zusagenWoche: number;
+  zusagenMonat: number;
+  /** Angebote mit Status Versendet oder Angefragt. */
+  offeneAngebote: number;
+};
+
+export type Kunde = {
+  id: string;
+  name: string;
+  segment: Segment;
+  besitzer: Person;
+  kundeSeit: string | null;
+  /** Was wir zugesagt haben: aus dem angenommenen oder letzten Angebot. */
+  angebot: {
+    nr: string;
+    status: string;
+    start: string | null;
+    laufzeitMonate: number | null;
+    breiteCm: number | null;
+    tasting: boolean;
+    positionen: string[];
+  } | null;
+  meilensteine: { id: string; titel: string; faellig: string | null; erledigt: boolean }[];
+  updates: { id: string; text: string; wann: string; wer: string | null }[];
+};
+
+export type PipelineDaten = { trichter: Trichter; kunden: Kunde[] };
+
 export const SLA_TEXT: Record<SlaVerstoss["art"], string> = {
   antwort_ungeordnet: "Antwort seit über einem Werktag nicht eingeordnet",
   interesse_ohne_termin: "Interesse ohne Terminvorschlag",

@@ -7,7 +7,8 @@ import { usePathname } from "next/navigation";
    der alten Oberfläche und tragen dort ihre eigene Navigation. */
 const LINKS = [
   { href: "/crm/aufgaben", label: "Aufgaben" },
-  { href: "/pipeline", label: "Pipeline" },
+  { href: "/crm/pipeline", label: "Pipeline" },
+  { href: "/pipeline", label: "Marken" },
   { href: "/pipeline/angebote", label: "Angebote" },
   { href: "/wareneingang", label: "Wareneingang" },
   { href: "/bestand", label: "Bestand" },

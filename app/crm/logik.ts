@@ -66,16 +66,19 @@ export type Lage = {
 
 const fuer = (wer: Wer, p: Person) => wer === "Alle" || wer === p;
 
-export function lageFuer(daten: HeuteDaten, wer: Wer, erledigt: Record<string, boolean>): Lage {
-  const meine = daten.aufgaben.filter((a) => fuer(wer, a.verantwortlich));
-  const fertig = (a: Aufgabe) => erledigt[a.id] ?? a.erledigt;
+type Faellig = { id: string; faellig: string | null; verantwortlich: Person; erledigt: boolean };
+
+/** Überfällig, heute, demnächst: für Sales-Aufgaben und allgemeine Aufgaben gleich. */
+export function gruppiere<T extends Faellig>(liste: T[], heute: string, wer: Wer, erledigt: Record<string, boolean>) {
+  const meine = liste.filter((a) => fuer(wer, a.verantwortlich));
+  const fertig = (a: T) => erledigt[a.id] ?? a.erledigt;
   // Ohne Datum steht hinten: Wert unendlich.
   const zeit = (f: string | null) => (f === null ? Infinity : utc(f));
   const nachDatum = (x: { faellig: string | null }, y: { faellig: string | null }) => {
     const a = zeit(x.faellig), b = zeit(y.faellig);
     return a === b ? 0 : a < b ? -1 : 1;
   };
-  const t = (a: Aufgabe) => (a.faellig === null ? null : tageSeit(a.faellig, daten.heute));
+  const t = (a: T) => (a.faellig === null ? null : tageSeit(a.faellig, heute));
 
   return {
     // Heute Erledigtes mit altem Datum bleibt sichtbar, bis der Tag um ist.
@@ -83,6 +86,13 @@ export function lageFuer(daten: HeuteDaten, wer: Wer, erledigt: Record<string, b
     heute: meine.filter((a) => t(a) === 0),
     // Künftiges und Aufgaben ohne Datum; Erledigtes, das noch nicht dran ist, braucht hier niemand.
     demnaechst: meine.filter((a) => (t(a) === null || t(a)! < 0) && !fertig(a)).sort(nachDatum),
+  };
+}
+
+export function lageFuer(daten: HeuteDaten, wer: Wer, erledigt: Record<string, boolean>): Lage {
+  const nachDatum = (x: { faellig: string }, y: { faellig: string }) => utc(x.faellig) - utc(y.faellig);
+  return {
+    ...gruppiere<Aufgabe>(daten.aufgaben, daten.heute, wer, erledigt),
     sla: daten.sla
       .filter((s) => fuer(wer, s.besitzer))
       .sort((x, y) => {
