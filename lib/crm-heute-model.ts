@@ -42,6 +42,8 @@ export type HeuteDaten = {
   aufgaben: Aufgabe[];
   sla: SlaVerstoss[];
   meilensteine: MeilensteinFaellig[];
+  /** Auswahl beim Anlegen: alle Marken außer Gesperrt, nach Name. */
+  marken: { id: string; name: string }[];
 };
 
 export const SLA_TEXT: Record<SlaVerstoss["art"], string> = {

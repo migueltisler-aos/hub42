@@ -83,7 +83,7 @@ export async function ladeHeute(): Promise<HeuteDaten> {
   // gefiltert wird danach auf den Berliner Tag.
   const seitGestern = new Date(utc(heute) - TAG_MS).toISOString();
 
-  const [offen, erledigt, marken, meilensteine] = await Promise.all([
+  const [offen, erledigt, marken, meilensteine, auswahl] = await Promise.all([
     db
       .from("crm_aufgaben")
       .select(
@@ -107,9 +107,10 @@ export async function ladeHeute(): Promise<HeuteDaten> {
       .is("erledigt_am", null)
       .lte("faellig_am", bis)
       .not("crm_projekte.status", "in", "(Abgeschlossen,Abgebrochen)"),
+    db.from("pipeline_brands").select("id, name").neq("stufe", "Gesperrt").order("name"),
   ]);
 
-  for (const r of [offen, erledigt, marken, meilensteine]) {
+  for (const r of [offen, erledigt, marken, meilensteine, auswahl]) {
     if (r.error) throw new Error(`CRM Heute: ${r.error.message}`);
   }
 
@@ -145,7 +146,13 @@ export async function ladeHeute(): Promise<HeuteDaten> {
     verantwortlich: personAus(m.crm_projekte?.wer),
   }));
 
-  return { heute, aufgaben, sla, meilensteine: meilensteinListe };
+  return {
+    heute,
+    aufgaben,
+    sla,
+    meilensteine: meilensteinListe,
+    marken: (auswahl.data ?? []) as { id: string; name: string }[],
+  };
 }
 
 /** Je Marke höchstens ein Verstoß, der dringendste zuerst geprüft. */

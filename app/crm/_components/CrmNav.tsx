@@ -3,10 +3,10 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-/* Heute ist neu im Testkaufhaus-Look, die übrigen Werkzeuge liegen noch in
+/* Aufgaben ist neu im Testkaufhaus-Look, die übrigen Werkzeuge liegen noch in
    der alten Oberfläche und tragen dort ihre eigene Navigation. */
 const LINKS = [
-  { href: "/crm/heute", label: "Heute" },
+  { href: "/crm/aufgaben", label: "Aufgaben" },
   { href: "/pipeline", label: "Pipeline" },
   { href: "/pipeline/angebote", label: "Angebote" },
   { href: "/wareneingang", label: "Wareneingang" },

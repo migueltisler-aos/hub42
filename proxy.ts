@@ -32,7 +32,7 @@ export function proxy(request: NextRequest) {
   // CRM-Adresse: alles außerhalb von /crm führt nach Heute. Die Hub42-Seiten
   // sind dort nicht zu sehen.
   if (CRM_HOSTS.includes(host) && !passt(pathname, "/crm")) {
-    return NextResponse.redirect(new URL("/crm/heute", request.url));
+    return NextResponse.redirect(new URL("/crm/aufgaben", request.url));
   }
 
   if (!PIPELINE_GESCHUETZT.some((pfad) => passt(pathname, pfad)) || OFFEN.includes(pathname)) {

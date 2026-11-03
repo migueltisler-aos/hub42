@@ -1,20 +1,6 @@
-import type { Metadata } from "next";
-import { cookies } from "next/headers";
-import { ladeHeute } from "@/lib/crm-heute";
-import { personAus } from "@/lib/crm-heute-model";
-import HeuteAnsicht from "./HeuteAnsicht";
-import { werAus } from "./logik";
+import { redirect } from "next/navigation";
 
-export const metadata: Metadata = { title: "Heute" };
-
-/* Startscreen des CRM. Ohne ?wer= gilt die Person aus dem Login-Cookie,
-   ?wer=Ralf|Anke|Miguel|Oliver|Alle wählt eine andere Ansicht. */
-export default async function HeutePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
-}) {
-  const [{ wer }, cookieStore, daten] = await Promise.all([searchParams, cookies(), ladeHeute()]);
-  const ich = personAus(cookieStore.get("pipeline_user")?.value);
-  return <HeuteAnsicht start={werAus(wer, ich)} daten={daten} />;
+/* Alter Name des Screens „Aufgaben“, bleibt für Lesezeichen. */
+export default function HeuteAlt() {
+  redirect("/crm/aufgaben");
 }

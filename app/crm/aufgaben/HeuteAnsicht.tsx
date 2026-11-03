@@ -1,15 +1,17 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Check } from "lucide-react";
+import { Check, Pencil, Plus } from "lucide-react";
 import {
   SLA_TEXT,
   type Aufgabe,
   type HeuteDaten,
   type MeilensteinFaellig,
+  type Person as PersonName,
   type SlaVerstoss,
 } from "@/lib/crm-heute-model";
 import { aufgabeErledigt } from "./actions";
+import AufgabeFormular from "./AufgabeFormular";
 import {
   PERSONEN,
   SLA_ROT,
@@ -31,9 +33,24 @@ const tage = (n: number) => (n === 1 ? "Tag" : "Tage");
 const NBSP = String.fromCharCode(0xa0);
 const klebe = (s: string) => (s.trim().split(/\s+/).length >= 3 ? s.replace(/ (\S+)$/, `${NBSP}$1`) : s);
 
-export default function HeuteAnsicht({ start, daten }: { start: Wer; daten: HeuteDaten }) {
+export default function HeuteAnsicht({ start, ich, daten }: { start: Wer; ich: PersonName; daten: HeuteDaten }) {
   const HEUTE = daten.heute;
   const [wer, setWer] = useState<Wer>(start);
+  // Höchstens ein Formular offen: neu anlegen oder genau eine Aufgabe ändern.
+  const [neu, setNeu] = useState(false);
+  const [bearbeite, setBearbeite] = useState<string | null>(null);
+  const formular = (aufgabe?: Aufgabe) => (
+    <AufgabeFormular
+      aufgabe={aufgabe}
+      marken={daten.marken}
+      heute={HEUTE}
+      ich={wer === "Alle" ? ich : wer}
+      fertig={() => {
+        setNeu(false);
+        setBearbeite(null);
+      }}
+    />
+  );
   // Haken wirken sofort; schlägt das Speichern fehl, springt der Haken zurück.
   const [erledigt, setErledigt] = useState<Record<string, boolean>>({});
   const [, starte] = useTransition();
@@ -73,6 +90,13 @@ export default function HeuteAnsicht({ start, daten }: { start: Wer; daten: Heut
   const zeileAufgabe = (a: Aufgabe, rechts: "zeit" | "datum" | "nichts") => {
     const done = fertig(a);
     const t = a.faellig === null ? 0 : tageSeit(a.faellig, HEUTE);
+    if (bearbeite === a.id) {
+      return (
+        <li key={a.id} className="zeile zeile--formular">
+          {formular(a)}
+        </li>
+      );
+    }
     return (
       <li key={a.id} className="zeile" data-erledigt={done || undefined}>
         <label className="zeile__griff">
@@ -89,6 +113,17 @@ export default function HeuteAnsicht({ start, daten }: { start: Wer; daten: Heut
             </span>
           </span>
         </label>
+        <button
+          type="button"
+          className="zeile__aendern"
+          aria-label={`${a.titel} ändern`}
+          onClick={() => {
+            setNeu(false);
+            setBearbeite(a.id);
+          }}
+        >
+          <Pencil aria-hidden="true" />
+        </button>
         {done ? (
           <span className="zeile__status">erledigt</span>
         ) : rechts === "zeit" ? (
@@ -163,7 +198,7 @@ export default function HeuteAnsicht({ start, daten }: { start: Wer; daten: Heut
       <div className="heute__kopf">
         <div>
           <h1 className="satz satz--h1">
-            Heute
+            Aufgaben
             <sup className="satz__zahl">
               <span className="sr-only">, </span>
               {kurzDatum(HEUTE)}
@@ -181,20 +216,36 @@ export default function HeuteAnsicht({ start, daten }: { start: Wer; daten: Heut
           </p>
         </div>
 
-        <div className="wahl" role="group" aria-label="Aufgaben von">
-          {WAHL.map((w) => (
-            <button
-              key={w}
-              type="button"
-              className="wahl__knopf"
-              aria-pressed={wer === w}
-              onClick={() => waehlen(w)}
-            >
-              {w}
-            </button>
-          ))}
+        <div className="heute__aktionen">
+          <div className="wahl" role="group" aria-label="Aufgaben von">
+            {WAHL.map((w) => (
+              <button
+                key={w}
+                type="button"
+                className="wahl__knopf"
+                aria-pressed={wer === w}
+                onClick={() => waehlen(w)}
+              >
+                {w}
+              </button>
+            ))}
+          </div>
+          <button
+            type="button"
+            className="knopf knopf--voll"
+            aria-expanded={neu}
+            onClick={() => {
+              setBearbeite(null);
+              setNeu(true);
+            }}
+          >
+            <Plus aria-hidden="true" />
+            Neue Aufgabe
+          </button>
         </div>
       </div>
+
+      {neu && <section className="regal regal--formular" aria-label="Neue Aufgabe">{formular()}</section>}
 
       {nichtsFaellig ? (
         <div className="heute__raster heute__raster--leer">

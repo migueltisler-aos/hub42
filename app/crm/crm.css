@@ -4,32 +4,32 @@
    Alles hängt unter .crm: Route-CSS bleibt nach einer Client-Navigation
    im Dokument, ungekapselte Klassen wirkten sonst auf anderen Seiten.
 
-   Tokens: jeder Wert ist ein Hex aus app/globals.css (@theme) oder aus der
-   Startseite (app/(start)/regalwand.css), hier nur unter Namen aus dem
-   Laden abgelegt. globals.css bleibt unberührt.
+   Tokens: Testkaufhaus, aus c:\feedback\strategie\brand-identity\brand-design\
+   design-tokens.md (Decks 26.10.2026), nicht die Hub42-Farben aus
+   app/globals.css. Die Namen aus dem Laden bleiben, die Werte sind neu.
    ══════════════════════════════════════════════════════════════ */
 
 .crm {
-  /* Papier: Karton als Seite, helles Papier als Regalboden */
-  --karton:  #EDE5D8;   /* @theme --color-cream-warm */
-  --papier:  #F9F5EE;   /* @theme --color-cream */
+  /* Fläche: helle Bühne als Seite, Weiß als Regalboden (Karte) */
+  --karton:  #EEF2EF;   /* --hell */
+  --papier:  #FFFFFF;   /* --weiss */
 
-  /* Regalstahl: Flaschengrün als Fläche und als Tinte */
-  --stahl:        #1A3228;   /* @theme --color-green-muted */
-  --tinte:        #1A3228;   /* @theme --color-green-muted */
-  --tinte-leise:  #2A4A3C;   /* @theme --color-green-dark, leiseste Tinte */
+  /* Dunkel als Kopf, Kante und Tinte */
+  --stahl:        #101313;   /* --dunkel */
+  --tinte:        #101313;   /* --dunkel, 16,5:1 auf --hell */
+  --tinte-leise:  #245A54;   /* --gruen-tief, 7,0:1 auf --hell, 7,9:1 auf Weiß */
 
-  /* Glühlicht */
-  --licht:        #DEB870;   /* @theme --color-bronze-light */
-  --licht-kante:  #9A7030;   /* @theme --color-bronze-dark */
-  --licht-warm:   #E8C88A;   /* @theme --color-bronze-warm, Signal auf Stahl */
+  /* Signal: Mint als Fläche, nie als Schrift auf Hell */
+  --licht:        #66F2DF;   /* --akzent, --dunkel darauf 13,6:1 */
+  --licht-kante:  #101313;
+  --licht-warm:   #66F2DF;   /* --akzent auf --dunkel 13,6:1 */
 
-  --linie:        rgba(26, 50, 40, 0.14);   /* --stahl, 14 % */
-  --linie-fest:   rgba(26, 50, 40, 0.30);   /* --stahl, 30 % */
+  --linie:        rgba(16, 19, 19, 0.12);   /* --dunkel, 12 % */
+  --linie-fest:   rgba(16, 19, 19, 0.28);   /* --dunkel, 28 % */
 
-  --f-titel: var(--font-bebas), "Arial Narrow", Impact, sans-serif;
-  --f-text:  var(--font-dm-sans), "Helvetica Neue", Arial, sans-serif;
-  --f-mono:  var(--font-dm-mono), ui-monospace, Menlo, monospace;
+  --f-titel: var(--font-archivo-narrow), "Arial Narrow", sans-serif;   /* --charakter */
+  --f-text:  Arial, "Helvetica Neue", sans-serif;                       /* --beschriftung */
+  --f-mono:  var(--font-plex-mono), "Courier New", monospace;           /* --mono */
 
   --spiegel: 1180px;   /* Satzspiegel der Startseite (.top__in) */
 
@@ -69,13 +69,14 @@
 
   .crm-kopf { background: var(--stahl); color: var(--papier); }
   .crm-kopf__in { height: 52px; display: flex; align-items: center; gap: 14px; }
-  .crm-kopf__marke { display: block; color: var(--papier); border-radius: 1px; }
+  /* Platte #EEF2EF auf #101313 wie im Logo-Entscheid, Mint gehört dort dem Akzent */
+  .crm-kopf__marke { display: block; color: var(--karton); border-radius: 1px; }
   /* Die Platte ist hell, die Schrift ausgespart: durch sie scheint der Stahl */
   .crm-kopf__logo { display: block; height: 26px; width: auto; }
   .crm-kopf__bereich {
     font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.16em;
     text-transform: uppercase; color: var(--licht-warm);
-    padding-left: 14px; border-left: 1px solid rgba(249, 245, 238, 0.28);
+    padding-left: 14px; border-left: 1px solid rgba(238, 242, 239, 0.28);
     line-height: 26px;
   }
 
@@ -106,8 +107,9 @@
   }
   .heute__zeile { margin-top: 6px; }
 
-  .heute__raster { display: grid; gap: 20px; align-items: start; }
-  .heute__haupt, .heute__seite { display: grid; gap: 20px; }
+  /* minmax(0, 1fr): ohne feste Spalte wächst das Raster mit dem längsten Namen über den Schirm */
+  .heute__raster { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; align-items: start; }
+  .heute__haupt, .heute__seite { display: grid; grid-template-columns: minmax(0, 1fr); gap: 20px; }
 
   @media (min-width: 960px) {
     .heute__raster {
@@ -145,8 +147,9 @@
   .zeile__text { display: grid; gap: 2px; min-width: 0; }
   .zeile__titel { font-weight: 500; text-wrap: pretty; }
   .zeile__meta { font-size: 14px; text-wrap: pretty; }
-  /* Ein Name bleibt beisammen (Rule kein-wort-allein) */
-  .name { white-space: nowrap; }
+  /* Echte Markennamen sind bis zu 30 Zeichen lang („… (haftungsbeschränkt)“):
+     ein Name darf brechen, sonst läuft die Zeile aus ihrer Spalte. */
+  .name { overflow-wrap: anywhere; }
   .zeile__datum, .zeile__status { flex: 0 0 auto; white-space: nowrap; }
 
   /* Platz der Checkbox, damit Titel aller Gruppen auf einer Flucht stehen */
@@ -361,11 +364,68 @@
   }
   .crm-nav__link[aria-current="page"] { border-bottom-color: var(--licht-warm); }
   @media (hover: hover) and (pointer: fine) {
-    .crm-nav__link:not([aria-current="page"]):hover { border-bottom-color: rgba(249, 245, 238, 0.5); }
+    .crm-nav__link:not([aria-current="page"]):hover { border-bottom-color: rgba(238, 242, 239, 0.5); }
   }
   @media (max-width: 640px) {
     .crm-kopf__bereich { display: none; }
     .crm-nav__link { padding: 8px 8px; }
+  }
+}
+
+/* Aufgaben anlegen und ändern: Knopf im Kopf, Stift in jeder Zeile,
+   Formular als eigener Regalboden oder an Stelle der Zeile. */
+.crm {
+  .heute__aktionen { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+  .knopf {
+    display: inline-flex; align-items: center; gap: 6px;
+    font: 600 14px/1 var(--f-text); height: 38px; padding: 0 14px;
+    color: var(--tinte); background: var(--papier);
+    border: 1px solid var(--tinte); border-radius: 2px; cursor: pointer;
+    transition: background-color 120ms ease-out, color 120ms ease-out;
+  }
+  .knopf svg { width: 16px; height: 16px; }
+  .knopf--voll { color: var(--papier); background: var(--stahl); border-color: var(--stahl); }
+  .knopf:disabled { cursor: default; opacity: 0.6; }
+  @media (hover: hover) and (pointer: fine) {
+    .knopf:not(.knopf--voll):not(:disabled):hover { background: var(--karton); }
+    .knopf--voll:not(:disabled):hover { background: var(--tinte-leise); border-color: var(--tinte-leise); }
+  }
+
+  .zeile__aendern {
+    flex: 0 0 32px; height: 32px; display: grid; place-items: center;
+    color: var(--tinte-leise); background: transparent;
+    border: 1px solid transparent; border-radius: 2px; cursor: pointer;
+  }
+  .zeile__aendern svg { width: 16px; height: 16px; }
+  @media (hover: hover) and (pointer: fine) {
+    .zeile__aendern:hover { border-color: var(--linie-fest); color: var(--tinte); }
+  }
+
+  .regal--formular { padding: 16px 20px 20px; margin-bottom: 20px; }
+  .zeile--formular { display: block; padding: 14px 20px 18px; background: var(--karton); }
+
+  .formular { display: grid; gap: 12px; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .formular__feld { display: grid; gap: 4px; min-width: 0; }
+  .formular__feld--breit, .formular__fehler, .formular__knoepfe { grid-column: 1 / -1; }
+  .formular__label {
+    font-family: var(--f-mono); font-size: 12px; letter-spacing: 0.08em;
+    text-transform: uppercase; color: var(--tinte-leise);
+  }
+  .formular__eingabe {
+    font: 400 15px/1.2 var(--f-text); color: var(--tinte);
+    height: 40px; padding: 0 10px; min-width: 0; width: 100%;
+    background: var(--papier); border: 1px solid var(--tinte-leise); border-radius: 2px;
+  }
+  .formular__fehler { color: var(--tinte); font-weight: 600; }
+  .formular__knoepfe { display: flex; gap: 8px; }
+
+  @media (max-width: 640px) {
+    .heute__aktionen { width: 100%; }
+    .heute__aktionen .knopf--voll { width: 100%; justify-content: center; height: 44px; }
+    .formular { grid-template-columns: minmax(0, 1fr); }
+    .regal--formular { padding: 14px 16px 16px; }
+    .zeile--formular { padding: 12px 16px 16px; }
   }
 }
 
