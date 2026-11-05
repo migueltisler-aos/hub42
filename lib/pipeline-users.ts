@@ -1,4 +1,4 @@
-export const PIPELINE_USERS = ["Miguel", "Ralf", "Oliver", "Anke"] as const;
+export const PIPELINE_USERS = ["Miguel", "Ralf", "Oliver", "Anke", "Leon"] as const;
 export type PipelineUser = (typeof PIPELINE_USERS)[number];
 
 export function isPipelineUser(value: string): value is PipelineUser {
