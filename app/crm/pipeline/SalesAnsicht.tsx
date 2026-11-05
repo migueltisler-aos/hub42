@@ -7,11 +7,13 @@ import {
   type Aufgabe,
   type HeuteDaten,
   type MeilensteinFaellig,
+  type Nachweis,
   type Person as PersonName,
   type SlaVerstoss,
 } from "@/lib/crm-heute-model";
 import { aufgabeErledigt } from "../actions";
 import AufgabeFormular from "../_components/AufgabeFormular";
+import ErledigtFormular from "../_components/ErledigtFormular";
 import {
   PERSONEN,
   SLA_ROT,
@@ -81,13 +83,28 @@ export default function SalesAnsicht({
 
   const fertig = (a: Aufgabe) => erledigt[a.id] ?? a.erledigt;
   const offen = (liste: Aufgabe[]) => liste.filter((a) => !fertig(a)).length;
+  // Abhaken öffnet erst den Nachweis; Zurücknehmen wirkt sofort.
+  const [abschluss, setAbschluss] = useState<string | null>(null);
   const umschalten = (a: Aufgabe) => {
-    const neu = !fertig(a);
-    setErledigt((e) => ({ ...e, [a.id]: neu }));
+    if (!fertig(a)) {
+      setNeu(false);
+      setBearbeite(null);
+      setAbschluss(a.id);
+      return;
+    }
+    setErledigt((e) => ({ ...e, [a.id]: false }));
     starte(async () => {
-      const { ok } = await aufgabeErledigt(a.id, neu);
-      if (!ok) setErledigt((e) => ({ ...e, [a.id]: !neu }));
+      const { ok } = await aufgabeErledigt(a.id, false);
+      if (!ok) setErledigt((e) => ({ ...e, [a.id]: true }));
     });
+  };
+  const abschliessen = (a: Aufgabe) => async (n: Nachweis) => {
+    const r = await aufgabeErledigt(a.id, true, n);
+    if (r.ok) {
+      setErledigt((e) => ({ ...e, [a.id]: true }));
+      setAbschluss(null);
+    }
+    return r;
   };
 
   function waehlen(w: Wer) {
@@ -103,6 +120,17 @@ export default function SalesAnsicht({
   const zeileAufgabe = (a: Aufgabe, rechts: "zeit" | "datum" | "nichts") => {
     const done = fertig(a);
     const t = a.faellig === null ? 0 : tageSeit(a.faellig, HEUTE);
+    if (abschluss === a.id) {
+      return (
+        <li key={a.id} className="zeile zeile--formular">
+          <ErledigtFormular
+            titel={`${a.titel} · ${a.brand.name}`}
+            abschliessen={abschliessen(a)}
+            abbrechen={() => setAbschluss(null)}
+          />
+        </li>
+      );
+    }
     if (bearbeite === a.id) {
       return (
         <li key={a.id} className="zeile zeile--formular">

@@ -60,7 +60,23 @@ export type AllgemeineAufgabe = {
   bereich: Bereich | null;
 };
 
-export type AufgabenDaten = { heute: string; aufgaben: AllgemeineAufgabe[] };
+/** Eine erledigte Aufgabe in der Historie, mit Nachweis. Allgemein oder mit Marke. */
+export type ErledigteAufgabe = {
+  id: string;
+  titel: string;
+  verantwortlich: Person;
+  erledigtAm: string;
+  erledigtVon: string | null;
+  notiz: string | null;
+  link: string | null;
+  marke: string | null;
+  bereich: Bereich | null;
+};
+
+/** Optionaler Nachweis beim Abhaken. */
+export type Nachweis = { notiz: string; link: string };
+
+export type AufgabenDaten = { heute: string; aufgaben: AllgemeineAufgabe[]; historie: ErledigteAufgabe[] };
 
 /* ── Pipeline-Dashboard: Trichter und Kunden ──────────────────────────── */
 

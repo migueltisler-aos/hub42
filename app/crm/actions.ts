@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
-import { BEREICHE, PERSONEN, type Bereich, type Person } from "@/lib/crm-heute-model";
+import { BEREICHE, PERSONEN, type Bereich, type Nachweis, type Person } from "@/lib/crm-heute-model";
 
 type Ergebnis = { ok: true } | { ok: false; fehler: string };
 
@@ -77,16 +77,33 @@ export async function aufgabeAendern(id: string, e: AufgabeEingabe): Promise<Erg
   return { ok: true };
 }
 
-/** Hakt eine Aufgabe ab oder nimmt den Haken zurück. */
-export async function aufgabeErledigt(id: string, erledigt: boolean): Promise<{ ok: boolean }> {
-  if (!(await angemeldet())) return { ok: false };
-  if (!UUID.test(id)) return { ok: false };
+/** Hakt eine Aufgabe ab, mit optionalem Nachweis (Notiz, Link zur Lösung),
+    oder nimmt den Haken samt Nachweis zurück. */
+export async function aufgabeErledigt(
+  id: string,
+  erledigt: boolean,
+  nachweis?: Nachweis
+): Promise<{ ok: boolean; fehler?: string }> {
+  const wer = await angemeldet();
+  if (!wer) return { ok: false, fehler: "Nicht angemeldet." };
+  if (!UUID.test(id)) return { ok: false, fehler: "Unbekannte Aufgabe." };
+
+  const notiz = nachweis?.notiz?.trim() || null;
+  const link = nachweis?.link?.trim() || null;
+  if (notiz && notiz.length > 2000) return { ok: false, fehler: "Notiz ist länger als 2000 Zeichen." };
+  if (link && (!/^https?:\/\/\S+$/i.test(link) || link.length > 1000)) {
+    return { ok: false, fehler: "Link muss mit https:// beginnen." };
+  }
 
   const { error } = await getSupabaseAdmin()
     .from("crm_aufgaben")
-    .update({ erledigt_am: erledigt ? new Date().toISOString() : null })
+    .update(
+      erledigt
+        ? { erledigt_am: new Date().toISOString(), erledigt_von: wer, erledigt_notiz: notiz, erledigt_link: link }
+        : { erledigt_am: null, erledigt_von: null, erledigt_notiz: null, erledigt_link: null }
+    )
     .eq("id", id);
-  if (error) return { ok: false };
+  if (error) return { ok: false, fehler: "Speichern ist fehlgeschlagen." };
 
   neuLaden();
   return { ok: true };

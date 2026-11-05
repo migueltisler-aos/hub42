@@ -436,6 +436,30 @@
   .zeile__datum--signal { color: var(--tinte); font-weight: 600; }
 }
 
+/* Abhaken mit Nachweis und Historie: Link zur Lösung, Notiz, wer, wann. */
+.crm {
+  .formular__titel { font-weight: 600; overflow-wrap: anywhere; }
+  .formular__eingabe--text { height: auto; min-height: 44px; padding: 8px 10px; resize: vertical; }
+
+  .historie { margin: 0; padding: 0 20px 6px; list-style: none; }
+  .historie__eintrag { padding: 10px 0; border-top: 1px solid var(--linie); display: grid; gap: 3px; }
+  .historie__titel { color: var(--tinte-leise); text-decoration: line-through; text-decoration-thickness: 1px; overflow-wrap: anywhere; }
+  .historie__meta { font-family: var(--f-mono); font-size: 12px; color: var(--tinte-leise); }
+  .historie__notiz { font-size: 14px; white-space: pre-line; overflow-wrap: anywhere; }
+  .historie__link {
+    justify-self: start; display: inline-flex; align-items: center; gap: 6px;
+    font-size: 14px; font-weight: 600; color: var(--tinte);
+    text-decoration: underline; text-underline-offset: 3px;
+  }
+  .historie__link svg { width: 14px; height: 14px; }
+  .historie__mehr { padding: 6px 20px 14px; }
+
+  @media (max-width: 640px) {
+    .historie { padding: 0 16px 6px; }
+    .historie__mehr { padding: 6px 16px 14px; }
+  }
+}
+
 /* Pipeline · Zusagen: drei Zahlen, dann die Stufen als Balken. Der Balken
    ist Fläche, die Zahl daneben trägt die Information. */
 .crm {

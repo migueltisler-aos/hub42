@@ -1,13 +1,81 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { Check, Pencil, Plus } from "lucide-react";
-import type { AllgemeineAufgabe, AufgabenDaten, Person } from "@/lib/crm-heute-model";
+import { Check, ExternalLink, Pencil, Plus } from "lucide-react";
+import type { AllgemeineAufgabe, AufgabenDaten, ErledigteAufgabe, Nachweis, Person } from "@/lib/crm-heute-model";
 import { aufgabeErledigt } from "../actions";
 import AufgabeFormular from "../_components/AufgabeFormular";
+import ErledigtFormular from "../_components/ErledigtFormular";
+
+const ZEIT = new Intl.DateTimeFormat("de-DE", {
+  weekday: "short",
+  day: "2-digit",
+  month: "2-digit",
+  hour: "2-digit",
+  minute: "2-digit",
+  timeZone: "Europe/Berlin",
+});
 import { PERSONEN, gruppiere, kurzDatum, langDatum, tageSeit, type Wer } from "../logik";
 
 const WAHL: Wer[] = [...PERSONEN, "Alle"];
+
+/** Erledigte Aufgaben mit Nachweis, zuletzt Erledigtes zuerst. Eingeklappt bis zum Klick. */
+function Historie({ liste, offen, umschalten }: { liste: ErledigteAufgabe[]; offen: boolean; umschalten: () => void }) {
+  const sichtbar = offen ? liste : liste.slice(0, 5);
+  return (
+    <section className="regal" aria-labelledby="historie-titel">
+      <h2 id="historie-titel" className="satz satz--h2">
+        Erledigt
+        <sup className="satz__zahl">
+          <span className="sr-only">, </span>
+          {liste.length}
+        </sup>
+      </h2>
+      {liste.length === 0 ? (
+        <p className="regal__leer">Noch nichts erledigt.</p>
+      ) : (
+        <ol className="historie">
+          {sichtbar.map((h) => (
+            <li key={h.id} className="historie__eintrag">
+              <p className="historie__titel">{h.titel}</p>
+              <p className="historie__meta">
+                {ZEIT.format(new Date(h.erledigtAm))} · {h.erledigtVon ?? h.verantwortlich}
+                {h.marke && ` · ${h.marke}`}
+                {h.bereich && ` · ${h.bereich}`}
+              </p>
+              {h.notiz && <p className="historie__notiz">{h.notiz}</p>}
+              {h.link && (
+                <a className="historie__link" href={h.link} target="_blank" rel="noopener noreferrer">
+                  <ExternalLink aria-hidden="true" />
+                  {linkName(h.link)}
+                </a>
+              )}
+            </li>
+          ))}
+        </ol>
+      )}
+      {liste.length > 5 && (
+        <p className="historie__mehr">
+          <button type="button" className="knopf" onClick={umschalten} aria-expanded={offen}>
+            {offen ? "Weniger zeigen" : `Alle ${liste.length} zeigen`}
+          </button>
+        </p>
+      )}
+    </section>
+  );
+}
+
+/** „Google Drive“ statt der langen Adresse, sonst der Host. */
+function linkName(href: string) {
+  try {
+    const host = new URL(href).hostname.replace(/^www\./, "");
+    if (host === "drive.google.com") return "Google Drive";
+    if (host === "docs.google.com") return "Google Docs";
+    return host;
+  } catch {
+    return "Link";
+  }
+}
 
 /** Allgemeine Aufgaben ohne Marke: Steuer, LinkedIn-Post, Einkauf. */
 export default function AufgabenAnsicht({ start, ich, daten }: { start: Wer; ich: Person; daten: AufgabenDaten }) {
@@ -21,15 +89,32 @@ export default function AufgabenAnsicht({ start, ich, daten }: { start: Wer; ich
   const lage = gruppiere(daten.aufgaben, HEUTE, wer, erledigt);
   const alle = wer === "Alle";
 
+  // Abhaken öffnet erst den Nachweis; Zurücknehmen wirkt sofort.
+  const [abschluss, setAbschluss] = useState<string | null>(null);
+  const [historieOffen, setHistorieOffen] = useState(false);
+
   const fertig = (a: AllgemeineAufgabe) => erledigt[a.id] ?? a.erledigt;
   const offen = (liste: AllgemeineAufgabe[]) => liste.filter((a) => !fertig(a)).length;
   const umschalten = (a: AllgemeineAufgabe) => {
-    const neuWert = !fertig(a);
-    setErledigt((e) => ({ ...e, [a.id]: neuWert }));
+    if (!fertig(a)) {
+      setNeu(false);
+      setBearbeite(null);
+      setAbschluss(a.id);
+      return;
+    }
+    setErledigt((e) => ({ ...e, [a.id]: false }));
     starte(async () => {
-      const { ok } = await aufgabeErledigt(a.id, neuWert);
-      if (!ok) setErledigt((e) => ({ ...e, [a.id]: !neuWert }));
+      const { ok } = await aufgabeErledigt(a.id, false);
+      if (!ok) setErledigt((e) => ({ ...e, [a.id]: true }));
     });
+  };
+  const abschliessen = (a: AllgemeineAufgabe) => async (n: Nachweis) => {
+    const r = await aufgabeErledigt(a.id, true, n);
+    if (r.ok) {
+      setErledigt((e) => ({ ...e, [a.id]: true }));
+      setAbschluss(null);
+    }
+    return r;
   };
 
   const wann = (iso: string | null) => {
@@ -55,6 +140,13 @@ export default function AufgabenAnsicht({ start, ich, daten }: { start: Wer; ich
   }
 
   const zeile = (a: AllgemeineAufgabe, ueberfaellig: boolean) => {
+    if (abschluss === a.id) {
+      return (
+        <li key={a.id} className="zeile zeile--formular">
+          <ErledigtFormular titel={a.titel} abschliessen={abschliessen(a)} abbrechen={() => setAbschluss(null)} />
+        </li>
+      );
+    }
     if (bearbeite === a.id) {
       return (
         <li key={a.id} className="zeile zeile--formular">
@@ -166,6 +258,11 @@ export default function AufgabenAnsicht({ start, ich, daten }: { start: Wer; ich
         {gruppe("ueberfaellig", "Überfällig", lage.ueberfaellig, "Nichts überfällig.", true)}
         {gruppe("heute", "Heute", lage.heute, "Heute ist nichts fällig.")}
         {gruppe("demnaechst", "Demnächst", lage.demnaechst, "Nichts geplant. Neue Aufgabe oben anlegen.")}
+        <Historie
+          liste={daten.historie.filter((h) => wer === "Alle" || h.verantwortlich === wer || h.erledigtVon === wer)}
+          offen={historieOffen}
+          umschalten={() => setHistorieOffen((o) => !o)}
+        />
       </div>
     </div>
   );
