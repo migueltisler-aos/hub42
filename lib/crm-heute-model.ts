@@ -1,7 +1,7 @@
 // Typen und Texte für den CRM-Screen „Heute“. Ohne Datenzugriff, damit die
 // Client-Komponente sie importieren darf (der Lader steht in lib/crm-heute.ts).
 
-export const PERSONEN = ["Ralf", "Anke", "Miguel", "Oliver"] as const;
+export const PERSONEN = ["Ralf", "Anke", "Miguel", "Oliver", "Leon"] as const;
 export type Person = (typeof PERSONEN)[number];
 
 export type Segment = "Startup" | "Enterprise" | "Partner" | null;
