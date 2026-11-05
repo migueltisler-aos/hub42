@@ -29,9 +29,9 @@ export function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const host = request.headers.get("host")?.split(":")[0] ?? "";
 
-  // CRM-Adresse: alles außerhalb von /crm führt nach Heute. Die Hub42-Seiten
-  // sind dort nicht zu sehen.
-  if (CRM_HOSTS.includes(host) && !passt(pathname, "/crm")) {
+  // CRM-Adresse: die internen Werkzeuge (Marken, Angebote, Wareneingang …) bleiben
+  // erreichbar, die öffentlichen Hub42-Seiten führen nach Aufgaben.
+  if (CRM_HOSTS.includes(host) && !PIPELINE_GESCHUETZT.some((pfad) => passt(pathname, pfad))) {
     return NextResponse.redirect(new URL("/crm/aufgaben", request.url));
   }
 
@@ -44,8 +44,9 @@ export function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // Das CRM hat einen eigenen Login im Testkaufhaus-Look, der Rest den der Pipeline.
-  const login = passt(pathname, "/crm") ? "/crm/login" : "/pipeline/login";
+  // Das CRM und die CRM-Adresse haben einen eigenen Login im Testkaufhaus-Look,
+  // der Rest unter tryhub42 den der Pipeline.
+  const login = passt(pathname, "/crm") || CRM_HOSTS.includes(host) ? "/crm/login" : "/pipeline/login";
   const loginUrl = new URL(login, request.url);
   loginUrl.searchParams.set("from", pathname + search);
   return NextResponse.redirect(loginUrl);

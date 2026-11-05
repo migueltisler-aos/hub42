@@ -5,8 +5,8 @@ import { PIPELINE_USERS, isPipelineUser } from "@/lib/pipeline-users";
 
 export const metadata: Metadata = { title: "Anmelden" };
 
-/** Nur interne Ziele unter /crm, sonst wäre `from` ein offener Redirect. */
-const ziel = (from: string | undefined) => (from && /^\/crm(\/|$)/.test(from) ? from : "/crm/aufgaben");
+/** Nur Pfade dieser Seite (ein Schrägstrich, kein zweiter), sonst wäre `from` ein offener Redirect. */
+const ziel = (from: string | undefined) => (from && /^\/(?![/\\])/.test(from) ? from : "/crm/aufgaben");
 
 async function anmelden(formData: FormData) {
   "use server";
