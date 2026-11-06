@@ -35,13 +35,40 @@ export async function ladeAllgemeineAufgaben(): Promise<AufgabenDaten> {
   const heute = tagBerlin(new Date());
   const seitGestern = new Date(Date.parse(`${heute}T00:00:00Z`) - 86_400_000).toISOString();
 
-  const r = await db
-    .from("crm_aufgaben")
-    .select("id, titel, faellig_am, wer, erledigt_am, bereich")
-    .is("brand_id", null)
-    .is("projekt_id", null)
-    .or(`erledigt_am.is.null,erledigt_am.gte.${seitGestern}`);
+  const [r, h] = await Promise.all([
+    db
+      .from("crm_aufgaben")
+      .select("id, titel, faellig_am, wer, erledigt_am, bereich")
+      .is("brand_id", null)
+      .is("projekt_id", null)
+      .or(`erledigt_am.is.null,erledigt_am.gte.${seitGestern}`),
+    // Historie: alle erledigten Aufgaben, auch die mit Marke, jüngste zuerst.
+    db
+      .from("crm_aufgaben")
+      .select("id, titel, wer, bereich, erledigt_am, erledigt_von, erledigt_notiz, erledigt_link, pipeline_brands(name)")
+      .not("erledigt_am", "is", null)
+      .order("erledigt_am", { ascending: false })
+      .limit(HISTORIE_MAX),
+  ]);
   fehler(r);
+  fehler(h);
+
+  type Erledigt = {
+    id: string; titel: string; wer: string | null; bereich: string | null; erledigt_am: string;
+    erledigt_von: string | null; erledigt_notiz: string | null; erledigt_link: string | null;
+    pipeline_brands: { name: string } | null;
+  };
+  const historie = ((h.data ?? []) as unknown as Erledigt[]).map((a) => ({
+    id: a.id,
+    titel: a.titel,
+    verantwortlich: personAus(a.wer),
+    erledigtAm: a.erledigt_am,
+    erledigtVon: a.erledigt_von,
+    notiz: a.erledigt_notiz,
+    link: a.erledigt_link,
+    marke: a.pipeline_brands?.name ?? null,
+    bereich: bereichAus(a.bereich),
+  }));
 
   type Zeile = { id: string; titel: string; faellig_am: string | null; wer: string | null; erledigt_am: string | null; bereich: string | null };
   const aufgaben: AllgemeineAufgabe[] = ((r.data ?? []) as Zeile[])
@@ -53,11 +80,17 @@ export async function ladeAllgemeineAufgaben(): Promise<AufgabenDaten> {
       faellig: a.faellig_am,
       verantwortlich: personAus(a.wer),
       erledigt: a.erledigt_am !== null,
-      bereich: (BEREICHE as readonly string[]).includes(a.bereich ?? "") ? (a.bereich as Bereich) : null,
+      bereich: bereichAus(a.bereich),
     }));
 
-  return { heute, aufgaben };
+  return { heute, aufgaben, historie };
 }
+
+/** Wie viele erledigte Aufgaben die Historie zeigt. */
+const HISTORIE_MAX = 100;
+
+const bereichAus = (b: string | null): Bereich | null =>
+  (BEREICHE as readonly string[]).includes(b ?? "") ? (b as Bereich) : null;
 
 export async function ladePipeline(): Promise<PipelineDaten> {
   const db = getSupabaseAdmin();
