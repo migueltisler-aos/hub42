@@ -3,7 +3,7 @@
 import { cookies } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
-import { BEREICHE, PERSONEN, type Bereich, type Nachweis, type Person } from "@/lib/crm-heute-model";
+import { BEREICHE, PERSONEN, personAus, type Bereich, type Nachweis, type Person } from "@/lib/crm-heute-model";
 
 type Ergebnis = { ok: true } | { ok: false; fehler: string };
 
@@ -30,7 +30,11 @@ export type AufgabeEingabe = {
   bereich: Bereich | null;
   faellig: string | null;
   wer: Person;
+  /** Nur allgemeine Aufgaben haben einen Link; fehlt das Feld, bleibt der alte Wert. */
+  link?: string | null;
 };
+
+const LINK = /^https?:\/\/\S+$/i;
 
 function pruefe(e: AufgabeEingabe): string | null {
   const titel = e.titel?.trim() ?? "";
@@ -40,6 +44,8 @@ function pruefe(e: AufgabeEingabe): string | null {
   if (e.bereich !== null && !BEREICHE.includes(e.bereich)) return "Bereich aus der Liste wählen.";
   if (e.faellig !== null && !DATUM.test(e.faellig)) return "Frist ist kein Datum.";
   if (!PERSONEN.includes(e.wer)) return "Person aus der Liste wählen.";
+  const link = e.link?.trim();
+  if (link && (!LINK.test(link) || link.length > 1000)) return "Link muss mit https:// beginnen.";
   return null;
 }
 
@@ -49,6 +55,7 @@ const zeile = (e: AufgabeEingabe) => ({
   bereich: e.brandId ? "Vertrieb" : e.bereich,
   faellig_am: e.faellig,
   wer: e.wer,
+  ...(e.link !== undefined && { link: e.link?.trim() || null }),
 });
 
 export async function aufgabeAnlegen(e: AufgabeEingabe): Promise<Ergebnis> {
@@ -91,7 +98,7 @@ export async function aufgabeErledigt(
   const notiz = nachweis?.notiz?.trim() || null;
   const link = nachweis?.link?.trim() || null;
   if (notiz && notiz.length > 2000) return { ok: false, fehler: "Notiz ist länger als 2000 Zeichen." };
-  if (link && (!/^https?:\/\/\S+$/i.test(link) || link.length > 1000)) {
+  if (link && (!LINK.test(link) || link.length > 1000)) {
     return { ok: false, fehler: "Link muss mit https:// beginnen." };
   }
 
@@ -106,6 +113,25 @@ export async function aufgabeErledigt(
   if (error) return { ok: false, fehler: "Speichern ist fehlgeschlagen." };
 
   neuLaden();
+  return { ok: true };
+}
+
+/** Stimme der angemeldeten Person: 1 wartet drauf, -1 unwichtig, 0 nimmt sie zurück. */
+export async function aufgabeStimmen(id: string, wert: 1 | -1 | 0): Promise<Ergebnis> {
+  const name = await angemeldet();
+  if (!name) return { ok: false, fehler: "Nicht angemeldet." };
+  if (!UUID.test(id)) return { ok: false, fehler: "Unbekannte Aufgabe." };
+  if (wert !== 1 && wert !== -1 && wert !== 0) return { ok: false, fehler: "Unbekannte Stimme." };
+  const wer = personAus(name);
+
+  const tabelle = getSupabaseAdmin().from("crm_aufgaben_stimmen");
+  const { error } =
+    wert === 0
+      ? await tabelle.delete().eq("aufgabe_id", id).eq("wer", wer)
+      : await tabelle.upsert({ aufgabe_id: id, wer, wert }, { onConflict: "aufgabe_id,wer" });
+  if (error) return { ok: false, fehler: "Speichern ist fehlgeschlagen." };
+
+  revalidatePath("/crm/aufgaben");
   return { ok: true };
 }
 

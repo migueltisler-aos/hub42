@@ -103,3 +103,89 @@ export function lageFuer(daten: HeuteDaten, wer: Wer, erledigt: Record<string, b
     meilensteine: daten.meilensteine.filter((m) => fuer(wer, m.verantwortlich)).sort(nachDatum),
   };
 }
+
+/* ── Aufgaben-App: Suche, Stimmen, Zuweisungsvorschlag ─────────────────── */
+
+type Suchbar = { titel: string; link?: string | null; notiz?: string | null; bereich?: string | null; verantwortlich: Person };
+
+const klein = (s: string) => s.toLocaleLowerCase("de-DE");
+
+/** Jedes Suchwort steht irgendwo in Titel, Link, Notiz, Bereich oder Person. */
+export function passtZurSuche(a: Suchbar, suche: string) {
+  const woerter = klein(suche).split(/\s+/).filter(Boolean);
+  if (woerter.length === 0) return true;
+  const heuhaufen = klein([a.titel, a.link, a.notiz, a.bereich, a.verantwortlich].filter(Boolean).join(" "));
+  return woerter.every((w) => heuhaufen.includes(w));
+}
+
+/** Summe der Stimmen: wartet drauf +1, unwichtig -1. */
+export const punkte = (stimmen: { wert: number }[]) => stimmen.reduce((s, x) => s + x.wert, 0);
+
+/** Mehr Wartende zuerst, Unwichtiges ans Ende; bei Gleichstand bleibt die Datumsfolge. */
+export function nachStimmen<T extends { stimmen: { wert: number }[] }>(liste: T[]) {
+  return [...liste].sort((x, y) => punkte(y.stimmen) - punkte(x.stimmen));
+}
+
+const FUELLWOERTER = new Set([
+  "der", "die", "das", "und", "oder", "für", "fuer", "mit", "von", "vom", "zum", "zur", "den", "dem",
+  "des", "ein", "eine", "einen", "auf", "aus", "bei", "nach", "noch", "bis", "an", "am", "im", "in",
+  "zu", "ist", "sind", "wir", "ich", "machen", "erledigen", "checken", "prüfen",
+]);
+
+/** Wortstämme eines Titels: klein, ohne Füllwörter, ab vier Zeichen, auf sechs gekürzt. */
+function staemme(titel: string) {
+  return new Set(
+    klein(titel)
+      .split(/[^\p{L}\p{N}]+/u)
+      .filter((w) => w.length >= 4 && !FUELLWOERTER.has(w))
+      .map((w) => w.slice(0, 6))
+  );
+}
+
+export type Vorschlag = { wer: Person; grund: string };
+
+type Erfahrung = { titel: string; bereich: string | null; wer: Person };
+
+/** Wer die Aufgabe übernehmen sollte: wer Ähnliches schon erledigt hat und den
+    Bereich macht, abzüglich dessen, was er offen hat. Ohne Ähnlichkeit oder
+    Bereich kein Vorschlag, denn die Last allein ist kein Grund. */
+export function vorschlagFuer(
+  titel: string,
+  bereich: string | null,
+  erledigt: Erfahrung[],
+  offen: { verantwortlich: Person }[]
+): Vorschlag | null {
+  const eigene = staemme(titel);
+  if (eigene.size === 0 && !bereich) return null;
+
+  const stand = new Map<Person, { aehnlich: number; bereich: number; offen: number }>(
+    PERSONEN.map((p) => [p, { aehnlich: 0, bereich: 0, offen: 0 }])
+  );
+  for (const e of erledigt) {
+    const s = stand.get(e.wer);
+    if (!s) continue;
+    const treffer = [...staemme(e.titel)].some((w) => eigene.has(w));
+    if (treffer) s.aehnlich += 1;
+    if (bereich && e.bereich === bereich) s.bereich += 1;
+  }
+  for (const o of offen) {
+    const s = stand.get(o.verantwortlich);
+    if (s) s.offen += 1;
+  }
+
+  let best: { wer: Person; wert: number } | null = null;
+  for (const [wer, s] of stand) {
+    if (s.aehnlich === 0 && s.bereich === 0) continue;
+    const wert = s.aehnlich * 3 + Math.min(s.bereich, 3) - s.offen * 0.5;
+    if (!best || wert > best.wert) best = { wer, wert };
+  }
+  if (!best) return null;
+
+  const s = stand.get(best.wer)!;
+  const teile = [
+    s.aehnlich > 0 && `${s.aehnlich} ähnliche erledigt`,
+    s.aehnlich === 0 && s.bereich > 0 && `macht ${bereich}`,
+    `${s.offen} offen`,
+  ].filter(Boolean);
+  return { wer: best.wer, grund: teile.join(" · ") };
+}

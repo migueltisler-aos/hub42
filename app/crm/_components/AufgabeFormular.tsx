@@ -1,8 +1,29 @@
 "use client";
 
-import { useId, useState, useTransition } from "react";
+import { useDeferredValue, useEffect, useId, useRef, useState, useSyncExternalStore, useTransition } from "react";
+import { Mic, Sparkles } from "lucide-react";
 import { BEREICHE, PERSONEN, type Bereich, type Person } from "@/lib/crm-heute-model";
 import { aufgabeAendern, aufgabeAnlegen } from "../actions";
+import type { Vorschlag } from "../logik";
+
+/* Diktat über die Web Speech API (Chrome, Safari). Fehlt sie, bleibt das
+   Mikrofon der Handy-Tastatur. Eigene Typen, TypeScript kennt die API nicht. */
+type Erkennung = {
+  lang: string;
+  interimResults: boolean;
+  onresult: ((e: { results: ArrayLike<ArrayLike<{ transcript: string }>> }) => void) | null;
+  onend: (() => void) | null;
+  onerror: (() => void) | null;
+  start: () => void;
+  stop: () => void;
+};
+type ErkennungKlasse = new () => Erkennung;
+const keinAbo = () => () => {};
+function erkennungKlasse(): ErkennungKlasse | null {
+  if (typeof window === "undefined") return null;
+  const w = window as unknown as { SpeechRecognition?: ErkennungKlasse; webkitSpeechRecognition?: ErkennungKlasse };
+  return w.SpeechRecognition ?? w.webkitSpeechRecognition ?? null;
+}
 
 /** Was das Formular von einer bestehenden Aufgabe braucht. */
 export type Vorlage = {
@@ -12,6 +33,7 @@ export type Vorlage = {
   verantwortlich: Person;
   brand?: { name: string };
   bereich?: Bereich | null;
+  link?: string | null;
 };
 
 /** Anlegen (ohne `aufgabe`) oder Ändern. `marken` gesetzt: Sales-Aufgabe mit
@@ -22,12 +44,15 @@ export default function AufgabeFormular({
   heute,
   ich,
   fertig,
+  vorschlag,
 }: {
   aufgabe?: Vorlage;
   marken?: { id: string; name: string }[];
   heute: string;
   ich: Person;
   fertig: () => void;
+  /** Nur beim Anlegen: schlägt vor, wer übernimmt. */
+  vorschlag?: (titel: string, bereich: Bereich | null) => Vorschlag | null;
 }) {
   const id = useId();
   const mitMarke = marken !== undefined;
@@ -36,8 +61,43 @@ export default function AufgabeFormular({
   const [bereich, setBereich] = useState<Bereich | "">(aufgabe?.bereich ?? "");
   const [frist, setFrist] = useState(aufgabe ? (aufgabe.faellig ?? "") : heute);
   const [wer, setWer] = useState<Person>(aufgabe?.verantwortlich ?? ich);
+  const [link, setLink] = useState(aufgabe?.link ?? "");
   const [fehler, setFehler] = useState<string | null>(null);
   const [laeuft, starte] = useTransition();
+
+  // Vorschlag rechnet auf dem verzögerten Titel, damit das Tippen flüssig bleibt.
+  const titelRuhig = useDeferredValue(titel);
+  const tipp = !aufgabe && vorschlag ? vorschlag(titelRuhig, bereich || null) : null;
+
+  // Diktat: auf dem Server immer aus, im Browser je nach API, ohne Abweichung beim Hydrieren.
+  const kannDiktat = useSyncExternalStore(
+    keinAbo,
+    () => erkennungKlasse() !== null,
+    () => false
+  );
+  const [hoert, setHoert] = useState(false);
+  const erkennung = useRef<Erkennung | null>(null);
+  useEffect(() => () => erkennung.current?.stop(), []);
+  function diktieren() {
+    if (hoert) {
+      erkennung.current?.stop();
+      return;
+    }
+    const Klasse = erkennungKlasse();
+    if (!Klasse) return;
+    const e = new Klasse();
+    e.lang = "de-DE";
+    e.interimResults = false;
+    e.onresult = (ev) => {
+      const text = Array.from(ev.results, (r) => r[0]?.transcript ?? "").join(" ").trim();
+      if (text) setTitel((t) => (t.trim() ? `${t.trim()} ${text}` : text).slice(0, 200));
+    };
+    e.onend = () => setHoert(false);
+    e.onerror = () => setHoert(false);
+    erkennung.current = e;
+    setHoert(true);
+    e.start();
+  }
 
   function speichern(e: React.FormEvent) {
     e.preventDefault();
@@ -51,7 +111,15 @@ export default function AufgabeFormular({
       }
       brandId = treffer.id;
     }
-    const eingabe = { titel, brandId, bereich: mitMarke ? null : bereich || null, faellig: frist || null, wer };
+    const eingabe = {
+      titel,
+      brandId,
+      bereich: mitMarke ? null : bereich || null,
+      faellig: frist || null,
+      wer,
+      // Sales-Aufgaben zeigen kein Linkfeld, ihr Link bleibt unberührt.
+      ...(!mitMarke && { link: link.trim() || null }),
+    };
     starte(async () => {
       const r = aufgabe ? await aufgabeAendern(aufgabe.id, eingabe) : await aufgabeAnlegen(eingabe);
       if (r.ok) fertig();
@@ -63,15 +131,29 @@ export default function AufgabeFormular({
     <form className="formular" onSubmit={speichern} aria-label={aufgabe ? "Aufgabe ändern" : "Neue Aufgabe"}>
       <label className="formular__feld formular__feld--breit">
         <span className="formular__label">Aufgabe</span>
-        <input
-          className="formular__eingabe"
-          value={titel}
-          onChange={(e) => setTitel(e.target.value)}
-          required
-          maxLength={200}
-          autoFocus
-          placeholder={mitMarke ? "Was ist zu tun?" : "z. B. Umsatzsteuer abgeben"}
-        />
+        <span className="formular__zeile">
+          <input
+            className="formular__eingabe"
+            value={titel}
+            onChange={(e) => setTitel(e.target.value)}
+            required
+            maxLength={200}
+            autoFocus
+            enterKeyHint="done"
+            placeholder={mitMarke ? "Was ist zu tun?" : "z. B. Umsatzsteuer abgeben"}
+          />
+          {kannDiktat && (
+            <button
+              type="button"
+              className="formular__mikro"
+              aria-pressed={hoert}
+              aria-label={hoert ? "Diktat beenden" : "Aufgabe diktieren"}
+              onClick={diktieren}
+            >
+              <Mic aria-hidden="true" />
+            </button>
+          )}
+        </span>
       </label>
       {mitMarke ? (
         <label className="formular__feld">
@@ -104,6 +186,21 @@ export default function AufgabeFormular({
           </select>
         </label>
       )}
+      {!mitMarke && (
+        <label className="formular__feld formular__feld--breit">
+          <span className="formular__label">Link</span>
+          <input
+            className="formular__eingabe"
+            type="url"
+            inputMode="url"
+            value={link}
+            onChange={(e) => setLink(e.target.value)}
+            maxLength={1000}
+            autoComplete="off"
+            placeholder="https:// (Drive, Mail, Seite), optional"
+          />
+        </label>
+      )}
       <label className="formular__feld">
         <span className="formular__label">Frist</span>
         <input className="formular__eingabe" type="date" value={frist} onChange={(e) => setFrist(e.target.value)} />
@@ -118,6 +215,17 @@ export default function AufgabeFormular({
           ))}
         </select>
       </label>
+      {tipp && tipp.wer !== wer && (
+        <p className="formular__tipp">
+          <Sparkles aria-hidden="true" />
+          <span>
+            Vorschlag: <strong>{tipp.wer}</strong> <span className="formular__grund">({tipp.grund})</span>
+          </span>
+          <button type="button" className="knopf knopf--klein" onClick={() => setWer(tipp.wer)}>
+            Übernehmen
+          </button>
+        </p>
+      )}
       {fehler && (
         <p className="formular__fehler" role="alert">
           {fehler}

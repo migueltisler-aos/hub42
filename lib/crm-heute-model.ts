@@ -51,6 +51,9 @@ export type HeuteDaten = {
 export const BEREICHE = ["Vertrieb", "Marketing", "Finanzen", "Betrieb", "Sonstiges"] as const;
 export type Bereich = (typeof BEREICHE)[number];
 
+/** +1 wartet drauf, -1 unwichtig. Eine Stimme je Person. */
+export type Stimme = { wer: Person; wert: 1 | -1 };
+
 export type AllgemeineAufgabe = {
   id: string;
   titel: string;
@@ -58,6 +61,8 @@ export type AllgemeineAufgabe = {
   verantwortlich: Person;
   erledigt: boolean;
   bereich: Bereich | null;
+  link: string | null;
+  stimmen: Stimme[];
 };
 
 /** Eine erledigte Aufgabe in der Historie, mit Nachweis. Allgemein oder mit Marke. */

@@ -38,7 +38,7 @@ export async function ladeAllgemeineAufgaben(): Promise<AufgabenDaten> {
   const [r, h] = await Promise.all([
     db
       .from("crm_aufgaben")
-      .select("id, titel, faellig_am, wer, erledigt_am, bereich")
+      .select("id, titel, faellig_am, wer, erledigt_am, bereich, link, crm_aufgaben_stimmen(wer, wert)")
       .is("brand_id", null)
       .is("projekt_id", null)
       .or(`erledigt_am.is.null,erledigt_am.gte.${seitGestern}`),
@@ -70,7 +70,10 @@ export async function ladeAllgemeineAufgaben(): Promise<AufgabenDaten> {
     bereich: bereichAus(a.bereich),
   }));
 
-  type Zeile = { id: string; titel: string; faellig_am: string | null; wer: string | null; erledigt_am: string | null; bereich: string | null };
+  type Zeile = {
+    id: string; titel: string; faellig_am: string | null; wer: string | null; erledigt_am: string | null;
+    bereich: string | null; link: string | null; crm_aufgaben_stimmen: { wer: string; wert: number }[] | null;
+  };
   const aufgaben: AllgemeineAufgabe[] = ((r.data ?? []) as Zeile[])
     // Erledigtes bleibt nur bis Tagesende sichtbar.
     .filter((a) => a.erledigt_am === null || tagBerlin(a.erledigt_am) === heute)
@@ -81,6 +84,8 @@ export async function ladeAllgemeineAufgaben(): Promise<AufgabenDaten> {
       verantwortlich: personAus(a.wer),
       erledigt: a.erledigt_am !== null,
       bereich: bereichAus(a.bereich),
+      link: a.link,
+      stimmen: (a.crm_aufgaben_stimmen ?? []).map((st) => ({ wer: personAus(st.wer), wert: st.wert < 0 ? (-1 as const) : (1 as const) })),
     }));
 
   return { heute, aufgaben, historie };
