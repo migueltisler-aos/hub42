@@ -606,9 +606,12 @@
   }
   .suche__leeren svg { width: 18px; height: 18px; }
 
-  .zeile--leiste { flex-wrap: wrap; }
+  /* Grid statt Umbruch: Titel, Stift, Datum bleiben in einer Reihe, auch
+     wenn der Titel lang ist; Leiste und Umfrage spannen darunter durch. */
+  .zeile--leiste { display: grid; grid-template-columns: minmax(0, 1fr) auto auto; column-gap: 12px; }
+  .zeile--leiste > .leiste, .zeile--leiste > .zeile__unten { grid-column: 1 / -1; }
   .leiste {
-    flex: 1 0 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 6px;
     margin-top: -6px; padding: 0 0 10px 52px;
   }
   .leiste__link {
@@ -660,5 +663,89 @@
   }
   @media (prefers-reduced-motion: reduce) {
     .leiste__stimme { transition: none; }
+  }
+}
+
+/* Aufgaben-App, Stufe 2: Projektleiste, Umfrage an der Aufgabe, Dateien.
+   Projekte als Fächer mit Fortschrittsbalken; gewählt in Stahl wie die
+   Personenwahl. Umfrage: Antwort als Knopf, Anteil als Fläche dahinter. */
+.crm {
+  .projekte {
+    max-width: 820px; margin: 0 0 16px; padding: 14px 20px 12px;
+    background: var(--papier); border: 1px solid var(--linie); border-radius: 2px;
+  }
+  .projekte__kopf { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+  .projekte h2 { padding: 0; }
+  .projekte__formular { margin-top: 12px; }
+  .projekte__liste {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+    gap: 8px; margin-top: 12px;
+  }
+  .projekte .regal__leer { padding: 10px 0 2px; }
+  .projekte__fuss { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; }
+  .projekte__fuss:empty { display: none; }
+  .projekt {
+    width: 100%; display: grid; gap: 4px; text-align: left; cursor: pointer;
+    padding: 10px 12px; font: inherit; color: var(--tinte);
+    background: var(--papier); border: 1px solid var(--linie-fest); border-radius: 2px;
+    transition: background-color 120ms ease-out, color 120ms ease-out;
+  }
+  .projekt__titel { font-weight: 600; overflow-wrap: anywhere; }
+  .projekt__meta { font-family: var(--f-mono); font-size: 12px; color: var(--tinte-leise); }
+  .projekt__balken { height: 4px; background: var(--karton); border-radius: 1px; overflow: hidden; }
+  .projekt__balken span { display: block; height: 100%; background: var(--tinte-leise); }
+  .projekt[aria-pressed="true"] { background: var(--stahl); border-color: var(--stahl); color: var(--papier); }
+  .projekt[aria-pressed="true"] .projekt__meta { color: var(--karton); }
+  .projekt[aria-pressed="true"] .projekt__balken { background: rgba(238, 242, 239, 0.25); }
+  .projekt[aria-pressed="true"] .projekt__balken span { background: var(--licht); }
+  .projekt[data-abgeschlossen] .projekt__titel { text-decoration: line-through; }
+  @media (hover: hover) and (pointer: fine) {
+    .projekt:not([aria-pressed="true"]):hover { background: var(--karton); }
+  }
+
+  .zeile__projekt {
+    display: inline-block; margin-right: 8px; padding: 0 6px;
+    font-size: 12px; font-weight: 600; line-height: 18px; color: var(--tinte);
+    background: var(--karton); border-radius: 2px;
+  }
+  .leiste__fehler { font-size: 13px; font-weight: 600; color: var(--tinte); }
+  .knopf--klein svg { width: 14px; height: 14px; }
+  .formular__knoepfe--umbruch { flex-wrap: wrap; align-items: center; }
+
+  .zeile__unten { padding: 0 0 14px 52px; }
+  .umfrage { display: grid; gap: 8px; padding: 10px 12px; background: var(--karton); border-radius: 2px; }
+  .umfrage[aria-busy] { opacity: 0.7; }
+  .umfrage__frage { font-weight: 600; }
+  .umfrage__meta { font-family: var(--f-mono); font-size: 12px; font-weight: 400; color: var(--tinte-leise); }
+  .umfrage__optionen { display: grid; gap: 6px; }
+  .umfrage__option {
+    position: relative; overflow: hidden; width: 100%; min-height: 40px;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+    padding: 8px 12px; font: inherit; text-align: left; color: var(--tinte);
+    background: var(--papier); border: 1px solid var(--linie-fest); border-radius: 2px; cursor: pointer;
+  }
+  .umfrage__option:disabled { cursor: default; }
+  .umfrage__option[aria-pressed="true"] { border-color: var(--stahl); border-width: 2px; padding: 7px 11px; }
+  .umfrage__option[data-fuehrt] { border-color: var(--stahl); }
+  .umfrage__balken {
+    position: absolute; inset: 0 auto 0 0; background: color-mix(in oklab, var(--licht) 45%, var(--papier));
+    transition: width 200ms cubic-bezier(0.23, 1, 0.32, 1);
+  }
+  .umfrage__text, .umfrage__zahl { position: relative; }
+  .umfrage__text { display: inline-flex; align-items: center; gap: 6px; overflow-wrap: anywhere; }
+  .umfrage__text svg { width: 14px; height: 14px; flex: 0 0 14px; }
+  .umfrage__zahl { font-family: var(--f-mono); font-size: 13px; }
+  .umfrage__wer { margin-top: 2px; font-family: var(--f-mono); font-size: 12px; color: var(--tinte-leise); }
+  .umfrage__fuss { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  .umfrage__formular { padding: 12px; background: var(--karton); border-radius: 2px; }
+  .umfrage__mehrfach { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; }
+  .umfrage__mehrfach input { width: 18px; height: 18px; }
+
+  @media (max-width: 640px) {
+    .projekte { padding: 12px 16px 10px; }
+    .zeile__unten { padding-left: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .projekt, .umfrage__balken { transition: none; }
   }
 }

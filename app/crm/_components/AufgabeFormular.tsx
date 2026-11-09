@@ -34,6 +34,7 @@ export type Vorlage = {
   brand?: { name: string };
   bereich?: Bereich | null;
   link?: string | null;
+  projektId?: string | null;
 };
 
 /** Anlegen (ohne `aufgabe`) oder Ändern. `marken` gesetzt: Sales-Aufgabe mit
@@ -45,6 +46,8 @@ export default function AufgabeFormular({
   ich,
   fertig,
   vorschlag,
+  projekte,
+  projekt,
 }: {
   aufgabe?: Vorlage;
   marken?: { id: string; name: string }[];
@@ -53,6 +56,10 @@ export default function AufgabeFormular({
   fertig: () => void;
   /** Nur beim Anlegen: schlägt vor, wer übernimmt. */
   vorschlag?: (titel: string, bereich: Bereich | null) => Vorschlag | null;
+  /** Offene Projekte zur Auswahl; nur allgemeine Aufgaben. */
+  projekte?: { id: string; titel: string }[];
+  /** Vorauswahl beim Anlegen, wenn die Liste auf ein Projekt gefiltert ist. */
+  projekt?: string | null;
 }) {
   const id = useId();
   const mitMarke = marken !== undefined;
@@ -62,6 +69,7 @@ export default function AufgabeFormular({
   const [frist, setFrist] = useState(aufgabe ? (aufgabe.faellig ?? "") : heute);
   const [wer, setWer] = useState<Person>(aufgabe?.verantwortlich ?? ich);
   const [link, setLink] = useState(aufgabe?.link ?? "");
+  const [projektId, setProjektId] = useState(aufgabe ? (aufgabe.projektId ?? "") : (projekt ?? ""));
   const [fehler, setFehler] = useState<string | null>(null);
   const [laeuft, starte] = useTransition();
 
@@ -119,6 +127,7 @@ export default function AufgabeFormular({
       wer,
       // Sales-Aufgaben zeigen kein Linkfeld, ihr Link bleibt unberührt.
       ...(!mitMarke && { link: link.trim() || null }),
+      ...(!mitMarke && projekte && { projektId: projektId || null }),
     };
     starte(async () => {
       const r = aufgabe ? await aufgabeAendern(aufgabe.id, eingabe) : await aufgabeAnlegen(eingabe);
@@ -199,6 +208,19 @@ export default function AufgabeFormular({
             autoComplete="off"
             placeholder="https:// (Drive, Mail, Seite), optional"
           />
+        </label>
+      )}
+      {!mitMarke && projekte && projekte.length > 0 && (
+        <label className="formular__feld">
+          <span className="formular__label">Projekt</span>
+          <select className="formular__eingabe" value={projektId} onChange={(e) => setProjektId(e.target.value)}>
+            <option value="">ohne</option>
+            {projekte.map((p) => (
+              <option key={p.id} value={p.id}>
+                {p.titel}
+              </option>
+            ))}
+          </select>
         </label>
       )}
       <label className="formular__feld">
