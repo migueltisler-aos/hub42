@@ -90,7 +90,8 @@ export async function aufgabeAendern(id: string, e: AufgabeEingabe): Promise<Erg
 }
 
 /** Hakt eine Aufgabe ab, mit optionalem Nachweis (Notiz, Link zur Lösung),
-    oder nimmt den Haken samt Nachweis zurück. */
+    oder holt sie zurück. Der Nachweis bleibt dabei stehen, damit nichts verloren geht;
+    ein neuer Nachweis beim nächsten Abhaken ersetzt ihn, ein leerer lässt ihn stehen. */
 export async function aufgabeErledigt(
   id: string,
   erledigt: boolean,
@@ -111,8 +112,13 @@ export async function aufgabeErledigt(
     .from("crm_aufgaben")
     .update(
       erledigt
-        ? { erledigt_am: new Date().toISOString(), erledigt_von: wer, erledigt_notiz: notiz, erledigt_link: link }
-        : { erledigt_am: null, erledigt_von: null, erledigt_notiz: null, erledigt_link: null }
+        ? {
+            erledigt_am: new Date().toISOString(),
+            erledigt_von: wer,
+            ...(notiz !== null && { erledigt_notiz: notiz }),
+            ...(link !== null && { erledigt_link: link }),
+          }
+        : { erledigt_am: null, erledigt_von: null }
     )
     .eq("id", id);
   if (error) return { ok: false, fehler: "Speichern ist fehlgeschlagen." };

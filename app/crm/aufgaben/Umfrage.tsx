@@ -6,7 +6,7 @@ import type { Person, Umfrage } from "@/lib/crm-heute-model";
 import { umfrageAnlegen, umfrageSchliessen, umfrageWaehlen } from "../actions";
 
 /** Umfrage an einer Aufgabe: Antworten als Knöpfe, Balken nach Anteil, Namen darunter. */
-export function UmfrageBlock({ umfrage, ich }: { umfrage: Umfrage; ich: Person }) {
+export function UmfrageBlock({ umfrage, ich, nurLesen = false }: { umfrage: Umfrage; ich: Person; nurLesen?: boolean }) {
   const [laeuft, starte] = useTransition();
   const [fehler, setFehler] = useState<string | null>(null);
   const stimmen = umfrage.optionen.reduce((s, o) => s + o.wer.length, 0);
@@ -40,7 +40,7 @@ export function UmfrageBlock({ umfrage, ich }: { umfrage: Umfrage; ich: Person }
                 className="umfrage__option"
                 aria-pressed={meine}
                 data-fuehrt={fuehrt || undefined}
-                disabled={umfrage.geschlossen || laeuft}
+                disabled={nurLesen || umfrage.geschlossen || laeuft}
                 onClick={() => ausfuehren(() => umfrageWaehlen(umfrage.id, o.id))}
               >
                 <span className="umfrage__balken" style={{ width: `${anteil}%` }} aria-hidden="true" />
@@ -55,22 +55,24 @@ export function UmfrageBlock({ umfrage, ich }: { umfrage: Umfrage; ich: Person }
           );
         })}
       </ul>
-      <div className="umfrage__fuss">
-        <button
-          type="button"
-          className="knopf knopf--klein"
-          disabled={laeuft}
-          onClick={() => ausfuehren(() => umfrageSchliessen(umfrage.id, !umfrage.geschlossen))}
-        >
-          {umfrage.geschlossen ? <LockOpen aria-hidden="true" /> : <Lock aria-hidden="true" />}
-          {umfrage.geschlossen ? "Wieder öffnen" : "Schließen"}
-        </button>
-        {fehler && (
-          <span className="formular__fehler" role="alert">
-            {fehler}
-          </span>
-        )}
-      </div>
+      {!nurLesen && (
+        <div className="umfrage__fuss">
+          <button
+            type="button"
+            className="knopf knopf--klein"
+            disabled={laeuft}
+            onClick={() => ausfuehren(() => umfrageSchliessen(umfrage.id, !umfrage.geschlossen))}
+          >
+            {umfrage.geschlossen ? <LockOpen aria-hidden="true" /> : <Lock aria-hidden="true" />}
+            {umfrage.geschlossen ? "Wieder öffnen" : "Schließen"}
+          </button>
+          {fehler && (
+            <span className="formular__fehler" role="alert">
+              {fehler}
+            </span>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -103,6 +103,10 @@ export type ErledigteAufgabe = {
   marke: string | null;
   bereich: Bereich | null;
   projekt: string | null;
+  /** Link der Aufgabe selbst, nicht der Nachweis. */
+  aufgabeLink: string | null;
+  dateien: Datei[];
+  umfrage: Umfrage | null;
 };
 
 /** Optionaler Nachweis beim Abhaken. */
