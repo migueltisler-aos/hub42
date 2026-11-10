@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import Link from "next/link";
 import { Archivo_Narrow, IBM_Plex_Mono } from "next/font/google";
 import Etikettmarke from "./_components/Etikettmarke";
@@ -13,7 +13,14 @@ const plexMono = IBM_Plex_Mono({ subsets: ["latin"], weight: ["400", "500"], var
 export const metadata: Metadata = {
   title: { default: "CRM", template: "%s · CRM Testkaufhaus" },
   robots: { index: false, follow: false },
+  // Als App auf dem Homescreen: Manifest liegt unter public/, Icons unter /api,
+  // beides läuft am Login vorbei (Proxy-Matcher).
+  manifest: "/crm.webmanifest",
+  appleWebApp: { capable: true, title: "Aufgaben", statusBarStyle: "black" },
+  icons: { apple: "/api/crm-icon?g=180" },
 };
+
+export const viewport: Viewport = { themeColor: "#101313" };
 
 /* Eigenes Layout ohne InternNav. Alles hängt unter .crm, denn Route-CSS
    bleibt nach einer Client-Navigation im Dokument (wie .rw auf der Startseite). */

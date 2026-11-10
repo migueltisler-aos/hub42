@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
     // tsc --noEmit läuft separat; ignoreBuildErrors für Vercel-Kompatibilität
     ignoreBuildErrors: true,
   },
+  experimental: {
+    // Datei-Upload an Aufgaben (Google Drive): Vercel nimmt höchstens 4,5 MB an.
+    serverActions: { bodySizeLimit: "4mb" },
+  },
   async redirects() {
     // Die Regalwand war bis zum Umzug auf / unter /neue-ui geteilt worden.
     // /old war die alte Startseite mit dem alten Preismodell (bis 2026-10-20);

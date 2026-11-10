@@ -51,6 +51,9 @@ export type HeuteDaten = {
 export const BEREICHE = ["Vertrieb", "Marketing", "Finanzen", "Betrieb", "Sonstiges"] as const;
 export type Bereich = (typeof BEREICHE)[number];
 
+/** +1 wartet drauf, -1 unwichtig. Eine Stimme je Person. */
+export type Stimme = { wer: Person; wert: 1 | -1 };
+
 export type AllgemeineAufgabe = {
   id: string;
   titel: string;
@@ -58,6 +61,34 @@ export type AllgemeineAufgabe = {
   verantwortlich: Person;
   erledigt: boolean;
   bereich: Bereich | null;
+  link: string | null;
+  stimmen: Stimme[];
+  projektId: string | null;
+  dateien: Datei[];
+  umfrage: Umfrage | null;
+};
+
+/** Datei im Drive-Unterordner der Aufgabe. */
+export type Datei = { id: string; name: string; link: string };
+
+/** Umfrage an einer Aufgabe: jede Option mit den Personen, die sie gewählt haben. */
+export type Umfrage = {
+  id: string;
+  frage: string;
+  mehrfach: boolean;
+  geschlossen: boolean;
+  optionen: { id: string; text: string; wer: Person[] }[];
+};
+
+/** Projekt mit Aufgaben; Zählung über alle Aufgaben, auch längst erledigte. */
+export type AufgabenProjekt = {
+  id: string;
+  titel: string;
+  verantwortlich: Person;
+  faellig: string | null;
+  abgeschlossen: boolean;
+  offen: number;
+  erledigt: number;
 };
 
 /** Eine erledigte Aufgabe in der Historie, mit Nachweis. Allgemein oder mit Marke. */
@@ -71,12 +102,20 @@ export type ErledigteAufgabe = {
   link: string | null;
   marke: string | null;
   bereich: Bereich | null;
+  projekt: string | null;
 };
 
 /** Optionaler Nachweis beim Abhaken. */
 export type Nachweis = { notiz: string; link: string };
 
-export type AufgabenDaten = { heute: string; aufgaben: AllgemeineAufgabe[]; historie: ErledigteAufgabe[] };
+export type AufgabenDaten = {
+  heute: string;
+  aufgaben: AllgemeineAufgabe[];
+  historie: ErledigteAufgabe[];
+  projekte: AufgabenProjekt[];
+  /** Drive-Zugang eingerichtet: sonst kein Upload-Knopf. */
+  drive: boolean;
+};
 
 /* ── Pipeline-Dashboard: Trichter und Kunden ──────────────────────────── */
 

@@ -3,12 +3,15 @@
 import "server-only";
 
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
+import { driveBereit } from "@/lib/drive";
 import {
   BEREICHE,
   TRICHTER_STUFEN,
   personAus,
   type AllgemeineAufgabe,
   type AufgabenDaten,
+  type AufgabenProjekt,
+  type Umfrage,
   type Bereich,
   type Kunde,
   type PipelineDaten,
@@ -35,30 +38,46 @@ export async function ladeAllgemeineAufgaben(): Promise<AufgabenDaten> {
   const heute = tagBerlin(new Date());
   const seitGestern = new Date(Date.parse(`${heute}T00:00:00Z`) - 86_400_000).toISOString();
 
-  const [r, h] = await Promise.all([
+  const [r, historieZeilen, p, z] = await Promise.all([
     db
       .from("crm_aufgaben")
-      .select("id, titel, faellig_am, wer, erledigt_am, bereich")
+      .select(
+        `id, titel, faellig_am, wer, erledigt_am, bereich, link, aufgaben_projekt_id,
+         crm_aufgaben_stimmen(wer, wert),
+         crm_aufgaben_dateien(id, name, link, created_at),
+         crm_umfragen(id, frage, mehrfach, geschlossen_am, crm_umfrage_optionen(id, text, pos, crm_umfrage_stimmen(wer)))`
+      )
       .is("brand_id", null)
       .is("projekt_id", null)
       .or(`erledigt_am.is.null,erledigt_am.gte.${seitGestern}`),
-    // Historie: alle erledigten Aufgaben, auch die mit Marke, jüngste zuerst.
-    db
-      .from("crm_aufgaben")
-      .select("id, titel, wer, bereich, erledigt_am, erledigt_von, erledigt_notiz, erledigt_link, pipeline_brands(name)")
-      .not("erledigt_am", "is", null)
-      .order("erledigt_am", { ascending: false })
-      .limit(HISTORIE_MAX),
+    ladeHistorie(),
+    db.from("crm_aufgaben_projekte").select("id, titel, wer, faellig_am, abgeschlossen_am").order("created_at"),
+    // Zählung je Projekt über alle Aufgaben, auch die längst erledigten.
+    db.from("crm_aufgaben").select("aufgaben_projekt_id, erledigt_am").not("aufgaben_projekt_id", "is", null),
   ]);
   fehler(r);
-  fehler(h);
+  fehler(p);
+  fehler(z);
 
-  type Erledigt = {
-    id: string; titel: string; wer: string | null; bereich: string | null; erledigt_am: string;
-    erledigt_von: string | null; erledigt_notiz: string | null; erledigt_link: string | null;
-    pipeline_brands: { name: string } | null;
-  };
-  const historie = ((h.data ?? []) as unknown as Erledigt[]).map((a) => ({
+  type ProjektZeile = { id: string; titel: string; wer: string | null; faellig_am: string | null; abgeschlossen_am: string | null };
+  const zaehlung = new Map<string, { offen: number; erledigt: number }>();
+  for (const a of (z.data ?? []) as { aufgaben_projekt_id: string; erledigt_am: string | null }[]) {
+    const c = zaehlung.get(a.aufgaben_projekt_id) ?? { offen: 0, erledigt: 0 };
+    if (a.erledigt_am) c.erledigt += 1;
+    else c.offen += 1;
+    zaehlung.set(a.aufgaben_projekt_id, c);
+  }
+  const projekte: AufgabenProjekt[] = ((p.data ?? []) as ProjektZeile[]).map((x) => ({
+    id: x.id,
+    titel: x.titel,
+    verantwortlich: personAus(x.wer),
+    faellig: x.faellig_am,
+    abgeschlossen: x.abgeschlossen_am !== null,
+    ...(zaehlung.get(x.id) ?? { offen: 0, erledigt: 0 }),
+  }));
+  const projektName = new Map(projekte.map((x) => [x.id, x.titel]));
+
+  const historie = historieZeilen.map((a) => ({
     id: a.id,
     titel: a.titel,
     verantwortlich: personAus(a.wer),
@@ -68,11 +87,37 @@ export async function ladeAllgemeineAufgaben(): Promise<AufgabenDaten> {
     link: a.erledigt_link,
     marke: a.pipeline_brands?.name ?? null,
     bereich: bereichAus(a.bereich),
+    projekt: a.aufgaben_projekt_id ? (projektName.get(a.aufgaben_projekt_id) ?? null) : null,
   }));
 
-  type Zeile = { id: string; titel: string; faellig_am: string | null; wer: string | null; erledigt_am: string | null; bereich: string | null };
-  const aufgaben: AllgemeineAufgabe[] = ((r.data ?? []) as Zeile[])
-    // Erledigtes bleibt nur bis Tagesende sichtbar.
+  type UmfrageZeile = {
+    id: string; frage: string; mehrfach: boolean; geschlossen_am: string | null;
+    crm_umfrage_optionen: { id: string; text: string; pos: number; crm_umfrage_stimmen: { wer: string }[] | null }[] | null;
+  };
+  type Zeile = {
+    id: string; titel: string; faellig_am: string | null; wer: string | null; erledigt_am: string | null;
+    bereich: string | null; link: string | null; aufgaben_projekt_id: string | null;
+    crm_aufgaben_stimmen: { wer: string; wert: number }[] | null;
+    crm_aufgaben_dateien: { id: string; name: string; link: string; created_at: string }[] | null;
+    // Eins-zu-eins über aufgabe_id unique: PostgREST liefert ein Objekt, ältere Fassungen ein Array.
+    crm_umfragen: UmfrageZeile | UmfrageZeile[] | null;
+  };
+  const umfrageAus = (u: Zeile["crm_umfragen"]): Umfrage | null => {
+    const x = Array.isArray(u) ? u[0] : u;
+    if (!x) return null;
+    return {
+      id: x.id,
+      frage: x.frage,
+      mehrfach: x.mehrfach,
+      geschlossen: x.geschlossen_am !== null,
+      optionen: [...(x.crm_umfrage_optionen ?? [])]
+        .sort((a, b) => a.pos - b.pos)
+        .map((o) => ({ id: o.id, text: o.text, wer: (o.crm_umfrage_stimmen ?? []).map((st) => personAus(st.wer)) })),
+    };
+  };
+
+  const aufgaben: AllgemeineAufgabe[] = ((r.data ?? []) as unknown as Zeile[])
+    // Erledigtes bleibt nur bis Tagesende in den Gruppen, danach steht es im Verlauf.
     .filter((a) => a.erledigt_am === null || tagBerlin(a.erledigt_am) === heute)
     .map((a) => ({
       id: a.id,
@@ -81,13 +126,45 @@ export async function ladeAllgemeineAufgaben(): Promise<AufgabenDaten> {
       verantwortlich: personAus(a.wer),
       erledigt: a.erledigt_am !== null,
       bereich: bereichAus(a.bereich),
+      link: a.link,
+      stimmen: (a.crm_aufgaben_stimmen ?? []).map((st) => ({ wer: personAus(st.wer), wert: st.wert < 0 ? (-1 as const) : (1 as const) })),
+      projektId: a.aufgaben_projekt_id,
+      dateien: [...(a.crm_aufgaben_dateien ?? [])]
+        .sort((x, y) => x.created_at.localeCompare(y.created_at))
+        .map((d) => ({ id: d.id, name: d.name, link: d.link })),
+      umfrage: umfrageAus(a.crm_umfragen),
     }));
 
-  return { heute, aufgaben, historie };
+  return { heute, aufgaben, historie, projekte, drive: driveBereit() };
 }
 
-/** Wie viele erledigte Aufgaben die Historie zeigt. */
-const HISTORIE_MAX = 100;
+type HistorieZeile = {
+  id: string; titel: string; wer: string | null; bereich: string | null; erledigt_am: string;
+  erledigt_von: string | null; erledigt_notiz: string | null; erledigt_link: string | null;
+  aufgaben_projekt_id: string | null; pipeline_brands: { name: string } | null;
+};
+
+/** Der ganze Verlauf: alle erledigten Aufgaben, auch die mit Marke, jüngste zuerst.
+    Seitenweise, weil Supabase eine Abfrage bei 1000 Zeilen kappt. */
+async function ladeHistorie(): Promise<HistorieZeile[]> {
+  const db = getSupabaseAdmin();
+  const alle: HistorieZeile[] = [];
+  for (let von = 0; ; von += HISTORIE_SEITE) {
+    const h = await db
+      .from("crm_aufgaben")
+      .select("id, titel, wer, bereich, erledigt_am, erledigt_von, erledigt_notiz, erledigt_link, aufgaben_projekt_id, pipeline_brands(name)")
+      .not("erledigt_am", "is", null)
+      .order("erledigt_am", { ascending: false })
+      .order("id")
+      .range(von, von + HISTORIE_SEITE - 1);
+    fehler(h);
+    const seite = (h.data ?? []) as unknown as HistorieZeile[];
+    alle.push(...seite);
+    if (seite.length < HISTORIE_SEITE) return alle;
+  }
+}
+
+const HISTORIE_SEITE = 1000;
 
 const bereichAus = (b: string | null): Bereich | null =>
   (BEREICHE as readonly string[]).includes(b ?? "") ? (b as Bereich) : null;

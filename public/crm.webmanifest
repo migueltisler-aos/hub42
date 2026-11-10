@@ -1,0 +1,16 @@
+{
+  "name": "Aufgaben · Testkaufhaus",
+  "short_name": "Aufgaben",
+  "description": "Aufgaben des Testkaufhaus-Teams: suchen, zuweisen, abstimmen.",
+  "lang": "de",
+  "start_url": "/crm/aufgaben",
+  "scope": "/crm/",
+  "display": "standalone",
+  "background_color": "#EEF2EF",
+  "theme_color": "#101313",
+  "icons": [
+    { "src": "/api/crm-icon?g=192", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/api/crm-icon?g=512", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/api/crm-icon?g=512&maskable=1", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
