@@ -453,6 +453,19 @@
   }
   .historie__link svg { width: 14px; height: 14px; }
   .historie__mehr { padding: 6px 20px 14px; }
+  .historie__kopf {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto; align-items: start; column-gap: 10px; row-gap: 2px;
+    width: 100%; padding: 0; margin: 0; border: 0; background: none; color: inherit;
+    font: inherit; text-align: left; cursor: pointer;
+  }
+  .historie__kopf:focus-visible { outline: 2px solid var(--tinte); outline-offset: 3px; }
+  .historie__pfeil { grid-column: 2; grid-row: 1; width: 16px; height: 16px; margin-top: 2px; color: var(--tinte-leise); transition: transform 160ms ease; }
+  .historie__eintrag[data-offen] .historie__pfeil { transform: rotate(180deg); }
+  .historie__extra { grid-column: 1; font-family: var(--f-mono); font-size: 12px; color: var(--tinte-leise); }
+  .historie__details { display: grid; gap: 8px; padding-top: 6px; }
+  .historie__leer { font-size: 14px; color: var(--tinte-leise); }
+  .historie__knoepfe { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; }
+  @media (prefers-reduced-motion: reduce) { .historie__pfeil { transition: none; } }
 
   @media (max-width: 640px) {
     .historie { padding: 0 16px 6px; }

@@ -88,32 +88,17 @@ export async function ladeAllgemeineAufgaben(): Promise<AufgabenDaten> {
     marke: a.pipeline_brands?.name ?? null,
     bereich: bereichAus(a.bereich),
     projekt: a.aufgaben_projekt_id ? (projektName.get(a.aufgaben_projekt_id) ?? null) : null,
+    aufgabeLink: a.link,
+    dateien: dateienAus(a.crm_aufgaben_dateien),
+    umfrage: umfrageAus(a.crm_umfragen),
   }));
 
-  type UmfrageZeile = {
-    id: string; frage: string; mehrfach: boolean; geschlossen_am: string | null;
-    crm_umfrage_optionen: { id: string; text: string; pos: number; crm_umfrage_stimmen: { wer: string }[] | null }[] | null;
-  };
   type Zeile = {
     id: string; titel: string; faellig_am: string | null; wer: string | null; erledigt_am: string | null;
     bereich: string | null; link: string | null; aufgaben_projekt_id: string | null;
     crm_aufgaben_stimmen: { wer: string; wert: number }[] | null;
     crm_aufgaben_dateien: { id: string; name: string; link: string; created_at: string }[] | null;
-    // Eins-zu-eins über aufgabe_id unique: PostgREST liefert ein Objekt, ältere Fassungen ein Array.
-    crm_umfragen: UmfrageZeile | UmfrageZeile[] | null;
-  };
-  const umfrageAus = (u: Zeile["crm_umfragen"]): Umfrage | null => {
-    const x = Array.isArray(u) ? u[0] : u;
-    if (!x) return null;
-    return {
-      id: x.id,
-      frage: x.frage,
-      mehrfach: x.mehrfach,
-      geschlossen: x.geschlossen_am !== null,
-      optionen: [...(x.crm_umfrage_optionen ?? [])]
-        .sort((a, b) => a.pos - b.pos)
-        .map((o) => ({ id: o.id, text: o.text, wer: (o.crm_umfrage_stimmen ?? []).map((st) => personAus(st.wer)) })),
-    };
+    crm_umfragen: UmfrageFeld;
   };
 
   const aufgaben: AllgemeineAufgabe[] = ((r.data ?? []) as unknown as Zeile[])
@@ -129,19 +114,43 @@ export async function ladeAllgemeineAufgaben(): Promise<AufgabenDaten> {
       link: a.link,
       stimmen: (a.crm_aufgaben_stimmen ?? []).map((st) => ({ wer: personAus(st.wer), wert: st.wert < 0 ? (-1 as const) : (1 as const) })),
       projektId: a.aufgaben_projekt_id,
-      dateien: [...(a.crm_aufgaben_dateien ?? [])]
-        .sort((x, y) => x.created_at.localeCompare(y.created_at))
-        .map((d) => ({ id: d.id, name: d.name, link: d.link })),
+      dateien: dateienAus(a.crm_aufgaben_dateien),
       umfrage: umfrageAus(a.crm_umfragen),
     }));
 
   return { heute, aufgaben, historie, projekte, drive: driveBereit() };
 }
 
+type UmfrageZeile = {
+  id: string; frage: string; mehrfach: boolean; geschlossen_am: string | null;
+  crm_umfrage_optionen: { id: string; text: string; pos: number; crm_umfrage_stimmen: { wer: string }[] | null }[] | null;
+};
+// Eins-zu-eins über aufgabe_id unique: PostgREST liefert ein Objekt, ältere Fassungen ein Array.
+type UmfrageFeld = UmfrageZeile | UmfrageZeile[] | null;
+type DateiZeile = { id: string; name: string; link: string; created_at: string };
+
+function umfrageAus(u: UmfrageFeld): Umfrage | null {
+  const x = Array.isArray(u) ? u[0] : u;
+  if (!x) return null;
+  return {
+    id: x.id,
+    frage: x.frage,
+    mehrfach: x.mehrfach,
+    geschlossen: x.geschlossen_am !== null,
+    optionen: [...(x.crm_umfrage_optionen ?? [])]
+      .sort((a, b) => a.pos - b.pos)
+      .map((o) => ({ id: o.id, text: o.text, wer: (o.crm_umfrage_stimmen ?? []).map((st) => personAus(st.wer)) })),
+  };
+}
+
+const dateienAus = (d: DateiZeile[] | null) =>
+  [...(d ?? [])].sort((x, y) => x.created_at.localeCompare(y.created_at)).map((x) => ({ id: x.id, name: x.name, link: x.link }));
+
 type HistorieZeile = {
   id: string; titel: string; wer: string | null; bereich: string | null; erledigt_am: string;
   erledigt_von: string | null; erledigt_notiz: string | null; erledigt_link: string | null;
   aufgaben_projekt_id: string | null; pipeline_brands: { name: string } | null;
+  link: string | null; crm_aufgaben_dateien: DateiZeile[] | null; crm_umfragen: UmfrageFeld;
 };
 
 /** Der ganze Verlauf: alle erledigten Aufgaben, auch die mit Marke, jüngste zuerst.
@@ -152,7 +161,12 @@ async function ladeHistorie(): Promise<HistorieZeile[]> {
   for (let von = 0; ; von += HISTORIE_SEITE) {
     const h = await db
       .from("crm_aufgaben")
-      .select("id, titel, wer, bereich, erledigt_am, erledigt_von, erledigt_notiz, erledigt_link, aufgaben_projekt_id, pipeline_brands(name)")
+      .select(
+        `id, titel, wer, bereich, erledigt_am, erledigt_von, erledigt_notiz, erledigt_link, aufgaben_projekt_id, link,
+         pipeline_brands(name),
+         crm_aufgaben_dateien(id, name, link, created_at),
+         crm_umfragen(id, frage, mehrfach, geschlossen_am, crm_umfrage_optionen(id, text, pos, crm_umfrage_stimmen(wer)))`
+      )
       .not("erledigt_am", "is", null)
       .order("erledigt_am", { ascending: false })
       .order("id")

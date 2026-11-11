@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useTransition } from "react";
-import { BarChart3, Check, ExternalLink, FileText, Pencil, Plus, Search, ThumbsDown, ThumbsUp, X } from "lucide-react";
+import { BarChart3, Check, ChevronDown, ExternalLink, FileText, Pencil, Plus, RotateCcw, Search, ThumbsDown, ThumbsUp, X } from "lucide-react";
 import type { AllgemeineAufgabe, AufgabenDaten, Bereich, ErledigteAufgabe, Nachweis, Person, Stimme } from "@/lib/crm-heute-model";
 import { aufgabeErledigt, aufgabeStimmen } from "../actions";
 import AufgabeFormular from "../_components/AufgabeFormular";
@@ -33,9 +33,29 @@ import {
 
 const WAHL: Wer[] = [...PERSONEN, "Alle"];
 
-/** Erledigte Aufgaben mit Nachweis, zuletzt Erledigtes zuerst. Eingeklappt bis zum Klick. */
-function Historie({ liste, offen, umschalten }: { liste: ErledigteAufgabe[]; offen: boolean; umschalten: () => void }) {
+/** Erledigte Aufgaben mit Nachweis, zuletzt Erledigtes zuerst. Eingeklappt bis zum Klick.
+    Ein Tipp auf den Titel öffnet die Aufgabe ganz: Link, Dateien, Umfrage, Zurückholen. */
+function Historie({
+  liste,
+  offen,
+  umschalten,
+  ich,
+}: {
+  liste: ErledigteAufgabe[];
+  offen: boolean;
+  umschalten: () => void;
+  ich: Person;
+}) {
   const sichtbar = offen ? liste : liste.slice(0, 5);
+  const [auf, setAuf] = useState<string | null>(null);
+  const [laeuft, starte] = useTransition();
+  const [fehler, setFehler] = useState<string | null>(null);
+  const zurueckholen = (id: string) =>
+    starte(async () => {
+      const r = await aufgabeErledigt(id, false);
+      setFehler(r.ok ? null : (r.fehler ?? "Zurückholen ist fehlgeschlagen."));
+      if (r.ok) setAuf(null);
+    });
   return (
     <section className="regal" aria-labelledby="historie-titel">
       <h2 id="historie-titel" className="satz satz--h2">
@@ -49,9 +69,25 @@ function Historie({ liste, offen, umschalten }: { liste: ErledigteAufgabe[]; off
         <p className="regal__leer">Noch nichts erledigt.</p>
       ) : (
         <ol className="historie">
-          {sichtbar.map((h) => (
-            <li key={h.id} className="historie__eintrag">
-              <p className="historie__titel">{h.titel}</p>
+          {sichtbar.map((h) => {
+            const an = auf === h.id;
+            const extra = [h.aufgabeLink && "Link", h.dateien.length > 0 && `${h.dateien.length} ${h.dateien.length === 1 ? "Datei" : "Dateien"}`, h.umfrage && "Umfrage"].filter(Boolean);
+            return (
+            <li key={h.id} className="historie__eintrag" data-offen={an || undefined}>
+              <button
+                type="button"
+                className="historie__kopf"
+                aria-expanded={an}
+                aria-controls={`historie-${h.id}`}
+                onClick={() => {
+                  setFehler(null);
+                  setAuf(an ? null : h.id);
+                }}
+              >
+                <span className="historie__titel">{h.titel}</span>
+                {extra.length > 0 && !an && <span className="historie__extra">{extra.join(" · ")}</span>}
+                <ChevronDown aria-hidden="true" className="historie__pfeil" />
+              </button>
               <p className="historie__meta">
                 {ZEIT.format(new Date(h.erledigtAm))} · {h.erledigtVon ?? h.verantwortlich}
                 {h.marke && ` · ${h.marke}`}
@@ -65,8 +101,40 @@ function Historie({ liste, offen, umschalten }: { liste: ErledigteAufgabe[]; off
                   {linkName(h.link)}
                 </a>
               )}
+              {an && (
+                <div className="historie__details" id={`historie-${h.id}`}>
+                  {h.aufgabeLink && h.aufgabeLink !== h.link && (
+                    <a className="historie__link" href={h.aufgabeLink} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink aria-hidden="true" />
+                      {linkName(h.aufgabeLink)}
+                    </a>
+                  )}
+                  {h.dateien.map((d) => (
+                    <a key={d.id} className="historie__link" href={d.link} target="_blank" rel="noopener noreferrer">
+                      <FileText aria-hidden="true" />
+                      {d.name}
+                    </a>
+                  ))}
+                  {h.umfrage && <UmfrageBlock umfrage={h.umfrage} ich={ich} nurLesen />}
+                  {!h.notiz && !h.link && extra.length === 0 && (
+                    <p className="historie__leer">Ohne Notiz, Link oder Datei erledigt.</p>
+                  )}
+                  <p className="historie__knoepfe">
+                    <button type="button" className="knopf knopf--klein" disabled={laeuft} onClick={() => zurueckholen(h.id)}>
+                      <RotateCcw aria-hidden="true" />
+                      {laeuft ? "Holt zurück…" : "Wieder öffnen"}
+                    </button>
+                    {fehler && (
+                      <span className="formular__fehler" role="alert">
+                        {fehler}
+                      </span>
+                    )}
+                  </p>
+                </div>
+              )}
             </li>
-          ))}
+            );
+          })}
         </ol>
       )}
       {liste.length > 5 && (
@@ -131,7 +199,15 @@ export default function AufgabenAnsicht({ start, ich, daten }: { start: Wer; ich
     projektTitel !== null
       ? h.projekt === projektTitel && (!sucht || passtZurSuche(h, suche))
       : sucht
-        ? passtZurSuche({ ...h, notiz: [h.notiz, h.projekt, h.marke].filter(Boolean).join(" ") }, suche)
+        ? passtZurSuche(
+            {
+              ...h,
+              notiz: [h.notiz, h.projekt, h.marke, h.aufgabeLink, h.umfrage?.frage, ...h.dateien.map((d) => d.name)]
+                .filter(Boolean)
+                .join(" "),
+            },
+            suche
+          )
         : wer === "Alle" || h.verantwortlich === wer || h.erledigtVon === wer
   );
 
@@ -425,6 +501,7 @@ export default function AufgabenAnsicht({ start, ich, daten }: { start: Wer; ich
           liste={historie}
           offen={historieOffen || sucht}
           umschalten={() => setHistorieOffen((o) => !o)}
+          ich={ich}
         />
       </div>
     </div>
