@@ -12,10 +12,12 @@
     "import:leads": "tsx --conditions=react-server scripts/import-outreach-leads.ts",
     "gmail:watch": "tsx --conditions=react-server scripts/gmail-watch.ts",
     "scrape:swyytr": "tsx --conditions=react-server scripts/scrape-food-startup-database.ts",
-    "send-batch": "tsx --conditions=react-server scripts/send-batch.ts"
+    "send-batch": "tsx --conditions=react-server scripts/send-batch.ts",
+    "test": "tsx --test lib/*.test.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.117.1",
+    "@supabase/ssr": "^0.12.7",
     "@supabase/supabase-js": "^2.105.4",
     "framer-motion": "^12.38.0",
     "googleapis": "^174.0.1",

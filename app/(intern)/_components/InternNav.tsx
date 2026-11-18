@@ -12,6 +12,7 @@ const LINKS = [
   { href: "/bestand", label: "Bestand" },
   { href: "/kasse", label: "Kasse" },
   { href: "/feedback/admin", label: "Feedback-Studio" },
+  { href: "/admin/marken", label: "Marken-Portal" },
 ];
 
 export default function InternNav() {

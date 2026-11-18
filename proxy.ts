@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
+import { createServerClient } from "@supabase/ssr";
 
 // PIPELINE_GESCHUETZT entscheidet, wo das Passwort geprüft wird. Der Matcher
 // am Dateiende lässt proxy() auf jeder Seite laufen, weil die CRM-Adresse
@@ -25,9 +26,35 @@ const OFFEN = ["/pipeline/login", "/crm/login"];
 
 const passt = (pathname: string, pfad: string) => pathname === pfad || pathname.startsWith(`${pfad}/`);
 
-export function proxy(request: NextRequest) {
+/** Marken-Portal: eigener Login (Supabase Auth, Magic Link), nie das Team-Passwort. */
+const MARKE_OFFEN = ["/marke/login", "/marke/auth"];
+
+async function markenPortal(request: NextRequest) {
+  const { pathname } = request.nextUrl;
+  let response = NextResponse.next({ request });
+  // Session-Cookies auffrischen: Server Components dürfen keine Cookies setzen.
+  const supabase = createServerClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!, {
+    cookies: {
+      getAll: () => request.cookies.getAll(),
+      setAll: (liste) => {
+        for (const { name, value } of liste) request.cookies.set(name, value);
+        response = NextResponse.next({ request });
+        for (const { name, value, options } of liste) response.cookies.set(name, value, options);
+      },
+    },
+  });
+  const { data } = await supabase.auth.getUser();
+  if (!data.user && !MARKE_OFFEN.some((pfad) => passt(pathname, pfad))) {
+    return NextResponse.redirect(new URL("/marke/login", request.url));
+  }
+  return response;
+}
+
+export async function proxy(request: NextRequest) {
   const { pathname, search } = request.nextUrl;
   const host = request.headers.get("host")?.split(":")[0] ?? "";
+
+  if (passt(pathname, "/marke")) return markenPortal(request);
 
   // CRM-Adresse: die internen Werkzeuge (Marken, Angebote, Wareneingang …) bleiben
   // erreichbar, die öffentlichen Hub42-Seiten führen nach Aufgaben.
