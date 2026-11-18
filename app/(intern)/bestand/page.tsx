@@ -14,14 +14,16 @@ async function buchen(formData: FormData) {
   const ean = formData.get("ean") as string;
   const menge = Number(formData.get("menge"));
   const quelle = formData.get("quelle") as AbgangQuelle;
-  if (!ean || !menge || menge <= 0) return;
+  const notiz = ((formData.get("notiz") as string) ?? "").trim();
+  // Die Marke sieht Tasting und Abschrift im Portal (Warenkonto): ohne Anlass nicht buchen.
+  if (!ean || !menge || menge <= 0 || !notiz) return;
 
   await abgangBuchen({
     ean,
     standort_id: (formData.get("standort_id") as string) || STANDORT_STANDARD,
     menge,
     quelle,
-    notiz: (formData.get("notiz") as string) || null,
+    notiz,
     gebucht_von: gebuchtVon,
   });
 
@@ -127,8 +129,9 @@ export default async function BestandPage({
               </select>
             </div>
             <div>
-              <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-1">Notiz</label>
-              <input name="notiz" placeholder="z.B. Tasting-Event 29.07." className={baseClass} />
+              <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-1">Anlass *</label>
+              <input name="notiz" required placeholder="z.B. Tasting Samstag 29.07. / MHD abgelaufen" className={baseClass} />
+              <p className="text-stone text-xs mt-1">Die Marke sieht den Anlass in ihrem Portal. Tasting wird nicht vergütet.</p>
             </div>
             <div className="sm:col-span-2">
               <button
