@@ -173,10 +173,11 @@ export async function artikelHinzufuegen(_prev: FormStatus | null, fd: FormData)
   const felder: Record<string, string> = {};
   const ean = s(fd, "ean")?.replace(/\s+/g, "") ?? "";
   const name = s(fd, "artikel_name");
-  const vk = Number(String(fd.get("vk_brutto") ?? "").replace(",", "."));
+  // "5,99 €", "5.99", " 5,99" – Währung und Leerzeichen weg, Komma als Dezimalzeichen
+  const vk = Number(String(fd.get("vk_brutto") ?? "").replace(/[€\s]/g, "").replace(",", "."));
   const satz = Number(fd.get("mwst_satz"));
 
-  if (!eanGueltig(ean)) felder.ean = "Die EAN stimmt nicht (8 oder 13 Ziffern, Prüfziffer).";
+  if (!eanGueltig(ean)) felder.ean = "Die EAN stimmt nicht: 8 oder 13 Ziffern, die letzte ist eine Prüfziffer. Bitte vom Barcode abschreiben.";
   if (!name) felder.artikel_name = "Name fehlt.";
   if (!(vk > 0) || vk > 10000) felder.vk_brutto = "Verkaufspreis in Euro, z. B. 5,99.";
   if (![0, 7, 19].includes(satz)) felder.mwst_satz = "MwSt-Satz wählen.";
