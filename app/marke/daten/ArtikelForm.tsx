@@ -16,7 +16,7 @@ export default function ArtikelForm() {
     <form ref={ref} action={aktion} className="mp-form" aria-label="Artikel hinzufügen">
       <div className="mp-felder">
         <label className="mp-feld">
-          <span>EAN</span>
+          <span>EAN <small>(falls vorhanden)</small></span>
           <input type="text" name="ean" inputMode="numeric" aria-invalid={f.ean ? true : undefined} />
           {f.ean && <small className="mp-fehler">{f.ean}</small>}
         </label>
@@ -26,7 +26,7 @@ export default function ArtikelForm() {
           {f.artikel_name && <small className="mp-fehler">{f.artikel_name}</small>}
         </label>
         <label className="mp-feld">
-          <span>Inhalt</span>
+          <span>Inhalt <small>(optional)</small></span>
           <input type="text" name="inhalt" placeholder="z. B. 250 g" />
         </label>
         <label className="mp-feld">
@@ -43,6 +43,12 @@ export default function ArtikelForm() {
             <option value="0">0 %</option>
           </select>
           {f.mwst_satz && <small className="mp-fehler">{f.mwst_satz}</small>}
+        </label>
+        <label className="mp-feld">
+          <span>Produktbild <small>(optional)</small></span>
+          <input type="file" name="bild" accept="image/jpeg,image/png,image/webp" aria-invalid={f.bild ? true : undefined} />
+          <small>Freigestellt oder auf hellem Grund, bis 4 MB</small>
+          {f.bild && <small className="mp-fehler">{f.bild}</small>}
         </label>
       </div>
       <div className="mp-aktionen">

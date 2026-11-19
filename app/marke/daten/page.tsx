@@ -60,14 +60,11 @@ export default async function MarkeDaten() {
           nachschub_email: k?.nachschub_email ?? "",
           ust_idnr: k?.ust_idnr ?? "",
           steuernummer: k?.steuernummer ?? "",
-          kleinunternehmer: k?.kleinunternehmer ?? false,
           iban: k?.iban ?? "",
           bic: k?.bic ?? "",
           kontoinhaber: k?.kontoinhaber ?? "",
           gutschrift_zustimmung: Boolean(k?.gutschrift_zustimmung_am),
-          konditionen_bestaetigt: Boolean(k?.konditionen_bestaetigt_am),
         }}
-        provisionPct={Number(k?.provision_pct ?? 7)}
         zustimmungText={GUTSCHRIFT_ZUSTIMMUNG_TEXT}
         bereitsEingereicht={status !== "entwurf"}
       >
@@ -96,14 +93,22 @@ export default async function MarkeDaten() {
           {antraege.filter((a) => a.status !== "freigegeben").length > 0 && (
             <div className="mp-tabelle-rahmen">
               <table className="mp-tabelle">
-                <thead><tr><th>Eingereicht</th><th>EAN</th><th className="z">VK</th><th className="z">MwSt</th><th>Status</th><th /></tr></thead>
+                <thead><tr><th>Bild</th><th>Eingereicht</th><th>EAN</th><th className="z">VK</th><th className="z">MwSt</th><th>Status</th><th /></tr></thead>
                 <tbody>
                   {antraege
                     .filter((a) => a.status !== "freigegeben")
                     .map((a) => (
                       <tr key={a.id}>
+                        <td>
+                          {a.bild_url ? (
+                            // eslint-disable-next-line @next/next/no-img-element -- signierte Storage-URL
+                            <img src={a.bild_url} alt="" width={48} height={48} style={{ objectFit: "cover", display: "block" }} />
+                          ) : (
+                            <span className="mp-leise">–</span>
+                          )}
+                        </td>
                         <td>{a.artikel_name}{a.inhalt ? <div className="mp-leise">{a.inhalt}</div> : null}</td>
-                        <td className="mp-mono">{a.ean}</td>
+                        <td className="mp-mono">{a.ean ?? "–"}</td>
                         <td className="z">{Number(a.vk_brutto).toLocaleString("de-DE", { style: "currency", currency: "EUR" })}</td>
                         <td className="z">{a.mwst_satz} %</td>
                         <td>{a.status === "abgelehnt" ? "abgelehnt" : "wird geprüft"}</td>

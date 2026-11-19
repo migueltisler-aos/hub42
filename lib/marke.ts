@@ -112,7 +112,8 @@ export async function ladeKonditionen(brandId: string): Promise<Konditionen | nu
 
 export interface ArtikelAntrag {
   id: string;
-  ean: string;
+  ean: string | null;
+  bild_url: string | null;
   artikel_name: string;
   vk_brutto: number;
   mwst_satz: number;
@@ -123,11 +124,22 @@ export interface ArtikelAntrag {
 export async function ladeArtikelAntraege(brandId: string): Promise<ArtikelAntrag[]> {
   const { data, error } = await getSupabaseAdmin()
     .from("brand_artikel_antrag")
-    .select("id, ean, artikel_name, vk_brutto, mwst_satz, inhalt, status")
+    .select("id, ean, artikel_name, vk_brutto, mwst_satz, inhalt, status, bild_pfad")
     .eq("brand_id", brandId)
     .order("created_at");
   if (error) throw error;
-  return (data ?? []) as ArtikelAntrag[];
+  return mitBildUrls(data ?? []) as Promise<ArtikelAntrag[]>;
+}
+
+/** Signierte, kurzlebige Bild-URLs (Bucket ist privat). */
+export async function mitBildUrls<T extends { bild_pfad?: string | null }>(zeilen: T[]): Promise<(T & { bild_url: string | null })[]> {
+  const pfade = zeilen.map((z) => z.bild_pfad).filter(Boolean) as string[];
+  const urls = new Map<string, string>();
+  if (pfade.length) {
+    const { data } = await getSupabaseAdmin().storage.from("marken").createSignedUrls(pfade, 60 * 30);
+    for (const d of data ?? []) if (d.path && d.signedUrl) urls.set(d.path, d.signedUrl);
+  }
+  return zeilen.map((z) => ({ ...z, bild_url: z.bild_pfad ? urls.get(z.bild_pfad) ?? null : null }));
 }
 
 export interface Artikel {

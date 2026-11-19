@@ -74,9 +74,7 @@ export async function stammdatenSpeichern(_prev: FormStatus | null, fd: FormData
 
   const iban = s(fd, "iban")?.replace(/\s+/g, "").toUpperCase() ?? null;
   const ust = s(fd, "ust_idnr")?.replace(/\s+/g, "").toUpperCase() ?? null;
-  const kleinunternehmer = fd.get("kleinunternehmer") === "on";
   const zustimmung = fd.get("gutschrift_zustimmung") === "on";
-  const konditionenOk = fd.get("konditionen_bestaetigt") === "on";
 
   if (iban && !ibanGueltig(iban)) felder.iban = "Die IBAN stimmt nicht, bitte die Prüfziffer kontrollieren.";
   if (ust && !ustIdPlausibel(ust)) felder.ust_idnr = "Eine deutsche USt-IdNr. hat die Form DE123456789.";
@@ -95,13 +93,11 @@ export async function stammdatenSpeichern(_prev: FormStatus | null, fd: FormData
     nachschub_email: s(fd, "nachschub_email"),
     ust_idnr: ust,
     steuernummer: s(fd, "steuernummer"),
-    kleinunternehmer,
     iban,
     bic: s(fd, "bic")?.toUpperCase() ?? null,
     kontoinhaber: s(fd, "kontoinhaber"),
     gutschrift_zustimmung_am: zustimmung ? alt?.gutschrift_zustimmung_am ?? new Date().toISOString() : null,
     gutschrift_zustimmung_version: zustimmung ? alt?.gutschrift_zustimmung_version ?? GUTSCHRIFT_ZUSTIMMUNG_VERSION : null,
-    konditionen_bestaetigt_am: konditionenOk ? alt?.konditionen_bestaetigt_am ?? new Date().toISOString() : null,
     updated_at: new Date().toISOString(),
   };
 
@@ -118,7 +114,6 @@ export async function stammdatenSpeichern(_prev: FormStatus | null, fd: FormData
     for (const [k, t] of pflicht) if (!daten[k] && !felder[k]) felder[k] = t;
     if (!ust && !daten.steuernummer) felder.steuernummer = "USt-IdNr. oder Steuernummer angeben, eins von beiden ist Pflicht.";
     if (!zustimmung) felder.gutschrift_zustimmung = "Ohne Zustimmung können wir keine Gutschrift ausstellen.";
-    if (!konditionenOk) felder.konditionen_bestaetigt = "Bitte die Konditionen bestätigen.";
     const { count } = await getSupabaseAdmin()
       .from("brand_artikel_antrag")
       .select("id", { count: "exact", head: true })
@@ -134,8 +129,6 @@ export async function stammdatenSpeichern(_prev: FormStatus | null, fd: FormData
   if (Object.keys(felder).length) {
     const werte: Record<string, string | boolean> = {
       gutschrift_zustimmung: zustimmung,
-      konditionen_bestaetigt: konditionenOk,
-      kleinunternehmer,
     };
     for (const [k, v] of fd.entries()) if (typeof v === "string" && !(k in werte) && !k.startsWith("$")) werte[k] = v;
     return { ok: false, meldung: "Bitte die markierten Felder prüfen.", felder, werte, stamp: Date.now() };
@@ -177,16 +170,31 @@ export async function artikelHinzufuegen(_prev: FormStatus | null, fd: FormData)
   const vk = Number(String(fd.get("vk_brutto") ?? "").replace(/[€\s]/g, "").replace(",", "."));
   const satz = Number(fd.get("mwst_satz"));
 
-  if (!eanGueltig(ean)) felder.ean = "Die EAN stimmt nicht: 8 oder 13 Ziffern, die letzte ist eine Prüfziffer. Bitte vom Barcode abschreiben.";
+  if (ean && !eanGueltig(ean)) felder.ean = "Die EAN stimmt nicht: 8 oder 13 Ziffern, die letzte ist eine Prüfziffer. Bitte vom Barcode abschreiben.";
   if (!name) felder.artikel_name = "Name fehlt.";
   if (!(vk > 0) || vk > 10000) felder.vk_brutto = "Verkaufspreis in Euro, z. B. 5,99.";
   if (![0, 7, 19].includes(satz)) felder.mwst_satz = "MwSt-Satz wählen.";
+  const bild = fd.get("bild");
+  const hatBild = bild instanceof File && bild.size > 0;
+  if (hatBild && (!bild.type.startsWith("image/") || bild.size > 4 * 1024 * 1024)) {
+    felder.bild = "Bitte ein Bild (JPG, PNG, WebP) bis 4 MB.";
+  }
   if (Object.keys(felder).length) return { ok: false, meldung: "Artikel nicht gespeichert.", felder, stamp: Date.now() };
+
+  let bild_pfad: string | null = null;
+  if (hatBild) {
+    const endung = (bild.type.split("/")[1] ?? "jpg").replace("jpeg", "jpg");
+    bild_pfad = `produktbilder/${m.brandId}/${Date.now()}.${endung}`;
+    const up = await getSupabaseAdmin().storage.from("marken").upload(bild_pfad, bild, { contentType: bild.type });
+    if (up.error) return { ok: false, meldung: `Bild nicht gespeichert: ${up.error.message}`, stamp: Date.now() };
+  }
 
   const { error } = await getSupabaseAdmin().from("brand_artikel_antrag").upsert(
     {
       brand_id: m.brandId,
-      ean,
+      // Ohne EAN: NULL, die Freigabe vergibt dann eine interne Nummer
+      ean: ean || null,
+      ...(bild_pfad ? { bild_pfad } : {}),
       artikel_name: name,
       vk_brutto: Math.round(vk * 100) / 100,
       mwst_satz: satz,

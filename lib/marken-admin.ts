@@ -5,7 +5,7 @@ import "server-only";
 import { createClient } from "@supabase/supabase-js";
 import { getSupabaseAdmin } from "./supabase-admin";
 import { KASSE_STANDORT } from "./sumup-model";
-import type { Konditionen } from "./marke";
+import { mitBildUrls, type Konditionen } from "./marke";
 
 export interface MarkeUebersicht {
   id: string;
@@ -79,7 +79,7 @@ export async function ladeMarkeIntern(brandId: string) {
     kontakte: kontakte.data ?? [],
     nutzer: nutzer.data ?? [],
     konditionen: (kond.data ?? null) as Konditionen | null,
-    antraege: antraege.data ?? [],
+    antraege: await mitBildUrls(antraege.data ?? []),
     artikel: artikel.data ?? [],
     zusagen: zusagen.data ?? [],
     foto: foto ? { ...foto, url: fotoUrl } : null,
@@ -168,8 +168,10 @@ export async function artikelFreigeben(opts: { antragId: string; brandId: string
   if (error) throw error;
   const { data: marke } = await db.from("pipeline_brands").select("name, website").eq("id", opts.brandId).single();
 
+  // Ohne EAN braucht die Kasse trotzdem einen eindeutigen Schlüssel
+  const ean: string = a.ean ?? `TK-${String(a.id).slice(0, 8).toUpperCase()}`;
   const zeile = {
-    ean: a.ean,
+    ean,
     standort_id: KASSE_STANDORT,
     artikel_name: opts.kassenName.trim() || a.artikel_name,
     brand_id: opts.brandId,
@@ -184,7 +186,7 @@ export async function artikelFreigeben(opts: { antragId: string; brandId: string
   const { data: vorhanden } = await db
     .from("kasse_artikelstamm")
     .select("id")
-    .eq("ean", a.ean)
+    .eq("ean", ean)
     .eq("standort_id", KASSE_STANDORT)
     .maybeSingle();
   const { error: e2 } = vorhanden
