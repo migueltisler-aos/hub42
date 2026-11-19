@@ -17,6 +17,7 @@ import {
   inCent,
   mieteImMonat,
   monatsGrenzen,
+  abrechnungsGrenzen,
   type Abrechnung,
   type ProvisionBasis,
   type VerkaufZeile,
@@ -218,7 +219,8 @@ export async function rechneMonat(brandId: string, zeitraum: string): Promise<{
   abrechnung: Abrechnung;
   konditionen: Konditionen | null;
 }> {
-  const { von, bis } = monatsGrenzen(zeitraum);
+  // Verkäufe vor ABRECHNUNG_AB sind schon ausbezahlt und zählen nicht mit.
+  const { von, bis } = abrechnungsGrenzen(zeitraum);
   const [konditionen, artikel, verkaeufe, vortrag] = await Promise.all([
     ladeKonditionen(brandId),
     ladeArtikel(brandId),

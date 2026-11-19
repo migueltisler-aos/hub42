@@ -118,3 +118,13 @@ test("EAN-Prüfziffer", () => {
   assert.equal(eanGueltig("4006381333932"), false);
   assert.equal(eanGueltig("96385074"), true);
 });
+
+test("Abrechnung erst ab 20.11.2026: Oktober leer, November ab 20., Dezember voll", async () => {
+  const { abrechnungsGrenzen, monatsGrenzen } = await import("./abrechnung-model");
+  const okt = abrechnungsGrenzen("2026-10");
+  assert.equal(okt.von, okt.bis);
+  const nov = abrechnungsGrenzen("2026-11");
+  assert.equal(nov.von, "2026-11-19T23:00:00.000Z");
+  assert.equal(nov.abTag, "2026-11-20");
+  assert.deepEqual(abrechnungsGrenzen("2026-12"), { ...monatsGrenzen("2026-12"), abTag: null });
+});

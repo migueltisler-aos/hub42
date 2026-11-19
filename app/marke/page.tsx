@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ladeDashboard, ladeKonditionen, requireMarke } from "@/lib/marke";
 import { ladeFunnel } from "@/lib/zaehlung";
-import { euro } from "@/lib/abrechnung-model";
+import { abrechnungsGrenzen, euro } from "@/lib/abrechnung-model";
 import { datumZeit, monatName } from "./format";
 
 export const metadata: Metadata = { title: "Übersicht" };
@@ -99,6 +99,7 @@ export default async function MarkeUebersicht() {
           </table>
         </div>
         <p className="mp-leise" style={{ fontSize: 13 }}>
+          {abrechnungsGrenzen(d.zeitraum).abTag && "Verkäufe bis einschließlich 19.11.2026 haben wir dir bereits ausbezahlt, hier zählen nur Verkäufe ab dem 20.11. "}
           Vorläufig bis zum Monatsende. Tasting-Stücke und Abschriften sind keine Verkäufe und tauchen hier nicht auf, du
           findest sie unter <Link href="/marke/artikel">Artikel</Link>.
           {v.fehlender_satz.length > 0 && " Für einzelne Artikel fehlt noch der MwSt-Satz, sie sind vorläufig mit 7 % gerechnet."}

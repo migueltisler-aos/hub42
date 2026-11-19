@@ -170,6 +170,32 @@ export function monatsGrenzen(zeitraum: string): { von: string; bis: string } {
   };
 }
 
+/**
+ * Erster Tag, ab dem Verkäufe über das Portal abgerechnet werden.
+ * Alles davor wurde an alle Marken bereits ausbezahlt (Stand 19.11.2026).
+ */
+export const ABRECHNUNG_AB = "2026-11-20";
+
+/** Tag (YYYY-MM-DD) als Mitternacht Europe/Berlin, als ISO-Zeitpunkt. */
+export function berlinMitternacht(tag: string): string {
+  const [j, m, d] = tag.split("-").map(Number);
+  const utc = new Date(Date.UTC(j, m - 1, d));
+  const lokal = new Date(utc.toLocaleString("sv-SE", { timeZone: "Europe/Berlin" }).replace(" ", "T") + "Z");
+  return new Date(utc.getTime() - (lokal.getTime() - utc.getTime())).toISOString();
+}
+
+/**
+ * Abrechnungszeitraum eines Monats: Monatsgrenzen, aber nie vor ABRECHNUNG_AB.
+ * Monate ganz davor ergeben einen leeren Zeitraum (von === bis).
+ */
+export function abrechnungsGrenzen(zeitraum: string): { von: string; bis: string; abTag: string | null } {
+  const { von, bis } = monatsGrenzen(zeitraum);
+  const ab = berlinMitternacht(ABRECHNUNG_AB);
+  if (ab >= bis) return { von: bis, bis, abTag: null };
+  if (ab > von) return { von: ab, bis, abTag: ABRECHNUNG_AB };
+  return { von, bis, abTag: null };
+}
+
 export const euro = (ct: number) =>
   (ct / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 

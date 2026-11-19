@@ -3,7 +3,7 @@ import "server-only";
 
 import { getSupabaseAdmin } from "./supabase-admin";
 import { rechneMonat, type Konditionen } from "./marke";
-import { monatsGrenzen, type Abrechnung } from "./abrechnung-model";
+import { abrechnungsGrenzen, type Abrechnung } from "./abrechnung-model";
 import { gutschriftPdf, rechnungPdf } from "./abrechnung-pdf";
 import { firmaLuecken, hub42Firma } from "./hub42-firma";
 
@@ -23,7 +23,9 @@ const monatText = (z: string) => {
 const leistungszeitraum = (z: string) => {
   const [j, m] = z.split("-").map(Number);
   const ende = new Date(Date.UTC(j, m, 0)).getUTCDate();
-  return `01.${String(m).padStart(2, "0")}.${j} - ${ende}.${String(m).padStart(2, "0")}.${j}`;
+  // Im Startmonat beginnt der Zeitraum erst am ABRECHNUNG_AB
+  const start = abrechnungsGrenzen(z).abTag?.slice(8, 10) ?? "01";
+  return `${start}.${String(m).padStart(2, "0")}.${j} - ${ende}.${String(m).padStart(2, "0")}.${j}`;
 };
 
 export function hindernisse(k: Konditionen | null, a: Abrechnung): string[] {
@@ -41,7 +43,7 @@ export function hindernisse(k: Konditionen | null, a: Abrechnung): string[] {
 /** Alle Marken mit Verkäufen im Monat oder mit Miete. */
 export async function ladeLauf(zeitraum: string): Promise<LaufZeile[]> {
   const db = getSupabaseAdmin();
-  const { von, bis } = monatsGrenzen(zeitraum);
+  const { von, bis } = abrechnungsGrenzen(zeitraum);
   const [verk, kond, gesp] = await Promise.all([
     db.from("kasse_verkaeufe").select("brand_id").gte("zeitstempel", von).lt("zeitstempel", bis).not("brand_id", "is", null).limit(20000),
     db.from("brand_konditionen").select("brand_id, miete_netto_monat, status"),
