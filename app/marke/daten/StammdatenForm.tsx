@@ -25,20 +25,17 @@ interface Werte {
 const FORM_ID = "stammdaten";
 
 /**
- * Stammdaten-Formular. Die Artikel (children) sind eigene Formulare und
- * stehen deshalb AUSSERHALB des <form>; Zustimmung und Knöpfe hängen über
- * das form-Attribut trotzdem an diesem Formular.
+ * Stammdaten-Formular. Zustimmung und Knöpfe stehen außerhalb des <form>
+ * und hängen über das form-Attribut daran.
  */
 export default function StammdatenForm({
   werte,
   zustimmungText,
   bereitsEingereicht,
-  children,
 }: {
   werte: Werte;
   zustimmungText: string;
   bereitsEingereicht: boolean;
-  children: React.ReactNode;
 }) {
   const [status, aktion, laeuft] = useActionState(stammdatenSpeichern, null);
   const f = status?.felder ?? {};
@@ -133,8 +130,7 @@ export default function StammdatenForm({
         </fieldset>
       </form>
 
-      {children}
-      {f.artikel && <p id="feld-artikel" className="mp-fehler">{f.artikel} <a href="#artikel">Zum Artikel-Formular</a></p>}
+      {f.artikel && <p id="feld-artikel" className="mp-fehler">{f.artikel} <a href="/marke/artikel">Zu den Artikeln</a></p>}
 
       <fieldset className="mp-feldgruppe">
         <legend>Zustimmung</legend>
