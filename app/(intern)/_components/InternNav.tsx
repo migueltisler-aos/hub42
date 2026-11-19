@@ -11,6 +11,7 @@ const LINKS = [
   { href: "/wareneingang", label: "Wareneingang" },
   { href: "/bestand", label: "Bestand" },
   { href: "/kasse", label: "Kasse" },
+  { href: "/zaehler", label: "Zähler" },
   { href: "/feedback/admin", label: "Feedback-Studio" },
   { href: "/admin/marken", label: "Marken-Portal" },
 ];

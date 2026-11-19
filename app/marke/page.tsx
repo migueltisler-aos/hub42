@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ladeDashboard, ladeKonditionen, requireMarke } from "@/lib/marke";
+import { ladeFunnel } from "@/lib/zaehlung";
 import { euro } from "@/lib/abrechnung-model";
 import { datumZeit, monatName } from "./format";
 
@@ -9,7 +10,7 @@ export const dynamic = "force-dynamic";
 
 export default async function MarkeUebersicht() {
   const m = await requireMarke();
-  const [d, k] = await Promise.all([ladeDashboard(m.brandId), ladeKonditionen(m.brandId)]);
+  const [d, k, f] = await Promise.all([ladeDashboard(m.brandId), ladeKonditionen(m.brandId), ladeFunnel(m.brandId)]);
   const v = d.vorschau;
 
   return (
@@ -46,6 +47,37 @@ export default async function MarkeUebersicht() {
               : "Überweisung bis zum 10. des Folgemonats"}
           </span>
         </div>
+      </section>
+
+      <section className="mp-karte" aria-labelledby="funnel-titel">
+        <h2 id="funnel-titel" className="mp-h2">Vom Laden zum Kauf</h2>
+        {f.zaehltage === 0 ? (
+          <p className="mp-leise">Noch keine Zähltage in den letzten {f.tage} Tagen. Sobald unser Team im Laden zählt, steht hier dein Weg vom Besuch bis zum Kauf.</p>
+        ) : (
+          <>
+            <ol className="mp-funnel">
+              {[
+                { label: "Im Laden", wert: f.besucher, basis: 0, bezug: "" },
+                { label: "Am Regal", wert: f.regal, basis: f.besucher, bezug: "im Laden" },
+                { label: "Gekostet", wert: f.gekostet, basis: f.regal, bezug: "am Regal" },
+                f.regal
+                  ? { label: "Gekauft", wert: f.gekauft, basis: f.regal, bezug: "am Regal" }
+                  : { label: "Gekauft", wert: f.gekauft, basis: f.besucher, bezug: "im Laden" },
+              ].map((s, i) => (
+                <li key={s.label} className="mp-funnel__stufe" style={{ ["--breite" as string]: `${f.besucher ? Math.max(8, (s.wert / f.besucher) * 100) : 100}%` }}>
+                  <span className="mp-mono">{i + 1} · {s.label}</span>
+                  <span className="mp-zahl" style={{ fontSize: 28 }}>{s.wert}</span>
+                  <span className="mp-leise" style={{ fontSize: 13 }}>{i === 0 ? "Besucher gesamt" : s.basis ? `${Math.round((s.wert / s.basis) * 100)} % von ${s.bezug}` : "–"}</span>
+                  <div className="mp-funnel__balken" aria-hidden />
+                </li>
+              ))}
+            </ol>
+            <p className="mp-leise" style={{ fontSize: 13 }}>
+              Letzte {f.tage} Tage, nur die {f.zaehltage} {f.zaehltage === 1 ? "Tag" : "Tage"}, an denen unser Team im Laden gezählt hat. „Im Laden“ sind
+              alle Besucher, nicht nur deine. „Gekauft“ sind Einkäufe mit mindestens einem deiner Artikel.
+            </p>
+          </>
+        )}
       </section>
 
       <section className="mp-karte" aria-labelledby="rechnung-titel">

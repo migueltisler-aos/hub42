@@ -108,6 +108,10 @@
   .mp-heat div { height: 26px; display: grid; place-items: center; }
   .mp-heat .zelle { background: var(--karton); }
 
+  .mp-funnel { display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); }
+  .mp-funnel__stufe { display: grid; gap: 4px; padding: 14px 16px; border: 1px solid var(--linie); background: var(--karton); }
+  .mp-funnel__balken { height: 8px; width: var(--breite); background: var(--tinte-leise); margin-top: 6px; }
+
   .mp-foto { width: 100%; max-height: 520px; object-fit: contain; background: var(--karton); border: 1px solid var(--linie); }
 
   .mp-login { max-width: 440px; margin: 8vh auto 0; }

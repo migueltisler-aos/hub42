@@ -13,6 +13,7 @@ const PIPELINE_GESCHUETZT = [
   "/wareneingang",
   "/bestand",
   "/kasse",
+  "/zaehler",
   "/feedback/leads",
   "/feedback/admin",
   "/admin",
