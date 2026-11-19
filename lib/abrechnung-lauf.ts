@@ -20,12 +20,11 @@ const monatText = (z: string) => {
   const [j, m] = z.split("-").map(Number);
   return new Date(Date.UTC(j, m - 1, 15)).toLocaleDateString("de-DE", { month: "long", year: "numeric", timeZone: "UTC" });
 };
+const deTag = (t: string) => `${t.slice(8, 10)}.${t.slice(5, 7)}.${t.slice(0, 4)}`;
+/** Leistungszeitraum aus den echten Periodengrenzen (Stichtag, Sondergrenzen). */
 const leistungszeitraum = (z: string) => {
-  const [j, m] = z.split("-").map(Number);
-  const ende = new Date(Date.UTC(j, m, 0)).getUTCDate();
-  // Im Startmonat beginnt der Zeitraum erst am ABRECHNUNG_AB
-  const start = abrechnungsGrenzen(z).abTag?.slice(8, 10) ?? "01";
-  return `${start}.${String(m).padStart(2, "0")}.${j} - ${ende}.${String(m).padStart(2, "0")}.${j}`;
+  const g = abrechnungsGrenzen(z);
+  return `${deTag(g.vonTag)} - ${deTag(g.bisTag)}`;
 };
 
 export function hindernisse(k: Konditionen | null, a: Abrechnung): string[] {

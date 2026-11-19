@@ -119,12 +119,26 @@ test("EAN-Prüfziffer", () => {
   assert.equal(eanGueltig("96385074"), true);
 });
 
-test("Abrechnung erst ab 20.11.2026: Oktober leer, November ab 20., Dezember voll", async () => {
+test("Perioden: Oktober leer, November 20.–29.11., Dezember 30.11.–31.12., Januar normal", async () => {
   const { abrechnungsGrenzen, monatsGrenzen } = await import("./abrechnung-model");
   const okt = abrechnungsGrenzen("2026-10");
   assert.equal(okt.von, okt.bis);
   const nov = abrechnungsGrenzen("2026-11");
   assert.equal(nov.von, "2026-11-19T23:00:00.000Z");
-  assert.equal(nov.abTag, "2026-11-20");
-  assert.deepEqual(abrechnungsGrenzen("2026-12"), { ...monatsGrenzen("2026-12"), abTag: null });
+  assert.equal(nov.bis, "2026-11-29T23:00:00.000Z");
+  assert.deepEqual([nov.vonTag, nov.bisTag, nov.abTag], ["2026-11-20", "2026-11-29", "2026-11-20"]);
+  const dez = abrechnungsGrenzen("2026-12");
+  assert.equal(dez.von, "2026-11-29T23:00:00.000Z");
+  assert.equal(dez.bis, monatsGrenzen("2026-12").bis);
+  assert.deepEqual([dez.vonTag, dez.bisTag], ["2026-11-30", "2026-12-31"]);
+  const jan = abrechnungsGrenzen("2027-01");
+  assert.deepEqual([jan.von, jan.bis, jan.vonTag, jan.bisTag], [monatsGrenzen("2027-01").von, monatsGrenzen("2027-01").bis, "2027-01-01", "2027-01-31"]);
+});
+
+test("Periode eines Zeitpunkts: 29.11. → November, 30.11. → Dezember", async () => {
+  const { aktuellePeriode } = await import("./abrechnung-model");
+  assert.equal(aktuellePeriode(new Date("2026-11-29T22:59:00Z")), "2026-11");
+  assert.equal(aktuellePeriode(new Date("2026-11-29T23:00:00Z")), "2026-12");
+  assert.equal(aktuellePeriode(new Date("2026-12-15T12:00:00Z")), "2026-12");
+  assert.equal(aktuellePeriode(new Date("2027-01-01T00:00:00Z")), "2027-01");
 });
