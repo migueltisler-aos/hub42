@@ -44,6 +44,7 @@ export const NICHT_MESSEN = [
   "/pipeline",
   "/wareneingang",
   "/bestand",
+  "/zaehler",
   "/feedback/admin",
   "/feedback/leads",
   "/admin",
