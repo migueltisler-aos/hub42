@@ -48,6 +48,8 @@ export const NICHT_MESSEN = [
   "/feedback/leads",
   "/admin",
   "/crm",
+  // Marken-Portal: eingeloggter Bereich, kein Cookie-Banner, keine Messung
+  "/marke",
   "/api",
 ] as const;
 
