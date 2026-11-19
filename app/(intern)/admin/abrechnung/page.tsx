@@ -3,14 +3,15 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { alsBezahlt, finalisieren, ladeLauf } from "@/lib/abrechnung-lauf";
-import { aktuellerZeitraum, euro } from "@/lib/abrechnung-model";
+import { abrechnungsGrenzen, aktuellePeriode, euro } from "@/lib/abrechnung-model";
 import { PageShell } from "../../_components/ui/surfaces";
 
 export const dynamic = "force-dynamic";
 export const metadata = { title: "Monatsabrechnung · Intern" };
 
 const vormonat = () => {
-  const [j, m] = aktuellerZeitraum().split("-").map(Number);
+  // Zuletzt abgeschlossene Abrechnungsperiode (Sondergrenzen beachtet)
+  const [j, m] = aktuellePeriode().split("-").map(Number);
   return m === 1 ? `${j - 1}-12` : `${j}-${String(m - 1).padStart(2, "0")}`;
 };
 const gueltig = (z?: string) => (z && /^\d{4}-\d{2}$/.test(z) ? z : vormonat());
@@ -40,7 +41,8 @@ async function bezahltAktion(fd: FormData) {
 export default async function AbrechnungAdmin({ searchParams }: { searchParams: Promise<{ monat?: string; m?: string }> }) {
   const { monat: roh, m: meldung } = await searchParams;
   const monat = gueltig(roh);
-  const laufend = monat >= aktuellerZeitraum();
+  // Eine Periode ist erst nach ihrem letzten Tag abrechenbar
+  const laufend = new Date().toISOString() < abrechnungsGrenzen(monat).bis;
   const zeilen = await ladeLauf(monat);
   const knopf = "px-3 py-1.5 min-h-9 bg-bronze text-green-dark text-xs font-semibold hover:bg-bronze-light disabled:opacity-40";
   const knopf2 = "px-3 py-1.5 min-h-9 border border-stone-dark text-cream text-xs hover:border-bronze";

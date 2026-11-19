@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { ladeDashboard, ladeKonditionen, requireMarke } from "@/lib/marke";
 import { ladeFunnel } from "@/lib/zaehlung";
-import { euro } from "@/lib/abrechnung-model";
+import { abrechnungsGrenzen, euro } from "@/lib/abrechnung-model";
 import { datumZeit, monatName } from "./format";
 
 export const metadata: Metadata = { title: "Übersicht" };
@@ -39,7 +39,7 @@ export default async function MarkeUebersicht() {
         <Kachel titel="Letzte 7 Tage" stueck={d.sieben.stueck} ct={d.sieben.umsatz_ct} />
         <Kachel titel={monatName(d.zeitraum)} stueck={d.monat.stueck} ct={d.monat.umsatz_ct} />
         <div className="mp-kachel mp-kachel--licht">
-          <span className="mp-mono">Voraussichtliche Auszahlung {monatName(d.zeitraum)}</span>
+          <span className="mp-mono">Voraussichtliche Auszahlung {monatName(d.periode)}</span>
           <span className="mp-zahl">{euro(v.auszahlung_ct)}</span>
           <span style={{ fontSize: 13 }}>
             {v.vortrag_neu_ct > 0
@@ -88,7 +88,7 @@ export default async function MarkeUebersicht() {
               <tr><td>Verkaufserlös brutto</td><td className="z">{euro(v.umsatz_brutto_ct)}</td></tr>
               <tr><td>Provision {Number(k?.provision_pct ?? 7).toLocaleString("de-DE")} % (inkl. USt)</td><td className="z">− {euro(v.umsatz_brutto_ct - v.gs_brutto_ct)}</td></tr>
               <tr><td>Gutschrift an dich (brutto)</td><td className="z">{euro(v.gs_brutto_ct)}</td></tr>
-              <tr><td>Regalmiete {monatName(d.zeitraum)} inkl. 19 % USt</td><td className="z">− {euro(v.rg_brutto_ct)}</td></tr>
+              <tr><td>Regalmiete {monatName(d.periode)} inkl. 19 % USt</td><td className="z">− {euro(v.rg_brutto_ct)}</td></tr>
               {v.vortrag_alt_ct > 0 && (
                 <tr><td>Offen aus dem Vormonat</td><td className="z">− {euro(v.vortrag_alt_ct)}</td></tr>
               )}
@@ -99,6 +99,11 @@ export default async function MarkeUebersicht() {
           </table>
         </div>
         <p className="mp-leise" style={{ fontSize: 13 }}>
+          {(() => {
+            const g = abrechnungsGrenzen(d.periode);
+            const de = (t: string) => `${t.slice(8, 10)}.${t.slice(5, 7)}.`;
+            return `Diese Abrechnung umfasst Verkäufe vom ${de(g.vonTag)} bis ${de(g.bisTag)}${g.abTag ? ", alles davor haben wir dir bereits ausbezahlt" : ""}. `;
+          })()}
           Vorläufig bis zum Monatsende. Tasting-Stücke und Abschriften sind keine Verkäufe und tauchen hier nicht auf, du
           findest sie unter <Link href="/marke/artikel">Artikel</Link>.
           {v.fehlender_satz.length > 0 && " Für einzelne Artikel fehlt noch der MwSt-Satz, sie sind vorläufig mit 7 % gerechnet."}

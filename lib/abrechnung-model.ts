@@ -170,12 +170,74 @@ export function monatsGrenzen(zeitraum: string): { von: string; bis: string } {
   };
 }
 
+/**
+ * Erster Tag, ab dem Verkäufe über das Portal abgerechnet werden.
+ * Alles davor wurde an alle Marken bereits ausbezahlt (Stand 19.11.2026).
+ */
+export const ABRECHNUNG_AB = "2026-11-20";
+
+/** Tag (YYYY-MM-DD) als Mitternacht Europe/Berlin, als ISO-Zeitpunkt. */
+export function berlinMitternacht(tag: string): string {
+  const [j, m, d] = tag.split("-").map(Number);
+  const utc = new Date(Date.UTC(j, m - 1, d));
+  const lokal = new Date(utc.toLocaleString("sv-SE", { timeZone: "Europe/Berlin" }).replace(" ", "T") + "Z");
+  return new Date(utc.getTime() - (lokal.getTime() - utc.getTime())).toISOString();
+}
+
+/**
+ * Abweichende Periodenenden: Zeitraum → erster Tag, der schon zur NÄCHSTEN
+ * Periode zählt. November 2026 endet am 29.11., der 30.11. zählt in den Dezember.
+ */
+export const PERIODEN_ENDE: Record<string, string> = {
+  "2026-11": "2026-11-30",
+};
+
+const naechsterMonat = (z: string) => {
+  const [j, m] = z.split("-").map(Number);
+  return m === 12 ? `${j + 1}-01` : `${j}-${String(m + 1).padStart(2, "0")}`;
+};
+const vorMonat = (z: string) => {
+  const [j, m] = z.split("-").map(Number);
+  return m === 1 ? `${j - 1}-12` : `${j}-${String(m - 1).padStart(2, "0")}`;
+};
+
+/**
+ * Abrechnungszeitraum: Kalendermonat mit Sondergrenzen aus PERIODEN_ENDE,
+ * nie vor ABRECHNUNG_AB. Liegt ein Monat ganz davor, ist er leer (von === bis).
+ * vonTag/bisTag sind die Kalendertage für den Leistungszeitraum (bisTag inklusive).
+ */
+export function abrechnungsGrenzen(zeitraum: string): { von: string; bis: string; vonTag: string; bisTag: string; abTag: string | null } {
+  const startTag = PERIODEN_ENDE[vorMonat(zeitraum)] ?? `${zeitraum}-01`;
+  const endeTag = PERIODEN_ENDE[zeitraum] ?? `${naechsterMonat(zeitraum)}-01`;
+  let vonTag = startTag;
+  let abTag: string | null = null;
+  if (ABRECHNUNG_AB >= endeTag) vonTag = endeTag;
+  else if (ABRECHNUNG_AB > startTag) { vonTag = ABRECHNUNG_AB; abTag = ABRECHNUNG_AB; }
+  const bisExklusiv = new Date(berlinMitternacht(endeTag));
+  const [ej, em, ed] = endeTag.split("-").map(Number);
+  const letzterTag = new Date(Date.UTC(ej, em - 1, ed) - 864e5).toISOString().slice(0, 10);
+  return {
+    von: berlinMitternacht(vonTag),
+    bis: bisExklusiv.toISOString(),
+    vonTag,
+    bisTag: letzterTag,
+    abTag,
+  };
+}
+
 export const euro = (ct: number) =>
   (ct / 100).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
 
 export function aktuellerZeitraum(d = new Date()): string {
   const s = d.toLocaleString("sv-SE", { timeZone: "Europe/Berlin" });
   return s.slice(0, 7);
+}
+
+/** Abrechnungsperiode, in die ein Zeitpunkt fällt (z. B. 30.11.2026 → "2026-12"). */
+export function aktuellePeriode(d = new Date()): string {
+  const z = aktuellerZeitraum(d);
+  const iso = d.toISOString();
+  return iso >= abrechnungsGrenzen(z).bis ? naechsterMonat(z) : z;
 }
 
 // ── Prüfungen für das Onboarding ────────────────────────────────────────────

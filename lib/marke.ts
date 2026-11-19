@@ -13,10 +13,12 @@ import { getSupabaseMarke } from "./supabase-marke";
 import { abgleichWennNoetig } from "./sumup-abgleich";
 import {
   aktuellerZeitraum,
+  aktuellePeriode,
   berechneAbrechnung,
   inCent,
   mieteImMonat,
   monatsGrenzen,
+  abrechnungsGrenzen,
   type Abrechnung,
   type ProvisionBasis,
   type VerkaufZeile,
@@ -218,7 +220,8 @@ export async function rechneMonat(brandId: string, zeitraum: string): Promise<{
   abrechnung: Abrechnung;
   konditionen: Konditionen | null;
 }> {
-  const { von, bis } = monatsGrenzen(zeitraum);
+  // Verkäufe vor ABRECHNUNG_AB sind schon ausbezahlt und zählen nicht mit.
+  const { von, bis } = abrechnungsGrenzen(zeitraum);
   const [konditionen, artikel, verkaeufe, vortrag] = await Promise.all([
     ladeKonditionen(brandId),
     ladeArtikel(brandId),
@@ -250,7 +253,8 @@ export interface Dashboard {
   sieben: Kennzahl;
   monat: Kennzahl;
   jeArtikel: { ean: string; name: string; heute: number; sieben: number; monat: number; dreissig: number }[];
-  zeitraum: string;
+  zeitraum: string; // Kalendermonat für die Abverkaufs-Kacheln
+  periode: string; // Abrechnungsperiode der voraussichtlichen Auszahlung
   vorschau: Abrechnung;
   letzterSync: string | null;
 }
@@ -262,6 +266,7 @@ export async function ladeDashboard(brandId: string): Promise<Dashboard> {
   const jetzt = new Date();
   const dreissigVorher = new Date(jetzt.getTime() - 31 * 864e5);
   const zeitraum = aktuellerZeitraum(jetzt);
+  const periode = aktuellePeriode(jetzt);
   const monatVon = monatsGrenzen(zeitraum).von;
   const von = monatVon < dreissigVorher.toISOString() ? monatVon : dreissigVorher.toISOString();
   await abgleichWennNoetig();
@@ -269,7 +274,7 @@ export async function ladeDashboard(brandId: string): Promise<Dashboard> {
   const [artikel, verkaeufe, { abrechnung }, sync] = await Promise.all([
     ladeArtikel(brandId),
     ladeVerkaeufe(brandId, von),
-    rechneMonat(brandId, zeitraum),
+    rechneMonat(brandId, periode),
     getSupabaseAdmin().from("sumup_transaktionen").select("aktualisiert_am").order("aktualisiert_am", { ascending: false }).limit(1).maybeSingle(),
   ]);
 
@@ -299,6 +304,7 @@ export async function ladeDashboard(brandId: string): Promise<Dashboard> {
     monat,
     jeArtikel: [...jeArtikel.values()].sort((a, b) => b.dreissig - a.dreissig || a.name.localeCompare(b.name, "de")),
     zeitraum,
+    periode,
     vorschau: abrechnung,
     letzterSync: (sync.data?.aktualisiert_am as string | undefined) ?? null,
   };
