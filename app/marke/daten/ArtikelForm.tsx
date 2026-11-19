@@ -10,6 +10,8 @@ export default function ArtikelForm() {
 
   useEffect(() => {
     if (status?.ok) ref.current?.reset();
+    // Bei Fehlern den Cursor ins erste falsche Feld setzen
+    if (status && !status.ok) ref.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
   }, [status]);
 
   return (
@@ -53,7 +55,7 @@ export default function ArtikelForm() {
       </div>
       <div className="mp-aktionen">
         <button className="mp-knopf mp-knopf--zweit" type="submit" disabled={laeuft}>Artikel hinzufügen</button>
-        {status && <span role="status" className={status.ok ? "" : "mp-fehler"}>{status.meldung}</span>}
+        {status && <span role="status" className={status.ok ? "mp-hinweis" : "mp-hinweis mp-hinweis--warn"}>{status.meldung}</span>}
       </div>
     </form>
   );

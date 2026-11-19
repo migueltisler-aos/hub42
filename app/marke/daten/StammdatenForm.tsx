@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect, useRef } from "react";
 import { stammdatenSpeichern } from "../actions";
 
 interface Werte {
@@ -45,6 +45,16 @@ export default function StammdatenForm({
   // Nach einer Action setzt React das Formular zurück: bei Fehlern die
   // eingegebenen Werte als neue Vorgabe nehmen, sonst wären sie weg.
   const w = { ...werte, ...(status?.werte ?? {}) } as Werte;
+  const fehlerListe = Object.entries(f);
+  const kasten = useRef<HTMLDivElement>(null);
+
+  // Nach einem Fehler: zum Fehlerkasten oben springen und ihn vorlesen lassen.
+  useEffect(() => {
+    if (status && !status.ok && kasten.current) {
+      kasten.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      kasten.current.focus({ preventScroll: true });
+    }
+  }, [status]);
 
   // Bewusst Funktion statt Komponente: eine innere Komponente bekäme bei
   // jedem Render eine neue Identität und würde die Felder neu einhängen.
@@ -52,6 +62,7 @@ export default function StammdatenForm({
     <label className="mp-feld" key={name}>
       <span>{label}</span>
       <input
+        id={`feld-${name}`}
         type={typ}
         name={name}
         defaultValue={String(w[name] ?? "")}
@@ -67,6 +78,20 @@ export default function StammdatenForm({
 
   return (
     <div className="mp-form">
+      {status && !status.ok && (
+        <div ref={kasten} tabIndex={-1} role="alert" className="mp-fehlerkasten">
+          <strong>{status.meldung}</strong>
+          {fehlerListe.length > 0 && (
+            <ul>
+              {fehlerListe.map(([name, text]) => (
+                <li key={name}>
+                  <a href={`#feld-${name}`}>{text}</a>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
       <form id={FORM_ID} action={aktion} className="mp-form">
         <fieldset className="mp-feldgruppe">
           <legend>Firma</legend>
@@ -109,12 +134,12 @@ export default function StammdatenForm({
       </form>
 
       {children}
-      {f.artikel && <p className="mp-fehler" role="alert">{f.artikel}</p>}
+      {f.artikel && <p id="feld-artikel" className="mp-fehler">{f.artikel} <a href="#artikel">Zum Artikel-Formular</a></p>}
 
       <fieldset className="mp-feldgruppe">
         <legend>Zustimmung</legend>
         <label className="mp-check">
-          <input type="checkbox" name="gutschrift_zustimmung" defaultChecked={w.gutschrift_zustimmung} form={FORM_ID} aria-invalid={f.gutschrift_zustimmung ? true : undefined} />
+          <input id="feld-gutschrift_zustimmung" type="checkbox" name="gutschrift_zustimmung" defaultChecked={w.gutschrift_zustimmung} form={FORM_ID} aria-invalid={f.gutschrift_zustimmung ? true : undefined} />
           <span>{zustimmungText}</span>
         </label>
         {f.gutschrift_zustimmung && <small className="mp-fehler">{f.gutschrift_zustimmung}</small>}
@@ -128,7 +153,9 @@ export default function StammdatenForm({
           Zwischenspeichern
         </button>
         {status && (
-          <span role="status" className={status.ok ? "" : "mp-fehler"}>{status.meldung}</span>
+          <span role="status" className={status.ok ? "mp-hinweis" : "mp-hinweis mp-hinweis--warn"}>
+            {status.ok ? status.meldung : `${status.meldung} Die Fehler stehen oben und an den rot markierten Feldern.`}
+          </span>
         )}
       </div>
     </div>

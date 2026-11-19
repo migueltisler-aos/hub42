@@ -98,7 +98,17 @@
   .mp-knopf--klein { padding: 6px 10px; min-height: 32px; font-size: 13px; }
   .mp-knopf:disabled { opacity: .5; cursor: not-allowed; }
   .mp-aktionen { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; }
-  .mp-fehler { color: var(--warn); font-size: 13px; }
+  .mp-fehler { color: var(--warn); font-size: 14px; font-weight: 700; }
+  .mp-fehler::before { content: "⚠ "; }
+  .mp-feld small.mp-fehler { color: var(--warn); font-size: 14px; }
+  input[aria-invalid="true"], select[aria-invalid="true"] { border: 2px solid var(--warn); background: var(--warn-flaeche); }
+  input[type="checkbox"][aria-invalid="true"] { outline: 2px solid var(--warn); outline-offset: 2px; }
+  .mp-fehlerkasten { background: var(--warn-flaeche); border: 2px solid var(--warn); border-left-width: 8px; padding: 16px 18px; display: grid; gap: 8px; scroll-margin-top: 16px; }
+  .mp-fehlerkasten strong { color: var(--warn); font-size: 17px; }
+  .mp-fehlerkasten ul { list-style: disc; padding-left: 20px; display: grid; gap: 4px; }
+  .mp-fehlerkasten a { color: var(--tinte); font-weight: 700; }
+  .mp-fehlerkasten:focus { outline: 3px solid var(--warn); outline-offset: 2px; }
+  [id^="feld-"] { scroll-margin-top: 90px; }
 
   /* Balken und Heatmap */
   .mp-balken { display: grid; grid-template-columns: 70px 1fr 48px; gap: 10px; align-items: center; font-size: 13px; }
