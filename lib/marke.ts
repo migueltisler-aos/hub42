@@ -379,7 +379,7 @@ export async function ladeBestand(brandId: string): Promise<{ zeilen: BestandZei
       artikel_name: a.artikel_name,
       bestand,
       verkauf_pro_tag: vpt,
-      reichweite_tage: vpt > 0 ? Math.floor(bestand / vpt) : null,
+      reichweite_tage: vpt > 0 ? Math.max(0, Math.floor(bestand / vpt)) : null,
       nachbestellung_empfohlen: r?.nachbestellung_empfohlen ?? false,
       nachschub_menge: vpt > 0 ? Math.max(0, Math.ceil(vpt * NACHSCHUB_TAGE - bestand)) : 0,
       konto,

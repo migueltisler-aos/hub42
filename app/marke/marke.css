@@ -122,6 +122,13 @@
   .mp-funnel__stufe { display: grid; gap: 4px; padding: 14px 16px; border: 1px solid var(--linie); background: var(--karton); }
   .mp-funnel__balken { height: 8px; width: var(--breite); background: var(--tinte-leise); margin-top: 6px; }
 
+  .mp-artikelbild { width: 56px; height: 56px; object-fit: cover; display: block; border: 1px solid var(--linie); background: var(--karton); }
+  .mp-artikelbild--leer { background: repeating-linear-gradient(45deg, var(--karton), var(--karton) 6px, var(--papier) 6px, var(--papier) 12px); }
+  .mp-konto { margin-top: 6px; font-size: 13px; }
+  .mp-konto summary { cursor: pointer; color: var(--tinte-leise); }
+  .mp-konto dl { display: grid; grid-template-columns: auto auto; justify-content: start; gap: 2px 16px; margin: 6px 0 0; }
+  .mp-konto dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
+
   .mp-foto { width: 100%; max-height: 520px; object-fit: contain; background: var(--karton); border: 1px solid var(--linie); }
 
   .mp-login { max-width: 440px; margin: 8vh auto 0; }

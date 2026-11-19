@@ -205,7 +205,7 @@ export async function artikelHinzufuegen(_prev: FormStatus | null, fd: FormData)
     { onConflict: "brand_id,ean" }
   );
   if (error) return { ok: false, meldung: `Nicht gespeichert: ${error.message}`, stamp: Date.now() };
-  revalidatePath("/marke/daten");
+  revalidatePath("/marke/artikel");
   return { ok: true, meldung: `${name} eingetragen.`, stamp: Date.now() };
 }
 
@@ -220,5 +220,5 @@ export async function artikelEntfernen(fd: FormData) {
     .eq("id", id)
     .eq("brand_id", m.brandId)
     .neq("status", "freigegeben");
-  revalidatePath("/marke/daten");
+  revalidatePath("/marke/artikel");
 }
