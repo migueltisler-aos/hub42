@@ -180,3 +180,7 @@ alter table bestand_bewegungen add constraint bestand_bewegungen_quelle_check
 insert into storage.buckets (id, name, public)
 values ('marken', 'marken', false)
 on conflict (id) do nothing;
+
+-- ── 2026-11-19: EAN optional, Produktbild je Artikel ─────────────────────────
+alter table brand_artikel_antrag alter column ean drop not null;
+alter table brand_artikel_antrag add column if not exists bild_pfad text;

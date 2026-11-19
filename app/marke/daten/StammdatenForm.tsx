@@ -16,12 +16,10 @@ interface Werte {
   nachschub_email: string;
   ust_idnr: string;
   steuernummer: string;
-  kleinunternehmer: boolean;
   iban: string;
   bic: string;
   kontoinhaber: string;
   gutschrift_zustimmung: boolean;
-  konditionen_bestaetigt: boolean;
 }
 
 const FORM_ID = "stammdaten";
@@ -33,13 +31,11 @@ const FORM_ID = "stammdaten";
  */
 export default function StammdatenForm({
   werte,
-  provisionPct,
   zustimmungText,
   bereitsEingereicht,
   children,
 }: {
   werte: Werte;
-  provisionPct: number;
   zustimmungText: string;
   bereitsEingereicht: boolean;
   children: React.ReactNode;
@@ -100,10 +96,6 @@ export default function StammdatenForm({
             {feld({ name: "ust_idnr", label: "USt-IdNr.", hilfe: "z. B. DE123456789" })}
             {feld({ name: "steuernummer", label: "Steuernummer", hilfe: "Nur nötig ohne USt-IdNr." })}
           </div>
-          <label className="mp-check">
-            <input type="checkbox" name="kleinunternehmer" defaultChecked={w.kleinunternehmer} form={FORM_ID} />
-            <span>Wir sind Kleinunternehmer nach § 19 UStG und weisen keine Umsatzsteuer aus.</span>
-          </label>
         </fieldset>
 
         <fieldset className="mp-feldgruppe">
@@ -126,14 +118,6 @@ export default function StammdatenForm({
           <span>{zustimmungText}</span>
         </label>
         {f.gutschrift_zustimmung && <small className="mp-fehler">{f.gutschrift_zustimmung}</small>}
-        <label className="mp-check">
-          <input type="checkbox" name="konditionen_bestaetigt" defaultChecked={w.konditionen_bestaetigt} form={FORM_ID} aria-invalid={f.konditionen_bestaetigt ? true : undefined} />
-          <span>
-            Wir sind einverstanden: {provisionPct.toLocaleString("de-DE")} % Provision auf den Verkaufserlös, die Regalmiete wird mit
-            der Auszahlung verrechnet, Auszahlung bis zum 10. des Folgemonats. Tasting-Stücke stellen wir als Muster.
-          </span>
-        </label>
-        {f.konditionen_bestaetigt && <small className="mp-fehler">{f.konditionen_bestaetigt}</small>}
       </fieldset>
 
       <div className="mp-aktionen">

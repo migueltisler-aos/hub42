@@ -173,7 +173,6 @@ export default async function MarkeIntern({
             <Zeile k="IBAN" v={k.iban ? `${k.iban}${ibanGueltig(k.iban) ? "" : " · Prüfziffer falsch"}` : null} warn={!!k.iban && !ibanGueltig(k.iban)} />
             <Zeile k="BIC" v={k.bic} />
             <Zeile k="Gutschrift-Zustimmung" v={k.gutschrift_zustimmung_am ? `${new Date(k.gutschrift_zustimmung_am).toLocaleString("de-DE")} · Text ${k.gutschrift_zustimmung_version}` : null} warn={!k.gutschrift_zustimmung_am} />
-            <Zeile k="Konditionen bestätigt" v={k.konditionen_bestaetigt_am ? new Date(k.konditionen_bestaetigt_am).toLocaleString("de-DE") : null} warn={!k.konditionen_bestaetigt_am} />
             {k.status === "eingereicht" && (
               <div className="mt-4 grid sm:grid-cols-[auto_1fr] gap-4 items-end">
                 <form action={stammdatenFreigeben}>{hidden}<button className={knopf}>Freigeben</button></form>
@@ -198,9 +197,15 @@ export default async function MarkeIntern({
           <form key={a.id} action={artikelEntscheiden} className="grid sm:grid-cols-[1fr_1fr_140px_auto] gap-3 items-end border-b border-stone-dark/50 pb-3 mb-3">
             {hidden}
             <input type="hidden" name="antrag_id" value={a.id} />
-            <div className="text-sm text-cream">
+            <div className="text-sm text-cream flex gap-3 items-start">
+              {a.bild_url && (
+                // eslint-disable-next-line @next/next/no-img-element -- signierte Storage-URL
+                <a href={a.bild_url} target="_blank" rel="noreferrer"><img src={a.bild_url} alt="" className="w-14 h-14 object-cover border border-stone-dark" /></a>
+              )}
+              <div>
               <div className="font-semibold">{a.artikel_name}</div>
-              <div className="text-stone text-xs font-mono">{a.ean} · {Number(a.vk_brutto).toLocaleString("de-DE", { style: "currency", currency: "EUR" })} · {a.mwst_satz} %{a.inhalt ? ` · ${a.inhalt}` : ""}</div>
+              <div className="text-stone text-xs font-mono">{a.ean ?? "ohne EAN, bekommt TK-Nummer"} · {Number(a.vk_brutto).toLocaleString("de-DE", { style: "currency", currency: "EUR" })} · {a.mwst_satz} %{a.inhalt ? ` · ${a.inhalt}` : ""}</div>
+              </div>
             </div>
             <div>
               <label className={label}>Name in SumUp</label>
