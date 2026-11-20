@@ -12,6 +12,7 @@ import {
   ustIdPlausibel,
 } from "@/lib/abrechnung-model";
 import { teamBenachrichtigen } from "@/lib/marke-benachrichtigung";
+import { artikelFreigeben } from "@/lib/marken-admin";
 
 export interface FormStatus {
   ok: boolean;
@@ -101,7 +102,7 @@ export async function stammdatenSpeichern(_prev: FormStatus | null, fd: FormData
     updated_at: new Date().toISOString(),
   };
 
-  if (einreichen) {
+  if (einreichen || alt?.status === "freigegeben") {
     const pflicht: [keyof typeof daten, string][] = [
       ["firma", "Firma fehlt."],
       ["strasse", "Straße fehlt."],
@@ -125,27 +126,36 @@ export async function stammdatenSpeichern(_prev: FormStatus | null, fd: FormData
     return { ok: false, meldung: "Bitte die markierten Felder prüfen.", felder, werte, stamp: Date.now() };
   }
 
-  // Jede Änderung nach der Freigabe geht erneut in die Prüfung (IBAN, Steuerdaten).
-  const status = einreichen || alt?.status === "freigegeben" || alt?.status === "eingereicht" ? "eingereicht" : "entwurf";
+  // Ohne Freigabe: Einreichen macht die Stammdaten sofort gültig. Danach ist jedes Speichern ein Einreichen.
+  const status = einreichen || alt?.status === "freigegeben" || alt?.status === "eingereicht" ? "freigegeben" : "entwurf";
+  // Einzige Kontrolle: eine nachträglich geänderte IBAN (Schutz vor gekapertem Login)
+  const ibanNeu = Boolean(alt?.iban && iban && alt.iban !== iban && alt.status !== "entwurf");
+  const jetzt = new Date().toISOString();
   const { error } = await getSupabaseAdmin()
     .from("brand_konditionen")
     .upsert(
-      { ...daten, status, eingereicht_am: status === "eingereicht" ? new Date().toISOString() : alt?.eingereicht_am ?? null },
+      {
+        ...daten,
+        status,
+        eingereicht_am: status === "freigegeben" ? alt?.eingereicht_am ?? jetzt : null,
+        ...(status === "freigegeben" && alt?.status !== "freigegeben" ? { freigegeben_von: "Marke", freigegeben_am: jetzt } : {}),
+        ...(ibanNeu ? { iban_geaendert_am: jetzt } : {}),
+        // Unser Prüfhinweis hat sich mit dem Speichern erledigt
+        ...(status === "freigegeben" ? { pruef_notiz: null } : {}),
+      },
       { onConflict: "brand_id" }
     );
   if (error) return { ok: false, meldung: `Nicht gespeichert: ${error.message}`, stamp: Date.now() };
 
-  if (status === "eingereicht") {
-    await teamBenachrichtigen(
-      alt?.status === "freigegeben"
-        ? `Marken-Portal: ${m.brandName} hat Stammdaten geändert, bitte prüfen.`
-        : `Marken-Portal: ${m.brandName} hat das Onboarding eingereicht.`
-    );
+  if (ibanNeu) {
+    await teamBenachrichtigen(`Marken-Portal: ${m.brandName} hat die IBAN geändert. Vor der nächsten Auszahlung bitte prüfen.`);
+  } else if (status === "freigegeben" && alt?.status !== "freigegeben") {
+    await teamBenachrichtigen(`Marken-Portal: ${m.brandName} hat die Stammdaten eingetragen.`);
   }
   revalidatePath("/marke", "layout");
   return {
     ok: true,
-    meldung: status === "eingereicht" ? "Eingereicht. Wir prüfen die Angaben und melden uns." : "Zwischengespeichert.",
+    meldung: status === "freigegeben" ? "Gespeichert." : "Zwischengespeichert.",
     stamp: Date.now(),
   };
 }
@@ -197,17 +207,21 @@ export async function artikelHinzufuegen(_prev: FormStatus | null, fd: FormData)
   };
   // Bestehender Antrag (Vorschlag, eingereicht, abgelehnt): genau diese Zeile ändern, nur eigene, nie freigegebene
   const db = getSupabaseAdmin();
-  const { error } = antragId
-    ? await db.from("brand_artikel_antrag").update(zeile).eq("id", antragId).eq("brand_id", m.brandId).neq("status", "freigegeben")
-    : await db.from("brand_artikel_antrag").upsert({ ...zeile, ...(regalEan ? { quelle: "aenderung" } : {}) }, { onConflict: "brand_id,ean" });
-  if (error) return { ok: false, meldung: `Nicht gespeichert: ${error.message}`, stamp: Date.now() };
+  const { data: gespeichert, error } = antragId
+    ? await db.from("brand_artikel_antrag").update(zeile).eq("id", antragId).eq("brand_id", m.brandId).neq("status", "freigegeben").select("id").single()
+    : await db.from("brand_artikel_antrag").upsert({ ...zeile, ...(regalEan ? { quelle: "aenderung" } : {}) }, { onConflict: "brand_id,ean" }).select("id").single();
+  if (error || !gespeichert) return { ok: false, meldung: `Nicht gespeichert: ${error?.message ?? "Artikel nicht gefunden"}`, stamp: Date.now() };
+
+  // Ohne Freigabe: direkt in den Kassenstamm. Was in SumUp zu tun ist, landet auf der Team-Liste.
+  const k = await ladeKonditionen(m.brandId);
+  try {
+    const { hinweis } = await artikelFreigeben({ antragId: gespeichert.id, brandId: m.brandId, kassenName: name!, regalLage: k?.regal_lage ?? null });
+    if (hinweis) await teamBenachrichtigen(`SumUp: ${m.brandName} – ${hinweis}`);
+  } catch (e) {
+    return { ok: false, meldung: `Gespeichert, aber nicht in die Kasse übernommen: ${e instanceof Error ? e.message : e}`, stamp: Date.now() };
+  }
   revalidatePath("/marke/artikel");
-  const meldung = regalEan
-    ? `Änderung an ${name} gesendet, wir prüfen sie.`
-    : antragId
-      ? `${name} gespeichert, wir prüfen ihn.`
-      : `${name} eingetragen.`;
-  return { ok: true, meldung, stamp: Date.now() };
+  return { ok: true, meldung: `${name} gespeichert, gilt ab sofort.`, stamp: Date.now() };
 }
 
 export async function artikelEntfernen(fd: FormData) {

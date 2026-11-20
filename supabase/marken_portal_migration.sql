@@ -196,3 +196,14 @@ alter table brand_artikel_antrag drop constraint if exists brand_artikel_antrag_
 alter table brand_artikel_antrag add constraint brand_artikel_antrag_vollstaendig
   check (status = 'vorschlag' or (vk_brutto is not null and mwst_satz is not null));
 alter table brand_artikel_antrag add column if not exists quelle text;
+
+-- ── 2026-11-20: ohne Freigabe ────────────────────────────────────────────────
+-- Stammdaten gelten mit dem Einreichen; nur eine nachträgliche IBAN-Änderung
+-- wird markiert. Artikel gehen sofort in die Kasse; was in SumUp anzulegen
+-- oder zu ändern ist, steht in sumup_offen/sumup_hinweis.
+alter table brand_konditionen add column if not exists iban_geaendert_am timestamptz;
+alter table kasse_artikelstamm add column if not exists sumup_offen boolean not null default false;
+alter table kasse_artikelstamm add column if not exists sumup_hinweis text;
+alter table kasse_artikelstamm add column if not exists sumup_seit timestamptz;
+update brand_konditionen set status = 'freigegeben', freigegeben_von = coalesce(freigegeben_von, 'Marke'), freigegeben_am = coalesce(freigegeben_am, eingereicht_am, now())
+ where status = 'eingereicht';

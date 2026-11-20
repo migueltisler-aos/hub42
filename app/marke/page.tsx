@@ -30,9 +30,6 @@ export default async function MarkeUebersicht() {
           Zustimmung zur Gutschrift. <Link href="/marke/daten">Jetzt ausfüllen</Link>
         </div>
       )}
-      {k?.status === "eingereicht" && (
-        <div className="mp-hinweis">Deine Stammdaten sind eingereicht, wir prüfen sie gerade.</div>
-      )}
 
       <section className="mp-raster" aria-label="Abverkauf">
         <Kachel titel="Heute" stueck={d.heute.stueck} ct={d.heute.umsatz_ct} />

@@ -9,7 +9,8 @@ import {
   fotoHochladen,
   konditionenSpeichern,
   satzSetzen,
-  stammdatenFreigeben,
+  sumupErledigtAktion,
+  ibanGeprueft,
   stammdatenZurueck,
 } from "../actions";
 
@@ -170,12 +171,23 @@ export default async function MarkeIntern({
             <Zeile k="Steuernummer" v={k.steuernummer} />
             <Zeile k="Kleinunternehmer" v={k.kleinunternehmer ? "ja, § 19 UStG" : "nein"} />
             <Zeile k="Kontoinhaber" v={k.kontoinhaber} />
-            <Zeile k="IBAN" v={k.iban ? `${k.iban}${ibanGueltig(k.iban) ? "" : " · Prüfziffer falsch"}` : null} warn={!!k.iban && !ibanGueltig(k.iban)} />
+            <Zeile
+              k="IBAN"
+              v={k.iban ? `${k.iban}${ibanGueltig(k.iban) ? "" : " · Prüfziffer falsch"}${k.iban_geaendert_am ? ` · neu seit ${new Date(k.iban_geaendert_am).toLocaleDateString("de-DE")}` : ""}` : null}
+              warn={(!!k.iban && !ibanGueltig(k.iban)) || !!k.iban_geaendert_am}
+            />
+            {k.iban_geaendert_am && (
+              <form action={ibanGeprueft} className="my-2 flex gap-3 items-center">
+                {hidden}
+                <span className="text-amber-300 text-xs">Die Marke hat die IBAN geändert. Passt sie zur Firma?</span>
+                <button className={knopf2}>IBAN geprüft</button>
+              </form>
+            )}
             <Zeile k="BIC" v={k.bic} />
             <Zeile k="Gutschrift-Zustimmung" v={k.gutschrift_zustimmung_am ? `${new Date(k.gutschrift_zustimmung_am).toLocaleString("de-DE")} · Text ${k.gutschrift_zustimmung_version}` : null} warn={!k.gutschrift_zustimmung_am} />
-            {k.status === "eingereicht" && (
-              <div className="mt-4 grid sm:grid-cols-[auto_1fr] gap-4 items-end">
-                <form action={stammdatenFreigeben}>{hidden}<button className={knopf}>Freigeben</button></form>
+            <p className="text-stone text-xs mt-3">Die Stammdaten gelten, sobald die Marke sie einreicht. Fällt euch etwas auf, schickt sie mit Hinweis zurück.</p>
+            {k.status === "freigegeben" && (
+              <div className="mt-2">
                 <form action={stammdatenZurueck} className="flex flex-wrap gap-3 items-end">
                   {hidden}
                   <div className="flex-1 min-w-60">
@@ -192,7 +204,7 @@ export default async function MarkeIntern({
         )}
       </Abschnitt>
 
-      <Abschnitt titel={`4 · Artikel · ${offen.length} zu prüfen`}>
+      <Abschnitt titel={`4 · Artikel${offen.length ? ` · ${offen.length} alte Anträge offen` : ""}`}>
         {offen.map((a) => (
           <form key={a.id} action={artikelEntscheiden} className="grid sm:grid-cols-[1fr_1fr_140px_auto] gap-3 items-end border-b border-stone-dark/50 pb-3 mb-3">
             {hidden}
@@ -228,7 +240,7 @@ export default async function MarkeIntern({
           <table className="w-full text-sm text-cream">
             <thead>
               <tr className="text-left text-stone text-xs font-mono uppercase tracking-widest border-b border-stone-dark">
-                <th className="py-2 pr-3">Im Kassenstamm</th><th className="py-2 pr-3">EAN</th><th className="py-2 pr-3">VK</th><th className="py-2">MwSt</th>
+                <th className="py-2 pr-3">Im Kassenstamm</th><th className="py-2 pr-3">EAN</th><th className="py-2 pr-3">VK</th><th className="py-2 pr-3">MwSt</th><th className="py-2">SumUp</th>
               </tr>
             </thead>
             <tbody>
@@ -249,6 +261,18 @@ export default async function MarkeIntern({
                       </select>
                       <button className={knopf2}>OK</button>
                     </form>
+                  </td>
+                  <td className="py-2 pl-3">
+                    {a.sumup_offen ? (
+                      <form action={sumupErledigtAktion} className="flex gap-2 items-center">
+                        <input type="hidden" name="artikel_id" value={a.id} />
+                        <input type="hidden" name="zurueck" value={`/admin/marken/${id}`} />
+                        <span className="text-amber-300 text-xs">{a.sumup_hinweis}</span>
+                        <button className={knopf2}>Erledigt</button>
+                      </form>
+                    ) : (
+                      <span className="text-stone text-xs">aktuell</span>
+                    )}
                   </td>
                 </tr>
               ))}

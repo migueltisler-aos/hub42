@@ -10,6 +10,7 @@ import {
   mwstSetzen,
   regalfotoHochladen,
   stammdatenEntscheiden,
+  sumupErledigt,
   zugangEinladen,
   zugangEntziehen,
 } from "@/lib/marken-admin";
@@ -111,4 +112,18 @@ export async function fotoHochladen(fd: FormData) {
   if (!f.type.startsWith("image/") || f.size > 4 * 1024 * 1024) zurueck(brandId, "Nur Bilder bis 4 MB (Vercel-Grenze). Am Handy ggf. kleinere Auflösung wählen.");
   await regalfotoHochladen(brandId, f, await wer());
   zurueck(brandId, "Regalfoto hochgeladen, die Marke sieht es sofort.");
+}
+
+export async function sumupErledigtAktion(fd: FormData) {
+  const id = t(fd, "artikel_id");
+  const zurueckZu = t(fd, "zurueck");
+  await sumupErledigt(id);
+  revalidatePath("/admin/marken");
+  if (zurueckZu.startsWith("/admin/marken")) redirect(zurueckZu);
+}
+
+export async function ibanGeprueft(fd: FormData) {
+  const brandId = t(fd, "brand_id");
+  await konditionenSetzen(brandId, { iban_geaendert_am: null });
+  zurueck(brandId, "IBAN als geprüft markiert.");
 }

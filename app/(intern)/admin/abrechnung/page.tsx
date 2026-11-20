@@ -99,6 +99,11 @@ export default async function AbrechnungAdmin({ searchParams }: { searchParams: 
                   <tr key={z.brandId} className="border-b border-stone-dark/50 align-top">
                     <td className="py-2.5 pr-3">
                       <Link href={`/admin/marken/${z.brandId}`} className="underline underline-offset-4 hover:text-bronze">{z.name}</Link>
+                      {z.konditionen?.iban_geaendert_am && (
+                        <div className="text-amber-300 text-xs mt-1">
+                          IBAN neu seit {new Date(z.konditionen.iban_geaendert_am).toLocaleDateString("de-DE")}, vor der Überweisung prüfen
+                        </div>
+                      )}
                       {z.hindernisse.length > 0 && !s?.match(/final|bezahlt/) && (
                         <ul className="text-amber-300 text-xs mt-1">{z.hindernisse.map((h) => <li key={h}>· {h}</li>)}</ul>
                       )}

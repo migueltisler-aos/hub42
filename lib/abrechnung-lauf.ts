@@ -30,7 +30,7 @@ const leistungszeitraum = (z: string) => {
 export function hindernisse(k: Konditionen | null, a: Abrechnung): string[] {
   const h: string[] = [];
   if (!k) return ["keine Stammdaten"];
-  if (k.status !== "freigegeben") h.push("Stammdaten nicht freigegeben");
+  if (k.status !== "freigegeben") h.push("Stammdaten noch nicht eingetragen");
   if (!k.gutschrift_zustimmung_am) h.push("keine Zustimmung zum Gutschriftverfahren");
   if (!k.ust_idnr && !k.steuernummer) h.push("USt-IdNr./Steuernummer fehlt");
   if (!k.iban && a.auszahlung_ct > 0) h.push("IBAN fehlt");

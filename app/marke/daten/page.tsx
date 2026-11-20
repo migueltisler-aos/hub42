@@ -9,8 +9,8 @@ export const dynamic = "force-dynamic";
 
 const STATUS: Record<string, string> = {
   entwurf: "Noch nicht eingereicht",
-  eingereicht: "Eingereicht, wird geprüft",
-  freigegeben: "Geprüft und freigegeben",
+  eingereicht: "Gespeichert",
+  freigegeben: "Gespeichert und gültig",
 };
 
 export default async function MarkeDaten({ searchParams }: { searchParams: Promise<{ willkommen?: string }> }) {
@@ -44,7 +44,7 @@ export default async function MarkeDaten({ searchParams }: { searchParams: Promi
       )}
       {status === "freigegeben" && (
         <p className="mp-hinweis">
-          Änderungen an Bank- oder Steuerdaten prüfen wir vor der nächsten Auszahlung noch einmal.
+          Deine Daten gelten. Änderst du die IBAN, schauen wir vor der nächsten Auszahlung noch einmal drauf.
         </p>
       )}
 

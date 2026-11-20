@@ -183,7 +183,7 @@ export default async function MarkeArtikel({ searchParams }: { searchParams: Pro
 
       {offen.length > 0 && (
         <section aria-labelledby="pruefung-titel" style={{ display: "grid", gap: 12 }}>
-          <h2 id="pruefung-titel" className="mp-h2">Eingereicht</h2>
+          <h2 id="pruefung-titel" className="mp-h2">Noch nicht im Regal</h2>
           <ul className="mp-artikelliste">
             {offen.map((a) => (
               <li key={a.id} className="mp-artikelkarte">
@@ -213,7 +213,7 @@ export default async function MarkeArtikel({ searchParams }: { searchParams: Pro
 
       <section id="neu" className="mp-feldgruppe" aria-labelledby="neu-titel" style={{ scrollMarginTop: 16 }}>
         <h2 id="neu-titel" className="mp-h2">Artikel hinzufügen</h2>
-        <p className="mp-leise" style={{ fontSize: 13 }}>Wir prüfen jeden Artikel, bevor er in die Kasse kommt.</p>
+        <p className="mp-leise" style={{ fontSize: 13 }}>Der Artikel gilt sofort. In unserer Ladenkasse legen wir ihn zusätzlich an.</p>
         <ArtikelForm />
       </section>
 
