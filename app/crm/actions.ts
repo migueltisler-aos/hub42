@@ -109,6 +109,22 @@ export async function aufgabeErledigt(
   return { ok: true };
 }
 
+/** „Antwort raus“: hält unsere Antwort in der Zeitleiste fest und beendet den SLA
+    „nicht eingeordnet“. Die Marke bleibt auf ihrer Stufe. */
+export async function antwortRaus(brandId: string): Promise<Ergebnis> {
+  const wer = await angemeldet();
+  if (!wer) return { ok: false, fehler: "Nicht angemeldet." };
+  if (!UUID.test(brandId)) return { ok: false, fehler: "Unbekannte Marke." };
+
+  const { error } = await getSupabaseAdmin()
+    .from("crm_aktivitaeten")
+    .insert({ brand_id: brandId, typ: "Mail", titel: "Antwort raus", wer });
+  if (error) return { ok: false, fehler: "Speichern ist fehlgeschlagen." };
+
+  neuLaden();
+  return { ok: true };
+}
+
 /** Internes Update zu einem Kunden, steht in seiner Zeitleiste als Notiz. */
 export async function updateTeilen(brandId: string, text: string): Promise<Ergebnis> {
   const wer = await angemeldet();

@@ -52,6 +52,7 @@ export const langDatum = (iso: string) =>
 export const SLA_ROT: SlaVerstoss["art"][] = ["antwort_ungeordnet", "interesse_ohne_termin"];
 /** Zusatzwort aus dem Plan, Abschnitt SLAs. */
 export const SLA_WORT: Partial<Record<SlaVerstoss["art"], string>> = {
+  antwort_wartet: "wartet",
   angebot_stockt: "stockt",
   haengt: "hängt",
 };
