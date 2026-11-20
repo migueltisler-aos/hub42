@@ -11,7 +11,7 @@ import {
   type Person as PersonName,
   type SlaVerstoss,
 } from "@/lib/crm-heute-model";
-import { aufgabeErledigt } from "../actions";
+import { antwortRaus, aufgabeErledigt } from "../actions";
 import AufgabeFormular from "../_components/AufgabeFormular";
 import ErledigtFormular from "../_components/ErledigtFormular";
 import {
@@ -69,6 +69,7 @@ export default function SalesAnsicht({
   // Haken wirken sofort; schlägt das Speichern fehl, springt der Haken zurück.
   const [erledigt, setErledigt] = useState<Record<string, boolean>>({});
   const [, starte] = useTransition();
+  const [gemeldet, setGemeldet] = useState<string[]>([]);
   const lage = lageFuer(daten, wer, erledigt);
   const alle = wer === "Alle";
 
@@ -111,6 +112,15 @@ export default function SalesAnsicht({
     setWer(w);
     window.history.replaceState(null, "", `?wer=${encodeURIComponent(w)}`);
   }
+
+  // Marken, deren Antwort gerade als raus gemeldet wurde; der Server lädt nach.
+  const melde = (brandId: string) => {
+    setGemeldet((g) => [...g, brandId]);
+    starte(async () => {
+      const { ok } = await antwortRaus(brandId);
+      if (!ok) setGemeldet((g) => g.filter((x) => x !== brandId));
+    });
+  };
 
   const nOffenUeber = offen(lage.ueberfaellig);
   const nOffenHeute = offen(lage.heute);
@@ -179,6 +189,7 @@ export default function SalesAnsicht({
   const zeileSla = (s: SlaVerstoss) => {
     const rot = SLA_ROT.includes(s.art);
     const wort = SLA_WORT[s.art];
+    const raus = s.art === "antwort_ungeordnet" && !gemeldet.includes(s.id);
     return (
       <li key={s.id} className="zeile zeile--ohne-haken">
         <span className="zeile__griff">
@@ -197,6 +208,16 @@ export default function SalesAnsicht({
             </span>
           </span>
         </span>
+        {raus && (
+          <button
+            type="button"
+            className="knopf zeile__raus"
+            aria-label={`Antwort an ${s.brand.name} ist raus`}
+            onClick={() => melde(s.id)}
+          >
+            Antwort raus
+          </button>
+        )}
         <Zeit
           n={s.seit_tagen}
           art={rot ? "voll" : "umriss"}
