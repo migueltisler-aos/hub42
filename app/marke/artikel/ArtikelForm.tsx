@@ -16,11 +16,12 @@ export default function ArtikelForm({ vorschlag }: { vorschlag?: Vorschlag }) {
   const ref = useRef<HTMLFormElement>(null);
   const f = status?.felder ?? {};
 
+  const istVorschlag = Boolean(vorschlag);
   useEffect(() => {
-    if (status?.ok && !vorschlag) ref.current?.reset();
+    if (status?.ok && !istVorschlag) ref.current?.reset();
     // Bei Fehlern den Cursor ins erste falsche Feld setzen
     if (status && !status.ok) ref.current?.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus();
-  }, [status]);
+  }, [status, istVorschlag]);
 
   return (
     <form ref={ref} action={aktion} className="mp-form" aria-label={vorschlag ? `Vorschlag ${vorschlag.artikel_name} prüfen` : "Artikel hinzufügen"}>
