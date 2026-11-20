@@ -69,6 +69,7 @@ export interface Konditionen {
   eingereicht_am: string | null;
   freigegeben_am: string | null;
   pruef_notiz: string | null;
+  iban_geaendert_am: string | null;
 }
 
 /** Eingeloggte Marke oder null. Mehrere Marken je Login: Auswahl per Cookie. */

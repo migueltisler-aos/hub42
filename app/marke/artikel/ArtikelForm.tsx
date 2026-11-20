@@ -24,7 +24,7 @@ const KNOPF: Record<ArtikelArt, string> = {
   neu: "Artikel hinzufügen",
   vorschlag: "Stimmt so, übernehmen",
   antrag: "Änderungen speichern",
-  regal: "Änderung zur Prüfung senden",
+  regal: "Änderungen speichern",
 };
 
 function BildFeld({ vorhanden, fehler }: { vorhanden?: string | null; fehler?: string }) {
@@ -136,7 +136,7 @@ export default function ArtikelForm({
       <BildFeld vorhanden={a.bild_url} fehler={f.bild} />
       {art === "regal" && (
         <p className="mp-leise" style={{ fontSize: 13 }}>
-          Der Artikel steht schon im Regal. Wir prüfen die Änderung und übernehmen sie dann in die Kasse.
+          Die Änderung gilt sofort. Preis und Name ziehen wir zusätzlich in unserer Kasse nach.
         </p>
       )}
       <div className="mp-aktionen">

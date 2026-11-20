@@ -63,7 +63,7 @@ export async function ladeMarkeIntern(brandId: string) {
     db.from("brand_nutzer").select("user_id, email, created_at, letzter_login, eingeladen_von").eq("brand_id", brandId),
     db.from("brand_konditionen").select("*").eq("brand_id", brandId).maybeSingle(),
     db.from("brand_artikel_antrag").select("*").eq("brand_id", brandId).order("created_at"),
-    db.from("kasse_artikelstamm").select("id, ean, artikel_name, verkaufspreis, mwst_satz, regal_lage, standort_id, gueltig_ab").eq("brand_id", brandId).order("artikel_name"),
+    db.from("kasse_artikelstamm").select("id, ean, artikel_name, verkaufspreis, mwst_satz, regal_lage, standort_id, gueltig_ab, sumup_offen, sumup_hinweis").eq("brand_id", brandId).order("artikel_name"),
     db.from("crm_zusagen").select("produkt, klasse, regal_cm, laufzeit_monate, monat_netto, gebucht_am, status").eq("brand_id", brandId).in("status", ["gebucht", "live"]),
     db.from("brand_regalfotos").select("id, pfad, aufgenommen_am, aufgenommen_von").eq("brand_id", brandId).order("aufgenommen_am", { ascending: false }).limit(1),
   ]);
@@ -156,8 +156,12 @@ export async function stammdatenEntscheiden(brandId: string, freigeben: boolean,
   if (error) throw error;
 }
 
-/** Artikel-Antrag in den Kassen-Artikelstamm übernehmen. kassenName = Name wie in SumUp. */
-export async function artikelFreigeben(opts: { antragId: string; brandId: string; kassenName: string; regalLage: string | null }) {
+/**
+ * Artikel-Antrag in den Kassen-Artikelstamm übernehmen. kassenName = Name wie in SumUp.
+ * Neue Artikel und geänderte Namen/Preise landen auf der SumUp-Liste (sumup_offen),
+ * denn in der SumUp-App muss jemand vom Team sie anlegen oder nachziehen.
+ */
+export async function artikelFreigeben(opts: { antragId: string; brandId: string; kassenName: string; regalLage: string | null }): Promise<{ hinweis: string | null }> {
   const db = getSupabaseAdmin();
   const { data: a, error } = await db
     .from("brand_artikel_antrag")
@@ -185,19 +189,42 @@ export async function artikelFreigeben(opts: { antragId: string; brandId: string
   };
   const { data: vorhanden } = await db
     .from("kasse_artikelstamm")
-    .select("id")
+    .select("id, artikel_name, verkaufspreis, sumup_offen, sumup_hinweis")
     .eq("ean", ean)
     .eq("standort_id", KASSE_STANDORT)
     .maybeSingle();
+
+  const preis = (n: unknown) => Number(n).toLocaleString("de-DE", { style: "currency", currency: "EUR" });
+  const teile: string[] = [];
+  if (!vorhanden) teile.push(`Neu anlegen: „${zeile.artikel_name}“, ${preis(zeile.verkaufspreis)}`);
+  else {
+    if (vorhanden.artikel_name !== zeile.artikel_name) teile.push(`Name „${vorhanden.artikel_name}“ → „${zeile.artikel_name}“`);
+    if (Number(vorhanden.verkaufspreis) !== Number(zeile.verkaufspreis)) teile.push(`Preis ${preis(vorhanden.verkaufspreis)} → ${preis(zeile.verkaufspreis)}`);
+  }
+  // Noch nicht in SumUp angelegt: es bleibt bei "Neu anlegen", mit den aktuellen Werten
+  const nochNeu = Boolean(vorhanden?.sumup_offen && vorhanden.sumup_hinweis?.startsWith("Neu anlegen"));
+  const hinweis = nochNeu
+    ? teile.length ? `Neu anlegen: „${zeile.artikel_name}“, ${preis(zeile.verkaufspreis)}` : null
+    : teile.length ? teile.join(", ") : null;
+  // Sonst bleibt ein noch offener alter Hinweis erhalten und der neue kommt dazu
+  const sumup = hinweis
+    ? {
+        sumup_offen: true,
+        sumup_hinweis: !nochNeu && vorhanden?.sumup_offen && vorhanden.sumup_hinweis ? `${vorhanden.sumup_hinweis}; ${hinweis}` : hinweis,
+        sumup_seit: new Date().toISOString(),
+      }
+    : {};
+
   const { error: e2 } = vorhanden
-    ? await db.from("kasse_artikelstamm").update(zeile).eq("id", vorhanden.id)
-    : await db.from("kasse_artikelstamm").insert(zeile);
+    ? await db.from("kasse_artikelstamm").update({ ...zeile, ...sumup }).eq("id", vorhanden.id)
+    : await db.from("kasse_artikelstamm").insert({ ...zeile, ...sumup });
   if (e2) throw e2;
   const { error: e3 } = await db
     .from("brand_artikel_antrag")
     .update({ status: "freigegeben", entschieden_am: new Date().toISOString() })
     .eq("id", a.id);
   if (e3) throw e3;
+  return { hinweis };
 }
 
 export async function artikelAblehnen(antragId: string, brandId: string) {
@@ -226,4 +253,46 @@ export async function regalfotoHochladen(brandId: string, datei: File, von: stri
   if (error) throw error;
   const { error: e2 } = await db.from("brand_regalfotos").insert({ brand_id: brandId, pfad, aufgenommen_von: von });
   if (e2) throw e2;
+}
+
+// ── SumUp-Liste: was das Team in der SumUp-App anlegen oder ändern muss ─────
+
+export interface SumupAufgabe {
+  id: string;
+  brand_id: string;
+  marke: string;
+  artikel_name: string;
+  verkaufspreis: number;
+  ean: string;
+  hinweis: string;
+  seit: string | null;
+}
+
+export async function ladeSumupAufgaben(brandId?: string): Promise<SumupAufgabe[]> {
+  let q = getSupabaseAdmin()
+    .from("kasse_artikelstamm")
+    .select("id, brand_id, brand_name, artikel_name, verkaufspreis, ean, sumup_hinweis, sumup_seit")
+    .eq("sumup_offen", true)
+    .order("sumup_seit", { ascending: true });
+  if (brandId) q = q.eq("brand_id", brandId);
+  const { data, error } = await q;
+  if (error) throw error;
+  return (data ?? []).map((d) => ({
+    id: d.id,
+    brand_id: d.brand_id,
+    marke: d.brand_name ?? "",
+    artikel_name: d.artikel_name,
+    verkaufspreis: Number(d.verkaufspreis),
+    ean: d.ean,
+    hinweis: d.sumup_hinweis ?? "",
+    seit: d.sumup_seit,
+  }));
+}
+
+export async function sumupErledigt(id: string) {
+  const { error } = await getSupabaseAdmin()
+    .from("kasse_artikelstamm")
+    .update({ sumup_offen: false, sumup_hinweis: null, sumup_seit: null })
+    .eq("id", id);
+  if (error) throw error;
 }
