@@ -23,7 +23,7 @@ export type Aufgabe = {
 
 export type SlaVerstoss = {
   id: string;
-  art: "antwort_ungeordnet" | "interesse_ohne_termin" | "angebot_stockt" | "haengt";
+  art: "antwort_ungeordnet" | "antwort_wartet" | "interesse_ohne_termin" | "angebot_stockt" | "haengt";
   seit_tagen: number;
   besitzer: Person;
   brand: BrandKurz;
@@ -179,6 +179,7 @@ export type PipelineDaten = { trichter: Trichter; kunden: Kunde[] };
 
 export const SLA_TEXT: Record<SlaVerstoss["art"], string> = {
   antwort_ungeordnet: "Antwort seit über einem Werktag nicht eingeordnet",
+  antwort_wartet: "Unsere Antwort ist raus, seitdem kam nichts zurück",
   interesse_ohne_termin: "Interesse ohne Terminvorschlag",
   angebot_stockt: "Angebot ohne Aktivität seit 14 Tagen",
   haengt: "Keine offene Aufgabe",
