@@ -13,7 +13,8 @@ const STATUS: Record<string, string> = {
   freigegeben: "Geprüft und freigegeben",
 };
 
-export default async function MarkeDaten() {
+export default async function MarkeDaten({ searchParams }: { searchParams: Promise<{ willkommen?: string }> }) {
+  const { willkommen } = await searchParams;
   const m = await requireMarke();
   const k = await ladeKonditionen(m.brandId);
   const status = k?.status ?? "entwurf";
@@ -30,6 +31,13 @@ export default async function MarkeDaten() {
           {status === "freigegeben" && k?.freigegeben_am ? ` am ${datum(k.freigegeben_am)}` : ""}
         </span>
       </div>
+
+      {(willkommen || status === "entwurf") && (
+        <ol className="mp-schritte" aria-label="Onboarding">
+          <li aria-current="step"><strong>1 · Stammdaten</strong> prüfen und ergänzen</li>
+          <li><strong>2 · Artikel</strong> prüfen, Preise und Bilder ergänzen</li>
+        </ol>
+      )}
 
       {k?.pruef_notiz && status !== "freigegeben" && (
         <p className="mp-hinweis mp-hinweis--warn"><strong>Hinweis von uns:</strong> {k.pruef_notiz}</p>

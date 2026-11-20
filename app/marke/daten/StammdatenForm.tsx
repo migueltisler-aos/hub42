@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
+import { useRouter } from "next/navigation";
 import { stammdatenSpeichern } from "../actions";
 
 interface Werte {
@@ -46,6 +47,12 @@ export default function StammdatenForm({
   const kasten = useRef<HTMLDivElement>(null);
 
   // Nach einem Fehler: zum Fehlerkasten oben springen und ihn vorlesen lassen.
+  const router = useRouter();
+  // Nach dem Speichern geht es weiter zu den Artikeln (nächster Schritt im Onboarding)
+  useEffect(() => {
+    if (status?.ok) router.push("/marke/artikel?von=stammdaten");
+  }, [status, router]);
+
   useEffect(() => {
     if (status && !status.ok && kasten.current) {
       kasten.current.scrollIntoView({ behavior: "smooth", block: "start" });
@@ -143,10 +150,10 @@ export default function StammdatenForm({
 
       <div className="mp-aktionen">
         <button className="mp-knopf" type="submit" form={FORM_ID} name="aktion" value="einreichen" disabled={laeuft}>
-          {bereitsEingereicht ? "Änderungen einreichen" : "Einreichen"}
+          {bereitsEingereicht ? "Änderungen einreichen, weiter zu Artikeln" : "Einreichen, weiter zu Artikeln"}
         </button>
         <button className="mp-knopf mp-knopf--zweit" type="submit" form={FORM_ID} name="aktion" value="speichern" disabled={laeuft}>
-          Zwischenspeichern
+          Zwischenspeichern, weiter zu Artikeln
         </button>
         {status && (
           <span role="status" className={status.ok ? "mp-hinweis" : "mp-hinweis mp-hinweis--warn"}>

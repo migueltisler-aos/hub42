@@ -114,16 +114,7 @@ export async function stammdatenSpeichern(_prev: FormStatus | null, fd: FormData
     for (const [k, t] of pflicht) if (!daten[k] && !felder[k]) felder[k] = t;
     if (!ust && !daten.steuernummer) felder.steuernummer = "USt-IdNr. oder Steuernummer angeben, eins von beiden ist Pflicht.";
     if (!zustimmung) felder.gutschrift_zustimmung = "Ohne Zustimmung können wir keine Gutschrift ausstellen.";
-    const { count } = await getSupabaseAdmin()
-      .from("brand_artikel_antrag")
-      .select("id", { count: "exact", head: true })
-      .eq("brand_id", m.brandId)
-      .in("status", ["eingereicht", "freigegeben"]);
-    const { count: imStamm } = await getSupabaseAdmin()
-      .from("kasse_artikelstamm")
-      .select("id", { count: "exact", head: true })
-      .eq("brand_id", m.brandId);
-    if (!count && !imStamm) felder.artikel = "Bitte mindestens einen Artikel eintragen.";
+    // Artikel kommen nach den Stammdaten (eigener Schritt), deshalb hier keine Pflicht mehr.
   }
 
   if (Object.keys(felder).length) {
@@ -164,13 +155,16 @@ export async function stammdatenSpeichern(_prev: FormStatus | null, fd: FormData
 export async function artikelHinzufuegen(_prev: FormStatus | null, fd: FormData): Promise<FormStatus> {
   const m = await requireMarke();
   const felder: Record<string, string> = {};
-  const ean = s(fd, "ean")?.replace(/\s+/g, "") ?? "";
+  // Artikel im Regal: Schlüssel bleibt fest (EAN oder TK-Nummer), die Änderung geht als Antrag in die Prüfung
+  const regalEan = s(fd, "regal_ean");
+  const antragId = s(fd, "antrag_id");
+  const ean = regalEan ?? s(fd, "ean")?.replace(/\s+/g, "") ?? "";
   const name = s(fd, "artikel_name");
   // "5,99 €", "5.99", " 5,99" – Währung und Leerzeichen weg, Komma als Dezimalzeichen
   const vk = Number(String(fd.get("vk_brutto") ?? "").replace(/[€\s]/g, "").replace(",", "."));
   const satz = Number(fd.get("mwst_satz"));
 
-  if (ean && !eanGueltig(ean)) felder.ean = "Die EAN stimmt nicht: 8 oder 13 Ziffern, die letzte ist eine Prüfziffer. Bitte vom Barcode abschreiben.";
+  if (ean && !regalEan && !eanGueltig(ean)) felder.ean = "Die EAN stimmt nicht: 8 oder 13 Ziffern, die letzte ist eine Prüfziffer. Bitte vom Barcode abschreiben.";
   if (!name) felder.artikel_name = "Name fehlt.";
   if (!(vk > 0) || vk > 10000) felder.vk_brutto = "Verkaufspreis in Euro, z. B. 5,99.";
   if (![0, 7, 19].includes(satz)) felder.mwst_satz = "MwSt-Satz wählen.";
@@ -201,14 +195,19 @@ export async function artikelHinzufuegen(_prev: FormStatus | null, fd: FormData)
     status: "eingereicht",
     entschieden_am: null,
   };
-  // Von uns vorbereiteter Vorschlag: genau diese Zeile übernehmen, nur eigene, nur im Status "vorschlag"
-  const vorschlagId = s(fd, "vorschlag_id");
-  const { error } = vorschlagId
-    ? await getSupabaseAdmin().from("brand_artikel_antrag").update(zeile).eq("id", vorschlagId).eq("brand_id", m.brandId).eq("status", "vorschlag")
-    : await getSupabaseAdmin().from("brand_artikel_antrag").upsert(zeile, { onConflict: "brand_id,ean" });
+  // Bestehender Antrag (Vorschlag, eingereicht, abgelehnt): genau diese Zeile ändern, nur eigene, nie freigegebene
+  const db = getSupabaseAdmin();
+  const { error } = antragId
+    ? await db.from("brand_artikel_antrag").update(zeile).eq("id", antragId).eq("brand_id", m.brandId).neq("status", "freigegeben")
+    : await db.from("brand_artikel_antrag").upsert({ ...zeile, ...(regalEan ? { quelle: "aenderung" } : {}) }, { onConflict: "brand_id,ean" });
   if (error) return { ok: false, meldung: `Nicht gespeichert: ${error.message}`, stamp: Date.now() };
   revalidatePath("/marke/artikel");
-  return { ok: true, meldung: vorschlagId ? `${name} übernommen, wir prüfen ihn.` : `${name} eingetragen.`, stamp: Date.now() };
+  const meldung = regalEan
+    ? `Änderung an ${name} gesendet, wir prüfen sie.`
+    : antragId
+      ? `${name} gespeichert, wir prüfen ihn.`
+      : `${name} eingetragen.`;
+  return { ok: true, meldung, stamp: Date.now() };
 }
 
 export async function artikelEntfernen(fd: FormData) {

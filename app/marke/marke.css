@@ -129,6 +129,30 @@
   .mp-konto dl { display: grid; grid-template-columns: auto auto; justify-content: start; gap: 2px 16px; margin: 6px 0 0; }
   .mp-konto dd { margin: 0; text-align: right; font-variant-numeric: tabular-nums; }
 
+  .mp-artikelliste { display: grid; gap: 10px; list-style: none; padding: 0; margin: 0; }
+  .mp-artikelkarte { background: var(--papier); border: 1px solid var(--linie); padding: 14px 16px; display: grid; gap: 10px; }
+  .mp-artikelkarte--warn { background: var(--warn-flaeche); }
+  .mp-artikelkarte__kopf { display: grid; grid-template-columns: 56px 1fr auto; gap: 14px; align-items: start; }
+  .mp-artikelkarte__rechts { justify-self: end; }
+  .mp-artikelkarte__zahlen { display: flex; gap: 18px; flex-wrap: wrap; margin: 0; font-size: 13px; }
+  .mp-artikelkarte__zahlen dt { font-family: var(--f-mono); font-size: 10px; text-transform: uppercase; letter-spacing: .06em; color: var(--tinte-leise); }
+  .mp-artikelkarte__zahlen dd { margin: 0; font-variant-numeric: tabular-nums; }
+  .mp-artikelkarte__fuss { display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; }
+  @media (max-width: 720px) {
+    .mp-artikelkarte__kopf { grid-template-columns: 56px 1fr; }
+    .mp-artikelkarte__zahlen, .mp-artikelkarte__rechts { grid-column: 1 / -1; justify-self: start; }
+  }
+  .mp-bearbeiten { display: grid; gap: 10px; flex: 1 1 100%; }
+  .mp-bearbeiten > button { justify-self: start; }
+  .mp-bearbeiten__form { border-top: 1px solid var(--linie); padding-top: 12px; }
+  .mp-bildfeld__reihe { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+  .mp-bildfeld__vorschau { width: 88px; height: 88px; object-fit: cover; border: 1px solid var(--linie-fest); background: var(--karton); display: block; }
+  .mp-bildfeld label.mp-knopf { cursor: pointer; }
+  .mp-bildfeld label.mp-knopf:focus-within { outline: 3px solid var(--licht); outline-offset: 1px; }
+  .mp-schritte { display: flex; gap: 8px; flex-wrap: wrap; list-style: none; padding: 0; margin: 0; }
+  .mp-schritte li { padding: 10px 14px; border: 1px solid var(--linie-fest); background: var(--papier); font-size: 14px; }
+  .mp-schritte li[aria-current="step"] { background: var(--licht); border-color: var(--tinte); }
+
   .mp-foto { width: 100%; max-height: 520px; object-fit: contain; background: var(--karton); border: 1px solid var(--linie); }
 
   .mp-login { max-width: 440px; margin: 8vh auto 0; }

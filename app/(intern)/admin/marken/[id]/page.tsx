@@ -203,7 +203,7 @@ export default async function MarkeIntern({
                 <a href={a.bild_url} target="_blank" rel="noreferrer"><img src={a.bild_url} alt="" className="w-14 h-14 object-cover border border-stone-dark" /></a>
               )}
               <div>
-              <div className="font-semibold">{a.artikel_name}</div>
+              <div className="font-semibold">{a.artikel_name}{a.quelle === "aenderung" && <span className="ml-2 text-amber-300 text-xs font-normal">Änderung an Artikel im Regal</span>}</div>
               <div className="text-stone text-xs font-mono">{a.ean ?? "ohne EAN, bekommt TK-Nummer"} · {Number(a.vk_brutto).toLocaleString("de-DE", { style: "currency", currency: "EUR" })} · {a.mwst_satz} %{a.inhalt ? ` · ${a.inhalt}` : ""}</div>
               </div>
             </div>
