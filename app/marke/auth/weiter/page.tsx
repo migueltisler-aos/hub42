@@ -20,7 +20,7 @@ export default function Weiter() {
     const sb = createBrowserClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!);
     sb.auth.setSession({ access_token, refresh_token }).then(({ error }) => {
       if (error) setFehler(true);
-      else window.location.replace("/marke");
+      else window.location.replace("/marke/start");
     });
   }, []);
 

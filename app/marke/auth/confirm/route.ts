@@ -35,5 +35,5 @@ export async function GET(request: NextRequest) {
     .from("brand_nutzer")
     .update({ letzter_login: new Date().toISOString() })
     .eq("user_id", userId);
-  return NextResponse.redirect(new URL("/marke", request.url));
+  return NextResponse.redirect(new URL("/marke/start", request.url));
 }

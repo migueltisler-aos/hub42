@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ladeArtikel, ladeArtikelAntraege, ladeBestand, ladeKonditionen, requireMarke } from "@/lib/marke";
 import ArtikelForm from "./ArtikelForm";
+import ArtikelBearbeiten from "./ArtikelBearbeiten";
 import { artikelEntfernen } from "../actions";
 import { datumZeit } from "../format";
 
@@ -29,7 +30,8 @@ function Bild({ url }: { url: string | null }) {
   );
 }
 
-export default async function MarkeArtikel() {
+export default async function MarkeArtikel({ searchParams }: { searchParams: Promise<{ von?: string }> }) {
+  const { von } = await searchParams;
   const m = await requireMarke();
   const [artikel, antraege, { zeilen, bewegungen }, k] = await Promise.all([
     ladeArtikel(m.brandId),
@@ -39,10 +41,13 @@ export default async function MarkeArtikel() {
   ]);
 
   const bestand = new Map(zeilen.map((z) => [z.ean, z]));
-  const bildJeSchluessel = new Map(
-    antraege.filter((a) => a.status === "freigegeben" && a.bild_url).map((a) => [schluessel(a), a.bild_url])
-  );
-  const offen = antraege.filter((a) => a.status === "eingereicht" || a.status === "abgelehnt");
+  // Bild je Kassenschlüssel: jüngster Antrag mit Bild (freigegeben oder offene Änderung)
+  const bildJeSchluessel = new Map<string, string>();
+  for (const a of antraege) if (a.bild_url && a.status !== "vorschlag") bildJeSchluessel.set(schluessel(a), a.bild_url);
+  // Offene Änderungen an Artikeln im Regal
+  const aenderung = new Map(antraege.filter((a) => a.status === "eingereicht" && a.ean).map((a) => [a.ean!, a]));
+  const regalSchluessel = new Set(artikel.map((a) => a.ean));
+  const offen = antraege.filter((a) => (a.status === "eingereicht" || a.status === "abgelehnt") && !(a.ean && regalSchluessel.has(a.ean)));
   const vorschlaege = antraege.filter((a) => a.status === "vorschlag");
   const nachschub = zeilen.filter((z) => z.nachbestellung_empfohlen || (z.reichweite_tage !== null && z.reichweite_tage < 7));
 
@@ -55,6 +60,13 @@ export default async function MarkeArtikel() {
         </div>
         <a href="#neu" className="mp-knopf">Artikel hinzufügen</a>
       </div>
+
+      {(von === "stammdaten" || vorschlaege.length > 0) && (
+        <ol className="mp-schritte" aria-label="Onboarding">
+          <li><strong>1 · Stammdaten</strong> {von === "stammdaten" ? "gespeichert ✓" : <a href="/marke/daten">prüfen und ergänzen</a>}</li>
+          <li aria-current="step"><strong>2 · Artikel</strong> prüfen, Preise und Bilder ergänzen</li>
+        </ol>
+      )}
 
       {nachschub.length > 0 && (
         <section className="mp-hinweis mp-hinweis--warn" aria-labelledby="nachschub-titel">
@@ -74,118 +86,128 @@ export default async function MarkeArtikel() {
         </section>
       )}
 
+      {vorschlaege.length > 0 && (
+        <section aria-labelledby="vorschlag-titel" style={{ display: "grid", gap: 12 }}>
+          <h2 id="vorschlag-titel" className="mp-h2">Von uns vorbereitet, bitte prüfen</h2>
+          <p className="mp-leise" style={{ fontSize: 13 }}>
+            Diese Produkte haben wir für dich vorbereitet. Öffne jeden mit „Prüfen und ergänzen“, korrigiere Name und Preis, wähle die MwSt und lade ein Bild hoch. Was nicht ins Regal soll, entferne einfach.
+          </p>
+          <ul className="mp-artikelliste">
+            {vorschlaege.map((a, i) => (
+              <li key={a.id} className="mp-artikelkarte">
+                <div className="mp-artikelkarte__kopf">
+                  <Bild url={a.bild_url} />
+                  <div>
+                    <strong>{a.artikel_name}</strong>
+                    <div className="mp-leise" style={{ fontSize: 13 }}>
+                      {a.vk_brutto != null ? eur(Number(a.vk_brutto)) : "Preis fehlt"} · {a.mwst_satz != null ? `${a.mwst_satz} % MwSt` : "MwSt fehlt"}
+                    </div>
+                  </div>
+                  <form action={artikelEntfernen} className="mp-artikelkarte__rechts">
+                    <input type="hidden" name="id" value={a.id} />
+                    <button className="mp-knopf mp-knopf--zweit mp-knopf--klein" type="submit">Entfernen</button>
+                  </form>
+                </div>
+                <ArtikelBearbeiten
+                  art="vorschlag"
+                  offen={i === 0}
+                  artikel={{ antragId: a.id, ean: a.ean, artikel_name: a.artikel_name, vk_brutto: a.vk_brutto, mwst_satz: a.mwst_satz, inhalt: a.inhalt, bild_url: a.bild_url }}
+                />
+              </li>
+            ))}
+          </ul>
+        </section>
+      )}
+
       <section aria-labelledby="regal-titel" style={{ display: "grid", gap: 12 }}>
         <h2 id="regal-titel" className="mp-h2">Im Regal</h2>
         {artikel.length === 0 ? (
           <p className="mp-hinweis">Noch nichts im Regal. Sobald wir deine Artikel geprüft haben, stehen sie hier mit Bestand.</p>
         ) : (
-          <div className="mp-tabelle-rahmen">
-            <table className="mp-tabelle">
-              <thead>
-                <tr>
-                  <th aria-label="Bild" />
-                  <th>Artikel</th>
-                  <th className="z">VK</th>
-                  <th className="z">MwSt</th>
-                  <th className="z">Im Laden</th>
-                  <th className="z">Ø / Tag</th>
-                  <th className="z">Reicht</th>
-                </tr>
-              </thead>
-              <tbody>
-                {artikel.map((a) => {
-                  const b = bestand.get(a.ean);
-                  const konto = b?.konto;
-                  const rechnerisch = konto ? konto.geliefert - konto.verkauft - konto.tasting - konto.abschrift + konto.korrektur : 0;
-                  const warn = b ? b.bestand < 0 || rechnerisch !== b.bestand : false;
-                  return (
-                    <tr key={a.ean} className={warn ? "warn" : undefined}>
-                      <td><Bild url={bildJeSchluessel.get(a.ean) ?? null} /></td>
-                      <td>
-                        <strong>{a.artikel_name}</strong>
-                        <div className="mp-mono mp-leise">{a.ean}</div>
-                        {konto && (
-                          <details className="mp-konto">
-                            <summary>Warenkonto</summary>
-                            <dl>
-                              <dt>Geliefert</dt><dd>{konto.geliefert}</dd>
-                              <dt>Verkauft</dt><dd>− {konto.verkauft}</dd>
-                              <dt>Tasting</dt><dd>− {konto.tasting}</dd>
-                              <dt>Abschrift</dt><dd>− {konto.abschrift}</dd>
-                              {konto.korrektur !== 0 && (<><dt>Korrektur</dt><dd>{konto.korrektur > 0 ? `+ ${konto.korrektur}` : `− ${-konto.korrektur}`}</dd></>)}
-                              <dt><strong>Im Laden</strong></dt><dd><strong>{b!.bestand}</strong></dd>
-                            </dl>
-                          </details>
-                        )}
-                      </td>
-                      <td className="z">{eur(Number(a.verkaufspreis))}</td>
-                      <td className="z">{a.mwst_satz != null ? `${a.mwst_satz} %` : "–"}</td>
-                      <td className="z"><strong>{b?.bestand ?? 0}</strong></td>
-                      <td className="z">{b?.verkauf_pro_tag ? b.verkauf_pro_tag.toLocaleString("de-DE", { maximumFractionDigits: 1 }) : "–"}</td>
-                      <td className="z">{b?.reichweite_tage != null ? `${b.reichweite_tage} Tage` : "–"}</td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+          <ul className="mp-artikelliste">
+            {artikel.map((a) => {
+              const b = bestand.get(a.ean);
+              const konto = b?.konto;
+              const rechnerisch = konto ? konto.geliefert - konto.verkauft - konto.tasting - konto.abschrift + konto.korrektur : 0;
+              const warn = b ? b.bestand < 0 || rechnerisch !== b.bestand : false;
+              const offeneAenderung = aenderung.get(a.ean);
+              return (
+                <li key={a.ean} className={warn ? "mp-artikelkarte mp-artikelkarte--warn" : "mp-artikelkarte"}>
+                  <div className="mp-artikelkarte__kopf">
+                    <Bild url={bildJeSchluessel.get(a.ean) ?? null} />
+                    <div>
+                      <strong>{a.artikel_name}</strong>
+                      <div className="mp-mono mp-leise">{a.ean}</div>
+                      {offeneAenderung && <span className="mp-marke">Änderung wird geprüft</span>}
+                    </div>
+                    <dl className="mp-artikelkarte__zahlen">
+                      <div><dt>VK</dt><dd>{eur(Number(a.verkaufspreis))}</dd></div>
+                      <div><dt>MwSt</dt><dd>{a.mwst_satz != null ? `${a.mwst_satz} %` : "–"}</dd></div>
+                      <div><dt>Im Laden</dt><dd><strong>{b?.bestand ?? 0}</strong></dd></div>
+                      <div><dt>Ø / Tag</dt><dd>{b?.verkauf_pro_tag ? b.verkauf_pro_tag.toLocaleString("de-DE", { maximumFractionDigits: 1 }) : "–"}</dd></div>
+                      <div><dt>Reicht</dt><dd>{b?.reichweite_tage != null ? `${b.reichweite_tage} Tage` : "–"}</dd></div>
+                    </dl>
+                  </div>
+                  <div className="mp-artikelkarte__fuss">
+                    <ArtikelBearbeiten
+                      art={offeneAenderung ? "antrag" : "regal"}
+                      artikel={
+                        offeneAenderung
+                          ? { antragId: offeneAenderung.id, ean: a.ean, artikel_name: offeneAenderung.artikel_name, vk_brutto: offeneAenderung.vk_brutto, mwst_satz: offeneAenderung.mwst_satz, inhalt: offeneAenderung.inhalt, bild_url: offeneAenderung.bild_url ?? bildJeSchluessel.get(a.ean) ?? null }
+                          : { ean: a.ean, artikel_name: a.artikel_name, vk_brutto: Number(a.verkaufspreis), mwst_satz: a.mwst_satz, bild_url: bildJeSchluessel.get(a.ean) ?? null }
+                      }
+                    />
+                    {konto && (
+                      <details className="mp-konto">
+                        <summary>Warenkonto</summary>
+                        <dl>
+                          <dt>Geliefert</dt><dd>{konto.geliefert}</dd>
+                          <dt>Verkauft</dt><dd>− {konto.verkauft}</dd>
+                          <dt>Tasting</dt><dd>− {konto.tasting}</dd>
+                          <dt>Abschrift</dt><dd>− {konto.abschrift}</dd>
+                          {konto.korrektur !== 0 && (<><dt>Korrektur</dt><dd>{konto.korrektur > 0 ? `+ ${konto.korrektur}` : `− ${-konto.korrektur}`}</dd></>)}
+                          <dt><strong>Im Laden</strong></dt><dd><strong>{b!.bestand}</strong></dd>
+                        </dl>
+                      </details>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
         )}
         <p className="mp-leise" style={{ fontSize: 13 }}>
           Warenkonto: geliefert minus verkauft, Tasting und Abschrift ergibt den Bestand im Laden. Tasting-Stücke stellst du als Muster, sie werden nicht vergütet.
         </p>
       </section>
 
-      {vorschlaege.length > 0 && (
-        <section aria-labelledby="vorschlag-titel" style={{ display: "grid", gap: 12 }}>
-          <h2 id="vorschlag-titel" className="mp-h2">Von uns vorbereitet, bitte prüfen</h2>
-          <p className="mp-leise" style={{ fontSize: 13 }}>
-            Diese Produkte kennen wir schon aus dem Laden. Ergänze Preis, MwSt und wenn vorhanden EAN und Bild, dann übernehmen. Was nicht ins Regal soll, entferne einfach.
-          </p>
-          {vorschlaege.map((a) => (
-            <div key={a.id} className="mp-feldgruppe">
-              <div className="mp-kopfzeile">
-                <strong>{a.artikel_name}</strong>
-                <form action={artikelEntfernen}>
-                  <input type="hidden" name="id" value={a.id} />
-                  <button className="mp-knopf mp-knopf--zweit mp-knopf--klein" type="submit">Entfernen</button>
-                </form>
-              </div>
-              <ArtikelForm vorschlag={{ id: a.id, artikel_name: a.artikel_name, vk_brutto: a.vk_brutto, inhalt: a.inhalt }} />
-            </div>
-          ))}
-        </section>
-      )}
-
       {offen.length > 0 && (
         <section aria-labelledby="pruefung-titel" style={{ display: "grid", gap: 12 }}>
           <h2 id="pruefung-titel" className="mp-h2">Eingereicht</h2>
-          <div className="mp-tabelle-rahmen">
-            <table className="mp-tabelle">
-              <thead>
-                <tr><th aria-label="Bild" /><th>Artikel</th><th className="z">VK</th><th className="z">MwSt</th><th>Status</th><th /></tr>
-              </thead>
-              <tbody>
-                {offen.map((a) => (
-                  <tr key={a.id}>
-                    <td><Bild url={a.bild_url} /></td>
-                    <td>
-                      <strong>{a.artikel_name}</strong>
-                      <div className="mp-mono mp-leise">{a.ean ?? "ohne EAN"}{a.inhalt ? ` · ${a.inhalt}` : ""}</div>
-                    </td>
-                    <td className="z">{a.vk_brutto != null ? eur(Number(a.vk_brutto)) : "–"}</td>
-                    <td className="z">{a.mwst_satz != null ? `${a.mwst_satz} %` : "–"}</td>
-                    <td>{a.status === "abgelehnt" ? <span className="mp-marke mp-marke--warn">abgelehnt</span> : <span className="mp-marke">wird geprüft</span>}</td>
-                    <td>
-                      <form action={artikelEntfernen}>
-                        <input type="hidden" name="id" value={a.id} />
-                        <button className="mp-knopf mp-knopf--zweit mp-knopf--klein" type="submit">Entfernen</button>
-                      </form>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <ul className="mp-artikelliste">
+            {offen.map((a) => (
+              <li key={a.id} className="mp-artikelkarte">
+                <div className="mp-artikelkarte__kopf">
+                  <Bild url={a.bild_url} />
+                  <div>
+                    <strong>{a.artikel_name}</strong>
+                    <div className="mp-mono mp-leise">
+                      {a.ean ?? "ohne EAN"}{a.inhalt ? ` · ${a.inhalt}` : ""} · {a.vk_brutto != null ? eur(Number(a.vk_brutto)) : "–"} · {a.mwst_satz != null ? `${a.mwst_satz} %` : "–"}
+                    </div>
+                    {a.status === "abgelehnt" ? <span className="mp-marke mp-marke--warn">abgelehnt</span> : <span className="mp-marke">wird geprüft</span>}
+                  </div>
+                  <form action={artikelEntfernen} className="mp-artikelkarte__rechts">
+                    <input type="hidden" name="id" value={a.id} />
+                    <button className="mp-knopf mp-knopf--zweit mp-knopf--klein" type="submit">Entfernen</button>
+                  </form>
+                </div>
+                <ArtikelBearbeiten
+                  art="antrag"
+                  artikel={{ antragId: a.id, ean: a.ean, artikel_name: a.artikel_name, vk_brutto: a.vk_brutto, mwst_satz: a.mwst_satz, inhalt: a.inhalt, bild_url: a.bild_url }}
+                />
+              </li>
+            ))}
+          </ul>
         </section>
       )}
 
