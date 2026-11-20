@@ -184,3 +184,15 @@ on conflict (id) do nothing;
 -- ── 2026-11-19: EAN optional, Produktbild je Artikel ─────────────────────────
 alter table brand_artikel_antrag alter column ean drop not null;
 alter table brand_artikel_antrag add column if not exists bild_pfad text;
+
+-- ── 2026-11-20: Artikel-Vorschläge (von Hub42 vorbereitet, Marke ergänzt) ────
+alter table brand_artikel_antrag drop constraint if exists brand_artikel_antrag_status_check;
+alter table brand_artikel_antrag add constraint brand_artikel_antrag_status_check
+  check (status in ('vorschlag', 'eingereicht', 'freigegeben', 'abgelehnt'));
+alter table brand_artikel_antrag alter column vk_brutto drop not null;
+alter table brand_artikel_antrag alter column mwst_satz drop not null;
+-- Eingereicht und freigegeben brauchen Preis und MwSt, nur Vorschläge dürfen leer sein
+alter table brand_artikel_antrag drop constraint if exists brand_artikel_antrag_vollstaendig;
+alter table brand_artikel_antrag add constraint brand_artikel_antrag_vollstaendig
+  check (status = 'vorschlag' or (vk_brutto is not null and mwst_satz is not null));
+alter table brand_artikel_antrag add column if not exists quelle text;

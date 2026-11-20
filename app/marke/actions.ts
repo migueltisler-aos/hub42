@@ -118,7 +118,7 @@ export async function stammdatenSpeichern(_prev: FormStatus | null, fd: FormData
       .from("brand_artikel_antrag")
       .select("id", { count: "exact", head: true })
       .eq("brand_id", m.brandId)
-      .neq("status", "abgelehnt");
+      .in("status", ["eingereicht", "freigegeben"]);
     const { count: imStamm } = await getSupabaseAdmin()
       .from("kasse_artikelstamm")
       .select("id", { count: "exact", head: true })
@@ -189,24 +189,26 @@ export async function artikelHinzufuegen(_prev: FormStatus | null, fd: FormData)
     if (up.error) return { ok: false, meldung: `Bild nicht gespeichert: ${up.error.message}`, stamp: Date.now() };
   }
 
-  const { error } = await getSupabaseAdmin().from("brand_artikel_antrag").upsert(
-    {
-      brand_id: m.brandId,
-      // Ohne EAN: NULL, die Freigabe vergibt dann eine interne Nummer
-      ean: ean || null,
-      ...(bild_pfad ? { bild_pfad } : {}),
-      artikel_name: name,
-      vk_brutto: Math.round(vk * 100) / 100,
-      mwst_satz: satz,
-      inhalt: s(fd, "inhalt"),
-      status: "eingereicht",
-      entschieden_am: null,
-    },
-    { onConflict: "brand_id,ean" }
-  );
+  const zeile = {
+    brand_id: m.brandId,
+    // Ohne EAN: NULL, die Freigabe vergibt dann eine interne Nummer
+    ean: ean || null,
+    ...(bild_pfad ? { bild_pfad } : {}),
+    artikel_name: name,
+    vk_brutto: Math.round(vk * 100) / 100,
+    mwst_satz: satz,
+    inhalt: s(fd, "inhalt"),
+    status: "eingereicht",
+    entschieden_am: null,
+  };
+  // Von uns vorbereiteter Vorschlag: genau diese Zeile übernehmen, nur eigene, nur im Status "vorschlag"
+  const vorschlagId = s(fd, "vorschlag_id");
+  const { error } = vorschlagId
+    ? await getSupabaseAdmin().from("brand_artikel_antrag").update(zeile).eq("id", vorschlagId).eq("brand_id", m.brandId).eq("status", "vorschlag")
+    : await getSupabaseAdmin().from("brand_artikel_antrag").upsert(zeile, { onConflict: "brand_id,ean" });
   if (error) return { ok: false, meldung: `Nicht gespeichert: ${error.message}`, stamp: Date.now() };
   revalidatePath("/marke/artikel");
-  return { ok: true, meldung: `${name} eingetragen.`, stamp: Date.now() };
+  return { ok: true, meldung: vorschlagId ? `${name} übernommen, wir prüfen ihn.` : `${name} eingetragen.`, stamp: Date.now() };
 }
 
 export async function artikelEntfernen(fd: FormData) {

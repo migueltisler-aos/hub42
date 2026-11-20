@@ -42,7 +42,8 @@ export default async function MarkeArtikel() {
   const bildJeSchluessel = new Map(
     antraege.filter((a) => a.status === "freigegeben" && a.bild_url).map((a) => [schluessel(a), a.bild_url])
   );
-  const offen = antraege.filter((a) => a.status !== "freigegeben");
+  const offen = antraege.filter((a) => a.status === "eingereicht" || a.status === "abgelehnt");
+  const vorschlaege = antraege.filter((a) => a.status === "vorschlag");
   const nachschub = zeilen.filter((z) => z.nachbestellung_empfohlen || (z.reichweite_tage !== null && z.reichweite_tage < 7));
 
   return (
@@ -134,6 +135,27 @@ export default async function MarkeArtikel() {
         </p>
       </section>
 
+      {vorschlaege.length > 0 && (
+        <section aria-labelledby="vorschlag-titel" style={{ display: "grid", gap: 12 }}>
+          <h2 id="vorschlag-titel" className="mp-h2">Von uns vorbereitet, bitte prüfen</h2>
+          <p className="mp-leise" style={{ fontSize: 13 }}>
+            Diese Produkte kennen wir schon aus dem Laden. Ergänze Preis, MwSt und wenn vorhanden EAN und Bild, dann übernehmen. Was nicht ins Regal soll, entferne einfach.
+          </p>
+          {vorschlaege.map((a) => (
+            <div key={a.id} className="mp-feldgruppe">
+              <div className="mp-kopfzeile">
+                <strong>{a.artikel_name}</strong>
+                <form action={artikelEntfernen}>
+                  <input type="hidden" name="id" value={a.id} />
+                  <button className="mp-knopf mp-knopf--zweit mp-knopf--klein" type="submit">Entfernen</button>
+                </form>
+              </div>
+              <ArtikelForm vorschlag={{ id: a.id, artikel_name: a.artikel_name, vk_brutto: a.vk_brutto, inhalt: a.inhalt }} />
+            </div>
+          ))}
+        </section>
+      )}
+
       {offen.length > 0 && (
         <section aria-labelledby="pruefung-titel" style={{ display: "grid", gap: 12 }}>
           <h2 id="pruefung-titel" className="mp-h2">Eingereicht</h2>
@@ -150,8 +172,8 @@ export default async function MarkeArtikel() {
                       <strong>{a.artikel_name}</strong>
                       <div className="mp-mono mp-leise">{a.ean ?? "ohne EAN"}{a.inhalt ? ` · ${a.inhalt}` : ""}</div>
                     </td>
-                    <td className="z">{eur(Number(a.vk_brutto))}</td>
-                    <td className="z">{a.mwst_satz} %</td>
+                    <td className="z">{a.vk_brutto != null ? eur(Number(a.vk_brutto)) : "–"}</td>
+                    <td className="z">{a.mwst_satz != null ? `${a.mwst_satz} %` : "–"}</td>
                     <td>{a.status === "abgelehnt" ? <span className="mp-marke mp-marke--warn">abgelehnt</span> : <span className="mp-marke">wird geprüft</span>}</td>
                     <td>
                       <form action={artikelEntfernen}>
