@@ -117,10 +117,10 @@ export interface ArtikelAntrag {
   ean: string | null;
   bild_url: string | null;
   artikel_name: string;
-  vk_brutto: number;
-  mwst_satz: number;
+  vk_brutto: number | null;
+  mwst_satz: number | null;
   inhalt: string | null;
-  status: "eingereicht" | "freigegeben" | "abgelehnt";
+  status: "vorschlag" | "eingereicht" | "freigegeben" | "abgelehnt";
 }
 
 export async function ladeArtikelAntraege(brandId: string): Promise<ArtikelAntrag[]> {
