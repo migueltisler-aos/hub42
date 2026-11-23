@@ -2,6 +2,8 @@ import { cookies } from "next/headers";
 import Link from "next/link";
 import { getBrands, updateStatus, type BrandStatus } from "@/lib/pipeline";
 import PipelineClient from "./_components/PipelineClient";
+import StatusBand from "./_components/StatusBand";
+import { ladeStatus } from "@/lib/pipeline-status";
 
 export const dynamic = "force-dynamic";
 
@@ -14,7 +16,7 @@ export default async function PipelinePage() {
   const cookieStore = await cookies();
   const currentUser = cookieStore.get("pipeline_user")?.value ?? "Unbekannt";
 
-  const brands = await getBrands();
+  const [brands, status] = await Promise.all([getBrands(), ladeStatus()]);
 
   return (
     <div className="min-h-screen bg-green-dark">
@@ -58,6 +60,8 @@ export default async function PipelinePage() {
             </Link>
           </div>
         </div>
+
+        <StatusBand daten={status} />
 
         <PipelineClient
           initialBrands={brands}
