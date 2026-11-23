@@ -1,5 +1,6 @@
 "use server";
 
+import { SPIELREGELN_VERSION, VERKAUFSTEAM_FRAGEN } from "@/lib/spielregeln";
 import { cookies, headers } from "next/headers";
 import { revalidatePath } from "next/cache";
 import { getSupabaseAdmin } from "@/lib/supabase-admin";
@@ -76,6 +77,12 @@ export async function stammdatenSpeichern(_prev: FormStatus | null, fd: FormData
   const iban = s(fd, "iban")?.replace(/\s+/g, "").toUpperCase() ?? null;
   const ust = s(fd, "ust_idnr")?.replace(/\s+/g, "").toUpperCase() ?? null;
   const zustimmung = fd.get("gutschrift_zustimmung") === "on";
+  const regeln = fd.get("spielregeln_zustimmung") === "on";
+  const tasting = s(fd, "vt_tasting");
+  const verkaufsteam: Record<string, string | boolean | null> = {
+    tasting: tasting === "ja" ? true : tasting === "nein" ? false : null,
+    ...Object.fromEntries(VERKAUFSTEAM_FRAGEN.map((q) => [q.key, s(fd, `vt_${q.key}`)])),
+  };
 
   if (iban && !ibanGueltig(iban)) felder.iban = "Die IBAN stimmt nicht, bitte die Prüfziffer kontrollieren.";
   if (ust && !ustIdPlausibel(ust)) felder.ust_idnr = "Eine deutsche USt-IdNr. hat die Form DE123456789.";
@@ -99,6 +106,12 @@ export async function stammdatenSpeichern(_prev: FormStatus | null, fd: FormData
     kontoinhaber: s(fd, "kontoinhaber"),
     gutschrift_zustimmung_am: zustimmung ? alt?.gutschrift_zustimmung_am ?? new Date().toISOString() : null,
     gutschrift_zustimmung_version: zustimmung ? alt?.gutschrift_zustimmung_version ?? GUTSCHRIFT_ZUSTIMMUNG_VERSION : null,
+    // Neue Fassung der Spielregeln = neue Zustimmung, sonst bleibt das erste Datum
+    spielregeln_angenommen_am: regeln
+      ? alt?.spielregeln_version === SPIELREGELN_VERSION ? alt.spielregeln_angenommen_am ?? new Date().toISOString() : new Date().toISOString()
+      : null,
+    spielregeln_version: regeln ? SPIELREGELN_VERSION : null,
+    verkaufsteam,
     updated_at: new Date().toISOString(),
   };
 
@@ -115,12 +128,14 @@ export async function stammdatenSpeichern(_prev: FormStatus | null, fd: FormData
     for (const [k, t] of pflicht) if (!daten[k] && !felder[k]) felder[k] = t;
     if (!ust && !daten.steuernummer) felder.steuernummer = "USt-IdNr. oder Steuernummer angeben, eins von beiden ist Pflicht.";
     if (!zustimmung) felder.gutschrift_zustimmung = "Ohne Zustimmung können wir keine Gutschrift ausstellen.";
+    if (!regeln) felder.spielregeln_zustimmung = "Bitte die Spielregeln lesen und annehmen.";
     // Artikel kommen nach den Stammdaten (eigener Schritt), deshalb hier keine Pflicht mehr.
   }
 
   if (Object.keys(felder).length) {
     const werte: Record<string, string | boolean> = {
       gutschrift_zustimmung: zustimmung,
+      spielregeln_zustimmung: regeln,
     };
     for (const [k, v] of fd.entries()) if (typeof v === "string" && !(k in werte) && !k.startsWith("$")) werte[k] = v;
     return { ok: false, meldung: "Bitte die markierten Felder prüfen.", felder, werte, stamp: Date.now() };

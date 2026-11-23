@@ -28,7 +28,8 @@ const OFFEN = ["/pipeline/login", "/crm/login"];
 const passt = (pathname: string, pfad: string) => pathname === pfad || pathname.startsWith(`${pfad}/`);
 
 /** Marken-Portal: eigener Login (Supabase Auth, Magic Link), nie das Team-Passwort. */
-const MARKE_OFFEN = ["/marke/login", "/marke/auth"];
+// Spielregeln sind öffentlich: wir schicken den Link jeder Marke, auch vor der Einladung.
+const MARKE_OFFEN = ["/marke/login", "/marke/auth", "/marke/spielregeln"];
 
 async function markenPortal(request: NextRequest) {
   const { pathname } = request.nextUrl;

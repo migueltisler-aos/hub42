@@ -3,6 +3,7 @@
 import { useActionState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 import { stammdatenSpeichern } from "../actions";
+import { SPIELREGELN_ZUSTIMMUNG_TEXT, VERKAUFSTEAM_FRAGEN } from "@/lib/spielregeln";
 
 interface Werte {
   firma: string;
@@ -21,6 +22,9 @@ interface Werte {
   bic: string;
   kontoinhaber: string;
   gutschrift_zustimmung: boolean;
+  spielregeln_zustimmung: boolean;
+  vt_tasting: string;
+  [vt: `vt_${string}`]: string;
 }
 
 const FORM_ID = "stammdaten";
@@ -128,6 +132,23 @@ export default function StammdatenForm({
         </fieldset>
 
         <fieldset className="mp-feldgruppe">
+          <legend>Für unser Verkaufsteam</legend>
+          <p className="mp-leise">Du kennst dein Produkt am besten. Erzähl uns, wie wir es verkaufen sollen. Was wir schon wussten, haben wir eingetragen, bitte prüfen.</p>
+          <div className="mp-check" role="radiogroup" aria-label="Tasting gewünscht?">
+            <span>Tasting gewünscht?</span>
+            <label><input type="radio" name="vt_tasting" value="ja" defaultChecked={w.vt_tasting === "ja"} form={FORM_ID} /> ja</label>
+            <label><input type="radio" name="vt_tasting" value="nein" defaultChecked={w.vt_tasting === "nein"} form={FORM_ID} /> nein</label>
+          </div>
+          {VERKAUFSTEAM_FRAGEN.map((q) => (
+            <label className="mp-feld" key={q.key}>
+              <span>{q.frage}</span>
+              <textarea id={`feld-vt_${q.key}`} name={`vt_${q.key}`} rows={2} defaultValue={String(w[`vt_${q.key}`] ?? "")} form={FORM_ID} />
+              {q.hilfe && <small>{q.hilfe}</small>}
+            </label>
+          ))}
+        </fieldset>
+
+        <fieldset className="mp-feldgruppe">
           <legend>Bank</legend>
           <div className="mp-felder">
             {feld({ name: "kontoinhaber", label: "Kontoinhaber" })}
@@ -146,6 +167,14 @@ export default function StammdatenForm({
           <span>{zustimmungText}</span>
         </label>
         {f.gutschrift_zustimmung && <small className="mp-fehler">{f.gutschrift_zustimmung}</small>}
+        <label className="mp-check">
+          <input id="feld-spielregeln_zustimmung" type="checkbox" name="spielregeln_zustimmung" defaultChecked={w.spielregeln_zustimmung} form={FORM_ID} aria-invalid={f.spielregeln_zustimmung ? true : undefined} />
+          <span>
+            {SPIELREGELN_ZUSTIMMUNG_TEXT}{" "}
+            <a href="/marke/spielregeln" target="_blank" rel="noopener">Spielregeln lesen und drucken</a>
+          </span>
+        </label>
+        {f.spielregeln_zustimmung && <small className="mp-fehler">{f.spielregeln_zustimmung}</small>}
       </fieldset>
 
       <div className="mp-aktionen">
