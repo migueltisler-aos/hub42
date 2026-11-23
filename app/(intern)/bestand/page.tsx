@@ -1,10 +1,11 @@
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { abgangBuchen, ladeBestandReichweite, type AbgangQuelle } from "@/lib/bestand";
+import { KASSE_STANDORT } from "@/lib/sumup-model";
 
 export const dynamic = "force-dynamic";
 
-const STANDORT_STANDARD = "alexa-berlin";
+const STANDORT_STANDARD = KASSE_STANDORT;
 
 async function buchen(formData: FormData) {
   "use server";
