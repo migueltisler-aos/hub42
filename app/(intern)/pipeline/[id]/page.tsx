@@ -7,8 +7,10 @@ import { sendMail } from "@/lib/mail";
 import { logSentEmail, getEmailLogForBrand } from "@/lib/email-log";
 import { getBrandEngagement } from "@/lib/analytics-links";
 import { dauerLabel } from "@/lib/analytics-stats";
+import { parseStufeForm, pruefeStufe, setzeStufe } from "@/lib/pipeline-stufe";
 import BrandForm from "../_components/BrandForm";
 import MailComposer from "../_components/MailComposer";
+import StufeForm from "../_components/StufeForm";
 
 export const dynamic = "force-dynamic";
 
@@ -20,6 +22,31 @@ async function saveBrand(id: string, formData: FormData) {
   });
 
   redirect("/pipeline");
+}
+
+/**
+ * Stufenwechsel. Geht bewusst nicht durch upsertBrand(): das würde das
+ * Fit-Label neu rechnen, und die Stufe sagt nichts über die Passung.
+ * Geprüft wird vor dem Schreiben, weil die beiden Pflicht-Constraints auf
+ * `NOT VALID` stehen — sie lassen den Altbestand in Ruhe, schlagen aber bei
+ * jedem neuen UPDATE zu und kämen sonst als 500er zurück.
+ */
+async function setStufeAction(id: string, formData: FormData) {
+  "use server";
+  const cookieStore = await cookies();
+  const currentUser = cookieStore.get("pipeline_user")?.value ?? "Unbekannt";
+
+  const brand = await getBrand(id);
+  if (!brand) notFound();
+
+  const wechsel = parseStufeForm(formData);
+  const fehler = pruefeStufe(wechsel, brand.stufe);
+  if (fehler) {
+    redirect(`/pipeline/${id}?stufefehler=${encodeURIComponent(fehler)}`);
+  }
+
+  await setzeStufe(id, wechsel, currentUser);
+  redirect(`/pipeline/${id}?stufe=${encodeURIComponent(wechsel.stufe)}`);
 }
 
 async function sendColdEmailAction(id: string, formData: FormData) {
@@ -69,10 +96,16 @@ export default async function BrandDetailPage({
   searchParams,
 }: {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ mailsent?: string; mailerror?: string; reason?: string }>;
+  searchParams: Promise<{
+    mailsent?: string;
+    mailerror?: string;
+    reason?: string;
+    stufe?: string;
+    stufefehler?: string;
+  }>;
 }) {
   const { id } = await params;
-  const { mailsent, mailerror, reason } = await searchParams;
+  const { mailsent, mailerror, reason, stufe, stufefehler } = await searchParams;
   const cookieStore = await cookies();
   const currentUser = cookieStore.get("pipeline_user")?.value ?? "Unbekannt";
 
@@ -86,6 +119,7 @@ export default async function BrandDetailPage({
 
   const saveWithId = saveBrand.bind(null, id);
   const sendMailWithId = sendColdEmailAction.bind(null, id);
+  const setStufeWithId = setStufeAction.bind(null, id);
 
   return (
     <div className="min-h-screen bg-green-dark">
@@ -116,6 +150,16 @@ export default async function BrandDetailPage({
         {mailerror === "noemail" && (
           <div className="border border-red-500/40 bg-red-950/20 px-4 py-3 mb-6 text-red-400 text-sm font-mono">
             Keine E-Mail-Adresse hinterlegt. Erst oben eintragen und speichern.
+          </div>
+        )}
+        {stufe && (
+          <div className="border border-emerald-500/40 bg-emerald-950/20 px-4 py-3 mb-6 text-emerald-400 text-sm font-mono">
+            Stufe steht jetzt auf „{stufe}“.
+          </div>
+        )}
+        {stufefehler && (
+          <div className="border border-red-500/40 bg-red-950/20 px-4 py-3 mb-6 text-red-400 text-sm font-mono">
+            {stufefehler}
           </div>
         )}
         {mailerror === "send" && (
@@ -210,6 +254,19 @@ export default async function BrandDetailPage({
               })}
             </ul>
           )}
+        </div>
+
+        {/* Vor dem großen Formular: der Stufenwechsel ist die häufigste
+            Änderung an einer Markenakte und war seit dem Wegfall von
+            „Inaktiv schalten“ gar nicht mehr möglich. */}
+        <div className="mb-8">
+          <StufeForm
+            stufe={brand.stufe}
+            stufeSeit={brand.stufe_seit}
+            verlustGrund={brand.verlust_grund}
+            wiedervorlage={brand.wiedervorlage}
+            setzeAction={setStufeWithId}
+          />
         </div>
 
         <BrandForm
