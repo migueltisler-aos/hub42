@@ -402,6 +402,8 @@
     .zeile__aendern:hover { border-color: var(--linie-fest); color: var(--tinte); }
   }
 
+  .zeile__raus { flex: 0 0 auto; height: 28px; padding: 0 10px; font-size: 12px; }
+
   .regal--formular { padding: 16px 20px 20px; margin-bottom: 20px; }
   .zeile--formular { display: block; padding: 14px 20px 18px; background: var(--karton); }
 

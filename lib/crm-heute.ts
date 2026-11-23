@@ -20,6 +20,12 @@ const VORSCHAU_TAGE = 7;
     treibt die Outreach-Sequenz, dort wäre jede Marke ohne Aufgabe ein Fehlalarm. */
 const BRAUCHT_AUFGABE: Stufe[] = ["Antwort", "Interesse", "Gespräch", "Angebot"];
 
+/** Aktivitäten, die als eigener Schritt gegenüber der Marke zählen. */
+const EIGENER_SCHRITT = ["Mail", "Anruf", "Termin", "Notiz"];
+
+/** So viele Werktage darf unsere Antwort ohne Rückmeldung liegen. */
+const WARTEN_WERKTAGE = 4;
+
 const BERLIN = new Intl.DateTimeFormat("en-CA", { timeZone: "Europe/Berlin" });
 const tagBerlin = (d: Date | string) => BERLIN.format(typeof d === "string" ? new Date(d) : d);
 
@@ -162,17 +168,38 @@ async function regelverstoesse(marken: BrandZeile[], aufgaben: AufgabeZeile[], h
 
   const interesse = marken.filter((b) => b.stufe === "Interesse").map((b) => b.id);
   const angebot = marken.filter((b) => b.stufe === "Angebot").map((b) => b.id);
+  const antwort = marken.filter((b) => b.stufe === "Antwort").map((b) => b.id);
 
-  const [termine, verlauf] = await Promise.all([
+  const [termine, verlauf, eigeneSchritte, eigeneMails] = await Promise.all([
     interesse.length
       ? db.from("crm_aktivitaeten").select("brand_id, wann").eq("typ", "Termin").in("brand_id", interesse)
       : Promise.resolve({ data: [], error: null }),
     angebot.length
       ? db.from("crm_zeitleiste").select("brand_id, wann").in("brand_id", angebot)
       : Promise.resolve({ data: [], error: null }),
+    // Was wir selbst getan haben, seit die Antwort kam: Mail, Anruf, Termin, Notiz.
+    antwort.length
+      ? db.from("crm_aktivitaeten").select("brand_id, wann").in("typ", EIGENER_SCHRITT).in("brand_id", antwort)
+      : Promise.resolve({ data: [], error: null }),
+    antwort.length
+      ? db.from("pipeline_email_log").select("brand_id, sent_at").in("brand_id", antwort)
+      : Promise.resolve({ data: [], error: null }),
   ]);
   if (termine.error) throw new Error(`CRM Heute: ${termine.error.message}`);
   if (verlauf.error) throw new Error(`CRM Heute: ${verlauf.error.message}`);
+  if (eigeneSchritte.error) throw new Error(`CRM Heute: ${eigeneSchritte.error.message}`);
+  if (eigeneMails.error) throw new Error(`CRM Heute: ${eigeneMails.error.message}`);
+
+  // Je Marke der jüngste eigene Schritt, der nach dem Stufenwechsel liegt.
+  const seitWechsel = new Map(marken.map((b) => [b.id, b.stufe_seit ?? ""]));
+  const eigeneAntwort = new Map<string, string>();
+  const merke = (brandId: string, wann: string | null) => {
+    if (!wann || wann <= (seitWechsel.get(brandId) ?? "")) return;
+    const bisher = eigeneAntwort.get(brandId);
+    if (!bisher || wann > bisher) eigeneAntwort.set(brandId, wann);
+  };
+  for (const a of (eigeneSchritte.data ?? []) as { brand_id: string; wann: string }[]) merke(a.brand_id, a.wann);
+  for (const m of (eigeneMails.data ?? []) as { brand_id: string; sent_at: string }[]) merke(m.brand_id, m.sent_at);
 
   const letzteAktivitaet = new Map<string, string>();
   for (const z of (verlauf.data ?? []) as { brand_id: string; wann: string }[]) {
@@ -190,8 +217,17 @@ async function regelverstoesse(marken: BrandZeile[], aufgaben: AufgabeZeile[], h
     const tage = tageZwischen(seit, heute);
     const basis = { id: b.id, besitzer: personAus(b.zugewiesen), brand: kurz(b) };
 
-    if (b.stufe === "Antwort" && werktageZwischen(seit, heute) > 1) {
-      liste.push({ ...basis, art: "antwort_ungeordnet", seit_tagen: tage });
+    if (b.stufe === "Antwort") {
+      // Nicht eingeordnet ist nur, wer noch keine Antwort von uns bekommen hat.
+      const raus = eigeneAntwort.get(b.id);
+      if (raus) {
+        const still = tagBerlin(raus);
+        if (werktageZwischen(still, heute) > WARTEN_WERKTAGE) {
+          liste.push({ ...basis, art: "antwort_wartet", seit_tagen: tageZwischen(still, heute) });
+        }
+      } else if (werktageZwischen(seit, heute) > 1) {
+        liste.push({ ...basis, art: "antwort_ungeordnet", seit_tagen: tage });
+      }
     } else if (
       b.stufe === "Interesse" &&
       tage >= 1 &&
@@ -205,8 +241,8 @@ async function regelverstoesse(marken: BrandZeile[], aufgaben: AufgabeZeile[], h
       const still = tageZwischen(letzte, heute);
       if (still >= 14) liste.push({ ...basis, art: "angebot_stockt", seit_tagen: still });
       else if (!mitOffenerAufgabe.has(b.id)) liste.push({ ...basis, art: "haengt", seit_tagen: tage });
-    } else if (b.stufe !== "Antwort" && !mitOffenerAufgabe.has(b.id)) {
-      // Eine frische Antwort braucht Einordnen, keine Aufgabe.
+    } else if (!mitOffenerAufgabe.has(b.id)) {
+      // Antwort ist oben abgehandelt: sie braucht Einordnen, keine Aufgabe.
       liste.push({ ...basis, art: "haengt", seit_tagen: tage });
     }
   }
