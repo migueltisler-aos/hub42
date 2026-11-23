@@ -1,16 +1,11 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
-import { getBrands, updateStatus, type BrandStatus } from "@/lib/pipeline";
+import { getBrands } from "@/lib/pipeline";
 import PipelineClient from "./_components/PipelineClient";
 import StatusBand from "./_components/StatusBand";
 import { ladeStatus } from "@/lib/pipeline-status";
 
 export const dynamic = "force-dynamic";
-
-async function updateStatusAction(id: string, status: BrandStatus) {
-  "use server";
-  await updateStatus(id, status);
-}
 
 export default async function PipelinePage() {
   const cookieStore = await cookies();
@@ -66,7 +61,6 @@ export default async function PipelinePage() {
         <PipelineClient
           initialBrands={brands}
           currentUser={currentUser}
-          updateStatusAction={updateStatusAction}
         />
       </div>
     </div>

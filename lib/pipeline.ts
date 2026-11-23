@@ -89,16 +89,9 @@ export async function upsertBrand(
   }
 }
 
-export async function updateStatus(
-  id: string,
-  status: BrandStatus
-): Promise<void> {
-  const { error } = await getSupabaseAdmin()
-    .from("pipeline_brands")
-    .update({ status, datum_letzte_aktion: new Date().toISOString().split("T")[0] })
-    .eq("id", id);
-  if (error) throw error;
-}
+// updateStatus() ist entfallen: `status` war der zweite, nicht mehr gepflegte
+// Abdruck der Stufe. Der Stufenwechsel bekommt sein eigenes Formular, weil die
+// Constraints bei Verloren einen Grund und bei Später ein Datum verlangen.
 
 export async function importBrands(
   brands: AiBrand[],
