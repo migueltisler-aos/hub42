@@ -22,17 +22,6 @@ async function saveBrand(id: string, formData: FormData) {
   redirect("/pipeline");
 }
 
-async function deactivateBrand(id: string, formData: FormData) {
-  "use server";
-  const kommentar = (formData.get("kommentar") as string).trim();
-  await upsertBrand(id, {
-    status: "Inaktiv",
-    feedback: kommentar || null,
-    datum_letzte_aktion: new Date().toISOString().split("T")[0],
-  });
-  redirect("/pipeline");
-}
-
 async function sendColdEmailAction(id: string, formData: FormData) {
   "use server";
   const cookieStore = await cookies();
@@ -70,7 +59,6 @@ async function sendColdEmailAction(id: string, formData: FormData) {
     kanal: "E-Mail",
     datum_erstkontakt: brand.datum_erstkontakt ?? today,
     datum_letzte_aktion: today,
-    status: brand.status === "Neu" ? "Kontaktiert" : brand.status,
   });
 
   redirect(`/pipeline/${id}?mailsent=1`);
@@ -97,7 +85,6 @@ export default async function BrandDetailPage({
   const deckAktivitaet = await getBrandEngagement(id);
 
   const saveWithId = saveBrand.bind(null, id);
-  const deactivateWithId = deactivateBrand.bind(null, id);
   const sendMailWithId = sendColdEmailAction.bind(null, id);
 
   return (
@@ -229,7 +216,6 @@ export default async function BrandDetailPage({
           brand={brand}
           currentUser={currentUser}
           saveAction={saveWithId}
-          deactivateAction={brand.status !== "Inaktiv" ? deactivateWithId : undefined}
         />
 
         <div className="mt-8">

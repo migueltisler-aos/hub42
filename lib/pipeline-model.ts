@@ -6,6 +6,15 @@
 // lib/pipeline.ts zieht über lib/supabase-admin.ts den Service-Role-Key
 // herein, der nie in ein Browser-Bundle darf. Gleiches Muster wie
 // lib/deck-economics.ts.
+import type { Segment, Stufe } from "./crm-heute-model";
+
+/**
+ * @deprecated Zweites Vokabular fuer dieselbe Sache. `Stufe` gewinnt: darauf
+ * liegt ein Datenbank-Constraint, daran haengen stufe_seit, verlust_grund und
+ * segment, und die vier Trigger schreiben ausschliesslich sie. Auf `status`
+ * liegt kein Constraint, weshalb dort auch Werte stehen, die dieser Typ gar
+ * nicht kennt. Bleibt nur, bis die Spalte entfallen ist.
+ */
 export type BrandStatus =
   | "Neu"
   | "Kontaktiert"
@@ -95,6 +104,16 @@ export interface Brand {
   standort: string | null;
   gefunden_via: string | null;
   zugewiesen: string | null;
+  /** Die Pipeline-Stufe. Einzige Wahrheit, bewegt von den Triggern auf
+      pipeline_brands. Vokabular und Typ liegen in lib/crm-heute-model.ts. */
+  stufe: Stufe;
+  stufe_seit: string | null;
+  verlust_grund: string | null;
+  wiedervorlage: string | null;
+  segment: Segment;
+  /** @deprecated Veralteter Abdruck der Stufe, seit 02.11.2026 nicht mehr
+      gepflegt: 187 Marken stehen hier auf "Neu", obwohl sie angeschrieben
+      sind. Wird nicht mehr gelesen und nicht mehr geschrieben. */
   status: BrandStatus;
   kanal: string | null;
   datum_erstkontakt: string | null;
@@ -451,7 +470,6 @@ export function brandFormToInput(formData: FormData): Partial<BrandInput> {
     standort: text("standort"),
     gefunden_via: text("gefunden_via"),
     zugewiesen: text("zugewiesen"),
-    status: ((text("status") ?? "Neu") as BrandStatus),
     kanal: text("kanal"),
     hub42_potenzial: text("hub42_potenzial"),
     datum_erstkontakt: text("datum_erstkontakt"),

@@ -22,7 +22,6 @@ const GEFUNDEN_VIA = [
   "Sonstiges",
 ];
 const KANALE = ["E-Mail", "Instagram", "LinkedIn", "WhatsApp", "Telefon"];
-const STATUSES = ["Neu", "Kontaktiert", "Antwort", "Gespräch", "Angebot", "Onboarded", "Abgelehnt", "Später"];
 
 const FIT_COLORS: Record<string, string> = {
   Top: "text-emerald-400 border-emerald-400/40 bg-emerald-950/30",
@@ -208,7 +207,13 @@ export default function BrandForm({ brand, currentUser, saveAction, deactivateAc
         <Field label="Standort" name="standort" value={brand?.standort} onValueChange={set("standort")} />
         <Field label="Gefunden via" name="gefunden_via" value={brand?.gefunden_via} options={GEFUNDEN_VIA} />
         <Field label="Zugewiesen" name="zugewiesen" value={brand?.zugewiesen ?? currentUser} />
-        <Field label="Status" name="status" value={brand?.status ?? "Neu"} options={STATUSES} />
+        {/* Die Stufe steht hier nur als Anzeige: sie wird von den Triggern
+            bewegt, und ein Wechsel nach Verloren oder Später verlangt Grund
+            bzw. Wiedervorlage, die dieses Formular nicht abfragt. */}
+        <div>
+          <label className="block text-stone text-xs font-mono mb-1">Stufe</label>
+          <p className="text-cream text-sm py-2">{brand?.stufe ?? "Recherche"}</p>
+        </div>
         <Field label="Kanal" name="kanal" value={brand?.kanal} options={KANALE} />
         <Field label="Datum Erstkontakt" name="datum_erstkontakt" type="date" value={brand?.datum_erstkontakt} />
         <Field label="Datum Nächste Aktion" name="datum_naechste_aktion" type="date" value={brand?.datum_naechste_aktion} />

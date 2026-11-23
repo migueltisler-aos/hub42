@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useTransition, useOptimistic } from "react";
+import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import { useAutoRefresh } from "@/app/(intern)/_components/useAutoRefresh";
 import {
   GROESSE_STUFEN,
@@ -10,8 +9,8 @@ import {
   KATEGORIEN_KANONISCH,
   groesseLabel,
   type Brand,
-  type BrandStatus,
 } from "@/lib/pipeline-model";
+import type { Stufe } from "@/lib/crm-heute-model";
 
 const FIT_BADGE: Record<string, string> = {
   Top: "text-emerald-400 border-emerald-500/40",
@@ -28,32 +27,38 @@ const POTENZIAL_BADGE: Record<string, string> = {
   Niedrig: "text-stone/40 border-stone-dark",
 };
 
-const STATUSES: BrandStatus[] = [
-  "Neu", "Kontaktiert", "Antwort", "Gespräch", "Angebot", "Onboarded", "Abgelehnt", "Später", "Inaktiv"
+/* Die Stufe ist die einzige Wahrheit. Sie wird hier nur angezeigt, nicht
+   gesetzt: Stufenwechsel gehoeren ins Dashboard, wo Grund und Wiedervorlage
+   mit abgefragt werden koennen (die Constraints verlangen sie). */
+const STUFEN: Stufe[] = [
+  "Recherche", "In Sequenz", "Antwort", "Interesse", "Gespräch",
+  "Angebot", "Kunde", "Später", "Verloren", "Gesperrt",
 ];
 
-const STATUS_COLOR: Record<BrandStatus, string> = {
-  Neu:          "text-cream/60",
-  Kontaktiert:  "text-blue-400",
+const STUFE_COLOR: Record<Stufe, string> = {
+  Recherche:    "text-cream/60",
+  "In Sequenz": "text-blue-400",
   Antwort:      "text-yellow-400",
+  Interesse:    "text-amber-400",
   Gespräch:     "text-orange-400",
   Angebot:      "text-purple-400",
-  Onboarded:    "text-green-400",
-  Abgelehnt:    "text-stone/40",
+  Kunde:        "text-green-400",
   Später:       "text-stone/60",
-  Inaktiv:      "text-stone/30",
+  Verloren:     "text-stone/40",
+  Gesperrt:     "text-stone/30",
 };
 
-const ROW_COLOR: Record<BrandStatus, string> = {
-  Neu:          "",
-  Kontaktiert:  "",
+const ROW_COLOR: Record<Stufe, string> = {
+  Recherche:    "",
+  "In Sequenz": "",
   Antwort:      "",
+  Interesse:    "",
   Gespräch:     "",
   Angebot:      "",
-  Onboarded:    "opacity-60",
-  Abgelehnt:    "opacity-30",
+  Kunde:        "opacity-60",
   Später:       "opacity-50",
-  Inaktiv:      "opacity-20",
+  Verloren:     "opacity-30",
+  Gesperrt:     "opacity-20",
 };
 
 function isOverdue(dateStr: string | null): boolean {
@@ -95,29 +100,19 @@ function ScopeBar({ groesse, quelle }: { groesse: number | null; quelle: string 
 interface Props {
   initialBrands: Brand[];
   currentUser: string;
-  updateStatusAction: (id: string, status: BrandStatus) => Promise<void>;
 }
 
-export default function PipelineClient({ initialBrands, currentUser, updateStatusAction }: Props) {
-  // useOptimistic statt useState + Prop-Sync: die Server-Daten bleiben die
-  // Wahrheit, die Statusänderung ist nur eine Überlagerung bis die Action
-  // durch ist. Nach dem router.refresh() fällt die Überlagerung von selbst weg
-  // – ohne Effect, der Props in State kopiert.
-  const [brands, setStatusOptimistisch] = useOptimistic(
-    initialBrands,
-    (aktuell: Brand[], aenderung: { id: string; status: BrandStatus }) =>
-      aktuell.map((b) => (b.id === aenderung.id ? { ...b, status: aenderung.status } : b))
-  );
+export default function PipelineClient({ initialBrands, currentUser }: Props) {
+  // Keine optimistische Ueberlagerung mehr: die Liste zeigt die Stufe nur an.
+  const brands = initialBrands;
   const [search, setSearch] = useState("");
   const [filter, setFilter] = useState<"alle" | "meine" | "neu" | "überfällig" | "partner">("alle");
   const [fitFilter, setFitFilter] = useState("");
   const [kategorieFilter, setKategorieFilter] = useState("");
-  const [statusFilter, setStatusFilter] = useState("");
+  const [stufeFilter, setStufeFilter] = useState("");
   const [groesseFilter, setGroesseFilter] = useState("");
   const [haltungFilter, setHaltungFilter] = useState("");
   const [sortByGroesse, setSortByGroesse] = useState(false);
-  const [, startTransition] = useTransition();
-  const router = useRouter();
 
   // Live-Updates: periodisch die Server-Component-Daten neu holen.
   // Ersetzt den früheren Supabase-Realtime-Channel — siehe useAutoRefresh.
@@ -131,11 +126,11 @@ export default function PipelineClient({ initialBrands, currentUser, updateStatu
 
   const filtered = (filter === "partner" ? partner : marken).filter((b) => {
     if (filter === "meine" && b.zugewiesen !== currentUser) return false;
-    if (filter === "neu" && b.status !== "Neu") return false;
+    if (filter === "neu" && b.stufe !== "Recherche") return false;
     if (filter === "überfällig" && !isOverdue(b.datum_naechste_aktion)) return false;
     if (fitFilter && b.hub42_fit !== fitFilter) return false;
     if (kategorieFilter && b.kategorie_kanonisch !== kategorieFilter) return false;
-    if (statusFilter && b.status !== statusFilter) return false;
+    if (stufeFilter && b.stufe !== stufeFilter) return false;
     if (groesseFilter === "offen" && b.groesse != null) return false;
     if (groesseFilter && groesseFilter !== "offen" && b.groesse !== Number(groesseFilter)) return false;
     if (haltungFilter && !(b.haltung_tags ?? []).includes(haltungFilter)) return false;
@@ -157,19 +152,11 @@ export default function PipelineClient({ initialBrands, currentUser, updateStatu
     ? [...filtered].sort((a, b) => (b.groesse ?? -1) - (a.groesse ?? -1))
     : filtered;
 
-  function handleStatusChange(id: string, status: BrandStatus) {
-    startTransition(async () => {
-      setStatusOptimistisch({ id, status });
-      await updateStatusAction(id, status);
-      router.refresh();
-    });
-  }
-
   const counts = {
     alle: marken.length,
     meine: marken.filter((b) => b.zugewiesen === currentUser).length,
-    neu: marken.filter((b) => b.status === "Neu").length,
-    überfällig: marken.filter((b) => isOverdue(b.datum_naechste_aktion) && b.status !== "Abgelehnt" && b.status !== "Onboarded").length,
+    neu: marken.filter((b) => b.stufe === "Recherche").length,
+    überfällig: marken.filter((b) => isOverdue(b.datum_naechste_aktion) && b.stufe !== "Verloren" && b.stufe !== "Kunde").length,
     partner: partner.length,
   };
 
@@ -273,7 +260,7 @@ export default function PipelineClient({ initialBrands, currentUser, updateStatu
               labels: [...GROESSE_STUFEN.map((s) => `${s.stufe} · ${s.label}`), "offen"] },
             { label: "Haltung", value: haltungFilter, set: setHaltungFilter, opts: [...HALTUNG_TAGS] },
             { label: "Kategorie", value: kategorieFilter, set: setKategorieFilter, opts: [...KATEGORIEN_KANONISCH] },
-            { label: "Status", value: statusFilter, set: setStatusFilter, opts: STATUSES },
+            { label: "Stufe", value: stufeFilter, set: setStufeFilter, opts: STUFEN },
           ].map(({ label, value, set, opts, labels }) => (
             <select
               key={label}
@@ -287,10 +274,10 @@ export default function PipelineClient({ initialBrands, currentUser, updateStatu
               {opts.map((o, i) => <option key={o} value={o}>{labels?.[i] ?? o}</option>)}
             </select>
           ))}
-          {(fitFilter || kategorieFilter || statusFilter || groesseFilter || haltungFilter) && (
+          {(fitFilter || kategorieFilter || stufeFilter || groesseFilter || haltungFilter) && (
             <button
               onClick={() => {
-                setFitFilter(""); setKategorieFilter(""); setStatusFilter("");
+                setFitFilter(""); setKategorieFilter(""); setStufeFilter("");
                 setGroesseFilter(""); setHaltungFilter("");
               }}
               className="text-stone/50 text-xs font-mono hover:text-cream transition-colors"
@@ -326,7 +313,7 @@ export default function PipelineClient({ initialBrands, currentUser, updateStatu
             {sichtbar.map((brand) => (
               <tr
                 key={brand.id}
-                className={`border-b border-stone-dark/50 hover:bg-green-mid/30 transition-colors ${ROW_COLOR[brand.status]}`}
+                className={`border-b border-stone-dark/50 hover:bg-green-mid/30 transition-colors ${ROW_COLOR[brand.stufe]}`}
               >
                 <td className="px-4 py-3 max-w-[420px]">
                   <div className="flex items-center gap-2 flex-wrap">
@@ -386,15 +373,10 @@ export default function PipelineClient({ initialBrands, currentUser, updateStatu
                 </td>
                 <td className="px-4 py-3 text-stone text-xs hidden xl:table-cell align-top">{brand.zugewiesen ?? "—"}</td>
                 <td className="px-4 py-3 align-top">
-                  <select
-                    value={brand.status}
-                    onChange={(e) => handleStatusChange(brand.id, e.target.value as BrandStatus)}
-                    className={`bg-transparent border border-stone-dark text-xs font-mono px-2 py-1 focus:outline-none focus:border-bronze cursor-pointer ${STATUS_COLOR[brand.status]}`}
-                  >
-                    {STATUSES.map((s) => (
-                      <option key={s} value={s} className="bg-green-dark text-cream">{s}</option>
-                    ))}
-                  </select>
+                  <span className={`text-xs font-mono ${STUFE_COLOR[brand.stufe]}`}>{brand.stufe}</span>
+                  {brand.verlust_grund && (
+                    <p className="text-stone/40 text-[10px] font-mono mt-0.5">{brand.verlust_grund}</p>
+                  )}
                 </td>
                 <td className="px-4 py-3 hidden md:table-cell align-top">
                   {brand.naechste_aktion ? (
