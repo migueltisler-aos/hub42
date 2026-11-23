@@ -10,7 +10,7 @@ import {
   groesseLabel,
   type Brand,
 } from "@/lib/pipeline-model";
-import type { Stufe } from "@/lib/crm-heute-model";
+import { STUFEN, type Stufe } from "@/lib/crm-heute-model";
 
 const FIT_BADGE: Record<string, string> = {
   Top: "text-emerald-400 border-emerald-500/40",
@@ -27,13 +27,9 @@ const POTENZIAL_BADGE: Record<string, string> = {
   Niedrig: "text-stone/40 border-stone-dark",
 };
 
-/* Die Stufe ist die einzige Wahrheit. Sie wird hier nur angezeigt, nicht
-   gesetzt: Stufenwechsel gehoeren ins Dashboard, wo Grund und Wiedervorlage
-   mit abgefragt werden koennen (die Constraints verlangen sie). */
-const STUFEN: Stufe[] = [
-  "Recherche", "In Sequenz", "Antwort", "Interesse", "Gespräch",
-  "Angebot", "Kunde", "Später", "Verloren", "Gesperrt",
-];
+/* Die Stufe ist die einzige Wahrheit. In der Liste wird sie nur angezeigt
+   und gefiltert; gesetzt wird sie in der Markenakte, wo Grund und
+   Wiedervorlage mit abgefragt werden (die Constraints verlangen sie). */
 
 const STUFE_COLOR: Record<Stufe, string> = {
   Recherche:    "text-cream/60",

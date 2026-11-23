@@ -209,10 +209,13 @@ export default function BrandForm({ brand, currentUser, saveAction, deactivateAc
         <Field label="Zugewiesen" name="zugewiesen" value={brand?.zugewiesen ?? currentUser} />
         {/* Die Stufe steht hier nur als Anzeige: sie wird von den Triggern
             bewegt, und ein Wechsel nach Verloren oder Später verlangt Grund
-            bzw. Wiedervorlage, die dieses Formular nicht abfragt. */}
+            bzw. Wiedervorlage. Dafür gibt es das eigene Feld oberhalb dieses
+            Formulars, damit ein Speichern der Stammdaten nie die Stufe
+            mitbewegt. */}
         <div>
           <label className="block text-stone text-xs font-mono mb-1">Stufe</label>
           <p className="text-cream text-sm py-2">{brand?.stufe ?? "Recherche"}</p>
+          <p className="text-stone/40 text-[10px] font-mono">oben zu ändern</p>
         </div>
         <Field label="Kanal" name="kanal" value={brand?.kanal} options={KANALE} />
         <Field label="Datum Erstkontakt" name="datum_erstkontakt" type="date" value={brand?.datum_erstkontakt} />

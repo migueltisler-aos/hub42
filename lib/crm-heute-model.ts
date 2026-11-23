@@ -9,6 +9,21 @@ export type Stufe =
   | "Recherche" | "In Sequenz" | "Antwort" | "Interesse" | "Gespräch"
   | "Angebot" | "Kunde" | "Später" | "Verloren" | "Gesperrt";
 
+/** Alle Stufen in der Reihenfolge der Pipeline. Deckt sich mit dem
+    Datenbank-Constraint pipeline_brands_stufe_chk. */
+export const STUFEN: Stufe[] = [
+  "Recherche", "In Sequenz", "Antwort", "Interesse", "Gespräch",
+  "Angebot", "Kunde", "Später", "Verloren", "Gesperrt",
+];
+
+/** Geschlossene Liste der Verlustgründe, Spiegel von
+    pipeline_brands_verlust_grund_chk. Ein Wert daneben ist ein 23514. */
+export const VERLUST_GRUENDE = [
+  "Preis", "Timing", "Kein Bedarf", "Eigener Handel reicht",
+  "Kapazität/Ware", "Keine Antwort", "Sonstiges",
+] as const;
+export type VerlustGrund = (typeof VERLUST_GRUENDE)[number];
+
 export type BrandKurz = { id: string; name: string; stufe: Stufe; segment: Segment };
 
 export type Aufgabe = {
