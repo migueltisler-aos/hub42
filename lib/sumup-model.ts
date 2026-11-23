@@ -7,7 +7,17 @@
  * lib/pipeline-model.ts.
  */
 
-export const KASSE_STANDORT = "alexa-berlin";
+/**
+ * Der Laden, der gerade laeuft. Bewusst eine Konstante und keine Tabelle:
+ * Testkaufhaus betreibt zu einer Zeit genau einen Laden. Beeskow laeuft vom
+ * 30.11. bis 23.12.2026, das Alexa erst ab Ostern 2027 -- sie ueberlappen sich
+ * nie. Eine Mehr-Standort-Logik waere hier Aufwand ohne Fall.
+ *
+ * Beim naechsten Ladenwechsel wird dieser Wert umgestellt. Altbestand behaelt
+ * seinen Standort, weil `standort_id` an jeder Zeile haengt: Verkaeufe,
+ * Artikel und Bestand des Alexa bleiben unter "alexa-berlin" liegen.
+ */
+export const KASSE_STANDORT = "beeskow";
 export const KASSE_ID_SUMUP = "sumup-app";
 
 // Gleiche Werte wie der Kassen-Kern (kassensystem/core/bon.py), plus "d".

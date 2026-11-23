@@ -3,6 +3,7 @@ import { redirect } from "next/navigation";
 import Link from "next/link";
 import { getBrands } from "@/lib/pipeline";
 import { erfasseSendung } from "@/lib/wareneingang";
+import { KASSE_STANDORT } from "@/lib/sumup-model";
 import SendungForm from "../_components/SendungForm";
 
 export const dynamic = "force-dynamic";
@@ -29,7 +30,7 @@ async function speichern(formData: FormData) {
   if (artikel.length === 0) return;
 
   const sendung = await erfasseSendung({
-    standort_id: (formData.get("standort_id") as string) || "alexa-berlin",
+    standort_id: (formData.get("standort_id") as string) || KASSE_STANDORT,
     brand_id: (formData.get("brand_id") as string) || null,
     dhl_tracking_nr: (formData.get("dhl_tracking_nr") as string) || null,
     eingegangen_von: eingegangenVon,

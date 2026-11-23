@@ -3,6 +3,7 @@
 import { useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import type { Brand } from "@/lib/pipeline-model";
+import { KASSE_STANDORT } from "@/lib/sumup-model";
 
 interface Props {
   brands: Brand[];
@@ -171,7 +172,7 @@ export default function SendungForm({ brands, saveAction }: Props) {
         </div>
         <div>
           <label className="block text-stone text-xs font-mono uppercase tracking-widest mb-1">Standort</label>
-          <input name="standort_id" defaultValue="alexa-berlin" className={baseClass} />
+          <input name="standort_id" defaultValue={KASSE_STANDORT} className={baseClass} />
         </div>
       </div>
 
