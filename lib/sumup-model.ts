@@ -18,6 +18,19 @@
  * Artikel und Bestand des Alexa bleiben unter "alexa-berlin" liegen.
  */
 export const KASSE_STANDORT = "beeskow";
+
+/**
+ * Anzeigenamen der Standorte. Die ID steht an jeder Zeile in Kasse, Bestand
+ * und Zusagen; auf dem Schirm soll trotzdem „Alexa“ stehen und nicht
+ * „alexa-berlin“. Ein unbekannter Wert wird unveraendert gezeigt, damit ein
+ * Tippfehler in den Daten sichtbar bleibt statt stumm zu verschwinden.
+ */
+export const STANDORT_NAME: Record<string, string> = {
+  "alexa-berlin": "Alexa",
+  beeskow: "Beeskow",
+};
+
+export const standortName = (id: string) => STANDORT_NAME[id] ?? id;
 export const KASSE_ID_SUMUP = "sumup-app";
 
 // Gleiche Werte wie der Kassen-Kern (kassensystem/core/bon.py), plus "d".
