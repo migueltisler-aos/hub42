@@ -31,13 +31,20 @@ function Kachel({ z, erste }: { z: StatusZahl; erste: boolean }) {
           </span>
         )}
       </p>
+      {z.aufteilung && (
+        <p className="text-green-dark/70 text-[11px] font-mono mt-0.5 leading-snug">
+          {z.aufteilung}
+        </p>
+      )}
       <p className="text-stone-dark/80 text-[11px] mt-0.5 leading-snug">{z.quelle}</p>
     </Card>
   );
 }
 
 export default function StatusBand({ daten }: { daten: StatusDaten }) {
-  const luecken = daten.kette.filter((z) => z.luecke);
+  // Lücken aus beiden Blöcken: der leere Artikelstamm steht unten, wäre aber
+  // der teuerste Befund der ganzen Leiste.
+  const luecken = [...daten.kette, ...daten.abschluss].filter((z) => z.luecke);
   const stand = new Date(daten.stand).toLocaleString("de-DE", {
     timeZone: "Europe/Berlin",
     dateStyle: "short",

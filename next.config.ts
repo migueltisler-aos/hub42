@@ -1,6 +1,12 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  // Turbopack rät sich die Projektwurzel sonst zusammen und landet eine Ebene
+  // höher (c:\Hub42). Von dort findet es `tailwindcss` nicht, und jeder
+  // lokale Lauf bricht beim ersten Übersetzen ab — während der Build auf
+  // Vercel durchläuft, weil dort nichts über dem Repo liegt. Ohne diese Zeile
+  // lässt sich kein Screen vor dem Merge im Browser ansehen.
+  turbopack: { root: __dirname },
   typescript: {
     // tsc --noEmit läuft separat; ignoreBuildErrors für Vercel-Kompatibilität
     ignoreBuildErrors: true,
