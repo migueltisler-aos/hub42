@@ -1,13 +1,24 @@
 import { cookies } from "next/headers";
 import Link from "next/link";
 import { ladeSendungen } from "@/lib/wareneingang";
+import { ladeNegativeBestaende } from "@/lib/bestand";
+import { standortName } from "@/lib/sumup-model";
 
 export const dynamic = "force-dynamic";
 
 export default async function WareneingangPage() {
   const cookieStore = await cookies();
   const currentUser = cookieStore.get("pipeline_user")?.value ?? "Unbekannt";
-  const sendungen = await ladeSendungen();
+  const [sendungen, minus] = await Promise.all([ladeSendungen(), ladeNegativeBestaende()]);
+
+  // Ein negativer Bestand ist kein Engpass, sondern ein fehlender Zugang:
+  // verkauft wurde, was nie erfasst wurde. Die Meldung gehoert hierher, weil
+  // hier die Handlung liegt, die sie aufloest -- das Paket nachtragen.
+  const minusJeLaden = [...new Set(minus.map((m) => m.standort_id))].map((s) => ({
+    standort: s,
+    eans: minus.filter((m) => m.standort_id === s).length,
+    stueck: minus.filter((m) => m.standort_id === s).reduce((n, m) => n + m.bestand, 0),
+  }));
 
   return (
     <div className="min-h-screen bg-green-dark">
@@ -28,6 +39,19 @@ export default async function WareneingangPage() {
           </Link>
         </div>
 
+        {minusJeLaden.map((l) => (
+          <div key={l.standort} className="mb-6 border border-red-400/40 bg-red-400/5 px-4 py-3">
+            <p className="text-red-400 text-sm font-mono">
+              {standortName(l.standort)}: {l.eans} Artikel im Minus, zusammen {l.stueck} Stück.
+            </p>
+            <p className="text-stone text-xs font-mono mt-1 leading-relaxed">
+              Diese Ware wurde verkauft, ohne je als Zugang erfasst zu sein. Solange der
+              Eingang fehlt, sind Reichweite, Mindestbestand und Abverkaufsquote dieser
+              Artikel falsch. Das Paket nachtragen setzt den Bestand gerade.
+            </p>
+          </div>
+        ))}
+
         <div className="space-y-2">
           {sendungen.length === 0 && (
             <p className="text-stone text-sm font-mono">Noch keine Wareneingänge erfasst.</p>
@@ -42,7 +66,7 @@ export default async function WareneingangPage() {
                 <div>
                   <p className="text-cream text-sm font-mono">{s.brand?.name ?? "Ohne Marke"}</p>
                   <p className="text-stone text-xs font-mono mt-0.5">
-                    {s.dhl_tracking_nr ?? "kein Tracking"} · {s.standort_id} ·{" "}
+                    {s.dhl_tracking_nr ?? "kein Tracking"} · {standortName(s.standort_id)} ·{" "}
                     {new Date(s.eingegangen_am).toLocaleDateString("de-DE")}
                   </p>
                 </div>

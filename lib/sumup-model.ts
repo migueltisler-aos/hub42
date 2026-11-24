@@ -31,6 +31,16 @@ export const STANDORT_NAME: Record<string, string> = {
 };
 
 export const standortName = (id: string) => STANDORT_NAME[id] ?? id;
+
+/**
+ * Die Laeden zur Auswahl, laufender zuerst. Freitext hat hier nichts verloren:
+ * ein Tippfehler im Standort schreibt Ware in einen Laden, den es nicht gibt,
+ * und faellt erst auf, wenn der Bestand im echten Laden nicht stimmt.
+ */
+export const STANDORTE: string[] = [
+  KASSE_STANDORT,
+  ...Object.keys(STANDORT_NAME).filter((s) => s !== KASSE_STANDORT),
+];
 export const KASSE_ID_SUMUP = "sumup-app";
 
 // Gleiche Werte wie der Kassen-Kern (kassensystem/core/bon.py), plus "d".
