@@ -57,6 +57,9 @@ export interface Konditionen {
   gutschrift_zustimmung_am: string | null;
   gutschrift_zustimmung_version: string | null;
   konditionen_bestaetigt_am: string | null;
+  spielregeln_angenommen_am: string | null;
+  spielregeln_version: string | null;
+  verkaufsteam: Record<string, string | boolean | null> | null;
   provision_pct: number;
   provision_basis: ProvisionBasis;
   miete_netto_monat: number;

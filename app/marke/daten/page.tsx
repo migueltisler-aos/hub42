@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ladeKonditionen, requireMarke } from "@/lib/marke";
 import { GUTSCHRIFT_ZUSTIMMUNG_TEXT } from "@/lib/abrechnung-model";
 import StammdatenForm from "./StammdatenForm";
+import { VERKAUFSTEAM_FRAGEN } from "@/lib/spielregeln";
 import { datum } from "../format";
 
 export const metadata: Metadata = { title: "Stammdaten" };
@@ -34,7 +35,7 @@ export default async function MarkeDaten({ searchParams }: { searchParams: Promi
 
       {(willkommen || status === "entwurf") && (
         <ol className="mp-schritte" aria-label="Onboarding">
-          <li aria-current="step"><strong>1 · Stammdaten</strong> prüfen und ergänzen</li>
+          <li aria-current="step"><strong>1 · Stammdaten</strong> prüfen, ergänzen und die <a href="/marke/spielregeln" target="_blank" rel="noopener">Spielregeln</a> annehmen</li>
           <li><strong>2 · Artikel</strong> prüfen, Preise und Bilder ergänzen</li>
         </ol>
       )}
@@ -66,6 +67,9 @@ export default async function MarkeDaten({ searchParams }: { searchParams: Promi
           bic: k?.bic ?? "",
           kontoinhaber: k?.kontoinhaber ?? "",
           gutschrift_zustimmung: Boolean(k?.gutschrift_zustimmung_am),
+          spielregeln_zustimmung: Boolean(k?.spielregeln_angenommen_am),
+          vt_tasting: k?.verkaufsteam?.tasting === true ? "ja" : k?.verkaufsteam?.tasting === false ? "nein" : "",
+          ...Object.fromEntries(VERKAUFSTEAM_FRAGEN.map((q) => [`vt_${q.key}`, String(k?.verkaufsteam?.[q.key] ?? "")])),
         }}
         zustimmungText={GUTSCHRIFT_ZUSTIMMUNG_TEXT}
         bereitsEingereicht={status !== "entwurf"}

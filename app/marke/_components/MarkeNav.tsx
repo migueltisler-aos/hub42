@@ -10,6 +10,7 @@ const LINKS = [
   { href: "/marke/abrechnungen", label: "Abrechnungen" },
   { href: "/marke/vertrag", label: "Vertrag & Regal" },
   { href: "/marke/daten", label: "Stammdaten" },
+  { href: "/marke/spielregeln", label: "Spielregeln" },
 ];
 
 export default function MarkeNav() {
